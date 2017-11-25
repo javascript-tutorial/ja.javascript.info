@@ -1,63 +1,65 @@
-# An Introduction to JavaScript
+# Javascript 入門
 
-Let's see what's so special about JavaScript, what we can achieve with it and which other technologies play well with it.
+JavaScript について、何が特別なのか、それを使って達成できること、他のどのテクノロジーがそれと上手くやるのか見てみましょう。
 
-## What is JavaScript?
+## JavaScript とは？
 
-*JavaScript* was initially created to *"make webpages alive"*.
+*JavaScript* は当初 *"Webページを活かすため"* に作られました。
 
-The programs in this language are called *scripts*. They can be written right in the HTML and execute automatically as the page loads.
+この言語のプログラムは *スクリプト* と呼ばれます。それらはHTMLの中に書かれ、ページが読み込まれると自動的に実行されます。
 
-Scripts are provided and executed as a plain text. They don't need a special preparation or a compilation to run.
+スクリプトはプレーンテキストとして提供され、実行されます。 それらは特別な準備や、実行するためのコンパイルを必要としません。
 
-In this aspect, JavaScript is very different from another language called [Java](http://en.wikipedia.org/wiki/Java).
+この側面において、JavaScript は [Java](http://en.wikipedia.org/wiki/Java) とはとても異なります。
 
-```smart header="Why <u>Java</u>Script?"
-When JavaScript was created, it initially had another name: "LiveScript". But Java language was very popular at that time, so it was decided that positioning a new language as a "younger brother" of Java would help.
-
-But as it evolved, JavaScript became a fully independent language, with its own specification called [ECMAScript](http://en.wikipedia.org/wiki/ECMAScript), and now it has no relation to Java at all.
+```
+smart header="なぜ <u>Java</u>Script?"
+JavaScript が作られたとき, 当初は別の名前を持っていました:"LiveScript"。しかし Java 言語はその時非常に人気がありました。そのため、Java の "弟" として新しい言語を位置づけることが助けになると判断されました。
+しかし、その進化により、JavaScriptは完全に独立した言語になり、[ECMAScript](http://en.wikipedia.org/wiki/ECMAScript)と呼ばれる自身の仕様を持ちました。今は、 Java とは全く関係はありません。
 ```
 
-At present, JavaScript can execute not only in the browser, but also on the server, or actually on any device where there exists a special program called [the JavaScript engine](https://en.wikipedia.org/wiki/JavaScript_engine).
+現在、JavaScript はブラウザだけでなく、サーバ上でも実行することができます。また、実際には [JavaScript エンジン](https://en.wikipedia.org/wiki/JavaScript_engine) と呼ばれるプログラムが存在するデバイスであれば実行することができます。
 
-The browser has an embedded engine, sometimes it's also called a "JavaScript virtual machine".
+ブラウザにはエンジンが組み込まれており、それは "JavaScript 仮想マシン" と呼ばれる場合があります。
 
-Different engines have different "codenames", for example:
+異なるエンジンは異なる "コードネーム" を持っています。例えば:
 
 - [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) -- in Chrome and Opera.
 - [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- in Firefox.
-- ...There are other codenames like "Trident", "Chakra" for different versions of IE, "ChakraCore" for Microsoft Edge, "Nitro" and "SquirrelFish" for Safari etc.
+- ...IEの異なるバージョン用として "Trident" や "Chakra", Microsoft Edge 用の "ChakraCore", Safari 用の "Nitro" や "SquirrelFish" 等のように他のコードネームもあります。
 
-The terms above are good to remember, because they are used in developer articles on the internet. We'll use them too. For instance, if "a feature X is supported by V8", then it probably works in Chrome and Opera.
+上記の用語は、インターネット上の開発者の記事で使用されているため、覚えておくと良いです。 我々もそれらを使うでしょう。たとえば、 "ある機能XがV8でサポートされている" 場合、おそらくChromeとOperaで動作します。
 
-```smart header="How engines work?"
+```smart header="エンジンはどのように動く?"
 
-Engines are complicated. But the basics are easy.
+エンジンは複雑です。 しかし、基本は簡単です。
 
-1. The engine (embedded if it's a browser) reads ("parses") the script.
-2. Then it converts ("compiles") the script to the machine language.
-3. And then the machine code runs, pretty fast.
+1. エンジン (ブラウザの場合は組み込まれています) はスクリプトを読み("パース")ます。
+2. そして、スクリプトをマシン語に変換("コンパイル")します。
+3. そして、マシンコードは非常に早く動く
 
-The engine applies optimizations on every stage of the process. It even watches the compiled script as it runs, analyzes the data that flows through it and applies optimizations to the machine code based on that knowledge. At the end, scripts are quite fast.
+エンジンは、プロセスのすべてのステージで最適化を適用します。実行時にコンパイルされたスクリプトも見ており、その中を流れるデータを分析し、その知識に基づいてマシンコードに最適化を適用します。 最終的に、スクリプトはかなり高速です。
 ```
 
-## What can in-browser JavaScript do?
+## ブラウザ内のJavaScriptは何をすることができますか？
 
-The modern JavaScript is a "safe" programming language. It does not provide low-level access to memory or CPU, because it was initially created for browsers which do not require it.
+モダンなJavaScriptは "安全な" プログラミング言語です。
+それは、メモリやCPUのような低レベルのアクセスは提供しません。なぜなら、それは最初にそれを必要としないブラウザ用に作成されたからです。
 
-The capabilities greatly depend on the environment that runs JavaScript. For instance, [Node.JS](https://wikipedia.org/wiki/Node.js) supports functions that allow JavaScript to read/write arbitrary files, perform network requests etc.
+この能力は、JavaScriptを実行する環境に大きく依存します。 例えば、[Node.JS]（https://wikipedia.org/wiki/Node.js）は、JavaScriptが任意のファイルを読み書きできるようにする関数をサポートしています。
 
-In-browser JavaScript can do everything related to webpage manipulation, interaction with the user and the webserver.
+ブラウザ内のJavaScriptは、Webページ操作、ユーザやWebサーバとのやり取り、に関するすべてのことができます。
 
-For instance, in-browser JavaScript is able to:
+たとえば、ブラウザ内のJavaScriptは以下のことが可能です:
 
-- Add new HTML to the page, change the existing content, modify styles.
-- React to user actions, run on mouse clicks, pointer movements, key presses.
-- Send requests over the network to remote servers, download and upload files (so-called [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) and [COMET](https://en.wikipedia.org/wiki/Comet_(programming)) technologies).
-- Get and set cookies, ask questions to the visitor, show messages.
-- Remember the data on the client-side ("local storage").
+- 新たなHTMLをページに追加したり、存在するコンテンツの変更やスタイルの変更をします
+- ユーザーアクションに反応し、マウスのクリック、ポインタの動き、キーの押下の実行をします
+- リモートサーバへネットワーク越しのリクエストを送り、ファイルのダウンロードやアップロードをします( [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) や [COMET](https://en.wikipedia.org/wiki/Comet_(programming)) と呼ばれるテクノロジー)。
+- クッキーを取得、設定し、訪問者に質問してメッセージを表示します。
+- クライアント側のデータを覚えます("local storage")。
 
-## What CAN'T in-browser JavaScript do?
+
+## ブラウザ内のJavaScriptで出来ないことは何ですか？
 
 JavaScript's abilities in the browser are limited for the sake of the user's safety. The aim is to prevent an evil webpage from accessing private information or harming the user's data.
 
