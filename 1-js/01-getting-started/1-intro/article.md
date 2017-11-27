@@ -12,8 +12,8 @@ JavaScript について、何が特別なのか、それを使って達成でき
 
 この側面において、JavaScript は [Java](http://en.wikipedia.org/wiki/Java) とはとても異なります。
 
-```
-smart header="なぜ <u>Java</u>Script?"
+```smart header="なぜ <u>Java</u>Script?"
+
 JavaScript が作られたとき, 当初は別の名前を持っていました:"LiveScript"。しかし Java 言語はその時非常に人気がありました。そのため、Java の "弟" として新しい言語を位置づけることが助けになると判断されました。
 しかし、その進化により、JavaScriptは完全に独立した言語になり、[ECMAScript](http://en.wikipedia.org/wiki/ECMAScript)と呼ばれる自身の仕様を持ちました。今は、 Java とは全く関係はありません。
 ```
@@ -38,7 +38,8 @@ JavaScript が作られたとき, 当初は別の名前を持っていました:
 2. そして、スクリプトをマシン語に変換("コンパイル")します。
 3. そして、マシンコードは非常に早く動く
 
-エンジンは、プロセスのすべてのステージで最適化を適用します。実行時にコンパイルされたスクリプトも見ており、その中を流れるデータを分析し、その知識に基づいてマシンコードに最適化を適用します。 最終的に、スクリプトはかなり高速です。
+エンジンは、プロセスのすべてのステージで最適化を適用します。
+実行時にコンパイルされたスクリプトも見ており、その中を流れるデータを分析し、その知識に基づいてマシンコードに最適化を適用します。 最終的に、スクリプトはかなり高速です。
 ```
 
 ## ブラウザ内のJavaScriptは何をすることができますか？
@@ -46,7 +47,7 @@ JavaScript が作られたとき, 当初は別の名前を持っていました:
 モダンなJavaScriptは "安全な" プログラミング言語です。
 それは、メモリやCPUのような低レベルのアクセスは提供しません。なぜなら、それは最初にそれを必要としないブラウザ用に作成されたからです。
 
-この能力は、JavaScriptを実行する環境に大きく依存します。 例えば、[Node.JS]（https://wikipedia.org/wiki/Node.js）は、JavaScriptが任意のファイルを読み書きできるようにする関数をサポートしています。
+この能力は、JavaScriptを実行する環境に大きく依存します。 例えば、[Node.JS](https://wikipedia.org/wiki/Node.js) は、JavaScriptが任意のファイルを読み書きできるようにする関数をサポートしています。
 
 ブラウザ内のJavaScriptは、Webページ操作、ユーザやWebサーバとのやり取り、に関するすべてのことができます。
 
@@ -61,63 +62,65 @@ JavaScript が作られたとき, 当初は別の名前を持っていました:
 
 ## ブラウザ内のJavaScriptで出来ないことは何ですか？
 
-JavaScript's abilities in the browser are limited for the sake of the user's safety. The aim is to prevent an evil webpage from accessing private information or harming the user's data.
+ブラウザでのJavaScriptの機能はユーザの安全のために制限されています。
+その目的は、悪意のあるWebページがプライベートな情報へアクセスしたり、ユーザデータを害するのを防ぐことです。
 
-The examples of such restrictions are:
+このような制限の例は次のようなものです:
 
-- JavaScript on a webpage may not read/write arbitrary files on the hard disk, copy them or execute programs. It has no direct access to OS system functions.
+- Webページ上のJavaScriptは、ハードディスク上の任意のファイルの読み書きや、それらのコピー、プログラムの実行をすることができません。それはOSのシステム機能に直接アクセスすることはできません。
 
-    Modern browsers allow it to work with files, but the access is limited and only provided if the user does certain actions, like "dropping" a file into a browser window or selecting it via an `<input>` tag.
+    現代のブラウザは、それがファイルを扱うことを許可しますが、アクセスは制限されており、ブラウザウィンドウへのファイルの "ドロップ" や、`<input>` タグを経由したファイルの選択と言ったユーザの特定の操作の場合にのみ提供しています。
 
-    There are ways to interact with camera/microphone and other devices, but they require a user's explicit permission. So a JavaScript-enabled page may not sneakily enable a web-camera, observe the surroundings and send the information to the [NSA](https://en.wikipedia.org/wiki/National_Security_Agency).
-- Different tabs/windows generally do not know about each other. Sometimes they do, for example when one window uses JavaScript to open the other one. But even in this case, JavaScript from one page may not access the other if they come from different sites (from a different domain, protocol or port).
+    カメラ/マイクや他のデバイスとやり取りする方法はありますが、それらはユーザの明示的な許可が求められます。そのため、JavaScriptが有効なページはWebカメラをこそこそと有効にしたり、周囲を観察したり、[NSA](https://en.wikipedia.org/wiki/National_Security_Agency) に情報を送信することはできません。
+- 異なるタブやウィンドウは一般的にお互いについて知りません。ときどき、例えばあるウィンドウがJavaScriptを利用して別のウィンドウを開くケースはあります。しかし、この場合においても、あるページからのJavaScriptは、別のサイト（異なるドメイン、プロトコル、ポート）からのものである場合は、アクセスすることは出来ません。
 
-    This is called the "Same Origin Policy". To work around that, *both pages* must contain a special JavaScript code that handles data exchange.
+    これは "Same Origin Policy" と呼ばれています。回避するためには、 *両方のページ* にデータ交換を行うための特別なJavaScriptコードを含める必要があります。
 
-    The limitation is again for user's safety. A page from `http://anysite.com` which a user has opened must not be able to access another browser tab with the URL `http://gmail.com` and steal information from there.
-- JavaScript can easily communicate over the net to the server where the current page came from. But its ability to receive data from other sites/domains is crippled. Though possible, it requires explicit agreement (expressed in HTTP headers) from the remote side. Once again, that's safety limitations.
+    その制限は、改めてユーザの安全のためです。ユーザが開いた `http://anysite.com` というサイトのページは、URL `http://gmail.com` の別のブラウザのタブにアクセスし、そこから情報を盗むことはできません。
+- JavaScriptはネット越しに、現在のページがきたサーバと簡単にコミュニケーションできます。しかし、他のサイト/ドメインからデータを受信するための機能は犠牲になっています。可能だけれども、リモート側からの明示的な同意(HTTPヘッダに表現)が必要になります。もう一度繰り返しますが、それは安全上の制限です。
 
 ![](limitations.png)
 
-Such limits do not exist if JavaScript is used outside of the browser, for example on a server. Modern browsers also allow installing plugin/extensions which may get extended permissions.
+もしもJavaScriptがブラウザの外で使われる場合は、このような制限は存在しません。たとえば、サーバ上です。また、現代のブラウザは拡張パーミッションを取得するプラグイン/拡張のインストールを許可しています。
 
-## What makes JavaScript unique?
+## なにがJavaScriptをユニークなものにしている？
 
-There are at least *three* great things about JavaScript:
+JavaScriptには少なくとも *3つ* の素晴らしいことがあります:
 
-```compare
-+ Full integration with HTML/CSS.
-+ Simple things done simply.
-+ Supported by all major browsers and enabled by default.
+```比較
++ HTML/CSSとの完全な統合
++ シンプルなことはシンプルに
++ すべてのメジャーブラウザでサポートされており、デフォルトで有効
 ```
 
-Combined, these three things exist only in JavaScript and no other browser technology.
+これらの3つの事柄はJavaScriptのみで存在し、他のブラウザ技術は存在しません。
 
-That's what makes JavaScript unique. That's why it's the most widespread tool to create browser interfaces.
+それがJavaScriptをユニークなものにしています。だからこそ、これはブラウザインタフェースを作成するための最も普及したツールです。
 
-While planning to learn a new technology, it's beneficial to check its perspectives. So let's move on to the modern trends that include new languages and browser abilities.
+新しい技術を学ぶことを計画している間、その全体像を確認することは有益です。それでは、新しい言語やブラウザ機能を含む最新のトレンドに移りましょう。
 
 
-## Languages "over" JavaScript
+## JavaScriptを "超える" 言語
 
-The syntax of JavaScript does not suit everyone's needs. Different people want different features.
+JavaScriptの構文は、全員のニーズにマッチはしていません。異なる人々は異なる機能を求めます。
 
-That's to be expected, because projects and requirements are different for everyone.
+プロジェクトや要件はすべての人で異なるため、それは予想されます。
 
-So recently a plethora of new languages appeared, which are *transpiled* (converted) to JavaScript before they run in the browser.
+そのため、最近では新しい言語が数多く登場しており、それは、それらがブラウザで実行する前にJavaScriptに *トランスパイル* (変換)されます。
 
-Modern tools make the transpilation very fast and transparent, actually allowing developers to code in another language and autoconverting it "under the hood".
 
-Examples of such languages:
+最新のツールは非常に早くトランスパイルし透過的です。実際、開発者が別の言語でコードを作成し、それを自動変換することができます。
 
-- [CoffeeScript](http://coffeescript.org/) is a "syntactic sugar" for JavaScript, it introduces shorter syntax, allowing to write more precise and clear code. Usually Ruby devs like it.
-- [TypeScript](http://www.typescriptlang.org/) is concentrated on adding "strict data typing", to simplify development and support of complex systems. It is developed by Microsoft.
-- [Dart](https://www.dartlang.org/) is a standalone language that has its own engine that runs in non-browser environments (like mobile apps). It was initially offered by Google as a replacement for JavaScript, but as of now, browsers require it to be transpiled to JavaScript just like the ones above.
+このような言語の例:
 
-There are more. Of course even if we use one of those languages, we should also know JavaScript, to really understand what we're doing.
+- [CoffeeScript](http://coffeescript.org/) はJavaScripのための "シンタックスシュガー"です。より短い構文を導入し、より簡潔でクリアなコードを書くことができます。たいてい、Ruby 開発者は好きです。
+- [TypeScript](http://www.typescriptlang.org/) は "厳密なデータ型指定" の追加に集中しています。それは複雑なシステムの開発とサポートを簡素化するためです。これは Microsoftにより開発されています。
+- [Dart](https://www.dartlang.org/) はブラウザ以外の環境（モバイルアプリのような）で動作する独自のエンジンを持ったスタンドアローンな言語です。最初はGoogleによってJavaScriptの代わりとして提供されましたが、今のところ、ブラウザは上述のようにそれらをJavaScriptにトランスパイルする必要があります。
 
-## Summary
+他にもあります。もちろんたとえ私達が、それらの言語の1つを使うとしても、我々がしていることを本当に理解するためにJavaScriptを知るべきです。
 
-- JavaScript was initially created as a browser-only language, but now it is used in many other environments as well.
-- At this moment, JavaScript has a unique position as the most widely-adopted browser language with full integration with HTML/CSS.
-- There are many languages that get "transpiled" to JavaScript and provide certain features. It is recommended to take a look at them, at least briefly, after mastering JavaScript.
+## サマリ
+
+- JavaScriptは最初ブラウザ用の言語として作られました。しかし今は同様に他の多くの環境で利用されています。
+- 現時点では、JavaScriptはHTML/CSSと完全に統合し、最も広く採用されたブラウザ言語として、独立した地位にいます。
+- JavaScriptに "トランスパイル" し、特定の機能を提供する多くの言語があります。 JavaScriptをマスターした後で、少なくとも簡単に見てみることをお勧めします。
