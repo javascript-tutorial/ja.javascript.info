@@ -1,60 +1,61 @@
-# Developer console
+# 開発者コンソール
 
-Code is prone to errors. You are quite likely to make errors... Oh, what am I talking about? You are *absolutely* going to make errors, at least if you're a human, not a [robot](https://en.wikipedia.org/wiki/Bender_(Futurama)).
+コードはエラーが発生しやすいです。あなたはエラーを作る可能性が高いです...
+あぁ、私はなんの話をしていますか？少なくともあなたが[ロボット](https://en.wikipedia.org/wiki/Bender_(Futurama)ではなく人間であるなら、あなたは *絶対に* 間違いをします。
 
-But in the browser, a user doesn't see the errors by default. So, if something goes wrong in the script, we won't see what's broken and can't fix it.
+しかしブラウザでは、ユーザはデフォルトではエラーは見えません。そのため、スクリプトが上手くいかない場合、私達は何が壊れたのか見ることができず、直すこともできないでしょう。
 
-To see errors and get a lot of other useful information about scripts, browsers have embedded "developer tools".
+エラーを見て、スクリプトに関する多くの役立つ情報を得るために、ブラウザには "開発者ツール" が組み込まれています。
 
-Most often developers lean towards Chrome or Firefox for development, because those browsers have the best developer tools. Other browsers also provide developer tools, sometimes with special features, but are usually playing "catch-up" to Chrome or Firefox. So most people have a "favorite" browser and switch to others if a problem is browser-specific.
+ほとんどの開発者は、開発するためにChromeかFirefoxに傾きます。なぜなら、それらのブラウザは最高の開発者ツールを持っているからです。開発者ツールを提供している他のブラウザもまた、特別な機能を持っていますが、たいていChromeかFirefoxの "キャッチアップ" です。なので、ほとんどの人々は "お気に入り" のブラウザを持っており、問題がブラウザ依存の場合は他のブラウザに切り替えます。
 
-Developer tools are really powerful, there are many features. To start, we'll learn how to open them, look at errors and run JavaScript commands.
+開発者ツールは、本当に強力で、多くの機能があります。開始するために、私達はどうやってそれらを開き、エラーを見て、JavaScriptコマンドを実行するか学びましょう。
 
 [cut]
 
 ## Google Chrome
 
-Open the page [bug.html](bug.html).
+[bug.html](bug.html)を開きましょう。
 
-There's an error in the JavaScript code on it. It's hidden from a regular visitor's eyes, so let's open developer tools to see it.
+そのJavaScriptコードにはエラーがあります。日常の訪問者の目からは隠れているので、それを見るために開発者ツールを開きましょう。
 
-Press `key:F12` or, if you're on Mac, then `key:Cmd+Opt+J`.
+`key:F12`もしくは、Macの場合は`key:Cmd+Opt+J`を押しましょう。
 
-The developer tools will open on the Console tab by default.
+Consoleタブがデフォルたで、開発者ツールが起動するでしょう。
 
-It looks somewhat like this:
+次のようになります:
 
 ![chrome](chrome.png)
 
-The exact look of developer tools depends on your version of Chrome. It changes from time to time, but should be similar.
+開発者ツールの正確な見えは、あなたのChromeのバージョンに依存します。それは時々変わりますが、似ているはずです。
 
-- Here we can see the red-colored error message. In this case the script contains an unknown "lalala" command.
-- On the right, there is a clickable link to the source `bug.html:12` with the line number where the error has occurred.
+- ここでは赤色のエラーメッセージを見ることが出来ます。このケースでは、Scriptは知らない "lalala" コマンドを含んでいます。
+- 右側には、エラーが発生した行番号とともに、ソース `bug.html：12`へのクリック可能なリンクがあります。
 
-Below the error message there is a blue `>` symbol. It marks a "command line" where we can type JavaScript commands and press `key:Enter` to run them (`key:Shift+Enter` to input multi-line commands).
+エラーメッセージの下に、青の `>` のシンボルがあります。それは "コマンドライン" を意味し、私達はJavaScriptコマンドをタイプし、`key:Enter`を押すことでそれら(複数行を入力するには`key:Shift+Enter`)を実行することができます。
 
-Now we can see errors and that's enough for the start. We'll be back to developer tools later and cover debugging more in-depth in the chapter <info:debugging-chrome>.
+今や、私たちはエラーを見ることが出来、スタートするのに十分です。私達は後で開発者ツールに戻ってきて、チャプター <info:debugging-chrome> でより詳細なデバッグをカバーします。
 
 
 ## Firefox, Edge and others
 
-Most other browsers use `key:F12` to open developer tools.
+ほとんどのブラウザは開発者ツールを開くために `key:F12` を使います。
 
-The look & feel of them is quite similar. Once you know how to use one of them (you can start with Chrome), you can easily switch to another.
+それらのルック＆フィールはとても似ています。それらの1つ(Chromeで始める事ができます)の使い方を知ったら、簡単に別のものに切り替えることができるでしょう。
 
 ## Safari
 
-Safari (Mac browser, not supported by Windows/Linux) is a little bit special here. We need to enable the "Develop menu" first.
+Safari (Mac browser, not supported by Windows/Linux)はここでは少しだけ特別です。最初に、 "開発者メニュー" を有効にする必要があります。
 
-Open Preferences and go to "Advanced" pane. There's a checkbox at the bottom:
+Preferencesを開き、"Advanced" ペインに行きます。一番下にチェックボックスがあります。
 
 ![safari](safari.png)
 
-Now `key:Cmd+Opt+C` can toggle the console. Also note that the new top menu item named "Develop" has appeared. It has many commands and options.
+`key:Cmd+Opt+C`でコンソールを切り替えることができます。また、"開発"という名前の新しいトップメニュー項目が表示されていることにも注意してください。 それは多くのコマンドとオプションを持っています。
 
-## Summary
+## サマリ
 
-- Developer tools allow us to see errors, run commands, examine variables and much more.
-- They can be opened with `key:F12` for most browsers under Windows. Chrome for Mac needs `key:Cmd+Opt+J`, Safari: `key:Cmd+Opt+C` (need to enable first).
+- 開発者ツールは私達がエラーを見たり、コマンドを実行したり、変数を検査したりほかにもおおくのことを可能にします。
+- それらはWindows下では、ほとんどのブラウザは `key:F12` で開くことができます。Mac用のChromeは `key:Cmd+Opt+J` が必要で、Safariは`key:Cmd+Opt+C`です(最初に有効化が必要)
 
-Now we have the environment ready. In the next section we'll get down to JavaScript.
+これで、私達は環境が整いました。次のセクションでは、JavaScriptの説明に入ります。
