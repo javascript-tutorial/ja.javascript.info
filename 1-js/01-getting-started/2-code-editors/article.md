@@ -1,18 +1,18 @@
-# Code editors
+# コードエディタ
 
-A code editor is the place where a programmer spends most of his time.
+コードエディタはプログラマが最も時間を費やす場所です。
 
-There are two archetypes: IDE and lightweight editors. Many people feel comfortable choosing one tool of each type.
+典型として2つのタイプがあります: IDEと軽量なエディタです。多くの人々はどちらか1つのタイプを選んで快適に感じています。
 
 [cut]
 
 ## IDE
 
-The term [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) (Integrated Development Environment) means a powerful editor with many features that usually operates on a "whole project". As said, that's not just an editor, but a full-scale "development environment".
+[IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) (統合開発環境)は通常 "プロジェクト全体" での操作をする多くの機能を持ったパワフルなエディタを意味します。つまり、ただのエディタではなく、本格的な "開発環境" です。
 
-An IDE loads the project (can be many files), and then allows navigation between files, provides autocompletion based on the whole project, integrates with a version management system (like [git](https://git-scm.com/)), a testing environment and other "project-level" stuff.
+IDEはプロジェクト(多くのファイル)をロードし、ファイル間のナビゲーションを可能とし、プロジェクト全体に基づいた自動補完を提供、バージョン管理システム([git](https://git-scm.com/) のような)、テスト環境や他の "プロジェクトレベル" のものと統合します。
 
-If you haven't considered selecting an IDE yet, look at the following variants:
+もしもまだIDEの選択を検討していないなら、次の亜種を見てみてください。
 
 - IntelliJ editors: [WebStorm](http://www.jetbrains.com/webstorm/) for frontend development and [PHPStorm (PHP)](http://www.jetbrains.com/phpstorm/), [IDEA (Java)](http://www.jetbrains.com/idea/), [RubyMine (Ruby)](http://www.jetbrains.com/ruby/) and others if you need additional languages.
 - Visual Studio is fine if you're a .NET developer, and a free version is available ([Visual Studio Community](https://www.visualstudio.com/vs/community/))
@@ -20,21 +20,21 @@ If you haven't considered selecting an IDE yet, look at the following variants:
 - [Komodo IDE](http://www.activestate.com/komodo-ide) and its lightweight free version [Komodo Edit](http://www.activestate.com/komodo-edit).
 - [Netbeans](http://netbeans.org/).
 
-All of the IDEs listed above are available on both Windows and Mac, and the IDEs other than Visual Studio are also available on Linux.
+上に挙げたすべてのIDEはWindowとMacの環境で利用でき、Visual Studio以外のIDEはLinuxでも利用できます。
 
-Most IDEs are paid, but have a trial period. Their cost is usually negligible compared to a qualified developer's salary, so just choose the best one for you.
+ほとんどのIDEは有償ですが、トライアル期間を持っています。それらのコストはたいてい資格をもつ開発者の給料と比べわずかなので、あなたにとってベストなものを選んでください。
 
-## Lightweight editors
+## 軽量なエディタ
 
-"Lightweight editors" are not as powerful as IDEs, but they're fast, elegant and simple.
+"軽量なエディタ" はIDEほど強力ではありませんが、速いくエレガントでシンプルです。
 
-They are mainly used to instantly open and edit a file.
+それらは、主にファイルを直ぐに開いて編集するのに使われます。
 
-The main difference between a "lightweight editor" and an "IDE" is that an IDE works on a project-level, so it loads much more data on start, analyzes the project structure if needed and so on. A lightweight editor is much faster if we need only one file.
+"軽量なエディタ"と"IDE"の主な違いは、IDEはプロジェクトレベルで動作するので、開始時により多くのデータをロードし、必要とされた場合にはプロジェクトの構造の分析等をします。軽量なエディタは、1つのファイルだけが必要な場合ははるかに速いです。
 
-In practice, lightweight editors may have a lot of plugins including directory-level syntax analyzers and autocompleters, so there's no strict border between a lightweight editor and an IDE.
+実際には、軽量なエディタはディレクトリレベルの構文解析や自動補完を含む多くのプラグインを持っている場合があります。そのため、軽量なエディタとIDEの間に厳密な境界はありません。
 
-The following options deserve your attention:
+次の選択肢はあなたの注目に値します:
 
 - [Visual Studio Code](https://code.visualstudio.com/) (cross-platform, free).
 - [Atom](https://atom.io/) (cross-platform, free).
@@ -42,21 +42,21 @@ The following options deserve your attention:
 - [Notepad++](https://notepad-plus-plus.org/) (Windows, free).
 - Vim and Emacs are also cool, if you know how to use them.
 
-## My favorites
+## 私のお気に入り
 
-The personal preference of the author is to have both an IDE for projects and a lightweight editor for quick and easy file editing.
+著者の個人的な好みはプロジェクトのためのIDEと、素早く簡単にファイル編集するための軽量エディタ、両方を持つことです。
 
-I'm using:
+私は使っています:
 
 - [WebStorm](http://www.jetbrains.com/webstorm/) for JS, and if there is one more language in the project, then I switch to other Jetbrains editors like [PHPStorm](http://www.jetbrains.com/phpstorm/) (PHP), [IDEA](http://www.jetbrains.com/idea/) (Java), [RubyMine](http://www.jetbrains.com/ruby/) (Ruby). There are editors for other languages too, but I haven't used them.
 - As a lightweight editor -- [Sublime Text](http://www.sublimetext.com) or [Atom](https://atom.io/).
 
-If you don't know what to choose, you can consider these ones.
+もしも何を選べばよいか分からない場合、これらのものを検討できます。
 
-## Let's not argue
+## 議論はしません
 
-The editors in the lists above are those that either I or my friends who I consider good developers have been using for a long time and are happy with.
+上記のリストのエディタは私または私がよい開発者だと思っている友人が喜んで長い間利用しているものです。
 
-There are other great editors in our big world. Please choose the one you like the most.
+この広い世界には他にも素晴らしいエディタがあります。ぜひあなたが最も好きなものを選んでください。
 
-The choice of an editor, like any other tool, is individual and depends on your projects, habits, personal preferences.
+エディタの選択は、他のツールのように、個人であり、プロジェクト、習慣や個人の趣向に依存します。
