@@ -1,19 +1,19 @@
 # Hello, world!
 
-The tutorial that you're reading is about core JavaScript, which is platform-independent. Further on, you will learn Node.JS and other platforms that use it.
+あなたの読んでいるチュートリアルは、プラットフォームに依存しないJavaScriptのコアについてです。さらに、Node.JSとそれを使用する他のプラットフォームについて学びます。
 
-But, we need a working environment to run our scripts, and, just because this book is online, the browser is a good choice. We'll keep the amount of browser-specific commands (like `alert`) to a minimum, so that you don't spend time on them if you plan to concentrate on another environment like Node.JS. On the other hand, browser details are explained in detail in the [next part](/ui) of the tutorial.
+しかし、私達はスクリプトを動かすための動作環境が必要です。また、ちょうどこの本はオンラインなので、ブラウザは良い選択肢です。私達はブラウザ固有のコマンド(`alert`のような)を最小限になるようにします。あなたがNode.JSのような別の環境に集中する予定の場合、それに時間を費やさないようにするために。一方、ブラウザの詳細はチュートリアルの[次のパート](/ui) で詳しく説明します。
 
-So first, let's see how to attach a script to a webpage. For server-side environments, you can just execute it with a command like `"node my.js"` for Node.JS.
+では最初に、どうやってWebページにScriptを付け加えるか見てみましょう。サーバサイドでは、Node.JSの場合の `"node my.js"` のようにコマンドと一緒に実行するだけです。
 
 
 [cut]
 
-## The "script" tag
+## "script" タグ
 
-JavaScript programs can be inserted in any part of an HTML document with the help of the `<script>` tag.
+JavaScriptプログラムは、`<script>` の助けによってHTMLドキュメントのどのパートへも挿入することができます。
 
-For instance:
+たとえば:
 
 ```html run height=100
 <!DOCTYPE HTML>
@@ -36,26 +36,26 @@ For instance:
 </html>
 ```
 
-```online
-You can run the example by clicking on the "Play" button in its right-top corner.
+```オンライン
+右上の "Play" ボタンをクリックすることでサンプルを実行することができます。
 ```
 
-The `<script>` tag contains JavaScript code which is automatically executed when the browser meets the tag.
+`<script>` タグはブラウザがタグと出会ったときに自動的に実行されるコードを含んでいます。
 
 
-## The modern markup
+## 最新のマークアップ
 
-The `<script>` tag has a few attributes that are rarely used nowadays, but we can find them in old code:
+`<script>` タグには最新めったに利用しない属性がいくつかありますが、私たちは古いコードからそれらを見つけることができます:
 
- The `type` attribute: <code>&lt;script <u>type</u>=...&gt;</code>
+ `type` 属性: <code>&lt;script <u>type</u>=...&gt;</code>
 
- : The old standard HTML4 required a script to have a type. Usually it was `type="text/javascript"`. The modern HTML standard assumes this `type` by default. No attribute is required.
+ : 古い標準であるHTML４はこのTypeを持つことを必須としました。通常、それは`type="text/javascript"`です。最新のHTML標準では、`type`はデフォルトで想定しているため、必須属性ではありません。
 
- The `language` attribute: <code>&lt;script <u>language</u>=...&gt;</code>
-  : This attribute was meant to show the language of the script. As of now, this attribute makes no sense, the language is JavaScript by default. No need to use it.
+ `language` 属性: <code>&lt;script <u>language</u>=...&gt;</code>
+  : この属性はScriptの言語の表示を意味しました。今のところ、この属性は意味がなく、言語はデフォルトでJavaScriptです。これを使う必要はありません。
 
-Comments before and after scripts.
-: In really ancient books and guides, one may find comments inside `<script>`, like this:
+Scriptの前後のコメント
+: 本当に古代の書籍やガイドでは、このような`<script>`の中にコメントがある場合があります:
 
     ```html no-beautify
     <script type="text/javascript"><!--
@@ -63,30 +63,30 @@ Comments before and after scripts.
     //--></script>
     ```
 
-    These comments were supposed to hide the code from an old browser that didn't know about a `<script>` tag. But all browsers born in the past 15+ years don't have any issues. We mention it here, because such comments serve as a sign. If you see that somewhere -- that code is probably really old and not worth looking into.
+    それらのコメントは`<script>`タグを知らなかった古いブラウザでコードを隠すためのものです。しかし、過去15年以上で生まれた全てのブラウザはこのような問題は持っていません。このようなコメントはサインとして使えるので、私たちはここで言及します。もしもどこかでこれを見たら -- そのコードは恐らく本当に古いか調べる価値がないでしょう。
 
 
-## External scripts
+## 外部スクリプト
 
-If we have a lot of JavaScript code, we can put it into a separate file.
+もしも多くのJavaScriptコードを持っている場合、別々のファイルにそれらを置くことができます。
 
-The script file is attached to HTML with the `src` attribute:
+スクリプトファイルは、`src` 属性でHTMLにアタッチされます。
 
 ```html
 <script src="/path/to/script.js"></script>
 ```
 
-Here `/path/to/script.js` is an absolute path to the file with the script (from the site root).
+ここで `/path/to/script.js` はスクリプトファイルの絶対パスです(サイトルートからの)
 
-It is also possible to provide a path relative to the current page. For instance, `src="script.js"` would mean a file `"script.js"` in the current folder.
+また、現在のページからの相対パスを提供することもできます。例えば、`src="script.js"`は現在のフォルダの`"script.js"`を意味するでしょう。
 
-We can give a full URL as well, for instance:
+完全なURLも同様に可能です。たとえば:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
 ```
 
-To attach several scripts, use multiple tags:
+いくつかのスクリプトを使う場合は、複数のタグを使います:
 
 ```html
 <script src="/js/script1.js"></script>
@@ -95,13 +95,13 @@ To attach several scripts, use multiple tags:
 ```
 
 ```smart
-As a rule, only the simplest scripts are put into HTML. More complex ones reside in separate files.
+原則として、最もシンプルなスクリプトだけがHTML内に置かれます。より複雑なものは別のファイルに置きます。
 
-The benefit of a separate file is that the browser will download it and then store in its [cache](https://en.wikipedia.org/wiki/Web_cache).
+ファイル分割のメリットは、ブラウザがダウンロードしてそれをブラウザの[キャッシュ](https://en.wikipedia.org/wiki/Web_cache)に保存するためです。
 
-After this, other pages that want the same script will take it from the cache instead of downloading it. So the file is actually downloaded only once.
+この後、同じスクリプトが必要な他のページはダウンロードする代わりにキャッシュからそれを取得します。そのため、ファイルは実際には一度だけダウンロードされます。
 
-That saves traffic and makes pages faster.
+それはトラフィックを節約し、ページをより速くします。
 ```
 
 ````warn header="If `src` is set, the script content is ignored."
@@ -127,11 +127,11 @@ The example above can be split into two scripts to work:
 ```
 ````
 
-## Summary
+## サマリ
 
-- We can use a `<script>` tag to add JavaScript code to the page.
-- The `type` and `language` attributes are not required.
-- A script in an external file can be inserted with `<script src="path/to/script.js"></script>`.
+- ページにJavaScriptコードを追加するために、`<script>`が利用できます。
+- `type` と `language` 属性は必要ありません。
+- 外部ファイルのスクリプトは、`<script src="path/to/script.js"></script>` で挿入されます。
 
 
-There is much more to learn about browser scripts and their interaction with the web-page. But let's keep in mind that this part of the tutorial is devoted to the JavaScript language, so we shouldn't distract ourselves from it. We'll be using a browser as a way to run JavaScript, which is very convenient for online reading, but yet one of many.
+ブラウザスクリプトやそれらとWebページとのやり取りについては、学ぶことがまだまだあります。しかし、このチュートリアルのこのパートはJavaScript言語に専念しており、私たちはそれから我々をそらすべきでないことに留意してください。私たちはJavaScriptを実行するための方法としてブラウザを使っていますが、それはオンラインでの読み込みではとても便利ですが、多くのうちのまだ1つです。
