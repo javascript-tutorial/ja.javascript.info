@@ -1,18 +1,18 @@
-# The modern mode, "use strict"
+# モダンなモード, "use strict"
 
-For a long time JavaScript was evolving without compatibility issues. New features were added to the language, but the old functionality did not change.
+長い間、JavaScriptは互換性の問題なしに進化していました。新らしい機能が言語に追加されましたが、古い機能は変更されませんでした。
 
-That had the benefit of never breaking existing code. But the downside was that any mistake or an imperfect decision made by JavaScript creators got stuck in the language forever.
+それは既存のコードが決して壊れないというメリットがありました。しかし、欠点は、JavaScript作成者による間違いや不十分な決定は、永遠にこの言語から抜け出せなくなったことです。
 
-It had been so until 2009 when ECMAScript 5 (ES5) appeared. It added new features to the language and modified some of the existing ones. To keep the old code working, most modifications are off by default. One needs to enable them explicitly with a special directive `"use strict"`.
+ECMAScript 5(ES5) が登場したときは2009年でした。新しい機能が言語に追加され、既存の機能のいくつかが修正されました。古いコードが動作するのを保つために、ほとんどの修正はデフォルトではOFFです。特別なディレクティブ `"use strict"` を明示的に有効にする必要があります。
 
 [cut]
 
 ## "use strict"
 
-The directive looks like a string: `"use strict"` or `'use strict'`. When it is located on the top of the script, then the whole script works the "modern" way.
+そのディレクティブは文字列のように見えます: `"use strict"` もしくは `'use strict'`. スクリプトの戦闘に位置する場合、すべてのスクリプトは "最新の" 方法で動作します。
 
-For example
+たとえば
 
 ```js
 "use strict";
@@ -21,15 +21,16 @@ For example
 ...
 ```
 
-We will learn functions (a way to group commands) soon.
+私たちは 関数(コマンドをグループ化する方法) をすぐに学ぶでしょうか。
 
-Looking ahead let's just note that `"use strict"` can be put at the start of a function (most kinds of functions) instead of the whole script. Then strict mode is enabled in that function only. But usually people use it for the whole script.
+先読みの備考として、`"use strict"` は全体のスクリプトの代わりに関数(ほとんどの種類の関数) の最初に置くことができます。
+そのとき、その関数内でのみStrictモードが有効になります。しかし通常一美度はそれをスクリプト全体に対して使います。
 
 
 ````warn header="Ensure that \"use strict\" is at the top"
-Please make sure that `"use strict"` is on the top of the script, otherwise the strict mode may not be enabled.
+`"use strict"` がスクリプトの先頭香確認してください、そうでなければ strict mode は有効でないかもしれません。
 
-There is no strict mode here:
+これは strict mode ではありません:
 
 ```js no-strict
 alert("some code");
@@ -40,24 +41,24 @@ alert("some code");
 // strict mode is not activated
 ```
 
-Only comments may appear above `"use strict"`.
+コメントは `"use strict"` の上に現れることがあります。
 ````
 
 ```warn header="There's no way to cancel `use strict`"
-There is no directive `"no use strict"` or alike, that would return the old behavior.
+`"no use strict"` または同系の古い振る舞いを返すようなディレクティブはありません。
 
-Once we enter the strict mode, there's no return.
+一度 strict mode に入ったら、返ってきません。
 ```
 
-## Always "use strict"
+## いつも "use strict"
 
-The differences of `"use strict"` versus the "default" mode are still to be covered.
+`"use strict"` と "default" モードの違いはまだカバーされています。
 
-In the next chapters, as we learn language features, we'll make notes about the differences of the strict mode. Luckily, there are not so many. And they actually make our life better.
+次のチャプターでは、私たちが言語の機能を学ぶときに、strict mode の違いについて書き留めます。幸運にも、それは多くはありません。そしてそれらは実際に私達の人生をより良くします。
 
-At this point in time it's enough to know about it in general:
+現段階では、一般的にそれについて知るだけで十分です:
 
-1. The `"use strict"` directive switches the engine to the "modern" mode, changing the behavior of some built-in features. We'll see the details as we study.
-2. The strict mode is enabled by `"use strict"` at the top. Also there are several language features like "classes" and "modules" that enable strict mode automatically.
-3. The strict mode is supported by all modern browsers.
-4. It's always recommended to start scripts with `"use strict"`. All examples in this tutorial assume so, unless (very rarely) specified otherwise.
+1. `"use strict"` ディレクティブは "最新" モードにエンジンを切り替え、いくつかの built-in の機能の振る舞いを変更します。私たちは勉強しながらその詳細を見ていきましょう。
+2. strict mode は先頭の `"use strict"` で有効になります。また、自動的に strict mode を有効にする "classes" や "modules" のようないくつかの機能もあります。
+3. strict mode はすべてのモダンブラウザによってサポートされています。
+4. `"use strict"` で始まるスクリプトはいつでも推奨されます。このチュートリアルのすべての例は、そうでないと明示されていない限り(ほとんどないですが)それを想定しています。
