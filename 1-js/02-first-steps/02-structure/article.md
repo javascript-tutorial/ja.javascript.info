@@ -1,46 +1,47 @@
-# Code structure
+# コード構造
 
-The first thing to study is the building blocks of the code.
+最初の勉強は、コードのビルディングブロックです。
 
 [cut]
 
-## Statements
+## ステートメント(命令文) [#statements]
 
-Statements are syntax constructs and commands that perform actions.
+ステートメントは、シンタックス構造でアクションを実行するコマンドです。
 
-We've already seen a statement `alert('Hello, world!')`, which shows the message.
+私たちは既に `alert('Hello, world!')` というステートメントを見ました、そしてそれはメッセージを表示します。
 
-We can have as many statements in the code as we want. Another statement can be separated with a semicolon.
+私たちは、私達が望むだけの多くのステートメントをコードに含めることができます。ステートメントはセミコロンで区切ることができます。
 
-For example, here we split the message into two:
+たとえば、ここではメッセージを2つに分けます:
 
 ```js run no-beautify
 alert('Hello'); alert('World');
 ```
 
-Usually each statement is written on a separate line -- thus the code becomes more readable:
+通常、各ステートメントは別の行に書かれます -- そのためコードはより読みやすくなります。
 
 ```js run no-beautify
 alert('Hello');
 alert('World');
 ```
 
-## Semicolons [#semicolon]
+## セミコロン [#semicolon]
 
-A semicolon may be omitted in most cases when a line break exists.
+セミコロンは改行が存在するとき、ほとんどのケースで省略されます。
 
-This would also work:
+これもまた動作します:
 
 ```js run no-beautify
 alert('Hello')
 alert('World')
 ```
 
-Here JavaScript interprets the line break as an "implicit" semicolon. That's also called an [automatic semicolon insertion](https://tc39.github.io/ecma262/#sec-automatic-semicolon-insertion).
+ここでJavaScriptは、改行を "暗黙" のセミコロンとして解釈します。
+それはまた[自動セミコロン挿入](https://tc39.github.io/ecma262/#sec-automatic-semicolon-insertion)と呼ばれます。
 
-**In most cases a newline implies a semicolon. But "in most cases" does not mean "always"!**
+**ほとんどのケースで、改行はセミコロンを意味します。しかし "ほんどのケース" は "いつも" ではありません!**
 
-There are cases when a newline does not mean a semicolon, for example:
+これは改行はセミコロンを意味しないケースです、たとえば:
 
 ```js run no-beautify
 alert(3 +
@@ -48,22 +49,22 @@ alert(3 +
 + 2);
 ```
 
-The code outputs `6`, because JavaScript does not insert semicolons here. It is intuitively obvious that if the line ends with a plus `"+"`, then it is an "incomplete expression", no semicolon required. And in this case that works as intended.
+このコードは `6` を出力します、なぜならJavaScriptはここではセミコロンを挿入しないからです。もし行の終わりがプラス `"+"` で終わっている場合、直感的には "不完全な表現" であり、セミコロンが必要ないのは明らかです。そしてこのケースでは、それは意図したとおりに動作します。
 
-**But there are situations where JavaScript "fails" to assume a semicolon where it is really needed.**
+**しかしJavaScriptが、本当に必要なときにセミコロンを想定 "し損なう" ケースがあります。**
 
-Errors which occur in such cases are quite hard to find and fix.
+このようなケースで発生するエラーは検出と修正が非常に難しいです。
 
 ````smart header="An example of an error"
-If you're curious to see a concrete example of such an error, check this code out:
+もしもあなたがこのようなエラーの具体例を見て興味があるなら、このコードを確認してください:
 
 ```js run
 [1, 2].forEach(alert)
 ```
 
-No need to think about the meaning of the brackets `[]` and `forEach` yet. We'll study them later, for now it does not matter. Let's just remember the result: it shows `1`, then `2`.
+ブラケット `[]` や `forEach` の意味についてはまだ考える必要はありません。私達はあとでそれらを勉強するでしょう、今のところそれは問題ではありません。ただ結果を覚えておきましょう: "1", そして "2" が表示されます。
 
-Now let's add an `alert` before the code and *not* finish it with a semicolon:
+今、コードの前に `alert` を追加し、セミコロンで終わら "ない" ようにしましょう:
 
 ```js run no-beautify
 alert("There will be an error")
@@ -71,42 +72,44 @@ alert("There will be an error")
 [1, 2].forEach(alert)
 ```
 
-Now if we run it, only the first `alert` is shown, and then we have an error!
+それを実行した場合、最初の `alert` だけが表示され、エラーが発生するでしょう!
 
-But everything is fine again if we add a semicolon after `alert`:
+しかし、もしも `alert` の後にセミコロンをつけた場合はすべてうまく行きます:
 ```js run
 alert("All fine now");
 
 [1, 2].forEach(alert)  
 ```
 
-Now we have the "All fine now" message and then `1` and `2`.
+今や私たちは "All fine now" メッセージ、そして `1`, `2` を得ます。
 
 
-The error in the no-semicolon variant occurs because JavaScript does not imply a semicolon before square brackets `[...]`.
+セミコロンのない変種のエラーは、JavaScriptは角括弧 `[...]` の前のセミコロンを暗示しないために発生します。
 
-So, because the semicolon is not auto-inserted, the code in the first example is treated as a single statement. That's how the engine sees it:
+そのため、セミコロンは自動挿入されないので最初の例のコードは1つのステートメントとして扱われます。
+So, because the semicolon is not auto-inserted, the code in the first example is treated as a single statement.
+これは、どのようにエンジンがそれを見るかです:
 
 ```js run no-beautify
 alert("There will be an error")[1, 2].forEach(alert)
 ```
 
-But it should be two separate statements, not a single one. Such a merging in this case is just wrong, hence the error. There are other situations when such a thing happens.
+しかし、それは1つではなく2つの別のステートメントであるべきです。今回のケースのようなマージは間違っているので、エラーです。このようなことが起こる他のシチュエーションもあります。
 ````
 
-It's recommended to put semicolons between statements even if they are separated by newlines. This rule is widely adopted by the community. Let's note once again -- *it is possible* to leave out semicolons most of the time. But it's safer -- especially for a beginner -- to use them.
+改行によってステートメントが分割されていたとしてもセミコロンを置くことを推奨します。このルールはコミュニティで広く採用されています。再度留意しましょう -- ほとんどの場合でセミコロンは除くことが *可能* です。しかし、安全です -- 特に初心者は -- それらを使うことが。
 
-## Comments
+## コメント
 
-As time goes on, the program becomes more and more complex. It becomes necessary to add *comments* which describe what happens and why.
+時が経つにつれて、プログラムはますます複雑になります。起こることと、なぜを説明するための *コメント* を追加し始める必要があります。
 
-Comments can be put into any place of the script. They don't affect the execution, because the engine simply ignores them.
+コメントはスクリプトのどの場所にも書くことができます。エンジンは単にそれらを無視するので、実行には影響しません。
 
-**One-line comments start with the two forward slash characters `//`.**
+**1行のコメントは、2つのスラッシュ文字 `//` から始まります。**
 
-The rest of the line is a comment. It may occupy a full line of its own or follow a statement.
+残りの行はコメントです。それはそれ自身の行全体または、ステートメントに従うかもしれません。
 
-Like here:
+ここのように:
 ```js run
 // This comment occupies a line of its own
 alert('Hello');
@@ -114,9 +117,9 @@ alert('Hello');
 alert('World'); // This comment follows the statement
 ```
 
-**Multiline comments start with a forward slash and an asterisk <code>/&#42;</code> and end with an asterisk and a forward slash <code>&#42;/</code>.**
+**複数行のコメントはスラッシュとアスタリスク <code>/&#42;</code> で始まり、アスタリスクとスラッシュ <code>&#42;/</code> 出終わります。**
 
-Like this:
+このように:
 
 ```js run
 /* An example with two messages.
@@ -126,9 +129,10 @@ alert('Hello');
 alert('World');
 ```
 
-The content of comments is ignored, so if we put code inside <code>/&#42; ... &#42;/</code> it won't execute.
+コメントの内容は無視されます、そのためもしも <code>/&#42; ... &#42;/</code> の中にコードをおいても、それは実行されないでしょう。
 
-Sometimes it comes in handy to temporarily disable a part of code:
+
+時々、コードの一部を一時的に無効にすると便利です:
 
 ```js run
 /* Commenting out the code
@@ -138,13 +142,14 @@ alert('World');
 ```
 
 ```smart header="Use hotkeys!"
-In most editors a line of code can be commented out by `key:Ctrl+/` hotkey for a single-line comment and something like `key:Ctrl+Shift+/` -- for multiline comments (select a piece of code and press the hotkey). For Mac try `key:Cmd` instead of `key:Ctrl`.
+殆どのエディタでは、コードの行は1行コメントとして `key:Ctrl+/` ホットキーによりコメントアウトすることができます。そして `key:Ctrl+Shift+/` のようなもので複数行コメントです(コードのいち部を選択し、ホットキーを押します)。
+Macでは、 `key:Ctrl` の代わりに `key:Cmd` を試してください。
 ```
 
 ````warn header="Nested comments are not supported!"
-There may not be `/*...*/` inside another `/*...*/`.
+別の `/*...*/` の中に `/*...*/` はないかもしれません。
 
-Such code will die with an error:
+このようなコードはエラーで死にます。
 
 ```js run no-beautify
 /*
@@ -154,8 +159,8 @@ alert( 'World' );
 ```
 ````
 
-Please, don't hesitate to comment your code.
+あなたのコードにコメントするのを躊躇わないでください。
 
-Comments increase the overall code footprint, but that's not a problem at all. There are many tools which minify the code before publishing to the production server. They remove comments, so they don't appear in the working scripts. Therefore comments do not have any negative effects on production at all.
+コメントは全体のコードのフットプリントを増加させますが、それは全く問題ではありません。プロダクションサーバへリリースする前にコードを minify する多くのツールがあります。それらはコメントを除去するので、実行スクリプトの中には現れません。それゆえに、コメントはプロダクション上でネガティブな影響は全くありません。
 
-Further in the tutorial, there will be a chapter <info:coding-style> that also explains how to write better comments.
+さらにこのチュートリアルでは、よりよいコメントの書き方を説明するチャプター <info:coding-style> があるでしょう。
