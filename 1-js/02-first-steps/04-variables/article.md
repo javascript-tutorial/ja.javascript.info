@@ -1,26 +1,26 @@
-# Variables
+# 変数
 
-Most of the time, a JavaScript application needs to work with information. Here are 2 examples:
-1. An online-shop -- the information might include goods being sold and a shopping cart. 
-2. A chat application -- the information might include users, messages, and much more.
+ほとんどの場合で、JavaScript アプリケーションは情報を処理する必要があります。ここに2つの例があります。
+1. オンラインショップ -- 情報は、売られれている商品やショッピングカートを含むかもしれません。
+2. チャットアプリケーション -- 情報は、ユーザ、メッセージやより多くのものが含まれるかもしれません。
 
-Variables are used to store this information.
+変数は情報を保持するために使われます。
 
 [cut]
 
-## A variable
+## 変数
 
-A [variable](https://en.wikipedia.org/wiki/Variable_(computer_science)) is a "named storage" for data. We can use variables to store goodies, visitors and other data.
+[変数](https://en.wikipedia.org/wiki/Variable_(computer_science)) はデータのための "名前付けされた格納場所" です。私たちはグッズや訪問者、その他のデータを格納するために、変数が使えます。
 
-To create a variable in JavaScript, we need to use the `let` keyword.
+JavaScriptで変数を作るために、`let` キーワードを使います。
 
-The statement below creates (in other words: *declares* or *defines*) a variable with the name "message":
+下のステートメントは "message" という名前の変数を作ります(別の言い方: *宣言* または *定義* ):
 
 ```js
 let message;
 ```
 
-Now we can put some data into it by using the assignment operator `=`:
+今、私たちは代入演算子 `=` を使って、そこにデータを置く事ができます。
 
 ```js
 let message;
@@ -30,7 +30,7 @@ message = 'Hello'; // store the string
 */!*
 ```
 
-The string is now saved into the memory area associated with the variable. We can access it using the variable name:
+文字列は今、変数に関連付けられたメモリ領域に保存されています。私たちは変数名を使ってそれにアクセスすることができます。:
 
 ```js run
 let message;
@@ -41,7 +41,7 @@ alert(message); // shows the variable content
 */!*
 ```
 
-To be concise we can merge the variable declaration and assignment into a single line:
+簡潔にするために、私達は変数宣言と代入を1行にマージすることができます。
 
 ```js run
 let message = 'Hello!'; // define the variable and assign the value
@@ -49,15 +49,15 @@ let message = 'Hello!'; // define the variable and assign the value
 alert(message); // Hello!
 ```
 
-We can also declare multiple variables in one line:
+また、1行で複数の変数を宣言することもできます。
 
 ```js no-beautify
 let user = 'John', age = 25, message = 'Hello';
 ```
 
-That might seem shorter, but it's not recommended. For the sake of better readability, please use a single line per variable.
+より短いように見えるかもしれませんが、それは推奨しません。よりより可読性のため、1変数に1行を使ってください。
 
-The multiline variant is a bit longer, but easier to read:
+複数行のバリアントはちょっと長いですが、読みやすいです。
 
 ```js
 let user = 'John';
@@ -65,14 +65,14 @@ let age = 25;
 let message = 'Hello';
 ```
 
-Some people also write many variables like that:
+多くの変数をこのように書く人もいます:
 ```js no-beautify
 let user = 'John',
   age = 25,
   message = 'Hello';
 ```
 
-...Or even in the "comma-first" style:
+...もしくは "カンマから始まる" スタイル:
 
 ```js no-beautify
 let user = 'John'
@@ -80,32 +80,32 @@ let user = 'John'
   , message = 'Hello';
 ```
 
-Technically, all these variants do the same. So, it's a matter of personal taste and aesthetics.
+技術的には、これらすべてのバリアントは同じです。なので、これは個人の好みと美学の問題です。
 
 
 ````smart header="`var` instead of `let`"
-In older scripts you may also find another keyword: `var` instead of `let`:
+古いスクリプトでは、別のキーワードを見つけるかもしれません: `let` の代わりに `var`:
 
 ```js
 *!*var*/!* message = 'Hello';
 ```
 
-The `var` keyword is *almost* the same as `let`. It also declares a variable, but in a slightly different, "old-school" fashion.
+キーワード `var` は `let` と *ほとんど* 一緒です。それも変数を宣言します。が、わずかに違います, 伝統的スタイルのやり方です。
 
-There are subtle differences between `let` and `var`, but they do not matter for us yet. We'll cover them in detail later, in the chapter <info:var>.
+`let` と `var` には微妙な違いがありますが、それらはまだ私たちにとって関係ありません。 その詳細については、<info:var> のチャプターでカバーします。
 ````
 
-## A real-life analogy
+## 現実との類似性
 
-We can easily grasp the concept of a "variable" if we imagine it as a "box" for data, with a uniquely-named sticker on it.
+ユニークな名前のステッカーを付けて、データの "ボックス" として想像すれば、私たちは "変数" という概念を簡単に把握できます。
 
-For instance, the variable `message` can be imagined as a box labelled `"message"` with the value `"Hello!"` in it:
+たとえば、変数 `message` は値 `"Hello!"` を持った `"message"` とラベル付けされたボックスとして想像することができます。:
 
 ![](variable.png)
 
-We can put any value into the box.
+私たちはボックスの中にどんな値でも入れることができます。
 
-Also we can change it. The value can be changed as many times as needed:
+また、それを変えることもできます。値は必要なぶんだけ何度でも変更することができます。
 
 ```js run
 let message;
@@ -117,11 +117,11 @@ message = 'World!'; // value changed
 alert(message);
 ```
 
-When the value is changed, the old data is removed from the variable:
+値が変更されたとき、古いでは変数から削除されます。
 
 ![](variable-change.png)
 
-We can also declare two variables and copy data from one into the other.
+私たちは2つの変数を宣言して、ある変数から別の変数にデータをコピーすることもできます。
 
 ```js run
 let hello = 'Hello world!';
@@ -139,32 +139,32 @@ alert(message); // Hello world!
 ```
 
 ```smart header="Functional languages"
-It may be interesting to know that there also exist [functional](https://en.wikipedia.org/wiki/Functional_programming) programming languages that forbid changing a variable value. For example, [Scala](http://www.scala-lang.org/) or [Erlang](http://www.erlang.org/).
+変数の値の変更を禁止する[functional](https://en.wikipedia.org/wiki/Functional_programming)プログラミング言語も存在することは興味深いかもしれません。たとえば, [Scala](http://www.scala-lang.org/) または [Erlang](http://www.erlang.org/).
 
-In such languages, once the value is stored "in the box", it's there forever. If we need to store something else, the language forces us to create a new box (declare a new variable). We can't reuse the old one.
+このような言語では、一度 "ボックスの中に" 値を格納すると、それは永遠です。もし他の何かを格納する必要がある場合、その言語は新しいボックスを作ることを強制します(新しい変数を宣言します)。私達は古いものを再利用することはできません。
 
-Though it may seem a little bit odd at first sight, these languages are quite capable of serious development. More than that, there are areas like parallel computations where this limitation confers certain benefits. Studying such a language (even if not planning to use it soon) is recommended to broaden the mind.
+一見したところでは、それは少し奇妙に見えるかもしれませんが、それらの言語は本格的な開発が可能です。それ以上に、この制限が確かな利益を与える並列計算のような領域があります。このような言語を勉強することは、心を広げるために推奨されます(たとえすぐにそれを使う予定がなくても)。
 ```
 
-## Variable naming [#variable-naming]
+## 変数のネーミング [#variable-naming]
 
-There are two limitations for a variable name in JavaScript:
+JavaScript変数名は2つの制限があります:
 
-1. The name must contain only letters, digits, symbols `$` and `_`.
-2. The first character must not be a digit.
+1. 名前は文字、数字、記号 `$` と `_` のみを含む必要があります。
+2. 最初の文字は数字であってはいけません。
 
-Valid names, for instance:
+変数名の例:
 
 ```js
 let userName;
 let test123;
 ```
 
-When the name contains multiple words, [camelCase](https://en.wikipedia.org/wiki/CamelCase) is commonly used. That is: words go one after another, each word starts with a capital letter: `myVeryLongName`.
+名前に複数の単語を含む場合、[camelCase](https://en.wikipedia.org/wiki/CamelCase) が一般的に使われます。 つまり: 単語が続々を続き, 各単語は大文字で始まります。: `myVeryLongName`.
 
-What's interesting -- the dollar sign `'$'` and the underscore `'_'` can also be used in names. They are regular symbols, just like letters, without any special meaning.
+なんと興味深い -- ドル `'$'` や アンダースコア `'_'` も名前に使われます。それらは特別な意味をもたない、ただの文字のような正規の記号です。
 
-These names are valid:
+それらの名前は正しいです:
 
 ```js run untrusted
 let $ = 1; // declared a variable with the name "$"
@@ -173,7 +173,7 @@ let _ = 2; // and now a variable with the name "_"
 alert($ + _); // 3
 ```
 
-Examples of incorrect variable names:
+正しくない変数名の例です:
 
 ```js no-beautify
 let 1a; // cannot start with a digit
@@ -182,26 +182,26 @@ let my-name; // a hyphen '-' is not allowed in the name
 ```
 
 ```smart header="Case matters"
-Variables named `apple` and `AppLE` -- are two different variables.
+変数名 `apple` と `AppLE` -- は2つの異なる変数です。
 ```
 
 ````smart header="Non-english letters are allowed, but not recommended"
-It is possible to use any language, including cyrillic letters or even hieroglyphs, like this:
+キリル文字や象牙文字を含め、どの言語を使うことも可能です。:
 
 ```js
 let имя = '...';
 let 我 = '...';
 ```
 
-Technically, there is no error here, such names are allowed, but there is an international tradition to use English in variable names. Even if we're writing a small script, it may have a long life ahead. People from other countries may need to read it some time.
+技術的には、ここでエラーは起きず、このような名前は許可されます。しかし、変数名では英語を使うのが国際的な伝統です。たとえ小さなスクリプトを書いているとしても、それの人生は長いかもしれません。他の国の人々はときどきそれを見る必要があるかもしれません。
 ````
 
 ````warn header="Reserved names"
-There is a list of reserved words, which cannot be used as variable names, because they are used by the language itself.
+予約語の一覧があり、それらは変数としては使用することができません。なぜならそれらは言語自身によって使われるからです。
 
-For example, words `let`, `class`, `return`, `function` are reserved.
+たとえば、単語 `let`, `class`, `return`, `function` は予約されています。
 
-The code below gives a syntax error:
+下のコードは構文エラーです:
 
 ```js run no-beautify
 let let = 5; // can't name a variable "let", error!
@@ -211,7 +211,7 @@ let return = 5; // also can't name it "return", error!
 
 ````warn header="An assignment without `use strict`"
 
-Normally, we need to define a variable before using it. But in the old times, it was technically possible to create a variable by a mere assignment of the value, without `let`. This still works now if we don't put `use strict`. The behavior is kept for compatibility with old scripts.
+通常、変数を使う前に定義する必要があります。しかし、以前は `let` なしで、単に値を代入することによって変数を作成することが技術的に可能でした。`use strict` でない場合はこれは今でも動作します。その振る舞いは古いスクリプトの互換性のために維持されています。
 
 ```js run no-strict
 // note: no "use strict" in this example
@@ -221,7 +221,7 @@ num = 5; // the variable "num" is created if didn't exist
 alert(num); // 5
 ```
 
-That's a bad practice, it gives an error in the strict mode:
+これは悪い悪い習慣です、strict モードではエラーになります:
 
 ```js run untrusted
 "use strict";
@@ -233,15 +233,15 @@ num = 5; // error: num is not defined
 
 ````
 
-## Constants
+## 定数
 
-To declare a constant (unchanging) variable, one can use `const` instead of `let`:
+定数を宣言するためには、 `let` の代わりに `const` を使います。
 
 ```js
 const myBirthday = '18.04.1982';
 ```
 
-Variables declared using `const` are called "constants". They cannot be changed. An attempt to do it would cause an error:
+`const` を使って宣言された変数は "定数" と呼ばれます。それらは変更することが出来ません。その試みはエラーを引き起こします。:
 
 ```js run
 const myBirthday = '18.04.1982';
@@ -249,16 +249,16 @@ const myBirthday = '18.04.1982';
 myBirthday = '01.01.2001'; // error, can't reassign the constant!
 ```
 
-When a programmer is sure that the variable should never change, he can use `const` to guarantee it, and also to clearly show that fact to everyone.
+プログラマがその変数は決して変更されないべきと確信するとき、 それを保証し、また、みんなにその事実を明示的に示すために `const` を使うことが出来ます。
 
 
-### Uppercase constants
+### 大文字の定数
 
-There is a widespread practice to use constants as aliases for difficult-to-remember values that are known prior to execution.
+実行する前にわかっている覚えるのが難しい値のために、エイリアスとして定数を使うという慣習は広く行われています。
 
-Such constants are named using capital letters and underscores.
+このような定数は大文字とアンダースコアを使って名前がつけられます。
 
-Like this:
+このように:
 
 ```js run
 const COLOR_RED = "#F00";
@@ -271,64 +271,64 @@ let color = COLOR_ORANGE;
 alert(color); // #FF7F00
 ```
 
-Benefits:
+メリット:
 
-- `COLOR_ORANGE` is much easier to remember than `"#FF7F00"`.
-- It is much easier to mistype in `"#FF7F00"` than in `COLOR_ORANGE`.
-- When reading the code, `COLOR_ORANGE` is much more meaningful than `#FF7F00`.
+- `COLOR_ORANGE` は `"#FF7F00"` よりも覚えるのが遥かに簡単です。
+- `COLOR_ORANGE` よりも `"#FF7F00"` のほうがミスタイプをし易いです。
+- コードを読むとき、`#FF7F00` よりも `COLOR_ORANGE` のほうがより意味があります。
 
-When should we use capitals for a constant, and when should we name them normally? Let's make that clear.
+私たちはいつ定数に大文字を使うべきなのか、そして通常はいつそれらの命名をするべきなのか？それらを明らかにしましょう。
 
-Being a "constant" just means that the value never changes. But there are constants that are known prior to execution (like a hexadecimal value for red), and there are those that are *calculated* in run-time, during the execution, but do not change after the assignment.
+"定数" であることは、その値は決して変わらないことを意味します。しかし、実行する前に知られている定数(赤の16進数のような)があります。また、実行中にランタイムで *計算* されますが、代入後は変更されないものもあります。
 
-For instance:
+たとえば:
 ```js
 const pageLoadTime = /* time taken by a webpage to load */;
 ```
 
-The value of `pageLoadTime` is not known prior to the page load, so it's named normally. But it's still a constant, because it doesn't change after assignment.
+`pageLoadTime` の値はページロードする前にはわからないので、通常の名前がつけられます。しかし代入後に変更されないので、それは定数です。
 
-In other words, capital-named constants are only used as aliases for "hard-coded" values.  
+言い換えると、大文字の名前の定数は "ハードコードされた" 値のエイリアスとしてのみ使われます。
 
 ## Name things right
 
-Talking about variables, there's one more extremely important thing.
+変数について話すとき、もう1つ極めて重要な事が有ります。
 
-Please name the variables sensibly. Take time to think if needed.
+変数は分かりやすい名前にしてください。必要に応じて考えましょう。
 
-Variable naming is one of the most important and complex skills in programming. A quick glance at variable names can reveal which code is written by a beginner and which by an experienced developer.
+変数のネーミングは、プログラミングにおいて、もっとも重要で複雑なスキルの1つです。変数名をちょっと見れば、どのコードが初心者で書かれ、どれが経験豊富な開発者によって書かれたものかがわかります。
 
-In a real project, most of the time is spent on modifying and extending the existing code base, rather than writing something completely separate from scratch. And when we return to the code after some time of doing something else, it's much easier to find information that is well-labelled. Or, in other words, when the variables have good names.
+実際のプロジェクトでは、スクラッチで完全に分離された何かを書くよりも、既存のコードベースの修正や拡張に最も時間を費やします。そして、何か他のことをした後にコードに戻ったとき、よくラベル付けされた情報を探すのははるかに簡単です。それは、言い換えると、適切な名前がついている変数、です。
 
-Please spend some time thinking about the right name for a variable before declaring it. That will repay you a lot.
+変数を宣言する前に正しい名前について考えるようにしてください。それはあなたに多くのことに報いるでしょう。
 
-Some good-to-follow rules are:
+いくつかの良いルールです:
 
-- Use human-readable names like `userName` or `shoppingCart`.
-- Stay away from abbreviations or short names like `a`, `b`, `c`, unless you really know what you're doing.
-- Make the name maximally descriptive and concise. Examples of bad names are `data` and `value`. Such a name says nothing. It is only ok to use them if it's exceptionally obvious from the context which data or value is meant.
-- Agree on terms within your team and in your own mind. If a site visitor is called a "user" then we should name related variables like `currentUser` or `newUser`, but not `currentVisitor` or a `newManInTown`.
+- `userName` または `shoppingCart` のように人間が読みやすい名前を使ってください。
+- あなたが本当に何をしているか知っていない限り、 `a`, `b`, `c` のような略語や短い名前は避けてください。
+- 最大限説明的、かつ簡潔な名前を作ってください。悪い名前の例としては `data` や `value` です。このような名前は何も言いません。コンテキストからデータや値が意味することが例外的に明白な場合のみ使ってもOKです。
+- あなたのチームやあなた自身の心と、表現を合意してください。もしあるサイト訪問者が "ユーザ" と呼ばれる場合、関連する変数として `currentVisitor` や `newManInTown` ではなく `currentUser` や `newUser` のように命名するべきです。
 
-Sounds simple? Indeed it is, but creating good descriptive-and-concise names in practice is not. Go for it.
+単純に聞こえますか？ 確かにそうですが、実際には良い説明的で簡潔な名前を作ることは簡単ではありません。頑張りましょう。
 
 ```smart header="Reuse or create?"
-And the last note. There are some lazy programmers who, instead of declaring a new variable, tend to reuse the existing ones.
+そして最後のメモです。新しい変数宣言する代わりに、既存の変数を再利用する傾向のある怠けたプラグラマが中にはいます。
 
-As a result, the variable is like a box where people throw different things without changing the sticker. What is inside it now? Who knows... We need to come closer and check.
+その結果、変数は、人々がステッカーの変更なしに異なったものを投げ入れるボックスのようになります。今その中は何でしょうか？誰が知っている... 私たちはもっと近づきチエックする必要があります。
 
-Such a programmer saves a little bit on variable declaration, but loses ten times more on debugging the code.
+このようなプログラマは変数定義では多少節約しますが、デバッグで10倍以上の時間を失います。
 
-An extra variable is good, not evil.
+余分な変数は良く、悪ではないです。
 
-Modern JavaScript minifiers and browsers optimize code well enough, so it won't create performance issues. Using different variables for different values can even help the engine to optimize.
+モダンなJavaScriptは minify したりブラウザは十分にコードを最適化します。なので、パフォーマンスの問題を作ることはありません。異なった値のために異なる変数を使うことは、エンジンの最適化を助けることがあります。
 ```
 
-## Summary
+## サマリ
 
-We can declare variables to store data. That can be done using `var` or `let` or `const`.
+私たちはデータを格納するために変数を宣言することができます。それは `var`, `let`, または `const` を使うことでできます。
 
-- `let` -- is a modern variable declaration. The code must be in strict mode to use `let` in Chrome (V8).
-- `var` -- is an old-school variable declaration. Normally we don't use it at all, but we'll cover subtle differences from `let` in the chapter <info:var>, just in case you need them.
-- `const` -- is like `let`, but the value of the variable can't be changed.
+- `let` -- は現代の変数宣言です。Chrome(V8)では、 `let` を使うには、そのコードは strict モードである必要があります。
+- `var` -- は伝統的なスタイルの変数宣言です。一般的に私たちはそれを使いませんが、必要なときのために、チャプター <info:var> で `let` との微妙な違いを説明します。
+- `const` --　は `let` のようですが、変数の値は変更することができません。
 
-Variables should be named in a way that allows us to easily understand what's inside.
+変数は、私たちが内部のことを簡単に理解できるように命名するべきです。
