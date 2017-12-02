@@ -1,6 +1,6 @@
-# Data types
+# データ型
 
-A variable in JavaScript can contain any data. A variable can at one moment be a string and later receive a numeric value:
+JavaScriptの変数はどんなデータでも入れることができます。変数はある時点では文字列で、その後数値を受け取ることができます。:
 
 ```js
 // no error
@@ -8,65 +8,66 @@ let message = "hello";
 message = 123456;
 ```
 
-Programming languages that allow such things are called "dynamically typed", meaning that there are data types, but variables are not bound to any of them.
+このようなことができるプログラミング言語は "動的型付け" と呼ばれ、データタイプはありますが、変数はそのどれもバインドされないことを意味します。
 
-There are seven basic data types in JavaScript. Here we'll study the basics, and in the next chapters we'll talk about each of them in detail.
+JavaScriptでは7つの基本的なデータ型があります。ここでは基本を学び、次のチャプターでそれらの詳細について話しましょう。
 
 [cut]
 
-## A number
+## 数値
 
 ```js
 let n = 123;
 n = 12.345;
 ```
 
-The *number* type serves both for integer and floating point numbers.
+*数値* 型は整数と浮動小数点両方に使われます。
 
-There are many operations for numbers, e.g. multiplication `*`, division `/`, addition `+`, subtraction `-` and so on.
+数値のための多くの操作があります、 e.g. 乗算 `*`, 除算 `/`, 加算 `+`, 減算 `-` などがあります。
 
-Besides regular numbers, there are so-called "special numeric values" which also belong to that type: `Infinity`, `-Infinity` and `NaN`.
+通常の数値に加えて、これらのタイプの属する "特別な数値型" もあります。: `Infinity`、 `-Infinity`、 `NaN`.
 
-- `Infinity` represents the mathematical [Infinity](https://en.wikipedia.org/wiki/Infinity) ∞. It is a special value that's greater than any number.
+- `Infinity` は数学的な[無限大](https://en.wikipedia.org/wiki/Infinity) ∞ を表します。どの値よりも大きい特別な値です。
 
-    We can get it as a result of division by zero:
+    ゼロによる除算の結果でそれを得ることができます。:
 
     ```js run
     alert( 1 / 0 ); // Infinity
     ```
 
-    Or just mention it in the code directly:
+    もしくは、単にコードで直接それに言及します:
 
     ```js run
     alert( Infinity ); // Infinity
     ```
-- `NaN` represents a computational error. It is a result of an incorrect or an undefined mathematical operation, for instance:
+- `NaN` は計算上のエラーを表します。正しくない、もしくは未定義の数学的な操作の結果です。たとえば:
 
     ```js run
     alert( "not a number" / 2 ); // NaN, such division is erroneous
     ```
 
-    `NaN` is sticky. Any further operation on `NaN` would give `NaN`:
+    `NaN` は粘着性です。`NaN` 以上のどのような操作でも `NaN` を得ます:
 
     ```js run
     alert( "not a number" / 2 + 5 ); // NaN
     ```
 
-    So, if there's `NaN` somewhere in a mathematical expression, it propagates to the whole result.
+    そのため、数学的な表現の中のどこかに `NaN` がある場合は、結果全体に伝搬します。
 
 ```smart header="Mathematical operations are safe"
-Doing maths is safe in JavaScript. We can do anything: divide by zero, treat non-numeric strings as numbers, etc.
+JavaScriptでは数学をするのは安全です。私たちは何でもできます:
+ゼロにじょる除算、数値として数値ではない文字列を扱う等。
 
-The script will never stop with a fatal error ("die"). At worst we'll get `NaN` as the result.
+スクリプトは決して致命的なエラー（"死"）で止まらないでしょう。 最悪の場合、NaN を結果として得ます。
 ```
 
-Special numeric values formally belong to the "number" type. Of course they are not numbers in a common sense of this word.
+特別な数値は正式には "数値" 型に所属します。もちろん、それらはこの言葉の常識では数値ではありません。
 
-We'll see more about working with numbers in the chapter <info:number>.
+私たちはチャプター <info:number> でより数値の動作について見るでしょう。
 
-## A string
+## 文字列
 
-A string in JavaScript must be quoted.
+JavaScriptの文字列は引用符で囲む必要があります。
 
 ```js
 let str = "Hello";
@@ -74,15 +75,15 @@ let str2 = 'Single quotes are ok too';
 let phrase = `can embed ${str}`;
 ```
 
-In JavaScript, there are 3 types of quotes.
+JavScriptでは3種類の引用符があります。
 
-1. Double quotes: `"Hello"`.
-2. Single quotes: `'Hello'`.
-3. Backticks: <code>&#96;Hello&#96;</code>.
+1. ダブルクォート: `"Hello"`.
+2. シングルクォート: `'Hello'`.
+3. バッククォート: <code>&#96;Hello&#96;</code>.
 
-Double and single quotes are "simple" quotes. There's no difference between them in JavaScript.
+ダブル/シングルクォートは "シンプルな" 引用符です。JavaScriptの中ではそれらに違いはありません。
 
-Backticks are "extended functionality" quotes. They allow us to embed variables and expressions into a string by wrapping them in `${…}`, for example:
+バッククォートは "拡張機能" の引用符です。それらは、変数を `${…}` の中にラップすることで、変数を埋め込み、文字列の中で表現することができます。たとえば:
 
 ```js run
 let name = "John";
@@ -94,35 +95,36 @@ alert( `Hello, *!*${name}*/!*!` ); // Hello, John!
 alert( `the result is *!*${1 + 2}*/!*` ); // the result is 3
 ```
 
-The expression inside `${…}` is evaluated and the result becomes a part of the string. We can put anything there: a variable like `name` or an arithmetical expression like `1 + 2` or something more complex.
+`${…}` の中の表現は評価され、結果は文字列の一部になります。そこにはなんでも置くことができます: `name` のような変数、`1 + 2` のような算術表現、またはより複雑なもの。
 
-Please note that this can only be done in backticks. Other quotes do not allow such embedding!
+これはバッククォートの中でのみ行われることに留意してください。他のクォートはこのような埋め込みは許容しません!
+
 ```js run
 alert( "the result is ${1 + 2}" ); // the result is ${1 + 2} (double quotes do nothing)
 ```
 
-We'll cover strings more thoroughly in the chapter <info:string>.
+私たちは、チャプター<info:string> で、より徹底的に文字列の説明します。
 
 ```smart header="There is no *character* type."
-In some languages, there is a special "character" type for a single character. For example, in the C language and in Java it is `char`.
+いくつかの言語では、1文字のための特別な "文字" 型があります。たとえば、C言語やJavaでは、それは `char` です。
 
-In JavaScript, there is no such type. There's only one type: `string`. A string may consist of only one character or many of them.
+JavaScriptでは、このような型はありません。 `string` 型の1つだけです。文字列は1つの文字または複数のそれらから構成されます。
 ```
 
-## A boolean (logical type)
+## boolean (logical type)
 
-The boolean type has only two values: `true` and `false`.
+boolean 型は2つの値だけを持ちます: `true` と `false`
 
-This type is commonly used to store yes/no values: `true` means "yes, correct", and `false` means "no, incorrect".
+この型は通常 yes/no の値を格納するために使われます: `true` は "yes" を意味し、 `false` は "no, 正しくない" を意味します。
 
-For instance:
+たとえば:
 
 ```js
 let nameFieldChecked = true; // yes, name field is checked
 let ageFieldChecked = false; // no, age field is not checked
 ```
 
-Boolean values also come as a result of comparisons:
+Boolean 値は比較の結果としても来ます:
 
 ```js run
 let isGreater = 4 > 1;
@@ -130,31 +132,31 @@ let isGreater = 4 > 1;
 alert( isGreater ); // true (the comparison result is "yes")
 ```
 
-We'll cover booleans more deeply later in the chapter <info:logical-operators>.
+私たちは、後ほどチャプター<info:logical-operators>でbooleanのより詳細を説明します。
 
-## The "null" value
+## "null" 値
 
-The special `null` value does not belong to any type of those described above.
+特殊な `null` 値は上の述べたどの型にも属しません。
 
-It forms a separate type of its own, which contains only the `null` value:
+それは自身の別の型を形成し、 `null` 値だけを含みます。
 
 ```js
 let age = null;
 ```
 
-In JavaScript `null` is not a "reference to a non-existing object" or a "null pointer" like in some other languages.
+JavaScriptでは、 `null` は他の言語のような "存在しないオブジェクトへの参照" または "null へのポインタ" ではありません。
 
-It's just a special value which has the sense of "nothing", "empty" or "value unknown".
+それは、 "無し"、"空" または「不明な値」の感覚を持つ特別な値です。
 
-The code above states that the `age` is unknown or empty for some reason.
+上のコードは、 `age` は何らかの理由で不明な値もしくは空であることを述べています。
 
-## The "undefined" value
+## "undefined" 値
 
-The special value `undefined` stands apart. It makes a type of its own, just like `null`.
+特殊な値 `undefined` は別として立っています。`null` のように、それ自身の形を作ります。
 
-The meaning of `undefined` is "value is not assigned".
+`undefined` の意味は "値は代入されていません" です。
 
-If a variable is declared, but not assigned, then its value is exactly `undefined`:
+もしも変数は宣言されているが代入されていない場合、その値は正確には `undefined` です:
 
 ```js run
 let x;
@@ -162,7 +164,7 @@ let x;
 alert(x); // shows "undefined"
 ```
 
-Technically, it is possible to assign `undefined` to any variable:
+技術的には、どの変数にも `undefined` を代入することができます。
 
 ```js run
 let x = 123;
@@ -172,28 +174,29 @@ x = undefined;
 alert(x); // "undefined"
 ```
 
-...But it's not recommended to do that. Normally, we use `null` to write an "empty" or an "unknown" value into the variable, and `undefined` is only used for checks, to see if the variable is assigned or similar.
+...しかし、そのようにするのは推奨されません。一般的に、私たちは、 "空" や "不明な値" を書き込むために `null` を使い、`undefined` は変数が割り当てられているか、もしくは似たような確認のために使います。
 
 ## Objects and Symbols
 
-The `object` type is special.
+`object` 型は特殊です。
 
-All other types are called "primitive", because their values can contain only a single thing (be it a string or a number or whatever). In contrast, objects are used to store collections of data and more complex entities. We'll deal with them later in the chapter <info:object> after we know enough about primitives.
+他のすべての型は、それらの値は1つのもの(文字列, 数値, または何でも)だけを含むことができるので、"プリミティブ" と呼ばれます。対象的に、オブジェクトはデータのコレクションやより複雑なエンティティを格納するために使われます。私たちは、プリミティブについて十分に知った後、それらを後ほどチャプター<info:object>で扱います。
 
-The `symbol` type is used to create unique identifiers for objects. We have to mention it here for completeness, but it's better to study them after objects.
+`symbol` 型はオブジェクトの一意な識別子を作るのに使われます。完全性のために、私たちはここで言及する必要がありますが、オブジェクトの後で勉強するのがよいでしょう。
 
-## The typeof operator [#type-typeof]
+## typeof 操作 [#type-typeof]
 
-The `typeof` operator returns the type of the argument. It's useful when we want to process values of different types differently, or just want to make a quick check.
 
-It supports two forms of syntax:
+`typeof` 操作は、引数の型を返します。異なる型の値を別々に処理したい、または素早くチェックしたいときに役立ちます。
+
+これは2つの形式の構文をサポートします:
 
 1. As an operator: `typeof x`.
 2. Function style: `typeof(x)`.
 
-In other words, it works both with parentheses or without them. The result is the same.
+言い換えると、それは括弧があってもなくても動作します。結果は同じです。
 
-The call to `typeof x` returns a string with the type name:
+`typeof x` の呼び出しは型名の文字列を返します。:
 
 ```js
 typeof undefined // "undefined"
@@ -219,29 +222,29 @@ typeof alert // "function"  (3)
 */!*
 ```
 
-The last three lines may need additional explanations:
+最後の3行については追加の説明が必要かもしれません:
 
-1. `Math` is a built-in object that provides mathematical operations. We will learn it in the chapter <info:number>. Here it serves just as an example of an object.
-2. The result of `typeof null` is `"object"`. That's wrong. It is an officially recognized error in `typeof`, kept for compatibility. Of course, `null` is not an object. It is a special value with a separate type of its own. So, again, that's an error in the language.
-3. The result of `typeof alert` is `"function"`, because `alert` is a function of the language. We'll study functions in the next chapters, and we'll see that there's no special "function" type in the language. Functions belong to the object type. But `typeof` treats them differently. Formally, it's incorrect, but very convenient in practice.
+1. `Math` は数学的な操作を提供するビルトインオブジェクトです。私たちはチャプター<info:number>で学ぶでしょう。ここでは、ただのオブジェクトの例です。
+2. `typeof null` の結果は `"object"` です。これは間違っています。これは `typeof` において、公式に認められているエラーで、互換性のために維持されています。もちろん、`null` はオブジェクトではありまえん。それはそれ自身の別の型をもつ特殊な値です。なので、繰り返しますが、それは言語のエラーです。
+3. `alert` は言語の機能なので、`typeof alert` の結果は `"function"` です。私たちは、次のチャプターで function を勉強します。そして、言語の中で特殊な "function" 型がないことがわかるでしょう。function はオブジェクト型に属します。しかし `typeof` はそれらを別々に扱います。正式には、それは正しくありませんが、実際にはとても便利です。
 
 
-## Summary
+## サマリ
 
-There are 7 basic types in JavaScript.
+JavaScriptには7つの基本型があります。
 
-- `number` for numbers of any kind: integer or floating-point.
-- `string` for strings. A string may have one or more characters, there's no separate single-character type.
-- `boolean` for `true`/`false`.
-- `null` for unknown values -- a standalone type that has a single value `null`.
-- `undefined` for unassigned values -- a standalone type that has a single value `undefined`.
-- `object` for more complex data structures.
-- `symbol` for unique identifiers.
+- `number` あらゆる種類の数値: 整数または浮動小数点
+- `string` 文字列。文字列は1つかより多くの文字を持ち、別の1文字型はありません。
+- `boolean` `true`/`false`
+- `null` 不明な値 -- 単一の値 `null` を持つスタンドアロン型
+- `undefined` 未割り当て値 -- 単一の値 `undefined` を持つスタンドアロン型
+- `object` より複雑なデータ構造
+- `symbol` 一意な識別子
 
-The `typeof` operator allows us to see which type is stored in the variable.
+`typeof` 操作は変数にどの型が格納されているかを知ることができます。
 
-- Two forms: `typeof x` or `typeof(x)`.
-- Returns a string with the name of the type, like `"string"`.
-- For `null` returns `"object"` -- that's an error in the language, it's not an object in fact.
+- 2つの形式: `typeof x` or `typeof(x)`.
+- `"string"` のように型の名前の文字列を返します。
+- `null` は `"object"` を返します -- それは言語のエラーで、実際はオブジェクトではありません。
 
-In the next chapters we'll concentrate on primitive values and once we're familiar with them, then we'll move on to objects.
+次のチャプターでは、プリミティブ値について集中し、一度それらに精通してからオブジェクトに進みます。
