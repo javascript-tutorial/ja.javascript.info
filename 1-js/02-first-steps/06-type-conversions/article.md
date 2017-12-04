@@ -1,24 +1,24 @@
-# Type Conversions
+# 型変換
 
-Most of the time, operators and functions automatically convert a value to the right type. That's called "type conversion".
+ほとんどの時間、演算子と関数は自動的に値を正しい型に変換します。それを "型変換" と呼びます。
 
-For example, `alert` automatically converts any value to a string to show it. Mathematical operations convert values to numbers.
+たとえば、 `alert` はそれを表示するために、自動的にある値を文字列へ変換します。数学的な処理は値を数値に変換します。
 
-There are also cases when we need to explicitly convert a value to put things right.
+また、物事を正しくするために、ある値を明示的に変換する必要があるケースもあります。
 
 [cut]
 
 ```smart header="Not talking about objects yet"
-In this chapter we don't cover objects yet. Here we study primitives first. Later, after we learn objects, we'll see how object conversion works in the chapter <info:object-toprimitive>.
+このチャプターでは、まだ オブジェクト は説明しません。ここでは、最初にプリミティブを学びます。その後、オブジェクトについて学んだ後に、チャプター <info:object-toprimitive> で、どのようにオブジェクト変換が動作するのかを見ていきます。
 ```
 
-## ToString
+## 文字列変換
 
-String conversion happens when we need the string form of a value.
+文字列変換は値の文字列形式が必要なときに発生します。
 
-For example, `alert(value)` does it to show the value.
+たとえば、`alert(value)` は値を表示するためにそれを行います。
 
-We can also use a call `String(value)` function for that:
+また、そのために、`String(value)` 関数を使うこともできます:
 
 ```js run
 let value = true;
@@ -30,19 +30,19 @@ alert(typeof value); // string
 */!*
 ```
 
-String conversion is mostly obvious. A `false` becomes `"false"`, `null` becomes `"null"` etc.
+文字列変換はほとんどが明らかです。`false` は `"false"` に、 `null` は `"null"` などになります。
 
-## ToNumber
+## 数値変換
 
-Numeric conversion happens in mathematical functions and expressions automatically.
+数値変換は数学的関数や表現の中で自動的に起こります。
 
-For example, when division `/` is applied to non-numbers:
+たとえば、非数値に除算 `/` が適用された場合:
 
 ```js run
 alert( "6" / "2" ); // 3, strings are converted to numbers
 ```
 
-We can use a `Number(value)` function to explicitly convert a `value`:
+また、明示的に `value` を変換するために `Number(value)` を使うことができます。
 
 ```js run
 let str = "123";
@@ -53,9 +53,9 @@ let num = Number(str); // becomes a number 123
 alert(typeof num); // number
 ```
 
-Explicit conversion is usually required when we read a value from a string-based source like a text form, but we expect a number to be entered.
+通常、私たちがテキストフォームのような文字列ベースのソースから値を読むときに明示的な変換が必要になりますが、私たちは数値が入力されることを期待します。
 
-If the string is not a valid number, the result of such conversion is `NaN`, for instance:
+もしも文字列が有効な数値出ない場合、このような変換の結果は `NaN` です。たとえば:
 
 ```js run
 let age = Number("an arbitrary string instead of a number");
@@ -63,16 +63,16 @@ let age = Number("an arbitrary string instead of a number");
 alert(age); // NaN, conversion failed
 ```
 
-Numeric conversion rules:
+数値変換ルール:
 
-| Value |  Becomes... |
+| 値 |  変換後... |
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
 |<code>true&nbsp;and&nbsp;false</code> | `1` and `0` |
-| `string` | Whitespaces from the start and the end are removed. Then, if the remaining string is empty, the result is `0`. Otherwise, the number is "read" from the string. An error gives `NaN`. |
+| `string` | 最初と最後のスペースは取り除かれます。そして、残った文字列が空の場合は結果は 0 になります。そうでなければ、文字レウtから "読んだ" 数値です。 エラーでは `NaN` が与えられます。|
 
-Examples:
+たとえば:
 
 ```js run
 alert( Number("   123   ") ); // 123
@@ -81,33 +81,34 @@ alert( Number(true) );        // 1
 alert( Number(false) );       // 0
 ```
 
-Please note that `null` and `undefined` behave differently here: `null` becomes a zero, while `undefined` becomes `NaN`.
+`null` と `undefined` はここでは異なる振る舞いをすることとに留意してください。: `undefined` が `NaN` になる一方、`null` は 0 になります。
 
 ````smart header="Addition '+' concatenates strings"
-Almost all mathematical operations convert values to numbers. With a notable exception of the addition `+`. If one of the added values is a string, then another one is also converted to a string.
+ほとんどすべての算術演算は値を数値に変換します。
+Almost all mathematical operations convert values to numbers. 注目すべき例外は加算 `+` です。もしも加算された値の1つが文字列である場合、他の値は文字列に変換されます。
 
-Then it concatenates (joins) them:
+そして、それらを連結（結合）します。:
 
 ```js run
 alert( 1 + '2' ); // '12' (string to the right)
 alert( '1' + 2 ); // '12' (string to the left)
 ```
 
-That only happens when one of the arguments is a string. Otherwise, values are converted to numbers.
+引数の1つが文字列の場合にのみそれは起こります。それ以外では値は数値に変換されます。
 ````
 
-## ToBoolean
+## Boolean変換
 
-Boolean conversion is the simplest one.
+真偽値(Boolean)変換はシンプルです。
 
-It happens in logical operations (later we'll meet condition tests and other kinds of them), but also can be performed manually with the call of `Boolean(value)`.
+論理演算(後ほど条件テストやそれらの他の種類を見ます)で起こりますが、`Boolean(value)` を呼ぶことで手動で実行させる事もできます。
 
 The conversion rule:
 
-- Values that are intuitively "empty", like `0`, an empty string, `null`, `undefined` and `NaN` become `false`.
-- Other values become `true`.
+- `0`, 空文字, `null`, `undefined` や `NaN` のように直感的に "空" の値は `false` になります。
+- 他の値は `true` になります。
 
-For instance:
+たとえば:
 
 ```js run
 alert( Boolean(1) ); // true
@@ -118,7 +119,7 @@ alert( Boolean("") ); // false
 ```
 
 ````warn header="Please note: the string with zero `\"0\"` is `true`"
-Some languages (namely PHP) treat `"0"` as `false`. But in JavaScript a non-empty string is always `true`.
+幾つかの言語(すなわち PHP)は `”0”` を `false` として扱います。しかし、JavaScriptでは、非空の文字列はいつも `true` です。
 
 ```js run
 alert( Boolean("0") ); // true
@@ -127,36 +128,37 @@ alert( Boolean(" ") ); // spaces, also true (any non-empty string is true)
 ````
 
 
-## Summary
+## サマリ
 
-There are three most widely used type conversions: to string, to number and to boolean.
+3つの最も広く使われている型変換があります: 文字列変換, 数値変換,
+真偽値変換です。
 
-**`ToString`** -- Occurs when we output something, can be performed with `String(value)`. The conversion to string is usually obvious for primitive values.
+**`文字列変換`** -- 私たちが何かを出力するときに発生し、`String(value)` 実行することができます。文字列への変換は通常はプリミティブな値にとって明白です。
 
-**`ToNumber`** -- Occurs in math operations, can be performed with `Number(value)`.
+**`数値変換`** -- 算術演算で発生し、`Number(value)` で実行できます。
 
-The conversion follows the rules:
+変換は次のツールに従います:
 
-| Value |  Becomes... |
+| 値 |  変換後... |
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
-|<code>true&nbsp;/&nbsp;false</code> | `1 / 0` |
-| `string` | The string is read "as is", whitespaces from both sides are ignored. An empty string becomes `0`. An error gives `NaN`. |
+|<code>true&nbsp;and&nbsp;false</code> | `1` and `0` |
+| `string` | 最初と最後のスペースは取り除かれます。そして、残った文字列が空の場合は結果は 0 になります。そうでなければ、文字レウtから "読んだ" 数値です。 エラーでは `NaN` が与えられます。|
 
-**`ToBoolean`** -- Occurs in logical operations, or can be performed with `Boolean(value)`.
+**`真偽値変換`** -- 論理演算で発生するか、`Boolean(value)` で実行できます。
 
-Follows the rules:
+次のルールに従います:
 
-| Value |  Becomes... |
+| 値 |  変換後... |
 |-------|-------------|
 |`0`, `null`, `undefined`, `NaN`, `""` |`false`|
-|any other value| `true` |
+|それ以外の値| `true` |
 
 
-Most of these rules are easy to understand and memorize. The notable exceptions where people usually make mistakes are:
+それらのルールのほとんどは、理解し覚えるのが簡単です。人々が通常間違える注目すべき例外は:
 
-- `undefined` is `NaN` as a number, not `0`.
-- `"0"` and space-only strings like `"   "` are true as a boolean.
+- `undefined` は文字列としては `NaN` です, `0` ではりません。
+- `"0"` と `"   "` のようなスペースだけの文字列は真偽値としては true です。
 
-Objects are not covered here, we'll return to them later in the chapter <info:object-toprimitive> that is devoted exclusively to objects, after we learn more basic things about JavaScript.
+オブジェクトについてはここでは説明しませんが、JavaScriptについての基本的なことを学んだら、オブジェクトに専念する <info:object-toprimitive> の章の後半に戻ります。
