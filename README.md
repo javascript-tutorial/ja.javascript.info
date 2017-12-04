@@ -1,3 +1,7 @@
+# Note
+
+Original repository is [javascript-tutorial-en](https://github.com/iliakan/javascript-tutorial-en)
+This repository is created for Japanese translation.
 
 # The JavaScript Tutorial
 
