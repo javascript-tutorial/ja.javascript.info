@@ -1,17 +1,17 @@
-# Operators
+# 演算子
 
-Many operators are known to us from school. They are addition `+`, a multiplication `*`, a subtraction `-` and so on.
+多くの演算子は学校から私たちに知られています。それらは加算 `+`, 乗算 `*`, 減算 `-` などです。
 
-In this chapter we concentrate on aspects that are not covered by school arithmetic.
+このチャプターでは、学校の算数でカバーされない側面に集中します。
 
 [cut]
 
-## Terms: "unary", "binary", "operand"
+## 用語： "単項演算子"、 "バイナリ"、 "オペランド"
 
-Before we move on, let's grasp the common terminology.
+次に進む前に、一般的な用語を理解しましょう。
 
-- *An operand* -- is what operators are applied to. For instance in multiplication `5 * 2` there are two operands: the left operand is `5`, and the right operand is `2`. Sometimes people say "arguments" instead of "operands".
-- An operator is *unary* if it has a single operand. For example, the unary negation `"-"` reverses the sign of the number:
+- *オペランド* -- は演算子が適用されるものです。たとえば、 乗算 `5 * 2` では、2つのオペランドがあります: 左のオペランドは `5`, 右のオペランドは `2` です。時々、人々は "オペランド" のかわりに "引数" といいます。
+- 演算子が単一のオペランドをもつ場合は *単項演算子* です。たとえば、単行否定 `"-"` は数値の符号を反転します:
 
     ```js run
     let x = 1;
@@ -21,55 +21,55 @@ Before we move on, let's grasp the common terminology.
     */!*
     alert( x ); // -1, unary negation was applied
     ```
-- An operator is *binary* if it has two operands. The same minus exists in the binary form as well:
+- 演算子が2つのオペランドを保つ場合は *バイナリ* です。同じマイナスもバイナリ形式で同様に存在します:
 
     ```js run no-beautify
     let x = 1, y = 3;
     alert( y - x ); // 2, binary minus subtracts values
     ```
 
-    Formally, we're talking about two different operators here: the unary negation (single operand, reverses the sign) and the binary subtraction (two operands, subtracts).
+    正式には、ここでは2つの異なった演算子について話しています。: 単行否定(1つのオペランド, 符号の反転)　とバイナリ減算(2つのオペランド、減算)
 
-## Strings concatenation, binary +
+## 文字列の連結、バイナリ +
 
-Now let's see special features of JavaScript operators that are beyond school arithmetics.
+さて、学校の算術以外の JavaScript 演算子の特別な機能を見ていきましょう。
 
-Usually the plus operator `'+'` sums numbers.
+通常、プラス演算子 `+` は数値の合計です。
 
-But if the binary `+` is applied to strings, it merges (concatenates) them:
+しかし、もしもバイナリ `+` が文字列に適用された場合、それはそれらのマージ（連結）です。:
 
 ```js
 let s = "my" + "string";
 alert(s); // mystring
 ```
 
-Note that if any of operands is a string, then the other one is converted to a string too.
+もしもいずれかのオペランドが文字列の場合、他のオペランドも文字列に変換されることに注意してください。
 
-For example:
+例:
 
 ```js run
 alert( '1' + 2 ); // "12"
 alert( 2 + '1' ); // "21"
 ```
 
-See, it doesn't matter whether the first operand is a string or the second one. The rule is simple: if either operand is a string, then convert the other one into a string as well.
+見てください、最初のオペランドが文字列か、2つ目のものがそうかは関係ありません。このルールはシンプルです:もしもどちらかのオペランドが文字列の場合、同様に他の一方も文字列に変換します。
 
-String concatenation and conversion is a special feature of the binary plus `"+"`. Other arithmetic operators work only with numbers. They always convert their operands to numbers.
+文字列連結や変換はバイナリプラス `"+"` の特別な機能です。他の算術演算子は数値でのみ動作します。それらはいつもオペランドを数値に変換します。
 
-For instance, subtraction and division:
+たとえば、減算と除算です:
 
 ```js run
 alert( 2 - '1' ); // 1
 alert( '6' / '2' ); // 3
 ```
 
-## Numeric conversion, unary +
+## 数値変換 単項 +
 
-The plus `+` exist in two forms. The binary form that we used above and the unary form.
+プラス `+` は2つの形で存在します。上で使ったようなバイナリ形式と単項形式です。
 
-The unary plus or, in other words, the plus operator `+` applied to a single value, doesn't do anything with numbers, but if the operand is not a number, then it is converted into it.
+単項プラス、もしくは言い換えると単一の値に適用されるプラス演算子 `+` は、数値に対しては何もしません。しかし、もしもオペランドが数値出ない場合、数値に変換します。
 
-For example:
+例:
 
 ```js run
 // No effect on numbers
@@ -86,13 +86,13 @@ alert( +"" );   // 0
 */!*
 ```
 
-It actually does the same as `Number(...)`, but shorter.
+それは実際には、 `Number(...)` と同じですが、より短いです。
 
-A need to convert string to number arises very often. For example, if we are getting values from HTML form fields, then they are usually strings.
+文字列から数値に変換する必要が非常に多く発生します。私たちがHTMLのフォームフィールドから値を取得する場合、それらは通常文字列です。
 
-What if we want to sum them?
+もしもそれらの合計が欲しい場合はどうなるでしょう？
 
-The binary plus would add them as strings:
+バリナリプラスはそれらを文字列として追加します。:
 
 ```js run
 let apples = "2";
@@ -101,7 +101,7 @@ let oranges = "3";
 alert( apples + oranges ); // "23", the binary plus concatenates strings
 ```
 
-If we want to treat them as numbers, then we can convert and then sum:
+それらを文字列として扱いたい場合、変換してそれらを合計することが出来ます:
 
 ```js run
 let apples = "2";
@@ -116,42 +116,43 @@ alert( +apples + +oranges ); // 5
 // alert( Number(apples) + Number(oranges) ); // 5
 ```
 
-From a mathematician's standpoint the abundance of pluses may seem strange. But from a programmer's standpoint, there's nothing special: unary pluses are applied first, they convert strings to numbers, and then the binary plus sums them up.
+数学者の立場からは、余計なプラスは奇妙に見えるかもしれません。しかし、プラグラマの立場からは特殊なことではありません: 単項プラスが最初に適用され、文字列から数値に変換されます。次にバイナリプラスはそれらを合計します。
 
-Why are unary pluses applied to values before the binary one? As we're going to see, that's because of their *higher precedence*.
+なぜバイナリプラスの前に単項プラスが値に適用されるのでしょうか？私たちが見ているように、それはそれらの *優先順位が高いため* です。
 
-## Operators precedence
+## 演算子の優先順位
 
-If an expression has more than one operator, the execution order is defined by their *precedence*, or, in other words, there's an implicit priority order among the operators.
+式が1つ以上の演算子をもつ場合、実行順はそれらの *優先順位* により定義されています。または言い換えると、演算子の間には暗黙の優先順があります。
 
-From school we all know that the multiplication in the expression `1 + 2 * 2` should be calculated before the addition. That's exactly the precedence thing. The multiplication is said to have *a higher precedence* than the addition.
+学校から、私たちはみんな、式 `1 + 2 * 2` での乗算は加算の前に計算されるべきであることを知っています。それがまさに優先順位です。乗算は加算より *より高い優先順位* と言われています。
 
-Parentheses override any precedence, so if we're not satisfied with the order, we can use them, like: `(1 + 2) * 2`.
+丸括弧はどの優先順位をオーバーライドするので、その順序に満足しない場合はそれを使うことができます、このように: `(1 + 2) * 2`。
 
-There are many operators in JavaScript. Every operator has a corresponding precedence number. The one with the bigger number executes first. If the precedence is the same, the execution order is from left to right.
+JavaScriptでは多くの演算子があります。どの演算子も対応する優先順位を持っています。より大きな値をもつ演算子は最初に実行されます。同じ優先順の場合、実行順は左から右になります。
 
-An extract from the [precedence table](https://developer.mozilla.org/en/JavaScript/Reference/operators/operator_precedence) (you don't need to remember this, but note that unary operators are higher than corresponding binary ones):
+[優先順位テーブル](https://developer.mozilla.org/en/JavaScript/Reference/operators/operator_precedence)の抜粋(これを覚えて置く必要はありませんが、単項演算子は対応するバイナリ演算子よりも優先順位が高いことに留意してください):
 
-| Precedence | Name | Sign |
+
+| 優先順位 | 名前 | 符号 |
 |------------|------|------|
 | ... | ... | ... |
-| 16 | unary plus | `+` |
-| 16 | unary negation | `-` |
-| 14 | multiplication | `*` |
-| 14 | division | `/` |
-| 13 | addition | `+` |
-| 13 | subtraction | `-` |
+| 16 | 単項プラス | `+` |
+| 16 | 単項否定 | `-` |
+| 14 | 乗算 | `*` |
+| 14 | 除算 | `/` |
+| 13 | 加算 | `+` |
+| 13 | 減算 | `-` |
 | ... | ... | ... |
-| 3 | assignment | `=` |
+| 3 | 代入 | `=` |
 | ... | ... | ... |
 
-As we can see, the "unary plus" has a priority of `16`, which is higher than `13` for the "addition" (binary plus). That's why in the expression `"+apples + +oranges"` unary pluses work first, and then the addition.
+私たちが見ることができるように、 "単項プラス" `16` の優先順位を持っており、それは "加算" の `13` よりも大きいです(バイナリプラス)。そういうわけで、式 `"+apples + +oranges"` において、単項プラスは最初に動作し、次に加算になります。
 
-## Assignment
+## 代入
 
-Let's note that an assignment `=` is also an operator. It is listed in the precedence table with the very low priority of `3`.
+代入 `=` もまた演算子であることに注意しましょう。 `3`というとても低い値として優先順位テーブルにリストされています。
 
-That's why when we assign a variable, like `x = 2 * 2 + 1`, then the calculations are done first, and afterwards the `=` is evaluated, storing the result in `x`.
+そういうわけで、`x = 2 * 2 + 1` のように変数を代入するとき、計算が最初に行われ、その後 `=` が評価され、 `x` に結果が格納されます。
 
 ```js
 let x = 2 * 2 + 1;
@@ -159,7 +160,7 @@ let x = 2 * 2 + 1;
 alert( x ); // 5
 ```
 
-It is possible to chain assignments:
+代入をチェインすることもできます:
 
 ```js run
 let a, b, c;
@@ -173,14 +174,15 @@ alert( b ); // 4
 alert( c ); // 4
 ```
 
-Chained assignments evaluate from right to left. First the rightmost expression `2 + 2` is evaluated then assigned to the variables on the left: `c`, `b` and `a`. At the end, all variables share a single value.
+チェインされた代入は右から左へ評価されます。最初に最も右の式 `2 + 2` が評価され、次に左の変数に代入されます。: `c`, `b` と `a`です。
+最後に、全ての変数は単一の値で共有されます。
 
 ````smart header="The assignment operator `\"=\"` returns a value"
-An operator always returns a value. That's obvious for most of them like an addition `+` or a multiplication `*`. But the assignment operator follows that rule too.
+演算子は常に値を返します。それは加算 `+` または 乗算 `*` のようにほとんどの場合明らかです。しかし代入演算子もそのルールに従います。
 
-The call `x = value` writes the `value` into `x` *and then returns it*.
+`x = value` の呼び出しは `value` を `x` に書き込み、 *それを返却します*。 d then returns it*.
 
-Here's the demo that uses an assignment as part of a more complex expression:
+これは、より複雑な式の一部として代入を使ったデモです:
 
 ```js run
 let a = 1;
@@ -194,18 +196,19 @@ alert( a ); // 3
 alert( c ); // 0
 ```
 
-In the example above, the result of `(a = b + 1)` is the value which is assigned to `a` (that is `3`). It is then used to subtract from `3`.
+上の例は、`(a = b + 1)` の結果は `a` に代入された値です(それは `3` です)。次にそれは `3` から減算するために使われます。
 
-Funny code, isn't it? We should understand how it works, because sometimes we can see it in 3rd-party libraries, but shouldn't write anything like that ourselves. Such tricks definitely don't make the code clearer and readable.
+面白いコードですよね？サードパーティーのライブラリで見かけることがあるので、私たちはそれがどのように動作するか理解するべきです。
+しかし、私たちのようなものを書くべきではありません。このようなトリックは明らかにコードを綺麗で読みやすくしません。
 ````
 
-## Remainder %
+## 剰余 %
 
-The remainder operator `%` despite its look does not have a relation to percents.
+剰余演算子 `%` はその見た目にもかかわらず、パーセントと関係はありません。
 
-The result of `a % b` is the remainder of the integer division of `a` by `b`.
+`a % b` の結果は、`b` による `a` の割り数割り算の余りです。
 
-For instance:
+例:
 
 ```js run
 alert( 5 % 2 ); // 1 is a remainder of 5 divided by 2
@@ -213,13 +216,13 @@ alert( 8 % 3 ); // 2 is a remainder of 8 divided by 3
 alert( 6 % 3 ); // 0 is a remainder of 6 divided by 3
 ```
 
-## Exponentiation **
+## べき乗 **
 
-The exponentiation operator `**` is a recent addition to the language.
+べき乗演算子 `**` は最近言語に追加されています。
 
-For a natural number `b`, the result of `a ** b` is `a` multiplied by itself `b` times.
+自然数 `b` において、`a ** b` の結果は、`b` の回数だけ自身により乗算された `a` です。  
 
-For instance:
+例:
 
 ```js run
 alert( 2 ** 2 ); // 4  (2 * 2)
@@ -227,29 +230,29 @@ alert( 2 ** 3 ); // 8  (2 * 2 * 2)
 alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2)
 ```
 
-The operator works for non-integer numbers of `a` and `b` as well, for instance:
+演算子は非整数値の `a` や　`b` でも同様に動作します。例えば:
 
 ```js run
 alert( 4 ** (1/2) ); // 2 (power of 1/2 is the same as a square root, that's maths)
 alert( 8 ** (1/3) ); // 2 (power of 1/3 is the same as a cubic root)
 ```
 
-## Increment/decrement
+## インクリメント/デクリメント
 
 <!-- Can't use -- in title, because built-in parse turns it into – -->
 
-Increasing or decreasing a number by one is among the most common numerical operations.
+数値を1ずつ増減増減することは、最も一般的な数値演算の1つです。
 
-So, there are special operators for that:
+そのため、そのための特別な演算子があります:
 
-- **Increment** `++` increases a variable by 1:
+- **インクリメント** `++` 変数を1増加させる:
 
     ```js run no-beautify
     let counter = 2;
     counter++;      // works same as counter = counter + 1, but shorter
     alert( counter ); // 3
     ```
-- **Decrement** `--` decreases a variable by 1:
+- **デクリメント** `--` 変数を1減少させる:
 
     ```js run no-beautify
     let counter = 2;
@@ -258,21 +261,21 @@ So, there are special operators for that:
     ```
 
 ```warn
-Increment/decrement can be applied only to a variable. An attempt to use it on a value like `5++` will give an error.
+インクリメント/デクリメントは変数に対してのみ適用可能です。 それを `5++` のように値に対して使おうとすると、エラーになります。
 ```
 
-Operators `++` and `--` can be placed both after and before the variable.
+演算子 `++` と `--` は変数の前後両方に配置することができます。
 
-- When the operator goes after the variable, it is called a "postfix form": `counter++`.
-- The "prefix form" is when the operator stands before the variable: `++counter`.
+- 演算子が変数の後にある場合、それは "後置式" と呼ばれます: `counter++`。
+- "前置式" は演算子が変数の前に来るときです: `++counter`。
 
-Both of these records do the same: increase `counter` by `1`.
+それらの記録はどちらも同じことをします: `counter` を `1` 増加します。
 
-Is there any difference? Yes, but we can only see it if we use the returned value of `++/--`.
+それらに違いはありますか？はい、しかし、私たちは`++/--`の戻り値を使う場合、その値しかみることができません。
 
-Let's clarify. As we know, all operators return a value. Increment/decrement is not an exception here. The prefix form returns the new value, while the postfix form returns the old value (prior to increment/decrement).
+明確にしましょう。ご存知の通り、全ての演算子は値を返します。ここではインクリメント/デクリメントも例外ではありません。前置式は新しい値を返す一方、後置式は古い値を返します(インクリメント/デクリメントの前)
 
-To see the difference, here's the example:
+違いを見るために、ここに例があります:
 
 ```js run
 let counter = 1;
@@ -281,9 +284,9 @@ let a = ++counter; // (*)
 alert(a); // *!*2*/!*
 ```
 
-Here in the line `(*)` the prefix call `++counter` increments `counter` and returns the new value that is `2`. So the `alert` shows `2`.
+ここで `(*)` の行で前置呼び出し `++counter` は `counter` を増加させ、`2` という新しい値を返します。そのため、 `alert` は `2` を表示します。
 
-Now let's use the postfix form:
+され、後置式を使いましょう:
 
 ```js run
 let counter = 1;
@@ -292,11 +295,11 @@ let a = counter++; // (*) changed ++counter to counter++
 alert(a); // *!*1*/!*
 ```
 
-In the line `(*)` the *postfix* form `counter++` also increments `counter`, but returns the *old* value (prior to increment). So the `alert` shows `1`.
+`(*)` の行で、 *後置* 式 `counter++` は `counter` を増加しますが、 *古い* 値を返します(増加する前)。そのため、 `alert` は `1` を表示します。
 
-To summarize:
+要約する:
 
-- If the result of increment/decrement is not used, then there is no difference in which form to use:
+- もしもインクリメント/デクリメントの結果が使われない場合、どちらの形式を使う場合でも違いはありません。:
 
     ```js run
     let counter = 0;
@@ -304,13 +307,13 @@ To summarize:
     ++counter;
     alert( counter ); // 2, the lines above did the same
     ```
-- If we'd like to increase the value *and* use the result of the operator right now, then we need the prefix form:
+- もしも値を増加に *加えて*、すぐに演算子の結果を使いたい場合は、前置式が必要になります:
 
     ```js run
     let counter = 0;
     alert( ++counter ); // 1
     ```
-- If we'd like to increment, but use the previous value, then we need the postfix form:
+- もしも増加するが、以前の値を使いたい場合は後置式が必要です:
 
     ```js run
     let counter = 0;
@@ -318,27 +321,27 @@ To summarize:
     ```
 
 ````smart header="Increment/decrement among other operators"
-Operators `++/--` can be used inside an expression as well. Their precedence is higher than most other arithmetical operations.
+演算子 `++/--` は同様に式の中でも使うことができます。それらの優先順位は他の算術演算子よりも高いです。
 
-For instance:
+例:
 
 ```js run
 let counter = 1;
 alert( 2 * ++counter ); // 4
 ```
 
-Compare with:
+比較:
 
 ```js run
 let counter = 1;
 alert( 2 * counter++ ); // 2, because counter++ returns the "old" value
 ```
 
-Though technically allowable, such notation usually makes the code less readable. One line does multiple things -- not good.
+技術的には許容されますが、このような記法は一般的に、コードの可読性を下げます。1行で複数のことを行う -- よいことではありません。
 
-While reading the code, a fast "vertical" eye-scan can easily miss such `counter++`, and it won't be obvious that the variable increases.
+コードを読んでいる間、速い "縦の" 目のスキャンはこのような `counter++` を見逃しやすく、また変数の増加が明白ではありません。
 
-The "one line -- one action" style is advised:
+"1行は1アクション" のスタイルが推奨されます:
 
 ```js run
 let counter = 1;
@@ -347,13 +350,13 @@ counter++;
 ```
 ````
 
-## Bitwise operators
+## ビット演算子
 
-Bitwise operators treat arguments as 32-bit integer numbers and work on the level of their binary representation.
+ビット演算子は引数を 32ビットの整数値として扱い、それらのバイナリ表現のレベルで処理します。
 
-These operators are not JavaScript-specific. They are supported in most programming languages.
+それらの演算子はJavaScript固有のものではありません。ほとんどのプログラミング言語でサポートされています。
 
-The list of operators:
+演算子のリスト:
 
 - AND ( `&` )
 - OR ( `|` )
@@ -363,13 +366,14 @@ The list of operators:
 - RIGHT SHIFT ( `>>` )
 - ZERO-FILL RIGHT SHIFT ( `>>>` )
 
-These operators are used very rarely. To understand them, we should delve into low-level number representation, and it would not be optimal to do that right now. Especially because we won't need them any time soon. If you're curious, you can read the [Bitwise Operators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators) article in MDN. It would be more practical to do that when a real need arises.
+これらの演算子はめったに使われません。それらを理解するためには、私たちは低レベルの数値表現について掘り下げるべきであり、それは現時点では最適ではないでしょう。特に、すぐには必要ないからです。もしもあなたが興味をもっている場合は、MDNの[ビット演算子 ](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators)の記事を読むことが出来ます。実際に必要になったときにそれをするのがより現実的でしょう。
 
-## Modify-in-place
 
-We often need to apply an operator to a variable and store the new result in it.
+## 場所の変更
 
-For example:
+私たちは、しばしば変数に演算子を適用し、その中に新しい値を格納する必要があります。
+
+例:
 
 ```js
 let n = 2;
@@ -377,7 +381,7 @@ n = n + 5;
 n = n * 2;
 ```
 
-This notation can be shortened using operators `+=` and `*=`:
+この表記法は演算子 `+=` と `*=` を使うことで短縮することができます:
 
 ```js run
 let n = 2;
@@ -387,9 +391,9 @@ n *= 2; // now n = 14 (same as n = n * 2)
 alert( n ); // 14
 ```
 
-Short "modify-and-assign" operators exist for all arithmetical and bitwise operators: `/=`, `-=` etc.
+短い "変更と代入" 演算子はすべての算術演算子とビット演算子で存在します。: `/=`, `-=` など。
 
-Such operators have the same precedence as a normal assignment, so they run after most other calculations:
+このような演算子は通常の代入として同じ優先順位を持っています。そのため、それらはほとんどの他の計算の後に実行します:
 
 ```js run
 let n = 2;
@@ -399,13 +403,13 @@ n *= 3 + 5;
 alert( n ); // 16  (right part evaluated first, same as n *= 8)
 ```
 
-## Comma
+## カンマ
 
-The comma operator `','` is one of most rare and unusual operators. Sometimes it's used to write shorter code, so we need to know it in order to understand what's going on.
+カンマ演算子 `','` は最もレアで普通ではない演算子の1つです。より短いコード書くために使われることがありますので、何が起こっているのか理解するために私たちはそれを知って置く必要があります。
 
-The comma operator allows us to evaluate several expressions, dividing them with a comma `','`. Each of them is evaluated, but the result of only the last one is returned.
+カンマ演算子は私たちがいくつかの式カンマ `','` で分割して評価することを可能にします。それぞれが評価されますが、最後の1つの結果のみが返却されます。
 
-For example:
+例:
 
 ```js run
 *!*
@@ -415,19 +419,19 @@ let a = (1 + 2, 3 + 4);
 alert( a ); // 7 (the result of 3 + 4)
 ```
 
-Here, the first expression `1 + 2` is evaluated, and its result is thrown away, then `3 + 4` is evaluated and returned as the result.
+ここで、最初の式 `1 + 2` は評価され、その結果はどこかへ捨てられます。次に `3 + 4` が評価され、結果として返却されます。
 
 ```smart header="Comma has a very low precedence"
-Please note that the comma operator has very low precedence, lower than `=`, so parentheses are important in the example above.
+カンマ演算子はとても優先順位が低いことに注意してください。 `=` よりも低いため、上の例では丸括弧が重要です。
 
-Without them: `a = 1 + 2, 3 + 4` evaluates `+` first, summing the numbers into `a = 3, 7`, then the assignment operator `=` assigns    `a = 3`, and then the number after the comma `7` is not processed anyhow, so it's ignored.
+それらがない場合: `a = 1 + 2, 3 + 4` は `+` を最初に評価し、数値を `a = 3, 7` に加算します。次に代入演算子 `=` が `a = 3` を割り当てます。そして、カンマのあとの `7` は処理されず、無視されます。
 ```
 
-Why do we need such an operator which throws away everything except the last part?
+なぜこのような最後の部分を除いてすべてを捨てる演算子が必要なのでしょうか？
 
-Sometimes people use it in more complex constructs to put several actions in one line.
+人々はより複雑な構造の中で、1行で幾つかのアクションを書くときに使う場合があります。
 
-For example:
+例:
 
 ```js
 // three operations in one line
@@ -436,4 +440,4 @@ for (*!*a = 1, b = 3, c = a * b*/!*; a < 10; a++) {
 }
 ```
 
-Such tricks are used in many JavaScript frameworks, that's why we mention them. But usually they don't improve the code readability, so we should think well before writing like that.
+このようなトリックは多くのJavaScriptフレームワークで利用されているため、それらについて言及しています。しかし通常それらはコードの可読性を改善しません。そのため、私たちはそのように書く前によく考えるべきです。
