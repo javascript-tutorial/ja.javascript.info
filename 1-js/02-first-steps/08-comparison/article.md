@@ -1,22 +1,22 @@
-# Comparisons
+# 比較
 
-Many comparison operators we know from maths:
+私たちが数学から分かっている多くの比較演算子があります。:
 
-- Greater/less than: <code>a &gt; b</code>, <code>a &lt; b</code>.
-- Greater/less than or equals: <code>a &gt;= b</code>, <code>a &lt;= b</code>.
-- Equality check is written as `a == b` (please note the double equation sign `'='`. A single symbol `a = b` would mean an assignment).
-- Not equals. In maths the notation is <code>&ne;</code>, in JavaScript it's written as an assignment with an exclamation sign before it: <code>a != b</code>.
+- より大きい/より小さい: <code>a &gt; b</code>, <code>a &lt; b</code>
+- 大きい/小さいまたは等しい: <code>a &gt;= b</code>, <code>a &lt;= b</code>.
+- 等位チェックは `a == b` として書かれます(2重の等式記号 `'='` に注意してください。1つのシンボル `a = b` は代入を意味します。)
+- 等しくない。数学において、この記法は <code>&ne;</code> です。JavaScriptにおいては、感嘆符がその前についた代入として書かれます: <code>a != b</code>.
 
 [cut]
 
-## Boolean is the result
+## 結果はBoolean
 
-Just as all other operators, a comparison returns a value. The value is of the boolean type.
+他のすべての演算子と同様、比較も値を返却します。値はBoolean型です。
 
-- `true` -- means "yes", "correct" or "the truth".
-- `false` -- means "no", "wrong" or "a lie".
+- `true` -- "yes", "correct" or "the truth" を意味します.
+- `false` --　"no", "wrong" or "a lie" を意味します.
 
-For example:
+例:
 
 ```js run
 alert( 2 > 1 );  // true (correct)
@@ -24,20 +24,20 @@ alert( 2 == 1 ); // false (wrong)
 alert( 2 != 1 ); // true (correct)
 ```
 
-A comparison result can be assigned to a variable, just like any value:
+任意の値のように、比較結果は変数に代入することができます:
 
 ```js run
 let result = 5 > 4; // assign the result of the comparison
 alert( result ); // true
 ```
 
-## String comparison
+## 文字列比較
 
-To see which string is greater than the other, the so-called "dictionary" or "lexicographical" order is used.
+どちらの文字列が頼りも大きいかを見る場合、いわゆる "辞書" もしくは "数学における辞書式順序" の順序が使われます。
 
-In other words, strings are compared letter-by-letter.
+言い換えると、文字列は文字単位で比較されます。
 
-For example:
+例:
 
 ```js run
 alert( 'Z' > 'A' ); // true
@@ -45,40 +45,40 @@ alert( 'Glow' > 'Glee' ); // true
 alert( 'Bee' > 'Be' ); // true
 ```
 
-The algorithm to compare two strings is simple:
+2つの文字列を比較するアルゴリズムはシンプルです:
 
-1. Compare first characters of both strings.
-2. If the first one is greater(or less), then the first string is greater(or less) than the second. We're done.
-3. Otherwise if first characters are equal, compare the second characters the same way.
-4. Repeat until the end of any string.
-5. If both strings ended simultaneously, then they are equal. Otherwise the longer string is greater.
+1. 両方の文字列の最初の文字を比較します。
+2. もしも1つ目のほうが大きい(もしくは小さい)場合、1つ目の文字列は2つ目の文字列よりも大きい(もしくは小さい)です。それで完了です。
+3. そうではなく、もしも最初の文字が等しい場合は、同じ方法で2つ目の文字を比較します。
+4. 文字列の最後までそれを繰り返します。
+5. もしも両方の文字列が同時に終わった場合、それらは等しいです。そうでなければ長い文字列がより大きいです。
 
-In the example above, the comparison `'Z' > 'A'` gets the result at the first step.
+上の例において、比較 `'Z' > 'A'` は最初のステップで結果を得ます。
 
-Strings `"Glow"` and `"Glee"` are compared character-by-character:
+文字列 `"Glow"` と `"Glee"` は文字単位の比較がされます。
 
-1. `G` is the same as `G`.
-2. `l` is the same as `l`.
-3. `o` is greater than `e`. Stop here. The first string is greater.
+1. `G` は `G` と同じ.
+2. `l` は `l` と同じ.
+3. `o` は `e` より大きい. ここでストップ. 1つ目の文字列のほうが大きいです.
 
 ```smart header="Not a real dictionary, but Unicode order"
-The comparison algorithm given above is roughly equivalent to the one used in book dictionaries or phone books. But it's not exactly the same.
+上で与えられている比較アルゴリズムは、本の辞書や電話帳で使われているのとおおよそ同じです。しかし全く同じではありません。
 
-For instance, case matters. A capital letter `"A"` is not equal to the lowercase `"a"`. Which one is greater? Actually, the lowercase `"a"` is. Why? Because the lowercase character has a greater index in the internal encoding table (Unicode). We'll get back to specific details and consequences in the chapter <info:string>.
+例えば、大文字小文字の問題。大文字 `"A"` は小文字の `"a"` とは同じではありません。どちらがより大きいでしょう？実際は、小文字 `"a"` です。なぜでしょう？なぜなら、小文字は内部のエンコーディングテーブル(Unicode)でより大きな索引を持っているからです。チャプター <info:string> で具体的な詳細と結果を取り上げます。
 ```
 
-## Comparison of different types
+## 異なる型の比較
 
-When compared values belong to different types, they are converted to numbers.
+異なった型に所属している値を比較するとき、それらは数値に変換されます。
 
-For example:
+例:
 
 ```js run
 alert( '2' > 1 ); // true, string '2' becomes a number 2
 alert( '01' == 1 ); // true, string '01' becomes a number 1
 ```
 
-For boolean values, `true` becomes `1` and `false` becomes `0`, that's why:
+真偽値の場合、`true` は `1` になり、 `false` は `0` になります。そういうわけで:
 
 ```js run
 alert( true == 1 ); // true
@@ -86,12 +86,12 @@ alert( false == 0 ); // true
 ```
 
 ````smart header="A funny consequence"
-It is possible that at the same time:
+それは同時に可能性があります。:
 
-- Two values are equal.
-- One of them is `true` as a boolean and the other one is `false` as a boolean.
+- 2つの値が等しい
+- それらの一方は真偽値の `true` で、もう一方は真偽値の `false`
 
-For example:
+例:
 
 ```js run
 let a = 0;
@@ -103,70 +103,71 @@ alert( Boolean(b) ); // true
 alert(a == b); // true!
 ```
 
-From JavaScript's standpoint that's quite normal. An equality check converts using the numeric conversion (hence `"0"` becomes `0`), while `Boolean` conversion uses another set of rules.
+JavaScriptの立場からすると、それは普通です。等価チェックは数値変換を使って変換をします(したがって、`"0"` は `0` になります)。
+一方、 `真偽値` 変換は別のルールセットを利用します。
 ````
 
-## Strict equality
+## 厳密な等価
 
-A regular equality check `"=="` has a problem. It cannot differ `0` from `false`:
+正規の等価チェック `"=="` は問題を持っています。`0` と `false` を異ならせることは出来ません。:
 
 ```js run
 alert( 0 == false ); // true
 ```
 
-The same thing with an empty string:
+空文字列でも同じです:
 
 ```js run
 alert( '' == false ); // true
 ```
 
-That's because operands of different types are converted to a number by the equality operator `==`. An empty string, just like `false`, becomes a zero.
+それは、異なる型のオペランドは等価演算子 `==` によって数値に変換されるためです。空文字は、ちょうど `false` のようにゼロになります。
 
-What to do if we'd like to differentiate `0` from `false`?
+もしも `0` と `false` を分けたい場合、何をすべきでしょうか？
 
-**A strict equality operator `===` checks the equality without type conversion.**
+**厳密等価演算子 `===` は型変換なしで等価をチェックします。**
 
-In other words, if `a` and `b` are of different types, then `a === b` immediately returns `false` without an attempt to convert them.
+言い換えると、もしも `a` と `b` が異なる型の場合、`a === b` はそれらの変換の試みをすることなく、すぐに `false` を返します。
 
-Let's try it:
+試してみましょう:
 
 ```js run
 alert( 0 === false ); // false, because the types are different
 ```
 
-There also exists a "strict non-equality" operator `!==`, as an analogy for `!=`.
+`!=` の類似類似として、"厳密な非等価" 演算子 `!==` もまた存在します。
 
-The strict equality check operator is a bit longer to write, but makes it obvious what's going on and leaves less space for errors.
+厳密等価チェック演算子は書くのが少し長いですが、起こっていることを明らかにし、エラーの余地を少なくします。
 
-## Comparison with null and undefined
+## null と undefined の比較
 
-Let's see more edge cases.
+より多くのエッジケースを見てみましょう。
 
-There's a non-intuitive behavior when `null` or `undefined` are compared with other values.
+`null` もしくは `undefined` が他の値と比較される場合、非直感的に振る舞いになります。
 
-
-For a strict equality check `===`
-: These values are different, because each of them belong to a separate type of it's own.
+厳密な等価チェック `===` の場合
+:それぞれ、それ自身の別々の型に所属しているため、それらの値は異なります。
 
     ```js run
     alert( null === undefined ); // false
     ```
 
+非厳密なチェック `==` の場合
+:特別なルールがあります。それら2つは "甘いカップル" です: それらはお互いに等しくなります(`==` の意味で)が、他の価値はありません。
 For a non-strict check `==`
-: There's a special rule. These two are a "sweet couple": they equal each other (in the sense of `==`), but not any other value.
 
     ```js run
     alert( null == undefined ); // true
     ```
 
-For maths and other comparisons `< > <= >=`
-: Values `null/undefined` are converted to a number: `null` becomes `0`, while `undefined` becomes `NaN`.
+数学や他の比較 `< > <= >=`
+: 値 `null/undefined` は数値に変換されます: `null` は `0` になり、`undefined` は `NaN` になります。
 
-Now let's see funny things that happen when we apply those rules. And, what's more important, how to not fall into a trap with these features.
+今、私たちがそれらのルールを適用した時に起こる面白いことを見てみましょう。そして、より重要なことはこれらの機能でトラップに陥らない方法です。
 
-### Strange result: null vs 0
+### 奇妙な結果: null vs 0
 
-Let's compare `null` with a zero:
+`null` とゼロを比較してみましょう:
 
 ```js run
 alert( null > 0 );  // (1) false
@@ -174,15 +175,15 @@ alert( null == 0 ); // (2) false
 alert( null >= 0 ); // (3) *!*true*/!*
 ```
 
-Yeah, mathematically that's strange. The last result states that "`null` is greater than or equal to zero". Then one of the comparisons above must be correct, but they are both false.
+はい、数学的にはそれらは奇妙です。最後の結果は "`null` はゼロより大きいまたは等しい" ことを述べています。そして上の比較の1つは正しいはずですが、それらは両方とも false です。
 
-The reason is that an equality check `==` and comparisons `> < >= <=` work differently. Comparisons convert `null` to a number, hence treat it as `0`. That's why (3) `null >= 0` is true and (1) `null > 0` is false.
+その理由は等価チェック `==` と比較 `> < >= <=` は異なった処理するためです。比較 `null` を数値に変換します、したがって `0` として扱います。そういう訳で (3) `null >= 0` は true で、 (1) は false になります。
 
-On the other hand, the equality check `==` for `undefined` and `null` works by the rule, without any conversions. They equal each other and don't equal anything else. That's why (2) `null == 0` is false.
+一方、`undefined` と `null` の等価チェック `==` はいずれの変換もなしにルールによって処理します。それらはお互い等価で他のいずれとも等価ではありません。そういうわけで (2) `null == 0` は false です。
 
 ### An incomparable undefined
 
-The value `undefined` shouldn't participate in comparisons at all:
+値 `undefined` は比較において全く参加するべきではありません。:
 
 ```js run
 alert( undefined > 0 ); // false (1)
@@ -190,25 +191,27 @@ alert( undefined < 0 ); // false (2)
 alert( undefined == 0 ); // false (3)
 ```
 
-Why does it dislike a zero so much? Always false!
+なぜそこまでゼロが嫌いなのでしょう？常に false です!
 
-We've got these results because:
+我々はそれらの結果を得ました。その理由は:
 
-- Comparisons `(1)` and `(2)` return `false` because `undefined` gets converted to `NaN`. And `NaN` is a special numeric value which returns `false` for all comparisons.
-- The equality check `(3)` returns `false`, because `undefined` only equals `null` and no other value.
+- 比較 `(1)` と `(2)` は、 `undefined` は `NaN` に変換されるため `false` を返します。また、`NaN` はすべての比較で `false` を返す特別な数値です。
+- `undefined` は `null` とのみ等価でそれ以外とはそうではないため、等価チェック `(3)` は `false` を返します。
 
-### Evade problems
+### 問題を回避する
 
-Why did we observe these examples? Should we remember these peculiarities all the time? Well, not really. Actually, these tricky things will gradually become familiar over time, but there's a solid way to evade any problems with them.
+なぜ私たちはそれらのサンプルを観察したのでしょう？我々はいつもこれらの特殊性を覚えておく必要がありますか？まぁ、実際にはありません。
+実際には、それらのトリッキーなことは、時間とともに馴染みの深いものになっていくでしょう。しかし問題を回避するための確実な方法があります。
 
-Just treat any comparison with `undefined/null` except the strict equality `===` with exceptional care.
+格別なケアを払って厳密な等価 `===` を除いて `undefined/null` との比較を行うだけです。
 
-Don't use comparisons `>= > < <=` with a variable which may be `null/undefined`, unless you are really sure what you're doing. If a variable can have such values, then check for them separately.
+あなたがしていることが本当に正しい場合でない限り、`null/undefined` かもしれない変数に対して比較 `>= > < <=` は使ってはいけません。
+もしも変数がこのような値を持つ事ができる場合、それらを別々にチェックしてください。
 
-## Summary
+## サマリ
 
-- Comparison operators return a logical value.
-- Strings are compared letter-by-letter in the "dictionary" order.
-- When values of different types are compared, they get converted to numbers (with the exclusion of a strict equality check).
-- Values `null` and `undefined` equal `==` each other and do not equal any other value.
-- Be careful when using comparisons like `>` or `<` with variables that can occasionally be `null/undefined`. Making a separate check for `null/undefined` is a good idea.
+- 比較演算子は論理値を返します。
+- 文字列は "辞書” 順で、1文字ずつ比較されます。
+- 異なった型の値が比較される場合、それらは数値に変換されます(厳密な等価チェックを除く)
+- 値 `null` と `undefined` はそれぞれ等価 `==` であり、それ以外の値とは等価ではありません。
+- `>` または `<` のような比較を、時には `null/undefined` になるような変数に対して使う場合は注意してください。`null/undefined` を別々にチェックすることは良いアイデアです。
