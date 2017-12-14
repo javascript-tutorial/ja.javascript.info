@@ -1,26 +1,26 @@
-# Logical operators
+# 論理演算子
 
-There are three logical operators in JavaScript: `||` (OR), `&&` (AND), `!` (NOT).
+JavaScriptには3つの論理演算子があります:  `||` (OR:論理和), `&&` (AND:論理積), `!` (NOT:否定)
 
-Although they are called "logical", they can be applied to values of any type, not only boolean. The result can also be of any type.
+それらは "論理" と呼ばれますが、ブール型だけでなく、どの型の値にも適用することができます。結果もまた任意の型になります。
 
-Let's see the details.
+詳細を見てみましょう:
 
 [cut]
 
 ## || (OR)
 
-The "OR" operator is represented with two vertical line symbols:
+"OR" 演算子は2つの縦のシンボルで表現されます:
 
 ```js
 result = a || b;
 ```
 
-In classical programming, logical OR is meant to manipulate boolean values only. If any of its arguments are `true`, then it returns `true`, otherwise it returns `false`.
+古典的なプログラミングでは、論理和はブール値のみを操作することを意味していました。もしもその引数のいずれかが `true` の場合、それは `true` を返します。そうでなければ `false` を返します。
 
-In JavaScript the operator is a little bit more tricky and powerful. But first let's see what happens with boolean values.
+JavaScriptでは、演算子は少し難解で強力です。しかし最初にブール値で起こることを見てみましょう。
 
-There are four possible logical combinations:
+4つの可能な論理の組み合わせがあります:
 
 ```js run
 alert( true || true );   // true
@@ -29,11 +29,11 @@ alert( true || false );  // true
 alert( false || false ); // false
 ```
 
-As we can see, the result is always `true` except for the case when both operands are `false`.
+私たちが見れるように、両方のオペランドが `false` の場合を除き、結果はいつも `true` です。
 
-If an operand is not boolean, then it's converted to boolean for the evaluation.
+もしもオペランドがブーリアン出ない場合、評価のためにブーリアンに変換されます。
 
-For instance, a number `1` is treated as `true`, a number `0` -- as `false`:
+例えば、数値 `1`  は `true` として扱われ、数値 `0` は -- `false` となります:
 
 ```js run
 if (1 || 0) { // works just like if( true || false )
@@ -41,9 +41,9 @@ if (1 || 0) { // works just like if( true || false )
 }
 ```
 
-Most of the time, OR `||` is used in an `if` statement to test if *any* of the given conditions is correct.
+ほとんどの場合で、OR `||` は `if` ステートメントの中で、与えられた条件のいずれかが正しいかを確認するために使われます。
 
-For example:
+例:
 
 ```js run
 let hour = 9;
@@ -55,7 +55,7 @@ if (hour < 10 || hour > 18) {
 }
 ```
 
-We can pass more conditions:
+より多くの条件を通すこともできます:
 
 ```js run
 let hour = 12;
@@ -66,29 +66,29 @@ if (hour < 10 || hour > 18 || isWeekend) {
 }
 ```
 
-## OR seeks the first truthy value
+## OR は最初の真値を探します
 
-The logic described above is somewhat classical. Now let's bring in the "extra" features of JavaScript.
+上で描かれたロジックはいくらか古典的です。今、JavaScriptの特別な機能を持ってきましょう。
 
-The extended algorithm works as follows.
+拡張されたアルゴリズムは次の通りに動作します。
 
-Given multiple OR'ed values:
+与えられた複数の OR の値:
 
 ```js
 result = value1 || value2 || value3;
 ```
 
-The OR `"||"` operator does the following:
+OR `"||"` 演算子は次のように動きます:
 
-- Evaluate operands from left to right.
-- For each operand, convert it to boolean. If the result is `true`, then stop and return the original value of that operand.
-- If all other operands have been assessed (i.e. all were `falsy`), return the last operand.
+- 左から右にオペランドを評価します。
+- それぞれのオペランドで、それをブーリアンに変換します。もしも結果が `true` であれば、ストップしオペランドの本来の値を返します。
+- もしもすべての他のオペランドが評価された場合(i.e. すべて `偽` のとき), 最後のオペランドを返します。
 
-A value is returned in its original form, without the conversion.
+値は、変換されていない、本来の形式で返却されます。
 
-In other words, a chain of OR `"||"` returns the first truthy value or the last one if no such value is found.
+言い換えると、OR `"||"` のチェインは最初に真となる値を返し、そのような値がない場合には最後のオペランドが返却されます。
 
-For instance:
+例:
 
 ```js run
 alert( 1 || 0 ); // 1 (1 is truthy)
@@ -99,13 +99,13 @@ alert( null || 0 || 1 ); // 1 (the first truthy value)
 alert( undefined || null || 0 ); // 0 (all falsy, returns the last value)
 ```
 
-That leads to some interesting usages compared to a "pure, classical, boolean-only OR".
+それは "純粋で古典的な真偽値のみのOR" と比較して、いくつかの興味深い使用方法使用方法につながります。
 
-1. **Getting the first truthy value from the list of variables or expressions.**
+1. **変数または式のリストから最初の真値を取得する**
 
-    Imagine we have several variables, which can either contain the data or be `null/undefined`. And we need to choose the first one with data.
+    いくつかの変数を持っていると想像してください、それはデータを含むか `null/undefined` になります。そして、私たちは最初のデータを選ぶ必要があります。
 
-    We can use OR `||` for that:
+    私たちは、そのために OR `||` を使うことができます:
 
     ```js run
     let currentUser = null;
@@ -118,14 +118,15 @@ That leads to some interesting usages compared to a "pure, classical, boolean-on
     alert( name ); // selects "John" – the first truthy value
     ```
 
-    If both `currentUser` and `defaultUser` were falsy then `"unnamed"` would be the result.
-2. **Short-circuit evaluation.**
+    もしも `currentUser` と `defaultUser` が共に偽の場合、`"unnamed"` が結果になります。
+2. **短絡評価**
 
-    Operands can be not only values, but arbitrary expressions. OR evaluates and tests them from left to right. The evaluation stops when a truthy value is reached, and the value is returned. The process is called "a short-circuit evaluation", because it goes as short as possible from left to right.
+    オペランドは値だけでなく、任意の式になることができます。OR は左から右にそれらを評価しテストします。
+    真値に到達したとき、評価はストップします。そしてその値が返却されます。この処理は、左から右にできるだけ短くなるので、"短絡評価" と呼ばれます。
 
-    This is clearly seen when the expression given as the second argument has a side effect. Like a variable assignment.
+    これは第2引数が与えられた式が副作用を持つ場合にはっきりとわかります。変数の割り当てと同じです:
 
-    If we run the example below, `x` would not get assigned:
+    もしも私たちは下の例を実行すると、 `x` は割り当てられません。:
 
     ```js run no-beautify
     let x;
@@ -135,7 +136,7 @@ That leads to some interesting usages compared to a "pure, classical, boolean-on
     alert(x); // undefined, because (x = 1) not evaluated
     ```
 
-    ...And if the first argument is `false`, then `OR` goes on and evaluates the second one thus running the assignment:
+    ...また、もしも1つ目の引数が `false` の場合、 `OR` は次へ行き2つ目の評価をし、代入を実行します:
 
     ```js run no-beautify
     let x;
@@ -145,21 +146,21 @@ That leads to some interesting usages compared to a "pure, classical, boolean-on
     alert(x); // 1
     ```
 
-    An assignment is a simple case, other side effects can be involved.
+    代入は単純なケースです、他の副作用が関与する可能性があります。
 
-    As we can see, such a use case is a "shorter way to do `if`". The first operand is converted to boolean and if it's false then the second one is evaluated.
+    ご覧のように、このようなユースケースは "`if` をするより短い方法" です。最初のオペランドは真偽値に変換され、もしもそれが偽の場合は2つ目が評価されます。
 
-    Most of time it's better to use a "regular" `if` to keep the code easy to understand, but sometimes that can be handy.
+    ほとんどの場合、コードを理解しやすくするために "正規の" `if` を使う方がよいです。しかしときには便利なこともあります。
 
 ## && (AND)
 
-The AND operator is represented with two ampersands `&&`:
+AND 演算子は2つのアンパサンド `&&` で表されます:
 
 ```js
 result = a && b;
 ```
 
-In classical programming AND returns `true` if both operands are truthy and `false` otherwise:
+古典的なプログラミングでは、AND は両方のオペランドが真のときに `true` を返します。それ以外の場合は `false` です:
 
 ```js run
 alert( true && true );   // true
@@ -168,7 +169,7 @@ alert( true && false );  // false
 alert( false && false ); // false
 ```
 
-An example with `if`:
+`if` の例:
 
 ```js run
 let hour = 12;
@@ -179,7 +180,7 @@ if (hour == 12 && minute == 30) {
 }
 ```
 
-Just as for OR, any value is allowed as an operand of AND:
+OR のように、AND のオペランドとして任意の値が許可されています:
 
 ```js run
 if (1 && 0) { // evaluated as true && false
@@ -188,25 +189,25 @@ if (1 && 0) { // evaluated as true && false
 ```
 
 
-## AND seeks the first falsy value
+## AND は最初の偽値を探します
 
-Given multiple AND'ed values:
+複数のANDされた値が与えられました:
 
 ```js
 result = value1 && value2 && value3;
 ```
 
-The AND `"&&"` operator does the following:
+AND `"&&"` 演算子は次のようにします:
 
-- Evaluate operands from left to right.
-- For each operand, convert it to a boolean. If the result is `false`, stop and return the original value of that operand.
-- If all other operands have been assessed (i.e. all were truthy), return the last operand.
+- 左から右にオペランドを評価します。
+- それぞれのオペランドで、それをブーリアンに変換します。もしも結果が `false` の場合、ストップし、そのオペランドの本来の値を返します。
+- もしもすべての他のオペランドが評価された場合(i.e. すべて `真` のとき), 最後のオペランドを返します。
 
-In other words, AND returns the first falsy value or the last value if none were found.
+言い換えると、ANDは最初の偽値、またはない場合は最後の値を返します。
 
-The rules above are similar to OR. The difference is that AND returns the first *falsy* value while OR returns the first *truthy* one.
+上のルールはORと似ています。違いはANDは最初の *偽値* でORは最初の *真値* です。
 
-Examples:
+例:
 
 ```js run
 // if the first operand is truthy,
@@ -220,31 +221,32 @@ alert( null && 5 ); // null
 alert( 0 && "no matter what" ); // 0
 ```
 
-We can also pass several values in a row. See how the first falsy one is returned:
+私たちは、続けていくつかの値を渡すこともできます。
+どのように最初の偽値が返却されるか見てください。:
 
 ```js run
 alert( 1 && 2 && null && 3 ); // null
 ```
 
-When all values are truthy, the last value is returned:
+すべての値が真のとき、最後の値が返却されます。:
 
 ```js run
 alert( 1 && 2 && 3 ); // 3, the last one
 ```
 
 ````smart header="AND `&&` executes before OR `||`"
-The precedence of the AND `&&` operator is higher than OR `||`, so it executes before OR.
+AND `&&` 演算子の優先順位は OR `||` よりも高いです。そのため、ORの前の実行されます。
 
-In the code below `1 && 0` is calculated first:
+下のコードでは、`1 && 0` が最初に計算されます:
 
 ```js run
 alert( 5 || 1 && 0 ); // 5
 ```
 ````
 
-Just like OR, the AND `&&` operator can sometimes replace `if`.
+ORのように、AND `&&` 演算子は `if` に置き換えることができるときもあります。
 
-For instance:
+例:
 
 ```js run
 let x = 1;
@@ -252,9 +254,9 @@ let x = 1;
 (x > 0) && alert( 'Greater than zero!' );
 ```
 
-The action in the right part of `&&` would execute only if the evaluation reaches it. That is: only if `(x > 0)` is true.
+`&&` の右側のアクションは、その評価に到達した場合にのみ実行されます。つまり: `(x > 0)` が true の場合のみ。
 
-So we basically have an analogue for:
+そのため、私たちは基本的にそのための類似を持っています:
 
 ```js run
 let x = 1;
@@ -264,42 +266,43 @@ if (x > 0) {
 }
 ```
 
-The variant with `&&` appears to be shorter. But `if` is more obvious and tends to be a little bit more readable.
+`&&` を含むバリアントは、より短いように見えます。しかし `if` はより明白で、少し読みやすい傾向にあります。
 
-So it is recommended to use every construct for its purpose. Use `if` if we want if. And use `&&` if we want AND.
+なので、その目的のためにすべての構成要素を使うことを推奨します。もし if が必要なら `if` を使います。AND が必要なら `&&` を使います。
 
 ## ! (NOT)
 
-The boolean NOT operator is represented with an exclamation sign `"!"`.
+真偽値否定演算子は感嘆符 `"!"` で表現されます。
 
-The syntax is pretty simple:
+構文はとてもシンプルです:
 
 ```js
 result = !value;
 ```
 
-The operator accepts a single argument and does the following:
+演算子は1つの引数を受けいれ、次のようにします:
 
-1. Converts the operand to boolean type: `true/false`.
-2. Returns an inverse value.
+1. オペランドを真偽値型に変換します: `true/false`。
+2. 逆の値を返します。
 
-For instance:
+例:
 
 ```js run
 alert( !true ); // false
 alert( !0 ); // true
 ```
 
-A double NOT `!!` is sometimes used for converting a value to boolean type:
+2つの否定 `!!` は時々値を真偽値型に変換するために使われます:
 
 ```js run
 alert( !!"non-empty string" ); // true
 alert( !!null ); // false
 ```
 
-That is, the first NOT converts the value to boolean and returns the inverse, and the second NOT inverses it again. At the end we have a plain value-to-boolean conversion.
+つまり、最初の NOT は値を真偽値に変換し、その逆を返します。そして、2つ目の NOT は再びその逆をします。
+最後に、私たちは明示的な値からブール値への変換があります。
 
-There's a little more verbose way to do the same thing -- a built-in `Boolean` function:
+同じことをするもう少し冗長な方法があります -- 組み込みの `Boolean` 関数です。:
 
 ```js run
 alert( Boolean("non-empty string") ); // true
