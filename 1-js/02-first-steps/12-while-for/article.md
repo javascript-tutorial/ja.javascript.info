@@ -1,16 +1,16 @@
-# Loops: while and for
+# ループ: while と for
 
-We often have a need to perform similar actions many times in a row.
+私たちはしばしば連続して何度も似たような処理を実行する必要があります。
 
-For example, when we need to output goods from a list one after another. Or just run the same code for each number from 1 to 10.
+例えば、1つずつリストから商品を出力する必要がある場合、もしくは、単に1から10の数値それぞれに同じコードを実行する場合。
 
-*Loops* are a way to repeat the same part of code multiple times.
+*ループ* は複数回コードの同じ部分を繰り返す方法です。
 
 [cut]
 
-## The "while" loop
+## "while" ループ
 
-The `while` loop has the following syntax:
+`while` ループは次の構文を持っています:
 
 ```js
 while (condition) {
@@ -19,9 +19,9 @@ while (condition) {
 }
 ```
 
-While the `condition` is `true`, the `code` from the loop body is executed.
+`condition` が `true` の間、ループの本体の `code` が実行されます。
 
-For instance, the loop below outputs `i` while `i < 3`:
+例えば、下のループは、 `i < 3` の間、 `i` を出力します:
 
 ```js run
 let i = 0;
@@ -31,13 +31,13 @@ while (i < 3) { // shows 0, then 1, then 2
 }
 ```
 
-A single execution of the loop body is called *an iteration*. The loop in the example above makes three iterations.
+ループ本体の1つの実行は *イテレーション* と呼ばれます。上の例のループは3つのイテレーションをします。
 
-If there were no `i++` in the example above, the loop would repeat (in theory) forever. In practice, the browser provides ways to stop such loops, and for server-side JavaScript we can kill the process.
+もしも、上の例に `i++` がない場合、ループは (理論上は) 永遠に繰り返されます。実際には、ブラウザこのようなループを止める方法を提供しており、サーバサイドJavaScriptではそのプロセスを殺すことができます。
 
-Any expression or a variable can be a loop condition, not just a comparison. They are evaluated and converted to boolean by `while`.
+任意の式または変数は、単に比較ではなくループ条件になります。それらは評価され `while` によって真偽値に変換されます。
 
-For instance, the shorter way to write `while (i != 0)` could be `while (i)`:
+たとえば、`while (i != 0)` をより短く書く方法として`while (i)`があります:
 
 ```js run
 let i = 3;
@@ -50,7 +50,7 @@ while (i) { // when i becomes 0, the condition becomes falsy, and the loop stops
 ```
 
 ````smart header="Brackets are not required for a single-line body"
-If the loop body has a single statement, we can omit the brackets `{…}`:
+もしもループの本体が1つのステートメントを持っている場合、括弧`{…}`を省略することができます:
 
 ```js run
 let i = 3;
@@ -60,9 +60,9 @@ while (i) alert(i--);
 ```
 ````
 
-## The "do..while" loop
+## "do..while" ループ
 
-The condition check can be moved *below* the loop body using the `do..while` syntax:
+条件チェックは `do..while` 構文を使うことでループ本体の *下に* 移動することができます。:
 
 ```js
 do {
@@ -70,9 +70,9 @@ do {
 } while (condition);
 ```
 
-The loop will first execute the body, then check the condition and, while it's truthy, execute it again and again.
+ループは最初本体を実行します、次に条件をチェックし、真となる間実行を繰り返します。
 
-For example:
+例:
 
 ```js run
 let i = 0;
@@ -82,13 +82,13 @@ do {
 } while (i < 3);
 ```
 
-This form of syntax is rarely used except when you want the body of the loop to execute **at least once** regardless of the condition being truthy. Usually, the other form is preferred: `while(…) {…}`.
+この構文の形式は、あなたが 条件が真になるかどうかに関わらず、**少なくとも1度** 実行するループ本体が欲しい場合を除き、ほとんど使われません。通常、他の形式が好まれます: `while(…) {…}`
 
-## The "for" loop
+## "for" ループ
 
-The `for` loop is the most often used one.
+`for` ループは最も使われるものの1つです。
 
-It looks like this:
+このようになります:
 
 ```js
 for (begin; condition; step) {
@@ -96,7 +96,7 @@ for (begin; condition; step) {
 }
 ```
 
-Let's learn the meaning of these parts by example. The loop below runs `alert(i)` for `i` from `0` up to (but not including) `3`:
+例でこれらのパーツの意味を学びましょう。下のループは `0` から `3` まで(`3` は含みません)、`i` に対して `alert(i)` を実行します。:
 
 ```js run
 for (let i = 0; i < 3; i++) { // shows 0, then 1, then 2
@@ -104,17 +104,16 @@ for (let i = 0; i < 3; i++) { // shows 0, then 1, then 2
 }
 ```
 
-Let's examine the `for` statement part by part:
+`for` ステートメントを部分的に調べてみましょう:
 
-| part  |          |                                                                            |
+| パート  |          |                                                                            |
 |-------|----------|----------------------------------------------------------------------------|
-| begin | `i = 0`    | Executes once upon entering the loop.                                      |
-| condition | `i < 3`| Checked before every loop iteration, if fails the loop stops.              |
-| step| `i++`      | Executes after the body on each iteration, but before the condition check. |
-| body | `alert(i)`| Runs again and again while the condition is truthy                         |
+| begin | `i = 0`    | ループに入ると1度実行されます。     |
+| condition | `i < 3`| すべてのループのイテレーションの前にチェックされます、もしも false の場合ループを停止します。       |
+| step| `i++`      | 各イテレーションで、条件チェックの前に本体の後に実行されます。 |
+| body | `alert(i)`| 条件が真の間繰り返し実行されます。         |
 
-
-The general loop algorithm works like this:
+一般的なループアルゴリズムは次のように動作します:
 ```
 Run begin
 → (if condition → run body and run step)
@@ -123,9 +122,9 @@ Run begin
 → ...
 ```
 
-If you are new to loops, then maybe it would help if you go back to the example and reproduce how it runs step-by-step on a piece of paper.
+もしもあなたが初めてループを使う場合、この例に戻って、紙の上でステップ毎にどのように動作するかを再現することが恐らく役立つでしょう。
 
-Here's what exactly happens in our case:
+これが私たちのケースで正確に起こっていることです:
 
 ```js
 // for (let i = 0; i < 3; i++) alert(i)
@@ -142,7 +141,8 @@ if (i < 3) { alert(i); i++ }
 ```
 
 ````smart header="Inline variable declaration"
-Here the "counter" variable `i` is declared right in the loop. That's called an "inline" variable declaration. Such variables are visible only inside the loop.
+ここで "カウンタ" 変数 `i` はループの中で正しく宣言されます。それは "インライン" 変数宣言と呼ばれます。
+このような変数はループの中でだけ見えます。
 
 ```js run
 for (*!*let*/!* i = 0; i < 3; i++) {
@@ -151,7 +151,7 @@ for (*!*let*/!* i = 0; i < 3; i++) {
 alert(i); // error, no such variable
 ```
 
-Instead of defining a variable, we can use an existing one:
+変数を宣言する代わりに、存在するもの使うことも出来ます:
 
 ```js run
 let i = 0;
@@ -166,13 +166,12 @@ alert(i); // 3, visible, because declared outside of the loop
 ````
 
 
-### Skipping parts
+### 部分のスキップ
 
-Any part of `for` can be skipped.
+`for` の任意のパーツをスキップすることができます。
+例えば、ループの最初で何もする必要がなければ、`begin` を省略することができます。
 
-For example, we can omit `begin` if we don't need to do anything at the loop start.
-
-Like here:
+このように:
 
 ```js run
 let i = 0; // we have i already declared and assigned
@@ -182,7 +181,7 @@ for (; i < 3; i++) { // no need for "begin"
 }
 ```
 
-We can also remove the `step` part:
+同じように `step` パートも除去することができます。:
 
 ```js run
 let i = 0;
@@ -192,9 +191,9 @@ for (; i < 3;) {
 }
 ```
 
-The loop became identical to `while (i < 3)`.
+ループは `while (i < 3)` と同じになりました。
 
-We can actually remove everything, thus creating an infinite loop:
+実際にはすべてを除くこともできます、それは無限ループになります:
 
 ```js
 for (;;) {
@@ -202,15 +201,15 @@ for (;;) {
 }
 ```
 
-Please note that the two `for` semicolons `;` must be present, otherwise it would be a syntax error.
+2つの `for` のセミコロン `;` は必須ですであることに注意してください、ない場合は構文エラーになります。
 
-## Breaking the loop
+## ループの終わり
 
-Normally the loop exits when the condition becomes falsy.
+通常、ループは条件が偽になると終了します。
 
-But we can force the exit at any moment. There's a special `break` directive for that.
+しかし、私たちはいつでも出口を強制することができます。そのための特別な `break` ディレクティブがあります。
 
-For example, the loop below asks the user for a series of numbers, but "breaks" when no number is entered:
+例えば、下のループはユーザに一連の数字を入力するよう求めますが、文字以外が入力されたとき "中断" します。:
 
 ```js
 let sum = 0;
@@ -229,17 +228,18 @@ while (true) {
 alert( 'Sum: ' + sum );
 ```
 
-The `break` directive is activated in the line `(*)` if the user enters an empty line or cancels the input. It stops the loop immediately, passing the control to the first line after the loop. Namely, `alert`.
+もしもユーザが空を入力、もしくは入力をキャンセルした場合、`break` ディレクティブは行 `(*)` で有効になります。
+それはループをすぐに停止し、ループ後の最初の行へ制御を渡します。つまり、`alert` です。
 
-The combination "infinite loop + `break` as needed" is great for situations when the condition must be checked not in the beginning/end of the loop, but in the middle, or even in several places of the body.
+"必要に応じた無限ループ + `break`" の組み合わせは、ループの最初/最後ではなく中央もしくは本体のいくつかの場所で条件をチェックする必要がある状況で最適です。
 
-## Continue to the next iteration [#continue]
+## 次のイテレーションに進む[#continue]
 
-The `continue` directive is a "lighter version" of `break`. It doesn't stop the whole loop. Instead it stops the current iteration and forces the loop to start a new one (if the condition allows).
+`continue` ディレクティブは `break` の "軽量版" です。ループ全体はストップしません。その代わりに、現在のイテレーションを停止し、新しいイテレーションのスタートを強制します(もしも条件が真であれば)。
 
-We can use it if we're done on the current iteration and would like to move on to the next.
+私たちは、現在のイテレーションが完了し次へ移動したいときにそれを使うことが出来ます。
 
-The loop below uses `continue` to output only odd values:
+下のループは奇数値だけを出力するために `continue` をつかっています:
 
 ```js run no-beautify
 for (let i = 0; i < 10; i++) {
@@ -251,10 +251,11 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-For even values of `i` the `continue` directive stops body execution, passing the control to the next iteration of `for` (with the next number). So the `alert` is only called for odd values.
+`i` の値が偶数の場合、`continue` ディレクティブは本体の実行を停止し、`for` の次のイテレーションへ制御を渡しします(次の番号で)。
+したがって、`alert` は奇数値の対してのみ実行されます。
 
 ````smart header="The directive `continue` helps to decrease nesting level"
-A loop that shows odd values could look like this:
+奇数値を表示するループはこのように書くこともできます:
 
 ```js
 for (let i = 0; i < 10; i++) {
@@ -266,15 +267,15 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-From a technical point of view it's identical to the example above. Surely, we can just wrap the code in the `if` block instead of `continue`.
+技術的な観点からは、これは上の例と同じです。確かに、`continue` の代わりに `if` ブロックにコードをラップするだけです。
 
-But as a side-effect we got one more figure brackets nesting level. If the code inside `if` is longer than a few lines, that may decrease the overall readability.
+しかし、副作用として1つ多くの括弧のネスティングレベルを得ます。もしも `if` のコードの中が数行より長い場合は、全体の可読性が下がる可能性があります。
 ````
 
 ````warn header="No `break/continue` to the right side of '?'"
-Please note that syntax constructs that are not expressions cannot be used in `'?'`. In particular, directives `break/continue` are disallowed there.
+式ではない構文構造は `'?'` の中では使うことはできないことに注意してください。特に、ディレクティブ `break/continue` はそこでは許可されません。
 
-For example, if we take this code:
+例えば、このコードを使うとします:
 
 ```js
 if (i > 5) {
@@ -284,24 +285,23 @@ if (i > 5) {
 }
 ```
 
-...And rewrite it using a question mark:
-
+...そして、疑問符を使って書き直します:
 
 ```js no-beautify
 (i > 5) ? alert(i) : *!*continue*/!*; // continue not allowed here
 ```
 
-...Then it stops working. The code like this will give a syntax error:
+...それは動作を停止します。このようなコードは構文エラーになります:
 
 
-That's just another reason not to use a question mark operator `'?'` instead of `if`.
+これは `if` の代わりに疑問符演算子 `'?'` を使用しない別の理由です。
 ````
 
-## Labels for break/continue
+## break/continue のためのラベル
 
-Sometimes we need to break out from multiple nested loops at once.
+時々、複数のネストしたループから一度で抜け出す必要があります。
 
-For example, in the code below we loop over `i` and `j` prompting for coordinates `(i, j)` from `(0,0)` to `(3,3)`:
+例えば、下のコードでは 座標 `(i, j)` を `(0,0)` から `(3,3)` へプロンプトするよう `i` と `j` をループします:
 
 ```js run no-beautify
 for (let i = 0; i < 3; i++) {
@@ -318,20 +318,21 @@ for (let i = 0; i < 3; i++) {
 alert('Done!');
 ```
 
-We need a way to stop the process if the user cancels the input.
+ユーザが入力をキャンセルする場合、処理をストップする方法が必要です。
 
-The ordinary `break` after `input` would only break the inner loop. That's not sufficient. Labels come to the rescue.
+`input` の後の通常の `break` は内部ループのみの終了です。それだけでは十分ではありません。
+ラベルが助けにきます。
 
-A *label* is an identifier with a colon before a loop:
+*ラベル* はループの前のコロンがついた識別子です:
 ```js
 labelName: for (...) {
   ...
 }
 ```
 
-The `break <labelName>` statement in the loop breaks out to the label.
+ループの中の `break <labelName>` ステートメントはラベルまで終了にします。
 
-Like here:
+このように:
 
 ```js run no-beautify
 *!*outer:*/!* for (let i = 0; i < 3; i++) {
@@ -349,42 +350,42 @@ Like here:
 alert('Done!');
 ```
 
-In the code above `break outer` looks upwards for the label named `outer` and breaks out of that loop.
+上のコードで、`break outer` は `outer` と名付けされたラベルを上に探し、そのループを抜けます。
 
-So the control goes straight from `(*)` to `alert('Done!')`.
+そのため、制御は `(*)` から `alert('Done!')` にまっすぐに進みます。
 
-We can also move the label onto a separate line:
+ラベルを別の行に移動させることもできます:
 
 ```js no-beautify
 outer:
 for (let i = 0; i < 3; i++) { ... }
 ```
 
-The `continue` directive can also be used with a label. In this case the execution jumps to the next iteration of the labeled loop.
+`continue` ディレクティブもまたラベルと一緒に使うことが出来ます。このケースでは、実行はラベル付けされたループの次のイテレーションにジャンプします。
 
 ````warn header="Labels are not a \"goto\""
-Labels do not allow us to jump into an arbitrary place of code.
+ラベルはコードの任意の場所にジャンプすることはできません。
 
-For example, it is impossible to do this:
+例えば、このようにすることは出来ません:
 ```js
 break label;  // jumps to label? No.
 
 label: for (...)
 ```
 
-The call to a `break/continue` is only possible from inside the loop, and the label must be somewhere upwards from the directive.
+`break/continue` への呼び出しはループの中からだけ可能です、またラベルはそのディレクティブから上のどこかにある必要があります。
 ````
 
-## Summary
+## サマリ
 
-We covered 3 types of loops:
+3つのループのタイプについてカバーしました:
 
-- `while` -- The condition is checked before each iteration.
-- `do..while` -- The condition is checked after each iteration.
-- `for (;;)` -- The condition is checked before each iteration, additional settings available.
+- `while` -- 条件は各イテレーションの前にチェックされます。
+- `do..while` -- 条件は各イテレーションの後にチェックされます。
+- `for (;;)` -- 条件は各イテレーションの前にチェックされ、追加の設定が利用可能です。
 
-To make an "infinite" loop, usually the `while(true)` construct is used. Such a loop, just like any other, can be stopped with the `break` directive.
+"無限" ループを作るために、通常は `while(true)` 構造が使われます。このようなループは他の他のループと同様に `break` ディレクティブで停止することが出来ます。
 
-If we don't want to do anything on the current iteration and would like to forward to the next one, the `continue` directive does it.
+もしも現在のイテレーションで何もしたくなく、次のイテレーションに進みたい場合は、`continue` ディレクティブがそれをします。
 
-`Break/continue` support labels before the loop. A label is the only way for `break/continue` to escape the nesting and go to the outer loop.
+`break/continue` はループの前のラベルをサポートします。ラベルはネストを抜け、外のループに行くための `break/continue` のための方法です。
