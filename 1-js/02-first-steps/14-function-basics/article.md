@@ -1,20 +1,21 @@
-# Functions
+# 関数
 
-Quite often we need to perform a similar action in many places of the script.
+多くの場合、スクリプトの多くの場所で同様のアクションを実行する必要があります。
 
-For example, we need to show a nice-looking message when a visitor logs in, logs out and maybe somewhere else.
+例えば、訪問者がログイン、ログアウトしたり、また他の場所にいる時に見栄の良いメッセージを表示する必要があります。
 
-Functions are the main "building blocks" of the program. They allow the code to be called many times without repetition.
+関数はプログラムのメインの "構成要素" です。これにより、コードを繰り返すことなく何度も呼び出すことが出来ます。
 
 [cut]
 
-We've already seen examples of built-in functions, like `alert(message)`, `prompt(message, default)` and `confirm(question)`. But we can create functions of our own as well.
+私たちは既に組み込み関数の例を見ています。 `alert(message)`, `prompt(message, default)` や `confirm(question)`です。
+しかし、同じように私達自身も関数を作ることができます。
 
-## Function Declaration
+## 関数定義
 
-To create a function we can use a *function declaration*.
+関数を作るために、*関数定義* を使います。
 
-It looks like this:
+これは次のようになります:
 
 ```js
 function showMessage() {
@@ -22,13 +23,13 @@ function showMessage() {
 }
 ```
 
-The `function` keyword goes first, then goes the *name of the function*, then a list of *parameters* in the brackets (empty in the example above) and finally the code of the function, also named "the function body".
+`function` キーワードが最初にきて、次に *関数名* がきます、そして括弧の中に *パラメータ* のリストがきて(上の例では空白です)、最後に関数のコード、"関数本体" です。
 
 ![](function_basics.png)
 
-Our new function can be called by its name: `showMessage()`.
+私たちの新しい関数はその名前で呼ぶことが出来ます: `showMessage()`
 
-For instance:
+例:
 
 ```js run
 function showMessage() {
@@ -41,17 +42,17 @@ showMessage();
 */!*
 ```
 
-The call `showMessage()` executes the code of the function. Here we will see the message two times.
+`showMessage()` の呼び出しは関数のコードを実行します。ここで私たちは2度メッセージを見ます。
 
-This example clearly demonstrates one of the main purposes of functions: to evade code duplication.
+この例は関数のメインの目的の1つを明確に説明しています: コードの複製を回避します。
 
-If we ever need to change the message or the way it is shown, it's enough to modify the code in one place: the function which outputs it.
+もしも、メッセージもしくは表示する方法を変更する必要がある場合、1つの場所のコードを修正するだけで十分です。: それを出力する関数です。
 
-## Local variables
+## ローカル変数
 
-A variable declared inside a function is only visible inside that function.
+関数内の変数定義は関数内でのみ見えます。
 
-For example:
+例:
 
 ```js run
 function showMessage() {
@@ -67,9 +68,9 @@ showMessage(); // Hello, I'm JavaScript!
 alert( message ); // <-- Error! The variable is local to the function
 ```
 
-## Outer variables
+## 外部変数
 
-A function can access an outer variable as well, for example:
+同様に、関数は外部変数にアクセスすることができます, 次の例にように:
 
 ```js run no-beautify
 let *!*userName*/!* = 'John';
@@ -82,9 +83,9 @@ function showMessage() {
 showMessage(); // Hello, John
 ```
 
-The function has full access to the outer variable. It can modify it as well.
+関数は外部変数に対してフルアクセス権を持ちます。同様にそれを変更することができます。
 
-For instance:
+例:
 
 ```js run
 let *!*userName*/!* = 'John';
@@ -103,9 +104,9 @@ showMessage();
 alert( userName ); // *!*Bob*/!*, the value was modified by the function
 ```
 
-The outer variable is only used if there's no local one. So an occasional modification may happen if we forget `let`.
+外部変数は、ローカル変数が存在しない場合にのみ使われます。そのため、私たちが `let` を忘れていたら偶発的な修正が必要になるかもしれません。
 
-If a same-named variable is declared inside the function then it *shadows* the outer one. For instance, in the code below the function uses the local `userName`. The outer one is ignored:
+もしも同じ名前の変数が関数内に宣言されていると、それは外部変数を *隠します*。例えば、下のコードでは関数はローカルの `userName` を使います。外部の `userName` は無視されます。
 
 ```js run
 let userName = 'John';
@@ -126,18 +127,18 @@ alert( userName ); // *!*John*/!*, unchanged, the function did not access the ou
 ```
 
 ```smart header="Global variables"
-Variables declared outside of any function, such as the outer `userName` in the code above, are called *global*.
+上のコードにおいて、外部の `userName` のような、任意の関数の外で宣言されている変数は *グローバル* と呼ばれます。
 
-Global variables are visible from any function (unless shadowed by locals).
+グローバル変数はどの関数からも見えます(ローカル変数により隠れていなければ)。
 
-Usually, a function declares all variables specific to its task, and global variables only store project-level data, so important that it really must be seen from anywhere. Modern code has few or no globals. Most variables reside in their functions.
+通常、関数はそれ自身のタスクのためのすべての変数を宣言します。また、グローバル変数にはプロジェクトレベルのデータのみを保持するため、どこからでも見える事が重要です。現代のコードはほとんどもしくは全くグローバル変数を持ちません。ほとんどの変数はその関数の中にあります。
 ```
 
-## Parameters
+## パラメータ
 
-We can pass arbitrary data to functions using parameters (also called *function arguments*) .
+パラメータを使うことで、任意のデータを関数に渡すことができます(*関数の引数* と呼ばれます)。
 
-In the example below, the function has two parameters: `from` and `text`.
+下の例では、関数は2つのパラメータを持っています:  `from` と `text` です。
 
 ```js run
 function showMessage(*!*from, text*/!*) { // arguments: from, text
@@ -150,10 +151,9 @@ showMessage('Ann', "What's up?"); // Ann: What's up? (**)
 */!*
 ```
 
-When the function is called in lines `(*)` and `(**)`, the given values are copied to local variables `from` and `text`. Then the function uses them.
+行 `(*)` と `(**)` で関数が呼ばれたとき、与えられた値はローカル変数 `from` と `text` にコピーされます。そして関数はそれらを使います。
 
-Here's one more example: we have a variable `from` and pass it to the function. Please note: the function changes `from`, but the change is not seen outside, because a function always gets a copy of the value:
-
+ここにもう1つ例があります: 私たちは変数 `from` を持っており、それを関数に渡します。注意してください：関数は常に値のコピーを取得するため、関数は `from` を変更しますが、その変更は外には見えません。
 
 ```js run
 function showMessage(from, text) {
@@ -173,19 +173,19 @@ showMessage(from, "Hello"); // *Ann*: Hello
 alert( from ); // Ann
 ```
 
-## Default values
+## Default 値
 
-If a parameter is not provided, then its value becomes `undefined`.
+もしもパラメータが与えられていない場合、その値は `undefined` になります。
 
-For instance, the aforementioned function `showMessage(from, text)` can be called with a single argument:
+例えば、前述の関数 `showMessage(from, text)` は1つの引数で呼ぶことも出来ます:
 
 ```js
 showMessage("Ann");
 ```
 
-That's not an error. Such a call would output `"Ann: undefined"`. There's no `text`, so it's assumed that `text === undefined`.
+それはエラーではありません。このような呼び出しは `"Ann: undefined"` を出力します。`text` がないので、`text === undefined` と仮定されます。
 
-If we want to use a "default" `text` in this case, then we can specify it after `=`:
+もしも "デフォルト" の `text` を使いたい場合は、このケースでは、`=` の後に指定することができます:
 
 ```js run
 function showMessage(from, *!*text = "no text given"*/!*) {
@@ -195,9 +195,9 @@ function showMessage(from, *!*text = "no text given"*/!*) {
 showMessage("Ann"); // Ann: no text given
 ```
 
-Now if the `text` parameter is not passed, it will get the value `"no text given"`
+今や、`text` パラメータが渡されていない場合、 それは値 `"no text given"` を得ます。
 
-Here `"no text given"` is a string, but it can be a more complex expression, which is only evaluated and assigned if the parameter is missing. So, this is also possible:
+ここで、 `"no text given"` は文字列ですが、より複雑な式にすることもできます。そしてそれはパラメータが無い場合にのみ評価され代入されます。なので、これも可能です:
 
 ```js run
 function showMessage(from, text = anotherFunction()) {
@@ -208,9 +208,9 @@ function showMessage(from, text = anotherFunction()) {
 
 
 ````smart header="Default parameters old-style"
-Old editions of JavaScript did not support default parameters. So there are alternative ways to support them, that you can find mostly in the old scripts.
+javascriptの古いエディションはデフォルトパラメータをサポートしていませんでした。そのため、それらをサポートするための別の方法があります。これは殆どの古いスクリプトの中で見つけることができます。
 
-For instance, an explicit check for being `undefined`:
+例えば、`undefined` の明示的なチェック:
 
 ```js
 function showMessage(from, text) {
@@ -224,7 +224,7 @@ function showMessage(from, text) {
 }
 ```
 
-...Or the `||` operator:
+...もしくは `||` 演算子:
 
 ```js
 function showMessage(from, text) {
@@ -238,11 +238,11 @@ function showMessage(from, text) {
 ````
 
 
-## Returning a value
+## 値の返却
 
-A function can return a value back into the calling code as the result.
+関数は、実行結果として呼び出しコードに値を戻すことが出来ます。
 
-The simplest example would be a function that sums two values:
+最もシンプルな例は2つの値の合計を行う関数です:
 
 ```js run no-beautify
 function sum(a, b) {
@@ -253,9 +253,9 @@ let result = sum(1, 2);
 alert( result ); // 3
 ```
 
-The directive `return` can be in any place of the function. When the execution reaches it, the function stops, and the value is returned to the calling code (assigned to `result` above).
+ディレクティブ `return` は関数の任意の場所に置くことが出来ます。もしも実行がそこに到達したとき、関数は停止し、値を呼び出しコードに返します(上の `result` へ代入します)。
 
-There may be many occurrences of `return` in a single function. For instance:
+1つの関数に多くの `return` が出現することもあります。例えば:
 
 ```js run
 function checkAge(age) {
@@ -279,9 +279,9 @@ if ( checkAge(age) ) {
 }
 ```
 
-It is possible to use `return` without a value. That causes the function to exit immediately.
+値なしで `return` を使うことも出来ます。それは関数を直ぐに終了させます。
 
-For example:
+例:
 
 ```js
 function showMovie(age) {
@@ -296,10 +296,10 @@ function showMovie(age) {
 }
 ```
 
-In the code above, if `checkAge(age)` returns `false`, then `showMovie` won't proceed to the `alert`.
+上のコードでは、もしも `checkAge(age)`  が `false` を返すと、`showMovie` `alert` の処理をしません。
 
 ````smart header="A function with an empty `return` or without it returns `undefined`"
-If a function does not return a value, it is the same as if it returns `undefined`:
+もしも関数が値を返却しない場合、`undefined` を返却した場合と同じです。:
 
 ```js run
 function doNothing() { /* empty */ }
@@ -307,7 +307,7 @@ function doNothing() { /* empty */ }
 alert( doNothing() === undefined ); // true
 ```
 
-An empty `return` is also the same as `return undefined`:
+空の `return` もまた `return undefined` と同じです:
 
 ```js run
 function doNothing() {
@@ -319,79 +319,80 @@ alert( doNothing() === undefined ); // true
 ````
 
 ````warn header="Never add a newline between `return` and the value"
-For a long expression in `return`, it might be tempting to put it on a separate line, like this:
+`return` での長い式では、このように別の行に書くのが魅力的に見えるかもしれません:
 
 ```js
 return
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
-That doesn't work, because JavaScript assumes a semicolon after `return`. That'll work the same as:
+JavaScriptは `return` の後のセミコロンを想定するため、これは動作しません。それは次と同じように動作します:
 
 ```js
 return*!*;*/!*
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
-So, it effectively becomes an empty return. We should put the value on the same line instead.
+従って、それは事実上空の返却になります。私たちは、代わりに同じ行に値を置く必要があります。
 ````
 
-## Naming a function [#function-naming]
+## 関数の命名 [#function-naming]
 
-Functions are actions. So their name is usually a verb. It should briefly, but as accurately as possible describe what the function does. So that a person who reads the code gets the right clue.
+関数はアクションです。そのため、それらの名前は、通常は動詞です。それは簡潔にすべきすが、その関数がすることをできるだけ正確に表現してください。そして、コードを読む人は正しい手がかりを得られるようにします。
 
-It is a widespread practice to start a function with a verbal prefix which vaguely describes the action. There must be an agreement within the team on the meaning of the prefixes.
+曖昧にアクションを記述する動詞のプレフィックスから関数を始めることは広く行われています。
+プレフィックスの意味についてチーム内での合意が必要です。
 
-For instance, functions that start with `"show"` usually show something.
+例えば、`"show"` で始まる関数は、通常何かを表示します。
 
-Function starting with...
+以下で始まる関数...
 
-- `"get…"` -- return a value,
-- `"calc…"` -- calculate something,
-- `"create…"` -- create something,
-- `"check…"` -- check something and return a boolean, etc.
+- `"get…"` -- 値を返します,
+- `"calc…"` -- 何かを計算します,
+- `"create…"` -- 何かを生成します,
+- `"check…"` -- 何かをチェックし、真偽値を返します, etc
 
-Examples of such names:
+このような名前の例です:
 
 ```js no-beautify
-showMessage(..)     // shows a message
-getAge(..)          // returns the age (gets it somehow)
-calcSum(..)         // calculates a sum and returns the result
-createForm(..)      // creates a form (and usually returns it)
-checkPermission(..) // checks a permission, returns true/false
+showMessage(..)     // メッセージを表示します
+getAge(..)          // 年齢を返します(なんとかしてその値を得る)
+calcSum(..)         // 合計を計算し、それを返します
+createForm(..)      // フォームを生成します(通常それを返却します)
+checkPermission(..) // 権限をチェックし、true/false を返します
 ```
 
-With prefixes in place, a glance at a function name gives an understanding what kind of work it does and what kind of value it returns.
+決まった位置にプレフィックスを使用すると、関数名を見ると、それがどのような種類の処理を行い、どのような値を返すのかを理解することが出来ます。
 
 ```smart header="One function -- one action"
-A function should do exactly what is suggested by its name, no more.
+関数はその名前により提案されたことを正確にするべきです。
 
-Two independent actions usually deserve two functions, even if they are usually called together (in that case we can make a 3rd function that calls those two).
+通常、2つの独立したアクションは、たとえそれらが一緒に呼ばれるとしても(その場合、私たちはそれらの2つを呼ぶ3つ目の関数を作ります)、2つの関数にするのが良いです。
 
-A few examples of breaking this rule:
+このルールを破るいくつかの例です:
 
-- `getAge` -- would be bad if it shows an `alert` with the age (should only get).
-- `createForm` -- would be bad if it modifies the document, adding a form to it (should only create it and return).
-- `checkPermission` -- would be bad if displays the `access granted/denied` message (should only perform the check and return the result).
+- `getAge` -- 年齢とともに `警告` 表示すると悪くなります(取得のみをするべきです)
+- `createForm` -- ドキュメントを変更してフォームを追加すると悪くなります(作成とその返却だけにするべきです)
+- `checkPermission` -- `アクセス許可/拒否` のメッセージを表示すると悪くなります(チェックのみを実行し、その結果を返すべきです)
 
-These examples assume common meanings of prefixes. What they mean for you is determined by you and your team. Maybe it's pretty normal for your code to behave differently. But you should have a firm understanding of what a prefix means, what a prefixed function can and cannot do. All same-prefixed functions should obey the rules. And the team should share the knowledge.
+これらの例はプレフィックスの共通の意味を前提としています。それらがあなたのために意味することは、あなたとあなたのチームで決めるということです。恐らく、あなたのコードが異なった振る舞いをすることは普通なことです。しかしあなたは、プレフィックスが意味すること、プレフィックスの付いた関数ができること、できないことについて、しっかりとした理解をもっておくべきです。同じプレフィックスの関数はルールに従うべきです。あおして、チームはその知識を共有するべきです。
 ```
 
 ```smart header="Ultrashort function names"
-Functions that are used *very often* sometimes have ultrashort names.
+*非常にしばしば* 使われる関数は、時々究極的に短い名前を持っています。
 
-For example, [jQuery](http://jquery.com) framework defines a function `$`, [LoDash](http://lodash.com/) library has it's core function named `_`.
+例えば、[jQuery](http://jquery.com) フレームワークは関数 `$` を定義しています。[LoDash](http://lodash.com/) ライブラリは、そのコアな関数として `_` を持っています。
 
-These are exceptions. Generally functions names should be concise, but descriptive.
+それらは例外です。一般的に関数名は簡潔ではあるが、記述的でなければなりません。
 ```
 
-## Functions == Comments
+## 関数 == コメント
 
-Functions should be short and do exactly one thing. If that thing is big, maybe it's worth it to split the function into a few smaller functions. Sometimes following this rule may not be that easy, but it's definitely a good thing.
+関数は短く明確に1つのことを行うべきです。もしも関数が大きい場合、恐らく、それを幾つかの小さい関数に分ける価値があるでしょう。時々、このルールに従うことは簡単ではないかもしれませんが、間違いなく良いことです。
 
-A separate function is not only easier to test and debug -- its very existence is a great comment!
+分割した関数はテストやデバッグが簡単になるだけでなく、 -- その存在が素晴らしいコメントです!
 
-For instance, compare the two functions `showPrimes(n)` below. Each one outputs [prime numbers](https://en.wikipedia.org/wiki/Prime_number) up to `n`.
+例えば、下にある2つの関数 `showPrimes(n)`を比べてみましょう。どちらも[prime numbers](https://en.wikipedia.org/wiki/Prime_number)を `n` に達するまで出力します。
 
-The first variant uses a label:
+1つ目のバリアントはラベルを使います:
 
 ```js
 function showPrimes(n) {
@@ -406,7 +407,7 @@ function showPrimes(n) {
 }
 ```
 
-The second variant uses an additional function `isPrime(n)` to test for primality:
+2つ目のバリアントは、素数の確認をするための追加の関数 `isPrime(n)` を使います。
 
 ```js
 function showPrimes(n) {
@@ -426,13 +427,13 @@ function isPrime(n) {
 }
 ```
 
-The second variant is easier to understand isn't it? Instead of the code piece we see a name of the action (`isPrime`). Sometimes people refer to such code as *self-describing*.
+2つ目のバリアントのほうが理解しやすいですね。コードの塊の代わりに、アクション(`isPrime`) の名前を見ます。時々人々はこのようなコードを *自己記述* と呼びます。
 
-So, functions can be created even if we don't intend to reuse them. They structure the code and make it readable.
+従って、関数はその再利用を意図していない場合でも作る事ができます。それらはコードを構造化し、読みやすくします。
 
-## Summary
+## サマリ
 
-A function declaration looks like this:
+関数はこのように定義します:
 
 ```js
 function name(parameters, delimited, by, comma) {
@@ -440,18 +441,18 @@ function name(parameters, delimited, by, comma) {
 }
 ```
 
-- Values passed to a function as parameters are copied to its local variables.
-- A function may access outer variables. But it works only from inside out. The code outside of the function doesn't see its local variables.
-- A function can return a value. If it doesn't then its result is `undefined`.
+- パラメータとして関数に渡される値は、ローカル変数にコピーされます。
+- 関数は外部変数にアクセスすることができます。しかし、それは内側からのみ動作します。関数の外側のコードは、関数のローカル変数を見ることは出来ません。
+- 関数は値を返すことが出来ます。もしもそれをしなかった場合、その戻りは `undefined` です。
 
-To make the code clean and easy to understand, it's recommended to use mainly local variables and parameters in the function, not outer variables.
+コードを綺麗で理解しやすいようにするために、その関数内では外部変数ではなく、主にローカル変数やパラメータを利用することを推奨します。
 
-It is always easier to understand a function which gets parameters, works with them and returns a result than a function which gets no parameters, but modifies outer variables as a side-effect.
+パラメータを取得するが副作用として外部変数を変更する関数よりも、パラメータを取得してそれらを処理し、結果を返す関数のほうが常に理解しやすいです。
 
-Function naming:
+関数名:
 
-- A name should clearly describe what the function does. When we see a function call in the code, a good name instantly gives us an understanding what it does and returns.
-- A function is an action, so function names are usually verbal.
-- There exist many well-known function prefixes like `create…`, `show…`, `get…`, `check…` and so on. Use them to hint what a function does.
+- 名前は、関数がすることを明確に記述するべきです。私たちがコードの中で関数呼び出しを見るとき、良い名前であれば、私たちはそれが何をして何を返すのかを、簡単に理解することができます。
+- 関数はアクションなので、関数名は通常動詞的です。
+- `create…`, `show…`, `get…`, `check…` など、数多くのよく知られた関数のプレフィックスが存在します。関数がすることのヒントとしてそれらを使いましょう。
 
-Functions are the main building blocks of scripts. Now we've covered the basics, so we actually can start creating and using them. But that's only the beginning of the path. We are going to return to them many times, going more deeply into their advanced features.
+関数はスクリプトの主な構成要素です。今や私たちは基礎をカバーしましたので、実際にそれらを作り、使い始めることが出来ます。しかし、それはまだ道のりの始まりに過ぎません。私たちは何度もそれらに戻り、それらより高度な機能について深めていきます。
