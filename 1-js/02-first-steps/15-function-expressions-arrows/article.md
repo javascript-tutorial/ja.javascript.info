@@ -1,10 +1,10 @@
-# Function expressions and arrows
+# 関数式とアロー
 
-In JavaScript, a function is not a "magical language structure", but a special kind of value.
+JavaScriptでは、関数は "魔法の言語構造" ではなく、特別な種類の値です。
 
 [cut]
 
-The syntax that we used before is called a *Function Declaration*:
+以前私たちが使っているた構文は *関数宣言* と呼ばれます:
 
 ```js
 function sayHi() {
@@ -12,9 +12,9 @@ function sayHi() {
 }
 ```
 
-There is another syntax for creating a function that is called a *Function Expression*.
+*関数式* と呼ばれる、関数を作るための別の項分があります。
 
-It looks like this:
+それはこのようになります:
 
 ```js
 let sayHi = function() {
@@ -22,12 +22,12 @@ let sayHi = function() {
 };
 ```
 
-Here, the function is created and assigned to the variable explicitly, like any other value. No matter how the function is defined, it's just a value stored in the variable `sayHi`.
+ここで、他の任意の値と同じように、関数は作られ明示的に変数に代入されています。
+どのように変数が定義されても、それは単に変数 `sayHi` に格納される値です。
 
+それらのコード例の意味は同じです: "関数を作成し、変数 `sayHi` にそれを置きます"
 
-The meaning of these code samples is the same: "create a function and put it into the variable `sayHi`".
-
-We can even print out that value using `alert`:
+`alert` を使ってその値を出力することもできます:
 
 ```js run
 function sayHi() {
@@ -39,15 +39,15 @@ alert( sayHi ); // shows the function code
 */!*
 ```
 
-Please note that the last line does not run the function, because there are no parentheses after `sayHi`. There are programming languages where any mention of a function name causes its execution, but JavaScript is not like that.
+`sayHi` の後にかっこがないので、最後の行は関数が実行されないことに注意してください。関数名への言及がその実行を引き起こすプログラミング言語も存在しますが、JavaScriptはそうではありません。
 
-In JavaScript, a function is a value, so we can deal with it as a value. The code above shows its string representation, which is the source code.
+JavaScriptでは、関数は値です。そのため、それを値として扱うことができます。上のコードはその文字列表現を表示します、そしてそれはソースコードです。
 
-It is a special value of course, in the sense that we can call it like `sayHi()`.
+私たちは、それを `sayHi()` のように呼ぶことができる点で、もちろんそれは特別な値です。
 
-But it's still a value. So we can work with it like with other kinds of values.
+しかし、それはまだ値です。なので、私たちは他の種類の値のようにそれを動作させることができます。
 
-We can copy a function to another variable:
+関数を別の変数にコピーすることが出来ます:
 
 ```js run no-beautify
 function sayHi() {   // (1) create
@@ -60,15 +60,15 @@ func(); // Hello     // (3) run the copy (it works)!
 sayHi(); // Hello    //     this still works too (why wouldn't it)
 ```
 
-Here's what happens above in detail:
+上記で起こっていることの詳細は次の通りです:
 
-1. The Function Declaration `(1)` creates the function and puts it into the variable named `sayHi`.
-2. Line `(2)` copies it into the variable `func`.
+1. 関数宣言 `(1)` で関数を生成し、変数名 `sayHi` に置きます。
+2. 行 `(2)` でそれを変数 `func` にコピーします。
 
-    Please note again: there are no parentheses after `sayHi`. If there were, then `func = sayHi()` would write  *the result of the call* `sayHi()` into `func`, not *the function* `sayHi` itself.
-3. Now the function can be called as both `sayHi()` and `func()`.
+    改めて注意してください:`sayHi` の後に括弧はありません。もしそれがあった場合、`sayHi` の *関数自身* ではなく、`func = sayHi()` は `sayHi()` の呼び出しの結果を `func` に書き込みます。
+3. 今や、関数は `sayHi()` と `func()` 両方で呼ぶことができます。
 
-Note that we could also have used a Function Expression to declare `sayHi`, in the first line:
+私たちは、1行目で、`sayHi` を宣言するために関数式を使うこともできます:
 
 ```js
 let sayHi = function() { ... };
@@ -77,11 +77,11 @@ let func = sayHi;
 // ...
 ```
 
-Everything would work the same. Even more obvious what's going on, right?
+すべて同じように動作します。さらに何が起こっているのか、より明白ですね。
 
 
 ````smart header="Why there's a semicolon at the end?"
-There might be a question, why does Function Expression have a semicolon `;` at the end, and Function Declaration does not:
+疑問があるかもしれません。なぜ関数式は末尾にセミコロン `;` を持つのか、そして関数宣言にはそれがないのか:
 
 ```js
 function sayHi() {
@@ -93,27 +93,27 @@ let sayHi = function() {
 }*!*;*/!*
 ```
 
-The answer is simple:
-- There's no need for `;` at the end of code blocks and syntax structures that use them like `if { ... }`, `for {  }`, `function f { }` etc.
-- A Function Expression is used inside the statement: `let sayHi = ...;`, as a value. It's not a code block. The semicolon `;` is recommended at the end of statements, no matter what is the value. So the semicolon here is not related to the Function Expression itself in any way, it just terminates the statement.
+答えはシンプルです:
+- コードブロックや `if { ... }`, `for {  }`, `function f { }` などの構文構造の末尾に `;` が必要ありません。
+- 関数式はステートメントの内側で使われます: `let sayHi = ...;` を値として利用します。それはコードブロックではありません。セミコロン `;` はどんな値であれステートメントの最後に推奨されています。そのため、ここのセミコロンは関数式自体になんら関係しません、単にステートメントの終わりです。
 ````
 
-## Callback functions
+## コールバック関数
 
-Let's look at more examples of passing functions as values and using function expressions.
+値として関数を渡し、関数式を使う例をみてみましょう。
 
-We'll write a function `ask(question, yes, no)` with three parameters:
+私たちは、3つのパラメータを持つ関数 `ask(question, yes, no)` を書きます:
 
 `question`
-: Text of the question
+: 質問のテキスト
 
 `yes`
-: Function to run if the answer is "Yes"
+: もしも答えが "はい" の場合に実行する関数
 
 `no`
-: Function to run if the answer is "No"
+: もしも答えが "いいえ" の場合に実行する関数
 
-The function should ask the `question` and, depending on the user's answer, call `yes()` or `no()`:
+関数は `question` を訪ね、ユーザの回答に合わせて、`yes()` または `no()` を呼びます:
 
 ```js run
 *!*
@@ -135,13 +135,13 @@ function showCancel() {
 ask("Do you agree?", showOk, showCancel);
 ```
 
-Before we explore how we can write it in a much shorter way, let's note that in the browser (and on the server-side in some cases) such functions are quite popular. The major difference between a real-life implementation and the example above is that real-life functions use more complex ways to interact with the user than a simple `confirm`. In the browser, such a function usually draws a nice-looking question window. But that's another story.
+それについて、より短く記述する方法を探す前に、ブラウザ(といくつかのサーバサイドのケース)では、このような関数はかなり普及していることに留意しましょう。実際の実装と上の例の主な違いは、実際の関数は単純な `confirm` よりも、ユーザとやり取りするためにより複雑な方法を利用することです。ブラウザでは、このような関数は、通常良く見える質問ウィンドウに描画されます。しかしそれは別の話です。
 
-**The arguments of `ask` are called *callback functions* or just *callbacks*.**
+**`ask`の引数は *コールバック関数* または単に *コールバック* と呼ばれます。**
 
-The idea is that we pass a function and expect it to be "called back" later if necessary. In our case, `showOk` becomes the callback for the "yes" answer, and `showCancel` for the "no" answer.
+この考えは、私たちは関数を渡し、それがもし必要であれば、あとで "呼び戻す" ことを期待します。私たちのケースでは、`showOK` は "はい" のためのコールバックになり、`showCancel` は "いいえ" の回答のためです。
 
-We can use Function Expressions to write the same function much shorter:
+私たちは、同じ関数をより短く書くために関数式を使うことが出来ます:
 
 ```js run no-beautify
 function ask(question, yes, no) {
@@ -158,28 +158,27 @@ ask(
 */!*
 ```
 
+ここでは、関数は `ask(...)` 呼び出しの中で正しく宣言されています。それらは名前を持たないので、*無名* と呼ばれます。
+このような関数は `ask` の外側からアクセスできません(それらは変数に割り当てられていないため)、しかしそれは私たちがここで欲しいものです。
 
-Here, functions are declared right inside the `ask(...)` call. They have no name, and so are called *anonymous*. Such functions are not accessible outside of `ask` (because they are not assigned to variables), but that's just what we want here.
-
-Such code appears in our scripts very naturally, it's in the spirit of JavaScript.
-
+このようなコードは我々のスクリプトでとても自然に表れます。それは JavaScript の精神に基づいています。
 
 ```smart header="A function is a value representing an \"action\""
-Regular values like strings or numbers represent the *data*.
+文字列や数値のような通常の値は *データ* を表します。
 
-A function can be perceived as an *action*.
+関数は *アクション* として認識されます。
 
-We can pass it between variables and run when we want.
+私たちは、変数間でそれを渡し、必要な時に実行させることでます。
 ```
 
 
-## Function Expression vs Function Declaration
+## 関数式 vs 関数宣言
 
-Let's formulate the key differences between Function Declarations and Expressions.
+関数宣言と関数式の違いを明確に述べてみましょう。
 
-First, the syntax: how to see what is what in the code.
+まず、構文です:
 
-- *Function Declaration:* a function, declared as a separate statement, in the main code flow.
+- *関数宣言:* メインのコードフローで別のステートメントとして宣言された関数
 
     ```js
     // Function Declaration
@@ -187,8 +186,9 @@ First, the syntax: how to see what is what in the code.
       return a + b;
     }
     ```
-- *Function Expression:* a function, created inside an expression or inside another syntax construct.
+- *関数式:* 式の内部、または別の構文構造の中で作れらた関数
 
+    ここで、関数は "代入式 =" の右側に作成されます。
     Here, the function is created at the right side of the "assignment expression =":
     ```js
     // Function Expression
@@ -197,23 +197,23 @@ First, the syntax: how to see what is what in the code.
     };
     ```
 
-The more subtle difference is *when* a function is created by the JavaScript engine.
+より微妙な違いは、関数がJavaScriptエンジンによって *作られたとき* です。
 
-**A Function Expression is created when the execution reaches it and is usable from then on.**
+**関数式は、実行がそれに到達した時に作られ、それ以降、利用可能になります。**
 
-Once the execution flow passes to the right side of the assignment `let sum = function…` -- here we go, the function is created and can be used (assigned, called etc) from now on.
+一度実行フローが代入 `let sum = function…` の右辺へ渡ったら -- 関数は作られ、そこから使えるようになります(代入や呼び出しなど)。
 
-Function Declarations are different.
+関数宣言は異なります
 
-**A Function Declaration is usable in the whole script/code block.**
+**関数宣言はスクリプト/コードブロック全体で使用できます。**
 
-In other words, when JavaScript *prepares* to run the script or a code block, it first looks for Function Declarations in it and creates the functions. We can think of it as an "initialization stage".
+言い換えると、JavaScriptがスクリプトまたはコードブロックの実行の準備をする時、最初にその中の関数定義を探し、関数を生成します。私たちはそれを "初期化段階" として考えることが出来ます。
 
-And after all of the Function Declarations are processed, the execution goes on.
+そして、全ての関数宣言が処理されたあと、実行が続けられます。
 
-As a result, a function declared as a Function Declaration can be called earlier than it is defined.
+結果的に、関数宣言として宣言された関数は、定義された関数よりも早く呼ぶことができます。
 
-For example, this works:
+例えば、これは動作します:
 
 ```js run refresh untrusted
 *!*
@@ -225,9 +225,9 @@ function sayHi(name) {
 }
 ```
 
-The Function Declaration `sayHi` is created when JavaScript is preparing to start the script and is visible everywhere in it.
+関数宣言 `sayHi` は、JavaScriptがスクリプトの開始の準備をしているときに生成され、その中でどこからでも見えます。
 
-...If it was a Function Expression, then it wouldn't work:
+...もしもそれが関数式だった場合、それは動作しないでしょう:
 
 ```js run refresh untrusted
 *!*
@@ -239,15 +239,15 @@ let sayHi = function(name) {  // (*) no magic any more
 };
 ```
 
-Function Expressions are created when the execution reaches them. That would happen only in the line `(*)`. Too late.
+関数式は、実行がそれに到達した時に作られます。それは行 `(*)` でのみ起こります。遅すぎます。
 
-**When a Function Declaration is made within a code block, it is visible everywhere inside that block. But not outside of it.**
+**関数宣言がコードブロックの中で作られるとき、そのブロックの内側であればどこからでも見えます。しかし、その外側からは見えません。**
 
-Sometimes that's handy to declare a local function only needed in that block alone. But that feature may also cause problems.
+必要とされるブロックの中だけでローカル変数を宣言することは、時には便利です。しかし、その機能も問題を引き起こすかもしれません。
 
-For instance, let's imagine that we need to declare a function `welcome()` depending on the `age` variable that we get in run time. And then we plan to use it some time later.
+例えば、私たちがランタイムの中で得た `age` 変数に依存する関数 `welcome()` を宣言する必要があると想像しましょう。そして、それをしばらくしてから使用することを予定します。
 
-The code below doesn't work:
+下のコードはうまく動作しません:
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -273,9 +273,9 @@ welcome(); // Error: welcome is not defined
 */!*
 ```
 
-That's because a Function Declaration is only visible inside the code block in which it resides.
+なぜなら、関数宣言は、それが存在するコードブロックの内側でのみ見えるからです。
 
-Here's another example:
+別の例です:
 
 ```js run
 let age = 16; // take 16 as an example
@@ -308,11 +308,11 @@ welcome(); // Error: welcome is not defined
 */!*
 ```
 
-What can we do to make `welcome` visible outside of `if`?
+`if` の外側で `welcome` を見えるようにするためにはどうしたらよいでしょうか？
 
-The correct approach would be to use a Function Expression and assign `welcome` to the variable that is declared outside of `if` and has the proper visibility.
+正しいアプローチは、関数式を使い、`welcome` を `if` の外で宣言され、適切な可視をもつ変数に代入することです。
 
-Now it works as intended:
+これは、意図したとおりに動作します:
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -338,7 +338,7 @@ welcome(); // ok now
 */!*
 ```
 
-Or we could simplify it even further using a question mark operator `?`:
+もしくは、疑問符演算子 `?` を使うことでさらにシンプルにできます:
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -354,26 +354,25 @@ welcome(); // ok now
 
 
 ```smart header="When to choose Function Declaration versus Function Expression?"
-As a rule of thumb, when we need to declare a function, the first to consider is Function Declaration syntax, the one we used before. It gives more freedom in how to organize our code, because we can call such functions before they are declared.
+経験則として、私たちが関数を宣言する必要があるとき、最初に考えるのは、以前私たちが使った関数宣言構文です。私たちはこれらの関数が宣言される前に呼ぶことができるため、コードを体系化する自由度が増します。
 
-It's also a little bit easier to look up `function f(…) {…}` in the code than `let f = function(…) {…}`. Function Declarations are more "eye-catching".
+また、コードの中で、`let f = function(…) {…}` よりも `function f(…) {…}`  の方が調べるのが少し簡単です。関数宣言はより "目を引きます"
 
-...But if a Function Declaration does not suit us for some reason (we've seen an example above), then Function Expression should be used.
+...しかし、関数宣言が幾つかの理由で適していない場合(上でみた例)、関数式は使われるべきです。
 ```
 
 
-## Arrow functions [#arrow-functions]
+## アロー関数 [#arrow-functions]
 
-There's one more very simple and concise syntax for creating functions, that's often better than Function Expressions. It's called "arrow functions", because it looks like this:
-
+関数を作成ための、より非常にシンプルで簡潔な構文がもう1つあります。それはしばしば関数式よりも優れています。それは "アロー関数" と呼ばれ、このように見えます:
 
 ```js
 let func = (arg1, arg2, ...argN) => expression
 ```
 
-...This creates a function `func` that has arguments `arg1..argN`, evaluates the `expression` on the right side with their use and returns its result.
+...これは引数 `arg1..argN` をもち、右側でそれらを使用する `expression` を評価し、その結果を返す関数 `func` を作ります。
 
-In other words, it's roughly the same as:
+言い換えると、次のコードと概ね一緒です:
 
 ```js
 let func = function(arg1, arg2, ...argN) {
@@ -381,9 +380,9 @@ let func = function(arg1, arg2, ...argN) {
 }
 ```
 
-...But much more concise.
+...が、はるかに簡潔です
 
-Let's see an example:
+例を見てみましょう:
 
 ```js run
 let sum = (a, b) => a + b;
@@ -399,7 +398,7 @@ alert( sum(1, 2) ); // 3
 
 ```
 
-If we have only one argument, then parentheses can be omitted, making that even shorter:
+もしも引数が1つだけの場合、括弧は省略可能なので、さらに短くできます:
 
 ```js run
 // same as
@@ -411,7 +410,7 @@ let double = n => n * 2;
 alert( double(3) ); // 6
 ```
 
-If there are no arguments, parentheses should be empty (but they should be present):
+もしも引数がない場合、括弧は必須で、空白にします:
 
 ```js run
 let sayHi = () => alert("Hello!");
@@ -419,9 +418,9 @@ let sayHi = () => alert("Hello!");
 sayHi();
 ```
 
-Arrow functions can be used in the same way as Function Expressions.
+アロー関数は、関数式として同じ方法で使用できます。
 
-For instance, here's the rewritten example with `welcome()`:
+例えば、ここでは `welcome()` の例を再び書きます:
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -433,17 +432,17 @@ let welcome = (age < 18) ?
 welcome(); // ok now
 ```
 
-Arrow functions may appear unfamiliar and not very readable at first, but that quickly changes as the eyes get used to the structure.
+アロー関数は、最初はよく知られていないように見えたり、読みにくいように見えるかもしれませんが、それは目が構造に慣れるとすぐに変わります。
 
-They are very convenient for simple one-line actions, when we're just too lazy to write many words.
+多くの文字を書くのが面倒なとき、シンプルなワンライナーの処理を書くときにはとても便利です。
 
 ```smart header="Multiline arrow functions"
 
-The examples above took arguments from the left of `=>` and evaluated the right-side expression with them.
+上の例は、`=>` の左から引数を取得し、右側の式を評価しました。
 
-Sometimes we need something a little bit more complex, like multiple expressions or statements. It is also possible, but we should enclose them in figure brackets. Then use a normal `return` within them.
+私たちは、複数の式や文のようにもう少し複雑なものが必要な時があります。それもまた可能ですが、括弧で囲む必要があります。そして、その中で通常の `return` を使います。
 
-Like this:
+このように:
 
 ```js run
 let sum = (a, b) => {  // the figure bracket opens a multiline function
@@ -457,25 +456,24 @@ alert( sum(1, 2) ); // 3
 ```
 
 ```smart header="More to come"
-Here we praised arrow functions for brevity. But that's not all! Arrow functions have other interesting features. We'll return to them later in the chapter <info:arrow-functions>.
+ここでは、簡潔にするためにアロー関数を賞賛しました。しかし、それだけではありません!!アロー関数は他にも興味深い機能を持っています。私たちは後ほどチャプター<info:arrow-functions>でそれらに戻ります。
 
-For now, we can already use them for one-line actions and callbacks.
+現時点では、我々は既にワンライナーの処理やコールバックのためにそれらを使うことが出来ます。
 ```
 
-## Summary
+## サマリ
 
-- Functions are values. They can be assigned, copied or declared in any place of the code.
-- If the function is declared as a separate statement in the main code flow, that's called a "Function Declaration".
-- If the function is created as a part of an expression, it's called a "Function Expression".
-- Function Declarations are processed before the code block is executed. They are visible everywhere in the block.
-- Function Expressions are created when the execution flow reaches them.
+- 関数は値です。それらは、コード上のどの場所でも、割り当てたり、コピーしたり、宣言することができます。
+- もしも、関数がメインのコードフローの中で、別のステートメントとして宣言されていたら、それは "関数宣言" と呼ばれます。
+- もしも関数が式の一部として作られたら、それは "関数式" と呼ばれます。
+- 関数宣言は、コードブロックが実行される前に処理されます。それらはブロックの中では、どこからでも見えます。
+- 関数式は、実行フローがそれに到達した時に作られます。
 
+殆どのケースでは、関数の宣言が必要な場合、関数宣言が望ましいです。なぜなら、それ自身の宣言の前で見えるためです。これにより、コード構成の柔軟性が増し、通常は読みやすくなります。
 
-In most cases when we need to declare a function, a Function Declaration is preferable, because it is visible prior to the declaration itself. That gives us more flexibility in code organization, and is usually more readable.
+従って、私たちは、関数宣言がそのタスクに適さない場合にのみ関数式を使うべきです。このチャプターで幾つかの例を見て来ました、そして今後もっと見ていくでしょう。
 
-So we should use a Function Expression only when a Function Declaration is not fit for the task. We've seen a couple of examples of that in this chapter, and will see more in the future.
+アロー関数はワンライナーのために便利です。それらは2つの旨味があります:
 
-Arrow functions are handy for one-liners. They come in two flavors:
-
-1. Without figure brackets: `(...args) => expression` -- the right side is an expression: the function evaluates it and returns the result.
-2. With figure brackets: `(...args) => { body }` -- brackets allow us to write multiple statements inside the function, but we need an explicit `return` to return something.
+1. 括弧無し: `(...args) => expression` -- 右側は式です: 関数はそれを評価しその結果を返します。
+2. 括弧あり: `(...args) => { body }` -- 括弧があると、関数内で複数のステートメントを書くことができます、しかし何かを返却する場合には、明確に `return` が必要です。
