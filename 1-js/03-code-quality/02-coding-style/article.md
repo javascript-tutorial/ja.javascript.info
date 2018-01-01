@@ -1,16 +1,16 @@
-# Coding style
+# コーディングスタイル
 
-Our code must be as clean and easy to read as possible.
+私たちのコードは綺麗で、できるだけ読みやすくなければなりません。
 
-That is actually an art of programming -- to take a complex task and code it in a way that is both correct and human-readable.
+それは実質プログラミングの芸術です -- 複雑なタスクを行い、正しく、人が読むことができる方法でコード化することです。
 
-One thing to help is the good code style.
+それを助ける一つが良いコードスタイルです。
 
 [cut]
 
-## Syntax
+## 構文
 
-A cheatsheet with the rules (more details below):
+ルールに基づいたチートシート(より詳細は下):
 
 ![](code-style.png)
 <!--
@@ -38,15 +38,15 @@ if (n < 0) {
 
 -->
 
-Now let's discuss the rules and reasons for them in detail.
+では、それらのルールと理由について詳細を説明します。
 
-Nothing is "carved in stone" here. Everything is optional and can be changed: these are coding rules, not religious dogmas.
+"もはや変えられない" ものはここにはありません。すべてはオプションであり、変更することが出来ます: それらはコーディングルールであり、宗教的な教義ではありません。
 
-### Figure brackets
+### 波括弧
 
-In most JavaScript projects figure brackets are written on the same line, not on the new line. A so-called "egyptian" style. There's also a space before an opening bracket.
+ほとんどのJavaScriptのプロジェクトでは、波括弧は新しい行ではなく、同じ行に書かれます。いわゆる "エジプト" スタイルです。またそれは開始のカッコの前にスペースがあります。
 
-Like this:
+このようになります:
 
 ```js
 if (condition) {
@@ -56,9 +56,9 @@ if (condition) {
 }
 ```
 
-A single-line construct is an important edge case. Should we use brackets at all? If yes, then where?
+１行の構造も重要なエッジケースです。我々は括弧を使うべきですか？もしそうなら、どこででしょうか？
 
-Here are the annotated variants, so you can judge about their readability on your own:
+注釈付きのバリアントは次の通りです。従って、あなた自身でその可読性を判断することができます:
 
 <!--
 ```js no-beautify
@@ -76,27 +76,26 @@ if (n < 0) {
 -->
 ![](figure-bracket-style.png)
 
-As a summary:
-- For a really short code, one line is acceptable: like `if (cond) return null`.
-- But a separate line for each statement in brackets is usually better.
+サマリとして:
+- 本当に短いコードは、１行は許容される: `if (cond) return null` のように。
+- しかし、括弧のそれぞれのステートメントのために行を分けることは、通常はより良いです。
 
-### Line length
+### 行の長さ
 
-The maximal line length should be limited. No one likes to eye-follow a long horizontal line. It's better to split it.
+行の最大長は制限されるべきです。誰も長い水平な行は好きではありません。それを分けるようが良いです。
 
-The maximal line length is agreed on the team-level. It's usually 80 or 120 characters.
+行の最大長はチームレベルで決められます。通常は 80 もしくは 120 文字です。
 
-### Indents
+### インデント
 
-There are two types of indents:
+２つのタイプのインデントがあります。:
 
-- **A horizontal indent: 2(4) spaces.**
+- **水平なインデント： 2(4)個のスペース**
 
-    A horizontal indentation is made using either 2 or 4 spaces or the "Tab" symbol. Which one to choose is an old holy war. Spaces are more common nowadays.
+    水平なインデントは 2 または 4 つのスペース、もしくは "タブ" 記号を使います。どれを選ぶかは古い聖戦です。最近はスペースが一般的です。
+    タブよりもスペースがよい利点の１つは、スペースは "タブ" 記号よりもより柔軟なインデントの設定ができることです。
 
-    One advantage of spaces over tabs is that spaces allow more flexible configurations of indents than the "Tab" symbol.
-
-    For instance, we can align the arguments with the opening bracket, like this:
+    例えば、このように、開始の括弧に対して引数を並べることができます:
 
     ```js no-beautify
     show(parameters,
@@ -109,9 +108,9 @@ There are two types of indents:
     }
     ```
 
-- **A vertical indent: empty lines for splitting code into logical blocks.**
+- **垂直のインデント: コードを論理ブロックに分割するための空行**
 
-    Even a single function can often be divided in logical blocks. In the example below, the initialization of variables, the main loop and returning the result are split vertically:
+    １つの関数でさえ、しばしば論理ブロックに分割されます。下の例では、変数の初期化、メインのループと結果返却は垂直にわかれています。:
 
     ```js
     function pow(x, n) {
@@ -125,23 +124,23 @@ There are two types of indents:
     }
     ```
 
-    Insert an extra newline where it helps to make the code more readable. There should not be more than nine lines of code without a vertical indentation.
+    コードがより読みやすくするために新しい行を挿入しましょう。垂直インデントなしで、コードの行が９行を超えるべきではありません。
 
-### A semicolon
+### セミコロン
 
-A semicolon should be present after each statement. Even if it could possibly be skipped.
+セミコロンは各ステートメントの後に存在するべきです。たとえ省略できるとしても。
 
-There are languages where a semicolon is truly optional. It's rarely used there. But in JavaScript there are few cases when a line break is sometimes not interpreted as a semicolon. That leaves a place for programming errors.
+セミコロンが本当にオプションである言語があります。 それはほとんど使用されていません。 しかし、JavaScriptでは、改行がセミコロンとして解釈されないことがあるケースはほとんどありません。 それはプログラミングエラーの場所を残します。
 
-As you become more mature as a programmer, you may choose a no-semicolon style, like [StandardJS](https://standardjs.com/), but that's only when you know JavaScript well and understand possible pitfalls.
+プログラマとしてより成熟するにつれて、セミコロンなしのスタイルを選ぶかもしれません、[StandardJS](https://standardjs.com/), しかし、それはあなたがJavaScriptをよく知っており、かつ落とし穴の可能性を理解している場合にのみです。
 
-### Nesting levels
+### ネストレベル
 
-There should not be too many nesting levels.
+ネストのレベルが多くなり過ぎてはいけません。
 
-Sometimes it's a good idea to use the ["continue"](info:while-for#continue) directive in the loop to evade extra nesting in `if(..) { ... }`:
+`if(..) { ... }` で余分なネストを避けるために、ループで["continue"](info:while-for#continue)ディレクティブを使うことは、時には良いアイデアです。:
 
-Instead of:
+これの代わりに:
 
 ```js
 for (let i = 0; i < 10; i++) {
@@ -151,7 +150,7 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-We can write:
+こう書けます:
 
 ```js
 for (let i = 0; i < 10; i++) {
@@ -160,11 +159,11 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-A similar thing can be done with `if/else` and `return`.
+似たようなことは、`if/else` や `return` でできます。
 
-For example, two constructs below are identical.
+例えば、下之２つの構造は同一です。
 
-The first one:
+１つ目:
 
 ```js
 function pow(x, n) {
@@ -182,7 +181,7 @@ function pow(x, n) {
 }
 ```
 
-And this:
+そして２つ目:
 
 ```js
 function pow(x, n) {
@@ -201,13 +200,13 @@ function pow(x, n) {
 }
 ```
 
-...But the second one is more readable, because the "edge case" of `n < 0` is handled early on, and then we have the "main" code flow, without an additional nesting.
+...`n < 0` というエッジケースは早い段階で処理されるため、余分なネストなしのメインのコードフローとなるため、２つ目はより読みやすいです。
 
-## Functions below the code
+## コードの下の関数
 
-If you are writing several "helper" functions and the code to use them, then there are three ways to place them.
+もしいくつかの "ヘルパー関数"と、それを使うコードを書く場合、それらを配置する３つの方法があります。
 
-1. Functions above the code that uses them:
+1. それを使うコードの上に関数を記述する:
 
     ```js
     // *!*function declarations*/!*
@@ -228,7 +227,7 @@ If you are writing several "helper" functions and the code to use them, then the
     setHandler(elem);
     walkAround();
     ```
-2. Code first, then functions
+2. コードが最初で、その後に関数を記述
 
     ```js
     // *!*the code which uses the functions*/!*
@@ -250,55 +249,55 @@ If you are writing several "helper" functions and the code to use them, then the
       ...
     }
     ```
-3. Mixed: a function is described where it's first used.
+3. ミックス: 初めて使われる場所で関数を記述する
 
-Most of time, the second variant is preferred.
+ほとんどの場合、２つ目がより好まれます。
 
-That's because when reading a code, we first want to know "what it does". If the code goes first, then it provides that information. And then maybe we won't need to read functions at all, especially if their names are adequate to what they're doing.
+コードを読むとき、私たちは最初に "何をするか" を知りたいからです。もしもコードが最初にきたら、その情報が提供されます。そして、特にそれらの関数名が行っていることに相応しいものであれば、関数を読む必要は全くないかもしれません。
 
-## Style guides
+## スタイルガイド
 
-A style guide contains general rules about "how to write": which quotes to use, how many spaces to indent, where to put line breaks, etc. A lot of minor things.
+スタイルガイドは "書き方" についての一般的なルールを含みます: どの引用符を使うか、インデントするスペースの数、改行を置く場所など、多くの細かいことがあります。
 
-In total, when all members of a team use the same style guide, the code looks uniform. No matter who of the team wrote it, it's still the same style.
+全体で、チーム全員が同じスタイルガイドを使うとき、コードは画一的になります。チームの誰がそれを書いても、同じスタイルになります。
 
-Surely, a team may think out a style guide themselves. But as of now, there's no need to. There are many tried, worked-out style guides, which are easy to adopt.
+確かに、チームは彼ら自身のスタイルガイドを考えるかもしれません。しかし今のところそれをする必要はありません。多くの試行、鍛え上げられたスタイルガイドがあります、そしてそれを適用するのは簡単です。
 
-For instance:
+例えば:
 
 - [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
 - [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
 - [Idiomatic.JS](https://github.com/rwaldron/idiomatic.js)
 - [StandardJS](https://standardjs.com/)
-- (there are more)
+- (他にもあります)
 
-If you're a novice developer, then you could start with the cheatsheet above in the chapter, and later browse the style guides to pick up the common principles and maybe choose one.
+あなたが新米の開発者であれば、上のチートシートから始める事ができます。そしてその後、共通の原則を拾うためにスタイルガイドを参照し、１つを選ぶかもしれません。
 
-## Automated linters
+## 自動 linter
 
-There are tools that can check the code style automatically. They are called "linters".
+コードのスタイルを自動でチェックできるツールがあります。それらを "linter" と呼びます。
 
-The great thing about them is that style-checking also finds some bugs, like a typo in a variable or function name.
+それらの素晴らしい点は、スタイルチェックは、変数や関数名の中のタイポなど、いくつかのバグも見つけます。
 
-So it's recommended to install one, even if you don't want to stick to a "code style". They help to find typos -- and that's already good enough.
+なので、たとえ "コードスタイル" に固執したくない場合でも、それを導入得することを推奨します。それらはタイポを見つけるのに役立ち -- それだけで既に十分です。
 
-Most well-known tools are:
+もっともよく知られているツールは:
 
 - [JSLint](http://www.jslint.com/) -- one of the first linters.
 - [JSHint](http://www.jshint.com/) -- more settings than JSLint.
 - [ESLint](http://eslint.org/) -- probably the newest one.
 
-All of them can do the job. The author uses [ESLint](http://eslint.org/).
+これらすべて仕事ができます。この著者は [ESLint](http://eslint.org/) を使ってます。
 
-Most linters are integrated with editors: just enable the plugin in the editor and configure the style.
+ほとんどの linter はエディタに統合されます: エディタのプラグインを有効にし、スタイルの設定をするだけです。
 
-For instance, for ESLint you should do the following:
+例えば、ESLint では次のようなことをします。:
 
-1. Install [Node.JS](https://nodejs.org/).
-2. Install ESLint with the command `npm install -g eslint` (npm is Node.JS package installer).
-3. Create a config file named `.eslintrc` in the root of your JavaScript project (in the folder that contains all your files).
+1. [Node.JS](https://nodejs.org/) をインストールします。
+2. `npm install -g eslint` コマンドで ESLint をインストールします(npm は Node.JS パッケージインストーラです)
+3. あなたのJavaScriptプロジェクト(あなたのすべてのファイルを含むフォルダ)のルートに `.ellintrc` という名前の設定ファイルを作ります
 
-Here's an example of `.eslintrc`:
+`.eslintrc` の例です:
 
 ```js
 {
@@ -315,22 +314,22 @@ Here's an example of `.eslintrc`:
 }
 ```
 
-Here the directive `"extends"` denotes that we base on the "eslint:recommended" set of settings, and then we specify our own.
+ここで、ディレクティブ `"extends"` は "eslint:recommended" の設定に基づいていることを示し、次に我々自身の設定を指定します。
 
-Then install/enable the plugin for your editor that integrates with ESLint. The majority of editors have it.
+次に、ESLint と統合されたエディタで、プラグインのインストール/有効化をします。多くのエディタはそれを持っています。
 
-It is possible to download style rule sets from the web and extend them instead. See <http://eslint.org/docs/user-guide/getting-started> for more details about installation.
+代わりに、Webからスタイルのルールセットをダウンロードし、それを拡張することもできます。インストールについての詳細は、<http://eslint.org/docs/user-guide/getting-started> を見てください。
 
-Using a linter has a great side-effect: linters catch typos. For instance, when an undefined variable is accessed, a linter detects it and (if integrated with an editor) highlights it. In most cases that's a mistype. So we can fix it right ahead.
+linter を使うことは素晴らしい副作用があります: linter はタイポを見つけます。例えば、未宣言変数へのアクセスがあった場合、linter はそれを検出し、(もしもエディタと統合してれば)それをハイライトします。ほとんどのケースで、それはミスタイプです。従って、私たちはそれをすぐに直すことができます。
 
-For that reason even if you're not concerned about styles, using a linter is highly recommended.
+そのような理由から、たとえあなたがスタイルについて関心がなくても、linter を利用することを強く勧めます。
 
-Also certain IDEs support built-in linting, that also may be good, but not so tunable as ESLint.
+また、とk亭のIDEは組み込みの linter をサポートしています。それもまた良いですが、ESLintよりはチューニングできません。
 
-## Summary
+## サマリ
 
-All syntax rules from this chapter and the style guides aim to increase readability, so all of them are debatable.
+このチャプターとスタイルガイドのすべての構文ルールは、可読性を高めるのが狙いなので、すべて議論の余地があります。
 
-When we think about "how to write better?", the sole criterion is "what makes the code more readable and easier to understand? what helps to evade errors?" That's the main thing to keep in mind when choosing the style or discussing which one is better.
+私たちが "より良く書くための方法" について考えるとき、唯一の基準は "コードをより読みやすく理解しやすくすること、エラーを回避するのに役立つこと" です。それがスタイルを選んだり、どちらがより良いかを議論する時に心に留めておく重要なことです。
 
-Read style guides to see the latest ideas about that and follow those that you find the best.
+それについての最新の考えを知るためにスタイルガイドを読み、あなたが見つけた最高のアイデアに従いましょう。
