@@ -1,14 +1,14 @@
-# Comments
+# コメント
 
-As we know from the chapter <info:structure>, comments can be single-line: starting with `//` and multiline: `/* ... */`.
+チャプター <info:structure> で知っている通り、コメントは１行(`//` で始まります)または複数行(`/* ... */`)にできます。
 
-We normally use them to describe how and why the code works.
+私たちは通常、それを使って、どうやって、そしてなぜそのコードが動作するのかを説明します。
 
-From the first sight, commenting might be obvious, but novices in programming usually get it wrong.
+初見では、コメントすることは当たり前かもしれませんが、プログラム初心者は通常間違えます。
 
-## Bad comments
+## 悪いコメント
 
-Novices tend to use comments to explain "what is going on in the code". Like this:
+初心者は "コード内で起こっていること" を説明するためにコメントを使う傾向があります。このように:
 
 ```js
 // This code will do this thing (...) and that thing (...)
@@ -18,13 +18,13 @@ complex;
 code;
 ```
 
-But in a good code the amount of such "explanatory" comments should be minimal. Seriously, a code should be easy to understand without them.
+しかし良いコードでは、このような "説明的な" コメントは最小限にすべきです。真剣に、コードはそれらなしで理解しやすくするべきです。
 
-There's a great rule about that: "if the code is so unclear that it requires a comment, then maybe it should be rewritten instead".
+それについて素晴らしいルールがあります。"もしもコードがコメントを必要とするほど不明瞭な場合、代わりに書き直すべきかもしれません"。
 
-### Recipe: factor out functions
+### レシピ: 関数を取り除く
 
-Sometimes it's beneficial to replace a code piece with a function, like here:
+時々、このようにコードの一部を関数に置き換えることは有益です:
 
 ```js
 function showPrimes(n) {
@@ -43,7 +43,7 @@ function showPrimes(n) {
 }
 ```
 
-The better variant, with a factored out function `isPrime`:
+関数 `isPrime` を取り除いたよりよりバリアントです。:
 
 
 ```js
@@ -65,11 +65,11 @@ function isPrime(n) {
 }
 ```
 
-Now we can understand the code easily. The function itself becomes the comment. Such code is called *self-descriptive*.
+今や、私たちはコードを簡単に理解することが出来ます。関数自身がコメントになります。このようなコードは *自己記述的* と呼ばれます。
 
-### Recipe: create functions
+### レシピ: 関数を作成する
 
-And if we have a long "code sheet" like this:
+また、もし私たちがこのような長い "コードシート" を持っている場合:
 
 ```js
 // here we add whiskey
@@ -90,7 +90,7 @@ for(let t = 0; t < 3; t++) {
 // ...
 ```
 
-Then it might be a better variant to refactor it into functions like:
+次のような関数にリファクタリングするのがより良い方法かもしれません:
 
 ```js
 addWhiskey(glass);
@@ -111,21 +111,21 @@ function addJuice(container) {
 }
 ```
 
-Once again, functions themselves tell what's going on. There's nothing to comment. And also the code structure is better when split. It's clear what every function does, what it takes and what it returns.
+もう一度、関数自身は起こっていることを伝え、コメントするものは何もありません。また分けるとコードの構造はより良くなります。それぞれの関数がすること、何を取り何を返すのかは明白です。
 
-In reality, we can't totally evade "explanatory" comments. There are complex algorithms. And there are smart "tweaks" for purposes of optimization. But generally we should try to keep the code simple and self-descriptive.
+現実では、完全に "説明的な" コメントを避けることはできません。複雑なアルゴリズムがあります。そして最適化のためのスマートな "微調整" があります。しかし、一般的にコードをシンプルで、自己記述的に保つよう努めるべきです。
 
-## Good comments
+## 良いコメント
 
-So, explanatory comments are usually bad. Which comments are good?
+したがって、説明的なコメントは通常悪いです。どのコメントが良いでしょう？
 
-Describe the architecture
-: Provide a high-level overview of components, how they interact, what's the control flow in various situations... In short -- the bird's eye view of the code. There's a special diagram language [UML](http://wikipedia.org/wiki/Unified_Modeling_Language) for high-level architecture diagrams. Definitely worth studying.
+アーキテクチャの説明をする
+: 高水準のコンポーネントの概要、相互作用の方法、様々な状況での制御フローを説明します... つまり -- コードの俯瞰図です。それは高水準のアーキテクチャ図図のための特別な言語[UML](http://wikipedia.org/wiki/Unified_Modeling_Language)があります。間違いなく学ぶ価値があります。
 
-Document a function usage
-: There's a special syntax [JSDoc](http://en.wikipedia.org/wiki/JSDoc) to document a function: usage, parameters, returned value.
+関数の使用法を文書化する
+: 関数の文書化のための特別な構文 [JSDoc](http://en.wikipedia.org/wiki/JSDoc) があります。: 使用方法、パラメータ、返却値
 
-    For instance:
+    例:
     ```js
     /**
      * Returns x raised to the n-th power.
@@ -139,42 +139,42 @@ Document a function usage
     }
     ```
 
-    Such comments allow us to understand the purpose of the function and use it the right way without looking in its code.
+    このようなコメントにより、関数の目的を理解し、コードの中を見ることなく正しい方法で利用することができます。
 
-    By the way, many editors like [WebStorm](https://www.jetbrains.com/webstorm/) can understand them as well and use them to provide autocomplete and some automatic code-checking.
+    ところで、[WebStorm](https://www.jetbrains.com/webstorm/) のような多くのエディタも同様に、それらを理解することができ、オートコンプリートやいくつかの自動コードチェックを提供するのに使います。
 
-    Also, there are tools like [JSDoc 3](https://github.com/jsdoc3/jsdoc) that can generate HTML-documentation from the comments. You can read more information about JSDoc at <http://usejsdoc.org/>.
+    また、コメントからHTMLドキュメントを生成することができる [JSDoc 3](https://github.com/jsdoc3/jsdoc) のようなツールもあります。JSDocに関するより多くの情報は <http://usejsdoc.org/> で読むことができます。
 
-Why is the task solved this way?
-: What's written is important. But what's *not* written maybe even more important to understand what's going on. Why is the task solved exactly this way? The code gives no answer.
+なぜこのように解決されるのか？
+: 何が書かれているかが重要です。が、起こっていることを理解するためには、*書かれていないこと* がより重要かもしれません。正確にはなぜそのタスクがこの方法で解決されるのか？コードは回答しません。
 
-    If there are many ways to solve the task, why this one? Especially when it's not the most obvious one.
+    もしそのタスクをを解決る方法が沢山有る場合、なぜこれを選んだのでしょう？特に、それが最も明白なものではないとき。
 
-    Without such comments the following situation is possible:
-    1. You (or your colleague) open the code written some time ago, and see that it's "suboptimal".
-    2. You think: "How stupid I was then, and how much smarter I'm now", and rewrite using the "more obvious and correct" variant.
-    3. ...The urge to rewrite was good. But in the process you see that the "more obvious" solution is actually lacking. You even dimly remember why, because you already tried it long ago. You revert to the correct variant, but the time was wasted.
+    このようなコメントがなければ、次のような状況が起こりえます:
+    1. あなた(もしくは同僚) はいくらか前に書かれたコードを開き、それが "準最適" であることを確認します。
+    2. あなたは考えます: "私はなんて愚かだったのか、そして今はどれだけスマートになったのか"、そして "より明白で正しい" バリアントを使って書き直します。
+    3. ... 書き直すと言う衝動は良かったです。しかし、そのプロセスでは、あなたは "より明白な" 解決策は実際には欠けていることがわかります。既にずっと前にそれを試みていたので、なぜかをぼんやり覚えています。あなたは正しいバリアントに戻しますが、時間が無駄になりました。
 
-    Comments that explain the solution are very important. They help to continue development the right way.
+    解決策を説明するコメントはとても重要です。それらは正しい方向で開発を続けるのを助けます。
 
-Any subtle features of the code? Where they are used?
-: If the code has anything subtle and counter-obvious, it's definitely worth commenting.
+コードの捉えにくい特徴はある？それらはどこで使われる？
+: もしもコードが捉えにくく、紛らわしいものがある場合には、きっとコメントする価値があります。
 
-## Summary
+## サマリ
 
-An important sign of a good developer is comments: their presence and even their absense.
+よい開発者の重要なサインはコメントです: それらの存在、またそれらの欠如。
 
-Good comments allow us to maintain the code well, come back to it after a delay and use it more effectively.
+よいコメントは、コードを上手く維持し、時間が経った後にそこに戻り、それをより有効に使用できるようにします。
 
-**Comment this:**
+**これをコメントする:**
 
-- Overall architecture, high-level view.
-- Function usage.
-- Important solutions, especially when not immediately obvious.
+- 全体的なアーキテクチャ、高水準の概説
+- 関数の使用方法
+- 重要な解決策、特にそれが一目瞭然でないとき
 
-**Evade comments:**
+**コメントを避ける:**
 
-- That tell "how code works" and "what it does".
-- Put them only if it's impossible to make the code so simple and self-descriptive that it doesn't require those.
+- "どのようにコードが動くか" そして "それが何をするか" を伝える
+- コードを、コメントを必要としないような、シンプルで自己記述的にすることが不可能な場合にのみ置きます。
 
-Comments are also used for auto-documenting tools like JSDoc3: they read them and generate HTML-docs (or docs in another format).
+コメントはJSDoc3のような自動文書化ツールにも使われます: それらはコメントを読んで、HTML-docs（または別の形式の文書）を生成します。
