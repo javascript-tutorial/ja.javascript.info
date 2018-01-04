@@ -1,61 +1,61 @@
-# Ninja code
+# 忍者コード
 
-Programmer ninjas of the past used these tricks to make code maintainers cry. Code review gurus look for them in test tasks. Novice developers sometimes use them even better than programmer ninjas.
+過去のプログラマーの忍者は、コード管理者泣かせのトリックを使いました。コードレビューの専門家はテストタスクでそれらを探します。新米の開発者はプログラマー忍者よりも優れたものを利用する場合があります。
 
-Read them carefully and find out who you are -- a ninja, a novice, or maybe a code reviewer?
+それらを注意深く読んで、あなたが誰であるかを知ってください -- 忍者、初心者、またはコードレビューア？
 
 [cut]
 
 ```warn header="Irony detected"
-These are rules of writing bad code. Just... You know, some people miss the point.
+これらは悪いコードを書き込むルールです。なので、一部の人々には的を得ていません。
 ```
 
-## Brevity is the soul of wit
+## 簡潔は機知の精髄
 
-Make the code as short as possible. Show how smart you are.
+できるだけ短くコードを書きましょう。どれだけあなたがスマートか示しましょう。
 
-Let subtle language features guide you.
+捉えにくい言語機能があなたを導きます。
 
-For instance, take a look at this ternary operator `'?'`:
+例えば、この３項演算子 `'?'` を見てください:
 
 ```js
 // taken from a well-known javascript library
 i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 ```
 
-Cool, right? If you write like that, the developer who comes across this line and tries to understand what is the value of `i` is going to have a merry time. Then come to you, seeking for an answer.
+クールですよね？もしあなたがそのように書いたら、この行に来て `i` の値が何かを理解しようとする開発者は、愉快な時間をすごすことになります。そして、あなたのところに来て、答えを求めます。
 
-Tell him that shorter is always better. Initiate him into the paths of ninja.
+彼により短いことが常により良いと教えましょう。彼を忍者の道に導きましょう。
 
-## One-letter variables
+## 一文字の変数
 
 ```quote author="Laozi (Tao Te Ching)"
-The Dao hides in wordlessness. Only the Dao is well begun and well
-completed.
+道は言葉にならないことの中に隠れています。道だけが上手く始まり、よく完成しました。
+(The Dao hides in wordlessness. Only the Dao is well begun and well completed.)
 ```
 
-Another way to code faster (and much worse!) is to use single-letter variable names everywhere. Like `a`, `b` or `c`.
+より速くコード化(そしてはるかに悪くなる!)する別の方法は、いたるところで１文字の変数名を使うことです。`a`, `b` や `c` のように。
 
-A short variable disappears in the code like a real ninja in the forest. No one will be able to find it using "search" of the editor. And even if someone does, he won't be able to "decipher" what the name `a` or `b` means.
+森の中での本物の忍者のように、短い変数はコードの中で消えます。だれもエディタの "検索" を使ってみるけることが出来ません。そして、たとえ誰かがそうしたとしても、`a` や `b` が意味することを "解読" することができないでしょう。
 
-...But there's an exception. A real ninja will never use `i` as the counter in a `"for"` loop. Anywhere, but not here. Look around, there are many more exotic letters. For instance, `x` or `y`.
+...しかし、例外があります。本当の忍者は決して `"for"` ループのカウンタとして `i` を使いません。どこにでもありますが、ここではありません。周囲を見回して、多くのよりエキゾチックな文字があります。例えば `x` または `y` です。
 
-An exotic variable as a loop counter is especially cool if the loop body takes 1-2 pages (make it longer if you can). Then if someone looks deep inside the loop, he won't be able to quickly figure out that the variable named `x` is the loop counter.
+ループカウンタとしてのエキゾチックな変数は、ループ本体が 1-2 ページ(できればより長くする)の場合は特にクールです。誰かがそのループを深く見ていると、変数名 `x` がループカウンタであることはすぐにはわからないでしょう。
 
-## Use abbreviations
+## 略語を使用する
 
-If the team rules forbid the use of one-letter and vague names -- shorten them, make abbreviations.
+もしもチームのルールが１文字で漠然とした名前の使用を禁止している場合、それらを短縮して略語を作ってください。
 
-Like this:
+このように:
 
 - `list` -> `lst`.
 - `userAgent` -> `ua`.
 - `browser` -> `brsr`.
 - ...etc
 
-Only the one with truly good intuition will be able to understand such names. Try to shorten everything. Only a worthy person should be able to uphold the development of your code.
+本当に良い直感を持っている人だけが、そのような名前を理解することが出来ます。すべてを短縮してみましょう。あなたのコードを支えることができるのは、有能な人だけです。
 
-## Soar high. Be abstract.
+## 高く舞い上がる、抽象的になる
 
 ```quote author="Laozi (Tao Te Ching)"
 The great square is cornerless<br>
@@ -64,54 +64,53 @@ The great note is rarified sound,<br>
 The great image has no form.
 ```
 
-While choosing a name try to use the most abstract word. Like `obj`, `data`, `value`, `item`, `elem` and so on.
+名前を選んでいるとき、最も抽象的な言葉を使ってみてください。`obj`, `data`, `value`, `item`, `elem` など。
 
-- **The ideal name for a variable is `data`.** Use it everywhere you can. Indeed, every variable holds *data*, right?
+- **変数の理想の名前は `data`** どこでもそれを使いましょう。確かにすべての変数は *データ* を保持していますよね。
 
-    ...But what to do if `data` is already taken? Try `value`, it's also universal. After all, a variable eventually gets a *value*.
+    ...しかし、もし `data` が既に取られていたらどうしますか？ `value` を試みてみましょう、それもまた普遍的です。結局、変数は最終的に *値* を取得します。
 
-- **Name a variable by its type: `str`, `num`...**
+- **変数をその型で命名する: `str`, `num`...**
 
-    Give them a try. A young ninja may wonder -- do such names make the code worse? Actually, yes!
+    試してみましょう。若い忍者は不思議に思うかもしれません -- このような名前はコードを悪化させるのか？実はそうです!
 
-    From one hand, the variable name still means something. It says what's inside the variable: a string, a number or something else. But when an outsider tries to understand the code, he'll be surprised to see that there's actually no information at all!
+    一方で、そうは言っても変数名は何かを意味しています。それは変数の中身のことです: 文字列、数値またはそれ以外の何か。しかし外部からコードを理解しようとするとき、実際には全く情報がないことに驚くでしょう!
 
-    Indeed, the value type is easy to find out by debugging. But what's the meaning of the variable? Which string/number does it store? There's just no way to figure out without a good meditation!
+    実際、値の型はデバッグで簡単にわかります。しかし変数が意味するものが何か？どの文字列/数値が格納されるのか？良い瞑想なしでそれを理解する方法はありません。
 
-- **...But what if there are no more such names?** Just add a number: `data1, item2, elem5`...
+- **...しかし、それ以上このような名前がなかったらどうしますか？** 単に数値を付け足します: `data1, item2, elem5`...
 
-## Attention test
+## 注意力テスト
 
-Only a truly attentive programmer should be able to understand the code. But how to check that?
+本当に気が利くプログラマだけがそのコードを理解できます。しかし、どうやってそれをチェックしますか？
 
-**One of the ways -- use similar variable names, like `date` and `data`.**
+**方法の１つは -- 似た変数名を使うことです。`date` や `data` のように**
 
-Mix them where you can.
+できるだけそれらをミックスしてください。
 
-A quick read of such code becomes impossible. And when there's a typo... Ummm... We're stuck for long, time to drink tea.
+このようなコードを素早く読むことは不可能です。また、タイポがある場合...うーん...私たちは長い時間行き詰まります。
 
-
-## Smart synonyms
+## いかす同義語
 
 ```quote author="Confucius"
-The hardest thing of all is to find a black cat in a dark room, especially if there is no cat.
+最も難しいことは暗い部屋で黒猫を見つけることです。そこに猫がいない場合は特にそうです。
 ```
 
-Using *similar* names for *same* things makes life more interesting and shows your creativity to the public.
+*同じ* もののために *類似の* 名前を使うことは人生をより面白くし、あなたの創造性を外に示します。
 
-For instance, consider function prefixes. If a function shows a message on the screen -- start it with `display…`, like `displayMessage`. And then if another function shows on the screen something else, like a user name, start it with `show…` (like `showName`).
+例えば、関数のプレフィックスを考えてください。もし関数が画面上にメッセージ表示するとしたら、 -- `displayMessage` のように `display…` から始めます。そして、次に別の関数でユーザ名のような、何かを画面に表示するとき、`showName` など `show…` から始めます。
 
-Insinuate that there's a subtle difference between such functions, while there is none.
+実際にはそこには何もない傍らで、このような関数の間で微妙な違いをほのめかしましょう。
 
-Make a pact with fellow ninjas of the team: if John starts "showing" functions with `display...` in his code, then Peter could use `render..`, and Ann -- `paint...`. Note how much more interesting and diverse the code became.
+チームの仲間の忍者と契約を結びましょう: もしジョンが "表示をする" 関数を `display...` で始めたら、ピーターは `render...` を使い、アンは -- `paint...` を。どのくらい面白くて多様なコードになったかに注意してください。
 
-...And now the hat trick!
+...そして今やハットトリックです!
 
-For two functions with important differences -- use the same prefix!
+重要な違いを持つ２つの関数では -- 同じプレフィックスを使いましょう!
 
-For instance, the function `printPage(page)` will use a printer. And the function `printText(text)` will put the text on-screen. Let an unfamiliar reader think well over similarly named function `printMessage`: "Where does it put the message? To a printer or on the screen?". To make it really shine, `printMessage(message)` should output it in the new window!
+例えば、関数 `printPage(page)` はプリンタを使うでしょう。そして関数 `printText(text)` は画面上にテキストを表示します。使い慣れていない読み手に類似の名前がつけられた関数 `printMessage` について考えてさせましょう。: "これはどこにメッセージを置きますか？プリンタ、または画面？" 本当に輝かせるために `printMessage(message)` は新しいウィンドウに表示するべきです!
 
-## Reuse names
+## 名前の再利用
 
 ```quote author="Laozi (Tao Te Ching)"
 Once the whole is divided, the parts<br>
@@ -120,17 +119,17 @@ There are already enough names.<br>
 One must know when to stop.
 ```
 
-Add a new variable only when absolutely necessary.
+間違いなく必要なときにだけ、新しい変数を追加してください。
 
-Instead, reuse existing names. Just write new values into them.
+代わりに、既存の名前を再利用してください。新しい値をそこに書き込みます。
 
-In a function try to use only variables passed as parameters.
+関数では、パラメータとして渡された変数だけを使用しようとしてください。
 
-That would make it really hard to identify what's exactly in the variable *now*. And also where it comes from. A person with weak intuition would have to analyze the code line-by-line and track the changes through every code branch.
+そうすれば、変数 *now* に入っているものを正確に特定するのは本当に難しくなります。また、それがどこから来るのかも。直感の弱い人は１行ずつコードを解析し、すべてのコードのブランチの変更を追跡する必要があります。
 
-**An advanced variant of the approach is to covertly (!) replace the value with something alike in the middle of a loop or a function.**
+**そのアプローチの高度のバリアントは、ループや関数の途中で、同質の何かにこっそり (!) を置き換えることです。**
 
-For instance:
+例えば:
 
 ```js
 function ninjaFunction(elem) {
@@ -142,32 +141,32 @@ function ninjaFunction(elem) {
 }
 ```
 
-A fellow programmer who wants to work with `elem` in the second half of the function will be surprised... Only during the debugging, after examining the code he will find out that he's working with a clone!
+関数の後半で、`elem` を使いたい仲間のプログラマは驚くでしょう... デバッグのときにだけ。コードを調べた後、自分が clone に対して処理をしていることに気づくでしょう。
 
-Deadly effective even against an experienced ninja. Seen in code regularly.
+経験豊富な忍者に対しても、殺人的に効果的です。
 
-## Underscores for fun
+## 楽しみのためのアンダースコア
 
-Put underscores `_` and `__` before variable names. Like `_name` or `__value`. It would be great if only you knew their meaning. Or, better, add them just for fun, without particular meaning at all. Or different meanings in different places.
+変数名の前にアンダースコア `_` と `__` を置きましょう、`_name` もしくは `__value` のように。もしあなただけがその意味を知っているなら素晴らしいです。もしくは、特に意味はなく単に楽しむために追加するのもよいです。異なる場所で異なる意味をもたせるのも良いです。
 
-You kill two rabbits with one shot. First, the code becomes longer and less readable, and the second, a fellow developer may spend a long time trying to figure out what the underscores mean.
+あなたは、一度のショットで、２匹のうさぎを殺します。１つ目は、コードがより長くなり可読性を下げます。２つ目は、仲間の開発者はアンダースコアの意味を知ろうとするために長い時間を費やすかもしれません。
 
-A smart ninja puts underscores at one spot of code and evades them at other places. That makes the code even more fragile and increases the probability of future errors.
+賢い忍者はコードの１ヶ所にアンダースコアを置き、別の場所では避けます。これにより、さらにコードが壊れやすくなり、未来のエラーの可能性が高まります。
 
 ## Show your love
 
-Let everyone see how magnificent your entities are! Names like `superElement`, `megaFrame` and `niceItem` will definitely enlighten a reader.
+みんなにあなたの存在がどれだけ壮大かを見せてください! `superElement`, `megaFrame` や `niceItem` のような名前はきっと読者を啓発します。
 
-Indeed, from one hand, something is written: `super..`, `mega..`, `nice..` But from the other hand -- that brings no details. A reader may decide to look for a hidden meaning and meditate for an hour or two.
+確かに、片方では何かが書かれています: `super..`, `mega..`, `nice..`。 しかしその一方では -- それは詳細をもたらしません。読者はその隠された意味を探し、1〜2時間そのために瞑想するかもしれません。
 
-## Overlap outer variables
+## 外部の変数と重ね合わせる
 
 ```quote author="Guan Yin Zi"
 When in the light, can't see anything in the darkness.<br>
 When in the darkness, can see everything in the light.
 ```
 
-Use same names for variables inside and outside a function. As simple. No efforts required.
+関数の内側と外側で同じ変数名を使ってください。単純で努力は不要です。
 
 ```js
 let *!*user*/!* = authenticateUser();
@@ -182,47 +181,46 @@ function render() {
 }
 ```
 
-A programmer who jumps inside the `render` will probably fail to notice that there's a local `user` shadowing the outer one.
+`render` の内側へジャンプしてきたプログラマは、恐らくローカルの `user` が外の `user` を隠していることに気づかないでしょう。
 
-Then he'll try to work with `user` assuming that it's the external variable, the result of `authenticateUser()`... The trap is sprung! Hello, debugger...
+そして、外部変数、`authenticateUser()` の結果であるという想定で `user` を使って処理しようと試みるでしょう... トラップが飛び出しました!こんにちは、デバッガー...
+
+## 至るところで副作用!
+
+何も変えないように見える関数があります。 `isReady()`, `checkPermission()`, `findTags()`... それらは、外側のものを内も変えることなく、データを計算したり、見つけたり返したりすると想定されています。言い換えると、"副作用" なしです。
+
+**本当に美しいトリックはそれらに "役立つ" アクションを追加することです、メインのタスクに加えて。**
+
+`is..`, `check`, または `find..` と名づけられた関数が何かを変更するとき、あなたの同僚の顔の驚きの表情は、きっとあなたの境界を広げるでしょう。
+
+**驚かせるための別の方法は標準ではない結果を返すことです。**
+
+あなたのオリジナルの考えを見せましょう! `checkPermission` の呼び出しで、 `true/false` ではなく、確認結果の複雑なオブジェクトを返すようにしましょう。
+
+`if (checkPermission(..))` を書こうとした開発者はなぜ動かないのか不思議に思うでしょう。彼らに教えましょう: "ドキュメントを読みなさい!" そしてこの記事を見せてください。
 
 
-## Side-effects everywhere!
-
-There are functions that look like they don't change anything. Like `isReady()`, `checkPermission()`, `findTags()`... They are assumed to carry out calculations, find and return the data, without changing anything outside of them. In other words, without "side-effects".
-
-**A really beautiful trick is to add a "useful" action to them, besides the main task.**
-
-The expression of dazed surprise on the face of your colleague when he sees a function named `is..`, `check..` or `find...` changing something -- will definitely broaden your boundaries of reason.
-
-**Another way to surprise is to return a non-standard result.**
-
-Show your original thinking! Let the call of `checkPermission` return not `true/false`, but a complex object with the results of the check.
-
-Those developers who try to write `if (checkPermission(..))`, will wonder why it doesn't work. Tell them: "Read the docs!". And give this article.
-
-
-## Powerful functions!
+## 強力な関数!
 
 ```quote author="Laozi (Tao Te Ching)"
 The great Tao flows everywhere,<br>
 both to the left and to the right.
 ```
 
-Don't limit the function by what's written in its name. Be broader.
+その名前に書かれていることで関数を制限しないでください。広くあれ。
 
-For instance, a function `validateEmail(email)` could (besides checking the email for correctness) show an error message and ask to re-enter the email.
+例えば、関数 `validateEmail(email)` は(emailの正しさのチェックに加えて)エラーメッセージを表示し、emailを再度入力することを要求します。
 
-Additional actions should not be obvious from the function name. A true ninja coder will make them not obvious from the code as well.
+追加のアクションは関数名から明白であってはなりません。本当の忍者のコーダは、同様にコードからもそれを明らかにしません。
 
-**Joining several actions into one protects your code from reuse.**
+**いくつかのアクションを１つに結合すると、あなたのコードを再利用から守ります。**
 
-Imagine, another developer wants only to check the email, and not output any message. Your function  `validateEmail(email)` that does both will not suit him. So he won't break your meditation by asking anything about it.
+想像してみてください、emailのチェックだけ行い、メッセージを出力したくない開発者を。両方を行うあなたの関数 `validateEmail(email)` は彼にはマッチしません。そのため、彼はそれについて何かを尋ねるようなことはしないので、あなたの瞑想が中断させられることはありません。
 
-## Summary
+## サマリ
 
-All "pieces of advice" above are from the real code... Sometimes, written by experienced developers. Maybe even more experienced than you are ;)
+すべての上の "アドバイス" は実際のコードからです... ときどき、経験豊富な開発者により書かれています。たぶんあなたよりも経験豊かな ;)
 
-- Follow some of them, and your code will become full of surprises.
-- Follow many of them, and your code will become truly yours, no one would want to change it.
-- Follow all, and your code will become a valuable lesson for young developers looking for enlightenment.
+- それらのいくつかに従うと、あなたのコードは驚きに満ちるでしょう。
+- それらの多くをフォローすると、あなたのコードはあなたのものになり、誰もそれを変更したくないでしょう。
+- すべてを守れば、あなたのコードは、啓発を求める若い開発者にとって貴重な教訓になるでしょう。
