@@ -1,57 +1,58 @@
 
 # Polyfills
 
-The JavaScript language steadily evolves. New proposals to the language appear regularly, they are analyzed and, if considered worthy, are appended to the list at <https://tc39.github.io/ecma262/> and then progress to the [specification](http://www.ecma-international.org/publications/standards/Ecma-262.htm).
+JavaScript言語は着実に進化しています。言語への新たな提案は定期的にだされ、それらは分析され、価値があると考えられたら <https://tc39.github.io/ecma262/> の一覧に追加され、[仕様](http://www.ecma-international.org/publications/standards/Ecma-262.htm) に進みます。
 
-Teams behind JavaScript engines have their own ideas about what to implement first. They may decide to implement proposals that are in draft and postpone things that are already in the spec, because they are less interesting or just harder to do.
+JavaScriptエンジンのチームは何を最初に実装するかの考えを持っています。彼らは、それらは面白くないか、やるのが難しいと言う理由で、ドラフト段階の提案を実装し、既に仕様となったものの実装を延期するかもしれません。
 
-So it's quite common for an engine to implement only the part of the standard.
+従って、エンジンが標準の一部のみ実装されていることはとても一般的なことです。
 
-A good page to see the current state of support for language features is <https://kangax.github.io/compat-table/es6/> (it's big, we have a lot to study yet).
+言語機能の現在のサポート状況を見るための良いページは <https://kangax.github.io/compat-table/es6/> です(それは大きく、まだ勉強すべき多くのことがあります)。
 
 ## Babel
 
-When we use modern features of the language, some engines may fail to support such code. Just as said, not all features are implemented everywhere.
+我々が言語の最新の機能を使うとき、いくつかのエンジンはこのようなコードをサポートしていないかもしれません。先ほど言ったように、どこでもすべての機能が実装されている訳ではありません。
 
-Here Babel comes to the rescue.
+ここで、Babelは助けに来ます。
 
-[Babel](https://babeljs.io) is a [transpiler](https://en.wikipedia.org/wiki/Source-to-source_compiler). It rewrites modern JavaScript code into the previous standard.
+[Babel](https://babeljs.io) は [トランスパイラ](https://en.wikipedia.org/wiki/Source-to-source_compiler)です。
+最新のJavaScriptコードを前の標準に書き直します。
 
-Actually, there are two parts in Babel:
+実際には、Babelには２つのパートがあります:
 
-1. First, the transpiler program, which rewrites the code. The developer runs it on his own computer. It rewrites the code into the older standard. And then the code is delivered to the website for users. Modern project build system like [webpack](http://webpack.github.io/) or [brunch](http://brunch.io/) provide means to run transpiler automatically on every code change, so that doesn't involve any time loss from our side.
+1. 最初は、トランスパイラのプログラム、それはコードを書き直します。開発者は自身のPC上でそれを実行します。するとコードが古い標準のものに書き直されます。そして、コードはWebサイトにデリバリされます。[webpack](http://webpack.github.io/) や [brunch](http://brunch.io/) のような現代のプロジェクトのビルドシステムは、すべてのコード変更時に自動でトランスパイラを実行する手段を提供しています。そのため、私たち側の時間を取ることはありません。
 
-2. Second, the polyfill.
+2. ２つ目は polyfillです。
 
-    The transpiler rewrites the code, so syntax features are covered. But for new functions we need to write a special script that implements them. JavaScript is a highly dynamic language, scripts may not just add new functions, but also modify built-in ones, so that they behave according to the modern standard.
+    トランスパイラはコードを書き直すので、構文機能はカバーされます。しかし、新しい関数のために、それを実装するための特別なスクリプトを書く必要があります。JavaScriptは非常にな動的な言語であり、スクリプトは新しい機能を追加するだけでなく、組み込みのものの修正もするかもしれません。なので、現代の標準に従って動作するようにすることができます。
 
-    There's a term "polyfill" for scripts that "fill in" the gap and add missing implementations.
+    ギャップと欠けている実装を "埋める" スクリプトとして、"poloyfill" という用語があります。
 
-    Two interesting polyfills are:
-    - [babel polyfill](https://babeljs.io/docs/usage/polyfill/) that supports a lot, but is big.
-    - [polyfill.io](http://polyfill.io) service that allows to load/construct polyfills on-demand, depending on the features we need.
+    興味深い２つの polyfill は:
+    - [babel polyfill](https://babeljs.io/docs/usage/polyfill/) 多くをサポートしますが、大きいです.
+    - [polyfill.io](http://polyfill.io) 必要な機能に応じて、オンデマンドで polyfill を読み込み/構築することができます。
 
-So, we need to setup the transpiler and add the polyfill for old engines to support modern features.
+従って、私たちはトランスパイラをセットアップし、古いエンジンが最新の機能をサポートするために polyfill を追加する必要があります。
 
-If we orient towards modern engines and do not use features except those supported everywhere, then we don't need to use Babel.
+もし、私たちが最新のエンジンを対象とし、どこでもサポートされているもの以外の機能を使わないのであれば、Babelを使う必要はありません。
 
-## Examples in the tutorial
+## チュートリアルの例
 
 
 ````online
-Most examples are runnable at-place, like this:
+ほとんどの例は次のように実行可能です:
 
 ```js run
 alert('Press the "Play" button in the upper-right corner to run');
 ```
 
-Examples that use modern JS will work only if your browser supports it.
+最新のJSを使った例は、あなたのブラウザがそれをサポートしている場合にだけ動作します。
 ````
 
 ```offline
-As you're reading the offline version, examples are not runnable. But they usually work :)
+オフライン版で呼んでいるのであれば、例は実行できませんが、通常動作します :)
 ```
 
-[Chrome Canary](https://www.google.com/chrome/browser/canary.html) is good for all examples, but other modern browsers are mostly fine too.
+[Chrome Canary](https://www.google.com/chrome/browser/canary.html) はすべての例によいですが、他の最新のブラウザもほとんど大丈夫です。
 
-Note that on production we can use Babel to translate the code into suitable for less recent browsers, so there will be no such limitation, the code will run everywhere.
+本番では、Babelを使ってコードを最近のブラウザに適した形に変換できるので、このような制限はありません。コードはどこでも動くでしょう。
