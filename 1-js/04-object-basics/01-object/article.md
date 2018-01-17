@@ -1,19 +1,19 @@
 
-# Objects
+# オブジェクト
 
-As we know from the chapter <info:types>, there are seven language types in JavaScript. Six of them are called "primitive", because their values contain only a single thing (be it a string or a number or whatever).
+チャプター <info:types> で知っている通り、７つの言語の型がJavaScriptにはあります。そのうち６つは "プリミティブ" と呼ばれています。なぜなら、それらの値は１つのものだけを含むためです(文字列、数値、もしくはどんな値にでもなります)。
 
-In contrast, objects are used to store keyed collections of various data and more complex entities. In JavaScript, objects penetrate almost every aspect of the language. So we must understand them first before going in-depth anywhere else.
+対象的に、オブジェクトは様々なデータとより複雑なエィティティのキー付けされたコレクションを保持するために使われます。JavaScriptでは、オブジェクトは言語のほぼすべての側面に入り込みます。なので、私たちはどのに行くよりもまず最初にそれらを理解する必要があります。
 
 [cut]
 
-An object can be created with figure brackets `{…}` with an optional list of *properties*. A property is a "key: value" pair, where `key` is a string (also called a "property name"), and `value` can be anything.
+オブジェクトは波括弧 `{…}`と任意の *プロパティ* のリストで作られます。プロパティは "key:value" のペアで、`key` は文字列(もしくは"プロパティ名"と呼ばれます)で、`value` は何でも構いません。
 
-We can imagine an object as a cabinet with signed files. Every piece of data is stored in it's file by the key. It's easy to find a file by it's name or add/remove a file.
+オブジェクトは、署名されたファイルのキャビネットとしてイメージすることができます。すべてのデータはキーによってそのファイルの中に保存されます。名前でファイルを見つけたり、ファイルの追加や削除は簡単です。
 
 ![](object.png)
 
-An empty object ("empty cabinet") can be created using one of two syntaxes:
+空のオブジェクト("空のキャビネット")は2つ構文のうちどちらかで作ることが出来ます:
 
 ```js
 let user = new Object(); // "object constructor" syntax
@@ -22,11 +22,11 @@ let user = {};  // "object literal" syntax
 
 ![](object-user-empty.png)
 
-Usually, the figure brackets `{...}` are used. That declaration is called an *object literal*.
+通常、波括弧 `{...}` が使われます。その宣言は *オブジェクトリテラル* と呼ばれます。
 
-## Literals and properties
+## リテラルとプロパティ
 
-We can immediately put some properties into `{...}` as "key: value" pairs:
+私たちはすぐに幾つかのプロパティを "key: value" のペアとして `{...}` の中に置くことが出来ます。
 
 ```js
 let user = {     // an object
@@ -35,20 +35,20 @@ let user = {     // an object
 };
 ```
 
-A property has a key (also known as "name" or "identifier") before the colon `":"` and a value to the right of it.
+プロパティはコロン `":"` の前がキー("名前" もしくは "識別子" として知られています)で、その右が値です。
 
-In the `user` object, there are two properties:
+`user` オブジェクトには2つのプロパティがあります:
 
-1. The first property has the name `"name"` and the value `"John"`.
-2. The second one has the name `"age"` and the value `30`.
+1. 最初のプロパティは名前 `"name"` とその値 `"John"` を持っています。
+2. 2つ目は、名前 `"age"` とその値 `30` です。
 
-The resulting `user` object can be imagined as a cabinet with two signed files labeled "name" and "age".
+生成された `user` オブジェクトは、"name" と "age" とラベル付けされた2つの署名ファイルを持つキャビネットとしてイメージできます。
 
 ![user object](object-user.png)
 
-We can add, remove and read files from it any time.
+私たちは、いつでもそこからファイルの追加、削除、参照ができます。
 
-Property values are accessible using the dot notation:
+プロパティ値へはドット表記を使いアクセスすることができます。:
 
 ```js
 // get fields of the object:
@@ -56,7 +56,7 @@ alert( user.name ); // John
 alert( user.age ); // 30
 ```
 
-The value can be of any type. Let's add a boolean one:
+値はどんな型にもなります。boolean の値を追加してみましょう:
 
 ```js
 user.isAdmin = true;
@@ -64,7 +64,7 @@ user.isAdmin = true;
 
 ![user object 2](object-user-isadmin.png)
 
-To remove a property, we can use `delete` operator:
+プロパティを削除するためには、`delete` 演算子を使います:
 
 ```js
 delete user.age;
@@ -72,7 +72,7 @@ delete user.age;
 
 ![user object 3](object-user-delete.png)
 
-We can also use multiword property names, but then they must be quoted:
+また、複数語のプロパティ名を使うこともできますが、引用符で囲む必要があります:
 
 ```js
 let user = {
@@ -86,28 +86,28 @@ let user = {
 
 
 ````smart header="Trailing comma"
-The last property in the list may end with a comma:
+このリストの最後のプロパティはカンマで終わることがあります:
 ```js
 let user = {
   name: "John",
   age: 30*!*,*/!*
 }
 ```
-That is called a "trailing" or "hanging" comma. Makes it easier to add/remove/move around properties, because all lines become alike.
+これは、「末尾」または「ぶら下がり」のコンマと呼ばれます。 すべての行が同じになるため、プロパティの追加/削除/移動が簡単になります。
 ````
 
-## Square brackets
+## 角括弧
 
-For multiword properties, the dot access doesn't work:
+複数語のプロパティでは、ドットアクセスが動作しません:
 
 ```js run
 // this would give a syntax error
 user.likes birds = true
 ```
 
-That's because the dot requires the key to be a valid variable identifier. That is: no spaces and other limitations.
+ドットは有効な変数識別子であることをキーに要求するためです。つまり: スペースなしで、その他の制限はありません。
 
-There's an alternative "square bracket notation" that works with any string:
+代わりに任意の文字列で動作する "角括弧表記" があります:
 
 
 ```js run
@@ -123,9 +123,9 @@ alert(user["likes birds"]); // true
 delete user["likes birds"];
 ```
 
-Now everything is fine. Please note that the string inside the brackets is properly quoted (any type of quotes will do).
+今やすべて問題ありません。括弧内の文字列は適切に引用符がつけられている(どのようなタイプの引用符でも動作します)ことに留意してください。
 
-Square brackets also provide a way to obtain the property name as the result of any expression -- as opposed to a literal string -- like from a variable as follows:
+角括弧は任意の式の結果としてプロパティ名を取得する方法も提供します -- リテラル文字列とは逆に -- 次のようなイメージです:
 
 ```js
 let key = "likes birds";
@@ -134,9 +134,9 @@ let key = "likes birds";
 user[key] = true;
 ```
 
-Here, the variable `key` may be calculated at run-time or depend on the user input. And then we use it to access the property. That gives us a great deal of flexibility. The dot notation cannot be used in a similar way.
+ここで、変数 `key` は実行時に計算されるかもしれないし、ユーザの入力に依存するかもしれません。そして、プロパティにアクセスするときにそれを使います。これは素晴らしい柔軟性をもたらします。ドッド表記の場合、同じようにはできません。
 
-For instance:
+例:
 
 ```js run
 let user = {
@@ -151,11 +151,11 @@ alert( user[key] ); // John (if enter "name")
 ```
 
 
-### Computed properties
+### 算出プロパティ
 
-We can use square brackets in an object literal. That's called *computed properties*.
+オブジェクトリテラルでは、角括弧を使うことが出来ます。それは *算出プロパティ* と呼ばれます。
 
-For instance:
+例:
 
 ```js run
 let fruit = prompt("Which fruit to buy?", "apple");
@@ -169,11 +169,12 @@ let bag = {
 alert( bag.apple ); // 5 if fruit="apple"
 ```
 
+算出プロパティの意味はシンプルです: `[fruit]` はプロパティ名は変数 `fruit` の値になることを意味します。
 The meaning of a computed property is simple: `[fruit]` means that the property name should be taken from `fruit`.
 
-So, if a visitor enters `"apple"`, `bag` will become `{apple: 5}`.
+なので、もし訪問者が `"apple"` を入力すると, `bag` は `{apple: 5}` になります。
 
-Essentially, that works the same as:
+基本的には、次と同じように動作します。
 ```js run
 let fruit = prompt("Which fruit to buy?", "apple");
 let bag = {};
@@ -182,9 +183,9 @@ let bag = {};
 bag[fruit] = 5;
 ```
 
-...But looks nicer.
+...がより良く見えます。
 
-We can use more complex expressions inside square brackets:
+角括弧の中では、より複雑な式を使うことが出来ます。
 
 ```js
 let fruit = 'apple';
@@ -193,16 +194,16 @@ let bag = {
 };
 ```
 
-Square brackets are much more powerful than the dot notation. They allow any property names and variables. But they are also more cumbersome to write.
+角括弧はドット表記よりもはるかに強力です。それらは任意のプロパティ名や変数を許容します。しかし、それらは書くのがより面倒です。
 
-So most of the time, when property names are known and simple, the dot is used. And if we need something more complex, then we switch to square brackets.
+なので、ほとんどの場合、プロパティ名を知っていて、志プルであれば、ドットが使われます。そして、もしより複雑な何かが必要なとき、角括弧に切り替えます。
 
 
 
 ````smart header="Reserved words are allowed as property names"
-A variable cannot have a name equal to one of language-reserved words like "for", "let", "return" etc.
+変数は "for", "let", "return" などのような 予約語と同じものをもつことはできません。
 
-But for an object property, there's no such restriction. Any name is fine:
+しかし、オブジェクトプロパティでは、このような制限はありません。どんな名前でも大丈夫です:
 
 ```js run
 let obj = {
@@ -214,7 +215,7 @@ let obj = {
 alert( obj.for + obj.let + obj.return );  // 6
 ```
 
-Basically, any name is allowed, but there's a special one: `"__proto__"` that gets special treatment for historical reasons. For instance, we can't set it to a non-object value:
+基本的に、任意の名前が許可されますが、特別なものが1つあります: `"__proto__"` は歴史的な理由から特別な扱いを受けています。例えば、私たちは、非オブジェクトにそれをセットすることは出来ません。:
 
 ```js run
 let obj = {};
@@ -222,22 +223,21 @@ obj.__proto__ = 5;
 alert(obj.__proto__); // [object Object], didn't work as intended
 ```
 
-As we see from the code, the assignment to a primitive `5` is ignored.
+コードから見たように、プリミティブ `5` への代入は無視されます。
 
-That can become a source of bugs and even vulnerabilies if we intent to store arbitrary key-value pairs in an object, and allow a visitor to specify the keys.
+もし、私たちがオブジェクトに任意の key-value のペアを保持し、、訪問者がキーを指定できるようにしたとき、それはバグや脆弱性の元になる可能性があります。
 
-In that case the visitor may choose "__proto__" as the key, and the assignment logic will be ruined (as shown above).
+それらのケースでは、訪問者はキーとして "__proto__" を選ぶかもしれません、そして代入のロジックは崩壊するでしょう(上にあるように)。
 
-There exist a way to make objects treat `__proto__` as a regular property, we'll cover it later, but first we need to know more about objects to understand it. 
-There's another data structure [Map](info:map-set-weakmap-weakset), that we'll learn in the chapter <info:map-set-weakmap-weakset>, which supports arbitrary keys. Also
+オブジェクトが、`__proto__` を通常のプロパティとして扱うようにするための方法があり、それは後で説明しますが、まずはそれを理解するためにオブジェクトについてより知る必要があります。
+別のデータ構造 [Map](info:map-set-weakmap-weakset) があり、それはチャプター <info:map-set-weakmap-weakset> で学びます。それもまた任意のキーをサポートします。
 ````
 
+## プロパティの短縮構文
 
-## Property value shorthand
+実際のコードでは、既存の変数をプロパティ名の値として使用することがよくあります。
 
-In real code we often use existing variables as values for property names.
-
-For instance:
+例えば:
 
 ```js run
 function makeUser(name, age) {
@@ -252,9 +252,9 @@ let user = makeUser("John", 30);
 alert(user.name); // John
 ```
 
-In the example above, properties have the same names as variables. The use-case of making a property from a variable is so common, that there's a special *property value shorthand* to make it shorter.
+上の例では、プロパティは変数と同じ名前を持っています。変数からプロパティを作るユースケースでは、非常に一般的です、そして、それを短くするための特別な *プロパティの短縮構文* があります。
 
-Instead of `name:name` we can just write `name`, like this:
+`name:name` の代わりに、このように単に `name` と書くことができます:
 
 ```js
 function makeUser(name, age) {
@@ -268,7 +268,7 @@ function makeUser(name, age) {
 }
 ```
 
-We can use both normal properties and shorthands in the same object:
+同じオブジェクトで、通常のプロパティと短縮構文両方を使うことができます:
 
 ```js
 let user = {
@@ -277,9 +277,9 @@ let user = {
 };
 ```
 
-## Existence check
+## 存在チェック
 
-A notable objects feature is that it's possible to access any property. There will be no error if the property doesn't exist! Accessing a non-existing property just returns `undefined`. It provides a very common way to test whether the property exists -- to get it and compare vs undefined:
+注目すべきオブジェクトの機能は、どんなプロパティへのアクセスできることです。もしプロパティが存在しない場合でもエラーにはなりません!存在しないプロパティへのアクセスは、単に `undefined` を返します。これは、プロパティが存在するかどうかを確認する非常に一般的な方法です -- その値を取得し、 undefined と比較します。:
 
 ```js run
 let user = {};
@@ -287,14 +287,14 @@ let user = {};
 alert( user.noSuchProperty === undefined ); // true means "no such property"
 ```
 
-There also exists a special operator `"in"` to check for the existence of a property.
+プロパティの存在チェックのための特別な演算子 `"in"` もあります。
 
-The syntax is:
+構文は次の通りです:
 ```js
 "key" in object
 ```
 
-For instance:
+例:
 
 ```js run
 let user = { name: "John", age: 30 };
@@ -303,9 +303,9 @@ alert( "age" in user ); // true, user.age exists
 alert( "blabla" in user ); // false, user.blabla doesn't exist
 ```
 
-Please note that on the left side of `in` there must be a *property name*. That's usually a quoted string.
+`in` の左側は *プロパティ名* である必要があることに注意してください。それは通常引用符で囲まれた文字列です。
 
-If we omit quotes, that would mean a variable containing the actual name to be tested. For instance:
+もし引用符を除いた場合、テストされる実際の名前を含む変数であることを意味します。例えば:
 
 ```js run
 let user = { age: 30 };
@@ -315,9 +315,9 @@ alert( *!*key*/!* in user ); // true, takes the name from key and checks for suc
 ```
 
 ````smart header="Using \"in\" for properties that store `undefined`"
-Usually, the strict comparison `"=== undefined"` check works fine. But there's a special case when it fails, but `"in"` works correctly.
+通常、厳密等価演算子 `"=== undefined"` チェックは正しく動作します。しかし、それが失敗する特別なケースがありますが、 `"in"` は正しく動作します。
 
-It's when an object property exists, but stores `undefined`:
+それは、オブジェクトのプロパティは存在するが、`undefined` が格納されているときです:
 
 ```js run
 let obj = {
@@ -330,17 +330,17 @@ alert( "test" in obj ); // true, the property does exist!
 ```
 
 
-In the code above, the property `obj.test` technically exists. So the `in` operator works right.
+上のコードでは、プロパティ `obj.test` は技術的には存在します。なので、 `in` 演算子は正しく動いています。
 
-Situations like this happen very rarely, because `undefined` is usually not assigned. We mostly use `null` for "unknown" or "empty" values. So the `in` operator is an exotic guest in the code.
+このようなシチュエーションは、非常にまれです。なぜなら `undefined` は通常代入されないからです。殆どの場合、"不明" または "空" の値として `null` を使います。
 ````
 
 
-## The "for..in" loop
+## "for..in" ループ
 
-To walk over all keys of an object, there exists a special form of the loop: `for..in`. This is a completely different thing from the `for(;;)` construct that we studied before.
+オブジェクトのすべてのキーを見て回るために、ループの特別な形があります: `for..in`。 これは以前学んだ `for(;;)` 構造と完全に異なるものです。
 
-The syntax:
+構文:
 
 ```js
 for(key in object) {
@@ -348,7 +348,7 @@ for(key in object) {
 }
 ```
 
-For instance, let's output all properties of `user`:
+例えば、`user` のすべてのプロパティを出力してみましょう:
 
 ```js run
 let user = {
@@ -365,18 +365,18 @@ for(let key in user) {
 }
 ```
 
-Note that all "for" constructs allow us to declare the looping variable inside the loop, like `let key` here.
+すべての "for" 構造は、ここでの `let key`  のように、ループ内でループする変数を宣言することに留意してください。
 
-Also, we could use another variable name here instead of `key`. For instance, `"for(let prop in obj)"` is also widely used.
+また、ここでの `key` の代わりに、別の変数名を使うこともできます。例えば、`"for(let prop in obj)"` もまた広く使われています。
 
 
 ### Ordered like an object
 
-Are objects ordered? In other words, if we loop over an object, do we get all properties in the same order that they are added in it? Can we rely on it?
+オブジェクトは順序付けられますか？言い換えると、オブジェクトをループするとき、それを追加したのと同じ順序ですべてのプロパティを取得しますか？それを保証することができますか？
 
-The short answer is: "ordered in a special fashion": integer properties are sorted, others appear in creation order. The details follow.
+短い回答は: "特別な方法で順序付けられます": 整数値のプロパティはソートされます、それ以外は作成した順になります。以下、詳細です。
 
-As an example, let's consider an object with the phone codes:
+例として、電話のコードをもつオブジェクトを考えてみましょう:
 
 ```js run
 let codes = {
@@ -394,19 +394,19 @@ for(let code in codes) {
 */!*
 ```
 
-The object may be used to suggest a list of options to the user. If we're making a site mainly for German audience then we probably want `49` to be the first.
+オブジェクトはユーザに対してオプションの一覧を提案をするおに使われるかもしれません。もし主にドイツのユーザをターゲットにしたサイトを作る場合、恐らく最初に `49` が出て欲しいです。
 
-But if we run the code, we see a totally different picture:
+しかし、コードを実行すると、完全に異なったものが見えます:
 
-- USA (1) goes first
-- then Switzerland (41) and so on.
+- USA (1) が最初に来ます
+- 次に Switzerland (41) などが並びます.
 
-The phone codes go in the ascending sorted order, because they are integers. So we see `1, 41, 44, 49`.
+電話コードは昇順にソートされて表示されます。なぜなら、それらが整数だからです。なので、`1, 41, 44, 49` と見えます。
 
 ````smart header="Integer properties? What's that?"
-The "integer property" term here means a string that can be converted to-and-from an integer without a change.
+ここで "整数プロパティ" の用語は、変更なしで整数に変換できる文字列を意味します。
 
-So, "49" is an integer property name, because when it's transformed to an integer number and back, it's still the same. But "+49" and "1.2" are not:
+したがって、"49" は整数のプロパティ名です。なぜなら、整数の数に変換されて戻っても、それは変わらないからです。 しかし、 "+49"と "1.2"はそうではありません:
 
 ```js run
 // Math.trunc is a built-in function that removes the decimal part
@@ -416,7 +416,7 @@ alert( String(Math.trunc(Number("1.2"))) ); // "1", not same ⇒ not integer pro
 ```
 ````
 
-...On the other hand, if the keys are non-integer, then they are listed in the creation order, for instance:
+...一方、もしキーが整数出ない場合、作られた順でリストされます。例です:
 
 ```js run
 let user = {
@@ -433,9 +433,9 @@ for (let prop in user) {
 }
 ```
 
-So, to fix the issue with the phone codes, we can "cheat" by making the codes non-integer. Adding a plus `"+"` sign before each code is enough.
+従って、電話コードの問題を直すために、整数でなコードを作ることで騙すことができます。 各コードの前にプラス `"+"` 記号をつければ十分です。
 
-Like this:
+このように:
 
 ```js run
 let codes = {
@@ -451,30 +451,31 @@ for(let code in codes) {
 }
 ```
 
-Now it works as intended.
+これで意図した通りに動作します。
 
-## Copying by reference
+## 参照をコピーする
 
-One of the fundamental differences of objects vs primitives is that they are stored and copied "by reference".
+オブジェクトとプリミティブの基本的な違いの１つは、オブジェクトは "参照によって" 保持、コピーされることです。
 
-Primitive values: strings, numbers, booleans -- are assigned/copied "as a whole value".
+プリミティブな値: 文字列、数値、真偽値 -- は "値として" 代入/コピーされます。
 
-For instance:
+例:
 
 ```js
 let message = "Hello!";
 let phrase = message;
 ```
 
-As a result we have two independent variables, each one is storing the string `"Hello!"`.
+上記は、結果として2つの独立した変数をもち、それぞれ文字列 `"Hello!"` を保持しています。
 
 ![](variable-copy-value.png)
 
-Objects are not like that.
+オブジェクトはそうではありません。
 
-**A variable stores not the object itself, but it's "address in memory", in other words "a reference" to it.**
+**変数はオブジェクト自身ではなく、"メモリ上のアドレス" に保持されます。つまり、それへの "参照" です。**
 
-Here's the picture for the object:
+
+オブジェクトの絵はこうなります:
 
 ```js
 let user = {
@@ -484,13 +485,13 @@ let user = {
 
 ![](variable-contains-reference.png)
 
-Here, the object is stored somewhere in memory. And the variable `user` has a "reference" to it.
+ここで、オブジェクトはメモリ上のどこかへ格納されています。そして変数 `user` はその "参照" を持っています。
 
-**When an object variable is copied -- the reference is copied, the object is not duplicated.**
+**オブジェクト変数がコピーされるとき、 -- 参照がコピーされます、オブジェクトは複製されません。**
 
-If we imagine an object as a cabinet, then a variable is a key to it. Copying a variable duplicates the key, but not the cabinet itself.
+もしオブジェクトをキャビネットとしてイメージするとしたら、変数はそれへの鍵です。変数のコピーは鍵の複製であり、キャビネット自身ではありません。
 
-For instance:
+例:
 
 ```js no-beautify
 let user = { name: "John" };
@@ -498,11 +499,11 @@ let user = { name: "John" };
 let admin = user; // copy the reference
 ```
 
-Now we have two variables, each one with the reference to the same object:
+今、私たちは2つの変数を持っており、それぞれ同じオブジェクトへの参照を持っています。:
 
 ![](variable-copy-reference.png)
 
-We can use any variable to access the cabinet and modify its contents:
+私たちは任意の変数を使って、キャビネットにアクセスしその中身を変更することが出来ます:
 
 ```js run
 let user = { name: 'John' };
@@ -516,15 +517,15 @@ admin.name = 'Pete'; // changed by the "admin" reference
 alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
 ```
 
-The example above demonstrates that there is only one object. Like if we had a cabinet with two keys and used one of them (`admin`) to get into it. Then, if we later use the other key (`user`) we would see changes.
+上の例は1つのオブジェクトしかないことのデモです。もし私たちがキャビネットと2つの鍵を持っていたとして、それらの1つ(`admin`)を使ってその中のものを取得したように。そして、後で別の鍵(`user`)を使ったときには、先ほど変更した結果が見えます。
 
-### Comparison by reference
+### 参照による比較
 
-The equality `==` and strict equality `===` operators for objects work exactly the same.
+オブジェクトの等価 `==` と厳密等価　`===` 演算子は、全く同じように動作します。
 
-**Two objects are equal only if they are the same object.**
+**2つのオブジェクトは、同じオブジェクトのときだけ等しくなります。**
 
-For instance, two variables reference the same object, they are equal:
+例えば、2つの変数が同じオブジェクトを参照しているとき、それらは等しいです:
 
 ```js run
 let a = {};
@@ -534,7 +535,7 @@ alert( a == b ); // true, both variables reference the same object
 alert( a === b ); // true
 ```
 
-And here two independent objects are not equal, even though both are empty:
+また、2つの独立したオブジェクトは等しくありません。たとえそれらが空だとしても:
 
 ```js run
 let a = {};
@@ -543,13 +544,13 @@ let b = {}; // two independent objects
 alert( a == b ); // false
 ```
 
-For comparisons like `obj1 > obj2` or for a comparison against a primitive `obj == 5`, objects are converted to primitives. We'll study how object conversions work very soon, but to say the truth, such comparisons are necessary very rarely and usually are a result of a coding mistake.
+`obj1 > obj2` のような比較、もしくは反対にプリミティブ `obj == 5` のような比較では、オブジェクトはプリミティブに変換されます。私たちはオブジェクト変換がどのように動作するか、すぐに学ぶでしょう、しかし真実を言うと、このような比較はほとんど必要とされず、通常はコード誤りの結果です。
 
-### Const object
+### Const オブジェクト
 
-An object declared as `const` *can* be changed.
+`const` として宣言されたオブジェクトは変更 *できます* 。
 
-For instance:
+例:
 
 ```js run
 const user = {
@@ -563,9 +564,9 @@ user.age = 25; // (*)
 alert(user.age); // 25
 ```
 
-It might seem that the line `(*)` would cause an error, but no, there's totally no problem. That's because `const` fixes the value of `user` itself. And here `user` stores the reference to the same object all the time. The line `(*)` goes *inside* the object, it doesn't reassign `user`.
+行 `(*)` はエラーを起こすように見えるかもしれませんが、いいえ、それらは全く問題ありません。`const` は `user` 自身の値を固定するからです。そしてここで `user` は常に同じオブジェクトへの参照を保持します。行　`(*)` はオブジェクトの *内側* へ行っており、`user` の再代入ではありません。
 
-The `const` would give an error if we try to set `user` to something else, for instance:
+`const` は、もし `user` に他の何かをセットしようとしたときにエラーになります。例えば:
 
 ```js run
 const user = {
@@ -580,19 +581,19 @@ user = {
 };
 ```
 
-...But what if we want to make constant object properties? So that `user.age = 25` would give an error. That's possible too. We'll cover it in the chapter <info:property-descriptors>.
+...しかし、もしオブジェクトのプロパティを定数にしたい場合はどうすればいいでしょう？ `user.age = 25` がエラーになるように。そうすることも可能です。 私たちは、チャプター <info:property-descriptors> でそれをカバーします。
 
-## Cloning and merging, Object.assign
+## クローンとマージ, Object.assign
 
-So, copying an object variable creates one more reference to the same object.
+これまでの通り、オブジェクト変数のコピーは、同じオブジェクトへの参照をもう1つ作ります。
 
-But what if we need to duplicate an object? Create an independent copy, a clone?
+しかし、もしオブジェクトの複製が必要な場合はどうしましょう？独立したコピー、クローンを作る？
 
-That's also doable, but a little bit more difficult, because there's no built-in method for that in JavaScript. Actually, that's rarely needed. Copying by reference is good most of the time.
+それも可能ですが、JavaScriptで組み込みのメソッドがないので、少し難しいです。実際、それはめったに必要ありません。参照によるコピーはほとんどの場合で問題ありません。
 
-But if we really want that, then we need to create a new object and replicate the structure of the existing one by iterating over its properties and copying them on the primitive level.
+しかし、もし本当にそうしたい場合は、新しいオブジェクトを作り、プリミティブなレベルでそのプロパティを繰り返しコピーしていくことで、既存のものの構造を複製する必要があります。
 
-Like this:
+このようになります:
 
 ```js run
 let user = {
@@ -615,18 +616,18 @@ clone.name = "Pete"; // changed the data in it
 alert( user.name ); // still John in the original object
 ```
 
-Also we can use the method [Object.assign](mdn:js/Object/assign) for that.
+また、そのために、[Object.assign](mdn:js/Object/assign) 関数を使うことができます。
 
-The syntax is:
+構文はこうです:
 
 ```js
 Object.assign(dest[, src1, src2, src3...])
 ```
 
-- Arguments `dest`, and `src1, ..., srcN` (can be as many as needed) are objects.
-- It copies the properties of all objects `src1, ..., srcN` into `dest`. In other words, properties of all arguments starting from the 2nd are copied into the 1st. Then it returns `dest`.
+- 引数 `dest`, そして `src1, ..., srcN` (必要なだけ) はオブジェクトです。
+- すべてのオブジェクト `src1, ..., srcN` のプロパティを `dest` にコピーします。言い換えると、2つ目から始まる全ての引数のプロパティは、最初の引数のオブジェクトにコピーされます。そして `dest` を返します。
 
-For instance, we can use it to merge several objects into one:
+例えば、いくつかのオブジェクトを1つにマージするために使います:
 ```js
 let user = { name: "John" };
 
@@ -641,7 +642,7 @@ Object.assign(user, permissions1, permissions2);
 // now user = { name: "John", canView: true, canEdit: true }
 ```
 
-If the receiving object (`user`) already has the same named property, it will be overwritten:
+もし、受け取ったオブジェクト (`user`) が既に同じプロパティ名のものをもっていたら、上書きします:
 
 ```js
 let user = { name: "John" };
@@ -652,7 +653,7 @@ Object.assign(user, { name: "Pete", isAdmin: true });
 // now user = { name: "Pete", isAdmin: true }
 ```
 
-We also can use `Object.assign` to replace the loop for simple cloning:
+また、シンプルなクローンのためのループを置き換えるために、`Object.assign` を使うこともできます。
 
 ```js
 let user = {
@@ -665,11 +666,11 @@ let clone = Object.assign({}, user);
 */!*
 ```
 
-It copies all properties of `user` into the empty object and returns it. Actually, the same as the loop, but shorter.
+これは `user` のすべてのプロパティを空のオブジェクトにコピーし、返します。実際に、ループ同様ですが、より短い記載になります。
 
-Until now we assumed that all properties of `user` are primitive. But properties can be references to other objects. What to do with them?
+今まで、`user` のすべてのプロパティがプリミティブであると仮定していましたが、プロパティは他のオブジェクトの参照になることもできます。それらはどうなるでしょう？
 
-Like this:
+このような:
 ```js run
 let user = {
   name: "John",
@@ -682,9 +683,9 @@ let user = {
 alert( user.sizes.height ); // 182
 ```
 
-Now it's not enough to copy `clone.sizes = user.sizes`, because the `user.sizes` is an object, it will be copied by reference. So `clone` and `user` will share the same sizes:
+今、`user.sizes` はオブジェクトであり、参照によるコピーがされるため、`clone.sizes = user.sizes` というコピーでは不十分です。なので、`clone` と `user` は同じ sizes を共有します:
 
-Like this:
+このようになります:
 ```js run
 let user = {
   name: "John",
@@ -703,42 +704,42 @@ user.sizes.width++;       // change a property from one place
 alert(clone.sizes.width); // 51, see the result from the other one
 ```
 
-To fix that, we should use the cloning loop that examines each value of `user[key]` and, if it's an object, then replicate it's structure as well. That is called a "deep cloning".
+これを修正するには、 `user [key]` の各値を検査するクローンループを使用する必要があります。オブジェクトの場合は、その構造も複製してください。 それは "深いクローン" と呼ばれています。
 
-There's a standard algorithm for deep cloning that handles the case above and more complex cases, called the [Structured cloning algorithm](https://w3c.github.io/html/infrastructure.html#internal-structured-cloning-algorithm). In order not to reinvent the wheel, we can use a working implementation of it from the JavaScript library [lodash](https://lodash.com), the method is called [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
+上記のケースとより複雑なケースを処理するディープクローン作成のための標準的なアルゴリズムがあります、それは[Structured cloning algorithm](https://w3c.github.io/html/infrastructure.html#internal-structured-cloning-algorithm) と呼ばれています。
+車輪の再発明をしないために、JavaScript ライブラリ[lodash](https://lodash.com) から、その動作を行う実装を使うことが出来ます。そのメソッドは [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) と呼ばれています。
 
 
+## サマリ
 
-## Summary
+オブジェクトは幾つかの特別な機能を持つ連想配列です。
 
-Objects are associative arrays with several special features.
+それらはプロパティ(key-valueペア)を格納します:
+- プロパティのキーは文字列またはシンボル(通常は文字列)です。
+- 値は任意の型になります。
 
-They store properties (key-value pairs), where:
-- Property keys must be strings or symbols (usually strings).
-- Values can be of any type.
+プロパティにアクセスするために、次のようにします:
+- ドット表記: `obj.property`
+- 角括弧表記: `obj["property"]`。角括弧は変数からキーを取ることもできます。`obj[varWithKey]` のように。
 
-To access a property, we can use:
-- The dot notation: `obj.property`.
-- Square brackets notation `obj["property"]`. Square brackets allow to take the key from a variable, like `obj[varWithKey]`.
+追加の演算子:
+- プロパティを削除: `delete obj.prop`
+- 与えられたキーを持つプロパティの存在チェック: `"key" in obj`
+- オブジェクトのイテレート: `for(let key in obj)` ループ
 
-Additional operators:
-- To delete a property: `delete obj.prop`.
-- To check if a property with the given key exists: `"key" in obj`.
-- To iterate over an object: `for(let key in obj)` loop.
+オブジェクトは参照によって代入やコピーされます。言い換えると、変数は "オブジェクトの値" ではなく、 値への "参照" (メモリ上のアドレス)を格納します。従って、このような変数をコピーしたり、それを関数の引数として渡すと、オブジェクトではなく参照がコピーされます。 コピーされた参照（プロパティの追加/削除など）によるすべての操作は、同じ単一のオブジェクトに対して実行されます。
 
-Objects are assigned and copied by reference. In other words, a variable stores not the "object value", but a "reference" (address in memory) for the value. So copying such a variable or passing it as a function argument copies that reference, not the object. All operations via copied references (like adding/removing properties) are performed on the same single object.
+"本当のコピー" (クローン) をするために、`Object.assign` または [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) を使うことが出来ます。
 
-To make a "real copy" (a clone) we can use `Object.assign` or  [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
+この章で学んだのは、"普通のオブジェクト"、あるいは単に "オブジェクト" と呼ばれています。
 
-What we've studied in this chapter is called a "plain object", or just `Object`.
+JavaScriptには他にも多くの種類のオブジェクトがあります:
 
-There are many other kinds of objects in JavaScript:
+- 順序付けされたデータコレクションを格納する `Array`
+- 日付と時刻に関する情報を格納する `Date`
+- エラーに関する情報を格納する `Error`
+- ...等々
 
-- `Array` to store ordered data collections,
-- `Date` to store the information about the date and time,
-- `Error` to store the information about an error.
-- ...And so on.
+それらは、私たちが後で勉強する特別な機能を持っています。時々、人々は "Array型" もしくは "Data型" のように言いますが、形式的には自分の型ではなく、単一の「オブジェクト」データ型に属しています。 そして、それをさまざまな方法で拡張します。
 
-They have their special features that we'll study later. Sometimes people say something like "Array type" or "Date type", but formally they are not types of their own, but belong to a single "object" data type. And they extend it in various ways.
-
-Objects in JavaScript are very powerful. Here we've just scratched the surface of the topic that is really huge. We'll be closely working with objects and learning more about them in further parts of the tutorial.
+Javascript のオブジェkとはとても強力です。ここで、私たちは本当の巨大なトピックのほんの始まりを学びました。私たちは、チュートリアルのさらなる部分でオブジェクトと密接に作業し、それらについてもっと学びます。
