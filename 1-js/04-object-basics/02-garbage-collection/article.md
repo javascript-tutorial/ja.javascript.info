@@ -1,37 +1,38 @@
-# Garbage collection
+# ガベージコレクション
 
-Memory management in JavaScript is performed automatically and invisibly to us. We create primitives, objects, functions... All that takes memory.
+JavaScriptのメモリ管理は自動で私たちの目には見えないように行われます。私たちが作るプリミティブ、オブジェクト、関数... それらはすべてメモリを必要とします。
 
-What happens when something is not needed any more? How does the JavaScript engine discover it and clean it up?
+何かがもう必要なくなったとき、何が起こるでしょう？JavaScriptエンジンはどのようにそれを検出し、クリーンアップするのでしょうか？
 
 [cut]
 
-## Reachability
+## 到達性
 
-The main concept of memory management in JavaScript is *reachability*.
+JavaScriptのメモリ管理の主要なコンセプトは、*到達性* です。
 
-Simply put, "reachable" values are those that are accessible or usable somehow. They are guaranteed to be stored in memory.
+簡単に言えば、「到達可能な」値は、何らかの形でアクセス可能または使用可能な値です。それらはメモリに格納されることが保証されています。
 
-1. There's a base set of inherently reachable values, that cannot be deleted for obvious reasons.
+1. 本質的に到達可能な値の基本セットがありますが、それは明白な理由で削除できません。
 
-    For instance:
+    例:
 
-    - Local variables and parameters of the current function.
-    - Variables and parameters for other functions on the current chain of nested calls.
-    - Global variables.
-    - (there are some other, internal ones as well)
+    - 現在の関数のローカル変数とパラメータ
+    - ネストされた呼び出しの、現在のチェイン上の他の関数のローカル変数とパラメータ
+    - グローバル変数
+    - (他にも幾つか、同様に内部のものがあります)
 
-    These values are called *roots*.
+    それらの値は *ルート* と呼ばれます。
 
-2. Any other value is considered reachable if it's reachable from a root by a reference or by a chain of references.
+2. 他の任意の値は、参照または参照のチェインによりルートから到達可能であれば、到達可能とみなされます。
 
-    For instance, if there's an object in a local variable, and that object has a property referencing another object, that object is considered reachable. And those that it references are also reachable. Detailed examples to follow.
+    例えば、ローカル変数にオブジェクトがあった場合、そしてそのオブジェクトが別のオブジェクトの参照をもっていたとすると、そのオブジェクトは到達可能とみなされます。そして、それが参照するものもまた到達可能です。詳しくは後述します。
 
-There's a background process in the JavaScript engine that is called [garbage collector](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)). It monitors all objects and removes those that have become unreachable.
 
-## A simple example
+JavaScriptエンジンには[ガベージコレクタ](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science))と呼ばれるバックグラウンドプロセスがあります。それはすべてのオブジェクトを監視し、到達不可能になったオブジェクトを削除します。
 
-Here's the simplest example:
+## シンプルな例
+
+これは最もシンプルな例です:
 
 ```js
 // user has a reference to the object
@@ -42,9 +43,9 @@ let user = {
 
 ![](memory-user-john.png)
 
-Here the arrow depicts an object reference. The global variable `"user"` references the object `{name: "John"}` (we'll call it John for brevity). The `"name"` property of John stores a primitive, so it's painted inside the object.
+ここで、矢印はオブジェクトの参照を示しています。グローバル変数 `user` はオブジェクト `{name: "John"}` を参照しています(簡潔のためにそれを John と呼びます)。John の `"name"` プロパティはプリミティブを格納しているので、オブジェクトの内側に描かれています。
 
-If the value of `user` is overwritten, the reference is lost:
+もし `user` の値が上書きされたら、参照はなくなります。:
 
 ```js
 user = null;
@@ -52,11 +53,11 @@ user = null;
 
 ![](memory-user-john-lost.png)
 
-Now John becomes unreachable. There's no way to access it, no references to it. Garbage collector will junk the data and free the memory.
+今、John は到達不可能になりました。それへの参照がないので、アクセスする手段はありません。ガベージコレクタはデータを捨てて、メモリを解放します。
 
-## Two references
+## 2つの参照
 
-Now let's imagine we copied the reference from `user` to `admin`:
+さて、`user` の参照を `admin` にコピーしたと想像してみましょう。:
 
 ```js
 // user has a reference to the object
@@ -71,16 +72,16 @@ let admin = user;
 
 ![](memory-user-john-admin.png)
 
-Now if we do the same:
+今、もし同じことをしたとすると:
 ```js
 user = null;
 ```
 
-...Then the object is still reachable via `admin` global variable, so it's in memory. If we overwrite `admin` too, then it can be removed.
+...オブジェクトはまだ `admin` グローバル変数経由で到達可能です。なので、それはメモリ上にいます。もし `admin` も上書きしたら、それは削除されます。
 
-## Interlinked objects
+## 連結されたオブジェクト
 
-Now a more complex example. The family:
+これはより複雑な例です。家族:
 
 ```js
 function marry(man, woman) {
@@ -100,15 +101,15 @@ let family = marry({
 });
 ```
 
-Function `marry` "marries" two objects by giving them references to each other and returns a new object that contains them both.
+関数 `marry` は与えられた2つのオブジェクトを互いに参照することによって "結婚" し、それら両方を含む新しいオブジェクトを返します。
 
-The resulting memory structure:
+結果のメモリ構造:
 
 ![](family.png)
 
-As of now, all objects are reachable.
+今のところ、全てのオブジェクトは到達可能です:
 
-Now let's remove two references:
+さて、2つの参照を削除してみましょう:
 
 ```js
 delete family.father;
@@ -117,98 +118,98 @@ delete family.mother.husband;
 
 ![](family-delete-refs.png)
 
-It's not enough to delete only one of these two references, because all objects would still be reachable.
+それら2つの参照のうちの1つだけを削除するのでは不十分です。なぜなら全てのオブジェクトはまだ到達可能だからです。
 
-But if we delete both, then we can see that John has no incoming reference any more:
+しかし、もし両方を削除すると、John にはもう参照がないことがわかります:
 
 ![](family-no-father.png)
 
-Outgoing references do not matter. Only incoming ones can make an object reachable. So, John is now unreachable and will be removed from the memory with all its data that also became unaccessible.
+外への参照は気にする必要はありません。内への参照のみがオブジェクトを到達可能にします。なので、John は今や到達不可能で、到達不可能になったその全てのデータとともにメモリ上から削除されるでしょう。
 
-After garbage collection:
+ガベージコレクションの後:
 
 ![](family-no-father-2.png)
 
-## Unreachable island
+## 到達不可能な島
 
-It is possible that the whole island of interlinked objects becomes unreachable and is removed from the memory.
+連携されたオブジェクトの島全体が到達不可能になり、メモリから削除される可能性があります。
 
-The source object is the same as above. Then:
+ソースとなるオブジェクトは上記と同じです。 次に：
 
 ```js
 family = null;
 ```
 
-The in-memory picture becomes:
+メモリの中はこうなります:
 
 ![](family-no-family.png)
 
-This example demonstrates how important the concept of reachability is.
+この例は、到達可能性の概念がどれほど重要であるかを示しています。
 
-It's obvious that John and Ann are still linked, both have incoming references. But that's not enough.
+John と Ann はまだリンクされているのは明らかです。両方は内への参照を持っています。しかしそれだけでは十分ではありません。
 
-The former `"family"` object has been unlinked from the root, there's no reference to it any more, so the whole island becomes unreachable and will be removed.
+前者 `"family"` オブジェクトはルートからのリンクが解除されており、これ以上の参照はないので、島全体が到達不可能になり、削除されます。
 
-## Internal algorithms
+## 内部のアルゴリズム
 
-The basic garbage collection algorithm is called "mark-and-sweep".
+基本のガベージコレクションのアルゴリズムは "マーク・アンド・スイープ" と呼ばれます。
 
-The following "garbage collection" steps are regularly performed:
+次の "ガベージコレクション" のステップは定期的に実行されます:
 
-- The garbage collector takes roots and "marks" (remembers) them.
-- Then it visits and "marks" all references from them.
-- Then it visits marked objects and marks *their* references. All visited objects are remembered, so as not to visit the same object twice in the future.
-- ...And so on until there are unvisited references (reachable from the roots).
-- All objects except marked ones are removed.
+- ガベージコレクタはルートを取得し、 それらを "マーク" します(覚えます)。
+- 次に、そこからの全ての参照へ訪れ、"マーク" します。
+- 次に、マークされたオブジェクトへアクセスし、*それらの* 参照をマークします。全ての訪問されたオブジェクトは記憶されているので、将来同じオブジェクトへは2度訪問しないようにします。
+- ...そして訪問されていない参照(ルートから到達可能)があるまで行います。
+- マークされたオブジェクトを除くすべてのオブジェクトが削除されます。
 
-For instance, let our object structure look like this:
+例えば、我々のオブジェクト構造はこのように見えます:
 
 ![](garbage-collection-1.png)
 
-We can clearly see an "unreachable island" to the right side. Now let's see how "mark-and-sweep" garbage collector deals with it.
+私たちは、右側に明らかに "到達不可能な島" が見えます。今、どのように "マーク・アンド・スイープ" ガベージコレクタがそれを扱うか見てみましょう。
 
-The first step marks the roots:
+最初のステップはルートをマークします:
 
 ![](garbage-collection-2.png)
 
-Then their references are marked:
+次に、それらの参照をマークします:
 
 ![](garbage-collection-3.png)
 
-...And their references, while possible:
+...そしてそれらの参照を,可能な限り:
 
 ![](garbage-collection-4.png)
 
-Now the objects that could not be visited in the process are considered unreachable and will be removed:
+現在、プロセスではアクセスできなかったオブジェクトは到達不能とみなされ、削除されます。:
 
 ![](garbage-collection-5.png)
 
-That's the concept of how garbage collection works.
+これはどのようにガベージコレクタが動作するかの概念です。
 
-JavaScript engines apply many optimizations to make it run faster and not affect the execution.
+JavaScriptエンジンは多くの最適化を適用して実行を高速化し、実行に影響を与えません。
 
-Some of the optimizations:
+これらは最適化のいくつかです:
 
-- **Generational collection** -- objects are split into two sets: "new ones" and "old ones". Many  objects appear, do their job and die fast, they can be cleaned up aggressively. Those that survive for long enough, become "old" and are examined less often.
-- **Incremental collection** -- if there are many objects, and we try to walk and mark the whole object set at once, it may take some time and introduce visible delays in the execution. So the engine tries to split the garbage collection into pieces. Then the pieces are executed one by one, separately. That requires some extra bookkeeping between them to track changes, but we have many tiny delays instead of a big one.
-- **Idle-time collection** -- the garbage collector tries to run only while the CPU is idle, to reduce the possible effect on the execution.
+- **世代コレクション** -- オブジェクトは2つのセットに分割されます: "新しいオブジェクト" と "古いオブジェクト" です。多くのオブジェクトが現れ、それらの仕事をして速く死にます。それらは積極的にクリーンアップされます。長期間生き残ったものは "古い" ものになり、それほど頻繁には検査されません。
+- **インクリメンタルコレクション** -- もしも多くのオブジェクトがあり、1度に全てのオブジェクトのセットを歩いてマークしようとすると、時間がかかり、実行において目に見える遅延を起こすかもしれません。なので、エンジンはガベージコレクションを小さく分割します。そしてそのピースが1つずつ、別々に実行されます。変更を追跡するため、それらの間にいくつかの余計な簿記を必要とはしますが、大きな遅延ではなく多くの小さな遅延になります。
+- **アイドルタイムコレクション** -- ガベージコレクタは、CPUがアイドル状態のときにのみ実行を試み、実行への影響を減らします。
 
-There are other optimizations and flavours of garbage collection algorithms. As much as I'd like to describe them here, I have to hold off, because different engines implement different tweaks and techniques. And, what's even more important, things change as engines develop, so going deeper "in advance", without a real need is probably not worth that. Unless, of course, it is a matter of pure interest, then there will be some links for you below.
+ガベージコレクションアルゴリズムには他にも最適化や加減があります。 ここでそれらを説明したいのと同じくらい、私は止めなければなりません。なぜなら、異なるエンジンが異なる調整とテクニックを実装しているためです。そして、さらに重要なのは、エンジンの開発に伴って物事が変化するため、実際に必要がない場合には「事前に」深く進んでいくことはそれほど価値はありません。 もちろん、それが純粋な興味の問題であれば、あなたのためのいくつかのリンクが下にあります。
 
-## Summary
+## サマリ
 
-The main things to know:
+知っておくべき主なこと:
 
-- Garbage collection is performed automatically. We cannot force or prevent it.
-- Objects are retained in memory while they are reachable.
-- Being referenced is not the same as being reachable (from a root): a pack of interlinked objects can become unreachable as a whole.
+- ガベージコレクションは自動で実行されます。実行を強制したり、防ぐことはできません。
+- オブジェクトは到達可能な間、メモリ上に保持されます。
+- 参照されることは、(ルートから)到達可能であることと同じではありません: 連結されたオブジェクトのパックはそれ全体で到達不可能になる可能性があります。
 
-Modern engines implement advanced algorithms of garbage collection.
+現代のエンジンはガベージコレクションの高度なアルゴリズムを実装しています。
 
-A general book "The Garbage Collection Handbook: The Art of Automatic Memory Management" (R. Jones et al) covers some of them.
+一般的な本 "ガベージコレクションハンドブック": 自動メモリ管理の技術（R.Jones et al）は、それらのいくつかをカバーしています。
 
-If you are familiar with low-level programming, the more detailed information about V8 garbage collector is in the article [A tour of V8: Garbage Collection](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection).
+もしあなたが低レベルのプログラミングに慣れている場合、V8のガベージコレクションに関するより詳細な情報はこの記事[A tour of V8: Garbage Collection](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection).にあります。
 
-[V8 blog](http://v8project.blogspot.com/) also publishes articles about changes in memory management from time to time. Naturally, to learn the garbage collection, you'd better prepare by learning about V8 internals in general and read the blog of [Vyacheslav Egorov](http://mrale.ph) who worked as one of V8 engineers. I'm saying: "V8", because it is best covered with articles in the internet. For other engines, many approaches are similar, but garbage collection differs in many aspects.
+[V8 blog](http://v8project.blogspot.com/) は、時々、メモリ管理の変更に関する記事も発行しています。 当然ガベージコレクションを学ぶには、V8の内部について一般的に学習し、V8エンジニアの一人として働いていた [Vyacheslav Egorov](http://mrale.ph) のブログを読んでください。私は言います: "V8", それはインターネット上の記事で最もよくカバーされるからです。 他のエンジンでは、多くのアプローチが似ていますが、ガベージコレクションは多くの点で異なります。
 
-In-depth knowledge of engines is good when you need low-level optimizations. It would be wise to plan that as the next step after you're familiar with the language.  
+低レベルの最適化が必要な場合は、エンジンに関する深い知識が必要です。 あなたが言語に精通した後の次のステップとしてそれを計画することが賢明でしょう。
