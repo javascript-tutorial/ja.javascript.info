@@ -1,32 +1,32 @@
 
-# Object to primitive conversion
+# オブジェクトからプリミティブへの変換
 
-What happens when objects are added `obj1 + obj2`, subtracted `obj1 - obj2` or printed using `alert(obj)`?
+オブジェクトが加算 `obj1 + obj2`、減算 `obj1 - obj2`, または `alert(obj)` を使って出力されたとき何が起きるでしょう？
 
-There are special methods in objects that do the conversion.
+オブジェクトには、変換を行う特別なメソッドがあります。
 
-In the chapter <info:type-conversions> we've seen the rules for numeric, string and boolean conversions of primitives. But we left a gap for objects. Now, as we know about methods and symbols it becomes possible to close it.
+チャプター <info:type-conversions> で、私たちは、プリミティブな数値、文字列や真偽値変換のルールを見てきました。しかしオブジェクトへのギャップが残っています。ここまでで、我々はメソッドとシンボルについて学んだので、それを閉じることができます。
 
 [cut]
 
-For objects, there's no to-boolean conversion, because all objects are `true` in a boolean context. So there are only string and numeric conversions.
+オブジェクトの場合、全てのオブジェクトは真偽値コンテキストでは `true` なので、真偽値への変換はありません。従って、文字列と数値変換だけです。
 
-The numeric conversion happens when we subtract objects or apply mathematical functions. For instance, `Date` objects (to be covered in the chapter <info:date>) can be subtracted, and the result of `date1 - date2` is the time difference between two dates.
+数値変換は、オブジェクトを減算する、もしくは数学的な関数を適用する時に起こります。例えば `Date` オブジェクト(チャプター <info:date> で説明されます)は減算することができ、 `date1 - date2` の結果は2つの日付間の時間差になります。
 
-As for the string conversion -- it usually happens when we output an object like `alert(obj)` and in similar contexts.
+文字列変換はどうかというと -- 通常、`alert(obj)` のようにオブジェクトを出力したり、似たようなコンテキストのときに起こります。
 
 ## ToPrimitive
 
-When an object is used in the context where a primitive is required, for instance, in an `alert` or mathematical operations, it's converted to a primitive value using the `ToPrimitive` algorithm ([specification](https://tc39.github.io/ecma262/#sec-toprimitive)).
+プリミティブが必要とされるコンテキストでオブジェクトが使われる場合、例えば `alert` や数学的な操作、`ToPrimitive` アルゴリズム([スペック](https://tc39.github.io/ecma262/#sec-toprimitive))を使ってプリミティブ値に変換されます。
 
-That algorithm allows us to customize the conversion using a special object method.
+そのアルゴリズムによって、特別なオブジェクトメソッドを使って変換をカスタマイズすることができます。
 
-Depending on the context, the conversion has a so-called "hint".
+コンテキストに応じて、変換にはいわゆる "hint" があります。
 
-There are three variants:
+3つのバリアントがあります:
 
 `"string"`
-: When an operation expects a string, for object-to-string conversions, like `alert`:
+: 操作が `alert` のように文字列を期待するとき -- オブジェクトから文字列への変換:
 
     ```js
     // output
@@ -37,7 +37,7 @@ There are three variants:
     ```
 
 `"number"`
-: When an operation expects a number, for object-to-number conversions, like maths:
+: 操作が数学のように数値を期待するとき -- オブジェクトから数値への変換:
 
     ```js
     // explicit conversion
@@ -52,9 +52,9 @@ There are three variants:
     ```
 
 `"default"`
-: Occurs in rare cases when the operator is "not sure" what type to expect.
+: 操作がどんな型を期待しているか "よくわからない" ようなレアケースで起こります
 
-    For instance, binary plus `+` can work both with strings (concatenates them) and numbers (adds them), so both strings and numbers would do. Or when an object is compared using `==` with a string, number or a symbol.
+    例えば、バイナリプラス `+` は文字列(それらを連結します)と数値(それらを足します)両方で動作するので、文字列と数値の両方が有りえます。または、オブジェクトが `==` を使用して、文字列、数値またはシンボルと比較されるときです。
 
     ```js
     // binary plus
@@ -64,23 +64,23 @@ There are three variants:
     if (user == 1) { ... };
     ```
 
-    The greater/less operator `<>` can work with both strings and numbers too. Still, it uses "number" hint, not "default". That's for historical reasons.
+    より大きい/小さい演算子 `<>` もまた文字列と数字両方を扱うことができますが、これは "default" ではなく "number" を使います。これは歴史的な理由によるものです。
 
-    In practice, all built-in objects except for one case (`Date` object, we'll learn it later) implement `"default"` conversion the same way as `"number"`. And probably we should do the same.
+    実際には、１つのケース(`Date` オブジェクトです。後ほど学びます)を除く全ての組み込みオブジェクトは `"number"` と同じ方法で `"default"` 変換を実装しています。そして、恐らく私たちは同じようにするべきです。
 
-Please note -- there are only three hints. It's that simple. There is no "boolean" hint (all objects are `true` in boolean context) or anything else. And if we treat `"default"` and `"number"` the same, like most built-ins do, then there are only two conversions.
+留意してください -- 3つだけ hint があります。それはシンプルです。 "真偽値" の hint はありません(真偽値のコンテキストにおいては、全てのオブジェクトは `true` です)。そして、ほとんどの組み込みのように、もし `"default"` と `"number"` を同じように扱うと、２つの変換しかありません。
 
-**To do the conversion, JavaScript tries to find and call three object methods:**
+**変換をするために、JavaScriptは3つのオブジェクトのメソッドを見つけ呼び出そうとします。**
 
-1. Call `obj[Symbol.toPrimitive](hint)` if the method exists,
-2. Otherwise if hint is `"string"`
-    - try `obj.toString()` and `obj.valueOf()`, whatever exists.
-3. Otherwise if hint is `"number"` or `"default"`
-    - try `obj.valueOf()` and `obj.toString()`, whatever exists.
+1. メソッドが存在する場合、`obj[Symbol.toPrimitive](hint)` を呼び出します
+2. そうでない場合、hint が `"string"` であれば
+    - `obj.toString()` と `obj.valueOf()` を試します。
+3. そうでない場合、hint が `"number"` であれば
+    - `obj.valueOf()` と `obj.toString()` を試します。
 
 ## Symbol.toPrimitive
 
-Let's start from the first method. There's a built-in symbol named `Symbol.toPrimitive` that should be used to name the conversion method, like this:
+最初のメソッドから始めてみましょう。`Symbol.toPrimitive` という名前の組み込みシンボルがあります。このシンボルは、次のように変換メソッドに名前を付けるために使用します。
 
 ```js
 obj[Symbol.toPrimitive] = function(hint) {
@@ -89,7 +89,7 @@ obj[Symbol.toPrimitive] = function(hint) {
 }
 ```
 
-For instance, here `user` object implements it:
+例えば、ここで `user` オブジェクトはそれを実装しています:
 
 ```js run
 let user = {
@@ -108,19 +108,19 @@ alert(+user); // hint: number -> 1000
 alert(user + 500); // hint: default -> 1500
 ```
 
-As we can see from the code, `user` becomes a self-descriptive string or a money amount depending on the conversion. The single method `user[Symbol.toPrimitive]` handles all conversion cases.
+コードから分かるように、`user` は変換に応じて、自己記述的な文字列、または金額になります。１つのメソッド `user[Symbol.toPrimitive]` が全ての変換ケースを扱います。
 
 
 ## toString/valueOf
 
-Methods `toString` and `valueOf` come from ancient times. They are not symbols (symbols did not exist that long ago), but rather "regular" string-named methods. They provide an alternative "old-style" way to implement the conversion.
+メソッド `toString` と `valueOf` は古代から来ています。それらはシンボルではなく(シンボルはずっと前には存在しませんでした)が、"通常の" 文字列で名前付けされたメソッドです。それらは変換を実装するための代替の "古いスタイル" の方法を提供します。
 
-If there's no `Symbol.toPrimitive` then JavaScript tries to find them and try in the order:
+もしも、`Symbol.toPrimitive` がない場合、JavaScriptはそれらを見つけ、次の順でトライします:
 
-- `toString -> valueOf` for "string" hint.
-- `valueOf -> toString` otherwise.
+- `toString -> valueOf` "string" hint のために.
+- `valueOf -> toString` そうでない場合.
 
-For instance, here `user` does the same as above using a combination of `toString` and `valueOf`:
+例えば、ここで `user` は `toString` と `valueOf` をあわせて使って上と同じことをしています:
 
 ```js run
 let user = {
@@ -144,7 +144,7 @@ alert(+user); // valueOf -> 1000
 alert(user + 500); // valueOf -> 1500
 ```
 
-Often we want a single "catch-all" place to handle all primitive conversions. In this case we can implement `toString` only, like this:
+多くの場合、すべてのプリミティブ変換を処理する単一の "キャッチオール" が必要です。 この場合、次のように `toString`だけを実装することで実現できます:
 
 ```js run
 let user = {
@@ -159,22 +159,22 @@ alert(user); // toString -> John
 alert(user + 500); // toString -> John500
 ```
 
-In the absence of `Symbol.toPrimitive` and `valueOf`, `toString` will handle all primitive conversions.
+`Symbol.toPrimitive`と` valueOf` がなければ、 `toString` は全てのプリミティブ変換を扱います。
 
 
-## ToPrimitive and ToString/ToNumber
+## ToPrimitive と ToString/ToNumber
 
-The important thing to know about all primitive-conversion methods is that they do not necessarily return the "hinted" primitive.
+全てのプリミティブ変換メソッドを知るのに重要なことは、それらは必ずしも "ほのめかされた" プリミティブを返さないことです。
 
-There is no control whether `toString()` returns exactly a string, or whether `Symbol.toPrimitive` method returns a number for a hint "number".
+`toString()` が正しく文字列を返すか、もしくは `Symbol.toPrimitive` メソッドが "number" のヒントで数値を返すかはコントロール出来ません。
 
-**The only mandatory thing: these methods must return a primitive.**
+**唯一の必須なこと: それらのメソッドはプリミティブを返す必要があります。**
 
-An operation that initiated the conversion gets that primitive, and then continues to work with it, applying further conversions if necessary.
+変換が開始された操作では、そのプリミティブが取得され、引き続き処理が行われます。必要に応じてさらに変換が適用されます。
 
-For instance:
+例えば:
 
-- Mathematical operations (except binary plus) perform `ToNumber` conversion:
+- 数学的な操作(バイナリプラスを除く)は、 `ToNumber` 変換を行います:
 
     ```js run
     let obj = {
@@ -186,9 +186,9 @@ For instance:
     alert(obj * 2); // 4, ToPrimitive gives "2", then it becomes 2
     ```
 
-- Binary plus checks the primitive -- if it's a string, then it does concatenation, otherwise it performs `ToNumber` and works with numbers.
+- バイナリプラスはプリミティブをチェックします -- もし文字列なら連結し、そうでなければ `ToNumber` を行い、数値で処理をします。
 
-    String example:
+    文字列の例:
     ```js run
     let obj = {
       toString() {
@@ -199,7 +199,7 @@ For instance:
     alert(obj + 2); // 22 (ToPrimitive returned string => concatenation)
     ```
 
-    Number example:
+    数値の例:
     ```js run
     let obj = {
       toString() {
@@ -211,28 +211,29 @@ For instance:
     ```
 
 ```smart header="Historical notes"
-For historical reasons, methods `toString` or `valueOf` *should* return a primitive: if any of them returns an object, then there's no error, but that object is ignored (like if the method didn't exist).
+歴史的な理由で、メソッド `toString` または `valueOf` はプリミティブを *返すべきです*: もしそれらがオブジェクトを返した場合、エラーにはなりませんが、そのオブジェクトは無視されます(メソッドが存在しなかったかのように)。
 
-In contrast, `Symbol.toPrimitive` *must* return a primitive, otherwise, there will be an error.
+対象的に、`Symbol.toPrimitive` はプリミティブを *返さなければいけません*、そうでなければエラーになります。
 ```
 
-## Summary
+## サマリ
 
-The object-to-primitive conversion is called automatically by many built-in functions and operators that expect a primitive as a value.
+オブジェクトからプリミティブへの変換は、値としてプリミティブを期待している多くの組み込みの関数や、操作によって自動的に呼び出されます。
 
-There are 3 types (hints) of it:
-- `"string"` (for `alert` and other string conversions)
-- `"number"` (for maths)
-- `"default"` (few operators)
+3つのタイプ (ヒント)があります:
+- `"string"` (`alert` や、他の文字列変換のため)
+- `"number"` (数学のため)
+- `"default"` (ほとんどありません)
 
-The specification describes explicitly which operator uses which hint. There are very few operators that "don't know what to expect" and use the `"default"` hint. Usually for built-in objects `"default"` hint is handled the same way as `"number"`, so in practice the last two are often merged together.
 
-The conversion algorithm is:
+仕様は、どの操作がどのヒントを使用するかを明示的に説明しています。 "期待するものがわからない" 演算子はほとんどなく、その場合は "デフォルト" のヒントを使用します。 通常、組み込みオブジェクトの場合、 `"default"` ヒントは `"number"` と同じように扱われるので、最後の2つはしばしば一緒にマージされます。
 
-1. Call `obj[Symbol.toPrimitive](hint)` if the method exists,
-2. Otherwise if hint is `"string"`
-    - try `obj.toString()` and `obj.valueOf()`, whatever exists.
-3. Otherwise if hint is `"number"` or `"default"`
-    - try `obj.valueOf()` and `obj.toString()`, whatever exists.
+変換のアルゴリズムは:
 
-In practice, it's often enough to implement only `obj.toString()` as a "catch-all" method for all conversions that return a "human-readable" representation of an object, for logging or debugging purposes.  
+1. メソッドが存在する場合、`obj[Symbol.toPrimitive](hint)` を呼び出します
+2. そうでない場合、hint が `"string"` であれば
+    - `obj.toString()` と `obj.valueOf()` を試します。
+3. そうでない場合、hint が `"number"` であれば
+    - `obj.valueOf()` と `obj.toString()` を試します。
+
+実際に、ロギングやデバッグ目的で、"人間が読める" オブジェクトの表現を返す全ての変換のための "キャッチオール" メソッドとしては、 `obj.toString()` だけの実装で十分なことがしばしばです。
