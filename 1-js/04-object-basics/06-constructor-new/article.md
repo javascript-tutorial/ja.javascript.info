@@ -1,19 +1,19 @@
-# Constructor, operator "new"
+# コンストラクタ 演算子 new
 
-The regular `{...}` syntax allows to create one object. But often we need to create many similar objects, like multiple users or menu items and so on.
+通常 `{...}` 構文で1つのオブジェクトを作ることが出来ます。しかし、しばしば多くの似たようなオブジェクトを作る必要があります、例えば複数のユーザやメニューアイテムなどです。
 
-That can be done using constructor functions and the `"new"` operator.
+それは、コンストラクタ関数と `"new"` 演算子を使うことで実現できます。
 
 [cut]
 
-## Constructor function
+## コンストラクタ 関数
 
-Constructor functions technically are regular functions. There are two conventions though:
+コンストラクタ関数は技術的には通常の関数です。それには2つの慣習があります:
 
-1. They are named with capital letter first.
-2. They should be executed only with `"new"` operator.
+1. それらは先頭が大文字で名前付けされます。
+2. それらは `"new"` 演算子を使ってのみ実行されるべきです。
 
-For instance:
+例:
 
 ```js run
 function User(name) {
@@ -29,13 +29,13 @@ alert(user.name); // Jack
 alert(user.isAdmin); // false
 ```
 
-When a function is executed as `new User(...)`, it does the following steps:
+`new User(...)` として関数が実行されたとき、次のようなステップになります:
 
-1. A new empty object is created and assigned to `this`.
-2. The function body executes. Usually it modifies `this`, adds new properties to it.
-3. The value of `this` is returned.
+1. 新しい空のオブジェクトが作られ、 `this` に代入されます。
+2. 関数本体を実行します。通常は `this` を変更し、それに新しいプロパティを追加します。
+3. `this` の値が返却されます。
 
-In other words, `new User(...)` does something like:
+言い換えると、`new User(...)` は次のようなことをします:
 
 ```js
 function User(name) {
@@ -53,7 +53,7 @@ function User(name) {
 }
 ```
 
-So the result of `new User("Jack")` is the same object as:
+なので、`new User("Jack")` の結果は次と同じオブジェクトです:
 
 ```js
 let user = {
@@ -62,14 +62,14 @@ let user = {
 };
 ```
 
-Now if we want to create other users, we can call `new User("Ann")`, `new User("Alice")` and so on. Much shorter than using literals every time, and also easy to read.
+さて、もしも我々が他のユーザを作りたい場合、`new User("Ann")`, `new User("Alice")` と言ったように呼ぶことができます。毎回リテラルを使うよりはるかに短く、また簡単で読みやすいです。
 
-That's the main purpose of constructors -- to implement reusable object creation code.
+それがコンストラクタの主な目的です -- 再利用可能なオブジェクト作成のコードを実装すること。
 
-Let's note once again -- technically, any function can be used as a constructor. That is: any function can be run with `new`, and it will execute the algorithm above. The "capital letter first" is a common agreement, to make it clear that a function is to be run with `new`.
+もう一度注意しましょう -- 技術的にはどんな関数もコンストラクタとして使うことができます。つまり: どの関数も `new` で実行することができ、それは上のアルゴリズムで実行されるでしょう。"先頭が大文字" は共通合意であり、それは関数が `new` で実行されることを明確にするためです。
 
 ````smart header="new function() { ... }"
-If we have many lines of code all about creation of a single complex object, we can wrap them in constructor function, like this:
+1つの複雑なオブジェクトの作成に関する多くのコード行がある場合、コンストラクタ関数でそれをラップすることができます。このように:
 
 ```js
 let user = new function() {
@@ -82,14 +82,14 @@ let user = new function() {
 };
 ```
 
-The constructor can't be called again, because it is not saved anywhere, just created and called. So this trick aims to encapsulate the code that constructs the single object, without future reuse.
+コンストラクタはどこにも保存されず、単に作られて呼び出されただけなので2度は呼び出せません。なので、このトリックは将来再利用することなく、単一のオブジェクトを構成するコードをカプセル化することを目指しています。
 ````
 
-## Dual-syntax constructors: new.target
+## 二重構文コンストラクタ: new.target
 
-Inside a function, we can check whether it was called with `new` or without it, using a special `new.target` property.
+関数の中では、`new.target` プロパティを使うことで、それが `new` で呼ばれたかそうでないかを確認することができます。
 
-It is empty for regular calls and equals the function if called with `new`:
+通常の呼び出しでは空であり、 `new` で呼び出された場合は関数と等しくなります:
 
 ```js run
 function User() {
@@ -103,7 +103,7 @@ User(); // undefined
 new User(); // function User { ... }
 ```
 
-That can be used to allow both `new` and regular syntax to work the same:
+これは、 `new` と通常両方の構文が同じように動作するようにするために使用できます:
 
 ```js run
 function User(name) {
@@ -118,20 +118,20 @@ let john = User("John"); // redirects call to new User
 alert(john.name); // John
 ```
 
-This approach is sometimes used in libraries to make the syntax more flexible. Probably not a good thing to use everywhere though, because omitting `new` makes it a bit less obvious what's going on. With `new` we all know that the new object is being created, that's a good thing.
+このアプローチは、構文をより柔軟にするためにライブラリの中で使われることがあります。恐らくどこへでもこれを使うのは良いことではありません。なぜなら `new` の省略は、何をしているのかを少し不明確にします。`new` があれば、新しいオブジェクトが作られることを知ることができ、それは良いことです。
 
-## Return from constructors
+## コンストラクタからの返却
 
-Usually, constructors do not have a `return` statement. Their task is to write all necessary stuff into `this`, and it automatically becomes the result.
+通常、コンストラクタは `return` 文を持ちません。それらのタスクは全ての必要なことを `this` の中に書くことで、それが自動的に結果になります。
 
-But if there is a `return` statement, then the rule is simple:
+しかし、もし `return` 文があった場合、そのルールはシンプルです:
 
-- If `return` is called with object, then it is returned instead of `this`.
-- If `return` is called with a primitive, it's ignored.
+- もし `return` がオブジェクトと一緒に呼ばれた場合、`this` の代わりにそれを返します。
+- もし `return` がプリミティブと一緒に呼ばれた場合、それは無視されます。
 
-In other words, `return` with an object returns that object, in all other cases `this` is returned.
+言い換えると、オブエジェクトの`return` はそのオブジェクトを返し、それ以外のケースでは `this` が返却されます。
 
-For instance, here `return` overrides `this` by returning an object:
+例えば、ここで `return` は オブジェクトを返却することで、`this` を上書きします:
 
 ```js run
 function BigUser() {
@@ -144,7 +144,7 @@ function BigUser() {
 alert( new BigUser().name );  // Godzilla, got that object ^^
 ```
 
-And here's an example with an empty `return` (or we could place a primitive after it, doesn't matter):
+また、これは空の `retruen` (もしくはプリミティブをこの後に置くことができます)の例です
 
 ```js run
 function SmallUser() {
@@ -160,10 +160,10 @@ function SmallUser() {
 alert( new SmallUser().name );  // John
 ```
 
-Usually constructors don't have a `return` statement. Here we mention the special behavior with returning objects mainly for the sake of completeness.
+通常、コンストラクタは `return` 文を持ちません。ここでは、主に完全性のためにオブジェクトを返す特殊な動作について説明します。
 
 ````smart header="Omitting parentheses"
-By the way, we can omit parentheses after `new`, if it has no arguments:
+ところで、もし引数を取らない場合は、`new` の後の丸括弧を省略することもできます。
 
 ```js
 let user = new User; // <-- no parentheses
@@ -171,16 +171,16 @@ let user = new User; // <-- no parentheses
 let user = new User();
 ```
 
-Omitting parentheses here is not considered a "good style", but the syntax is permitted by specification.
+丸括弧の省略は "良いスタイル" ではありませんが、仕様では許可されます。
 ````
 
-## Methods in constructor
+## コンストラクタの中のメソッド
 
-Using constructor functions to create objects gives a great deal of flexibility. The constructor function may have parameters that define how to construct the object, and what to put in it.
+オブジェクトを作るときにコンストラクタ関数を使用することで、大きな柔軟性を得ることができます。コンストラクタ関数はオブジェクトがどのように組み立てられるか、その中に何を置くかを定義するパラメータを持っています。
 
-Of course, we can add to `this` not only properties, but methods as well.
+もちろん、`this` にプロパティだけでなく、メソッドも同様に追加することができます。
 
-For instance, `new User(name)` below creates an object with the given `name` and the method `sayHi`:
+例えば、下の `new User(name)` は `name` と メソッド `sayHi` を持つオブジェクトを作ります:
 
 ```js run
 function User(name) {
@@ -205,17 +205,17 @@ john = {
 */
 ```
 
-## Summary
+## サマリ
 
-- Constructor functions or, briefly, constructors, are regular functions, but there's a common agreement to name them with capital letter first.
-- Constructor functions should only be called using `new`. Such a call implies a creation of empty `this` at the start and returning the populated one at the end.
+- コンストラクタ関数、もしくは簡潔にコンストラクタは通常の関数ですが、大文字から始まる名前を持つ、と言う共通の合意があります。
+- コンストラクタ関数は `new` を使ってのみ呼び出されるべきです。このような呼び出しは、最初に空の `this` を作成し、最後に追加された `this` を返すことを意味します。
 
-We can use constructor functions to make multiple similar objects.
+複数に似たようなオブジェクトを作るときにコンストラクタ関数を使うことができます。
 
-JavaScript provides constructor functions for many built-in language objects: like `Date` for dates, `Set` for sets and others that we plan to study.
+JavaScript は多くの組み込み言語オブジェクトのコンストラクタを提供しています: 日付のための `Date`, セットのための `Set`、そしてその他私たちが学ぶ予定のものがあります。
 
 ```smart header="Objects, we'll be back!"
-In this chapter we only cover the basics about objects and constructors. They are essential for learning more about data types and functions in the next chapters.
+このチャプターでは、オブジェクトとコンストラクタについての基礎のみをカバーしています。これらは、次のチャプターでデータ型と関数についてより深く学ぶために不可欠です。
 
-After we learn that, in the chapter <info:object-oriented-programming> we return to objects and cover them in-depth, including inheritance and classes.
+それを学んだ後、チャプター　<info:object-oriented-programming> では、オブジェクトに戻り、継承やクラスを含めそれらを詳細にカバーします。
 ```
