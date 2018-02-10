@@ -1,20 +1,20 @@
-# Methods of primitives
+# プリミティブのメソッド
 
-JavaScript allows us to work with primitives (strings, numbers etc) as if they were objects.
+JavaScriptはプリミティブ(文字列、数値など)をオブジェクトのように扱うことができます。
 
-They also provide methods to call and such. We will study those soon, but first we'll see how it works, because, of course, primitives are not objects (and here we will make it even more clear).
+また、それらは呼び出す方法なども提供しています。私たちはそれらをすぐに学ぶつもりですが、最初にどのようにそれが動作するのか確認しましょう。なぜなら、プリミティブはオブジェクトではないからです(そして、ここではそれをさらに明確にしていきます)
 
 [cut]
 
-Let's look at the key distinction between primitives and objects.
+プリミティブとオブジェクトの主な違いを見ていきましょう。
 
-A primitive
+プリミティブ
 
-An object
-: Is capable of storing multiple values as properties.
-Can be created with `{}`, for instance: `{name: "John", age: 30}`. There are other kinds of objects in JavaScript, e.g. functions are objects.
+オブジェクト
+: プロパティとして複数の値を保持することが出来ます。
+`{}` で作ることができます。例えば: `{name: "John", age: 30}`。JavaScriptでは他の種類のオブジェクトもあります。関数もオブジェクトです。
 
-One of the best things about objects is that we can store a function as one of its properties:
+オブジェクトの最も良いところの1つは、そのプロパティの1つとして関数を保持することができることです:
 
 ```js run
 let john = {
@@ -27,32 +27,32 @@ let john = {
 john.sayHi(); // Hi buddy!
 ```
 
-So here we've made an object `john` with the method `sayHi`.
+従って、ここでは、`sayHi` メソッドをもつ `john` オブジェクトを作りました。
 
-Many built-in objects already exist, such as those that work with dates, errors, HTML elements etc. They have different properties and methods.
+日付、エラー、HTML要素などで動作するような、多くの組み込みのオブジェクトが既に存在します。それらは異なるプロパティとメソッドを持っています。
 
-But, these features come with a cost!
+しかし、それらの機能にはコストがかかります!
 
-Objects are "heavier" than primitives. They require additional resources to support the internal machinery. But as properties and methods are very useful in programming, JavaScript engines try to optimize them to reduce the additional burden.
+オブジェクトはプリミティブよりも "重い" です。内部の仕組みをサポートするための追加のリソースを必要とします。しかし、プロパティやメソッドはプログラミングをする上でとても役立つため、JavaScriptエンジンはそれらの負担を減らすために最適化を試みます。
 
 ## A primitive as an object
 
-Here's the paradox faced by the creator of JavaScript:
+JavaScriptの作成者が直面するパラドックスは次のとおりです。:
 
-- There are many things one would want to do with a primitive like a string or a number. It would be great to access them as methods.
-- Primitives must be as fast and lightweight as possible.
+- 文字列や数字のようなプリミティブでやりたいことがたくさんあります。 メソッドとしてそれらにアクセスすることは素晴らしいことでしょう。
+- プリミティブはできるだけ高速、かつ軽量でなければなりません。
 
-The solution looks a little bit awkward, but here it is:
+解決方法は、少し野暮ですが、ここにあります:
 
-1. Primitives are still primitive. A single value, as desired.
-2. The language allows access to methods and properties of strings, numbers, booleans and symbols.
-3. When this happens, a special "object wrapper" is created that provides the extra functionality, and then is destroyed.
+1. プリミティブは依然として原始的です。必要に応じて単一の値です。
+2. 言語は、文字列、数値、真偽値そしてシンボルのメソッドやプロパティにアクセスすることができます。
+3. これが起きたとき、特別な "オブジェクトラッパー" が作られ、拡張機能が提供され、その後破棄されます。
 
-The "object wrappers" are different for each primitive type and are called: `String`, `Number`, `Boolean` and `Symbol`. Thus, they provide different sets of methods.
+"オブジェクトラッパー" はプリミティブ型毎に異なり、それらは `String`, `Number`, `Boolean`, `Symbol` と呼ばれます。従って、それらは異なるメソッドのセットを提供します。
 
-For instance, there exists a method [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) that returns a capitalized string.
+例えば、大文字化された文字列を返す [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) というメソッドがあります。
 
-Here's how it works:
+次のように動作します:
 
 ```js run
 let str = "Hello";
@@ -60,17 +60,17 @@ let str = "Hello";
 alert( str.toUpperCase() ); // HELLO
 ```
 
-Simple, right? Here's what actually happens in `str.toUpperCase()`:
+シンプルですよね？ `str.toUpperCase()` で実際に何が起こっているのでしょう:
 
-1. The string `str` is a primitive. So in the moment of accessing its property, a special object is created that knows the value of the string, and has useful methods, like `toUpperCase()`.
-2. That method runs and returns a new string (shown by `alert`).
-3. The special object is destroyed, leaving the primitive `str` alone.
+1. 文字列 `str` はプリミティブです。なので、プロパティへアクセスした瞬間に、文字列の値を知る特別なオブジェクトが作られ、それは `toUpperCase()` のような便利なメソッドを持ちます。
+2. メソッドは実行し新たな文字列を返します(`alert` で表示されたものです)
+3. 特別なオブジェクトは破棄され、プリミティブの `str` だけが残ります。
 
-So primitives can provide methods, but they still remain lightweight.
+従って、プリミティブはメソッドを提供できますが、それらは以前として軽量なままです。
 
-The JavaScript engine highly optimizes this process. It may even skip the creation of the extra object at all. But it must still adhere to the specification and behave as if it creates one.
+JavaScriptエンジンはこの処理を高度に最適化します。余分なオブジェクの作成を完全にスキップするかもしれません。しかし、それは依然として仕様に準拠していなければならず、あたかもオブジェクトを作成したかのように動作しなければなっりません。
 
-A number has methods of its own, for instance, [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) rounds the number to the given precision:
+数値はそれ自身のメソッドを持っています。例えば、指定された精度に数値を丸める [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) です:
 
 ```js run
 let n = 1.23456;
@@ -78,15 +78,15 @@ let n = 1.23456;
 alert( n.toFixed(2) ); // 1.23
 ```
 
-We'll see more specific methods in chapters <info:number> and <info:string>.
+チャプター <info:number> と <info:string> でより具体的なメソッドを見ましょう。
 
 
 ````warn header="Constructors `String/Number/Boolean` are for internal use only"
-Some languages like Java allow us to create "wrapper objects" for primitives explicitly using a syntax like `new Number(1)` or `new Boolean(false)`.
+Javaなどの言語は `new Number(1)` または `new Boolean(false)` のような構文を使うことで明示的にプリミティブのための "ラッパーオブジェクト" を作ることが出来ます。
 
-In JavaScript, that's also possible for historical reasons, but highly **unrecommended**. Things will go crazy in several places.
+JavaScriptにおいても、歴史的な理由から可能ですが、強く *推奨しません*。いくつかの場所で物事がクレイジーになっていくでしょう。
 
-For instance:
+例:
 
 ```js run
 alert( typeof 1 ); // "number"
@@ -94,7 +94,7 @@ alert( typeof 1 ); // "number"
 alert( typeof new Number(1) ); // "object"!
 ```
 
-And because what follows, `zero`, is an object, the alert will show up:
+続いて、`zero` がオブジェクトなので、alert が実行されます:
 
 ```js run
 let zero = new Number(0);
@@ -104,9 +104,9 @@ if (zero) { // zero is true, because it's an object
 }
 ```
 
-On the other hand, using the same functions `String/Number/Boolean` without `new` is a totally sane and useful thing. They convert a value to the corresponding type: to a string, a number, or a boolean (primitive).
+一方、`new` を付けずに同じ関数 `String/Number/Boolean` を使うことは、全く普通で有用なことです。それらは値を対応する型へ変換します: 文字列、数値、もしくあ真偽値(プリミティブ)
 
-For example, this is entirely valid:
+例えば、これは全く妥当です:
 ```js
 let num = Number("123"); // convert a string to number
 ```
@@ -114,15 +114,15 @@ let num = Number("123"); // convert a string to number
 
 
 ````warn header="null/undefined have no methods"
-The special primitives `null` and `undefined` are exceptions. They have no corresponding "wrapper objects" and provide no methods. In a sense, they are "the most primitive".
+特別なプリミティブ `null` と `undefined` は例外です。それらは対応する "ラッパーオブジェクト" を持たずメソッドを提供しません。ある意味では、それらは "最もプリミティブ" です。
 
-An attempt to access a property of such value would give the error:
+このような値のプロパティへのアクセスはエラーになります:
 
 ```js run
 alert(null.test); // error
 ````
 
-## Summary
+## サマリ
 
-- Primitives except `null` and `undefined` provide many helpful methods. We will study those in the upcoming chapters.
-- Formally, these methods work via temporary objects, but JavaScript engines are well tuned to optimize that internally, so they are not expensive to call.
+- プリミティブは、`null` と `undefined` の例外を除いて、多くの役立つメソッドを提供します。我々は次のチャプターでそれらを学びます。
+- 形式的には、それらのメソッドは一時的なオブジェクトを通して行われます。しかしJavaScriptエンジンは内部的に最適化するようよくチューニングされているため、呼び出しのコストはかかりません。
