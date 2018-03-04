@@ -1,20 +1,20 @@
-# Numbers
+# 数値
 
-All numbers in JavaScript are stored in 64-bit format [IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985), also known as "double precision".
+JavaScript では、全ての数値は "倍精度" として知られる64ビットフォーマット[IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985) で格納されます。
 
-Let's recap and expand upon what we currently know about them.
+私たちが現在知っていることを総括して説明しましょう。
 
-## More ways to write a number
+## 数値を書くより多くの方法
 
-Imagine we need to write 1 billion. The obvious way is:
+1億を書かないといけないと想像してください。明らかな方法は次の通りです:
 
 ```js
 let billion = 1000000000;
 ```
 
-But in real life we usually avoid writing a long string of zeroes as it's easy to mistype. Also, we are lazy. We will usually write something like `"1bn"` for a billion or `"7.3bn"` for 7 billion 300 million. The same is true for most large numbers.
+しかし、通常、実際の生活では、間違えやすいので何度もゼロを書くのを避けます。また我々は怠け者です。通常1億を `"1bn"` としたり、7億3千万を `"7.3bn"` のように書いたりします。ほとんどの大きな数値では、これが当てはまります。
 
-In JavaScript, we shorten a number by appending the letter `"e"` to the number and specifying the zeroes count:
+JavaScriptでは、数値に文字 `"e"` を追加し、ゼロの数を指定することで数値を短くします。:
 
 ```js run
 let billion = 1e9;  // 1 billion, literally: 1 and 9 zeroes
@@ -22,29 +22,29 @@ let billion = 1e9;  // 1 billion, literally: 1 and 9 zeroes
 alert( 7.3e9 );  // 7.3 billions (7,300,000,000)
 ```
 
-In other words, `"e"` multiplies the number by `1` with the given zeroes count.
+言い換えると、`"e"` は `1` と与えられたゼロの数と数値をかけ合わせます。
 
 ```js
 1e3 = 1 * 1000
-1.23e6 = 1.23 * 1000000 
+1.23e6 = 1.23 * 1000000
 ```
 
 
-Now let's write something very small. Say, 1 microsecond (one millionth of a second): 
+さて、とても小さい数値を書いてみましょう。1マイクロ秒(100万分の1秒):
 
 ```js
 let ms = 0.000001;
 ```
 
-Just like before, using `"e"` can help. If we'd like to avoid writing the zeroes explicitly, we could say:
+ちょうど前のように、`"e"` が役立ちます。もし明示的にゼロを書くのを避けたい場合、このように書くことができます:
 
 ```js
-let ms = 1e-6; // six zeroes to the left from 1 
+let ms = 1e-6; // six zeroes to the left from 1
 ```
 
-If we count the zeroes in `0.000001`, there are 6 of them. So naturally it's `1e-6`.  
+`0.000001` の中のゼロの数は6つです。なので、通常それは `1e-6` になります。
 
-In other words, a negative number after `"e"` means a division by 1 with the given number of zeroes:
+言い換えると、`"e"` の後の負値は `1` と与えられたゼロの数と数値を割ったものになります。
 
 ```js
 // -3 divides by 1 with 3 zeroes
@@ -54,19 +54,18 @@ In other words, a negative number after `"e"` means a division by 1 with the giv
 1.23e-6 = 1.23 / 1000000 (=0.00000123)
 ```
 
-### Hex, binary and octal numbers
+### 16進数、2進数、8進数(Hex, binary and octal numbers)
 
-[Hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) numbers are widely used in JavaScript to represent colors, encode characters, and for many other things. So naturally, there exists a shorter way to write them: `0x` and then the number.
+[16進数](https://en.wikipedia.org/wiki/Hexadecimal) の数値は色、エンコード文字やその他多くのものを表現する文字として、JavaScriptでは広く使われています。当然のように、それらを短く書く方法があります: `0x` とそれに続いて数値を書きます。
 
-For instance:
+例えば:
 
 ```js run
 alert( 0xff ); // 255
 alert( 0xFF ); // 255 (the same, case doesn't matter)
 ```
 
-Binary and octal numeral systems are rarely used, but also supported using the `0b` and `0o` prefixes:
-
+2進数と8進数は余り使われませんが、`0b`, `0o` のプレフィックスでサポートされています:
 
 ```js run
 let a = 0b11111111; // binary form of 255
@@ -75,13 +74,13 @@ let b = 0o377; // octal form of 255
 alert( a == b ); // true, the same number 255 at both sides
 ```
 
-There are only 3 numeral systems with such support. For other numeral systems, we should use the function `parseInt` (which we will see later in this chapter).
+このようなサポートを持つ数字は3つしかりません。他の数値体系では、`parseInt` 関数を使うべきです(このチャプターで後ほど学びます)。
 
 ## toString(base)
 
-The method `num.toString(base)` returns a string representation of `num` in the numeral system with the given `base`.
+メソッド `num.toString(base)` は与えられた `base` の記数法で `num` の文字列表現を返します。
 
-For example:
+例:
 ```js run
 let num = 255;
 
@@ -89,45 +88,46 @@ alert( num.toString(16) );  // ff
 alert( num.toString(2) );   // 11111111
 ```
 
-The `base` can vary from `2` to `36`. By default it's `10`.
+`base` は `2` から `36` までの値を取ります。デフォルトは `10` です。
 
-Common use cases for this are:
+これの一般的なユースケースは次の通りです:
 
-- **base=16** is used for hex colors, character encodings etc, digits can be `0..9` or `A..F`.
-- **base=2** is mostly for debugging bitwise operations, digits can be `0` or `1`.
-- **base=36** is the maximum, digits can be `0..9` or `A..Z`. The whole latin alphabet is used to represent a number. A funny, but useful case for `36` is when we need to turn a long numeric identifier into something shorter, for example to make a short url. Can simply represent it in the numeral system with base `36`:
+- **base=16** は 16進数の色や文字エンコードなどに利用され、数字は `0..9` または `A..F` になります。
+- **base=2** は主にビット単位の操作をデバッグするためのものです。数字は `0` か `1` です。
+- **base=36** は最大です。数字は `0..9` または `A..Z` です。全てのアルファベットが数値を表現するために使われます。`36` が役立つケースは、例えばURLを短くするために、長い数値の識別子を何か短いものに変える必要がある場合です。基数 `36` を使うことでシンプルに表現できます。
 
     ```js run
     alert( 123456..toString(36) ); // 2n9c
     ```
 
 ```warn header="Two dots to call a method"
-Please note that two dots in `123456..toString(36)` is not a typo. If we want to call a method directly on a number, like `toString` in the example above, then we need to place two dots `..` after it.
+`123456..toString(36)` の2つのドットはタイプミスではないことに注意してください。上の例の `toString` のように、数値に対して直接メソッド呼び出しをしたいとき、その後に2つのドット `..` を置く必要があります。
 
-If we placed a single dot: `123456.toString(36)`, then there would be an error, because JavaScript syntax implies the decimal part after the first dot. And if we place one more dot, then JavaScript knows that the decimal part is empty and now goes the method.
+もし1つのドットを置いた場合 `123456.toString(36)`、エラーになるでしょう。なぜならJavaScript構文は最初のドットの後を少数部分と考えるためです。そして、もう1つどっとを置くと、JavaScriptは少数部分が空であることを知り、メソッドに行きます。
 
-Also could write `(123456).toString(36)`.
+
+また、このようにも書けます `(123456).toString(36)`.
 ```
 
-## Rounding
+## 丸め
 
-One of the most used operations when working with numbers is rounding.
+数値処理で最も使う操作の1つが丸めです。
 
-There are several built-in functions for rounding:
+丸めにはいくつかの組み込みの関数があります:
 
 `Math.floor`
-: Rounds down: `3.1` becomes `3`, and `-1.1` becomes `-2`.
+: 切り捨て: `3.1` は `3` になり, `-1.1` は `-2` になります。
 
 `Math.ceil`
-: Rounds up: `3.1` becomes `4`, and `-1.1` becomes `-1`.
+: 切り上げ: `3.1` は `4` になり, `-1.1` は `-1` になります。
 
 `Math.round`
-: Rounds to the nearest integer: `3.1` becomes `3`, `3.6` becomes `4` and `-1.1` becomes `-1`.
+: 四捨五入して最も近い整数にする: `3.1` は `3` になり, `3.6` は `4` になります。 `-1.1` は `-1` です。
 
-`Math.trunc` (not supported by Internet Explorer)
-: Removes anything after the decimal point without rounding: `3.1` becomes `3`, `-1.1` becomes `-1`.
+`Math.trunc` (Internet Explorer では未サポート)
+: 丸めを使わずに、小数点以下を削除: `3.1` は `3` になり, `-1.1` は `-1` です。
 
-Here's the table to summarize the differences between them:
+ここで、それらの違いのサマリをテーブルにします:
 
 |   | `Math.floor` | `Math.ceil` | `Math.round` | `Math.trunc` |
 |---|---------|--------|---------|---------|
@@ -137,172 +137,172 @@ Here's the table to summarize the differences between them:
 |`-1.6`|  `-2`    |   `-1`  |    `-2`  |   `-1`   |
 
 
-These functions cover all of the possible ways to deal with the decimal part of a number. But what if we'd like to round the number to `n-th` digit after the decimal?
+これらの関数は、数値の小数点の扱い方の全ての可能性をカバーしています。しかし、少数の後の数値を `n-th` に丸めたいときはどうすればよいでしょうか。
 
-For instance, we have `1.2345` and want to round it to 2 digits, getting only `1.23`.
+例えば、`1.2345` という数値があり、`1.23` のみを取り出すような、2桁に丸めたい場合です。
 
-There are two ways to do so:
+それをするために2つの方法があります:
 
-1. Multiply-and-divide.
+1. 乗除算
 
-    For example, to round the number to the 2nd digit after the decimal, we can multiply the number by `100`, call the rounding function and then divide it back.
+    例えば、少数第2位で数値を丸めるために、 数値を `100` で乗算し、丸め関数を呼び出した後、それを除算します。
     ```js run
     let num = 1.23456;
 
     alert( Math.floor(num * 100) / 100 ); // 1.23456 -> 123.456 -> 123 -> 1.23
     ```
 
-2. The method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) rounds the number to `n` digits after the point and returns a string representation of the result.
-        
+2. メソッド [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) は点の後の数字を "n" 桁に丸め、結果の文字列表現を返します。
+
     ```js run
     let num = 12.34;
     alert( num.toFixed(1) ); // "12.3"
     ```
 
-    This rounds up or down to the nearest value, similar to `Math.round`:
+　　これは、`Math.round` と似たように、最も近い値にに丸めます:
 
     ```js run
     let num = 12.36;
     alert( num.toFixed(1) ); // "12.4"
     ```
 
-    Please note that result of `toFixed` is a string. If the decimal part is shorter than required, zeroes are appended to the end:
+    `toFixed` の結果は文字列であることに注意してください。もし少数部分が指定桁より短い場合、末尾にゼロが挿入されます。
+:
 
     ```js run
     let num = 12.34;
-    alert( num.toFixed(5) ); // "12.34000", added zeroes to make exactly 5 digits 
+    alert( num.toFixed(5) ); // "12.34000", added zeroes to make exactly 5 digits
     ```
 
-    We can convert it to a number using the unary plus or a `Number()` call: `+num.toFixed(5)`.
+    単項プラス、または `Number()` 呼び出しを使うことで、数値に変換することができます: `+num.toFixed(5)`
 
-## Imprecise calculations
+## 精密でない計算
 
-Internally, a number is represented in 64-bit format [IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985), so there are exactly 64 bits to store a number: 52 of them are used to store the digits, 11 of them store the position of the decimal point (they are zero for integer numbers), and 1 bit is for the sign.
+内部的には、数値は 64bit フォーマット[IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985)で表現されるため、正確に 64bit で数値を格納できます。: そのうち 52bit が数字の格納のために使われ、11bit が 小数点の位置で(整数値のときゼロです。)、 1bit は符号です。
 
-If a number is too big, it would overflow the 64-bit storage, potentially giving an infinity:
+もし、数値が長すぎる場合、64bitの記憶域をオーバーフローし、無限大になる可能性があります:
 
 ```js run
-alert( 1e500 ); // Infinity 
+alert( 1e500 ); // Infinity
 ```
 
-What may be a little less obvious, but happens quite often, is the loss of precision.
+少しはっきりしないかもしれませんが、しばしば発生するのは精度の低下です。
 
-Consider this (falsy!) test:
+この(偽の)テストを考えてみましょう:
 
 ```js run
 alert( 0.1 + 0.2 == 0.3 ); // *!*false*/!*
 ```
 
-That's right, if we check whether the sum of `0.1` and `0.2` is `0.3`, we get `false`. 
+上記の通り、もし `0.1` と `0.2` の合計が `0.3` かどうかをチェックした場合、`false` になります。
 
-Strange! What is it then if not `0.3`?
+奇妙です! `0.3` ではないのなら何なのでしょうか？
 
 ```js run
 alert( 0.1 + 0.2 ); // 0.30000000000000004
 ```
 
-Ouch! There are more consequences than an incorrect comparison here. Imagine you're making an e-shopping site and the visitor puts `$0.10` and `$0.20` goods into his chart. The order total will be `$0.30000000000000004`. That would surprise anyone.
+なんと!ここでは間違った比較よりも多くの結果があります。e-ショッピングのサイトを作っており、訪問者が `$0.10` と `$0.20` の商品をカートに入れたと想像してください。注文の総額は `$0.30000000000000004` になります。誰もがそれに驚くでしょう。
 
-But why does this happen?
+しかし、なぜこのようなことが起こるのでしょうか？
 
-A number is stored in memory in its binary form, a sequence of ones and zeroes. But fractions like `0.1`, `0.2` that look simple in the decimal numeric system are actually unending fractions in their binary form.
+数値はバイナリ形式で、1と0のシーケンスでメモリ上に格納されます。しかし10進数でシンプルに見える `0.1`、` 0.2` のような少数は、実際にはバイナリ形式では、終わることのない少数です。
 
-In other words, what is `0.1`? It is one divided by ten `1/10`, one-tenth. In decimal numeral system such numbers are easily representable. Compare it to one-third: `1/3`. It becomes an endless fraction `0.33333(3)`. 
+言い換えると、`0.1` とは何でしょう？それは 1 を 10 で割った `1/10` です。10進数では、このような数値は簡単に表現できます。 それを `1/3` と比較すると、終わりのない少数 `0.33333(3)` になります。
 
-So, division by powers `10` is guaranteed to work well in the decimal system, but division by `3` is not. For the same reason, in the binary numeral system, the division by powers of `2` is guaranteed to work, but `1/10` becomes an endless binary fraction.
+従って、`10` の累乗による除算は 10進数では上手く動作することが保証されますが、`3` による除算は保証されていません。同じ理由で、2進数では、`2` 乗る以上による除算は動作することが保証されていますが、 `1/10` は無限の２進数の小数になります。
 
-There's just no way to store *exactly 0.1* or *exactly 0.2* using the binary system, just like there is no way to store one-third as a decimal fraction.
+2進数を使って、 *正確な 0.1* または *正確な 0.2* を格納する方法はありません。ちょうど、10進数で 1/3 を少数で正確に表現できないように。
 
-The numeric format IEEE-754 solves this by rounding to the nearest possible number. These rounding rules normally don't allow us to see that "tiny precision loss", so the number shows up as `0.3`. But beware, the loss still exists.
+数値形式 IEEE-754 は、可能な限り近い数値に丸めてこれを解決します。 これらの丸めルールでは、通常、我々は "小さな精度損失" を見ることができないので、数値は `0.3` と表示されます。 しかし、損失は依然として存在することに注意してください。
 
-We can see this in action:
+私たちはこれを次のようにして見ることが出来ます:
 ```js run
 alert( 0.1.toFixed(20) ); // 0.10000000000000000555
 ```
 
-And when we sum two numbers, their "precision losses" add up.
+そして、2つの数値の合計をしたとき、それらの "精度損失" は加算されます。
 
-That's why `0.1 + 0.2` is not exactly `0.3`.
+そういうわけで、 `0.1 + 0.2` は正確な `0.3` ではありません。
 
 ```smart header="Not only JavaScript"
-The same issue exists in many other programming languages.
+同じ問題は多くの他のプログラミング言語で存在します。
 
-PHP, Java, C, Perl, Ruby give exactly the same result, because they are based on the same numeric format. 
+PHP, Java, C, Perl, Ruby は全く同じ結果を返します。なぜならそれらは同じ数値形式に基づいているためです。
 ```
 
-Can we work around the problem? Sure, there're a number of ways:
+この問題を回避できるのでしょうか？もちろん、幾つかの方法があります;
 
-1. We can round the result with the help of a method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed):
+1. メソッド[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)の助けで結果を丸めることができます:
 
     ```js run
     let sum = 0.1 + 0.2;
     alert( sum.toFixed(2) ); // 0.30
     ```
 
-    Please note that `toFixed` always returns a string. It ensures that it has 2 digits after the decimal point. That's actually convenient if we have an e-shopping and need to show `$0.30`. For other cases, we can use the unary plus to coerce it into a number:
+    `toFixed` は常に文字列を返すことに注意してください。それは小数点の後2桁となることを保証します。実際、e-ショッピングを持っていて `$0.30` を表示するときに便利です。それ以外のケースでは、数値に変換するために単項プラスを使うことができます。
 
     ```js run
     let sum = 0.1 + 0.2;
     alert( +sum.toFixed(2) ); // 0.3
     ```
 
-2. We can temporarily turn numbers into integers for the maths and then revert it back. It works like this:
+2. 一時的に数値を数学の整数に変換して戻すことができます。 それはこのように動作します:
 
     ```js run
     alert( (0.1 * 10 + 0.2 * 10) / 10 ); // 0.3
     ```
 
-    This works because when we do `0.1 * 10 = 1` and `0.2 * 10 = 2` then both numbers become integers, and there's no precision loss. 
+    `0.1 * 10 = 1` と `0.2 * 10 = 2` をするとき、両方の数値は整数になり、精度損失がなくなるため、これは正しく動作します。
 
-3. If we were dealing with a shop, then the most radical solution would be to store all prices in cents and use no fractions at all. But what if we apply a discount of 30%? In practice, totally evading fractions is rarely feasible, so the solutions above help avoid this pitfall.
+3. もしもショップを扱っている場合、最も抜本的な解決策はセントで全ての価格を格納し、全く少数を使わないことです。しかし、30% のディスカウントを適用するとどうなるでしょうか？実際には、完全に回避することはほとんど不可能なので、上記の解決法はこの落とし穴を回避するのに役立ちます。
 
 ````smart header="The funny thing"
-Try running this:
+これを試してみてください:
 
 ```js run
-// Hello! I'm a self-increasing number! 
+// Hello! I'm a self-increasing number!
 alert( 9999999999999999 ); // shows 10000000000000000
 ```
 
-This suffers from the same issue: a loss of precision. There are 64 bits for the number, 52 of them can be used to store digits, but that's not enough. So the least significant digits disappear.
+これも同じも問題によるものです:精度の損失です。数値は64bitであり、そのうちの52bitが数値を格納するのに使えますが、十分ではありません。従って、最下位の数字は消えます。
 
-JavaScript doesn't trigger an error in such events. It does its best to fit the number into the desired format, but unfortunately, this format is not big enough.
+Javascriptはこのようなイベントではエラーをトリガーしません。数値を目的のフォーマットに合わせるための最善を行いますが、残念ながらこのフォーマットは十分大きいものではありません。
 ````
 
 ```smart header="Two zeroes"
-Another funny consequence of the internal representation of numbers is the existence of two zeroes: `0` and `-0`.
+数値の内部表現のもう一つの面白い結果は、2つのゼロ、すなわち `0` と `-0` の存在です。
 
-That's because a sign is represented by a single bit, so every number can be positive or negative, including a zero. 
+記号は1ビットで表現されるため、すべての数字は、0を含めて正または負になります。
 
-In most cases the distinction is unnoticeable, because operators are suited to treat them as the same.
+ほとんどの場合、区別は目立ちません。なぜなら、演算子はそれらを同じものとして扱うのに適しているからである。
 ```
-
 
 
 ## Tests: isFinite and isNaN
 
-Remember these two special numeric values?
+2つの特別な数値を覚えていますか？
 
-- `Infinite` (and `-Infinite`) is a special numeric value that is greater (less) than anything.
-- `NaN` represents an error.
+- `Infinite` (と `-Infinite`) は何よりも大きい(小さい)特別な数値です。
+- `NaN` はエラーを表現します。
 
-They belong to the type `number`, but are not "normal" numbers, so there are special functions to check for them:
+これらは `number` 型に属しますが、 "通常の" 数値ではないため、それらをチェックするための特別な関数があります:
 
 
-- `isNaN(value)` converts its argument to a number and then tests it for being `NaN`:
+- `isNaN(value)` はその引数を数値に変換し、`NaN` であるかをテストします:
 
     ```js run
     alert( isNaN(NaN) ); // true
     alert( isNaN("str") ); // true
     ```
 
-    But do we need this function? Can't we just use the comparison `=== NaN`? Sorry, but the answer is no. The value `NaN` is unique in that it does not equal anything, including itself:
+    しかし、この関数は必要なのでしょうか？単に比較 `=== NaN` は使えないのでしょうか？申し訳ありませんが、答えは No です。`NaN` はそれ自身を含めて何ものとも等しくなく、ユニークです:
 
     ```js run
     alert( NaN === NaN ); // false
     ```
 
-- `isFinite(value)` converts its argument to a number and returns `true` if it's a regular number, not `NaN/Infinity/-Infinity`:
+- `isFinite(value)` は引数を数値に変換し、それが `NaN/Infinity/-Infinity` ではなく通常の数値であれば、`true` を返します。:
 
     ```js run
     alert( isFinite("15") ); // true
@@ -310,8 +310,7 @@ They belong to the type `number`, but are not "normal" numbers, so there are spe
     alert( isFinite(Infinity) ); // false, because a special value: Infinity
     ```
 
-Sometimes `isFinite` is used to validate whether a string value is a regular number:
-
+時々、`isFinite` は文字列値が通常の数値かどうかをチェックするのに使われます:
 
 ```js run
 let num = +prompt("Enter a number", '');
@@ -320,36 +319,36 @@ let num = +prompt("Enter a number", '');
 alert( isFinite(num) );
 ```
 
-Please note that an empty or a space-only string is treated as `0` in all numeric functions including `isFinite`.  
+空、またはスペースのみの文字列は、`isFinite` を含めた全ての数値関数で `0` として扱われる点に注意してください。
 
 ```smart header="Compare with `Object.is`"
 
-There is a special built-in method [Object.is](mdn:js/Object/is) that compares values like `===`, but is more reliable for two edge cases:
+値を `===` のように比較する特別な組み込みメソッド [Object.is](mdn:js/Object/is) がありますが、2つのエッジケースではより信頼できます:
 
-1. It works with `NaN`: `Object.is(NaN, NaN) === true`, that's a good thing. 
-2. Values `0` and `-0` are different: `Object.is(0, -0) === false`, it rarely matters, but these values technically are different.
+1. `NaN` でうまく動作します: `Object.is(NaN, NaN) === true`、これは良いことです。
+2. 値 `0` と `-0` は異なります: `Object.is(0, -0) === false`、重要ではありませんが、技術的にはそれらは異なる値です。
 
-In all other cases, `Object.is(a, b)` is the same as `a === b`. 
+上記以外の全てのケースでは、`Object.is(a, b)` は `a === b` と同じです。
 
-This way of comparison is often used in JavaScript specification. When an internal algorithm needs to compare two values for being exactly the same, it uses `Object.is` (internally called [SameValue](https://tc39.github.io/ecma262/#sec-samevalue)).
+この比較の方法は Javascriptの仕様でしばしば使われます。内部のアルゴリズムが、2つの値が正確に同じかを比較する必要があるとき、`Object.is` (内部的には[SameValue](https://tc39.github.io/ecma262/#sec-samevalue)と呼ばれます)を使います。
 ```
 
 
 ## parseInt and parseFloat
 
-Numeric conversion using a plus `+` or `Number()` is strict. If a value is not exactly a number, it fails:
+プラス `+` または `Number()` を使った数値変換は厳密です。もし値が厳密数値出ない場合、それは失敗します:
 
 ```js run
 alert( +"100px" ); // NaN
 ```
 
-The sole exception is spaces at the beginning or at the end of the string, as they are ignored.
+唯一の例外は文字列の最初、または最後のスペースです。それらは無視されます。
 
-But in real life we often have values in units, like `"100px"` or `"12pt"` in CSS. Also in many countries the currency symbol goes after the amount, so we have `"19€"` and would like to extract a numeric value out of that.
+しかし、実際の生活では、CSS で `"100px"` や `"12pt"` のような単位を持つ値を持つことが頻繁にあります。また、多くの国では、通貨記号が金額の後にあるので、`"19€"` と言った値があり、その中から数値を抽出したいと考えています。
 
-That's what `parseInt` and `parseFloat` are for.
+そのために `parseInt` と `parseFloat` があります。
 
-They "read" a number from a string until they can. In case of an error, the gathered number is returned. The function `parseInt` returns an integer, whilst `parseFloat` will return a floating-point number:
+それらはできるだけ文字列から数値を "読み込み" ます。エラーが起きると、収集された数値が返されます。関数 `parseInt` は整数を返し、一方で、`parseFloat` は浮動小数を返します:
 
 ```js run
 alert( parseInt('100px') ); // 100
@@ -359,14 +358,15 @@ alert( parseInt('12.3') ); // 12, only the integer part is returned
 alert( parseFloat('12.3.4') ); // 12.3, the second point stops the reading
 ```
 
-There are situations when `parseInt/parseFloat` will return `NaN`. It happens when no digits could be read:
+`parseInt/parseFloat` が `NaN` を返す状況があります。それは数値が読み込めなかったときに発生します:
 
 ```js run
 alert( parseInt('a123') ); // NaN, the first symbol stops the process
 ```
 
 ````smart header="The second argument of `parseInt(str, radix)`"
-The `parseInt()` function has an optional second parameter. It specifies the base of the numeral system, so `parseInt` can also parse strings of hex numbers, binary numbers and so on:
+`parseInt()` 関数は任意の2つ目のパラメータを持ちます。それは数値システムの基数を指定するので、`parseInt` もまた16進数、2進数などの文字列をパースすることが出来ます:
+
 
 ```js run
 alert( parseInt('0xff', 16) ); // 255
@@ -376,14 +376,14 @@ alert( parseInt('2n9c', 36) ); // 123456
 ```
 ````
 
-## Other math functions
+## 他の数学的関数
 
-JavaScript has a built-in [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object which contains a small library of mathematical functions and constants.
+JavaScript は数学関数と定数の小さなライブラリを含む組み込みの[Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) オブジェクトを持っています。
 
-A few examples:
+いくつか例です:
 
 `Math.random()`
-: Returns a random number from 0 to 1 (not including 1)
+: 0 から 1まで (1は含みません)のランダムな数値を返します
 
     ```js run
     alert( Math.random() ); // 0.1234567894322
@@ -392,7 +392,7 @@ A few examples:
     ```
 
 `Math.max(a, b, c...)` / `Math.min(a, b, c...)`
-: Returns the greatest/smallest from the arbitrary number of arguments.
+: 任意の数の引数から最大/最小を返します
 
     ```js run
     alert( Math.max(3, 5, -10, 0, 1) ); // 5
@@ -400,38 +400,36 @@ A few examples:
     ```
 
 `Math.pow(n, power)`
-: Returns `n` raised the given power
+: `n` を与えられた数だけ累乗します
 
     ```js run
     alert( Math.pow(2, 10) ); // 2 in power 10 = 1024
     ```
 
-There are more functions and constants in `Math` object, including trigonometry, which you can find in the [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object.
+[docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) にある三角法など、`Math` オブジェクトには、より多くの関数や定数があります。
 
-## Summary
+## サマリ
 
-To write big numbers:
+大きな数値を書くために:
 
-- Append `"e"` with the zeroes count to the number. Like: `123e6` is `123` with 6 zeroes.
-- A negative number after `"e"` causes the number to be divided by 1 with given zeroes. That's for one-millionth or such.
+- 数値へ加えるゼロの数と一緒に `"e"` を付け加えます。このように: `123e6` は `123` と 6つのゼロです。
+- `"e"` の後の負の値は、1と与えられたゼロの数で数値を除算します。
 
-For different numeral systems:
+異なった数値システムのために:
 
-- Can write numbers directly in hex (`0x`), octal (`0o`) and binary (`0b`) systems
-- `parseInt(str, base)` parses an integer from any numeral system with base: `2 ≤ base ≤ 36`.
-- `num.toString(base)` converts a number to a string in the numeral system with the given `base`.
+- 16進数(`0x`)、8進数(`0o`)や2進数(`0b`) で直接数値を書くことが出来ます。
+- `parseInt(str, base)` は `2 ≤ base ≤ 36` の間の任意の数値システムの整数を解析します。
+- `num.toString(base)` は数値を、与えられた `base` を基数とした数値システムの文字列に変換します。
 
-For converting values like `12pt` and `100px` to a number:
+`12pt` や `100px` のような値を数値に変換するために:
 
-- Use `parseInt/parseFloat` for the "soft" conversion, which reads a number from a string and then returns the value they could read before the error. 
+- "ソフト" 変換として `parseInt/parseFloat` を使います。それは文字列から数値を読み込み、エラーが起きる前までに読めた値を返します。
 
-For fractions:
+分数の場合:
 
-- Round using `Math.floor`, `Math.ceil`, `Math.trunc`, `Math.round` or `num.toFixed(precision)`.
-- Make sure to remember there's a loss of precision when working with fractions.
+- `Math.floor`, `Math.ceil`, `Math.trunc`, `Math.round` または `num.toFixed(precision)` を使って丸めます。
+- 分数を扱う際に精度の低下があることを覚えておいてください。
 
-More mathematical functions:
+より多くの算術関数:
 
-- See the [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object when you need them. The library is very small, but can cover basic needs.
-
-
+- 必要なとき、[Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) を見てください。このライブラリはとても小さいですが、基本で必要なものはカバーしています。
