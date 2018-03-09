@@ -1,16 +1,16 @@
-# Strings
+# 文字列
 
-In JavaScript, the textual data is stored as strings. There is no separate type for a single character.
+JavaScriptでは、テキストデータは文字列として格納されます。1文字用の別の型はありません。
 
-The internal format for strings is always [UTF-16](https://en.wikipedia.org/wiki/UTF-16), it is not tied to the page encoding.
+文字列の内部のフォーマットは常に [UTF-16](https://en.wikipedia.org/wiki/UTF-16) であり、ページのエンコーディングとは関係ありません。
 
 [cut]
 
-## Quotes
+## 引用符
 
-Let's recall the kinds of quotes.
+引用符の種類を思い出してみましょう。
 
-Strings can be enclosed within either single quotes, double quotes or backticks:
+文字列はシングルクォート、ダブルクォート、またはバッククォートのいずれかで囲むことができます:
 
 ```js
 let single = 'single-quoted';
@@ -19,7 +19,7 @@ let double = "double-quoted";
 let backticks = `backticks`;
 ```
 
-Single and double quotes are essentially the same. Backticks, however, allow us to embed any expression into the string, including function calls:
+シングルとダブルクォートは本質的に同じです。しかしならが、バッククォートは文字列の中に関数呼び出しを含む任意の式を埋め込むことができます。
 
 ```js run
 function sum(a, b) {
@@ -29,7 +29,7 @@ function sum(a, b) {
 alert(`1 + 2 = ${sum(1, 2)}.`); // 1 + 2 = 3.
 ```
 
-Another advantage of using backticks is that they allow a string to span multiple lines:
+バッククォートを使う別のアドバンテージは、文字列が複数の行にまたがることができることです:
 
 ```js run
 let guestList = `Guests:
@@ -41,20 +41,20 @@ let guestList = `Guests:
 alert(guestList); // a list of guests, multiple lines
 ```
 
-If we try to use single or double quotes in the same way, there will be an error:
+同じ方法でシングル、またはダブルクォートを使おうとすると、エラーになります:
 ```js run
 let guestList = "Guests:  // Error: Unexpected token ILLEGAL
   * John";
 ```
 
-Single and double quotes come from ancient times of language creation when the need for multiline strings was not taken into account. Backticks appeared much later and thus are more versatile.
+シングルクォートとダブルクォートは、複数行の文字列の必要性が考慮されていないときに、言語作成の古代から来ています。 バッククォートは後で登場し、より汎用性があります。
 
-Backticks also allow us to specify a "template function" before the first backtick. The syntax is: <code>func&#96;string&#96;</code>. The function `func` is called automatically, receives the string and embedded expressions and can process them. You can read more about it in the [docs](mdn:/JavaScript/Reference/Template_literals#Tagged_template_literals). This is called "tagged templates". This feature makes it easier to wrap strings into custom templating or other functionality, but it is rarely used.
+バッククォートはまた、最初のバッククォートの前に "テンプレート関数" を指定することができます。構文は次のようになります:
+ <code>func&#96;string&#96;</code>. 関数 `func` は自動的に呼ばれ、文字列と埋め込まれた式を受け取り、それらを処理することが出来ます。[docs](mdn:/JavaScript/Reference/Template_literals#Tagged_template_literals) で、これに関してより知ることができます。これは "タグ付きテンプレートリテラル" と呼ばれます。この機能により、文字列をカスタムテンプレートやその他の機能に簡単にラップできますが、ほとんど使用されません。
 
+## 特殊文字
 
-## Special characters
-
-It is still possible to create multiline strings with single quotes by using a so-called "newline character", written as `\n`, which denotes a line break:
+`\n` と書かれた、いわゆる "改行文字" を使うことで、シングルクォートで複数行の文字列を作ることが可能です。
 
 ```js run
 let guestList = "Guests:\n * John\n * Pete\n * Mary";
@@ -62,7 +62,7 @@ let guestList = "Guests:\n * John\n * Pete\n * Mary";
 alert(guestList); // a multiline list of guests
 ```
 
-For example, these two lines describe the same:
+例えば、これら2つの行は同じように表現されます:
 
 ```js run
 alert( "Hello\nWorld" ); // two lines using a "newline symbol"
@@ -72,19 +72,19 @@ alert( `Hello
 World` );
 ```
 
-There are other, less common "special" characters as well. Here's the list:
+あまり一般的でない他の "特殊文字" もあります。これはその一覧です:
 
-| Character | Description |
+| 文字 | 説明 |
 |-----------|-------------|
-|`\b`|Backspace|
-|`\f`|Form feed|
-|`\n`|New line|
-|`\r`|Carriage return|
-|`\t`|Tab|
-|`\uNNNN`|A unicode symbol with the hex code `NNNN`, for instance `\u00A9` -- is a unicode for the copyright symbol `©`. It must be exactly 4 hex digits. |
-|`\u{NNNNNNNN}`|Some rare characters are encoded with two unicode symbols, taking up to 4 bytes. This long unicode requires braces around it.|
+|`\b`|バックスペース|
+|`\f`|改ページ|
+|`\n`|改行|
+|`\r`|キャリッジリターン|
+|`\t`|タブ|
+|`\uNNNN`|`\u00A9` のような16進コード `NNNN` を持つユニコード記号 -- これは、著作権記号 `©` のユニコードです。 正確に4桁の16進数でなければなりません。|
+|`\u{NNNNNNNN}`|いくつかの珍しい文字は、2つのユニコード記号でエンコードされ、4バイトまで使用されます。 この長いユニコードでは、周囲に括弧が必要です。|
 
-Examples with unicode:
+ユニコードの例です:
 
 ```js run
 alert( "\u00A9" ); // ©
@@ -92,54 +92,53 @@ alert( "\u{20331}" ); // 佫, a rare chinese hieroglyph (long unicode)
 alert( "\u{1F60D}" ); // 😍, a smiling face symbol (another long unicode)
 ```
 
-All special characters start with a backslash character `\`. It is also called an "escape character".
+すべての特殊文字はバックスラッシュ `\` で始まります。それは "エスケープ文字" とも呼ばれます。
 
-We would also use it if we want to insert a quote into the string.
+私たちはまた、文字列の中に引用符を挿入したいときにそれを使います。
 
-For instance:
+例:
 
 ```js run
 alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 ```
 
-As you can see, we have to prepend the inner quote by the backslash `\'`, because otherwise it would indicate the string end.
+上で見るように、内部の引用符の前にバックスラッシュ `\'` を追加しないといけません。そうしないと、文字列の終わりだと認識されるためです。
 
-Of course, that refers only to the quotes that are same as the enclosing ones. So, as a more elegant solution, we could switch to double quotes or backticks instead:
+もちろん、これは囲っているものと同じ引用符についてのみ言及しています。なので、よりよい解決策は、ダブルクォートかバッククォートを代わりに使うことです:
 
 ```js run
 alert( `I'm the Walrus!` ); // I'm the Walrus!
 ```
 
-Note that the backslash `\` serves for the correct reading of the string by JavaScript, then disappears. The in-memory string has no `\`. You can clearly see that in `alert` from the examples above.
+バックスラッシュ `\` は JavaScript による文字列の正しい読み込みに役立ち、その後消えます。メモリ内部では文字列は `\` を持っていません。それは、上の例のように `alert` ではっきりと見ることができます。
 
-But what if we need to show an actual backslash `\` within the string?
+しかし、文字列内の実際のバックスラッシュ `\` を表示する必要がある場合はどうでしょう？
 
-That's possible, but we need to double it like `\\`:
+それも可能ですが、 `\\` のように2つ書く必要があります:
 
 ```js run
 alert( `The backslash: \\` ); // The backslash: \
 ```
 
-## String length
+## 文字列長
 
-
-The `length` property has the string length:
+`length` プロパティは文字列の長さを持ちます:
 
 ```js run
 alert( `My\n`.length ); // 3
 ```
 
-Note that `\n` is a single "special" character, so the length is indeed `3`.
+`\n` は1つの "特殊" 文字であることに注意してください。なので、長さは実際に `3` です。
 
 ```warn header="`length` is a property"
-People with a background in some other languages sometimes mistype by calling `str.length()` instead of just `str.length`. That doesn't work.
+いくつかの他の言語を背景にもつ人々は、単なる `str.length` の代わりに `str.length()` と呼び間違えることがありますが、それは動作しません。
 
-Please note that `str.length` is a numeric property, not a function. There is no need to add brackets after it.
+`str.length` は数値プロパティであり、関数ではないことに注意してください。その後に括弧をつける必要はありません。
 ```
 
-## Accessing characters
+## 文字へのアクセス
 
-To get a character at position `pos`, use square brackets `[pos]` or call the method [str.charAt(pos)](mdn:js/String/charAt). The first character starts from the zero position:
+`pos` の位置の文字を取得する場合、角括弧 `[pos]` を使うか、もしくは [str.charAt(pos)](mdn:js/String/charAt) メソッドを呼び出します。最初の文字は 0 の位置から始まります:
 
 ```js run
 let str = `Hello`;
@@ -152,9 +151,9 @@ alert( str.charAt(0) ); // H
 alert( str[str.length - 1] ); // o
 ```
 
-The square brackets are a modern way of getting a character, while `charAt` exists mostly for historical reasons.
+主に歴史的な理由で `charAt` が存在する一方、角括弧は文字を取得する現代の方法です。
 
-The only difference between them is that if no character is found, `[]` returns `undefined`, and `charAt` returns an empty string:
+それらの唯一の違いは、文字が見つからなかった場合、`[]` は `undefined` を返し、`charAt` は空文字を返す点です。
 
 ```js run
 let str = `Hello`;
@@ -163,7 +162,7 @@ alert( str[1000] ); // undefined
 alert( str.charAt(1000) ); // '' (an empty string)
 ```
 
-We can also iterate over characters using `for..of`:
+また、 `for..of` を使って文字列をイテレートすることもできます:
 
 ```js run
 for (let char of "Hello") {
@@ -171,11 +170,11 @@ for (let char of "Hello") {
 }
 ```
 
-## Strings are immutable
+## 文字列は不変です
 
-Strings can't be changed in JavaScript. It is impossible to change a character.
+JavaScriptでは文字列は変更できません。文字を変えることは不可能です。
 
-Let's try it to show that it doesn't work:
+それが動作しないことを見てみましょう:
 
 ```js run
 let str = 'Hi';
@@ -184,9 +183,9 @@ str[0] = 'h'; // error
 alert( str[0] ); // doesn't work
 ```
 
-The usual workaround is to create a whole new string and assign it to `str` instead of the old one.
+通常の回避策は、全体の新しい文字列を作り、古いものの代わりにそれを `str` に代入する方法です。
 
-For instance:
+例:
 
 ```js run
 let str = 'Hi';
@@ -196,34 +195,34 @@ str = 'h' + str[1];  // replace the string
 alert( str ); // hi
 ```
 
-In the following sections we'll see more examples of this.
+次のセクションでは、これについてのより多くの例を見ていきます。
 
-## Changing the case
+## ケースを変更する
 
-Methods [toLowerCase()](mdn:js/String/toLowerCase) and [toUpperCase()](mdn:js/String/toUpperCase) change the case:
+メソッド [toLowerCase()](mdn:js/String/toLowerCase) と [toUpperCase()](mdn:js/String/toUpperCase) はケースを変更します:
 
 ```js run
 alert( 'Interface'.toUpperCase() ); // INTERFACE
 alert( 'Interface'.toLowerCase() ); // interface
 ```
 
-Or, if we want a single character lowercased:
+もしくは、1文字だけ小文字にしたい場合は次のようにできます:
 
 ```js
 alert( 'Interface'[0].toLowerCase() ); // 'i'
 ```
 
-## Searching for a substring
+## 部分文字列の検索
 
-There are multiple ways to look for a substring within a string.
+文字列の中で、部分文字列を探す方法はいくつかあります。
 
 ### str.indexOf
 
-The first method is [str.indexOf(substr, pos)](mdn:js/String/indexOf).
+最初のメソッドは [str.indexOf(substr, pos)](mdn:js/String/indexOf) です。
 
-It looks for the `substr` in `str`, starting from the given position `pos`, and returns the position where the match was found or `-1` if nothing can be found.
+これは `str` の中で `substr` を探し、与えられた `pos` の位置から開始して、見つかった位置、または見つからなかった場合は `-1` を返します。
 
-For instance:
+例:
 
 ```js run
 let str = 'Widget with id';
@@ -234,9 +233,9 @@ alert( str.indexOf('widget') ); // -1, not found, the search is case-sensitive
 alert( str.indexOf("id") ); // 1, "id" is found at the position 1 (..idget with id)
 ```
 
-The optional second parameter allows us to search starting from the given position.
+任意の2つ目のパラメータは、与えられた位置から検索を始めます。
 
-For instance, the first occurrence of `"id"` is at position `1`. To look for the next occurrence, let's start the search from position `2`:
+例えば、`"id"` の最初の出現は `1` の位置です。次の出現を探すために、`2` の位置から検索を始めてみましょう。:
 
 ```js run
 let str = 'Widget with id';
@@ -244,8 +243,7 @@ let str = 'Widget with id';
 alert( str.indexOf('id', 2) ) // 12
 ```
 
-
-If we're interested in all occurrences, we can run `indexOf` in a loop. Every new call is made with the position after the previous match:
+もし全ての出現に興味があれば、ループの中で `indexOf` を使います。前回マッチした後のポジションで新しい呼び出しが行われます:
 
 
 ```js run
@@ -278,12 +276,12 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 ```
 
 ```smart header="`str.lastIndexOf(pos)`"
-There is also a similar method [str.lastIndexOf(pos)](mdn:js/String/lastIndexOf) that searches from the end of a string to its beginning.
+文字列の最後から最初に向かって探す類似のメソッド str.lastIndexOf(pos)](mdn:js/String/lastIndexOf) もあります。
 
-It would list the occurrences in the reverse order.
+それは逆の順序で出現を列挙します。
 ```
 
-There is a slight inconvenience with `indexOf` in the `if` test. We can't put it in the `if` like this:
+`if` テストの中では `indexOf` は少し不便です。このように `if` の中にそれを置くことは出来ません:
 
 ```js run
 let str = "Widget with id";
@@ -293,9 +291,9 @@ if (str.indexOf("Widget")) {
 }
 ```
 
-The `alert` in the example above doesn't show because `str.indexOf("Widget")` returns `0` (meaning that it found the match at the starting position). Right, but `if` considers `0` to be `false`.
+上の例の `alert` は表示しません。なぜなら、`str.indexOf("Widget")` は `0` を返すためです (それは、最初の位置でマッチするものが見つかったことを意味します)。正しいですが、`if` は `0` を `false` と判断します。
 
-So, we should actually check for `-1`, like this:
+なので、実際にはこのように　`-1` のチェックをするべきです:
 
 ```js run
 let str = "Widget with id";
@@ -308,11 +306,11 @@ if (str.indexOf("Widget") != -1) {
 ```
 
 ````smart header="The bitwise NOT trick"
-One of the old tricks used here is the [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) `~` operator. It converts the number to a 32-bit integer (removes the decimal part if exists) and then reverses all bits in its binary representation.
+ここで使われている古いトリックの1つは `~` 演算子の [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) です。それは、数値を 32bit 整数に変換し(もし存在すれば少数部分を除いて)、そのバリナリ表現のすべてのビットを反転反転します。
 
-For 32-bit integers the call `~n` means exactly the same as `-(n+1)` (due to IEEE-754 format).
+32ビット整数の場合、 `〜n` は（IEEE-754形式のため） `-(n+1)` と全く同じ意味です。
 
-For instance:
+例:
 
 ```js run
 alert( ~2 ); // -3, the same as -(2+1)
@@ -323,11 +321,11 @@ alert( ~-1 ); // 0, the same as -(-1+1)
 */!*
 ```
 
-As we can see, `~n` is zero only if `n == -1`.
+上の通り、`~n` は、 `n == -1` のときだけゼロになります。
 
-So, the test `if ( ~str.indexOf("...") )` is truthy that the result of `indexOf` is not `-1`. In other words, when there is a match.
+なので、`if ( ~str.indexOf("...") )` のテストは `indexOf` の結果が `-1` でない場合は true です。つまり、マッチするものがあるとき、です。
 
-People use it to shorten `indexOf` checks:
+`indexOf` チェックの短縮形として使われます:
 
 ```js run
 let str = "Widget";
@@ -337,16 +335,16 @@ if (~str.indexOf("Widget")) {
 }
 ```
 
-It is usually not recommended to use language features in a non-obvious way, but this particular trick is widely used in old code, so we should understand it.
+通常、言語機能を明白でない方法で使用することは推奨されませんが、この特定のトリックは昔のコードでは広く使われています。なので、これは理解しておきましょう。
 
-Just remember: `if (~str.indexOf(...))` reads as "if found".
+覚えておきましょう: `if (~str.indexOf(...))` は "もし見つかったら" と読みます。
 ````
 
 ### includes, startsWith, endsWith
 
-The more modern method [str.includes(substr, pos)](mdn:js/String/includes) returns `true/false` depending on whether `str` contains `substr` within.
+より現代のメソッド [str.includes(substr, pos)](mdn:js/String/includes) は `str` が `substr` 含むかどうかで `true/false` を返します。
 
-It's the right choice if we need to test for the match, but don't need its position:
+マッチのための確認は必要だが、その位置は不要な場合には正しい選択です。
 
 ```js run
 alert( "Widget with id".includes("Widget") ); // true
@@ -354,28 +352,28 @@ alert( "Widget with id".includes("Widget") ); // true
 alert( "Hello".includes("Bye") ); // false
 ```
 
-The optional second argument of `str.includes` is the position to start searching from:
+`str.includes` の任意の2つ目の引数は、検索開始の位置です:
 
 ```js run
 alert( "Midget".includes("id") ); // true
 alert( "Midget".includes("id", 3) ); // false, from position 3 there is no "id"
 ```
 
-The methods [str.startsWith](mdn:js/String/startsWith) and [str.endsWith](mdn:js/String/endsWith) do exactly what they say:
+メソッド [str.startsWith](mdn:js/String/startsWith) と [str.endsWith](mdn:js/String/endsWith)  は、それらが言うことを性格に行います:
 
 ```js run
 alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
 alert( "Widget".endsWith("get") );   // true, "Widget" ends with "get"
 ```
 
-## Getting a substring
+## 部分文字列を取得する
 
-There are 3 methods in JavaScript to get a substring: `substring`, `substr` and `slice`.
+JavaScriptでは、部分文字列を取得する3つの方法があります: `substring`, `substr` と `slice` です。
 
 `str.slice(start [, end])`
-: Returns the part of the string from `start` to (but not including) `end`.
+: `start` から `end` まで(ただし、含まない)の文字列の一部を返します。
 
-    For instance:
+    例:
 
     ```js run
     let str = "stringify";
@@ -383,14 +381,14 @@ There are 3 methods in JavaScript to get a substring: `substring`, `substr` and 
     alert( str.slice(0, 1) ); // 's', from 0 to 1, but not including 1, so only character at 0
     ```
 
-    If there is no second argument, then `slice` goes till the end of the string:
+    2つ目の引数がない場合、`slice` は文字列の最後まで行きます:
 
     ```js run
     let str = "st*!*ringify*/!*";
     alert( str.slice(2) ); // ringify, from the 2nd position till the end
     ```
 
-    Negative values for `start/end` are also possible. They mean the position is counted from the string end:
+    `start/end` は負の値も指定可能です。それらは、位置が文字列の末尾からカウントされることを意味します:
 
     ```js run
     let str = "strin*!*gif*/!*y";
@@ -401,11 +399,11 @@ There are 3 methods in JavaScript to get a substring: `substring`, `substr` and 
 
 
 `str.substring(start [, end])`
-: Returns the part of the string *between* `start` and `end`.
+: `start` と `end` の *間* の文字列の一部を返します。
 
-    This is almost the same as `slice`, but it allows `start` to be greater than `end`.
+    これはほとんど `slice` と同じですが、`start` が `end` より大きくても良いです。
 
-    For instance:
+    例:
 
 
     ```js run
@@ -421,67 +419,67 @@ There are 3 methods in JavaScript to get a substring: `substring`, `substr` and 
 
     ```
 
-    Negative arguments are (unlike slice) not supported, they are treated as `0`.
+    負の値は slice とは違いサポートされていません。それらは `0` として扱われます。
 
 
 `str.substr(start [, length])`
-: Returns the part of the string from `start`, with the given `length`.
+: `start` から与えられた `length` 分の、文字列の一部を返します。
 
-    In contrast with the previous methods, this one allows us to specify the `length` instead of the ending position:
+    これまでのメソッドと対象的に、これは終わり位置の代わりに、`length` を指定することができます。:
 
     ```js run
     let str = "st*!*ring*/!*ify";
     alert( str.substr(2, 4) ); // ring, from the 2nd position get 4 characters
     ```
 
-    The first argument may be negative, to count from the end:
+    最初の引数は、末尾からカウントするために負の値にもできます:
 
     ```js run
     let str = "strin*!*gi*/!*fy";
     alert( str.substr(-4, 2) ); // gi, from the 4th position get 2 characters
     ```
 
-Let's recap these methods to avoid any confusion:
+混乱しないよう、これらのメソッドについておさらいしましょう:
 
-| method | selects... | negatives |
+| メソッド | 選択対象... | 負の値 |
 |--------|-----------|-----------|
-| `slice(start, end)` | from `start` to `end` | allows negatives |
-| `substring(start, end)` | between `start` and `end` | negative values mean `0` |
-| `substr(start, length)` | from `start` get `length` characters | allows negative `start` |
+| `slice(start, end)` | `start` から `end` まで | 負の値を許可する |
+| `substring(start, end)` | `start` と `end` の間 | 負の値は `0` 扱いです |
+| `substr(start, length)` | `start` から `length` 文字を取得 | 負の `start` を許可します |
 
 
 ```smart header="Which one to choose?"
-All of them can do the job. Formally, `substr` has a minor drawback: it is described not in the core JavaScript specification, but in Annex B, which covers browser-only features that exist mainly for historical reasons. So, non-browser environments may fail to support it. But in practice it works everywhere.
+これら全て仕事ができます。正式には、`substr` は小さな欠点があります: それは コアなJavaScriptの仕様ではなく、主に歴史的な理由から存在するブラウザ専用の機能を扱う Annex B で説明されています。なので、非ブラウザ環境ではサポートされていない可能性があります。ただ、実際にはほぼどこでも動作しています。
 
-The author finds himself using `slice` almost all the time.
+著者はほとんどのケースで `slice` を使っています。
 ```
 
-## Comparing strings
+## 文字列比較
 
-As we know from the chapter <info:comparison>, strings are compared character-by-character in alphabetical order.
+チャプター <info:comparison> で知ったように、文字列はアルファベット順に文字ごとに比較されます。
 
-Although, there are some oddities.
+しかし、いくつかの奇妙なところがあります。
 
-1. A lowercase letter is always greater than the uppercase:
+1. 小文字は常に大文字よりも大きくなります:
 
     ```js run
     alert( 'a' > 'Z' ); // true
     ```
 
-2. Letters with diacritical marks are "out of order":
+2. 発音区別記号付きの文字は "規則に反しています":
 
     ```js run
     alert( 'Österreich' > 'Zealand' ); // true
     ```
 
-    This may lead to strange results if we sort these country names. Usually people would expect `Zealand` to come after `Österreich` in the list.
+    それらの国をソートするとき、奇妙な結果が導かれるかもしれません。通常人々はリストで、`Österreich` の後に `Zealand` が来ることを期待するためです。
 
-To understand what happens, let's review the internal representation of strings in JavaScript.
+何が起きているのか理解するために、JavaScriptでの文字列の内部表現を見てみましょう。
 
-All strings are encoded using [UTF-16](https://en.wikipedia.org/wiki/UTF-16). That is: each character has a corresponding numeric code. There are special methods that allow to get the character for the code and back.
+すべての文字列は [UTF-16](https://en.wikipedia.org/wiki/UTF-16) を使ってエンコードされています。各文字は対応する数値コードを持っています。コードの文字を取得したり戻すことのできる特殊なメソッドがあります。
 
 `str.codePointAt(pos)`
-: Returns the code for the character at position `pos`:
+: 位置 `pos` の文字コードを返します:
 
     ```js run
     // different case letters have different codes
@@ -490,20 +488,20 @@ All strings are encoded using [UTF-16](https://en.wikipedia.org/wiki/UTF-16). Th
     ```
 
 `String.fromCodePoint(code)`
-: Creates a character by its numeric `code`
+: 数値 `code` で文字を生成します:
 
     ```js run
     alert( String.fromCodePoint(90) ); // Z
     ```
 
-    We can also add unicode characters by their codes using `\u` followed by the hex code:
+    また、`\` とそれに続く16進数のコードを使って、ユニコード文字を追加することもできます:
 
     ```js run
     // 90 is 5a in hexadecimal system
     alert( '\u005a' ); // Z
     ```
 
-Now let's see the characters with codes `65..220` (the latin alphabet and a little bit extra) by making a string of them:
+さて、コード `65..220` (ラテン・アルファベットとその他が多少)の文字を、それらから文字を作ることで見てみましょう。:
 
 ```js run
 let str = '';
@@ -516,55 +514,54 @@ alert( str );
 // ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜ
 ```
 
-See? Capital characters go first, then a few special ones, then lowercase characters.
+わかりますか？大文字が最初で、その後少し特殊文字があり、その後に小文字です。
 
-Now it becomes obvious why `a > Z`.
+これで、なぜ `a > Z` なのかが明らかになりました。
 
-The characters are compared by their numeric code. The greater code means that the character is greater. The code for `a` (97) is greater than the code for `Z` (90).
+文字は、その数値コードで比較されます。より大きいコードは、その文字はより大きいことを意味します。`a` (97) のコードは、`Z` (90) よりも大きいです。
 
-- All lowercase letters go after uppercase letters because their codes are greater.
-- Some letters like `Ö` stand apart from the main alphabet. Here, it's code is greater than anything from `a` to `z`.
+- 全ての小文字は大文字の後に来ます。なぜなら、それらのコードはより大きいためです。
+- `Ö` のようないくつかの文字は主要のアルファベットとは別なものがあります。ここでは、そのコードは `a` から `z` のどの文字よりも大きいです。
 
+### 正しい比較
 
-### Correct comparisons
+文字列比較をするための "正しい" アルゴリズムは見た目より複雑です。なぜなら、アルファベットは異なる言語によって異なるためです。同じようにみえる文字が異なるアルファベットで、異なって位置することがあります。
 
-The "right" algorithm to do string comparisons is more complex than it may seem, because alphabets are different for different languages. The same-looking letter may be located differently in different alphabets.
+なので、ブラウザは比較する言語を知る必要があります。
 
-So, the browser needs to know the language to compare.
+幸運なことに、全ての現代のブラウザ (IE10 は追加のライブラリ [Intl.JS](https://github.com/andyearnshaw/Intl.js/) を必要とします)は国際標準 [ECMA 402](http://www.ecma-international.org/ecma-402/1.0/ECMA-402.pdf) をサポートします。
 
-Luckily, all modern browsers (IE10- requires the additional library [Intl.JS](https://github.com/andyearnshaw/Intl.js/)) support the internationalization standard [ECMA 402](http://www.ecma-international.org/ecma-402/1.0/ECMA-402.pdf).
+それは次のルールに従った、異なる言語で文字列を比較するための特殊なメソッドを提供します。
 
-It provides a special method to compare strings in different languages, following their rules.
+[str.localeCompare(str2)](mdn:js/String/localeCompare) 呼び出し:
 
-The call [str.localeCompare(str2)](mdn:js/String/localeCompare):
+- 言語規則に従って、`str` が `str2` より大きい場合、`1` を返します。
+- `str` が `str2` より小さい場合は `-1` を返します。
+- それらが等価な場合は `0` を返します。
 
-- Returns `1` if `str` is greater than `str2` according to the language rules.
-- Returns `-1` if `str` is less than `str2`.
-- Returns `0` if they are equal.
-
-For instance:
+例:
 
 ```js run
 alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ```
 
-This method actually has two additional arguments specified in [the documentation](mdn:js/String/localeCompare), which allows it to specify the language (by default taken from the environment) and setup additional rules like case sensitivity or should `"a"` and `"á"` be treated as the same etc.
+実際、このメソッドは [the documentation](mdn:js/String/localeCompare) で指定されている2つの追加の引数を持ちます。これにより言語を指定することができ(デフォルトは環境から判断されます)、大文字と小文字や、`"a"` と `"á"` が同じように扱われるなどの追加のルールを設定することが出来ます。
 
-## Internals, Unicode
+## 内部, Unicode
 
 ```warn header="Advanced knowledge"
-The section goes deeper into string internals. This knowledge will be useful for you if you plan to deal with emoji, rare mathematical of hieroglyphs characters or other rare symbols.
+このセクションでは、文字列の内部構造について詳しく説明します。 この知識は、絵文字、珍しい数学的な象形文字やその他の珍しい記号を扱う予定の場合に便利です。
 
-You can skip the section if you don't plan to support them.
+それらをサポートする予定がない場合には、このセクションはスキップしてもOKです。
 ```
 
-### Surrogate pairs
+### サロゲートペア
 
-Most symbols have a 2-byte code. Letters in most european languages, numbers, and even most hieroglyphs, have a 2-byte representation.
+ほとんどの記号は2バイトのコードを持っています。 ほとんどのヨーロッパ言語、数字、さらにはほとんどの象形文字の文字は、2バイト表現です。
 
-But 2 bytes only allow 65536 combinations and that's not enough for every possible symbol. So rare symbols are encoded with a pair of 2-byte characters called "a surrogate pair".
+しかし、2バイトの組み合わせは 65536 通りしか許されず、全ての記号のには十分ではありません。なので、珍しい記号は 2バイト文字でエンコードされ、それは "サロゲートペア" と呼ばれます。
 
-The length of such symbols is `2`:
+このような記号の長さは `2` です:
 
 ```js run
 alert( '𝒳'.length ); // 2, MATHEMATICAL SCRIPT CAPITAL X
@@ -572,24 +569,24 @@ alert( '😂'.length ); // 2, FACE WITH TEARS OF JOY
 alert( '𩷶'.length ); // 2, a rare chinese hieroglyph
 ```
 
-Note that surrogate pairs did not exist at the time when JavaScript was created, and thus are not correctly processed by the language!
+JavaScriptが作られたとき、サロゲートペアは存在しなかったため、言語として正しく処理されていないことに注意してください!
 
-We actually have a single symbol in each of the strings above, but the `length` shows a length of `2`.
+私たちは、実際上の各文字列で1つの記号を持っていますが、`length` の結果は `2` です。
 
-`String.fromCodePoint` and `str.codePointAt` are few rare methods that deal with surrogate pairs right. They recently appeared in the language. Before them, there were only [String.fromCharCode](mdn:js/String/fromCharCode) and [str.charCodeAt](mdn:js/String/charCodeAt). These methods are actually the same as `fromCodePoint/codePointAt`, but don't work with surrogate pairs.
+`String.fromCodePoint` と `str.codePointAt` はサロゲートペアを正しく扱う稀なメソッドです。それらは最近言語に登場しまｓた。それまでは、 [String.fromCharCode](mdn:js/String/fromCharCode) と [str.charCodeAt](mdn:js/String/charCodeAt) だけでした。それらのメソッドは実際には `fromCodePoint/codePointAt` と同じですが、サロゲートペアでは上手く動きません。
 
-But, for instance, getting a symbol can be tricky, because surrogate pairs are treated as two characters:
+しかし、サロゲートペアは2つの文字として扱われるため、記号を取得するのは難しい場合があります:
 
 ```js run
 alert( '𝒳'[0] ); // strange symbols...
 alert( '𝒳'[1] ); // ...pieces of the surrogate pair
 ```
 
-Note that pieces of the surrogate pair have no meaning without each other. So the alerts in the example above actually display garbage.
+サロゲートペアの一部はお互いなしでは意味を持たないことに注意してください。なので、上の例の警告は実際にはゴミが表示されます。
 
-Technically, surrogate pairs are also detectable by their codes: if a character has the code in the interval of `0xd800..0xdbff`, then it is the first part of the surrogate pair. The next character (second part) must have the code in interval `0xdc00..0xdfff`. These intervals are reserved exclusively for surrogate pairs by the standard.
+技術的には、サロゲートペアもまたそれらのコードにより検出されます: もし文字が `0xd800..0xdbff` の中のコードである場合、それはサロゲートペアの最初のパートです。次の文字(2つ目のパート)は `0xdc00..0xdfff` の中のコードである必要があります。それらの範囲は、標準によってサロゲートペア専用に予約されています。
 
-In the case above:
+上のケース:
 
 ```js run
 // charCodeAt is not surrogate-pair aware, so it gives codes for parts
@@ -598,35 +595,35 @@ alert( '𝒳'.charCodeAt(0).toString(16) ); // d835, between 0xd800 and 0xdbff
 alert( '𝒳'.charCodeAt(1).toString(16) ); // dcb3, between 0xdc00 and 0xdfff
 ```
 
-You will find more ways to deal with surrogate pairs later in the chapter <info:iterable>. There are probably special libraries for that too, but nothing famous enough to suggest here.
+あなたは、後のチャプター <info:iterable> でサロゲートペアを扱うより多くの方法を見つけるでしょう。恐らくそれをするための特殊なライブラリもありますが、ここで言うほど有名なものはありません。
 
-### Diacritical marks and normalization
+### 分音記号と正規化
 
-In many languages there are symbols that are composed of the base character with a mark above/under it.
+多くの言語では、上/下にマークを持つ基本文字で構成される記号があります。
 
-For instance, the letter `a` can be the base character for: `àáâäãåā`. Most common "composite" character have their own code in the UTF-16 table. But not all of them, because there are too many possible combinations.
+例えば、文字 `a` は `àáâäãåā` のベースの文字です。最も一般的な "複合" 文字は、UTF-16テーブルに独自のコードを持っています。 しかし、可能な組み合わせが多すぎるため、それらのすべてではありません。
 
-To support arbitrary compositions, UTF-16 allows us to use several unicode characters. The base character and one or many "mark" characters that "decorate" it.
+任意の複合をサポートするため、UTF-16 はいくつかのユニコード文字を使うことが出来ます。ベース文字とそれを "装飾" する1つまたは複数の "マーク" 文字です。
 
-For instance, if we have `S` followed by the special "dot above" character (code `\u0307`), it is shown as Ṡ.
+たとえば、 `S` の後に特別な "上にドット" 文字（コード `\u0307`）が続く場合、それは Ṡ として表示されます。
 
 ```js run
 alert( 'S\u0307' ); // Ṡ
 ```
 
-If we need an additional mark above the letter (or below it) -- no problem, just add the necessary mark character.
+もし文字の上(または下)に追加のマークが必要であれば -- 問題はありません、単に必要なマーク文字を追加するだけです。
 
-For instance, if we append a character "dot below" (code `\u0323`), then we'll have "S with dots above and below": `Ṩ`.
+たとえば、"下へのドット" 文字 (コード `\u0323`) を追加すると、"上と下のドットについた S": `Ṩ` になります。
 
-For example:
+例:
 
 ```js run
 alert( 'S\u0307\u0323' ); // Ṩ
 ```
 
-This provides great flexibility, but also an interesting problem: two characters may visually look the same, but be represented with different unicode compositions.
+これは素晴らしい柔軟性を提供しますが、興味深い問題もあります: 2つの文字が視覚的には同じように見えるかもしれませんが、異なるユニコード構成で表現される可能性があります。
 
-For instance:
+例:
 
 ```js run
 alert( 'S\u0307\u0323' ); // Ṩ, S + dot above + dot below
@@ -635,15 +632,15 @@ alert( 'S\u0323\u0307' ); // Ṩ, S + dot below + dot above
 alert( 'S\u0307\u0323' == 'S\u0323\u0307' ); // false
 ```
 
-To solve this, there exists a "unicode normalization" algorithm that brings each string to the single "normal" form.
+これを解決するために、それぞれの文字を1つの "標準の" 形にする "ユニコード正規化" アルゴリズムがあります。
 
-It is implemented by [str.normalize()](mdn:js/String/normalize).
+[str.normalize()](mdn:js/String/normalize) で実装されています。
 
 ```js run
 alert( "S\u0307\u0323".normalize() == "S\u0323\u0307".normalize() ); // true
 ```
 
-It's funny that in our situation `normalize()` actually brings together a sequence of 3 characters to one: `\u1e68` (S with two dots).
+我々のシチュエーションでは、`normalize()` は実際に3つの文字のシーケンスを1つの文字 `\u1e68` (S と2つのドット)にまとめています。
 
 ```js run
 alert( "S\u0307\u0323".normalize().length ); // 1
@@ -651,26 +648,26 @@ alert( "S\u0307\u0323".normalize().length ); // 1
 alert( "S\u0307\u0323".normalize() == "\u1e68" ); // true
 ```
 
-In reality, this is not always the case. The reason being that the symbol `Ṩ` is "common enough", so UTF-16 creators included it in the main table and gave it the code.
+実際には、これは必ずしもそうではありません。理由は、記号 `Ṩ` は "十分に一般的" なので、UTF-16 の作成者がそれをメインテーブルに含め、コードを与えたからです。
 
-If you want to learn more about normalization rules and variants -- they are described in the appendix of the Unicode standard: [Unicode Normalization Forms](http://www.unicode.org/reports/tr15/), but for most practical purposes the information from this section is enough.
+正規化ルールやバリアントについてもっと学びたい場合は -- それらはユニコード標準 [Unicode Normalization Forms](http://www.unicode.org/reports/tr15/) の付録に記載されていますが、ほとんど実践的な目的においては、このセクションで十分です。
 
 
-## Summary
+## サマリ
 
-- There are 3 types of quotes. Backticks allow a string to span multiple lines and embed expressions.
-- Strings in JavaScript are encoded using UTF-16.
-- We can use special characters like `\n` and insert letters by their unicode using `\u...`.
-- To get a character, use: `[]`.
-- To get a substring, use: `slice` or `substring`.
-- To lowercase/uppercase a string, use: `toLowerCase/toUpperCase`.
-- To look for a substring, use: `indexOf`, or `includes/startsWith/endsWith` for simple checks.
-- To compare strings according to the language, use: `localeCompare`, otherwise they are compared by character codes.
+- 引用符には3つのタイプがあります。バッククォートは複数行にまたがり、式を埋め込むことができます。
+- JavaScriptでの文字列は UTF-16 を使ってエンコードされています。
+- 私たちは、`\n` のような特殊文字を使うことができ、`\u...` を使ったそれらのユニコードで文字を挿入することができます。
+- 文字を取得するために、`[]` を使います。
+- 部分文字列を取得するために、`slice` または `substring` を使います。
+- 文字列を小文字/大文字にするために、`toLowerCase/toUpperCase` を使います。
+- シンプルなチェックで、部分文字列を探すためには `indexOf` または `includes/startsWith/endsWith` を使います。
+- 言語に従って文字列を比較するためには、`localeCompare` を使います。そうでない場合は、文字コードで比較されます。
 
-There are several other helpful methods in strings:
+文字列には、その他いくつかの役立つメソッドがあります:
 
-- `str.trim()` -- removes ("trims") spaces from the beginning and end of the string.
-- `str.repeat(n)` -- repeats the string `n` times.
-- ...and more. See the [manual](mdn:js/String) for details.
+- `str.trim()` -- 文字列の最初と最後のスペースを除去します。
+- `str.repeat(n)` -- 文字列を `n` 回繰り返します。
+- などなど。詳細は [manual](mdn:js/String) を見てください。
 
-Strings also have methods for doing search/replace with regular expressions. But that topic deserves a separate chapter, so we'll return to that later.
+文字列もまた、正規表現で検索/置換をするメソッドを持っています。しかし、そのトピックは別のチャプターでするのがふさわしいので、後ほど戻ってきましょう。
