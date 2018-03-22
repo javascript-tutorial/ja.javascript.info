@@ -1,33 +1,33 @@
-# Arrays 
+# 配列
 
-Objects allow to store keyed collections of values. That's fine.
+オブジェクトを使用すると、キー付きの値のコレクションを格納できます。 それはいいです。
 
-But quite often we find that we need an *ordered collection*, where we have a 1st, a 2nd, a 3rd element and so on. For example, we need that to store a list of something: users, goods, HTML elements etc. 
+しかし、非常に頻繁に *順序付されたコレクション* が必要であることがわかります。それは、1つ目、2つ目、3つ目の要素などです。例えば、何かのリストを格納する必要があるとします: ユーザ、商品、HTML要素など。
 
-It is not convenient to use an object here, because it provides no methods to manage the order of elements. We can’t insert a new property “between” the existing ones. Objects are just not meant for such use.
+ここでオブジェクトを使うのは便利ではありません。なぜなら、要素の順序を管理するためのメソッドは提供されていないからです。私たちは、既存のリストの "間に" 新しいプロパティを挿入することはできません。オブジェクトはこのように使うものではありません。
 
-There exists a special data structure named `Array`, to store ordered collections. 
+順序付けされたコレクションを格納するために、`Array` と呼ばれる特別なデータ構造があります。
 
 [cut]
 
-## Declaration
+## 宣言
 
-There are two syntaxes for creating an empty array:
+空の配列を作る2つの構文があります:
 
 ```js
 let arr = new Array();
 let arr = [];
 ```
 
-Almost all the time, the second syntax is used. We can supply initial elements in the brackets:
+ほぼほぼ全てのケースで2つ目の構文が使われます。角括弧の中に初期要素を指定することができます:
 
 ```js
 let fruits = ["Apple", "Orange", "Plum"];
 ```
 
-Array elements are numbered, starting with zero.
+配列要素はゼロから始る番号が付けられます。
 
-We can get an element by its number in square brackets:
+角括弧にその数値を指定することで、その要素を取得することができます:
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
@@ -37,19 +37,19 @@ alert( fruits[1] ); // Orange
 alert( fruits[2] ); // Plum
 ```
 
-We can replace an element:
+要素の置き換えも出来ます:
 
 ```js
 fruits[2] = 'Pear'; // now ["Apple", "Orange", "Pear"]
 ```
 
-...Or add a new one to the array:
+...もしくは、配列に新しいものを追加することも可能です:
 
 ```js
 fruits[3] = 'Lemon'; // now ["Apple", "Orange", "Pear", "Lemon"]
 ```
 
-The total count of the elements in the array is its `length`:
+配列内の要素の総数は、その `length` です:
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
@@ -57,7 +57,7 @@ let fruits = ["Apple", "Orange", "Plum"];
 alert( fruits.length ); // 3
 ```
 
-We can also use `alert` to show the whole array.
+すべての配列を表示するために `alert` を使うことも出来ます。
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
@@ -65,9 +65,9 @@ let fruits = ["Apple", "Orange", "Plum"];
 alert( fruits ); // Apple,Orange,Plum
 ```
 
-An array can store elements of any type.
+配列はどんな型の要素も格納することができます。
 
-For instance:
+例:
 
 ```js run no-beautify
 // mix of values
@@ -83,54 +83,54 @@ arr[3](); // hello
 
 ````smart header="Trailing comma"
 An array, just like an object, may end with a comma:
-```js 
+```js
 let fruits = [
-  "Apple", 
-  "Orange", 
+  "Apple",
+  "Orange",
   "Plum"*!*,*/!*
 ];
 ```
 
-The "trailing comma" style makes it easier to insert/remove items, because all lines become alike.
+全ての行が同じようになるので、"末尾のカンマ" は項目の挿入や削除が容易になります。
 ````
 
 
-## Methods pop/push, shift/unshift
+## pop/push, shift/unshift メソッド
 
-A [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) is one of most common uses of an array. In computer science, this means an ordered collection of elements which supports two operations:
+[queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) は配列で最も一般的に使われるものの１つです。コンピュータ・サイエンスでは、これは2つの操作をサポートする要素の順序付きコレクションを意味します。:
 
-- `push` appends an element to the end.
-- `shift` get an element from the beginning, advancing the queue, so that the 2nd element becomes the 1st.
+- `push` は要素を末尾に追加します。
+- `shift` は最初から要素を取得し、2番目の要素が1番目になるようにキューを進めます。
 
 ![](queue.png)
 
-Arrays support both operations.
+配列は両方の操作をサポートします。
 
-In practice we meet it very often. For example, a queue of messages that need to be shown on-screen.
+実践では、非常に頻繁にこれを見ます。例えば画面に表示が必要なメッセージのキューです。
 
-There's another use case for arrays -- the data structure named [stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)). 
+配列の別のユースケースもあります -- [stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) と呼ばれるデータ構造です。
 
-It supports two operations:
+これは2つの操作をサポートします。
 
-- `push` adds an element to the end.
-- `pop` takes an element from the end.
+- `push` は要素を末尾に追加します.
+- `pop` は末尾から要素を取り出します。
 
-So new elements are added or taken always from the "end".
+なので、新しい要素は常に "末尾" から追加または取得されます。
 
-A stack is usually illustrated as a pack of cards: new cards are added to the top or taken from the top:
+スタックは、通常、カードのパックとして例えられます。新しいカードが上に追加されるか、上から取り出されます：
 
 ![](stack.png)
 
-For stacks, the latest pushed item is received first, that's also called LIFO (Last-In-First-Out) principle. For queues, we have FIFO (First-In-First-Out).
+スタックの場合、最新のプッシュされたアイテムが最初に受信されます。これはLIFO（Last-In-First-Out）の原則とも呼ばれます。 キューの場合、FIFO（First-In-First-Out）があります。
 
-Arrays in JavaScript can work both as a queue and as a stack. They allow to add/remove elements both to/from the beginning or the end. 
+JavaScriptの配列キュー、スタックどちらとしても動作します。これらの要素を使用すると、要素を先頭または最後に追加/削除することができます。
 
-In computer science the data structure that allows it is called [deque](https://en.wikipedia.org/wiki/Double-ended_queue).
+コンピュータサイエンスでは、それを許可するデータ構造を[deque](https://en.wikipedia.org/wiki/Double-ended_queue)と呼びます。
 
-**Methods that work with the end of the array:**
+**配列の末尾で動作するメソッド:******
 
 `pop`
-: Extracts the last element of the array and returns it:
+: 配列の最後の要素を抽出して返します。:
 
     ```js run
     let fruits = ["Apple", "Orange", "Pear"];
@@ -141,7 +141,7 @@ In computer science the data structure that allows it is called [deque](https://
     ```
 
 `push`
-: Append the element to the end of the array:
+: 配列の末尾に要素を追加します。:
 
     ```js run
     let fruits = ["Apple", "Orange"];
@@ -151,12 +151,12 @@ In computer science the data structure that allows it is called [deque](https://
     alert( fruits ); // Apple, Orange, Pear
     ```
 
-    The call `fruits.push(...)` is equal to `fruits[fruits.length] = ...`.
+    `fruits.push(...)` 呼び出しは `fruits[fruits.length] = ...` と同じです。
 
-**Methods that work with the beginning of the array:**
+**配列の先頭で動作するメソッド:**
 
 `shift`
-: Extracts the first element of the array and returns it:
+: 配列の先頭の要素を抽出して返します。:
 
     ```js
     let fruits = ["Apple", "Orange", "Pear"];
@@ -167,7 +167,7 @@ In computer science the data structure that allows it is called [deque](https://
     ```
 
 `unshift`
-: Add the element to the beginning of the array:
+: 配列の先頭に要素を追加します。:
 
     ```js
     let fruits = ["Orange", "Pear"];
@@ -177,7 +177,7 @@ In computer science the data structure that allows it is called [deque](https://
     alert( fruits ); // Apple, Orange, Pear
     ```
 
-Methods `push` and `unshift` can add multiple elements at once:
+メソッド `push` と `unshift` は一度に複数の要素を操作することができます:
 
 ```js run
 let fruits = ["Apple"];
@@ -189,15 +189,15 @@ fruits.unshift("Pineapple", "Lemon");
 alert( fruits );
 ```
 
-## Internals
+## 内部詳細
 
-An array is a special kind of object. The square brackets used to access a property `arr[0]` actually come from the object syntax. Numbers are used as keys. 
+配列は特別な種類のオブジェクトです。プロパティ `arr[0]` にアクセスするために使う角括弧は、実際にはオブジェクト構文から来ています。数字がキーとして使用されます。
 
-They extend objects providing special methods to work with ordered collections of data and also the `length` property. But at the core it's still an object.
+それらはデータの順序付きコレクションと、`length` プロパティを処理する特別なメソッドを提供するようオブジェクトを拡張します。しかし、コアではまだオブジェクトです。
 
-Remember, there are only 7 basic types in JavaScript. Array is an object and thus behaves like an object. 
+JavaScriptには7つの基本タイプしかないことに注意してください。 配列はオブジェクトであるため、オブジェクトのように動作します。
 
-For instance, it is copied by reference:
+例えば、これは参照としてコピーされます:
 
 ```js run
 let fruits = ["Banana"]
@@ -205,17 +205,17 @@ let fruits = ["Banana"]
 let arr = fruits; // copy by reference (two variables reference the same array)
 
 alert( arr === fruits ); // true
- 
+
 arr.push("Pear"); // modify the array by reference
 
 alert( fruits ); // Banana, Pear - 2 items now
 ```
 
-...But what makes arrays really  special is their internal representation. The engine tries to store its elements in the contiguous memory area, one after another, just as depicted on the illustrations in this chapter, and there are other optimizations as well, to make arrays work really fast.
+...しかし配列を本当に特別にするのは、その内部表現です。エンジンは、このチャプターの図に示されているように、連続したメモリ領域に要素を格納しようとします。そして配列を非常に高速にするために、他の最適化も行われます。
 
-But they all break if we quit working with an array as with an "ordered collection" and start working with it as if it were a regular object.
+しかし、"順序付けられたコレクション" として配列を処理するのをやめ、普通のオブジェクトのように扱い始めると、それらは全て壊れます。
 
-For instance, technically we can do this:
+例えば、技術的にはこうすることもできます:
 
 ```js
 let fruits = []; // make an array
@@ -225,47 +225,47 @@ fruits[99999] = 5; // assign a property with the index far greater than its leng
 fruits.age = 25; // create a property with an arbitrary name
 ```
 
-That's possible, because arrays are objects at their base. We can add any properties to them.
+配列のベースはオブジェクトなので、これは可能です。それらに任意のプロパティを追加することができます。
 
-But the engine will see that we're working with the array as with a regular object. Array-specific optimizations are not suited for such cases and will be turned off, their benefits disappear.
+しかし、エンジンは、我々が配列を通常のオブジェクトとして処理していることを知るでしょう。配列固有の最適化は、このような場合には適しておらず、無効になります。その利点は消えます。
 
-The ways to misuse an array:
+配列の誤った使い方:
 
-- Add a non-numeric property like `arr.test = 5`. 
-- Make holes, like: add `arr[0]` and then `arr[1000]` (and nothing between them).
-- Fill the array in the reverse order, like `arr[1000]`, `arr[999]` and so on.
+- `arr.test = 5` のように非数値プロパティを追加する。
+- 穴を作る: `arr[0]` を追加した後、`arr[1000]` を追加する(そしてその間は無し)。
+- 逆順で配列を埋める: `arr[1000]`, `arr[999]` など。
 
-Please think of arrays as special structures to work with the *ordered data*. They provide special methods for that. Arrays are carefully tuned inside JavaScript engines to work with contiguous ordered data, please use them this way. And if you need arbitrary keys, chances are high that you actually require a regular object `{}`.
+*順序付きデータ* を処理するための特別な構造として配列を考えてください。配列はそのための特別なメソッドを提供します。配列は連続した順序付きデータを処理するため、JavaScriptエンジン内部で注意深くチューニングされています。このために配列を使ってください。そして、任意のキーが必要なときは、通常のオブジェクト `{}` が必要な可能性が高いです。
 
-## Performance
+## パフォーマンス
 
-Methods `push/pop` run fast, while `shift/unshift` are slow.
+メソッド `push/pop` は処理が速く、`shift/unshift` は遅いです。
 
 ![](array-speed.png)
 
-Why is it faster to work with the end of an array than with its beginning? Let's see what happens during the execution:
+なぜ、配列の最初よりも最後を処理する方が速いのでしょうか？実行中起こっている事を見てみましょう:
 
 ```js
 fruits.shift(); // take 1 element from the start
 ```
 
-It's not enough to take and remove the element with the number `0`. Other elements need to be renumbered as well.
+数値 `0` の要素を取得して削除するだけでは不十分です。他の要素も同様に番号をつけ直す必要があります。
 
-The `shift` operation must do 3 things:
+`shift` 操作は3つのことをしなければなりません:
 
-1. Remove the element with the index `0`.
-2. Move all elements to the left, renumber them from the index `1` to `0`, from `2` to `1` and so on.
-3. Update the `length` property.
+1. インデックス `0` の要素を削除します。
+2. 全ての要素を左に移動させ、インデックス `1` から `0`、`2` から `1` と言うように番号をつけ直します。
+3. `length` プロパティを更新します。
 
 ![](array-shift.png)
 
-**The more elements in the array, the more time to move them, more in-memory operations.**
+**配列内の要素が増えれば増えるほど、それらを移動するための時間は増え、メモリ内の操作が増えます。**
 
-The similar thing happens with `unshift`: to add an element to the beginning of the array, we need first to move existing elements to the right, increasing their indexes.
+`unshift` でも似たようなことが起きます: 配列の先頭に要素を追加しますが、最初に存在する要素を右に移動させる必要があり、それらのインデックスを増やします。
 
-And what's with `push/pop`? They do not need to move anything. To extract an element from the end, the `pop` method cleans the index and shortens `length`.
+そして、`push/pop` はどうでしょう？それらは何も移動させる必要がありません。末尾から要素を抽出するため、`pop` メソッドはインデックスを消去し、`length` を短くします。
 
-The actions for the `pop` operation:
+`pop` 操作のアクション:
 
 ```js
 fruits.pop(); // take 1 element from the end
@@ -298,7 +298,7 @@ let fruits = ["Apple", "Orange", "Plum"];
 
 // iterates over array elements
 for (let fruit of fruits) {
-  alert( fruit ); 
+  alert( fruit );
 }
 ```
 
@@ -340,7 +340,7 @@ fruits[123] = "Apple";
 alert( fruits.length ); // 124
 ```
 
-Note that we usually don't use arrays like that. 
+Note that we usually don't use arrays like that.
 
 Another interesting thing about the `length` property is that it's writable.
 
@@ -447,7 +447,7 @@ Array is a special kind of objects, suited to store and manage ordered data item
 
     The call to `new Array(number)` creates an array with the given length, but without elements.
 
-- The `length` property is the array length or, to be precise, its last numeric index plus one. It is auto-adjusted by array methods. 
+- The `length` property is the array length or, to be precise, its last numeric index plus one. It is auto-adjusted by array methods.
 - If we shorten `length` manually, the array is truncated.
 
 We can use an array as a deque with the following operations:
@@ -463,4 +463,3 @@ To loop over the elements of the array:
   - `for (let i in arr)` -- never use.
 
 We will return to arrays and study more methods to add, remove, extract elements and sort arrays in the chapter <info:array-methods>.
-
