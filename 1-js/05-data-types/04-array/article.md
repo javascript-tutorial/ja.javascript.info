@@ -273,13 +273,13 @@ fruits.pop(); // take 1 element from the end
 
 ![](array-pop.png)
 
-**The `pop` method does not need to move anything, because other elements keep their indexes. That's why it's blazingly fast.**
+**他の要素のインデックスは変わらないので、`pop` メソッドは何も移動させる必要はありません。なので、とても速いです。**
 
-The similar thing with the `push` method.
+`push` メソッドも同じです。
 
-## Loops
+## ループ
 
-One of the oldest ways to cycle array items is the `for` loop over indexes:
+配列アイテムを循環させる最も古い方法の1つは、インデックス上の `for` ループです:
 
 ```js run
 let arr = ["Apple", "Orange", "Pear"];
@@ -291,7 +291,7 @@ for (let i = 0; i < arr.length; i++) {
 }
 ```
 
-But for arrays there is another form of loop, `for..of`:
+しかし、配列のための `for..of` という別のループの形があります:
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
@@ -302,9 +302,9 @@ for (let fruit of fruits) {
 }
 ```
 
-The `for..of` doesn't give access to the number of the current element, just its value, but in most cases that's enough. And it's shorter.
+`for..of` は現在の要素の番号へアクセスすることはできず、単に値のみです。しかし、殆どのケースではそれで十分です。また、それはより短い構文です。
 
-Technically, because arrays are objects, it is also possible to use `for..in`:
+技術的には、配列はオブジェクトなので `for..in` を利用することもできます:
 
 ```js run
 let arr = ["Apple", "Orange", "Pear"];
@@ -316,22 +316,22 @@ for (let key in arr) {
 }
 ```
 
-But that's actually a bad idea. There are potential problems with it:
+しかし、実際にこれは良くないアイデアです。そこには潜在的な問題があります:
 
-1. The loop `for..in` iterates over *all properties*, not only the numeric ones.
+1. ループ `for..in` は数値のものだけでなく、 *全てのプロパティ* を繰り返し処理ます。
 
-    There are so-called "array-like" objects in the browser and in other environments, that *look like arrays*. That is, they have `length` and indexes properties, but they may also have other non-numeric properties and methods, which we usually don't need. The `for..in` loop will list them though. So if we need to work with array-like objects, then these "extra" properties can become a problem.
+    ブラウザや他の環境では *配列のように見える* 　いわゆる "配列のような" オブジェクトがあります。つまり、それらは `length` とインデックスプロパティを持っています。しかしそれらは通常は必要のない他の非数値プロパティやメソッドも持っています。`for..in` ループはそれらもリストします。なので、もし配列のようなオブジェクトを処理する必要があるとき、それらの "余分な" プロパティが問題になる場合があります。
 
-2. The `for..in` loop is optimized for generic objects, not arrays, and thus is 10-100 times slower. Of course, it's still very fast. The speedup may matter only in bottlenecks or just irrelevant. But still we should be aware of the difference.
+2. `for..in` ループは配列ではなく、汎用オブジェクトに対して最適化されているため、10から100倍遅くなります。もちろんそれでもとても速いです。スピードアップはボトルネックでは重要である可能性があります。そうでなければさほど重要ではありませんが、我々はその違いを知っておくべきです。
 
-Generally, we shouldn't use `for..in` for arrays.
+一般的に、配列に対しては `for..in` は使うべきではありません。
 
 
-## A word about "length"
+## "length"
 
-The `length` property automatically updates when we modify the array. To be precise, it is actually not the count of values in the array, but the greatest numeric index plus one.
+配列を変更したとき、`length` プロパティは自動的に更新されます。正確には、それは配列の実際の値の数ではなく、最大の数値インデックスに1を加えたものです。
 
-For instance, a single element with a large index gives a big length:
+例えば、大きなインデックスの1つの要素は大きなlengthを返します:
 
 ```js run
 let fruits = [];
@@ -340,11 +340,11 @@ fruits[123] = "Apple";
 alert( fruits.length ); // 124
 ```
 
-Note that we usually don't use arrays like that.
+通常、そのように配列を使わないことに注意してください。
 
-Another interesting thing about the `length` property is that it's writable.
+`length` プロパティの別の興味深い点は、書き込み可能と言う点です。
 
-If we increase it manually, nothing interesting happens. But if we decrease it, the array is truncated. The process is irreversible, here's the example:
+手動で増やした場合、面白いことは起きません。しかし、それを減らしたとき、配列は切り捨てられます。この処理は不可逆です。これはその例です:
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -356,22 +356,22 @@ arr.length = 5; // return length back
 alert( arr[3] ); // undefined: the values do not return
 ```
 
-So, the simplest way to clear the array is: `arr.length = 0;`.
+なので、配列をクリアする最もシンプルな方法は `arr.length = 0;` です。
 
 
 ## new Array() [#new-array]
 
-There is one more syntax to create an array:
+配列を作るもう１つの構文があります:
 
 ```js
 let arr = *!*new Array*/!*("Apple", "Pear", "etc");
 ```
 
-It's rarely used, because square brackets `[]` are shorter. Also there's a tricky feature with it.
+角括弧 `[]` がより短いので、ほとんど使われません。また、トリッキーな特徴があります。
 
-If `new Array` is called with a single argument which is a number, then it creates an array *without items, but with the given length*.
+もし数値の１つの引数で `new Array` が呼ばれたとき、*アイテムはありませんが、与えられた長さを持った* 配列が作られます。
 
-Let's see how one can shoot himself in the foot:
+それが、どのように墓穴を掘るか見てみましょう:
 
 ```js run
 let arr = new Array(2); // will it create an array of [2] ?
@@ -381,13 +381,13 @@ alert( arr[0] ); // undefined! no elements.
 alert( arr.length ); // length 2
 ```
 
-In the code above, `new Array(number)` has all elements `undefined`.
+上のコードでは、`new Array(number)` は全て要素 `undefined` を持ちます。
 
-To evade such surprises, we usually use square brackets, unless we really know what we're doing.
+このような驚きを避けるため、私たちが何をしているのか本当に分かっていない限り、通常は角括弧を使います。
 
-## Multidimensional arrays
+## 多次元配列
 
-Arrays can have items that are also arrays. We can use it for multidimensional arrays, to store matrices:
+配列は配列も持つことができます。我々は行列を格納するために、それを多次元配列として使うことができます。:
 
 ```js run
 let matrix = [
@@ -401,10 +401,9 @@ alert( matrix[1][1] ); // the central element
 
 ## toString
 
-Arrays have their own implementation of `toString` method that returns a comma-separated list of elements.
+配列は、要素のカンマ区切りのリストを返す独自の `toString` メソッドの実装を持ってます。
 
-For instance:
-
+例:
 
 ```js run
 let arr = [1, 2, 3];
@@ -413,7 +412,7 @@ alert( arr ); // 1,2,3
 alert( String(arr) === '1,2,3' ); // true
 ```
 
-Also, let's try this:
+もしくは、これを試してみましょう:
 
 ```js run
 alert( [] + 1 ); // "1"
@@ -421,9 +420,9 @@ alert( [1] + 1 ); // "11"
 alert( [1,2] + 1 ); // "1,21"
 ```
 
-Arrays do not have `Symbol.toPrimitive`, neither a viable `valueOf`, they implement only `toString` conversion, so here `[]` becomes an empty string, `[1]` becomes `"1"` and `[1,2]` becomes `"1,2"`.
+配列は `Symbol.toPrimitive` を持っておらず、可能な `valueOf` もなく、`toString` 変換のみを実装しているため、ここで `[]` は空文字列になり、`[1]` は `"1"` に、、`[1,2]` は `"1,2"` になります。
 
-When the binary plus `"+"` operator adds something to a string, it converts it to a string as well, so the next step looks like this:
+バイナリプラス `"+"` 演算子が文字列に何かを加えたとき、同様に文字列に変換します。なので、次のステップはこのように見えます:
 
 ```js run
 alert( "" + 1 ); // "1"
@@ -431,11 +430,11 @@ alert( "1" + 1 ); // "11"
 alert( "1,2" + 1 ); // "1,21"
 ```
 
-## Summary
+## サマリ
 
-Array is a special kind of objects, suited to store and manage ordered data items.
+配列はオブジェクトの特別な種類であり、順序付けされたデータアイテムを格納するのに適しています。
 
-- The declaration:
+- 宣言:
 
     ```js
     // square brackets (usual)
@@ -445,21 +444,21 @@ Array is a special kind of objects, suited to store and manage ordered data item
     let arr = new Array(item1, item2...);
     ```
 
-    The call to `new Array(number)` creates an array with the given length, but without elements.
+    `new Array(number)` への呼び出しは与えられた長さの配列を作りますが、要素を持ちません。
 
-- The `length` property is the array length or, to be precise, its last numeric index plus one. It is auto-adjusted by array methods.
-- If we shorten `length` manually, the array is truncated.
+- `length` プロパティは配列の長さです。正確にはその最後の数値インデックスに1を加えたものです。それは配列のメソッドにより、自動的に調整されます。
+- もし手動で `length` を短くした場合、配列は切り捨てられます。
 
-We can use an array as a deque with the following operations:
+私たちは、以下の操作で配列を両端キューとして使用できます。:
 
-- `push(...items)` adds `items` to the end.
-- `pop()` removes the element from the end and returns it.
-- `shift()` removes the element from the beginning and returns it.
-- `unshift(...items)` adds items to the beginning.
+- `push(...items)` は `items` を末尾に追加します。
+- `pop()` は末尾の要素を削除し、それを返します。
+- `shift()` は先頭の要素を削除し、それを返します。
+- `unshift(...items)` はアイテムを先頭に追加します。
 
-To loop over the elements of the array:
-  - `for (let i=0; i<arr.length; i++)` -- works fastest, old-browser-compatible.
-  - `for (let item of arr)` -- the modern syntax for items only,
-  - `for (let i in arr)` -- never use.
+配列の要素をループするために:
+  - `for (let i=0; i<arr.length; i++)` -- 最も速く動作し、古いブラウザ互換です。
+  - `for (let item of arr)` -- アイテムだけのための、現代の構文です。
+  - `for (let i in arr)` -- 決して使いません。
 
-We will return to arrays and study more methods to add, remove, extract elements and sort arrays in the chapter <info:array-methods>.
+私たちは、チャプター <info:array-methods> で配列に戻り、追加、削除、要素の抽出や配列のソートと言ったより多くのメソッドを学びます。
