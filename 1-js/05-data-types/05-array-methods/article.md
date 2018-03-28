@@ -1,25 +1,25 @@
-# Array methods
+# 配列のメソッド
 
-Arrays provide a lot of methods. To make things easier, in this chapter they are split into groups.
+配列は多くのメソッドを提供します。簡単にするために、このチャプターではグループに分割します。
 
 [cut]
 
-## Add/remove items
+## アイテムの追加/削除
 
-We already know methods that add and remove items from the beginning or the end:
+私たちは既に、先頭または末尾にアイテムを追加/削除するメソッドを知っています:
 
-- `arr.push(...items)` -- adds items to the end,
-- `arr.pop()` -- extracts an item from the end,
-- `arr.shift()` -- extracts an item from the beginning,
-- `arr.unshift(...items)` -- adds items to the beginning.
+- `push(...items)` は `items` を末尾に追加します。
+- `pop()` は末尾の要素を削除し、それを返します。
+- `shift()` は先頭の要素を削除し、それを返します。
+- `unshift(...items)` はアイテムを先頭に追加します。
 
-Here are few others.
+他にもいくつかあります。
 
 ### splice
 
-How to delete an element from the array?
+どうやって配列から要素を削除するのでしょうか？
 
-The arrays are objects, so we can try to use `delete`:
+配列はオブジェクトなので、 `delete` を試すことができます:
 
 ```js run
 let arr = ["I", "go", "home"];
@@ -32,25 +32,25 @@ alert( arr[1] ); // undefined
 alert( arr.length ); // 3
 ```
 
-The element was removed, but the array still has 3 elements, we can see that `arr.length == 3`.
+要素は削除されましたが、配列あhまだ3つの要素を持っており、`arr.length == 3` となります。
 
-That's natural, because `delete obj.key` removes a value by the `key`. It's all it does. Fine for objects. But for arrays we usually want the rest of elements to shift and occupy the freed place. We expect to have a shorter array now.
+これは自然なことです。なぜなら、 `delete obj.key` は `key` で値を削除するためです。それがすべてであり、オブジェクトでは問題ありません。しかし、配列では、通常残りの要素が移動し、解放された場所を占めたいです。私たちは、今より短い配列を持っていることを期待しています。
 
-So, special methods should be used.
+なので、特別なメソッドが使われるべきです。
 
-The [arr.splice(str)](mdn:js/Array/splice) method is a swiss army knife for arrays. It can do everything: add, remove and insert elements.
+[arr.splice(str)](mdn:js/Array/splice) メソッドは、配列のためのスイス製アーミーナイフです。それは何でもすることが出来ます: 追加、削除、また要素の挿入も。
 
-The syntax is:
+構文:
 
 ```js
 arr.splice(index[, deleteCount, elem1, ..., elemN])
 ```
 
-It starts from the position `index`: removes `deleteCount` elements and then inserts `elem1, ..., elemN` at their place. Returns the array of removed elements.
+位置 `index` から始まります: `deleteCount` の要素を削除した後、その場所に `elem1, ..., elemN` を挿入します。削除した要素の配列を返します。
 
-This method is easy to grasp by examples.
+このメソッドは例で簡単に把握できます。
 
-Let's start with the deletion:
+削除してみましょう:
 
 ```js run
 let arr = ["I", "study", "JavaScript"];
@@ -62,9 +62,9 @@ arr.splice(1, 1); // from index 1 remove 1 element
 alert( arr ); // ["I", "JavaScript"]
 ```
 
-Easy, right? Starting from the index `1` it removed `1` element.
+簡単ですよね？インデックス `1` から始まり、`1` つ要素を削除します。
 
-In the next example we remove 3 elements and replace them with the other two:
+次の例では、3つの要素を削除し、他の2つの要素でそれらを置き換えます:
 
 ```js run
 let arr = [*!*"I", "study", "JavaScript",*/!* "right", "now"];
@@ -75,7 +75,7 @@ arr.splice(0, 3, "Let's", "dance");
 alert( arr ) // now [*!*"Let's", "dance"*/!*, "right", "now"]
 ```
 
-Here we can see that `splice` returns the array of removed elements:
+ここで、`splice` が削除された要素の配列を返していることを見ることができます:
 
 ```js run
 let arr = [*!*"I", "study",*/!* "JavaScript", "right", "now"];
@@ -86,7 +86,7 @@ let removed = arr.splice(0, 2);
 alert( removed ); // "I", "study" <-- array of removed elements
 ```
 
-The `splice` method is also able to insert the elements without any removals. For that we need to set `deleteCount` to `0`:
+`splice` メソッドは削除せずに挿入することも可能です。そのために、`deleteCount` に `0` をセットする必要があります:
 
 ```js run
 let arr = ["I", "study", "JavaScript"];
@@ -100,7 +100,7 @@ alert( arr ); // "I", "study", "complex", "language", "JavaScript"
 ```
 
 ````smart header="Negative indexes allowed"
-Here and in other array methods, negative indexes are allowed. They specify the position from the end of the array, like here:
+ここや他の配列のメソッドでは、負のインデックスが許容されます。それらは配列の末尾からの位置を指定します。:
 
 ```js run
 let arr = [1, 2, 5];
@@ -116,19 +116,19 @@ alert( arr ); // 1,2,3,4,5
 
 ### slice
 
-The method [arr.slice](mdn:js/Array/slice) is much simpler than similar-looking `arr.splice`.
+メソッド [arr.slice](mdn:js/Array/slice) は似たように見える `arr.splice` よりもはるかにシンプルです。
 
-The syntax is:
+構文:
 
 ```js
 arr.slice(start, end)
 ```
 
-It returns a new array where it copies all items start index `"start"` to `"end"` (not including `"end"`). Both `start` and `end` can be negative, in that case position from array end is assumed.
+開始インデックス `"start"` から `"end"` (`"end"` は含みません)の全てのアイテムをコピーした新しい配列を返します。`start` と `end` はともに負値になることができます。そのときは、配列の末尾からの位置が想定されます。
 
-It works like `str.slice`, but makes subarrays instead of substrings.
+`str.slice` のように動作しますが、部分文字列の代わりに部分配列を作ります。
 
-For instance:
+例:
 
 ```js run
 let str = "test";
@@ -143,21 +143,21 @@ alert( arr.slice(-2) ); // s,t
 
 ### concat
 
-The method [arr.concat](mdn:js/Array/concat) joins the array with other arrays and/or items.
+メソッド [arr.concat](mdn:js/Array/concat) は配列を他の配列またはアイテムと結合します。
 
-The syntax is:
+構文:
 
 ```js
 arr.concat(arg1, arg2...)
 ```
 
-It accepts any number of arguments -- either arrays or values.
+任意の数の引数を許容します -- 配列または値。
 
-The result is a new array containing items from `arr`, then `arg1`, `arg2` etc.
+結果は `arr`, 次に `arg1`, `arg2` などのアイテムを含む新しい配列を返します。
 
-If an argument is an array or has `Symbol.isConcatSpreadable` property, then all its elements are copied. Otherwise, the argument itself is copied.
+もし、引数が配列、もしくは `Symbol.isConcatSpreadable` プロパティを持っている場合、その全ての要素がコピーされます。そうでない場合、引数自体がコピーされます。
 
-For instance:
+例:
 
 ```js run
 let arr = [1, 2];
@@ -172,7 +172,7 @@ alert( arr.concat([3, 4], [5, 6])); // 1,2,3,4,5,6
 alert( arr.concat([3, 4], 5, 6)); // 1,2,3,4,5,6
 ```
 
-Normally, it only copies elements from arrays ("spreads" them). Other objects, even if they look like arrays, added as a whole:
+通常は、配列から要素をコピーするだけです。それ以外のオブジェクトでは、配列のように見えたとしても、全体として追加されます:
 
 ```js run
 let arr = [1, 2];
@@ -186,7 +186,7 @@ alert( arr.concat(arrayLike) ); // 1,2,[object Object]
 //[1, 2, arrayLike]
 ```
 
-...But if an array-like object has `Symbol.isConcatSpreadable` property, then its elements are added instead:
+...しかし、もし配列のようなオブジェクトが `Symbol.isConcatSpreadable` プロパティを持つ場合、代わりにその要素が追加されます:
 
 ```js run
 let arr = [1, 2];
@@ -203,19 +203,19 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,something,else
 ```
 
-## Searching in array
+## 配列での検索
 
-These are methods to search for something in an array.
+これらは、配列で何かを探すためのメソッドです。
 
 ### indexOf/lastIndexOf and includes
 
-The methods [arr.indexOf](mdn:js/Array/indexOf), [arr.lastIndexOf](mdn:js/Array/lastIndexOf) and [arr.includes](mdn:js/Array/includes) have the same syntax and do essentially the same as their string counterparts, but operate on items instead of characters:
+メソッド [arr.indexOf](mdn:js/Array/indexOf), [arr.lastIndexOf](mdn:js/Array/lastIndexOf) と [arr.includes](mdn:js/Array/includes) は文字列の場合と同じ構文を持ち、基本的に同じことを行いますが、文字の代わりにアイテムを操作します:
 
-- `arr.indexOf(item, from)` looks for `item` starting from index `from`, and returns the index where it was found, otherwise `-1`.
-- `arr.lastIndexOf(item, from)` -- same, but looks from right to left.
-- `arr.includes(item, from)` -- looks for `item` starting from index `from`, returns `true` if found.
+- `arr.indexOf(item, from)` はインデックス `from` から `item` を探し、見つかった場所のインデックスを返します。そうでない場合は `-1` になります。
+- `arr.lastIndexOf(item, from)` -- 同じですが、右から左に見ていきます。
+- `arr.includes(item, from)` -- はインデックス `from` から `item` を探し、見つかった場合、`true` を返します。
 
-For instance:
+例:
 
 ```js run
 let arr = [1, 0, false];
@@ -227,11 +227,11 @@ alert( arr.indexOf(null) ); // -1
 alert( arr.includes(1) ); // true
 ```
 
-Note that the methods use `===` comparison. So, if we look for `false`, it finds exactly `false` and not the zero.
+メソッドは `===` 比較を使うことに留意してください。従って、もしも `false` を探す場合、ゼロではなく、正確な `false` を見つけようとします。
 
-If we want to check for inclusion, and don't want to know the exact index, then `arr.includes` is preferred.
+もしも含んでいるかをチェックしたいが、正確なインデックスは不要なときは、`arr.include` が好ましいです。
 
-Also, a very minor difference of `include` is that it correctly handles `NaN`, unlike `indexOf/lastIndexOf`:
+また、`include` の非常に小さな違いは、`indexOf/lastIndexOf` と違い、`NaN` を正しく処理することができます:
 
 ```js run
 const arr = [NaN];
@@ -239,28 +239,28 @@ alert( arr.indexOf(NaN) ); // -1 (should be 0, but === equality doesn't work for
 alert( arr.includes(NaN) );// true (correct)
 ```
 
-### find and findIndex
+### find と findIndex
 
-Imagine we have an array of objects. How do we find an object with the specific condition?
+オブジェクトの配列を持っていることを想像してください。特定条件を持つオブジェクトをどのようにして見つけますか？
 
-Here the [arr.find](mdn:js/Array/find) method comes in handy.
+ここで [arr.find](mdn:js/Array/find) メソッドが便利です。
 
-The syntax is:
+構文はこうです:
 ```js
 let result = arr.find(function(item, index, array) {
   // should return true if the item is what we are looking for
 });
 ```
 
-The function is called repetitively for each element of the array:
+関数は配列の要素毎に繰り返し呼ばれます:
 
-- `item` is the element.
-- `index` is its index.
-- `array` is the array itself.
+- `item` は要素です。
+- `index` はインデックスです。
+- `array` は配列自身です。
 
-If it returns `true`, the search is stopped, the `item` is returned. If nothing found, `undefined` is returned.
+もし `true` を返すと、検索が止まり、`item` が返却されます。見つからない場合は `undefined` になります。
 
-For example, we have an array of users, each with the fields `id` and `name`. Let's find the one with `id == 1`:
+例えば、ユーザの配列を持っており、それぞれフィールド `id` と `name` を持っているとします。`id == 1` のものを見つけましょう:
 
 ```js run
 let users = [
@@ -274,19 +274,18 @@ let user = users.find(item => item.id == 1);
 alert(user.name); // John
 ```
 
-In real life arrays of objects is a common thing, so the `find` method is very useful.
+現実の世界では、オブジェクトの配列は一般的なことです。なので、 `find` メソッドは非常に役立ちます。
 
-Note that in the example we provide to `find` a single-argument function `item => item.id == 1`. Other parameters of `find` are rarely used.
+例の中では１つの引数、関数 `item => item.id == 1` で `find` を行っている点に注意してください。`find` の他のパラメータは殆ど使われません。
 
-The [arr.findIndex](mdn:js/Array/findIndex) method is essentially the same, but it returns the index where the element was found instead of the element itself.
+[arr.findIndex](mdn:js/Array/findIndex) メソッドは基本的に同じです。が、要素自体ではなく要素が見つかったインデックスを返します。
 
 ### filter
 
-The `find` method looks for a single (first) element that makes the function return `true`.
+`find` メソッドは、関数が `true` を返すようにする単一の（最初の）要素を探します。
+もしそれが多い場合、[arr.filter(fn)](mdn:js/Array/filter) を使います。
 
-If there may be many, we can use [arr.filter(fn)](mdn:js/Array/filter).
-
-The syntax is roughly the same as `find`, but it returns an array of matching elements:
+構文は大体 `find` と同じですが、マッチした要素の配列を返します:
 
 ```js
 let results = arr.filter(function(item, index, array) {
@@ -294,7 +293,7 @@ let results = arr.filter(function(item, index, array) {
 });
 ```
 
-For instance:
+例:
 
 ```js run
 let users = [
@@ -309,16 +308,15 @@ let someUsers = users.filter(item => item.id < 3);
 alert(someUsers.length); // 2
 ```
 
-## Transform an array
+## 配列を変換する
 
-This section is about the methods transforming or reordering the array.
-
+このセクションでは、配列を変換または並び替える方法について説明します。
 
 ### map
 
-The [arr.map](mdn:js/Array/map) method is one of the most useful and often used.
+[arr.map](mdn:js/Array/map) メソッドは最も便利なものの1つで、よく使われます。
 
-The syntax is:
+構文:
 
 ```js
 let result = arr.map(function(item, index, array) {
@@ -326,9 +324,9 @@ let result = arr.map(function(item, index, array) {
 })
 ```
 
-It calls the function for each element of the array and returns the array of results.
+これは、配列の各要素で関数を呼び出し、結果の配列を返します。
 
-For instance, here we transform each element into its length:
+例えば、ここでは各要素をその長さに変換します:
 
 ```js run
 let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length)
@@ -337,9 +335,9 @@ alert(lengths); // 5,7,6
 
 ### sort(fn)
 
-The method [arr.sort](mdn:js/Array/sort) sorts the array *in place*.
+メソッド [arr.sort](mdn:js/Array/sort) は配列を *決まった位置に* ソートします。
 
-For instance:
+例:
 
 ```js run
 let arr = [ 1, 2, 15 ];
@@ -350,17 +348,17 @@ arr.sort();
 alert( arr );  // *!*1, 15, 2*/!*
 ```
 
-Did you notice anything strange in the outcome?
+出力結果が何か不自然であることに気づきましたか？
 
-The order became `1, 15, 2`. Incorrect. But why?
+並び順が `1, 15, 2` となりました。正しくないようです。しかしなぜでしょう？
 
-**The items are sorted as strings by default.**
+**アイテムは、デフォルトでは文字列としてソートされます。**
 
-Literally, all elements are converted to strings and then compared. So, the lexicographic ordering is applied and indeed `"2" > "15"`.
+文字通り、すべての要素は文字列に変換され、比較されます。なので、辞書編集順序が適用され、実際には `"2" > "15"` となります。
 
-To use our own sorting order, we need to supply a function of two arguments as the argument of `arr.sort()`.
+私たち自身のソート順を使うためには、`arr.sort()` の引数として、2つの引数をもつ関数を提供する必要があります。
 
-The function should work like this:
+関数ははこのように動作する必要があります:
 ```js
 function compare(a, b) {
   if (a > b) return 1;
@@ -369,7 +367,7 @@ function compare(a, b) {
 }
 ```
 
-For instance:
+例:
 
 ```js run
 function compareNumeric(a, b) {
@@ -387,13 +385,13 @@ arr.sort(compareNumeric);
 alert(arr);  // *!*1, 2, 15*/!*
 ```
 
-Now it works as intended.
+これで意図したとおりに動作します。
 
-Let's step aside and think what's happening. The `arr` can be array of anything, right? It may contain numbers or strings or html elements or whatever. We have a set of *something*. To sort it, we need an *ordering function* that knows how to compare its elements. The default is a string order.
+脇に寄って何が起きているのか考えてみましょう。`arr` は何でも配列にすることができますよね。それは数値や文字列、html要素やその他何でも含まれる可能性があります。私たちは *何かの* セットを持っています。それらをソートするためには、要素を比較する方法を知っている *順序付け関数* が必要です。 デフォルトは文字列です。
 
-The `arr.sort(fn)` method has a built-in implementation of sorting algorithm. We don't need to care how it exactly works (an optimized [quicksort](https://en.wikipedia.org/wiki/Quicksort) most of the time). It will walk the array, compare its elements using the provided function and reorder them, all we need is to provide the `fn` which does the comparison.
+`arr.sort(fn)` メソッドは組み込みでソートアルゴリズムの実装を持っています。私たちはそれが正確にどのように動作するかについて気にする必要はありません (殆どの場合、最適化された[quicksort](https://en.wikipedia.org/wiki/Quicksort) です)。配列を歩き、提供された関数を使ってその要素を比較し、並べ替えます。私たちに必要なのは、比較を行う `fn` を提供することだけです。
 
-By the way, if we ever want to know which elements are compared -- nothing prevents from alerting them:
+ところで、もしどの要素が比較されているかを知りたいとき -- それらをアラートすることを妨げるものはありません:
 
 ```js run
 [1, -2, 15, 2, 0, 8].sort(function(a, b) {
@@ -401,13 +399,12 @@ By the way, if we ever want to know which elements are compared -- nothing preve
 });
 ```
 
-The algorithm may compare an element multiple times in the process, but it tries to make as few comparisons as possible.
-
+アルゴリズムは処理の中で複数回要素を比較しますが、できるだけ回数を少なくしようとします。
 
 ````smart header="A comparison function may return any number"
-Actually, a comparison function is only required to return a positive number to say "greater" and a negative number to say "less".
+実際には、比較関数は、正の数を「より大きい」、負の数を「より小さい」として返すことだけが必要です。
 
-That allows to write shorter functions:
+より短い関数で書くことができます:
 
 ```js run
 let arr = [ 1, 2, 15 ];
@@ -419,20 +416,20 @@ alert(arr);  // *!*1, 2, 15*/!*
 ````
 
 ````smart header="Arrow functions for the best"
-Remember [arrow functions](info:function-expression#arrow-functions)? We can use them here for neater sorting:
+[アロー関数](info:function-expression#arrow-functions) を覚えていますか? すっきりしたソートを書くために使えます。:
 
 ```js
 arr.sort( (a, b) => a - b );
 ```
 
-This works exactly the same as the other, longer, version above.
+これは他の、上で書いているより長いバージョンと全く同じように動作します。
 ````
 
 ### reverse
 
-The method [arr.reverse](mdn:js/Array/reverse) reverses the order of elements in `arr`.
+メソッド [arr.reverse](mdn:js/Array/reverse) は `arr` 内の要素の順序を逆転させます。
 
-For instance:
+例:
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -441,15 +438,15 @@ arr.reverse();
 alert( arr ); // 5,4,3,2,1
 ```
 
-It also returns the array `arr` after the reversal.
+また、反転後に配列 `arr` を返します。
 
-### split and join
+### split と join
 
-Here's the situation from the real life. We are writing a messaging app, and the person enters the comma-delimited list of receivers: `John, Pete, Mary`. But for us an array of names would be much more comfortable than a single string. How to get it?
+ここでは現実の世界でのシチュエーションを考えます。私たちはメッセージングアプリを書いており、人々はカンマ区切りで受信者のリスト(`John, Pete, Mary`)を入力します。しかし、我々にとっては、１つの文字列よりも名前の配列の方がはるかに快適です。それを得る方法は？
 
-The [str.split(delim)](mdn:js/String/split) method does exactly that. It splits the string into an array by the given delimiter `delim`.
+[str.split(delim)](mdn:js/String/split) メソッドは、正確にそれをします。与えられた区切り文字 `delim` で文字列を配列に分割します。
 
-In the example below, we split by a comma followed by space:
+下の例では、スペースに続くカンマで分割しています:
 
 ```js run
 let names = 'Bilbo, Gandalf, Nazgul';
@@ -461,7 +458,7 @@ for (let name of arr) {
 }
 ```
 
-The `split` method has an optional second numeric argument -- a limit on the array length. If it is provided, then the extra elements are ignored. In practice it is rarely used though:
+`split` メソッドは任意の2つ目の数値の引数を持っています -- それは配列の長さの制限です。もしこれが指定された場合、余分な要素は無視されます。実査にはほとんど使われませんが。:
 
 ```js run
 let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
@@ -470,7 +467,7 @@ alert(arr); // Bilbo, Gandalf
 ```
 
 ````smart header="Split into letters"
-The call to `split(s)` with an empty `s` would split the string into an array of letters:
+空の `s` での `split(s)` の呼び出しは、文字列を文字の配列に分割します:
 
 ```js run
 let str = "test";
@@ -479,9 +476,9 @@ alert( str.split('') ); // t,e,s,t
 ```
 ````
 
-The call [arr.join(str)](mdn:js/Array/join) does the reverse to `split`. It creates a string of `arr` items glued by `str` between them.
+[arr.join(str)](mdn:js/Array/join) は `split` と逆を行います。`arr` の項目を `str` で繋いだ文字列を作ります。
 
-For instance:
+例:
 
 ```js run
 let arr = ['Bilbo', 'Gandalf', 'Nazgul'];
@@ -493,13 +490,13 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 
 ### reduce/reduceRight
 
-When we need to iterate over an array -- we can use `forEach`.
+配列に対して繰り返し処理が必要なときは -- `forEach` を使うことができます。
 
-When we need to iterate and return the data for each element -- we can use `map`.
+各要素のデータを反復して返す必要があるときには -- `map`を使うことができます。
 
-The methods [arr.reduce](mdn:js/Array/reduce) and [arr.reduceRight](mdn:js/Array/reduceRight) also belong to that breed, but are a little bit more intricate. They are used to calculate a single value based on the array.
+メソッド [arr.reduce](mdn:js/Array/reduce) と [arr.reduceRight](mdn:js/Array/reduceRight) もまたその種類に属しますが、少し複雑です。それらは、配列に基づいて単一の値を計算するために使用されます。
 
-The syntax is:
+構文:
 
 ```js
 let value = arr.reduce(function(previousValue, item, index, arr) {
@@ -507,19 +504,19 @@ let value = arr.reduce(function(previousValue, item, index, arr) {
 }, initial);
 ```
 
-The function is applied to the elements. You may notice the familiar arguments, starting from the 2nd:
+関数は各要素に適用されます。あなたはよく知られている引数に気づくかもしれません。2つ目から始まる引数は次の通りです:
 
-- `item` -- is the current array item.
-- `index` -- is its position.
-- `arr` -- is the array.
+- `item` -- 現在の配列の項目です。
+- `index` -- その位置です。
+- `arr` -- 配列です。
 
-So far, like `forEach/map`. But there's one more argument:
+これまでのところ、`forEach/map` のようです。しかし、もう１つ引数があります:
 
-- `previousValue` -- is the result of the previous function call, `initial` for the first call.
+- `previousValue` -- 前の関数の呼び出し結果です。最初の呼び出しは `initial` です。
 
-The easiest way to grasp that is by example.
+これを掴むための最も簡単な方法は、例を見る、です。
 
-Here we get a sum of array in one line:
+ここでは、１行で配列の合計を取得します。
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -529,19 +526,20 @@ let result = arr.reduce((sum, current) => sum + current, 0);
 alert(result); // 15
 ```
 
-Here we used the most common variant of `reduce` which uses only 2 arguments.
+ここでは、2つの引数だけを使用する `reduce` の最も一般的なバリアントを使用しました。
 
-Let's see the details of what's going on.
 
-1. On the first run, `sum` is the initial value (the last argument of `reduce`), equals `0`, and `current` is the first array element, equals `1`. So the result is `1`.
-2. On the second run, `sum = 1`, we add the second array element (`2`) to it and return.
-3. On the 3rd run, `sum = 3` and we add one more element to it, and so on...
+何が起きているか、詳細を見てみましょう。
 
-The calculation flow:
+1. 最初の実行で `sum` は initial 値(`reduce` の最後の引数)であり、 `0` と等価です。そして、 `current` は最初の配列要素で `1` になります。従って、結果は `1` です。
+2. ２回目の実行では、`sum = 1` で、2つ目の配列要素(`2`)をそれに足して返します。
+3. ３回目の実行では、`sum = 3` で、それに１つ要素を足します。それが続きます。
+
+計算のフロー:
 
 ![](reduce.png)
 
-Or in the form of a table, where each row represents is a function call on the next array element:
+また、次のテーブルでは、各行は次の配列要素の関数呼び出しを表しています。
 
 |   |`sum`|`current`|`result`|
 |---|-----|---------|---------|
@@ -551,10 +549,9 @@ Or in the form of a table, where each row represents is a function call on the n
 |the fourth call|`6`|`4`|`10`|
 |the fifth call|`10`|`5`|`15`|
 
+これらから分かるように、前野呼び出しの結果は次の実行のときの最初の引数になっています。
 
-As we can see, the result of the previous call becomes the first argument of the next one.
-
-We also can omit the initial value:
+また、 initial 値を省略することもできます。:
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -565,13 +562,13 @@ let result = arr.reduce((sum, current) => sum + current);
 alert( result ); // 15
 ```
 
-The result is the same. That's because if there's no initial, then `reduce` takes the first element of the array as the initial value and starts the iteration from the 2nd element.
+結果は同じです。なぜなら、初期値が指定されていない場合、`reduce` は配列の最初の要素を初期値とみなし、２つ目の要素から繰り返し処理を始めるためです。
 
-The calculation table is the same as above, minus the first row.
+計算テーブルは、上と同じで、最初の行を引いたものです。
 
-But such use requires an extreme care. If the array is empty, then `reduce` call without initial value gives an error.
+しかし、このような利用は極度の注意を要求します。もし配列が空の場合、初期値なしでの `reduce` 呼び出しがエラーを返します。
 
-Here's an example:
+例:
 
 ```js run
 let arr = [];
@@ -581,31 +578,31 @@ let arr = [];
 arr.reduce((sum, current) => sum + current);
 ```
 
+従って、常に初期値を指定することをおすすめします。
 
-So it's advised to always specify the initial value.
-
-The method [arr.reduceRight](mdn:js/Array/reduceRight) does the same, but goes from right to left.
+[arr.reduceRight](mdn:js/Array/reduceRight) メソッドも同じをことを行いますが、右から左に実行します。
 
 
 ## Iterate: forEach
 
-The [arr.forEach](mdn:js/Array/forEach) method allows to run a function for every element of the array.
+[arr.forEach](mdn:js/Array/forEach) メソッドは配列の全要素に対して関数を実行することができます。
 
-The syntax:
+構文:
+
 ```js
 arr.forEach(function(item, index, array) {
   // ... do something with item
 });
 ```
 
-For instance, this shows each element of the array:
+例えば、これは配列の各要素を表示します:
 
 ```js run
 // for each element call alert
 ["Bilbo", "Gandalf", "Nazgul"].forEach(alert);
 ```
 
-And this code is more elaborate about their positions in the target array:
+そして、このコードは、ターゲット配列内の位置についてもっと精巧です。
 
 ```js run
 ["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
@@ -613,20 +610,20 @@ And this code is more elaborate about their positions in the target array:
 });
 ```
 
-The result of the function (if it returns any) is thrown away and ignored.
+関数の結果(もし何かを返す場合)は捨てられ、無視されます。
 
 ## Array.isArray
 
-Arrays do not form a separate language type. They are based on objects.
+配列は別の言語タイプを形成しません。 それらはオブジェクトに基づいています。
 
-So `typeof` does not help to distinguish a plain object from an array:
+なので `typeof` では、通常のオブジェクトと配列を区別するのには助けになりません:
 
 ```js run
 alert(typeof {}); // object
 alert(typeof []); // same
 ```
 
-...But arrays are used so often that there's a special method for that: [Array.isArray(value)](mdn:js/Array/isArray). It returns `true` if the `value` is an array, and `false` otherwise.
+...しかし、配列は頻繁に使用されるため、そのための特別なメソッド [Array.isArray(value)](mdn:js/Array/isArray) があります。これは、`value` が配列のときに `true` を、そうでない場合には `false` を返します。
 
 ```js run
 alert(Array.isArray({})); // false
@@ -634,13 +631,13 @@ alert(Array.isArray({})); // false
 alert(Array.isArray([])); // true
 ```
 
-## Most methods support "thisArg"
+## ほとんどのメソッドは "thisArg" をサポートします
 
-Almost all array methods that call functions -- like `find`, `filter`, `map`, with a notable exception of `sort`, accept an optional additional parameter `thisArg`.
+`find`、`filter`、`map`　のような関数を呼び出すほとんどの配列メソッドは、`sort` の例外を除いて、オプションの追加パラメータ `thisArg` を受け取ります。
 
-That parameter is not explained in the sections above, because it's rarely used. But for completeness we have to cover it.
+これは殆ど使われないため、このパラメータは上のセクションでは説明されていません。しかし、完全性のためにはそれをカバーする必要があります。
 
-Here's the full syntax of these methods:
+それらのメソッドの完全な構文です:
 
 ```js
 arr.find(func, thisArg);
@@ -650,9 +647,9 @@ arr.map(func, thisArg);
 // thisArg is the optional last argument
 ```
 
-The value of `thisArg` parameter becomes `this` for `func`.
+`thisArg` パラメータの値は `func` での `this` になります。
 
-For instance, here we use an object method as a filter and `thisArg` comes in handy:
+例えば、フィルタとしてオブジェクトメソッドを使い、`thisArg` は便利です:
 
 ```js run
 let user = {
@@ -676,56 +673,56 @@ let youngerUsers = users.filter(user.younger, user);
 alert(youngerUsers.length); // 2
 ```
 
-In the call above, we use `user.younger` as a filter and also provide `user` as the context for it. If we didn't provide the context, `users.filter(user.younger)` would call `user.younger` as a standalone function, with `this=undefined`. That would mean an instant error.
+上の呼び出しでは、フィルタとして `user.younger` を使い、そのコンテキストとして `user` を提供しています。もしもコンテキストを提供しなかった場合、`users.filter(user.younger)` はスタンドアロン関数として `this=undefined` で `user.younger` を呼び出します。それは即時エラーを意味します。
 
-## Summary
+## サマリ
 
-A cheatsheet of array methods:
+配列メソッドの Cheat Sheet です:
 
-- To add/remove elements:
-  - `push(...items)` -- adds items to the end,
-  - `pop()` -- extracts an item from the end,
-  - `shift()` -- extracts an item from the beginning,
-  - `unshift(...items)` -- adds items to the beginning.
-  - `splice(pos, deleteCount, ...items)` -- at index `pos` delete `deleteCount` elements and insert `items`.
-  - `slice(start, end)` -- creates a new array, copies elements from position `start` till `end` (not inclusive) into it.
-  - `concat(...items)` -- returns a new array: copies all members of the current one and adds `items` to it. If any of `items` is an array, then its elements are taken.
+- 要素の追加/削除をするため:
+  - `push(...items)` -- アイテムを末尾に追加します,
+  - `pop()` -- 末尾からアイテムを抽出します,
+  - `shift()` -- 先頭からアイテムを抽出します,
+  - `unshift(...items)` -- 先頭にアイテムを追加します.
+  - `splice(pos, deleteCount, ...items)` -- インデックス `pos` で `deleteCount` 要素を削除し `items` を挿入します。
+  - `slice(start, end)` -- 新しい配列を作り、`start` から `end` まで(endは含まない) の要素をコピーします。
+  - `concat(...items)` -- 新しい配列を返します: 現在のものすべてをコピーし、`items` を追加します。`items` のいずれかが配列の場合、その要素が取得されます。
 
-- To search among elements:
-  - `indexOf/lastIndexOf(item, pos)` -- look for `item` starting from position `pos`, return the index or `-1` if not found.
-  - `includes(value)` -- returns `true` if the array has `value`, otherwise `false`.
-  - `find/filter(func)` -- filter elements through the function, return first/all values that make it return `true`.
-  - `findIndex` is like `find`, but returns the index instead of a value.
+- 要素を検索するため:
+  - `indexOf/lastIndexOf(item, pos)` -- 位置 `pos` から始めて `item` を探します。 インデックス、または見つからなかった場合は `-1` を返します。
+  - `includes(value)` -- 配列が `value` を持っている場合 `true` を返します。そうでなければ `false` です。
+  - `find/filter(func)` -- 関数を介して要素をフィルタリングし、`true` を返す最初の/すべての値を返します。
+  - `findIndex` は `find` のようですが、値の代わりにインデックスを返します。
 
-- To transform the array:
-  - `map(func)` -- creates a new array from results of calling `func` for every element.
-  - `sort(func)` -- sorts the array in-place, then returns it.
-  - `reverse()` -- reverses the array in-place, then returns it.
-  - `split/join` -- convert a string to array and back.
-  - `reduce(func, initial)` -- calculate a single value over the array by calling `func` for each element and passing an intermediate result between the calls.
+- 配列を変換するには:
+  - `map(func)` -- すべての要素に対して `func` を呼び出した結果から新しい配列を作成します。
+  - `sort(func)` -- 配列を適切な位置でソートし、それを返します。
+  - `reverse()` -- 配列を反転してそれを返します。
+  - `split/join` -- 文字列を配列に変換したり、戻します。
+  - `reduce(func, initial)` -- 各要素に対して `func`を呼び出し、呼び出しの間に中間結果を渡すことで配列全体の単一の値を計算します。
 
-- To iterate over elements:
-  - `forEach(func)` -- calls `func` for every element, does not return anything.
+- 要素を反復処理するには:
+  - `forEach(func)` -- すべての要素に対して `func`を呼び出し、何も返しません。
 
-- Additionally:
-  - `Array.isArray(arr)` checks `arr` for being an array.
+- さらに:
+  - `Array.isArray(arr)` は `arr` が配列かどうかをチェックします。
 
-Please note that methods `sort`, `reverse` and `splice` modify the array itself.
+`sort`, `reverse` と `splice` メソッドは、配列自身を変更することに注意してください。
 
-These methods are the most used ones, they cover 99% of use cases. But there are few others:
+これらのメソッドは最も使われるもので、ユースケースの99%をカバーしますが、他にもいくつかあります:
 
-- [arr.some(fn)](mdn:js/Array/some)/[arr.every(fn)](mdn:js/Array/every) checks the array.
+- [arr.some(fn)](mdn:js/Array/some)/[arr.every(fn)](mdn:js/Array/every) は配列をチェックします。
 
-  The function `fn` is called on each element of the array similar to `map`. If any/all results are `true`, returns `true`, otherwise `false`.
+  関数 `fn` は `map` と同じように配列の各要素で呼ばれます。もし どれか/すべて の結果が `true` であれば `true`, それ以外は `false` になります。
 
-- [arr.fill(value, start, end)](mdn:js/Array/fill) -- fills the array with repeating `value` from index `start` to `end`.
+- [arr.fill(value, start, end)](mdn:js/Array/fill) -- インデックス `start` から `end` まで `value` で配列を埋めます。
 
-- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).
+- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- 位置 `start` から `end` までの要素を、*自身* の `target` の位置にコピーします (既存のものを上書きします)。
 
-For the full list, see the [manual](mdn:js/Array).
+完全なリストは [manual](mdn:js/Array) を見てください。
 
-From the first sight it may seem that there are so many methods, quite difficult to remember. But actually that's much easier than it seems.
+初めてみたとき、多くのメソッドがあり、覚えるのがとても難しいように見えるかもしれません。しかし、実際にはそう見えるよりもはるかに簡単です。
 
-Look through the cheatsheet just to be aware of them. Then solve the tasks of this chapter to practice, so that you have experience with array methods.
+それらを意識して Cheat Sheet を見てください。次に、このチャプターを通して、あなたは配列のメソッドを経験しました。
 
-Afterwards whenever you need to do something with an array, and you don't know how -- come here, look at the cheatsheet and find the right method. Examples will help you to write it correctly. Soon you'll automatically remember the methods, without specific efforts from your side.
+今後、配列で何かをする必要があるとき、どうやればいいか分からないときはいつでも -- ここに来て Cheat Sheet を見て正しいメソッドを見つけてください。例はあなたが正しくそれを書くのを助けるでしょう。すぐにあなたの側から特別な努力なしで、自動的にそれらのメソッドを覚えていくでしょう。
