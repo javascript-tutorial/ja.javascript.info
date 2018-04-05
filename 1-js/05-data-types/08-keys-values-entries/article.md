@@ -1,42 +1,43 @@
 
 # Object.keys, values, entries
 
-Let's step away from the individual data structures and talk about the iterations over them. 
+個々のデータ構造から離れて、それらの繰り返し処理について話しましょう。
 
-In the previous chapter we saw methods `map.keys()`, `map.values()`, `map.entries()`.
+前のチャプターで、`map.keys()`, `map.values()`, `map.entries()` と言うメソッドを見ました。
 
-These methods are generic, there is a common agreement to use them for data structures. If we ever create a data structure of our own, we should implement them too. 
+これらのメソッドは一般的なものであり、データ構造に対してそれを使うことは共通の合意です。もしこれまでに我々自身のデータ構造を作った
+These methods are generic, there is a common agreement to use them for data structures. 私たちが独自のデータ構造を作成した場合、それらも実装するべきです。
 
-They are supported for:
+それらは以下でサポートされています:
 
 - `Map`
 - `Set`
-- `Array` (except `arr.values()`)
+- `Array` (`arr.values()` を除く)
 
-Plain objects also support similar methods, but the syntax is a bit different.
+普通のオブジェクトもまた同様のメソッドをサポートします。しかし、その構文は少し異なります。
 
 ## Object.keys, values, entries
 
-For plain objects, the following methods are available:
+通常のオブジェクトでは、次のメソッドが使えます。:
 
-- [Object.keys(obj)](mdn:js/Object/keys) -- returns an array of keys.
-- [Object.values(obj)](mdn:js/Object/values) -- returns an array of values.
-- [Object.entries(obj)](mdn:js/Object/entries) -- returns an array of `[key, value]` pairs.
+- [Object.keys(obj)](mdn:js/Object/keys) -- キーの配列を返します。
+- [Object.values(obj)](mdn:js/Object/values) -- 値の配列を返します。
+- [Object.entries(obj)](mdn:js/Object/entries) -- `[key, value]` ペアの配列を返します。
 
-...But please note the distinctions (compared to map for example):
+...しかしその違いに注意してください(例として map との比較です。):
 
 |             | Map              | Object       |
 |-------------|------------------|--------------|
-| Call syntax | `map.keys()`  | `Object.keys(obj)`, but not `obj.keys()` |
-| Returns     | iterable    | "real" Array                     |
+| 構文 | `map.keys()`  | `Object.keys(obj)` です。 `obj.keys()` ではありません。 |
+| 戻り値     | iterable    | "本当の" Array                     |
 
-The first difference is that we have to call `Object.keys(obj)`, and not `obj.keys()`.
+最初の違いは、`Object.keys(obj)` と呼ばないといけないことです。`obj.keys()` ではありません。
 
-Why so? The main reason is flexibility. Remember, objects are a base of all complex structures in JavaScript. So we may have an object of our own like `order` that implements its own `order.values()` method. And we still can call `Object.values(order)` on it.
+なぜそうなっているのでしょう？主な理由は柔軟性です。JavaScript では、オブジェクトは全ての複雑な構造のベースであることを覚えておいてください。従って、独自の `order.values()` メソッドを実装した `order` のような独自のオブジェクトを持つかもしれません。そして、その上でもまだ `Object.values(order)` を呼ぶことができます。
 
-The second difference is that `Object.*` methods return "real" array objects, not just an iterable. That's mainly for historical reasons.
+2つ目の違いは、`Object.*` メソッドが "本当の" 配列オブジェクトを返すことです、単なる iterable ではなく。これは主に歴史的な理由です。
 
-For instance:
+例:
 
 ```js
 let user = {
@@ -49,7 +50,7 @@ let user = {
 - `Object.values(user) = ["John", 30]`
 - `Object.entries(user) = [ ["name","John"], ["age",30] ]`
 
-Here's an example of using `Object.values` to loop over property values:
+ここの例では、`Object.values` を使って、プロパティの値をループします:
 
 ```js run
 let user = {
@@ -63,8 +64,8 @@ for (let value of Object.values(user)) {
 }
 ```
 
-## Object.keys/values/entries ignore symbolic properties
+## Object.keys/values/entries はシンボリックプロパティを無視します
 
-Just like a `for..in` loop, these methods ignore properties that use `Symbol(...)` as keys.
+ちょうど `for..in` ループのように、これらのメソッドはキーとして `Symbol(...)` を使っているプロパティを無視します。
 
-Usually that's convenient. But if we want symbolic keys too, then there's a separate method [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols) that returns an array of only symbolic keys. Also, the method [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) returns *all* keys.
+通常それは便利です。しかし、もしもシンボリックなキーも同様にしたい場合、別のメソッド [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols)  があります。これはシンボリックのキーのみの配列を返します。また、メソッド [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) は *全ての* キーを返します。
