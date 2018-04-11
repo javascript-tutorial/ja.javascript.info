@@ -1,17 +1,17 @@
-# Date and time
+# 日付 と 時刻
 
-Let's meet a new built-in object: [Date](mdn:js/Date). It stores the date, time and provides methods for date/time management.
+新しい組み込みオブジェクトを見てみましょう: [Date](mdn:js/Date)。日付や時刻を保存し、日付/時刻を管理するためのメソッドを提供します。
 
-For instance, we can use it to store creation/modification times, or to measure time, or just to print out the current date.
+例えば、作成/修正時刻を保存したり、時間を測定したり、単に現在の時刻を印刷するために使うことができます。
 
 [cut]
 
-## Creation
+## 作成
 
-To create a new `Date` object call `new Date()` with one of the following arguments:
+新しい `Date` オブジェクトを作るために、 次の引数のいずれかで `new Date()` を呼びます:
 
 `new Date()`
-: Without arguments -- create a `Date` object for the current date and time:
+: 引数なし -- 現在の日付と時刻で `Date` オブジェクトを作ります:
 
     ```js run
     let now = new Date();
@@ -19,7 +19,7 @@ To create a new `Date` object call `new Date()` with one of the following argume
     ```
 
 `new Date(milliseconds)`
-: Create a `Date` object with the time equal to number of milliseconds (1/1000 of a second) passed after the Jan 1st of 1970 UTC+0.
+: Jan 1st of 1970 UTC+0 (1970年 1月1日 UTC+0) からの経過したミリ秒(秒の1/1000)に等しい時間をもつ `Date` オブジェクトを作ります。
 
     ```js run
     // 0 means 01.01.1970 UTC+0
@@ -31,13 +31,12 @@ To create a new `Date` object call `new Date()` with one of the following argume
     alert( Jan02_1970 );
     ```
 
-    The number of milliseconds that has passed since the beginning of 1970 is called a *timestamp*.
+    1970年初めから経過したミリ秒の数値は *タイムスタンプ* と呼ばれます。
 
-    It's a lightweight numeric representation of a date. We can always create a date from a timestamp using `new Date(timestamp)` and convert the existing `Date` object to a timestamp using the `date.getTime()` method (see below).
+    これは日付の軽量な数値表現です。私たちはいつも `new Date(timestamp)` を使ってタイムスタンプから日付を作成し、存在する `Date` オブジェクトを `date.getTime()` メソッド(後述) を使ってタイムスタンプに変換します。
 
 `new Date(datestring)`
-: If there is a single argument, and it's a string, then it is parsed with the `Date.parse` algorithm (see below).
-
+: 1つの引数でそれが文字列の場合、`Date.parse` アルゴリズム(後述)でパースされます。
 
     ```js run
     let date = new Date("2017-01-26");
@@ -45,59 +44,59 @@ To create a new `Date` object call `new Date()` with one of the following argume
     ```
 
 `new Date(year, month, date, hours, minutes, seconds, ms)`
-: Create the date with the given components in the local time zone. Only two first arguments are obligatory.
+: ローカルタイムゾーンで、与えられた要素で日付を作成します。最初の2つの引数は必須です。
 
-    Note:
+    補足:
 
-    - The `year` must have 4 digits: `2013` is okay, `98` is not.
-    - The `month` count starts with `0` (Jan), up to `11` (Dec).
-    - The `date` parameter is actually the day of month, if absent then `1` is assumed.
-    - If `hours/minutes/seconds/ms` is absent, they are assumed to be equal `0`.
+    - `year` は4桁でなければいけません。`2013` はOKですが、`98` はダメです。
+    - `month` `0` (1月) から数え、`11` (12月)までです。
+    - `date` パラメータは実際の月の日です。もし指定がなければ `1` になります。
+    - もし `hours/minutes/seconds/ms` がなければ、これらは `0` とみなされます。
 
-    For instance:
+    例:
 
     ```js
     new Date(2011, 0, 1, 0, 0, 0, 0); // // 1 Jan 2011, 00:00:00
     new Date(2011, 0, 1); // the same, hours etc are 0 by default
     ```
 
-    The minimal precision is 1 ms (1/1000 sec):
+    最小の精度は 1ms (1/1000秒)です:
 
     ```js run
     let date = new Date(2011, 0, 1, 2, 3, 4, 567);
     alert( date ); // 1.01.2011, 02:03:04.567
     ```
 
-## Access date components
+## date コンポーネントへのアクセス
 
-There are many methods to access the year, month and so on from the `Date` object. But they can be easily remembered when categorized.
+`Date` オブジェクトから 年、月などへアクセスする多くのメソッドがあります。しかし、カテゴライズすることで簡単に覚えることができます。
 
 [getFullYear()](mdn:js/Date/getFullYear)
-: Get the year (4 digits)
+: 年を取得します(4桁)
 
 [getMonth()](mdn:js/Date/getMonth)
-: Get the month, **from 0 to 11**.
+: 月を取得します, **0から11**。
 
 [getDate()](mdn:js/Date/getDate)
-: Get the day of month, from 1 to 31, the name of the method does look a little bit strange.
+: 月の日を取得し、値は 1 から 31 です。メソッドの名前には少し違和感がありますが。
 
 [getHours()](mdn:js/Date/getHours), [getMinutes()](mdn:js/Date/getMinutes), [getSeconds()](mdn:js/Date/getSeconds), [getMilliseconds()](mdn:js/Date/getMilliseconds)
-: Get the corresponding time components.
+: 対応する時刻の構成要素を取得します。
 
 ```warn header="Not `getYear()`, but `getFullYear()`"
-Many JavaScript engines implement a non-standard method `getYear()`. This method is deprecated. It returns 2-digit year sometimes. Please never use it. There is `getFullYear()` for the year.
+多くのJavaScriptエンジンは 標準ではないメソッド `getYear()` を実装しています。このメソッドは非推奨です。これは2桁の年を返す時がありますので、決して使わないでください。年のためには `getFullYear()` がります。
 ```
 
-Additionally, we can get a day of week:
+加えて、週の日を取得することもできます:
 
 [getDay()](mdn:js/Date/getDay)
-: Get the day of week, from `0` (Sunday) to `6` (Saturday). The first day is always Sunday, in some countries that's not so, but can't be changed.
+: 週の日を取得し、値は `0` (日曜) から `6` (土曜) です。最初の日は常に日曜です。いくつかの国ではそうではありませんが、変えることはできません。
 
-**All the methods above return the components relative to the local time zone.**
+**上のすべてのメソッドはローカルタイムゾーンを基準に構成要素を返します。**
 
-There are also their UTC-counterparts, that return day, month, year and so on for the time zone UTC+0: [getUTCFullYear()](mdn:js/Date/getUTCFullYear), [getUTCMonth()](mdn:js/Date/getUTCMonth), [getUTCDay()](mdn:js/Date/getUTCDay). Just insert the `"UTC"` right after `"get"`.
+タイムゾーン UTC+0 の日、月、年などを返す、UTCカウンターパートもあります:[getUTCFullYear()](mdn:js/Date/getUTCFullYear), [getUTCMonth()](mdn:js/Date/getUTCMonth), [getUTCDay()](mdn:js/Date/getUTCDay). 単に `"get"` の直後に `"UTC"` を挿入するだけです。.
 
-If your local time zone is shifted relative to UTC, then the code below shows different hours:
+もしもあなたのタイムゾーンが UTC から相対的にシフトしている場合、下のコードは異なる時間を表示します:
 
 ```js run
 // current date
@@ -110,13 +109,13 @@ alert( date.getHours() );
 alert( date.getUTCHours() );
 ```
 
-Besides the given methods, there are two special ones, that do not have a UTC-variant:
+与えられたメソッドに加えて、UTCバリアントを持たない、特別な2つのメソッドがあります:
 
 [getTime()](mdn:js/Date/getTime)
-: Returns the timestamp for the date -- a number of milliseconds passed from the January 1st of 1970 UTC+0.
+: 日付のタイムスタンプを返します -- それは、1970年 UTC+0 の 1月1日からの経過ミリ秒です。
 
 [getTimezoneOffset()](mdn:js/Date/getTimezoneOffset)
-: Returns the difference between the local time zone and UTC, in minutes:
+: ローカルタイムゾーンとUTCの差を、分で返します:
 
     ```js run
     // if you are in timezone UTC-1, outputs 60
@@ -125,9 +124,9 @@ Besides the given methods, there are two special ones, that do not have a UTC-va
 
     ```
 
-## Setting date components
+## 日付の構成要素を設定する
 
-The following methods allow to set date/time components:
+次のメソッドで、日付/時刻の構成要素をセットすることができます:
 
 - [`setFullYear(year [, month, date])`](mdn:js/Date/setFullYear)
 - [`setMonth(month [, date])`](mdn:js/Date/setMonth)
@@ -136,13 +135,13 @@ The following methods allow to set date/time components:
 - [`setMinutes(min [, sec, ms])`](mdn:js/Date/setMinutes)
 - [`setSeconds(sec [, ms])`](mdn:js/Date/setSeconds)
 - [`setMilliseconds(ms)`](mdn:js/Date/setMilliseconds)
-- [`setTime(milliseconds)`](mdn:js/Date/setTime) (sets the whole date by milliseconds since 01.01.1970 UTC)
+- [`setTime(milliseconds)`](mdn:js/Date/setTime) (1970年1月1日UTC+0からのみ市秒で日付全体をセットします)
 
-Every one of them except `setTime()` has a UTC-variant, for instance: `setUTCHours()`.
+`setTime()` を除くすべてのものは UTCバリアントをもっています。例えば `setUTCHours()`。
 
-As we can see, some methods can set multiple components at once, for example `setHours`. The components that are not mentioned are not modified.
+これまで見たように、いくつかのメソッドは一度に複数の構成要素をセットすることができます。例えば、`setHours` です。  言及されていない構成要素は変更されません。
 
-For instance:
+例:
 
 ```js run
 let today = new Date();
@@ -154,20 +153,20 @@ today.setHours(0, 0, 0, 0);
 alert(today); // still today, now 00:00:00 sharp.
 ```
 
-## Autocorrection
+## 自動補正
 
-The *autocorrection* is a very handy feature of `Date` objects. We can set out-of-range values, and it will auto-adjust itself.
+*自動補正* は `Date` オブジェクトのとても便利な機能です。私たちが範囲外の値を指定することができますが、それは自動的に調節されます。
 
-For instance:
+例:
 
 ```js run
 let date = new Date(2013, 0, *!*32*/!*); // 32 Jan 2013 ?!?
 alert(date); // ...is 1st Feb 2013!
 ```
 
-Out-of-range date components are distributed automatically.
+範囲外の日付の構成要素は自動的に配布されます。
 
-Let's say we need to increase the date "28 Feb 2016" by 2 days. It may be "2 Mar" or "1 Mar" in case of a leap-year. We don't need to think about it. Just add 2 days. The `Date` object will do the rest:
+"2016年2月28日" の日付を2日増やす必要があるとします。 うるう年の場合は "2月" または "1月" になることがあります。 それについて考える必要はありません。 単に2日を追加してください。 `Date` オブジェクトは残りの作業を行います:
 
 ```js run
 let date = new Date(2016, 1, 28);
@@ -178,7 +177,7 @@ date.setDate(date.getDate() + 2);
 alert( date ); // 1 Mar 2016
 ```
 
-That feature is often used to get the date after the given period of time. For instance, let's get the date for "70 seconds after now":
+この機能は、指定した期間の後に日付を取得するためによく使用されます。 たとえば、 "70秒後" の日付を取得しましょう。:
 
 ```js run
 let date = new Date();
@@ -187,7 +186,7 @@ date.setSeconds(date.getSeconds() + 70);
 alert( date ); // shows the correct date
 ```
 
-We can also set zero or even negative values. For example:
+また、ゼロ、または負値をセットすることも出来ます。例えば:
 
 ```js run
 let date = new Date(2016, 0, 2); // 2 Jan 2016
@@ -199,18 +198,18 @@ date.setDate(0); // min day is 1, so the last day of the previous month is assum
 alert( date ); // 31 Dec 2015
 ```
 
-## Date to number, date diff
+## 日付から数値へ、日付の差分
 
-When a `Date` object is converted to number, it becomes the timestamp same as `date.getTime()`:
+`Date` オブジェクトが数値へ変換されるとき、`date.getTime()` と同じようにタイムスタンプになります:
 
 ```js run
 let date = new Date();
 alert(+date); // the number of milliseconds, same as date.getTime()
 ```
 
-The important side effect: dates can be subtracted, the result is their difference in ms.
+重要な副作用は、日付を差し引くことができますが、結果はその差分(ミリ秒)になります。
 
-That can be used for time measurements:
+これは時間の計測で使うことができます:
 
 ```js run
 let start = new Date(); // start counting
@@ -227,15 +226,15 @@ alert( `The loop took ${end - start} ms` );
 
 ## Date.now()
 
-If we only want to measure the difference, we don't need the `Date` object.
+もしも差分だけ測定したい場合、`Date` オブジェクトを使う必要はありません。
 
-There's a special method `Date.now()` that returns the current timestamp.
+現在のタイムスタンプを返す特別なメソッド `Date.now()` があります。
 
-It is semantically equivalent to `new Date().getTime()`, but it doesn't create an intermediate `Date` object. So it's faster and doesn't put pressure on garbage collection.
+意味的には `new Date().getTime()` と同じですが、中間の `Date` オブジェクトを作りません。なので、より速くガベージコレクションに圧力をかけません。
 
-It is used mostly for convenience or when performance matters, like in games in JavaScript or other specialized applications.
+これは、便利さや、JavaScriptでのゲームや他の特別なアプリケーションのようにパフォーマンスが重要な場合に主に使われます。
 
-So this is probably better:
+従って、これは恐らくベターです:
 
 ```js run
 *!*
@@ -254,11 +253,11 @@ let end = Date.now(); // done
 alert( `The loop took ${end - start} ms` ); // subtract numbers, not dates
 ```
 
-## Benchmarking
+## ベンチマーク
 
-If we want a reliable benchmark of CPU-hungry function, we should be careful.
+CPUを必要とする機能の信頼できるベンチマークが必要な場合は、注意が必要です。
 
-For instance, let's measure two functions that calculate the difference between two dates: which one is faster?
+例えば、2つの日付の差を計算する2つの関数を測定してみましょう。どちらがより速いでしょうか？
 
 ```js
 // we have date1 and date2, which function faster returns their difference in ms?
@@ -272,13 +271,13 @@ function diffGetTime(date1, date2) {
 }
 ```
 
-These two do exactly the same thing, but one of them uses an explicit `date.getTime()` to get the date in ms, and the other one relies on a date-to-number transform. Their result is always the same.
+これら2つは正確に同じことをしますが、片方は日付のミリ秒を取得するために明示的な `date.getTime()` を使います。また、他方は日付の数値変換を頼っています。これらの結果は常に同じです。
 
-So, which one is faster?
+さて、どちらがより速いでしょうか？
 
-The first idea may be to run them many times in a row and measure the time difference. For our case, functions are very simple, so we have to do it around 100000 times.
+最初に思いつくアイデアは、それらを何度も連続で実行し、その時間の差を測ることです。我々のケースでは、関数はとてもシンプルなので、約10万回行う必要があります。
 
-Let's measure:
+測定してみましょう。:
 
 ```js run
 function diffSubtract(date1, date2) {
@@ -302,19 +301,19 @@ alert( 'Time of diffSubtract: ' + bench(diffSubtract) + 'ms' );
 alert( 'Time of diffGetTime: ' + bench(diffGetTime) + 'ms' );
 ```
 
-Wow! Using `getTime()` is so much faster! That's because there's no type conversion, it is much easier for engines to optimize.
+なんということでしょう! `getTime()` を使う方が遥かに速いです! なぜなら、この場合には型変換がなく、エンジンが最適化をするのがとても簡単なためです。
 
-Okay, we have something. But that's not a good benchmark yet.
+さて、私たちは測定結果を得ましたが、まだ良いベンチマークではありません。
 
-Imagine that at the time of running `bench(diffSubtract)` CPU was doing something in parallel, and it was taking resources. And by the time of running `bench(diffGetTime)` the work has finished.
+`bench(diffSubtract)` を実行しているときに、CPUは並列で何かをしており、リソースを取っていたと想像してください。そして、`bench(diffGetTime)` の実行をするときまでに、その処理は完了しました。
 
-A pretty real scenario for a modern multi-process OS.
+これは、現代のマルチプロセスOSでのよくある実際のシナリオです。
 
-As a result, the first benchmark will have less CPU resources than the second. That may lead to wrong results.
+上の場合、結果として、最初のベンチマークは2回目よりも少ないCPUリソースになります。これは誤った結果を導きます。
 
-**For more reliable benchmarking, the whole pack of benchmarks should be rerun multiple times.**
+**より信頼性の高いベンチマークを行うには、ベンチマーク全体を複数回再実行する必要があります。**
 
-Here's the code example:
+ここではそのコードのサンプルです:
 
 ```js run
 function diffSubtract(date1, date2) {
@@ -349,7 +348,7 @@ alert( 'Total time for diffSubtract: ' + time1 );
 alert( 'Total time for diffGetTime: ' + time2 );
 ```
 
-Modern JavaScript engines start applying advanced optimizations only to "hot code" that executes many times (no need to optimize rarely executed things). So, in the example above, first executions are not well-optimized. We may want to add a heat-up run:
+現代のJavaScriptエンジンは、何度も実行される「ホットコード」に対してのみ高度な最適化を適用し始めます（ほとんど実行されないものを最適化する必要はないためです）。したがって、上記の例では、最初の実行は最適化されていません。 ヒートアップ(メインの実行の前の助走)を追加することもできます:
 
 ```js
 // added for "heating up" prior to the main loop
@@ -364,27 +363,27 @@ for (let i = 0; i < 10; i++) {
 ```
 
 ```warn header="Be careful doing microbenchmarking"
-Modern JavaScript engines perform many optimizations. They may tweak results of "artificial tests" compared to "normal usage", especially when we benchmark something very small. So if you seriously want to understand performance, then please study how the JavaScript engine works. And then you probably won't need microbenchmarks at all.
+現代のJavaScriptエンジンは多くの最適化を行います。それらは "人工的なテスト" の結果を "通常の使用" と比較して調整するかもしれません。 非常に小さいものをベンチマークするときは特にそうです。従って、あなたが真面目にパフォーマンスを理解したいのであれば、JavaScriptエンジンの仕組みを学んでください。そして、マイクロベンチマークは全く必要ないでしょう。
 
-The great pack of articles about V8 can be found at <http://mrale.ph>.
+V8 についての素晴らしい記事は <http://mrale.ph> にあります。
 ```
 
-## Date.parse from a string
+## 文字列からの Date.parse
 
-The method [Date.parse(str)](mdn:js/Date/parse) can read a date from a string.
+メソッド [Date.parse(str)](mdn:js/Date/parse) は文字列から日付を読むことができます。
 
-The string format should be: `YYYY-MM-DDTHH:mm:ss.sssZ`, where:
+文字列のフォーマットは `YYYY-MM-DDTHH:mm:ss.sssZ` でなければなりません。:
 
-- `YYYY-MM-DD` -- is the date: year-month-day.
-- The character `"T"` is used as the delimiter.
-- `HH:mm:ss.sss` -- is the time: hours, minutes, seconds and milliseconds.
-- The optional `'Z'` part denotes the time zone in the format `+-hh:mm`. A single letter `Z` that would mean UTC+0.
+- `YYYY-MM-DD` -- は日付です。年-月-日
+- `"T"` の文字はデリミタとして使用されます。
+- `HH:mm:ss.sss` -- は時間です(時、分、秒とミリ秒)。
+- オプションの `'Z'` の部分は、フォーマット `+-hh:mm` のタイムゾーンを示します。UTC+0 を意味する単一の文字 `Z` です。
 
-Shorter variants are also possible, like `YYYY-MM-DD` or `YYYY-MM` or even `YYYY`.
+より短いバリアントも可能です。`YYYY-MM-DD` や `YYYY-MM` 、または `YYYY` です。
 
-The call to `Date.parse(str)` parses the string in the given format and returns the timestamp (number of milliseconds from 1 Jan 1970 UTC+0). If the format is invalid, returns `NaN`.
+`Date.parse(str)` の呼び出しでは、文字列を与えられたフォーマットにパースし、タイムスタンプを返します(1970年 1月1日 UTC+0からのミリ秒)。もしフォーマットが正しくない場合には `NaN` を返します。
 
-For instance:
+例:
 
 ```js run
 let ms = Date.parse('2012-01-26T13:51:50.417-07:00');
@@ -392,7 +391,7 @@ let ms = Date.parse('2012-01-26T13:51:50.417-07:00');
 alert(ms); // 1327611110417  (timestamp)
 ```
 
-We can instantly create a `new Date` object from the timestamp:
+タイムスタンプから、即座に `new Date` オブジェクトを作ることができます。
 
 ```js run
 let date = new Date( Date.parse('2012-01-26T13:51:50.417-07:00') );
@@ -400,18 +399,18 @@ let date = new Date( Date.parse('2012-01-26T13:51:50.417-07:00') );
 alert(date);  
 ```
 
-## Summary
+## サマリ
 
-- Date and time in JavaScript are represented with the [Date](mdn:js/Date) object. We can't create "only date" or "only time": `Date` objects always carry both.
-- Months are counted from zero (yes, January is a zero month).
-- Days of week in `getDay()` are also counted from zero (that's Sunday).
-- `Date` auto-corrects itself when out-of-range components are set. Good for adding/subtracting days/months/hours.
-- Dates can be subtracted, giving their difference in milliseconds. That's because a `Date` becomes the timestamp when converted to a number.
-- Use `Date.now()` to get the current timestamp fast.
+- JavaScript での日付と時刻は[Date](mdn:js/Date) オブジェクトで表現されます。"日付だけ"、"時刻だけ" を作ることはできません。`Date` オブジェクトは常に両方を持ちます。
+- 月はゼロからカウントされます(なので、1月は ゼロです)。
+- `getDay()` の週の日もゼロからカウントされます(ゼロは日曜です)
+- 範囲外の構成要素がセットされたとき、`Date` は自身を自動補正します。日/月/時の加減算の場合に良いです。
+- 日付はミリ秒で与えられた差分で引き算することができます。これは、数値に変換されるとき、`Date` はタイムスタンプになるためです。
+- 素早く現在のタイムスタンプを取得するためには `Date.now()` を使いましょう。
 
-Note that unlike many other systems, timestamps in JavaScript are in milliseconds, not in seconds.
+多くのたのシステムとは違い、JavaScriptでのタイムスタンプは秒ではなく、ミリ秒です。
 
-Also, sometimes we need more precise time measurements. JavaScript itself does not have a way to measure time in microseconds (1 millionth of a second), but most environments provide it. For instance, browser has [performance.now()](mdn:api/Performance/now) that gives the number of milliseconds from the start of page loading with microsecond precision (3 digits after the point):
+また、私たちはより高精度の時間計測が必要な場合があります。JavaScript自身はマイクロ秒(100万分の1秒)での時間を計測する方法を持っていませんが、ほとんどの環境はそれを提供しています。例えば、ブラウザはマイクロ秒の精度(少数第3桁)で、ページ読み込み開始からのミリ秒を返す [performance.now()](mdn:api/Performance/now) を持っています。:
 
 ```js run
 alert(`Loading started ${performance.now()}ms ago`);
@@ -420,4 +419,4 @@ alert(`Loading started ${performance.now()}ms ago`);
 // more than 3 digits after the decimal point are precision errors, but only the first 3 are correct
 ```
 
-Node.JS has `microtime` module and other ways. Technically, any device and environment allows to get more precision, it's just not in `Date`.
+Node.JS は `microtime` モジュールや他の方法を持っています。技術的には、どのデバイスや環境で精度をあげることができます。単に `Date` にはないだけです。
