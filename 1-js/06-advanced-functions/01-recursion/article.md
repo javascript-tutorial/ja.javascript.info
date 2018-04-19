@@ -1,20 +1,20 @@
-# Recursion and stack
+# 再帰とスタック
 
-Let's return to functions and study them more in-depth.
+関数に戻り、より深く学びましょう。
 
-Our first topic will be *recursion*.
+最初のトピックは *再帰* です。
 
-If you are not new to programming, then it is probably familiar and you could skip this chapter.
+あなたが初心者のプログラマーでないなら、それはおそらくおなじみなので、このチャプターをスキップすることができます。
 
-Recursion is a programming pattern that is useful in situations when a task can be naturally split into several tasks of the same kind, but simpler. Or when a task can be simplified into an easy action plus a simpler variant of the same task. Or, as we'll see soon, to deal with certain data structures.
+再帰は、タスクを自然に同じ種類の複数のタスクに分割することができるシチュエーションで役立つプログラミングパターンですが、よりシンプルです。もしくは、タスクが簡単なアクションと同じタスクのよりシンプルなバリアントに単純化できるとき。またこの後すぐに見ていきますが、特定のデータ構造を扱う場合に役立ちます。
 
-When a function solves a task, in the process it can call many other functions. A partial case of this is when a function calls *itself*. That's called *recursion*.
+関数がタスクを解決するとき、処理の中では多くの他の関数を呼ぶことができます。この部分的なケースとして、関数が *自分自身* を呼ぶときです。それは *再帰* と呼ばれます。
 
 [cut]
 
-## Two ways of thinking
+## 2つの考え方
 
-For something simple to start with -- let's write a function `pow(x, n)` that raises `x` to a natural power of `n`. In other words, multiplies `x` by itself `n` times.
+初めのシンプルな例として -- `x` の `n` 乗をする関数 `pow(x, n)` を書いてみましょう。言い換えると、`x` 自身を `n` 回乗算します。
 
 ```js
 pow(2, 2) = 4
@@ -22,9 +22,9 @@ pow(2, 3) = 8
 pow(2, 4) = 16
 ```
 
-There are two ways to implement it.
+2つの実装方法があります。
 
-1. Iterative thinking: the `for` loop:
+1. 反復的な考え方: `for` ループ:
 
     ```js run
     function pow(x, n) {
@@ -41,7 +41,7 @@ There are two ways to implement it.
     alert( pow(2, 3) ); // 8
     ```
 
-2. Recursive thinking: simplify the task and call self:
+2. 再帰的な考え方: タスクの単純化と自身を呼び出す:
 
     ```js run
     function pow(x, n) {
@@ -55,9 +55,10 @@ There are two ways to implement it.
     alert( pow(2, 3) ); // 8
     ```
 
-Please note how the recursive variant is fundamentally different.
+再帰的なバリアントが基本的にどのように異なっているかに注意してください。
 
-When `pow(x, n)` is called, the execution splits into two branches:
+`pow(x, n)` が呼ばれたとき、その実行は2つの分岐に分かれます。:
+
 
 ```js
               if n==1  = x
@@ -67,27 +68,27 @@ pow(x, n) =
               else     = x * pow(x, n - 1)
 ```
 
-1. If `n == 1`, then everything is trivial. It is called *the base* of recursion, because it immediately produces the obvious result: `pow(x, 1)` equals `x`.
-2. Otherwise, we can represent `pow(x, n)` as `x * pow(x, n - 1)`. In maths, one would write <code>x<sup>n</sup> = x * x<sup>n-1</sup></code>. This is called *a recursive step*: we transform the task into a simpler action (multiplication by `x`) and a simpler call of the same task (`pow` with lower `n`). Next steps simplify it further and further until `n` reaches `1`.
+1. `n == 1` のときは自明です。それは 再帰の *基底* と呼ばれます。なぜなら、それはすぐに明白な結果(今回の場合、`pow(x, 1)` は `x` と等しい)を返すためです。
+2. そうでなければ、`pow(x, n)` は `x * pow(x, n - 1)` と表現することができます。数学的には、<code>x<sup>n</sup> = x * x<sup>n-1</sup></code> と書けます。これは *再帰的なステップ* と呼ばれます: 私たちは、タスクをより単純なアクション(`x` の乗算)と、同じタスクの呼び出し(より小さい `n` での `pow`)に変換します。次のステップではそれをさらに単純化し、`n` が `1` になるまで単純化されます。
 
-We can also say that `pow` *recursively calls itself* till `n == 1`.
+`pow` は  `n == 1` まで *再帰的に自分自身を呼び出す* と言うこともできます。
 
 ![recursive diagram of pow](recursion-pow.png)
 
 
-For example, to calculate `pow(2, 4)` the recursive variant does these steps:
+例えば、`pow(2, 4)` を計算するために、再帰的なバリアントは次のようなステップを踏みます:
 
 1. `pow(2, 4) = 2 * pow(2, 3)`
 2. `pow(2, 3) = 2 * pow(2, 2)`
 3. `pow(2, 2) = 2 * pow(2, 1)`
 4. `pow(2, 1) = 2`
 
-So, the recursion reduces a function call to a simpler one, and then -- to even more simpler, and so on, until the result becomes obvious.
+したがって、再帰は関数呼び出しをより簡単なものに変換し -- 結果が明白になるまでそれを繰り返します。。
 
 ````smart header="Recursion is usually shorter"
-A recursive solution is usually shorter than an iterative one.
+再帰的な解決策は、通常、反復する方法よりも短いです。
 
-Here we can rewrite the same using the ternary `?` operator instead of `if` to make `pow(x, n)` more terse and still very readable:
+ここで、`pow(x, n)` をより簡潔にしかつ読みやすくするために `if` の代わりに3項演算子 `?` を使って書き直すことができます。:
 
 ```js run
 function pow(x, n) {
@@ -96,36 +97,37 @@ function pow(x, n) {
 ```
 ````
 
-The maximal number of nested calls (including the first one) is called *recursion depth*. In our case, it will be exactly `n`.
+入れ子呼び出しの最大数(最初の1回を含む)は *再帰の深さ*　と呼ばれます。我々のケースでは、それは `n` になります。
 
-The maximal recursion depth is limited by JavaScript engine. We can make sure about 10000, some engines allow more, but 100000 is probably out of limit for the majority of them. There are automatic optimizations that help alleviate this ("tail calls optimizations"), but they are not yet supported everywhere and work only in simple cases.
+最大の再帰の深さは JavaScript エンジンによって制限されています。10000 は確実で、エンジンによってはより可能です。しかし、100000 は大多数の制限を恐らく超えます。これを緩和する自動最適化があります("末尾再帰")が、どこでもサポートされているわけではなく、単純なケースでのみ機能します。
 
-That limits the application of recursion, but it still remains very wide. There are many tasks where recursive way of thinking gives simpler code, easier to maintain.
+それは再帰の適用を制限しますが、依然として非常に広範囲に使われています。再帰的な考え方はよりコードをシンプルにし、維持しやすくするための多くのメリットがあります。
 
-## The execution stack
 
-Now let's examine how recursive calls work. For that we'll look under the hood of functions.
+## 実行スタック
 
-The information about a function run is stored in its *execution context*.
+さて、どのように再帰呼び出しが動作するか検証してみましょう。そのために、関数の内部を見ていきます。
 
-The [execution context](https://tc39.github.io/ecma262/#sec-execution-contexts) is an internal data structure that contains details about the execution of a function: where the control flow is now, the current variables, the value of `this` (we don't use it here) and few other internal details.
+関数の実行に関する情報は、その *実行コンテキスト* に格納されています。
 
-One function call has exactly one execution context associated with it.
+[実行コンテキスト(execution context)](https://tc39.github.io/ecma262/#sec-execution-contexts) は関数の実行に関する詳細を含む内部のデータ構造です。: 今はどの制御フローであるか、現在の変数、`this` の値(ここでは使いませんが)や、いくつかの他の内部の詳細です。
 
-When a function makes a nested call, the following happens:
+1つの関数呼び出しには、それに関連付けられた実行コンテキストが1つだけあります。
 
-- The current function is paused.
-- The execution context associated with it is remembered in a special data structure called *execution context stack*.
-- The nested call executes.
-- After it ends, the old execution context is retrieved from the stack, and the outer function is resumed from where it stopped.
+関数がネスト呼び出しをした場合、次のようなことが起こります:
 
-Let's see what happens during the `pow(2, 3)` call.
+- 現在の関数は一時停止します。
+- それに関連付けられた実行コンテキストは *実行コンテキストスタック* と呼ばれる特別なデータ構造で記録されます。
+- ネスト呼び出しを実行します。
+- それが終わった後、古い実行しますはスタックから取り出され、外部関数が停止した所から再開されます。
+
+`pow(2, 3)` が呼ばれたとき、何が起きるのか見てみましょう。
 
 ### pow(2, 3)
 
-In the beginning of the call `pow(2, 3)` the execution context will store variables: `x = 2, n = 3`, the execution flow is at line `1` of the function.
+`pow(2, 3)` の呼び出しの開始時に、実行コンテキスト変数を格納します: `x = 2, n= 3 `。実行フローは関数の `1` 行目です。
 
-We can sketch it as:
+我々はそれを次のようにスケッチできます:
 
 <ul class="function-execution-context-list">
   <li>
@@ -134,7 +136,7 @@ We can sketch it as:
   </li>
 </ul>
 
-That's when the function starts to execute. The condition `n == 1` is false, so the flow continues into the second branch of `if`:
+それは、関数が実行を開始したときです。条件 `n == 1` は false なので、フローは `if` の2つ目の分岐(else)に続きます:
 
 ```js run
 function pow(x, n) {
@@ -150,8 +152,7 @@ function pow(x, n) {
 alert( pow(2, 3) );
 ```
 
-
-The variables are same, but the line changes, so the context is now:
+変数は同じですが、行が変わっています。なので、コンテキストは次のようになります:
 
 <ul class="function-execution-context-list">
   <li>
@@ -160,19 +161,19 @@ The variables are same, but the line changes, so the context is now:
   </li>
 </ul>
 
-To calculate `x * pow(x, n - 1)`, we need to make a subcall of `pow` with new arguments `pow(2, 2)`.
+`x * pow(x, n - 1)` を計算するためには、新しい引数 `pow(2, 2)` での `pow` のサブコールを作る必要があります。
 
 ### pow(2, 2)
 
-To do a nested call, JavaScript remembers the current execution context in the *execution context stack*.
+ネストされた呼び出しをするため、JavaScript は *実行コンテキストスタック* に現在の実行コンテキストを記憶します。
 
-Here we call the same function `pow`, but it absolutely doesn't matter. The process is the same for all functions:
+ここで、我々は同じ関数 `pow` を呼びますが、全く問題ではありません。プロセスはすべての関数で同じです:
 
-1. The current context is "remembered" on top of the stack.
-2. The new context is created for the subcall.
-3. When the subcall is finished -- the previous context is popped from the stack, and its execution continues.
+1. 現在のコンテキストはスタックの先頭に "記憶" されます。
+2. サブコールのための新しいコンテキストが作られます。
+3. サブコールが終わったとき、前のコンテキストがスタックから取り出され、実行が継続されます。
 
-Here's the context stack when we entered the subcall `pow(2, 2)`:
+ここでは、サブコール `pow(2, 2)` に入ったときのコンテキストスタックを次に示します:
 
 <ul class="function-execution-context-list">
   <li>
@@ -185,15 +186,15 @@ Here's the context stack when we entered the subcall `pow(2, 2)`:
   </li>
 </ul>
 
-The new current execution context is on top (and bold), and previous remembered contexts are below.
+新しい現在の実行コンテキストが上(で太字のもの)で、以前に記憶されたコンテキストが下にあります。
 
-When we finish the subcall -- it is easy to resume the previous context, because it keeps both variables and the exact place of the code where it stopped. Here in the picture we use the word "line", but of course it's more precise.
+サブコールが終わったとき、以前のコンテキストを再開するのは簡単です。なぜなら、変数と停止したコードの正確な位置を両方とも維持しているためです。ここの絵の中では、"行(line)" という言葉を使いましたが、もちろんそれはより精密です。
 
 ### pow(2, 1)
 
-The process repeats: a new subcall is made at line `5`, now with arguments `x=2`, `n=1`.
+処理の繰り返し: 新しいサブコールが `5` 行目で作られ、今は `x=2`, `n=1` という引数です。
 
-A new execution context is created, the previous one is pushed on top of the stack:
+新しい実行コンテキストが作られ、前のものはスタックの先頭にプッシュされます。:
 
 <ul class="function-execution-context-list">
   <li>
@@ -210,11 +211,11 @@ A new execution context is created, the previous one is pushed on top of the sta
   </li>
 </ul>
 
-There are 2 old contexts now and 1 currently running for `pow(2, 1)`.
+2つの古いコンテキストと、現在 `pow(2, 1)` を実行中の1つのコンテキストがあります。
 
 ### The exit
 
-During the execution of `pow(2, 1)`, unlike before, the condition `n == 1` is truthy, so the first branch of `if` works:
+`pow(2, 1)` の実行の間、これまでとは異なり、条件 `n == 1` が真になります。従って、`if` の最初の分岐に入ります:
 
 ```js
 function pow(x, n) {
@@ -228,9 +229,9 @@ function pow(x, n) {
 }
 ```
 
-There are no more nested calls, so the function finishes, returning `2`.
+それ以上ネストされた呼び出しはないので、関数は `2` を返して終わりです。
 
-As the function finishes, its execution context is not needed anymore, so it's removed from the memory. The previous one is restored off the top of the stack:
+関数が終了したので、その実行コンテキストはこれ以上は不要になり、メモリから削除されます。以前のコンテキストはスタックの先頭から復元されます。:
 
 
 <ul class="function-execution-context-list">
@@ -244,9 +245,9 @@ As the function finishes, its execution context is not needed anymore, so it's r
   </li>
 </ul>
 
-The execution of `pow(2, 2)` is resumed. It has the result of the subcall `pow(2, 1)`, so it also can finish the evaluation of `x * pow(x, n - 1)`, returning `4`.
+`pow(2, 2)` の実行が再開されます。それはサブコール `pow(2, 1)` の結果を持っているので、これもまた`x * pow(x, n - 1)` の評価を完了することができ、`4` を返します。
 
-Then the previous context is restored:
+次に、その前のコンテキストが復元されます:
 
 <ul class="function-execution-context-list">
   <li>
@@ -255,15 +256,15 @@ Then the previous context is restored:
   </li>
 </ul>
 
-When it finishes, we have a result of `pow(2, 3) = 8`.
+これが終了したとき、我々は `pow(2, 3) = 8` の結果を得ます。
 
-The recursion depth in this case was: **3**.
+このケースでの再帰の深さは **3** です。
 
-As we can see from the illustrations above, recursion depth equals the maximal number of context in the stack.
+上の図から分かるように、再帰の深さはスタックのコンテキストの最大数と等しくなります。
 
-Note the memory requirements. Contexts take memory. In our case, raising to the power of `n` actually requires the memory for `n` contexts, for all lower values of `n`.
+メモリ要件に注意してください。コンテキストはメモリを必要とします。我々のケースでは、`n` のべき乗を行うためには、実際には `n` の値より小さいすべてにの値に対して、`n` 個のコンテキストのためのメモリが必要です。
 
-A loop-based algorithm is more memory-saving:
+ループベースのアルゴリズムはメモリを節約します:
 
 ```js
 function pow(x, n) {
@@ -277,19 +278,19 @@ function pow(x, n) {
 }
 ```
 
-The iterative `pow` uses a single context changing `i` and `result` in the process. Its memory requirements are small, fixed and do not depend on `n`.
+反復的な `pow` は処理の中で、 `i` と `result` が変化する1つのコンテキストを使います。そのメモリ要件は小さく、固定で `n` に依存しません。
 
-**Any recursion can be rewritten as a loop. The loop variant usually can be made more effective.**
+**どんな再帰もループで書き直すことができます。通常、ループのバリアントは、より効率的にすることができます。**
 
-...But sometimes the rewrite is non-trivial, especially when function uses different recursive subcalls depending on conditions and merges their results or when the branching is more intricate. And the optimization may be unneeded and totally not worth the efforts.
+...しかし、時には、特に関数が条件によって異なる再帰サブコールを使用し、その結果をマージする場合や分岐がより複雑な場合には、書き直しは簡単ではありません。 また、最適化は不要であり、努力に値するものではありません。
 
-Recursion can give a shorter code, easier to understand and support. Optimizations are not required in every place, mostly we need a good code, that's why it's used.
+再帰はより短いコードを提供し、理解や保守をし易くします。 最適化はあらゆる場所で必要とされるわけではなく、大部分は良いコードが必要です。そのために再帰は使用されています。
 
 ## Recursive traversals
 
-Another great application of the recursion is a recursive traversal.
+再帰の別の優れた応用は、再帰的な探索である。
 
-Imagine, we have a company. The staff structure can be presented as an object:
+私たちは会社を持っていると想像してみてください。 スタッフの構造はオブジェクトとして提示することができます:
 
 ```js
 let company = {
@@ -318,31 +319,30 @@ let company = {
 };
 ```
 
-In other words, a company has departments.
+言い換えると、会社は部署を持っています。
 
-- A department may have an array of staff. For instance, `sales` department has 2 employees: John and Alice.
-- Or a department may split into subdepartments, like `development` has two branches: `sites` and `internals`. Each of them has the own staff.
-- It is also possible that when a subdepartment grows, it divides into subsubdepartments (or teams).
+- 部署はスタッフの配列を持っているかもしれません。例えば、`sales` 部門は２人の従業員がいます: John と Alice。
+- もしくは、`development` は２つの枝(`sites` と `internals`)を持っているように、部署はサブの部署に分割されるかもしれません。それらは各々のスタッフを持ちます。
+- サブの部署が成長したとき、サブのさらにサブ部署 (またはチーム) に分割される可能性もあります。
 
-    For instance, the `sites` department in the future may be split into teams for `siteA` and `siteB`. And they, potentially, can split even more. That's not on the picture, just something to have in mind.
+    例えば、将来 `sites` 部門が `siteA` と `siteB` のチームに分割されるかもしれません。そしてそれらは潜在的にさらに分割することができます。
 
-Now let's say we want a function to get the sum of all salaries. How can we do that?
+では、全員の給料の合計を取得する関数が欲しいとしましょう。どのようにすればよいでしょう？
 
-An iterative approach is not easy, because the structure is not simple. The first idea may be to make a `for` loop over `company` with nested subloop over 1st level departments. But then we need more nested subloops to iterate over the staff in 2nd level departments like `sites`. ...And then another subloop inside those for 3rd level departments that might appear in the future? Should we stop on level 3 or make 4 levels of loops? If we put 3-4 nested subloops in the code to traverse a single object, it becomes rather ugly.
+反復的なアプローチは簡単ではありません。なぜなら構造はシンプルではないためです。最初のアイデアは、第1レベルの所属のネストされたサブループをもつ `company` に `for` をループを作ることです。しかし、次に `sites` のような 第2レベルの部門のスタッフを反復するために、より多くのネストされたサブループが必要になります。...そして、将来現れるかもしれない第３レベルの部門のための別のサブループも必要ですか？またレベル3で停止するか、4レベルのループを作成する必要がありますか？ 1つのオブジェクトを探索するために3〜4個のネストされたサブループをコード内に置くと、それはかなり醜いものになります。
 
-Let's try recursion.
+再帰をトライしてみましょう。
 
-As we can see, when our function gets a department to sum, there are two possible cases:
+上から分かるように、関数が合計するための部署を取得するとき、2つのケースがあります:
 
-1. Either it's a "simple" department with an *array of people* -- then we can sum the salaries in a simple loop.
-2. Or it's *an object with `N` subdepartments* -- then we can make `N` recursive calls to get the sum for each of the subdeps and combine the results.
+1. *人の配列* を持つ "シンプルな" 部署の場合 -- この場合は単純なループで給料を合計することができます。
+2. もしくは *`N` 個のサブ部門を持つオブジェクト* の場合です -- この場合は、`N` 回の再帰呼び出しを行ってサブ部門の各合計を取得し、結果を結合します。
 
-The (1) is the base of recursion, the trivial case.
+(1) は再帰の基底で、自明なケースです。
 
-The (2) is the recursive step. A complex task is split into subtasks for smaller departments. They may in turn split again, but sooner or later the split will finish at (1).
+(2) は再帰ステップです。複雑なタスクはより小さい部門のためのサブタスクに分割されます。それらは次々に繰り返し分割するかもしれませんが、遅かれ早かれ分割は (1) で終わります。
 
-The algorithm is probably even easier to read from the code:
-
+このアルゴリズムはコードから読みやすくなるでしょう:
 
 ```js run
 let company = { // the same object, compressed for brevity
@@ -371,62 +371,62 @@ function sumSalaries(department) {
 alert(sumSalaries(company)); // 6700
 ```
 
-The code is short and easy to understand (hopefully?). That's the power of recursion. It also works for any level of subdepartment nesting.
+コードは(望んだように?)短く理解しやすくなりました。これが再帰の力です。また、これは任意のレベルのサブ部門のネスティングでも正しく動作します。
 
-Here's the diagram of calls:
+呼び出しの図式は次の通りです:
 
 ![recursive salaries](recursive-salaries.png)
 
-We can easily see the principle: for an object `{...}` subcalls are made, while arrays `[...]` are the "leaves" of the recursion tree, they give immediate result.
+我々はその原理が容易に理解できます: オブジェクト `{...}` に対してはサブコールが作られ、配列 `[...]` は再帰ツリーの "葉" であり即座に結果を返します。
 
-Note that the code uses smart features that we've covered before:
+このコードでは、以前学んだスマートな機能を使っていることに留意してください:
 
-- Method `arr.reduce` explained in the chapter <info:array-methods> to get the sum of the array.
-- Loop `for(val of Object.values(obj))` to iterate over object values: `Object.values` returns an array of them.
+- 配列の合計を取得するために、チャプター <info:array-methods> で説明したメソッド `arr.reduce` を使用しています。
+- オブジェクトの値を反復するためにループ`for(val of Object.values(obj))` を使用しています: `Object.values` は値の配列を返します。
 
+## 再帰構造
 
-## Recursive structures
+再帰(再帰的に定義された)データ構造は、それ自身を部分的に複製する構造です。
 
-A recursive (recursively-defined) data structure is a structure that replicates itself in parts.
+私たちは、上の会社構造の例でちょうどそれを見ました。
 
-We've just seen it in the example of a company structure above.
+会社の *部署* は:
+- 人の配列
+- もしくは *部署* を持つオブジェクト
+のどちらかです。
 
-A company *department* is:
-- Either an array of people.
-- Or an object with *departments*.
+web開発者にとっては、もっとよく知られている例があります: HTMLやXMLドキュメントです。
 
-For web-developers there are much better-known examples: HTML and XML documents.
+HTMLドキュメントでは、*HTMLタグ* には次の一覧が含まれています:
+- テキスト部分
+- HTML コメント
+- 他の *HTMLタグ* (これにはテキスト部分/コメントや他のタグなどが含まれています)
 
-In the HTML document, an *HTML-tag* may contain a list of:
-- Text pieces.
-- HTML-comments.
-- Other *HTML-tags* (that in turn may contain text pieces/comments or other tags etc).
+これは繰り返しになりますが、再帰的な定義です。
 
-That's once again a recursive definition.
-
-For better understanding, we'll cover one more recursive structure named "Linked list" that might be a better alternative for arrays in some cases.
+より深い理解のために、 もう1つ、いくつかのケースでは配列の代わりのより良い選択肢かもしれない "Linked list" と呼ばれる再帰構造を学びましょう。
 
 ### Linked list
 
-Imagine, we want to store an ordered list of objects.
+想像してください、我々が順序付けされたオブジェクトのリストを保存したいとします。
 
-The natural choice would be an array:
+自然な選択肢は配列です:
 
 ```js
 let arr = [obj1, obj2, obj3];
 ```
 
-...But there's a problem with arrays. The "delete element" and "insert element" operations are expensive. For instance, `arr.unshift(obj)` operation has to renumber all elements to make room for a new `obj`, and if the array is big, it takes time. Same with `arr.shift()`.
+...しかし、配列を使う場合には問題があります。 "要素の削除" と "要素の挿入" 操作はコストが高いです。例えば `arr.unshift(obj)` 操作は新しい `obj` のための場所を作るために、全ての要素の番号を振り直す必要があります。また、もし配列が大きい場合、それは時間がかかります。`arr.shift()` も同じです。
 
-The only structural modifications that do not require mass-renumbering are those that operate with the end of array: `arr.push/pop`. So an array can be quite slow for big queues.
+大量の番号の再割当てを必要としない唯一の構造変更は配列の末尾への操作です: `arr.push/pop`。従って、配列は大きなキューに対しては非常に遅くなる可能性があります。
 
-Alternatively, if we really need fast insertion/deletion, we can choose another data structure called a [linked list](https://en.wikipedia.org/wiki/Linked_list).
+あるいは、もしも本当に速い挿入/削除が必要であれば、[linked list](https://en.wikipedia.org/wiki/Linked_list) と呼ばれる別のデータ構造を選択することもできます。
 
-The *linked list element* is recursively defined as an object with:
+*linked list element* は次の要素をもつオブジェクトとして,再帰的な定義されます:
 - `value`.
-- `next` property referencing the next *linked list element* or `null` if that's the end.
+- 次の *linked list 要素* または末尾の場合は `null` を参照する `next` プロパティ。
 
-For instance:
+例:
 
 ```js
 let list = {
@@ -444,11 +444,11 @@ let list = {
 };
 ```
 
-Graphical representation of the list:
+リストの図式表示です:
 
 ![linked list](linked-list.png)
 
-An alternative code for creation:
+以下は作成するための代替のコードです:
 
 ```js no-beautify
 let list = { value: 1 };
@@ -457,9 +457,9 @@ list.next.next = { value: 3 };
 list.next.next.next = { value: 4 };
 ```
 
-Here we can even more clearer see that there are multiple objects, each one has the `value` and `next` pointing to the neighbour. The `list` variable is the first object in the chain, so following `next` pointers from it we can reach any element.
+ここでは、複数のオブジェクトがあり、それぞれが `value` と隣を指し示す `next` を持っていることがよりはっきりを見えます。`list` 変数はチェインの最初なので、`next` ポインタの後にはどの要素にも到達することができます。
 
-The list can be easily split into multiple parts and later joined back:
+リストは簡単に複数の部分に分割したり、後で戻したりできます:
 
 ```js
 let secondList = list.next.next;
@@ -468,15 +468,15 @@ list.next.next = null;
 
 ![linked list split](linked-list-split.png)
 
-To join:
+次の方法で結合できます:
 
 ```js
 list.next.next = secondList;
 ```
 
-And surely we can insert or remove items in any place.
+そして、もちろんどんな場所にもアイテムを挿入したり取り除いたりすることができます。
 
-For instance, to prepend a new value, we need to update the head of the list:
+例えば、新しい値を先頭に追加するには、リストの先頭を更新します。:
 
 ```js
 let list = { value: 1 };
@@ -492,7 +492,7 @@ list = { value: "new item", next: list };
 
 ![linked list](linked-list-0.png)
 
-To remove a value from the middle, change `next` of the previous one:
+間から値を取り除くには、その前の `next` を変更します:
 
 ```js
 list.next = list.next.next;
@@ -500,35 +500,35 @@ list.next = list.next.next;
 
 ![linked list](linked-list-remove-1.png)
 
-We made `list.next` jump over `1` to value `2`. The value `1` is now excluded from the chain. If it's not stored anywhere else, it will be automatically removed from the memory.
+`list.next` は `1` を飛び越えて `2` という値になりました。値 `1` は今やチェインからは除外されています。もしもそれがどこにも保持されていない場合、自動的にメモリから削除されます。
 
-Unlike arrays, there's no mass-renumbering, we can easily rearrange elements.
+配列とは違って、大量の番号の再割り当てはなく、要素を簡単に組み替えることができます。
 
-Naturally, lists are not always better than arrays. Otherwise everyone would use only lists.
+当然ながら、リストは常に配列よりも優れているとは限りません。そうでなければ皆リストだけを使うでしょう。
 
-The main drawback is that we can't easily access an element by its number. In an array that's easy: `arr[n]` is a direct reference. But in the list we need to start from the first item and go `next` `N` times to get the Nth element.
+主な欠点は、番号では簡単に要素にアクセスできないことです。配列では簡単です( `arr[n]` で直接参照します)が、リストではアイテムの最初から始めてN個目の要素を取得するために、 `N` 回 `next` を行う必用があります。
 
-...But we don't always need such operations. For instance, when we need a queue or even a [deque](https://en.wikipedia.org/wiki/Double-ended_queue) -- the ordered structure that must allow very fast adding/removing elements from both ends.
+...しかし私たちは、常にこのような操作が必要とは限りません。例えば、キュー(queue)や [デキュー(deque)](https://en.wikipedia.org/wiki/Double-ended_queue) が必用なときです -- 両端から要素を非常に高速に追加/削除できる順序付けられた構造です。
 
-Sometimes it's worth to add another variable named `tail` to track the last element of the list (and update it when adding/removing elements from the end). For large sets of elements the speed difference versus arrays is huge.
+リストの最後の要素を追跡するために `tail` と言う名前の別の変数を追加する価値がある場合があります（最後から要素を追加/削除するときに更新します）。大きな要素のセットでは配列とのスピード差は大きくなります。
 
-## Summary
+## サマリ
 
-Terms:
-- *Recursion*  is a programming term that means a "self-calling" function. Such functions can be used to solve certain tasks in elegant ways.
+用語:
+- *再帰* は "自己呼び出し" 関数を意味するプログラミングの用語です。このような関数を使用して、特定のタスクを簡潔で美しい方法で解決することができます。
 
-    When a function calls itself, that's called a *recursion step*. The *basis* of recursion is function arguments that make the task so simple that the function does not make further calls.
+    関数が自身を呼び出すとき、それは *再帰ステップ* と呼ばれます。 再帰の *基底* は、関数がそれ以上の呼び出しを行わないようにタスクを単純化する関数の引数です。
 
-- A [recursively-defined](https://en.wikipedia.org/wiki/Recursive_data_type) data structure is a data structure that can be defined using itself.
+- [再帰的な定義(recursively-defined)](https://en.wikipedia.org/wiki/Recursive_data_type) データ構造は自身を使って定義できるデータ構造です。
 
-    For instance, the linked list can be defined as a data structure consisting of an object referencing a list (or null).
+    例えば、linked list はリスト(または null)を参照するオブジェクトで構成されているデータ構造として定義できます。
 
     ```js
     list = { value, next -> list }
     ```
 
-    Trees like HTML elements tree or the department tree from this chapter are also naturally recursive: they branch and every branch can have other branches.
+    このチャプターにあったHTML要素や部署のようなツリーもまたもちろん再帰的です: それらは分岐し、各分岐は別の分岐をもつことができます。
 
-    Recursive functions can be used to walk them as we've seen in the `sumSalary` example.
+    `sumSalary` の例で見たように、再帰関数を使ってそれらを見て回ることができます。
 
-Any recursive function can be rewritten into an iterative one. And that's sometimes required to optimize stuff. But for many tasks a recursive solution is fast enough and easier to write and support.
+どんな再帰関数も反復的なものに書き直すことができます。そして、時には最適化を行う必要があります。しかし、多くのタスクでは、再帰的な解決策は十分速く、書きやすく、保守が簡単です。
