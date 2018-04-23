@@ -1,22 +1,22 @@
-# Rest parameters and spread operator
+# 残りのパラメータとスプレッド演算子
 
-Many JavaScript built-in functions support an arbitrary number of arguments.
+主なJavaScriptの組み込み関数は任意の数の引数をサポートしています。
 
-For instance:
+例:
 
-- `Math.max(arg1, arg2, ..., argN)` -- returns the greatest of the arguments.
-- `Object.assign(dest, src1, ..., srcN)` -- copies properties from `src1..N` into `dest`.
-- ...and so on.
+- `Math.max(arg1, arg2, ..., argN)` -- 引数の中で最大のものを返します。
+- `Object.assign(dest, src1, ..., srcN)` -- `src1..N` のプロパティを `dest` にコピーします。
+- ...など.
 
-In this chapter we'll see how to do the same. And, more important, how to feel comfortable working with such functions and arrays.
+このチャプターでは、同じようにする方法を説明します。また、より重要なのは、このような関数や配列を快適に扱う方法です。
 
 [cut]
 
-## Rest parameters `...`
+## 残りのパラメータ `...`
 
-A function can be called with any number of arguments, no matter how it is defined.
+関数は、どのように定義されたかに関係なく、任意の数の引数で呼ぶことができます。
 
-Like here:
+このような感じです:
 ```js run
 function sum(a, b) {
   return a + b;
@@ -25,11 +25,11 @@ function sum(a, b) {
 alert( sum(1, 2, 3, 4, 5) );
 ```
 
-There will be no error because of "excessive" arguments. But of course in the result only the first two will be counted.
+"必要以上の" 引数でエラーにはなりません。 しかし、もちろん結果は最初の2つだけが使われます。
 
-The rest parameters can be mentioned in a function definition with three dots `...`. They literally mean: "gather the remaining parameters into an array".
+残りのパラメータは、関数定義の中で3つのドット `...` で言及することができます。これは文字通り、"残りのパラメータを配列に集める" という意味です。
 
-For instance, to gather all arguments into array `args`:
+例えば、すべての引数を配列 `args` に集める場合は次のようになります:
 
 ```js run
 function sumAll(...args) { // args is the name for the array
@@ -45,9 +45,9 @@ alert( sumAll(1, 2) ); // 3
 alert( sumAll(1, 2, 3) ); // 6
 ```
 
-We can choose to get first parameters as variables, and gather only the rest.
+最初のパラメータを変数として取得するようにし、残りだけを集めることもできます。
 
-Here the first two arguments go into variables and the rest goes to `titles` array:
+ここでは、最初の2つの引数が変数に入り、残りは `titles` 配列に格納されます:
 
 ```js run
 function showName(firstName, lastName, ...titles) {
@@ -64,7 +64,7 @@ showName("Julius", "Caesar", "Consul", "Imperator");
 ```
 
 ````warn header="The rest parameters must be at the end"
-The rest parameters gather all remaining arguments, so the following has no sense:
+残りのパラメータはすべての残っている引数を集めるため、次は意味がありません:
 
 ```js
 function f(arg1, ...rest, arg2) { // arg2 after ...rest ?!
@@ -72,14 +72,14 @@ function f(arg1, ...rest, arg2) { // arg2 after ...rest ?!
 }
 ```
 
-The `...rest` must always be the last.
+`...rest` は常に最後です。
 ````
 
-## The "arguments" variable
+## "arguments" 変数
 
-There is also a special array-like object named `arguments` that contains all arguments by their index.
+インデックスによってすべての引数を含む `arguments` と言う特別な配列のようなオブジェクトもあります。
 
-For instance:
+例:
 
 ```js run
 function showName() {
@@ -98,20 +98,20 @@ showName("Julius", "Caesar");
 showName("Ilya");
 ```
 
-In old times, rest parameters did not exist in the language, and `arguments` was the only way to get all arguments of the function no matter of their total number.
+昔は、残りのパラメータは言語に存在せず、`arguments` は引数の数に関係なく、関数のすべての引数を取得するための唯一の方法でした。
 
-And it still works, we can use it.
+そして、これはまだ動作するので使うことができます。
 
-But the downside is that although `arguments` is both array-like and iterable, it's not an array. It does not support array methods, so we can't say call `arguments.map(...)`.
+が、デメリットは `arguments` は配列ではなく、配列ライクで反復可能という点です。従って、配列メソッドをサポートしないので、 `arguments.map(...)` 呼び出しをすることは出来ません。
 
-Also, it always has all arguments in it, we can't capture them partially, like we did with rest parameters.
+また、すべての引数が常に含まれているため、残りのパラメータと同様に部分的に取り込むことはできません。
 
-So when we need these features, then rest parameters are preferred.
+したがって、これらの機能が必要な場合は、残りのパラメータが好ましいです。
 
 ````smart header="Arrow functions do not have `\"arguments\"`"
-If we access the `arguments` object from an arrow function, it takes them from the outer "normal" function.
+もしもアロー関数から `arguments` オブジェクトにアクセスすると、外部の "通常の" 関数からそれらを取得します。
 
-Here's an example:
+ここではその例です:
 
 ```js run
 function f() {
@@ -121,25 +121,25 @@ function f() {
 
 f(1); // 1
 ```
-As we remember, arrow functions don't have their own `this`. Now we know they don't have the special `arguments` object either.
 
+私たちが覚えているように、アロー関数は自身の `this` を持ちません。今度は特別な `arguments` オブジェクトも持っていないことが分かりました。
 ````
 
-## Spread operator [#spread-operator]
+## スプレッド 演算子 [#spread-operator]
 
-We've just seen how to get an array from the list of parameters.
+先ほど、私たちはパラメータのリストから配列を取得する方法をみました。
 
-But sometimes we need to do exactly the reverse.
+一方、我々はその逆を正確にする必要がある場合があります。
 
-For instance, there's a built-in function [Math.max](mdn:js/Math/max) that returns the greatest number from the list:
+例えば、リストから最大値を返す組み込み関数 [Math.max](mdn:js/Math/max) です。
 
 ```js run
 alert( Math.max(3, 5, 1) ); // 5
 ```
 
-Now let's say we have an array `[3, 5, 1]`. How to call `Math.max` with it?
+今、我々は配列 `[3 ,5, 1]` を持っているとします。それを使って `Math.max` を呼び出す方法はどうやるでしょう？
 
-Passing it "as it" won't work, because `Math.max` expects a list of numeric arguments, not a single array:
+それを "そのまま" 渡すと上手く動きません。なぜなら `Math.max` は数値引数のリストを期待しており、1つの配列がくることは期待していません。:
 
 ```js run
 let arr = [3, 5, 1];
@@ -149,13 +149,13 @@ alert( Math.max(arr) ); // NaN
 */!*
 ```
 
-...And surely we can't manually list items in the code `Math.max(arg[0], arg[1], arg[2])`, because we may be unsure how much are there. As our script executes, there might be many, or there might be none. Also that would be ugly.
+...そして、きっとコードの中で手動で項目をリストすることも出来ません(`Math.max(arg[0], arg[1], arg[2])`)。なぜなら私たちはそれがどれだけあるか分からないからです。我々のスクリプトが動くとき、もっと多くの数があるかもしれないし、全くないかもしれません。また、その書き方は格好悪いです。
 
-*Spread operator* to the rescue. It looks similar to rest parameters, also using `...`, but does quite the opposite.
+*スプレッド演算子 (Spread operator)* はそれを助けます。残りのパラメータと似ており、`...` を使いますが、全く反対のことをします。
 
-When `...arr` is used in the function call, it "expands" an iterable object `arr` into the list of arguments.
+関数呼び出しで `...arr` が使われるとき、反復可能なオブジェクト `arr` を引数のリストに展開します。
 
-For `Math.max`:
+`Math.max` の場合:
 
 ```js run
 let arr = [3, 5, 1];
@@ -163,7 +163,7 @@ let arr = [3, 5, 1];
 alert( Math.max(...arr) ); // 5 (spread turns array into a list of arguments)
 ```
 
-We also can pass multiple iterables this way:
+また、この方法で複数の iterables を渡すこともできます:
 
 ```js run
 let arr1 = [1, -2, 3, 4];
@@ -172,8 +172,7 @@ let arr2 = [8, 3, -8, 1];
 alert( Math.max(...arr1, ...arr2) ); // 8
 ```
 
-...And even combine the spread operator with normal values:
-
+...そして、通常の値とスプレッド演算子を組み合わせることもできます。:
 
 ```js run
 let arr1 = [1, -2, 3, 4];
@@ -182,7 +181,7 @@ let arr2 = [8, 3, -8, 1];
 alert( Math.max(1, ...arr1, 2, ...arr2, 25) ); // 25
 ```
 
-Also spread operator can be used to merge arrays:
+さらにスプレッド演算子は配列をマージするために使うこともできます:
 
 ```js run
 let arr = [3, 5, 1];
@@ -195,9 +194,9 @@ let merged = [0, ...arr, 2, ...arr2];
 alert(merged); // 0,3,5,1,2,8,9,15 (0, then arr, then 2, then arr2)
 ```
 
-In the examples above we used an array to demonstrate the spread operator, but any iterable will do.
+上の例では、スプレッド演算子の実演をするために配列を使いましたが、任意の iterable で動作します。
 
-For instance, here we use spread operator to turn the string into array of characters:
+例えば、ここではスプレッド演算子を使って、文字列を文字の配列にします:
 
 ```js run
 let str = "Hello";
@@ -205,11 +204,11 @@ let str = "Hello";
 alert( [...str] ); // H,e,l,l,o
 ```
 
-The spread operator internally uses iterators to gather elements, the same way as `for..of` does.
+スプレッド演算子は内部的にイテレータを使用して要素を集めます。これは `for..of` と同じ方法です。
 
-So, for a string, `for..of` returns characters and `...str` becomes `"H","e","l","l","o"`. The list of characters is passed to array initializer `[...str]`.
+従って、文字列では `for..of` は文字を返すので `...str` は `"H","e","l","l","o"` になります。文字のリストは配列初期化子 `[...str]` に渡されます。
 
-For this particular task we could also use `Array.from`, because it converts an iterable (like a string) into an array:
+この特定のタスクでは、`Array.from` を使うこともできます。それは iterable(文字列のようなもの) を配列に変換するからです:
 
 ```js run
 let str = "Hello";
@@ -218,30 +217,30 @@ let str = "Hello";
 alert( Array.from(str) ); // H,e,l,l,o
 ```
 
-The result is the same as `[...str]`.
+結果は `[...str]` と同じです。
 
-But there's a subtle difference between `Array.from(obj)` and `[...obj]`:
+しかし `Array.from(obj)` と `[...obj]` には微妙な違いがあります:
 
-- `Array.from` operates on both array-likes and iterables.
-- The spread operator operates only on iterables.
+- `Array.from`は配列ライクと iterables の両方で動作します。
+- スプレッド演算子は iterables でのみ動作します。
 
-So, for the task of turning something into an array, `Array.from` appears more universal.
+従って、何かを配列に変換するタスクにおいては、`Array.from` がより普遍的です。
 
 
-## Summary
+## サマリ
 
-When we see `"..."` in the code, it is either rest parameters or the spread operator.
+コード上で `"..."` を見るとき、それは残りのパラメータかスプレッド演算子です。
 
-There's an easy way to distinguish between them:
+それらを区別する簡単な方法があります:
 
-- When `...` is at the end of function parameters, it's "rest parameters" and gathers the rest of the list into the array.
-- When `...` occurs in a function call or alike, it's called a "spread operator" and expands an array into the list.
+- `...` が関数パラメータの最後にある場合、それは "残りのパラメータ" で、リストの残りを配列に集めます。
+- 関数呼び出しなどで `...` があると、それは "スプレッド演算子" と呼ばれ、配列をリストに展開します。
 
-Use patterns:
+利用パターン:
 
-- Rest parameters are used to create functions that accept any number of arguments.
-- The spread operator is used to pass an array to functions that normally require a list of many arguments.
+- 残りのパラメータは、任意の数の引数を受け入れる関数を作成するために使用されます。
+- スプレッド演算子は、多くの引数のリストを通常必要とする関数に配列を渡すために使用されます。
 
-Together they help to travel between a list and an array of parameters with ease.
+共にそれらはリストとパラメータの配列を簡単に移動するのに役立ちます。
 
-All arguments of a function call are also available in "old-style" `arguments`: array-like iterable object.
+関数呼び出しのすべての引数は "昔のスタイル" `arguments`(配列ライクな反復可能オブジェクト) も利用可能です。
