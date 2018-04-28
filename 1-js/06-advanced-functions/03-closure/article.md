@@ -1,23 +1,23 @@
 
-# Closure
+# Closure(クロージャ)
 
-JavaScript is a very function-oriented language. It gives a lot of freedom. A function can be created at one moment, then copied to another variable or passed as an argument to another function and called from a totally different place later.
+JavaScrip は非常に機能指向な言語です。それは多くの自由を与えます。ある時点で作成した関数は、別の変数にコピーしたり別の関数に引数として渡し、後で全く別の場所から呼ぶことができます。
 
-We know that a function can access variables outside of it. And this feature is used quite often.
+私たちは、関数が外側の変数にアクセスできることを知っています。そしてこの特徴は頻繁に使われます。
 
-But what happens when an outer variables changes? Does a function get a most recent value or the one that existed when the function was created?
+しかし、外部変数が変わると何が起きるでしょう？関数は最新の値、もしくは関数が作られたときに存在していた値を取得することになるでしょうか？
 
-Also, what happens when a function travels to another place of the code and is called from there -- does it get access to outer variables in the new place?
+また、関数がコードの別の場所に移動し、そこから呼ばれたとき何がおきるでしょう -- 新しい場所で外部変数にアクセスできるのでしょうか？
 
-Different languages behave differently here, in this chapter we cover JavaScript.
+別の言語はこことは異なる振る舞いをします。このチャプターでは、JavaScript について説明します。
 
 [cut]
 
-## A couple of questions
+## いくつかの質問
 
-Let's formulate two questions for the seed, and then study the internal mechanics piece-by-piece, so that you'll be able to answer these questions and more complex ones in the future.
+基本の2つの質問を定式化し、内部の仕組みを個別に調べて、これらの質問や将来より複雑な質問に答えることができるようにしましょう。
 
-1. The function `sayHi` uses an external variable `name`. When the function runs, which value of these two it's going to use?
+1. 関数 `sayHi` は外部変数 `name` を使います。関数が実行するとき、その2つの値のどちらが使われますか？
 
     ```js
     let name = "John";
@@ -33,12 +33,12 @@ Let's formulate two questions for the seed, and then study the internal mechanic
     */!*
     ```
 
-    Such situations are common in both browser and server-side development. A function may be scheduled to execute later than it is created, for instance after a user action or a network request.
+    このような状況は、ブラウザやサーバサイドでの開発両方で一般的です。関数は、作られた時間よりも後、例えばユーザアクションやネットワークのリクエストの後に実行がスケジュールされる場合があります。
 
-    So, the question is: does it pick up latest changes?
+    従って、質問は: 最新の変更を受け取りますか？
 
 
-2. The function `makeWorker` makes another function and returns it. That new function can be called from somewhere else. Will it have access to outer variables from its creation place or the invocation place or maybe both?
+2. 関数 `makeWorker` は別の関数を作り、それを返します。その新しい関数はどこか他の場所から呼び出すことができます。 作成場所や呼び出し場所、あるいはその両方から外部変数にアクセスできますか？
 
     ```js
     function makeWorker() {
@@ -61,61 +61,61 @@ Let's formulate two questions for the seed, and then study the internal mechanic
     ```
 
 
-## Lexical Environment
+## レキシカル環境/語彙環境(Lexical Environment)
 
-To understand what's going on, let's first discuss what a "variable" technically is.
+何が起きるか理解するために、まず "変数" が技術的に何であるかを議論しましょう。
 
-In JavaScript, every running function, code block and the script as a whole have an associated object named *Lexical Environment*.
+JavaScript では、すべての実行中の関数やコードブロック、スクリプト全体は *レキシカル環境* と呼ばれる関連オブジェクトを持っています。
 
-The Lexical Environment object consists of two parts:
+語彙環境オブジェクトは2つの部分から構成されます:
 
-1. *Environment Record* -- an object that has all local variables as its properties (and some other information like the value of `this`).
-2. A reference to the *outer lexical environment*, usually the one associated with the code lexically right outside of it (outside of the current figure brackets).
+1. *環境レコード(Environment Record)* -- プロパティとしてすべてのローカル変数をもつオブジェクトです(`this` の値のようにいくつかの他の情報も持っています)。
+2. *外部の語彙環境* への参照。通常、直近の外部のレキシカルなコードに関連付けられています（現在の波括弧の外側）。
 
-So, a "variable" is just a property of the special internal object, Environment Record. "To get or change a variable" means "to get or change the property of that object".
+なので、"変数" は単に、特別な内部オブジェクト、環境レコードのプロパティです。"変数を取得または変更する" とは、"そのオブジェクトのプロパティを取得または変更する" ことを意味します。
 
-For instance, in this simple code, there is only one Lexical Environment:
+例えば、このシンプルなコードでは、レキシカル環境が1つだけあります。:
 
 ![lexical environment](lexical-environment-global.png)
 
-This is a so-called global Lexical Environment, associated with the whole script. For browsers, all `<script>` tags share the same global environment.
+これは、スクリプト全体に関連付けられた、いわゆるグローバルレキシカル環境です。 ブラウザの場合、すべての `<script>` タグは同じグローバル環境を共有します。
 
-On the picture above, the rectangle means Environment Record (variable store) and the arrow means the outer reference. The global Lexical Environment has no outer one, so that's `null`.
+上の図の長方形は環境レコード(変数ストア)で、矢印は外部参照を意味します。グローバルレキシカル環境は外部参照を持っていないので、 `null` です。
 
-Here's the bigger picture of how `let` variables work:
+これは、`let` 変数がどのように動作するかを示す図です:
 
 ![lexical environment](lexical-environment-global-2.png)
 
-Rectangles on the right-hand side demonstrate how the global Lexical Environment changes during the execution:
+右側の長方形は、実行の間でどのようにグローバルレキシカル環境が変わるかを示しています。:
 
-1. When the script starts, the Lexical Environment is empty.
-2. The `let phrase` definition appears. Now it initially has no value, so `undefined` is stored.
-3. `phrase` is assigned.
-4. `phrase` refers to a new value.
+1. スクリプトがスタートしたとき、レキシカル環境は空です。
+2. `let phrase` 定義が現れました。今は初期値がないので、 `undefined` が格納されます。
+3. `phrase` が代入されます。
+4. `phrase` が新しい値を参照します。
 
-Everything looks simple for now, right?
+今のところすべてシンプルに見えますね。
 
-To summarize:
+要約すると:
 
-- A variable is a property of a special internal object, associated with the currently executing block/function/script.
-- Working with variables is actually working with the properties of that object.
+- 変数は特別な内部オブジェクトのプロパティで、現在の実行ブロック/関数/スクリプトと関連付けられています。
+- 変数を使った作業は、実際にはそのオブジェクトのプロパティを使って作業しています
 
-### Function Declaration
+### 関数宣言
 
-Function Declarations are special. Unlike `let` variables, they are processed not when the execution reaches them, but when a Lexical Environment is created. For the global Lexical Environment, it means the moment when the script is started.
+関数宣言は特別です。`let` 変数とは違い、実行時に処理されるのではなく、レキシカル環境が作られたときに処理されます。グローバルレキシカル環境では、スクリプトが開始される瞬間を意味します。
 
-...And that is why we can call a function declaration before it is defined.
+...そのため、関数宣言を定義する前に関数宣言を呼び出すことができます。
 
-The code below demonstrates that the Lexical Environment is non-empty from the beginning. It has `say`, because that's a Function Declaration. And later it gets `phrase`, declared with `let`:
+下のコードはレキシカル環境は最初から空ではないことを示しています。関数宣言なので `say` を持っています。その後 `let` で宣言された `phrase` を取得します:
 
 ![lexical environment](lexical-environment-global-3.png)
 
 
-### Inner and outer Lexical Environment
+### 内外のレキシカル環境
 
-During the call `say()` uses an outer variable, so let's see the details of what's going on.
+呼び出しの間、`say()` は外部変数を使います。何が起きているか見てみましょう。
 
-First, when a function runs, a new function Lexical Environment is created automatically. That's a general rule for all functions. That Lexical Environment is used to store local variables and parameters of the call.
+まず、関数を実行するとき、新しい関数のレキシカル環境が自動的に作られます。それはすべての関数での一般的なルールです。そのレキシカル環境はローカル変数や呼び出しパラメータを格納するために使われます。
 
 <!--
 ```js
@@ -129,35 +129,35 @@ say("John"); // Hello, John
 ```
 -->
 
-Here's the picture of Lexical Environments when the execution is inside `say("John")`, at the line labelled with an arrow:
+これは、実行が `say("John")` の内部にあるときで、矢印のついた行にあるレキシカル環境の図です。:
 
 ![lexical environment](lexical-environment-simple.png)
 
-During the function call we have two Lexical Environments: the inner one (for the function call) and the outer one (global):
+関数呼び出しの間、2つのレキシカル環境があります: 内部のもの(関数呼び出しのため)と、外部のもの(グローバル)です:
 
-- The inner Lexical Environment corresponds to the current execution of  `say`. It has a single variable: `name`, the function argument. We called `say("John")`, so the value of `name` is `"John"`.
-- The outer Lexical Environment is the global Lexical Environment.
+- 内部のレキシカル環境は現在の `say` の実行に対応しています。それは1つ変数(`name`)を持っており、それは関数の引数です。私たちは `say("John")` を呼んだので、 `name` は `"John"` です。
+- 外部のレキシカル環境はグローバルレキシカル環境です。
 
-The inner Lexical Environment has the `outer` reference to the outer one.
+内部のレキシカル環境は外部のものへの `外部` 参照を持っています。
 
-**When a code wants to access a variable -- it is first searched in the inner Lexical Environment, then in the outer one, then the more outer one and so on until the end of the chain.**
+**コードが変数にアクセスしたいとき -- 最初に内部のレキシカル環境を探します。その次に外部を探し、チェインの最後になるまで繰り返します**
 
-If a variable is not found anywhere, that's an error in strict mode. Without `use strict`, an assignment to an undefined variable creates a new global variable, for backwards compatibility.
+もし変数がどのにもない場合、strict モードではエラーになります。`use strict` がなければ、未定義変数への代入は下位互換性のために新しいグローバル変数を作成します。
 
-Let's see how the search proceeds in our example:
+我々の例でどのように検索されるか見てみましょう:
 
-- When the `alert` inside `say` wants to access `name`, it finds it immediately in the function Lexical Environment.
-- When it wants to access `phrase`, then there is no `phrase` locally, so it follows the `outer` reference and finds it globally.
+- `say` の内側にある `alert` が `name` にアクセスしたいとき、関数のレキシカル環境の中からすぐにそれを見つけます。
+- `phrase` にアクセスしたいとき、ローカルには `phrase` がないので、続いて `外部` 参照を行い、グローバルでそれを見つけます。
 
 ![lexical environment lookup](lexical-environment-simple-lookup.png)
 
-Now we can give the answer to the first seed question from the beginning of the chapter.
+これで、このチャプターの最初にある最初の基本の質問に答えることができます。
 
-**A function gets outer variables as they are now, the most recent values.**
+**関数は外部変数を最新の値として取得します。**
 
-That's because of the described mechanism. Old variable values are not saved anywhere. When a function wants them, it takes the current values from its own or an outer Lexical Environment.
+これは、説明されたメカニズムのためです。 古い変数の値はどこにも保存されません。 関数がそれらを必要とするとき、それはそれ自身または外部のレキシカル環境から現在の値を取ります。
 
-So the answer to the first question is `Pete`:
+従って、最初の質問の答えは `Pete` です:
 
 ```js run
 let name = "John";
@@ -173,32 +173,30 @@ sayHi(); // Pete
 */!*
 ```
 
+上のコードの実行フローは次の通りです:
 
-The execution flow of the code above:
-
-1. The global Lexical Environment has `name: "John"`.
-2. At the line `(*)` the global variable is changed, now it has `name: "Pete"`.
-3. When the function `say()`, is executed and takes `name` from outside. Here that's from the global Lexical Environment where it's already `"Pete"`.
-
+1. グローバルレキシカル環境は `name` を持っています: `"John"`.
+2. `(*)` の行でグローバル変数が変更され、今 `name` は　`"Pete"` です。
+3. 関数 `say()` が実行され、外部から `name` を取得します。ここでは、それはグローバルレキシカル環境であり、`"Pete"` です。
 
 ```smart header="One call -- one Lexical Environment"
-Please note that a new function Lexical Environment is created each time a function runs.
+新しい関数のレキシカル環境は関数が実行するたびに作られることに注意してください。
 
-And if a function is called multiple times, then each invocation will have its own Lexical Environment, with local variables and parameters specific for that very run.
+また、関数が複数回呼び出された場合、各呼び出しには自身のレキシカル環境があり、ローカル変数とその実行に固有のパラメーターがあります。
 ```
 
 ```smart header="Lexical Environment is a specification object"
-"Lexical Environment" is a specification object. We can't get this object in our code and manipulate it directly. JavaScript engines also may optimize it, discard variables that are unused to save memory and perform other internal tricks, but the visible behavior should be as described.
+"レキシカル環境" は仕様上のオブジェクトです。私たちはコードからそのオブジェクトを取得したり、直接操作することはできません。JavaScriptエンジンはメモリを節約するために使っていない変数を破棄したり、他の内部トリックを行うと言った最適化をする場合がありますが、見える振る舞いは説明した通りである必要があります。
 ```
 
 
-## Nested functions
+## ネストされた関数
 
-A function is called "nested" when it is created inside another function.
+関数は、別の関数の内部で作成されたとき、"ネストされた" と呼ばれます。
 
-Technically, that is easily possible.
+技術的には、それは簡単に可能です。
 
-We can use it to organize the code, like this:
+私たちは、これを使ってコードを整理できます:
 
 ```js
 function sayHiBye(firstName, lastName) {
@@ -214,11 +212,11 @@ function sayHiBye(firstName, lastName) {
 }
 ```
 
-Here the *nested* function `getFullName()` is made for convenience. It can access the outer variables and so can return the full name.
+ここでの *ネストされた* 関数 `getFullName()` は便宜のために作られています。それは外部変数にアクセスすることができるので、フルネームを返すことができます。
 
-What's more interesting, a nested function can be returned: as a property of a new object (if the outer function creates an object with methods) or as a result by itself. And then used somewhere else. No matter where, it still keeps the access to the same outer variables.
+より興味深い点は、ネストされた関数を返すことができることです: 新しいオブジェクトのプロパティとして(もし外部関数がメソッドをもつオブジェクトを作った場合)、または結果としてそれ自身を。そして、他の場所で使用されています。 どこにいても、同じ外部変数へのアクセスを維持します。
 
-An example with the constructor function (see the chapter <info:constructor-new>):
+コンストラクタ関数を持つ例です(チャプター <info:constructor-new> を参照):
 
 ```js run
 // constructor function returns a new object
@@ -234,7 +232,7 @@ let user = new User("John");
 user.sayHi(); // the method code has access to the outer "name"
 ```
 
-An example with returning a function:
+関数を返す例です:
 
 ```js run
 function makeCounter() {
@@ -252,35 +250,35 @@ alert( counter() ); // 1
 alert( counter() ); // 2
 ```
 
-Let's go on with the `makeCounter` example. It creates the "counter" function that returns the next number on each invocation. Despite being simple, slightly modified variants of that code have practical uses, for instance, as a [pseudorandom number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator), and more. So the example is not quite artificial.
+`makeCounter` の例を続けましょう。それは各呼び出しで次の数値を返す "counter" 関数を作ります。シンプルであるにも関わらず、そのコードからわずかに変更されたバリアントは実践で使われています。例えば、[擬似乱数生成器(pseudorandom number generator)](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) などとして。したがって、この例はあまり不自然ではありません。
 
-How does the counter work internally?
+counter は内部でどのように動作しているのでしょう？
 
-When the inner function runs, the variable in `count++` is searched from inside out. For the example above, the order will be:
+内部関数が実行されると、`count++` の変数を内側から外に検索されます。上の例では、その順番は次のようになります。:
 
 ![](lexical-search-order.png)
 
-1. The locals of the nested function.
-2. The variables of the outer function.
-3. ...And further until it reaches globals.
+1. ネストされた関数のローカル
+2. 外部関数の変数
+3. ...そしてさらにグローバルに到達するまで
 
-In that example `count` is found on the step `2`. When an outer variable is modified, it's changed where it's found. So `count++` finds the outer variable and increases it in the Lexical Environment where it belongs. Like if we had `let count = 1`.
+この例では、`count` はステップ `2` で見つかります。外部変数が変更されると、それが見つかった場所が変わります。従って、`count++` は属するレキシカル環境で外部変数を見つけ増加させます。
 
-Here are two questions for you:
+ここであなたに2つの質問があります:
 
-1. Can we somehow reset the `counter` from the code that doesn't belong to `makeCounter`? E.g. after `alert` calls in the example above.
-2. If we call `makeCounter()` multiple times -- it returns many `counter` functions. Are they independent or do they share the same `count`?
+1. `counter` を `makeCounter` に属していないコードからリセットすることはできますか？ 例えば。 上記の例で `alert` 呼び出し後で。
+2. もし `makeCounter()` を複数回呼び出した場合 -- それは複数の `counter` 関数を返します。それらは独立していますか？それとも同じ `count` を共有しますか？
 
-Try to answer them before going on reading.
+続きを読む前に考えてみてください。
 
-...Are you done?
+...答えはでましたか？
 
-Okay, here we go with the answers.
+では、答えをみていきましょう。
 
-1. There is no way. The `counter` is a local function variable, we can't access it from the outside.
-2. For every call to `makeCounter()` a new function Lexical Environment is created, with its own `counter`. So the resulting `counter` functions are independent.
+1. 方法はありません。`counter` はローカル関数の変数であり、外部からアクセスすることはできません。
+2. すべての `makeCounter()` の呼び出しで、自身の `counter` を持つ新しい関数のレキシカル環境が作られます。従って、`counter` 関数の結果は独立します。
 
-Here's the demo:
+デモです:
 
 ```js run
 function makeCounter() {
@@ -299,104 +297,103 @@ alert( counter1() ); // 1
 alert( counter2() ); // 0 (independent)
 ```
 
+恐らく、外部変数の状況は、今のところはっきりしています。しかし、より複雑な状況では、内部のより深い理解が必要になります。なので次に進みましょう。
 
-Probably, the situation with outer variables is quite clear for you as of now. But in more complex situations a deeper understanding of internals may be required. So let's go ahead.
+## 詳細な環境
 
-## Environments in detail
+今、クロージャが一般的にどのように動作するかを理解するにつれ、最終的に要点まで降りてきました。
 
-Now as you understand how closures work generally, we may finally descend to the very nuts and bolts.
+ここでは、`makeCounter` の例では何が起こっているのかを段階的に示しています。すべてを理解していることを確認してください。私たちがまだカバーしていない追加の `[[Environment]]` プロパティに注意してください。
 
-Here's what's going on in the `makeCounter` example step-by-step, follow it to make sure that you understand everything. Please note the additional `[[Environment]]` property that we didn't cover yet.
-
-1. When the script has just started, there is only global Lexical Environment:
+1. スクリプトが開始された直後は、グローバルレキシカル環境だけがあります:
 
     ![](lexenv-nested-makecounter-1.png)
 
-    At that starting moment there is only `makeCounter` function, because it's a Function Declaration. It did not run yet.
+    開始時点では、`makeCounter` 関数だけがあります。なぜなら、それが関数宣言だからです。それはまだ実行されていません。
 
-    All functions "on birth" receive a hidden property `[[Environment]]` with the reference to the Lexical Environment of their creation. We didn't talk about it yet, but technically that's a way how the function knows where it was made.
+    "出現した" すべての関数は、作成されたレキシカル環境への参照を持つ隠しプロパティ `[[Environment]]` を受け取ります。私たちは、まだこれについて話していませんでしたが、技術的には関数がどのように作られたのかを知る方法です。。
 
-    Here, `makeCounter` is created in the global Lexical Environment, so `[[Environment]]` keeps the reference to it.
+    ここで、`makeCounter` はグローバルレキシカル環境に作られるので、`[[Environment]]` はそれを参照し続けます。
 
-    In other words, a function is "imprinted" with a reference to the Lexical Environment where it was born. And `[[Environment]]` is the hidden function property that has that reference.
+    言い換えると、関数は、それが生まれたレキシカル環境への参照を "刻印" されています。 そして `[[Environment]]`はその参照を持つ隠れた関数プロパティです。
 
-2. Then the code runs on, and the call to `makeCounter()` is performed. Here's the picture for the moment when the execution is on the first line inside `makeCounter()`:
+2. 次に、コードが実行され、`makeCounter()` の呼び出しが行われます。これは、実行が `makeCounter()` の処理の最初の行の時点の図です。
 
     ![](lexenv-nested-makecounter-2.png)
 
-    At the moment of the call of `makeCounter()`, the Lexical Environment is created, to hold its variables and arguments.
+    `makeCounter()` 呼び出しの時点で、その変数や引数を保持するためにレキシカル環境が作られます。
 
-    As all Lexical Environments, it stores two things:
-    1. An Environment Record with local variables. In our case `count` is the only local variable (appears in it when the line with `let count` is executed).
-    2. The outer lexical reference, which is set to `[[Environment]]` of the function. Here `[[Environment]]` of `makeCounter` references the global Lexical Environment.
+    すべてのレキシカル環境では2つのものを保持します:
+    1. ローカル変数を持つ環境レコード。我々のケースでは、`count` は唯一のローカル変数です(`let count` の行が実行されたとき出現します)。
+    2. 外部のレキシカルへの参照。それは関数の `[[Environment]]` にセットされています。ここでは `makeCounter` の `[[Environment]]` はグローバルレキシカル環境を参照します。
 
-    So, now we have two Lexical Environments: the first one is global, the second one is for the current `makeCounter` call, with the outer reference to global.
+    従って、今私たちは2つのレキシカル環境を持っています: 最初のはグローバル、2つ目はグローバルへの外部参照を持つ現在の `makeCounter` 呼び出し。
 
-3. During the execution of `makeCounter()`, a tiny nested function is created.
+3. `makeCounter` の実行中、小さいネストされた関数が作られます。
 
-    It doesn't matter whether the function is created using Function Declaration or Function Expression. All functions get the `[[Environment]]` property that references the Lexical Environment where they were made. So that new tiny nested function gets it as well.
+    関数が関数宣言、関数式どちらを使って作られたのかは関係ありません。すべての関数は、作成されたレキシカル環境を参照する `[[Environment]]` プロパティを取得します。従って、小さなネストされた関数も同様に取得します。
 
-    For our new nested function the value of `[[Environment]]` is the current Lexical Environment of `makeCounter()` (where it was born):
+    新しいネストされた関数の `[[Environment]]` の値は `makeCounter()` の現在のレキシカル環境です。:
 
     ![](lexenv-nested-makecounter-3.png)
 
-    Please note that on this step the inner function was created, but not yet called. The code inside `function() { return count++; }` is not running, we're going to return it.
+    このステップでは内部関数が作られますが、まだ呼ばれていないことに注意してください。`function() { return count++; }` の内側のコードは実行されておらず、私たちはそれを返します。
 
-4. As the execution goes on, the call to `makeCounter()` finishes, and the result (the tiny nested function) is assigned to the global variable `counter`:
+4. 実行が進み、`makeCounter()` 呼び出しが終わると、結果(小さなネストされた関数)がグローバル変数 `counter` に代入されます。
 
     ![](lexenv-nested-makecounter-4.png)
 
-    That function has only one line: `return count++`, that will be executed when we run it.
+    その関数は1行だけです: `return count++`。それは呼び出されたときに実行されます。
 
-5. When the `counter()` is called, an "empty" Lexical Environment is created for it. It has no local variables by itself. But the `[[Environment]]` of `counter` is used as the outer reference for it, so it has access to the variables of the former `makeCounter()` call, where it was created:
+5. `counter()` が呼ばれたとき、"空の" レキシカル環境が作られます。それはローカル変数を持っていませんが、`counter` の `[[Environment]]` はその外部参照として使われるので、それが作られた場所である、前の `makeCounter()` 呼び出しの変数にアクセスすることができます。
 
     ![](lexenv-nested-makecounter-5.png)
 
-    Now if it accesses a variable, it first searches its own Lexical Environment (empty), then the Lexical Environment of the former `makeCounter()` call, then the global one.
+    今、変数にアクセスすると、最初に自身のレキシカル環境(空です)を探します。次に前の `makeCounter()` 呼び出しのレキシカル環境、次にグローバルです。
 
-    When it looks for `count`, it finds it among the variables `makeCounter`, in the nearest outer Lexical Environment.
+    `count` を探すとき、最も近い外部のレキシカル環境、`makeCounter` 変数の中でそれを見つけます。
 
-    Please note how memory management works here. When `makeCounter()` call finished some time ago, its Lexical Environment was retained in memory, because there's a nested function with `[[Environment]]` referencing it.
+    ここでどのようにメモリ管理がされているか注意してください。 `makeCounter()` 呼び出しが少し前に終わったとき、その `[[Environment]]` を参照するネストされた関数があるので、そのレキシカル環境はメモリに保持されています。
 
-    Generally, a Lexical Environment object lives as long as there is a function which may use it. And when there are none, it is cleared.
+    一般的に、レキシカル環境オブジェクトは、それを使用する可能性のある関数が存在する限り存続します。 それがなければ、それはクリアされます。
 
-6. The call to `counter()` not only returns the value of `count`, but also increases it. Note that the modification is done "in place". The value of `count` is modified exactly in the environment where it was found.
+6. `counter()` の呼び出しは `count` の値を返すだけでなく、その増加も行います。変更は "決まった場所" で行われることに注意してください。`count` の値は、正確に見つかった環境で変更されます。
 
     ![](lexenv-nested-makecounter-6.png)
 
-    So we return to the previous step with the only change -- the new value of `count`. The following calls all do the same.
+    従って、変更(`count` の新しい値)だけ前のステップに戻ります。次の呼び出しはすべて同じです。
 
-7. Next `counter()` invocations do the same.
+7. 次の `counter()` 呼び出しも同じです。
 
-The answer to the second seed question from the beginning of the chapter should now be obvious.
+これで、このチャプターの最初の2つ目の基本の質問への答えは明らかになったはずです。
 
-The `work()` function in the code below uses the `name` from the place of its origin through the outer lexical environment reference:
+下のコードの `work()` 関数は、その起源の場所から外部のレキシカル環境への参照を通じて `name` を使います。:
 
 ![](lexenv-nested-work.png)
 
-So, the result is `"Pete"` here.
+従って、結果は `"Pete"` です。
 
-...But if there were no `let name` in `makeWorker()`, then the search would go outside and take the global variable as we can see from the chain above. In that case it would be `"John"`.
+...しかし、もし `makeWorker()` に `let name` がなかった場合は外側へ探しに行き、上のチェインで分かるようにグローバル変数を取得します。この場合、結果は `"John"` になります。
 
 ```smart header="Closures"
-There is a general programming term "closure", that developers generally should know.
+開発者が一般的に知っておくべき、一般的なプログラミング用語 "クロージャ" があります。
 
-A [closure](https://en.wikipedia.org/wiki/Closure_(computer_programming)) is a function that remembers its outer variables and can access them. In some languages, that's not possible, or a function should be written in a special way to make it happen. But as explained above, in JavaScript all functions are naturally closures (there is only one exclusion, to be covered in <info:new-function>).
+[クロージャ(closure)](https://en.wikipedia.org/wiki/Closure_(computer_programming)) は外部変数を記憶し、それらにアクセスできる関数です。いくつかの言語ではそれは不可能、もしくはそれを実現するために特別な方法で関数を書く必要があります。しかし、上で説明したとおり、JavaScriptにおいては、すべての関数は自然にクロージャです(1つだけ例外があります。それについては <info:new-function> で説明します)。
 
-That is: they automatically remember where they are created using a hidden `[[Environment]]` property, and all of them can access outer variables.
+つまり: それらは隠された `[[Environment]]`プロパティを使ってどこに作成されたのかを自動的に覚えていて、すべてが外部変数にアクセスできます。
 
-When on an interview a frontend developer gets a question about "what's a closure?", a valid answer would be a definition of the closure and an explanation that all functions in JavaScript are closures, and maybe few more words about technical details: the `[[Environment]]` property and how Lexical Environments work.
+面談でフロントエンドの開発者が「クロージャは何ですか？」という質問を受けたとき、有効な回答はクロージャの定義と、JavaScriptにおいてはすべての関数がクロージャであること、またその他の技術的に詳細な用語です: `[[Environment]]` プロパティとレキシカル環境の仕組み。
 ```
 
-## Code blocks and loops, IIFE
+## コードブロックとループ、IIFE(即時実行関数)
 
-The examples above concentrated on functions. But Lexical Environments also exist for code blocks `{...}`.
+上の例では関数に焦点を当てていました。しかしレキシカル環境はコードブロック `{...}` にも存在します。
 
-They are created when a code block runs and contain block-local variables. Here's a couple of examples.
+コードブロックが実行され、ブロック内のローカル変数を含むときそれらが作られます。ここでいくつかの例です。
 
 ## If
 
-In the example below, when the execution goes into `if` block, the new "if-only" Lexical Environment is created for it:
+下の例では、実行が `if` ブロックに来たとき、新しい "ifだけの" レキシカル環境が作られます。:
 
 <!--
 ```js run
@@ -414,13 +411,13 @@ alert(user); // Error, can't see such variable!
 
 ![](lexenv-if.png)
 
-The new Lexical Environment gets the enclosing one as the outer reference, so `phrase` can be found. But all variables and Function Expressions declared inside `if` reside in that Lexical Environment and can't be seen from the outside.
+新しいレキシカル環境はその外部への参照をもつため `phrase` を見つけることができます。しかし、`if` の中で宣言されたすべての変数と関数式はレキシカル環境の中にあり、外部からは見えません。
 
-For instance, after `if` finishes, the `alert` below won't see the `user`, hence the error.
+例えば、`if` が終わった後、下にある `alert` は `user`が見えないため、エラーになります。
 
 ## For, while
 
-For a loop, every run has a separate Lexical Environment. If the variable is declared in `for`, then it's also local to that Lexical Environment:
+ループでは、すべての実行が別々のレキシカル環境を持っています。もし変数が `for` で宣言されると、そのレキシカル環境のローカル変数になります:
 
 ```js run
 for (let i = 0; i < 10; i++) {
@@ -431,19 +428,19 @@ for (let i = 0; i < 10; i++) {
 alert(i); // Error, no such variable
 ```
 
-That's actually an exception, because `let i` is visually outside of `{...}`. But in fact each run of the loop has its own Lexical Environment with the current `i` in it.
+これは例外です。なぜなら、`let i` は視覚的に `{...}` の外にあるからです。しかし、実際にはループの各実行はその中に現在の `i` を持つレキシカル環境を持ちます。
 
-After the loop, `i` is not visible.
+ループの後、`i` は見えません。
 
-### Code blocks
+### コードブロック
 
-We also can use a "bare" code block `{…}` to isolate variables into a "local scope".
+また、私たちは変数を "ローカルスコープ" に分離するため、"裸の" コードブロック `{…}` を使うことが出来ます。
 
-For instance, in a web browser all scripts share the same global area. So if we create a global variable in one script, it becomes available to others. But that becomes a source of conflicts if two scripts use the same variable name and overwrite each other.
+例えば、Webブラウザでは、すべてのスクリプトは同じグローバル領域で共有されています。従って、もしもあるスクリプトの中にグローバル変数を作ると、他からも利用可能になります。が、2つのスクリプトが同じ変数名を使っていたりお互いにオーバライドしている場合、ソースの衝突が起きます。
 
-That may happen if the variable name is a widespread word, and script authors are unaware of each other.
+変数名が広く使われていて、スクリプトの作者が互いを認識していない場合に起こります。
 
-If we'd like to evade that, we can use a code block to isolate the whole script or an area in it:
+これを回避したい場合は、コードブロックを使用して、スクリプト全体またはスクリプト内の領域を分離することができます。:
 
 ```js run
 {
@@ -457,13 +454,13 @@ If we'd like to evade that, we can use a code block to isolate the whole script 
 alert(message); // Error: message is not defined
 ```
 
-The code outside of the block (or inside another script) doesn't see variables in it, because a code block has its own Lexical Environment.
+ブロックの外のコード(もしくは別のスクリプト)はその中の変数が見えません。なぜならコードブロックは自身のレキシカル環境を持つからです。
 
-### IIFE
+### IIFE(即時実行関数)
 
-In old scripts, one can find so-called "immediately-invoked function expressions" (abbreviated as IIFE) used for this purpose.
+古いスクリプトでは、所謂 "即時実行関数(immediately-invoked function expressions)" (IIFEと略します) がこの目的に使われます。
 
-They look like this:
+このようなものです。:
 
 ```js run
 (function() {
@@ -475,9 +472,10 @@ They look like this:
 })();
 ```
 
-Here a Function Expression is created and immediately called. So the code executes right now and has its own private variables.
+関数式が作られすぐに呼ばれます。従って、コードはすぐに実行され自身のプライベート変数を持ちます。
 
-The Function Expression is wrapped with brackets `(function {...})`, because when JavaScript meets `"function"` in the main code flow, it understands it as a start of Function Declaration. But a Function Declaration must have a name, so there will be an error:
+関数式は括弧 `(function {...})` で囲まれています。なぜなら、JavaScriptはメインコードフローの中で `"function"` を見つけると、関数宣言の開始と理解します。しかし、関数宣言は名前が必須なので、エラーになります。
+:
 
 ```js run
 // Error: Unexpected token (
@@ -490,7 +488,7 @@ function() { // <-- JavaScript cannot find function name, meets ( and gives erro
 }();
 ```
 
-We can say "okay, let it be Function Declaration, let's add a name", but it won't work. JavaScript does not allow Function Declarations to be called immediately:
+"大丈夫、関数宣言にして名前をつけよう" と言うことはできますが、これは動作しません。JavaScriptでは関数宣言をすぐに呼ぶことができません。:
 
 ```js run
 // syntax error because of brackets below
@@ -499,9 +497,9 @@ function go() {
 }(); // <-- can't call Function Declaration immediately
 ```
 
-...So the brackets are needed to show JavaScript that the function is created in the context of another expression, and hence it's a Function Expression. Needs no name and can be called immediately.
+...従って、関数が別の式のコンテキストで作られたJavaScriptを表示するために括弧が必要になります。名前が不要で、すぐに呼び出すことができます。
 
-There are other ways to tell JavaScript that we mean Function Expression:
+JavaScriptには、関数式を意味する他の方法があります:
 
 ```js run
 // Ways to create IIFE
@@ -523,13 +521,13 @@ There are other ways to tell JavaScript that we mean Function Expression:
 }();
 ```
 
-In all cases above we declare a Function Expression and run it immediately.
+上のすべてのケースで、私たちは関数式を宣言しすぐにそれを実行することが出来ます。
 
-## Garbage collection
+## ガベージコレクション
 
-Lexical Environment objects that we've been talking about are subjects to same memory management rules as regular values.
+私たちが話してきたレキシカル環境オブジェクトは、通常の値と同じメモリ管理ルールの対象です。
 
-- Usually, Lexical Environment is cleaned up after the function run. For instance:
+- 通常、レキシカル環境は関数が実行された後にクリーンアップされます。例:
 
     ```js
     function f() {
@@ -540,9 +538,9 @@ Lexical Environment objects that we've been talking about are subjects to same m
     f();
     ```
 
-    Here two values are technically the properties of the Lexical Environment. But after `f()` finishes that Lexical Environment becomes unreachable, so it's deleted from the memory.
+    ここで2つの値は技術的にレキシカル環境のプロパティです。しかし `f()` が終わった後、レキシカル環境は到達不能になるので、メモリから削除されます。
 
-- ...But if there's a nested function that is still reachable after the end of `f`, then its `[[Environment]]` reference keeps the outer lexical environment alive as well:
+- ...しかし、も `f` の後でもまだ到達可能なネストされた関数がある場合、その `[[Environment]]` 参照は外部のレキシカル環境を生かし続けます。:
 
     ```js
     function f() {
@@ -558,7 +556,7 @@ Lexical Environment objects that we've been talking about are subjects to same m
     let g = f(); // g is reachable, and keeps the outer lexical environment in memory
     ```
 
-- Please note that if `f()` is called many times, and resulting functions are saved, then the corresponding Lexical Environment objects will also be retained in memory. All 3 of them in the code below:
+- もし `f()` が何度も呼ばれ、結果の関数が保持される場合、対応するレキシカル環境オブジェクトもまたメモリに残ります。下のコードでは3つすべて:
 
     ```js
     function f() {
@@ -573,7 +571,7 @@ Lexical Environment objects that we've been talking about are subjects to same m
     let arr = [f(), f(), f()];
     ```
 
-- A Lexical Environment object dies when it becomes unreachable. That is: when no nested functions remain that reference it. In the code below, after `g` becomes unreachable, the `value` is also cleaned from the memory;
+- レキシカル環境オブジェクトは到達不能になったときに死にます。すまり: それを参照するネストされた関数が残っていないときです。下のコードでは、 `g` が到達不能になった後、`value` もまたメモリからクリアされます:
 
     ```js
     function f() {
@@ -590,17 +588,17 @@ Lexical Environment objects that we've been talking about are subjects to same m
     g = null; // ...and now the memory is cleaned up
     ```
 
-### Real-life optimizations
+### 現実の最適化(Real-life optimizations)
 
-As we've seen, in theory while a function is alive, all outer variables are also retained.
+これまで見てきたように、理論的には関数が生きている間、すべての外部変数も保持されます。
 
-But in practice, JavaScript engines try to optimize that. They analyze variable usage and if it's easy to see that an outer variable is not used -- it is removed.
+しかし、実際には、JavaScriptエンジンはそれを最適化しようとします。変数の使用状況を分析し、外部変数が使用されていないことがわかりやすい場合は削除されます。
 
-**An important side effect in V8 (Chrome, Opera) is that such variable will become unavailable in debugging.**
+**V8(Chrome, Opera)の重要な副作用はこのような変数はデバッグでは利用できなくなることです。**
 
-Try running the example below with the open Developer Tools in Chrome.
+Chromeで Developer Tools を開いて下の例を実行してみてください。
 
-When it pauses, in console type `alert(value)`.
+一時停止したとき、console で `alert(value)` をタイプしてください。
 
 ```js run
 function f() {
@@ -617,9 +615,9 @@ let g = f();
 g();
 ```
 
-As you could see -- there is no such variable! In theory, it should be accessible, but the engine optimized it out.
+あなたが見た通り -- このような変数はありません! 理論的にはアクセスできるはずですが、エンジンが最適化しています。
 
-That may lead to funny (if not such time-consuming) debugging issues. One of them -- we can see a same-named outer variable instead of the expected one:
+これは面白い（そうでなくても時間のかかる）デバッグの問題につながる可能性があります。 そのうちの1つ - 期待されるものの代わりに、同じ名前の外部変数を見ることができます:
 
 ```js run global
 let value = "Surprise!";
@@ -639,8 +637,8 @@ g();
 ```
 
 ```warn header="See ya!"
-This feature of V8 is good to know. If you are debugging with Chrome/Opera, sooner or later you will meet it.
+V8 のこの機能は知っておくと良いです。もしも Chrome/Opera でデバッグしている場合、遅かれ早かれこれに遭遇するでしょう。
 
-That is not a bug of debugger, but a special feature of V8. Maybe it will be changed sometime.
-You always can check for it by running examples on this page.
+これはデバッガのバグではなく、V8の特別な機能です。時々変わるかもしれません。
+このページの例を実行することで、いつでもチェックすることができます。
 ```
