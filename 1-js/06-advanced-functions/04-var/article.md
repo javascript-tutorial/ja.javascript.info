@@ -1,21 +1,21 @@
 
-# The old "var"
+# 古い "var"
 
-In the very first chapter about [variables](info:variables), we mentioned three ways of variable declaration:
+[variables](info:variables) の最初の章では、変数宣言の3つの方法について述べました:
 
 1. `let`
 2. `const`
 3. `var`
 
-`let` and `const` behave exactly the same way in terms of Lexical Environments.
+`let` と `const` はレキシカル環境に関して全く同じように振る舞います。
 
-But `var` is a very different beast, that originates from very old times. It's generally not used in modern scripts, but still lurks in the old ones.
+しかし、`var` は大きく異なる獣で、それは非常に古くから始まっています。一般的に `var` は現在のスクリプトでは使われませんが、古いのもの中に潜んでいます。
 
-If you don't plan meeting such scripts you may even skip this chapter or postpone it, but then there's a chance that it bites you later.
+もしあなたがこのようなスクリプトに出会う予定がなければ、このチャプターをスキップまたは後回しにして構いません。しかし、後でそれに噛みつかれることがあるかもしれません。
 
 [cut]
 
-From the first sight, `var` behaves similar to `let`. That is, declares a variable:
+一目見る限りだと、`var` は `let` と同じ振る舞いをします。つまり、変数を宣言します:
 
 ```js run
 function sayHi() {
@@ -29,13 +29,13 @@ sayHi();
 alert(phrase); // Error, phrase is not defined
 ```
 
-...But here are the differences.
+...しかし、ここには違いがあります。
 
-## "var" has no block scope
+## "var" はブロックスコープを持ちません
 
-`var` variables are either function-wide or global, they are visible through blocks.
+`var` 変数は関数全体かグローバルかのいずれかであり、ブロックを通して見ることができます。
 
-For instance:
+例:
 
 ```js
 if (true) {
@@ -47,9 +47,9 @@ alert(test); // true, the variable lives after if
 */!*
 ```
 
-If we used `let test` on the 2nd line, then it wouldn't be visible to `alert`. But `var` ignores code blocks, so we've got a global `test`.
+もし２行目で `let test` を使った場合、`alert` では見えません。しかし　`var` はコードブロックを無視するので、グローバルの `test` を取得します。
 
-The same thing for loops: `var` cannot be block- or loop-local:
+ループでも同様です: `var` はブロック、またはループのローカルにはなれません:
 
 ```js
 for (var i = 0; i < 10; i++) {
@@ -61,7 +61,7 @@ alert(i); // 10, "i" is visible after loop, it's a global variable
 */!*
 ```
 
-If a code block is inside a function, then `var` becomes a function-level variable:
+コードブロックが関数の内側にある場合、`var` は関数レベルの変数になります:
 
 ```js
 function sayHi() {
@@ -76,15 +76,15 @@ sayHi();
 alert(phrase); // Error: phrase is not defined
 ```
 
-As we can see, `var` pierces through `if`, `for` or other code blocks. That's because a long time ago in JavaScript blocks had no Lexical Environments. And `var` is a reminiscence of that.
+上の通り、`var` は `if`, `for` もしくは他のコードブロックを貫通します。それは、長い間JavaScriptでは、ブロックがレキシカル環境を持っていなかったためです。そして、 `var` はそれを想起させます。
 
-## "var" are processed at the function start
+## "var" は関数の開始で処理されます
 
-`var` declarations are processed when the function starts (or script starts for globals).
+`var` 宣言は、関数の開始時(またはグローバルのスクリプト開始時)に処理されます。
 
-In other words, `var` variables are defined from the beginning of the function, no matter where the definition is (assuming that the definition is not in the nested function).
+言い換えると、`var` 変数は関数の最初で定義され、定義される場所は関係ありません(定義がネストされた関数ではないと言う仮定で)。
 
-So this code:
+従って、このようなコード:
 
 ```js
 function sayHi() {
@@ -98,7 +98,7 @@ function sayHi() {
 }
 ```
 
-...Is technically the same as this (moved `var phrase` above):
+...は技術的にはこれと同じです(`var phrase` を上に移動させています):
 
 ```js
 function sayHi() {
@@ -112,7 +112,7 @@ function sayHi() {
 }
 ```
 
-...Or even as this (remember, code blocks are ignored):
+...もしくはこれです(コードブロックが無視されることを忘れないでください):
 
 ```js
 function sayHi() {
@@ -128,13 +128,13 @@ function sayHi() {
 }
 ```
 
-People also call such behavior "hoisting" (raising), because all `var` are "hoisted" (raised) to the top of the function.
+また、すべての `var` が関数の先頭に "持ち上げられ" ているので、人々はそのような振る舞いを "巻き上げ" とも呼びます。
 
-So in the example above, `if (false)` branch never executes, but that doesn't matter. The `var` inside it is processed in the beginning of the function, so at the moment of `(*)` the variable exists.
+しががって、上の例では `if (false)` の分岐は決して実行されませんが、それは関係ありません。その内側の `var` は関数の最初に処理されるので、`(*)` の時点で変数は存在します。
 
-**Declarations are hoisted, but assignments are not.**
+**宣言は巻き上げられますが、代入はされません。**
 
-That's better to demonstrate with an example, like this:
+次のコードはその例です:
 
 ```js run
 function sayHi() {
@@ -148,12 +148,12 @@ function sayHi() {
 sayHi();
 ```
 
-The line `var phrase = "Hello"` has two actions in it:
+行 `var phrase = "Hello"` はその中で2つのアクションを持っています:
 
-1. Variable declaration `var`
-2. Variable assignment `=`.
+1. 変数宣言 `var`
+2. 変数代入 `=`.
 
-The declaration is processed at the start of function execution ("hoisted"), but the assignment always works at the place where it appears. So the code works essentially like this:
+宣言は関数実行の開始時に処理されます("巻き上げ")が、代入は常にそれが出現した場所で行われます。従って、コードは本質的にはこのように動作します:
 
 ```js run
 function sayHi() {
@@ -171,17 +171,17 @@ function sayHi() {
 sayHi();
 ```
 
-Because all `var` declarations are processed at the function start, we can reference them at any place. But variables are undefined until the assignments.
+すべての `var` 宣言が関数開始時に処理されるため、どこからでもそれらを参照することができます。しかし、変数は代入されるまで undefined です。
 
-In both examples above `alert` runs without an error, because the variable `phrase` exists. But its value is not yet assigned, so it shows `undefined`.
+上の両方の例では、 `alert` はエラーなく動作します。なぜなら変数 `phrase` が存在するからです。しかし、その値は代入されていないので、 `undefied` を表示します。
 
-## Summary
+## サマリ
 
-There are two main differences of `var`:
+`var` の大きな違いが2つあります:
 
-1. Variables have no block scope, they are visible minimum at the function level.
-2. Variable declarations are processed at function start.
+1. 変数はブロックスコープを持っておらず、最小が関数レベルで見えます。
+2. 変数宣言は関数開始時に処理されます。
 
-There's one more minor difference related to the global object, we'll cover that in the next chapter.
+グローバルオブジェクトに関連する小さな違いがもう少しあります。それは次のチャプターで説明します。
 
-These differences are actually a bad thing most of the time. First, we can't create block-local variables. And hoisting just creates more space for errors. So, for new scripts `var` is used exceptionally rarely.
+これらの違いは、実際にはほとんどの場合で悪いことです。 まず、ブロックローカル変数を作成することができません。また、巻き上げはエラーを引き起こす余地を増やします。 したがって、新しいスクリプトの場合、 `var` は非常にまれにしか使用されません。
