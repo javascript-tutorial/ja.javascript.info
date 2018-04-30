@@ -1,19 +1,18 @@
 
 
-# Global object
+# グローバルオブジェクト
 
-When JavaScript was created, there was an idea of a "global object" that provides all global variables and functions. It was planned that multiple in-browser scripts would use that single global object and share variables through it.
+JavaScript が作られたとき、すべてのグローバル変数と関数を提供する "グローバルオブジェクト" と言う考え方がありました。複数のブラウザ内スクリプトがその単一のグローバルオブジェクトを使用し、それを介して変数を共有することが計画されていました。
 
-Since then, JavaScript greatly evolved, and that idea of linking code through global variables became much less appealing. In modern JavaScript, the concept of modules took its place.
+それ以来、JavaScriptは大きく進化し、グローバル変数を介してコードをリンクする考えはそれほど魅力的ではありませんでした。 現代のJavaScriptでは、モジュールのコンセプトが採用されました。
 
-But the global object still remains in the specification.
+しかし、グローバルオブジェクトはまだ仕様に残っています。
 
-In a browser it is named "window", for Node.JS it is "global", for other environments it may have another name.
+ブラウザでは、"window" 、Node.JS では "global"、 その他の環境では別の名前を持つ場合がありますです。
 
-It does two things:
+それは2つのことをします:
 
-1. Provides access to built-in functions and values, defined by the specification and the environment.
-    For instance, we can call `alert` directly or as a method of `window`:
+1. 仕様や環境で定義されている組み込み関数や値へのアクセスを提供します。例えば、私たちは `alert` を直接、もしくは `window` のメソッドとして呼ぶことができます。:
 
     ```js run
     alert("Hello");
@@ -22,9 +21,9 @@ It does two things:
     window.alert("Hello");
     ```
 
-    The same applies to other built-ins. E.g. we can use `window.Array` instead of `Array`.
+    他の組み込みに対しても同様です。E.g. `Array` の代わりに、`window.Array` と書くことができます。
 
-2. Provides access to global Function Declarations and `var` variables. We can read and write them using its properties, for instance:
+2. グローバルな関数宣言と `var` 変数へのアクセスを提供します。私たちはそのプロパティを使って、それらの読み書きをすることが出来ます。例えば:
 
     <!-- no-strict to move variables out of eval -->
     ```js untrusted run no-strict refresh
@@ -44,7 +43,7 @@ It does two things:
     alert(test); // 5
     ```
 
-...But the global object does not have variables declared with `let/const`!
+...しかし、グローバルオブジェクトは `let/const` で宣言された変数は持っていません!
 
 ```js untrusted run no-strict refresh
 *!*let*/!* user = "John";
@@ -55,24 +54,24 @@ alert("user" in window); // false
 ```
 
 ```smart header="The global object is not a global Environment Record"
-In versions of ECMAScript prior to ES-2015, there were no `let/const` variables, only `var`. And global object was used as a global Environment Record (wordings were a bit different, but that's the gist).
+ES-2015 より以前の ECMAScript のバージョンでは、 `let/const` 変数はなく `var` だけでした。また、グローバルオブジェクトはグローバル環境レコードとして使われていました(言葉は少し違っていましたが)。
 
-But starting from ES-2015, these entities are split apart. There's a global Lexical Environment with its Environment Record. And there's a global object that provides *some* of the global variables.
+しかし、ES-2015からは、これらのエンティティが分割されています。 環境レコードを持つグローバルなレキシカル環境があります。 そして、グローバル変数のいくつかを提供するグローバルオブジェクトがあります。
 
-As a practical difference, global `let/const` variables are definitively properties of the global Environment Record, but they do not exist in the global object.
+実際の違いとして、グローバルな `let/const` 変数は明確にグローバル環境レコードのプロパティですが、グローバルオブジェクトには存在しません。
 
-Naturally, that's because the idea of a global object as a way to access "all global things" comes from ancient times. Nowadays is not considered to be a good thing. Modern language features like `let/const` do not make friends with it, but old ones are still compatible.
+当然ながら、それは古代からある "すべてのグローバルなもの" へアクセスする方法としてのグローバルオブジェクトがあると言う考え方のためです。現代ではそれは良いことだとは考えられていません。`let/const` のような現代の言語機能はそれと親和性はありませんが、古いものはまだ互換があります。
 ```
 
-## Uses of "window"
+## "window" の利用
 
-In server-side environments like Node.JS, the `global` object is used exceptionally rarely. Probably it would be fair to say "never".
+Node.JSのようなサーバサイド環境では、`global` オブジェクトは非常に稀にしか使われません。
 
-In-browser `window` is sometimes used though.
+ブラウザでは `window` が使われることはありますが。
 
-Usually, it's not a good idea to use it, but here are some examples you can meet.
+通常、それを使うのは良い考えではありませんが、ここで幾つかありそうな例を挙げます。
 
-1. To access exactly the global variable if the function has the local one with the same name.
+1. もし関数がローカルに同じ名前の物を持っている状態で、グローバル変数にアクセスしたい場合
 
     ```js untrusted run no-strict refresh
     var user = "Global";
@@ -88,15 +87,15 @@ Usually, it's not a good idea to use it, but here are some examples you can meet
     sayHi();
     ```
 
-    Such use is a workaround. Would be better to name variables differently, that won't require use to write the code it this way. And please note `"var"` before `user`. The trick doesn't work with `let` variables.
+    このような利用は回避策です。 変数に異なる名前を付ける方が良いでしょう。このようなコードを書くために使用する必要はありません。そして `user` の前の `"var"` に注意してください。このトリックは `let` 変数では機能しません。
 
-2. To check if a certain global variable or a builtin exists.
+2. 特定のグローバル変数またはビルトインが存在するかどうかを確認する場合
 
-    For instance, we want to check whether a global function `XMLHttpRequest` exists.
+    例えば、グローバル関数 `XMLHttpRequest` が存在するかどうか確認したいとします。
 
-    We can't write `if (XMLHttpRequest)`, because if there's no `XMLHttpRequest`, there will be an error (variable not defined).
+    もし `XMLHttpRequest` がない場合はエラーが起きる(変数未定義で)ので、 `if (XMLHttpRequest)` と書くことはできません。
 
-    But we can read it from `window.XMLHttpRequest`:
+    しかし、`window.XMLHttpRequest` でそれを読むことができます:
 
     ```js run
     if (window.XMLHttpRequest) {
@@ -104,9 +103,9 @@ Usually, it's not a good idea to use it, but here are some examples you can meet
     }
     ```
 
-    If there is no such global function then `window.XMLHttpRequest` is just a non-existing object property. That's `undefined`, no error, so it works.
+    もしそのようなグローバル関数がなければ、`window.XMLHttpRequest` は単に存在しないオブジェクトプロパティです。それは `undefined` であり、エラーにはならず動作します。
 
-    We can also write the test without `window`:
+    また、我々は `window` なしで検査することも出来ます:
 
     ```js
     if (typeof XMLHttpRequest == 'function') {
@@ -114,14 +113,14 @@ Usually, it's not a good idea to use it, but here are some examples you can meet
     }
     ```
 
-    This doesn't use `window`, but is (theoretically) less reliable, because `typeof` may use a local XMLHttpRequest, and we want the global one.
+    これは `window` を使っていませんが、(理論的には)信頼性が低いです。なぜなら、 `typeof` はローカルの XMLHttpRequest を使う可能性があるためです。
 
 
-3. To take the variable from the right window. That's probably the most valid use case.
+3. 正当な window から変数を取得する場合です。恐らくこれが最も有効なユースケースです。
 
-    A browser may open multiple windows and tabs. A window may also embed another one in `<iframe>`. Every browser window has its own `window` object and global variables. JavaScript allows windows that come from the same site (same protocol, host, port) to access variables from each other.
+    ブラウザは複数のウィンドウやタブを開いている場合があります。また `<iframe>` に別のものが埋め込まれている場合もあります。すべてのブラウザウィンドウは自身の `window` オブジェクトとグローバル変数を持っています。JavaScriptを使用すると、同じサイト（同じプロトコル、ホスト、ポート）からのウィンドウが相互に変数にアクセスできるようになります。
 
-    That use is a little bit beyond our scope for now, but it looks like:
+    その使用法は現在のところ私たちの範囲を少し超えていますが、次のようになります。:
     ```html run
     <iframe src="/" id="iframe"></iframe>
 
@@ -143,22 +142,23 @@ Usually, it's not a good idea to use it, but here are some examples you can meet
     </script>
     ```
 
-    Here, first two alerts use the current window, and the latter two take variables from `iframe` window. Can be any variables if `iframe` originates from the same protocol/host/port.
+    ここで、最初の2つの alert は現在のウィンドウを使い、後の2つは、`iframe` ウィンドウからの変数を取ります。`iframe` が同じプロトコル/ホスト/ポートから発信されている場合、任意の変数にすることができます。
 
-## "this" and global object
+## "this" とグローバルオブジェクト
 
-Sometimes, the value of `this` is exactly the global object. That's rarely used, but some scripts rely on that.
+時々、`this` の値はまさにグローバルオブジェクトです。それはめったに使われませんが、いくつかのスクリプトはそれに依存しています。
 
-1. In the browser, the value of `this` in the global area is `window`:
+1. ブラウザにおいて、グローバル領域の `this` の値は `window` です:
 
     ```js run
     // outside of functions
     alert( this === window ); // true
     ```
 
-    Other, non-browser environments, may use another value for `this` in such cases.
+    他の非ブラウザ環境では、このようなケースでは `this` として別の値を使う可能性があります。
 
-2. When a function with `this` is called in non-strict mode, it gets the global object as `this`:
+2. 非 strict モードで `this` を使った関数が呼ばれた場合、`this` としてグローバルオブジェクトを取ります:
+
     ```js run no-strict
     // not in strict mode (!)
     function f() {
@@ -168,4 +168,4 @@ Sometimes, the value of `this` is exactly the global object. That's rarely used,
     f(); // called without an object
     ```
 
-    By specification, `this` in this case must be the global object, even in non-browser environments like Node.JS. That's for compatibility with old scripts, in strict mode `this` would be `undefined`.
+    仕様によると、Node.JS のような非ブラウザも含め、このケースでの `this` はグローバルオブジェクトである必要があります。それは古いスクリプトのための互換性です。strict モードでは、`this` は `undefined` になります。
