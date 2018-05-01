@@ -3,19 +3,19 @@ libs:
 
 ---
 
-# Function binding
+# 関数バインディング(Function binding)
 
-When using `setTimeout` with object methods or passing object methods along, there's a known problem: "losing `this`".
+オブジェクトメソッドで `setTimeout` 使ったり、オブジェクトメソッドを渡すような場合、"`this` を失う" という既知の問題があります。
 
-Suddenly, `this` just stops working right. The situation is typical for novice developers, but happens with experienced ones as well.
+突然、`this` が正しく動作するのをやめます。この状況は初心者の開発者には典型的ですが、経験者でも同様に起こりえます。
 
 [cut]
 
-## Losing "this"
+## "this" を失う
 
-We already know that in JavaScript it's easy to lose `this`. Once a method is passed somewhere separately from the object -- `this` is lost.
+私たちはすでに、JavaScriptでは `this` を失うことが容易であることを知っています。 あるメソッドがオブジェクトから別の場所に渡されると、`this` は失われます。
 
-Here's how it may happen with `setTimeout`:
+ここで `setTimeout` を利用してどのように起こるのかを示します:
 
 ```js run
 let user = {
@@ -30,22 +30,22 @@ setTimeout(user.sayHi, 1000); // Hello, undefined!
 */!*
 ```
 
-As we can see, the output shows not "John" as `this.firstName`, but `undefined`!
+上で分かる通り出力は、 `this.firstName` は "John" ではなく、 `undefined` です!
 
-That's because `setTimeout` got the function `user.sayHi`, separately from the object. The last line can be rewritten as:
+これは、 `setTimeout` はオブジェクトとは別に関数 `user.sayHi` を持っているためです。最後の行はこのように書き直すことができます:
 
 ```js
 let f = user.sayHi;
 setTimeout(f, 1000); // lost user context
 ```
 
-The method `setTimeout` in-browser is a little special: it sets `this=window` for the function call (for Node.JS, `this` becomes the timer object, but doesn't really matter here). So for `this.firstName` it tries to get `window.firstName`, which does not exist. In other similar cases as we'll see, usually `this` just becomes `undefined`.
+ブラウザにおいて、メソッド `setTimeout` は少し特別です: 関数呼び出しでは `this=window` を設定します(Node.JS では、`this` はタイマーオブジェクトになりますが、ここではほとんど関係ありません)。従って、`this.firstName` は、存在しない `window.firstName` を取得しようとします。他の同様のケースでは、通常 `this` は `undefined` になります。
 
-The task is quite typical -- we want to pass an object method somewhere else (here -- to the scheduler) where it will be called. How to make sure that it will be called in the right context?
+このタスクは非常に典型的です -- オブジェクトメソッドをどこか別の場所（ここではスケジューラに渡して）から呼び出したい場合です。それが適切なコンテキストで呼び出されることはどのように確認すればよいでしょう？
 
-## Solution 1: a wrapper
+## 解決策 1: 囲む
 
-The simplest solution is to use an wrapping function:
+最もシンプルな解決策はラップされた関数を使うことです:
 
 ```js run
 let user = {
@@ -62,17 +62,17 @@ setTimeout(function() {
 */!*
 ```
 
-Now it works, because it receives `user` from the outer lexical environment, and then calls the method normally.
+これは上手く動きます。なぜなら、外部のレキシカル環境から `user` を受け取り、メソッドを普通に呼び出すためです。
 
-The same, but shorter:
+これも同じですが、より短い記法です:
 
 ```js
 setTimeout(() => user.sayHi(), 1000); // Hello, John!
 ```
 
-Looks fine, but a slight vulnerability appears in our code structure.
+良く見えますが、コード構造に僅かな脆弱性があります。
 
-What if before `setTimeout` triggers (there's one second delay!) `user` changes value? Then, suddenly, it will call the wrong object!
+仮に `setTimeout` が動く前に(上の例では1秒の遅延があります!)、`user` が値を変更していたら？すると突然、間違ったオブジェクトを呼び出すでしょう!
 
 
 ```js run
@@ -91,24 +91,24 @@ user = { sayHi() { alert("Another user in setTimeout!"); } };
 // Another user in setTimeout?!?
 ```
 
-The next solution guarantees that such thing won't happen.
+次の解決策はこのようなことが起きないことを保証します。
 
-## Solution 2: bind
+## 解決策 2: bind
 
-Functions provide a built-in method [bind](mdn:js/Function/bind) that allows to fix `this`.
+関数は、`this` を固定できる組み込みメソッド [bind](mdn:js/Function/bind) を提供します。
 
-The basic syntax is:
+基本の構文は次の通りです:
 
 ```js
 // more complex syntax will be little later
 let boundFunc = func.bind(context);
 ````
 
-The result of `func.bind(context)` is a special function-like "exotic object", that is callable as function and transparently passes the call to `func` setting `this=context`.
+`func.bind(context)` の結果は特別な関数ライクな "エキゾチックオブジェクト(exotic object)" です。これは関数として呼ぶことができ、`func` に `this=context` を透過的に渡します。
 
-In other words, calling `boundFunc` is like `func` with fixed `this`.
+言い換えると、`boundFunc` の呼び出しは、固定された `this` での `func` 呼び出しです。
 
-For instance, here `funcUser` passes a call to `func` with `this=user`:
+例えば、`funcUser` は `this=user` での `func` 呼び出しを渡します:
 
 ```js run  
 let user = {
@@ -125,9 +125,9 @@ funcUser(); // John
 */!*
 ```
 
-Here `func.bind(user)` as a "bound variant" of `func`, with fixed `this=user`.
+ここで、`func.bind(user)` は `this=user` で固定された `func` の "バインドされたバリアント" となります。
 
-All arguments are passed to the original `func` "as is", for instance:
+すべての引数はオリジナルの `func` に "そのまま" 渡されます。例:
 
 ```js run  
 let user = {
@@ -146,7 +146,7 @@ funcUser("Hello"); // Hello, John (argument "Hello" is passed, and this=user)
 */!*
 ```
 
-Now let's try with an object method:
+さて、オブジェクトメソッドで試してみましょう。:
 
 
 ```js run
@@ -166,9 +166,9 @@ sayHi(); // Hello, John!
 setTimeout(sayHi, 1000); // Hello, John!
 ```
 
-In the line `(*)` we take the method `user.sayHi` and bind it to `user`. The `sayHi` is a "bound" function, that can be called alone or passed to `setTimeout` -- doesn't matter, the context will be right.
+`(*)` の行で、メソッド `user.sayHi` を `user` にバインドしています。`sayHi` は "束縛(バインド)された" 関数であり、単独もしくは `setTimeout` に渡して呼び出すことができます。
 
-Here we can see that arguments are passed "as is", only `this` is fixed by `bind`:
+引数が "そのまま" 渡され、`this` だけが `bind` によって固定されていることがわかります:
 
 ```js run
 let user = {
@@ -185,7 +185,7 @@ say("Bye"); // Bye, John ("Bye" is passed to say)
 ```
 
 ````smart header="Convenience method: `bindAll`"
-If an object has many methods and we plan to actively pass it around, then we could bind them all in a loop:
+もしオブジェクトが多くのメソッドを持ち、それらをバインドする必要がある場合、すべてループでバインドできます。:
 
 ```js
 for (let key in user) {
@@ -195,11 +195,11 @@ for (let key in user) {
 }
 ```
 
-JavaScript libraries also provide functions for convenient mass binding , e.g. [_.bindAll(obj)](http://lodash.com/docs#bindAll) in lodash.
+JavaScriptライブラリはまた、便利な大量バインディングのための機能も提供しています。e.g. [_.bindAll(obj)](http://lodash.com/docs#bindAll) in lodash.
 ````
 
-## Summary
+## サマリ
 
-Method `func.bind(context, ...args)` returns a "bound variant" of function `func` that fixes the context `this` and first arguments if given.
+メソッド `func.bind(context, ...args)` はコンテキスト `this` を固定した関数 `func` の "束縛されたバリアント" を返します。
 
-Usually we apply `bind` to fix `this` in an object method, so that we can pass it somewhere. For example, to `setTimeout`. There are more reasons to `bind` in the modern development, we'll meet them later.
+通常は、オブジェクトメソッドで `this` を固定するために `bind` を適用し、どこかに渡すことができるようにします。たとえば、`setTimeout` に。 近代的な開発で "束縛する" 理由はまだまだありますが、私たちは後でそれらを知るでしょう。
