@@ -1,20 +1,20 @@
 
-# Function object, NFE
+# 関数オブジェクト(Function object), NFE
 
-As we already know, functions in JavaScript are values.
+既に知っている通り、JavaScriptの関数は値です。
 
-Every value in JavaScript has the type. What type of value is a function?
+JavaScriptのすべての値は型を持っています。関数は何の型でしょうか？
 
-In JavaScript, a function is an object.
+JavaScriptでは、関数はオブジェクトです。
 
-A good way to imagine functions is as callable "action objects". We can not only call them, but also treat them as objects: add/remove properties, pass by reference etc.
+関数をイメージする良い方法は、呼び出し可能な "アクションオブジェクト" とみなすことです。私たちはそれらを呼び出すだけでなく、オブジェクトとして扱うこともできます: プロパティの追加/削除、参照渡しなど。
 
 
-## The "name" property
+## "name" プロパティ
 
-Function objects contain few sometimes-useable properties.
+関数オブジェクトには、往々にして使用可能なプロパティが少ししかありません。
 
-For instance, a function name is accessible as the "name" property:
+例えば、関数名は "name" プロパティとしてアクセス可能です:
 
 ```js run
 function sayHi() {
@@ -24,7 +24,7 @@ function sayHi() {
 alert(sayHi.name); // sayHi
 ```
 
-What's more funny, the name-assigning logic is smart. It also sticks the right name to function that are used in assignments:
+もっと面白いことに、名前を割り当てるロジックはスマートです。 割り当てに使用される関数にも正しい名前を貼り付けます。:
 
 ```js run
 let sayHi = function() {
@@ -34,7 +34,7 @@ let sayHi = function() {
 alert(sayHi.name); // sayHi (works!)
 ```
 
-Also works if the assignment is done via a default value:
+デフォルト値を通して行われた代入でも動作します:
 
 ```js run
 function f(sayHi = function() {}) {
@@ -44,9 +44,9 @@ function f(sayHi = function() {}) {
 f();
 ```
 
-In the specification, this feature is called a "contextual name". If the function does not provide one, then in an assignment it is figured out from the context.
+仕様では、この機能は "contextual name(文脈上の名前)" と呼ばれます。関数がそれを提供しない場合、代入ではコンテキストから見つけ出されます。
 
-Object methods have names too:
+オブジェクトメソッドも名前を持っています。:
 
 ```js run
 let user = {
@@ -65,9 +65,9 @@ alert(user.sayHi.name); // sayHi
 alert(user.sayBye.name); // sayBye
 ```
 
-There's no magic though. There are cases when there's no way to figure out the right name.
+しかし、正しい名前を見つける方法がない場合があります。
 
-Then it's empty, like here:
+その時、このように空になります。:
 
 ```js
 // function created inside array
@@ -77,11 +77,11 @@ alert( arr[0].name ); // <empty string>
 // the engine has no way to set up the right name, so there is none
 ```
 
-In practice, most functions do have a name.
+実際には、ほとんどの関数は名前を持っています。
 
-## The "length" property
+## "length" プロパティ
 
-There is another built-in property "length" that returns the number of function parameters, for instance:
+関数パラメータの数を返す別の組み込みのプロパティ "length" があります。例えば:
 
 ```js run
 function f1(a) {}
@@ -93,20 +93,20 @@ alert(f2.length); // 2
 alert(many.length); // 2
 ```
 
-Here we can see that rest parameters are not counted.
+ここで、残りのパラメータはカウントされないことが分かります。
 
-The `length` property is sometimes used for introspection in functions that operate on other functions.
+`length` プロパティは、他の関数上で動作する関数で内省のために使われることがあります。
 
-For instance, in the code below `ask` function accepts a `question` to ask and an arbitrary number of `handler` functions to call.
+例えば、下のコードでは、`ask` 関数は、質問するための `question` と、呼び出すための任意の数の `handler` 関数を受けます。
 
-When a user answers, it calls the handlers. We can pass two kinds of handlers:
+ユーザが答えたとき、handler を呼びます。私たちは2つの種類の handler を渡すことができます:
 
-- A zero-argument function, then it is only called for a positive answer.
-- A function with arguments, then it is called in any case and gets the answer.
+- 引数なし関数の場合、肯定的な回答の場合にのみ呼ばれます。
+- 引数を持つ関数の場合は、いずれのケースでも呼ばれそこから答えを得ます。
 
-The idea is that we have a simple no-arguments handler syntax for positive cases (most frequent variant), but allow to provide universal handlers as well.
+この考え方は、肯定的なケース（最も頻繁に変わるもの）のための単純な引数なしのハンドラ構文があるが、汎用のハンドラも提供できるということです。
 
-To call `handlers` the right way, we examine the `length` property:
+`handlers` を正しい方法で呼ぶために、私たちは `length` プロパティを調べます:
 
 ```js run
 function ask(question, ...handlers) {
@@ -127,13 +127,13 @@ function ask(question, ...handlers) {
 ask("Question?", () => alert('You said yes'), result => alert(result));
 ```
 
-This is a particular case of so-called [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) -- treating arguments differently depending on their type or, in our case depending on the `length`. The idea does have a use in JavaScript libraries.
+これは、いわゆる [ポリモーフィズム(polymorphism)](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) と呼ばれる特定のケースです -- 引数を型に応じて、または私たちの場合は `length` に応じた扱いをします。このアイデアはJavaScriptライブラリで使用されています。
 
-## Custom properties
+## カスタムプロパティ
 
-We can also add properties of our own.
+我々は、独自のプロパティを追加することもできます。
 
-Here we add the `counter` property to track the total calls count:
+ここでは、合計の呼び出しカウントを追跡するための `counter` プロパティを追加します:
 
 ```js run
 function sayHi() {
@@ -153,12 +153,12 @@ alert( `Called ${sayHi.counter} times` ); // Called 2 times
 ```
 
 ```warn header="A property is not a variable"
-A property assigned to a function like `sayHi.counter = 0` does *not* define a local variable `counter` inside it. In other words, a property `counter` and a variable `let counter` are two unrelated things.
+`sayHi.counter = 0` のような関数に割り当てられたプロパティは、関数の中でローカル変数 `counter` として定義 *されません* 。言い換えると、プロパティ `counter` と変数 `let counter` は2つの無関係なものです。
 
-We can treat a function as an object, store properties in it, but that has no effect on its execution. Variables never use function properties and vice versa. These are just parallel words.
+私たちは、関数をオブジェクトとして扱うことができ、その中にプロパティを格納することが出来ます。しかしそれはその実行には影響を与えません。変数は関数プロパティを使うことはなく、逆も然りです。これらは単なる2つの並列した言葉です。
 ```
 
-Function properties can replace the closure sometimes. For instance, we can rewrite the counter example from the chapter <info:closure> to use a function property:
+関数プロパティは時々クロージャを置き換えることができます。例えば、関数プロパティを使うために、チャプター <info:closure> のカウンターの例を書き換えてみます。:
 
 ```js run
 function makeCounter() {
@@ -179,11 +179,11 @@ alert( counter() ); // 0
 alert( counter() ); // 1
 ```
 
-The `count` is now stored in the function directly, not in its outer Lexical Environment.
+`count` は今や外部のレキシカル環境ではなく、関数の中に直接格納されています。
 
-Is it worse or better than using the closure?
+クロージャを使う要理も悪いのでしょうか？それとも良いのでしょうか？
 
-The main difference is that if the value of `count` lives in an outer variable, then an external code is unable to access it. Only nested functions may modify it. And if it's bound to function, then such thing is possible:
+主な違いは、`count` の値が外部変数にある場合、外部コードはそこへアクセスすることはできないということです。ネストされた関数だけがそれを変更することができます。:
 
 ```js run
 function makeCounter() {
@@ -205,13 +205,13 @@ alert( counter() ); // 10
 */!*
 ```
 
-So it depends on our aims which variant to choose.
+なので、どちらを選ぶかは私たちの目的次第です。
 
-## Named Function Expression
+## 名前付き関数式(Named Function Expression)
 
-Named Function Expression or, shortly, NFE, is a term for Function Expressions that have a name.
+名前付き関数式、または略して NFE は名前を持つ関数式の用語です。
 
-For instance, let's take an ordinary Function Expression:
+例えば、一般的な関数式を考えてみましょう:
 
 ```js
 let sayHi = function(who) {
@@ -219,7 +219,7 @@ let sayHi = function(who) {
 };
 ```
 
-...And add a name to it:
+...そしてそれに名前を追加しましょう:
 
 ```js
 let sayHi = function *!*func*/!*(who) {
@@ -227,13 +227,13 @@ let sayHi = function *!*func*/!*(who) {
 };
 ```
 
-Did we do anything sane here? What's the role of that additional `"func"` name?
+追加の `"func"` の名前の役割は何でしょう？
 
-First let's note, that we still have a Function Expression. Adding the name `"func"` after `function` did not make it a Function Declaration, because it is still created as a part of an assignment expression.
+最初に、私たちはまだ関数式を持っていることに注意してください。`function` の後に名前 `"func"` を追加しても、関数宣言にはなりません。なぜなら、それはまだ代入式の一部として作成されているためです。
 
-Adding such a name also did not break anything.
+このような名前を追加しても何も破壊しません。
 
-The function is still available as `sayHi()`:
+関数は依然として `sayHi()` で利用可能です。:
 
 ```js run
 let sayHi = function *!*func*/!*(who) {
@@ -243,12 +243,12 @@ let sayHi = function *!*func*/!*(who) {
 sayHi("John"); // Hello, John
 ```
 
-There are two special things about the name `func`:
+そこには、名前 `func` に関して2つの特別なことがあります:
 
-1. It allows to reference the function from inside itself.
-2. It is not visible outside of the function.
+1. 関数の内側から関数を参照することができます。
+2. 関数の外側からは見えません。
 
-For instance, the function `sayHi` below re-calls itself with `"Guest"` if no `who` is provided:
+例えば、下の関数 `sayHi` は、`who` が提供されていない場合、`"Guest"` で自身を再度呼びます。:
 
 ```js run
 let sayHi = function *!*func*/!*(who) {
@@ -267,10 +267,10 @@ sayHi(); // Hello, Guest
 func(); // Error, func is not defined (not visible outside of the function)
 ```
 
-Why do we use `func`? Maybe just use `sayHi` for the nested call?
+なぜ `func` を使うのでしょう？単に `sayHi` ではダメなのでしょうか？
 
 
-Actually, in most cases we can:
+実際には、ほとんどのケースでは我々は次のようにできます:
 
 ```js
 let sayHi = function(who) {
@@ -284,7 +284,7 @@ let sayHi = function(who) {
 };
 ```
 
-The problem with that code is that the value of `sayHi` may change. The function may go to another variable, and the code will start to give errors:
+そのコードの問題は、`sayHi` の値が変わるかもしれないと言うことです。関数は別の変数になり、コードがエラーを吐くようになるかもしれません。:
 
 ```js run
 let sayHi = function(who) {
@@ -303,11 +303,11 @@ sayHi = null;
 welcome(); // Error, the nested sayHi call doesn't work any more!
 ```
 
-That happens because the function takes `sayHi` from its outer lexical environment. There's no local `sayHi`, so the outer variable is used. And at the moment of the call that outer `sayHi` is `null`.
+関数が外部のレキシカル環境から `sayHi` を取得するために起こります。ローカルの `sayHi` がないので、外部変数が使われます。そして 呼び出しの瞬間、`sayHi` は `null` です。
 
-The optional name which we can put into the Function Expression is exactly meant to solve this kind of problems.
+関数式に入れることができるオプションの名前は、この種の問題を解決するためのものです。
 
-Let's use it to fix the code:
+コードを直すためにそれを使ってみましょう:
 
 ```js run
 let sayHi = function *!*func*/!*(who) {
@@ -326,29 +326,30 @@ sayHi = null;
 welcome(); // Hello, Guest (nested call works)
 ```
 
-Now it works, because the name `"func"` is function-local. It is not taken from outside (and not visible there). The specification guarantees that it always references the current function.
+これでうまく動作します。なぜなら名前 `"func"` は関数ローカルだからです。それは外部のものではありません(また、外部からは見えません)。
+この仕様は常に現在の関数を参照することを保証します。
 
-The outer code still has it's variable `sayHi` or `welcome` later. And `func` is an "internal function name", how it calls itself privately.
+外部コードは依然として変数 `sayHi` または後の `welcome` を持っています。そして、`func` は "内部の関数名" であり、自身を呼び出すためのものです。
 
 ```smart header="There's no such thing for Function Declaration"
-The "internal name" feature described here is only available for Function Expressions, not to Function Declarations. For Function Declarations, there's just no syntax possibility to add a one more "internal" name.
+ここで説明された "内部名" の機能は関数式でのみ利用可能で、関数宣言では利用できません。関数宣言に対して、もう１つの "内部" の名前を追加する構文はありません。
 
-Sometimes, when we need a reliable internal name, it's the reason to rewrite a Function Declaration to Named Function Expression form.
+信頼できる内部名が必要なときには、それは関数宣言を名前付けされた関数式の形に書き換える理由になります。
 ```
 
-## Summary
+## サマリ
 
-Functions are objects.
+関数はオブジェクトです。
 
-Here we covered their properties:
+ここでは、私たちはそれらのプロパティをカバーしました:
 
-- `name` -- the function name. Exists not only when given in the function definition, but also for assignments and object properties.
-- `length` -- the number of arguments in the function definition. Rest parameters are not counted.
+- `name` -- 関数名です。関数定義で与えられたときだけでなく、代入やオブジェクトのプロパティに対しても存在します。
+- `length` -- 関数定義での引数の数です。残りのパラメータはカウントされません。
 
-If the function is declared as a Function Expression (not in the main code flow), and it carries the name, then it is called Named Function Expression. The name can be used inside to reference itself, for recursive calls or such.
+もし関数が関数式として宣言され(メインコードフローではない所で)、名前を持っている場合、それは名前付けされた関数式と呼ばれます。その名前は再帰呼び出しなどをするために内部で自身を参照するために使うことができます。
 
-Also, functions may carry additional properties. Many well-known JavaScript libraries make a great use of this feature.
+また、関数は追加のプロパティをもつ場合があります。多くの知られているJavaScriptライブラリはこの機能を最大限に活用しています。
 
-They create a "main" function and attach many other "helper" functions to it. For instance, the [jquery](https://jquery.com) library creates a function named `$`. The [lodash](https://lodash.com) library creates a function `_`. And then adds `_.clone`, `_.keyBy` and other properties to (see the [docs](https://lodash.com/docs) when you want learn more about them). Actually, they do it to less pollute the global space, so that a single library gives only one global variable. That lowers the chance of possible naming conflicts.
+それらは "メインの" 関数を作り、それに多くの "ヘルパー" 関数を付与します。例えば、[jquery](https://jquery.com) ライブラリは `$` という名前の関数を作ります。[lodash](https://lodash.com) ライブラリは関数 `_` を作ります。そして、 `_.clone`, `_.keyBy` や他のプロパティを追加します(これらについてもっと知りたい場合は、[docs](https://lodash.com/docs) を参照してください)。実際には、グローバル空間の汚染を少なくするために、1つのライブラリで1つのグローバル変数のみが与えられます。 これにより、名前の競合が発生する可能性が低くなります。
 
-So, a function can do a useful job by itself and also carry a bunch of other functionality in properties.
+したがって、関数は単独で有益な仕事をすることができ、プロパティには他の機能も備えることができます。
