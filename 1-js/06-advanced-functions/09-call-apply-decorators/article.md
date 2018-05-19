@@ -1,18 +1,19 @@
-# Decorators and forwarding, call/apply
+# デコレータ(Decorators) と 転送(forwarding), call/apply
 
-JavaScript gives exceptional flexibility when dealing with functions. They can be passed around, used as objects, and now we'll see how to *forward* calls between them and *decorate* them.
+JavaScriptでは関数を扱うとき非常に柔軟性があります。それらは渡され、オブジェクトとして使われます。また、私たちはこれらの間の呼び出しを *転送* したり、それらを *装飾(デコレータ)* する方法を見ていきましょう。
+
 
 [cut]
 
 ## Transparent caching
 
-Let's say we have a function `slow(x)` which is CPU-heavy, but its results are stable. In other words, for the same `x` it always returns the same result.
+CPU負荷は高いが、その結果が不変である関数 `slow(x)` を持っているとします。言い換えると、同じ `x` の場合、常に同じ結果が返ってきます。
 
-If the function is called often, we may want to cache (remember) the results for different `x` to avoid spending extra-time on recalculations.
+もし関数が頻繁に呼ばれた場合、再計算に余分な時間を費やすことを避けるために、異なる `x` の結果をキャッシュ（覚えておく）して欲しいかもしれません。
 
-But instead of adding that functionality into `slow()` we'll create a wrapper. As we'll see, there are many benefits of doing so.
+その機能を `slow()` に追加する代わりに、ラッパーを作りましょう。これから見ていくように、そうすることで多くのメリットがあります。
 
-Here's the code, and explanations follow:
+コードと説明は次の通りです:
 
 ```js run
 function slow(x) {
@@ -45,32 +46,32 @@ alert( slow(2) ); // slow(2) is cached
 alert( "Again: " + slow(2) ); // the same as the previous line
 ```
 
-In the code above `cachingDecorator` is a *decorator*: a special function that takes another function and alters its behavior.
+上のコード中の `cachingDecorator` は *デコレータ* です: 別の関数を取り、その振る舞いを変更する特別な関数です。
 
-The idea is that we can call `cachingDecorator` for any function, and it will return the caching wrapper. That's great, because we can have many functions that could use such a feature, and all we need to do is to apply `cachingDecorator` to them.
+この考え方は、任意の関数で `cachingDecorator` を呼ぶことができ、それはキャッシングラッパーを返します。このような機能を使うことができる多くの関数を持つことができるので、これは素晴らしいことです。また、必要なのは、関数に `cachingDecorator` を適用するだけです。
 
-By separating caching from the main function code we also keep the main code simpler.
+メインの関数コードからキャッシュ機能を分離することで、コードをシンプルに保つこともできます。
 
-Now let's get into details of how it works.
+さて、それがどのように動作するのか詳細を見ていきましょう:
 
-The result of `cachingDecorator(func)` is a "wrapper": `function(x)` that "wraps" the call of `func(x)` into caching logic:
+`cachingDecorator(func)` の結果は "ラッパー" です: `func(x)` の呼び出しをキャッシュロジックに "ラップ" する `function(x)` です。:
 
 ![](decorator-makecaching-wrapper.png)
 
-As we can see, the wrapper returns the result of `func(x)` "as is". From an outside code, the wrapped `slow` function still does the same. It just got a caching aspect added to its behavior.
+上でわかるように、ラッパーは `func(x)` の結果を "そのまま" 返します。外部のコードからは、ラップされた `slow` 関数は、依然として同じことを行い、単にその振る舞いに追加されたキャッシュの側面をもちます。
 
-To summarize, there are several benefits of using a separate `cachingDecorator` instead of altering the code of `slow` itself:
+要約すると、`slow` 自身のコードを修正する代わりに、分離した `cachingDecorator` を利用することは、いくつかのメリットがあります。:
 
-- The `cachingDecorator` is reusable. We can apply it to another function.
-- The caching logic is separate, it did not increase the complexity of `slow` itself (if there were any).
-- We can combine multiple decorators if needed (other decorators will follow).
+- `cachingDecorator` は再利用可能です。私たちは、別の関数に適用することもできます。
+- キャッシュロジックは分離されているので、`slow` 自身の複雑性は増加しません
+- 必要に応じて、複数のデコレータを組み合わせることができます（他のデコレータについては次に続きます）。
 
 
-## Using "func.call" for the context
+## コンテキストのために、"func.call" を利用する
 
-The caching decorator mentioned above is not suited to work with object methods.
+上で言及されたキャッシュデコレータはオブジェクトメソッドで動作するのには適していません。
 
-For instance, in the code below `user.format()` stops working after the decoration:
+例えば、下のコードでは、デコレーションの後、`worker.slow()` は動作を停止します:
 
 ```js run
 // we'll make worker.slow caching
@@ -110,40 +111,41 @@ alert( worker.slow(2) ); // Whoops! Error: Cannot read property 'someMethod' of 
 */!*
 ```
 
-The error occurs in the line `(*)` that tries to access `this.someMethod` and fails. Can you see why?
+行 `(*)` で、`this.someMethod` にアクセスしようとして失敗してエラーが起きます。なぜかわかりますか？
 
-The reason is that the wrapper calls the original function as `func(x)` in the line `(**)`. And, when called like that, the function gets `this = undefined`.
+理由は、ラッパーは行 `(**)` でオリジナル関数を `func(x)` として呼び出すためです。また、そのように呼び出した場合、関数は `this = undefined` となります。
 
-We would observe a similar symptom if we tried to run:
+
+次のコードを実行しようとすると、同様の現象が観察されます:
 
 ```js
 let func = worker.slow;
 func(2);
 ```
 
-So, the wrapper passes the call to the original method, but without the context `this`. Hence the error.
+したがって、ラッパーは呼び出しを元のメソッドに渡しますが、コンテキスト `this` は使用しません。 したがって、エラーになります。
 
-Let's fix it.
+これを直しましょう。
 
-There's a special built-in function method [func.call(context, ...args)](mdn:js/Function/call) that allows to call a function explicitly setting `this`.
+明示的に設定した `this` で関数を呼び出すことができる、特別な組み込みの関数メソッド [func.call(context, ...args)](mdn:js/Function/call) があります。
 
-The syntax is:
+構文は次の通りです:
 
 ```js
 func.call(context, arg1, arg2, ...)
 ```
 
-It runs `func` providing the first argument as `this`, and the next as the arguments.
+これは、提供された最初の引数を `this` とし、次を引数として `func` を実行します。
 
-To put it simply, these two calls do almost the same:
+これら2つの呼び出しはほとんど同じです:
 ```js
 func(1, 2, 3);
 func.call(obj, 1, 2, 3)
 ```
 
-They both call `func` with arguments `1`, `2` and `3`. The only difference is that `func.call` also sets `this` to `obj`.
+それらは両方とも `func` を引数 `1`, `2`, `3` で呼び出しています。唯一の違いは、`func.call` は `this` を `obj` にセットしていることです。
 
-As an example, in the code below we call `sayHi` in the context of different objects: `sayHi.call(user)` runs `sayHi` providing `this=user`, and the next line sets `this=admin`:
+例として、下のコードでは異なるオブジェクトのコンテキストで `sayHi` を呼び出しています。: `sayHi.call(user)` は `this=user` を提供する `sayHi` を実行し、次の行で `this=admin` をセットします。:
 
 ```js run
 function sayHi() {
@@ -158,7 +160,7 @@ sayHi.call( user ); // this = John
 sayHi.call( admin ); // this = Admin
 ```
 
-And here we use `call` to call `say` with the given context and phrase:
+そして、ここでは `call` を使って与えられたコンテキストとフレーズで `say` を呼び出しています。:
 
 
 ```js run
@@ -172,8 +174,7 @@ let user = { name: "John" };
 say.call( user, "Hello" ); // John: Hello
 ```
 
-
-In our case, we can use `call` in the wrapper to pass the context to the original function:
+我々のケースでは、オリジナルの関数にコンテキストを渡すため、ラッパーの中で `call` を使うことができます。:
 
 
 ```js run
@@ -208,19 +209,20 @@ alert( worker.slow(2) ); // works
 alert( worker.slow(2) ); // works, doesn't call the original (cached)
 ```
 
-Now everything is fine.
+これで全てうまく行きます。
 
-To make it all clear, let's see more deeply how `this` is passed along:
+すべてをクリアにするために、どのように `this` が渡されているか詳しくみてみましょう:
 
-1. After the decoration `worker.slow` is now the wrapper `function (x) { ... }`.
-2. So when `worker.slow(2)` is executed, the wrapper gets `2` as an argument and `this=worker` (it's the object before dot).
-3. Inside the wrapper, assuming the result is not yet cached, `func.call(this, x)` passes the current `this` (`=worker`) and the current argument (`=2`) to the original method.
+1. デコレーション後の `worker.slow` はラッパー `function (x) { ... }` です。
+2. なので、`worker.slow(2)` が実行されるとき、ラッパーは引数として `2` と、`this=worker` を取ります(これはドットの前のオブジェクトになります)。
+3. ラッパーの中では、 結果がまだキャッシュされていないと仮定すると、`func.call(this, x)` はオリジナルのメソッドに現在の `this` (`=worker`) と、現在の引数 (`=2`)を渡します。
 
-## Going multi-argument with "func.apply"
 
-Now let's make `cachingDecorator` even more universal. Till now it was working only with single-argument functions.
+## "func.apply" で複数の引数を使用する
 
-Now how to cache the multi-argument `worker.slow` method?
+さて、`cachingDecorator` をより普遍的なものにしましょう。これまでは、単一引数の関数でのみ動作していました。
+
+どのようにして複数の引数の `worker.slow` メソッドをキャッシュするでしょう？
 
 ```js
 let worker = {
@@ -233,42 +235,40 @@ let worker = {
 worker.slow = cachingDecorator(worker.slow);
 ```
 
-We have two tasks to solve here.
+ここでは、それを解決するための2つのタスクがあります。
 
-First is how to use both arguments `min` and `max` for the key in `cache` map. Previously, for a single argument `x` we could just `cache.set(x, result)` to save the result and `cache.get(x)` to retrieve it. But now we need to remember the result for a *combination of arguments* `(min,max)`. The native `Map` takes single value only as the key.
+最初は、`cache` マップのキーに、`min` と `max` 両方の引数を使う方法です。以前は、1つの引数 `x` に対し、単に `cache.set(x, result)` として結果を保存し、`cache.get(x)` でそれを取得していました。しかし、今回は *引数の組み合わせ* `(min,max)` で結果を覚える必要があります。ネイティブの `Map` は1つのキーに1つの値のみを取ります。
 
-There are many solutions possible:
+可能な解決策はたくさんあります:
 
-1. Implement a new (or use a third-party) map-like data structure that is more versatile and allows multi-keys.
-2. Use nested maps: `cache.set(min)` will be a `Map` that stores the pair `(max, result)`. So we can get `result` as `cache.get(min).get(max)`.
-3. Join two values into one. In our particular case we can just use a string `"min,max"` as the `Map` key. For flexibility, we can allow to provide a *hashing function* for the decorator, that knows how to make one value from many.
+1. より汎用性があり、複数のキーを許可する新しい(もしくは 3rdパーティを使って)マップライクなデータ構造を実装する方法です。
+2. 入れ子のマップを使います: `cache.set(min)` は `(max, result)` ペアを格納する `Map` になるでしょう。なので、`cache.get(min).get(max)` で `result` を得ることができます。
+3. 2つの値を1つに結合します。今のケースだと、`Map` として文字列 `"min,max"` を使うことができます。柔軟性のために、デコレータに *ハッシュ関数* を提供することもできます。それは多くのものから一つの値を作る方法です。
 
+実用的な多くのアプリケーションでは、第3の策で十分ですので、それで進めます。
 
-For many practical applications, the 3rd variant is good enough, so we'll stick to it.
+解決するための2つ目のタスクは、多くの引数を `func` に渡す方法です。現在ラッパー `function(x)` は１つの引数を想定しており、`func.call(this, x)` はそれを渡します。
 
-The second task to solve is how to pass many arguments to `func`. Currently, the wrapper `function(x)` assumes a single argument, and `func.call(this, x)` passes it.
+ここで、私たちは別の組み込みメソッド [func.apply](mdn:js/Function/apply) を使うことができます。
 
-Here we can use another built-in method [func.apply](mdn:js/Function/apply).
-
-The syntax is:
+構文は次の通りです:
 
 ```js
 func.apply(context, args)
 ```
 
-It runs the `func` setting `this=context` and using an array-like object `args` as the list of arguments.
+これは、`this=context` として設定し、引数のリストとしてarray-likeなオブジェクト `args` を使って `func` を実行します。
 
-
-For instance, these two calls are almost the same:
+例えば、これら2つの呼び出しはほぼ同じです:
 
 ```js
 func(1, 2, 3);
 func.apply(context, [1, 2, 3])
 ```
 
-Both run `func` giving it arguments `1,2,3`. But `apply` also sets `this=context`.
+両方とも、引数 `1,2,3` が与えられた `func` を実行します。しかし、`apply` は `this=context` のセットもします。
 
-For instance, here `say` is called with `this=user` and `messageData` as a list of arguments:
+例えば、`this=user` と引数のリストとして `messageData` で `say` が呼ばれると次のようになります:
 
 ```js run
 function say(time, phrase) {
@@ -285,11 +285,11 @@ say.apply(user, messageData); // [10:00] John: Hello (this=user)
 */!*
 ```
 
-The only syntax difference between `call` and `apply` is that `call` expects a list of arguments, while `apply` takes an array-like object with them.
+`call` と `apply` の構文の唯一の違いは、`call` は引数のリストを期待し、`apply` はそれらのarray-likeなオブジェクトを期待している点です。
 
-We already know the spread operator `...` from the chapter <info:rest-parameters-spread-operator> that can pass an array (or any iterable) as a list of arguments. So if we use it with `call`, we can achieve almost the same as `apply`.
+私たちは既に、チャプター　<info:rest-parameters-spread-operator> で、引数のリストとして配列 (もしくは任意の頒布可能(iterable)) を渡すことのできるスプレッド演算子 `...` を知っています。`call` でそれを使う場合、`apply` とほぼ同じ結果になります。
 
-These two calls are almost equivalent:
+これら2つの呼び出しはほぼほぼ同等です:
 
 ```js
 let args = [1, 2, 3];
@@ -300,16 +300,16 @@ func.apply(context, args);   // is same as using apply
 */!*
 ```
 
-If we look more closely, there's a minor difference between such uses of `call` and `apply`.
+より詳しく見ると、 `call` と `apply` の使い方には若干の違いがあります。
 
-- The spread operator `...` allows to pass *iterable* `args` as the list to `call`.
-- The `apply` accepts only *array-like* `args`.
+- スプレッド演算子 `...` は `call` へのリストとして *反復可能(iterable)* な `args` を渡すことができます。
+- `apply` は *配列型(array-like)* な `args` のみを許可します。
 
-So, these calls complement each other. Where we expect an iterable, `call` works, where we expect an array-like, `apply` works.
+したがって、これらの呼び出しはお互いを補完します。 反復可能(iterable) が期待されるところでは、 `call` が動作します。配列型(array-like)が期待される場合は `apply` が動作します。
 
-And if `args` is both iterable and array-like, like a real array, then we technically could use any of them, but `apply` will probably be faster, because it's a single operation. Most JavaScript engines internally optimize is better than a pair `call + spread`.
+また、`args` が 反復可能であり配列型である場合は、本当の配列のように、技術的にはどちらを使うことも可能ですが、`apply` は恐らくより高速です。なぜなら、1つの操作だからです。ほとんどのJavaScriptエンジンの内部の最適化は、 `call + spread` のペアよりも良いものです。
 
-One of the most important uses of `apply` is passing the call to another function, like this:
+`apply` の最も重要な用途の1つは、次のように別の関数へ呼び出しを渡すことです。:
 
 ```js
 let wrapper = function() {
@@ -317,11 +317,11 @@ let wrapper = function() {
 };
 ```
 
-That's called *call forwarding*. The `wrapper` passes everything it gets: the context `this` and arguments to `anotherFunction` and returns back its result.
+これは *呼び出し転送(call forwarding)* と呼ばれます。 `wrapper` はコンテキスト `this` と `anotherFunction` への引数を取得し、その結果の戻り値を返します。
 
-When an external code calls such `wrapper`, it is indistinguishable from the call of the original function.
+このような `wrapper` を外部コードが呼び出すと、元の関数の呼び出しと区別できなくなります。
 
-Now let's bake it all into the more powerful `cachingDecorator`:
+今度はそれをもっと強力な `cachingDecorator` にしましょう。:
 
 ```js run
 let worker = {
@@ -360,17 +360,17 @@ alert( worker.slow(3, 5) ); // works
 alert( "Again " + worker.slow(3, 5) ); // same (cached)
 ```
 
-Now the wrapper operates with any number of arguments.
+これで、ラッパー任意の数の引数で動作します。
 
-There are two changes:
+2つの変更をしています:
 
-- In the line `(*)` it calls `hash` to create a single key from `arguments`. Here we use a simple "joining" function that turns arguments `(3, 5)` into the key `"3,5"`. More complex cases may require other hashing functions.
-- Then `(**)` uses `func.apply` to pass both the context and all arguments the wrapper got (no matter how many) to the original function.
+- 行 `(*)` では、`arguments` から1つのキーを作成するために `hash` を呼び出しています。ここでは、引数 `(3, 5)` をキー `"3,5"` に変換する単純な "結合" 関数を使います。より複雑なケースでは他のハッシュ関数が必要になる場合もあります。
+- 次に `(**)` でラッパーが取得したコンテキストとすべての引数(どれだけ多くても問題ありません)を元の関数に渡すために `func.apply` を使っています。
 
 
-## Borrowing a method [#method-borrowing]
+## メソッドの借用(Borrowing a method) [#method-borrowing]
 
-Now let's make one more minor improvement in the hashing function:
+ハッシュ関数に小さな改善をしてみましょう:
 
 ```js
 function hash(args) {
@@ -378,9 +378,9 @@ function hash(args) {
 }
 ```
 
-As of now, it works only on two arguments. It would be better if it could glue any number of `args`.
+今のところ、2つの引数にのみ依存しています。任意の数の `args` を接着できるほうがよいでしょう。
 
-The natural solution would be to use [arr.join](mdn:js/Array/join) method:
+自然な対応策は、[arr.join](mdn:js/Array/join) メソッドを使うことです。:
 
 ```js
 function hash(args) {
@@ -388,9 +388,9 @@ function hash(args) {
 }
 ```
 
-...Unfortunately, that won't work. Because we are calling `hash(arguments)` and `arguments` object is both iterable and array-like, but not a real array.
+...残念なことに、これは動作しません。なぜなら私たちが呼んでいる `hash(arguments)` と `arguments` オブジェクトは両方とも 反復可能であり配列型ではありますが、本当の配列ではありません。
 
-So calling `join` on it would fail, as we can see below:
+なので下の通り、 `join` の呼び出しは失敗します:
 
 ```js run
 function hash() {
@@ -402,7 +402,7 @@ function hash() {
 hash(1, 2);
 ```
 
-Still, there's an easy way to use array join:
+とは言っても、配列結合を使う簡単な方法があります。:
 
 ```js run
 function hash() {
@@ -414,40 +414,40 @@ function hash() {
 hash(1, 2);
 ```
 
-The trick is called *method borrowing*.
+このトリックは *メソッドの借用(method borrowing)* と呼ばれます。
 
-We take (borrow) a join method from a regular array `[].join`. And use `[].join.call` to run it in the context of `arguments`.
+私たちは、通常の配列から結合メソッドを行いました(借りました): `[].join`。また、`arguments` のコンテキストで実行するため `[].join.call` を使っています。
 
-Why does it work?
+なぜこれが動作するのでしょう？
 
-That's because the internal algorithm of the native method `arr.join(glue)` is very simple.
+これは、ネイティブメソッド `arr.join(glue)` の内部アルゴリズムが非常に単純なためです。
 
 Taken from the specification almost "as-is":
 
-1. Let `glue` be the first argument or, if no arguments, then a comma `","`.
-2. Let `result` be an empty string.
-3. Append `this[0]` to `result`.
-4. Append `glue` and `this[1]`.
-5. Append `glue` and `this[2]`.
-6. ...Do so until `this.length` items are glued.
-7. Return `result`.
+1. `glue` を最初の引数にし、引数がない場合はカンマ `","` にします。
+2. `result` は空の文字列にします。
+3. `this[0]` を `result` に追加します。
+4. `glue` と `this[1]` を追加します。
+5. `glue` と `this[2]` を追加します。
+6. `this.length` の項目が処理されるまで続けます。
+7. `result` を返します。
 
-So, technically it takes `this` and joins `this[0]`, `this[1]` ...etc together. It's intentionally written in a way that allows any array-like `this` (not a coincidence, many methods follow this practice). That's why it also works with `this=arguments`.
+従って、技術的には `this` を取り、`this[0]`, `this[1]` ... などを一緒に結合します。これは意図的に任意の配列型(array-like) の `this` を許容する方法で書かれています(多くのメソッドがこの慣習に従っています)。そういうわけで `this=arguments` でも動きます。
 
-## Summary
+## サマリ
 
-*Decorator* is a wrapper around a function that alters its behavior. The main job is still carried out by the function.
+*デコレータ* は関数の振る舞いを変更するラッパーです。メインの仕事は引き続き元の関数により行われます。
 
-It is generally safe to replace a function or a method with a decorated one, except for one little thing. If the original function had properties on it, like `func.calledCount` or whatever, then the decorated one will not provide them. Because that is a wrapper. So one needs to be careful if one uses them. Some decorators provide their own properties.
+小さい点を除けば、デコレートされた関数またはメソッドへの置き換えは安全です。もし `func.calledCount` のように元の関数がプロパティを持っている場合、デコレートされた関数はそれらを提供しません。なぜなら、それはラッパーだからです。従って、使用する場合は注意する必要があります。 一部のデコレータは独自のプロパティを提供します。
 
-Decorators can be seen as "features" or "aspects" that can be added to a function. We can add one or add many. And all this without changing its code!
+デコレータは、関数に追加できる「機能」または「特徴」として見ることができます。 1つを追加したり、より多く追加することができます。 そして、これらすべてコードを変更することなく行うことができます！
 
-To implement `cachingDecorator`, we studied methods:
+`cachingDecorator` を実装するために、次のメソッドを学びました:
 
-- [func.call(context, arg1, arg2...)](mdn:js/Function/call) -- calls `func` with given context and arguments.
-- [func.apply(context, args)](mdn:js/Function/apply) -- calls `func` passing `context` as `this` and array-like `args` into a list of arguments.
+- [func.call(context, arg1, arg2...)](mdn:js/Function/call) -- `func` を与えられたコンテキストと引数で呼び出します。
+- [func.apply(context, args)](mdn:js/Function/apply) -- `context` を `this` とし、配列型 `args` を引数のリストとして `func` を呼び出します。
 
-The generic *call forwarding* is usually done with `apply`:
+一般的な *呼び出し転送(call forwarding)* は通常 `apply` で行われます。:
 
 ```js
 let wrapper = function() {
@@ -455,7 +455,6 @@ let wrapper = function() {
 }
 ```
 
-We also saw an example of *method borrowing* when we take a method from an object and `call` it in the context of another object. It is quite common to take array methods and apply them to arguments. The alternative is to use rest parameters object that is a real array.
+また、私たちはオブジェクトからメソッドを取得し、別のオブジェクトのコンテキストでそのメソッドを `呼び出す` と言う、 *メソッドの借用* の例も見ました。配列のメソッドを取り、それらを引数に適用するのはよくあることです。代替としては、本当の配列である残りのパラメータオブジェクトを使うこと、があります。
 
-
-There are many decorators there in the wild. Check how well you got them by solving the tasks of this chapter.
+多くのデコレータが世の中に出回っています。このチャプターのタスクを解決することで、いかに良いかを確認してください。

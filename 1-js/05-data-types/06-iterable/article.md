@@ -1,7 +1,7 @@
 
-# 繰り返し可能(iterables)なオブジェクト
+# 反復可能(iterables)なオブジェクト
 
-*繰り返し可能な* オブジェクトは配列の一般化です。その概念は、`for..of` ループが利用可能な任意のオブジェクトを作ることができます。
+*反復可能な* オブジェクトは配列の一般化です。その概念は、`for..of` ループが利用可能な任意のオブジェクトを作ることができます。
 
 配列自体は反復可能です。しかし、配列だけではありません。文字列も反復可能ですし、多くの他の組み込みオブジェクトも同様です。
 
@@ -27,7 +27,7 @@ let range = {
 // for(let num of range) ... num=1,2,3,4,5
 ```
 
-`range` を iterable にするために (`for..of` を動作させるために)、`Symbol.iterator` (このための特別な組み込みのシンボルです)という名前のメソッドをオブジェクトに追加する必要があります。
+`range` を 反復可能(iterable) にするために (`for..of` を動作させるために)、`Symbol.iterator` (このための特別な組み込みのシンボルです)という名前のメソッドをオブジェクトに追加する必要があります。
 
 - `for..of` が始まると、そのメソッドを呼びます(なければエラーになります)。
 - メソッドは *iterator* (メソッド `next` をもつオブジェクト)を返さなければいけません。
@@ -160,20 +160,20 @@ while (true) {
 
 これはほとんど必要とはされませんが、`for..of` よりもプロセスをよりコントロールできます。例えば、私たちが繰り返しのプロセスを分割したい場合: 少し反復してから停止し、別のことをしてから、後で再開します。
 
-## Iterables と array-likes [#array-like]
+## 反復可能(Iterables) と 配列型(array-like)s [#array-like]
 
 同じように見える2つの正式な用語がありますが、非常に異なっています。 混乱を避けるために、それらをよく理解してください。
 
-- *Iterables(反復可能)* は上で説明したように、`Symbol.iterator` メソッドを実装したオブジェクトです。
-- *Array-likes(配列のような)* は、インデックスと `length` を持ったオブジェクトです。なので、これらは配列のように見えます。
+- *反復可能(Iterables* は上で説明したように、`Symbol.iterator` メソッドを実装したオブジェクトです。
+- *配列型(Array-likes)* は、インデックスと `length` を持ったオブジェクトです。なので、これらは配列のように見えます。
 
-もちろん、それらの特性は組み合わせることができます。例えば、文字列は iterable (`for..of` が動作する) であり、かつ array-like (数値インデックスと `length` を持っています) です。
+もちろん、それらの特性は組み合わせることができます。例えば、文字列は 反復可能(iterable) (`for..of` が動作する) であり、かつ 配列型(array-like) (数値インデックスと `length` を持っています) です。
 
-しかし、iterable は array-like 出ない可能性があります。そして、同じように array-like も iterable でない可能性があります。
+しかし、反復可能(iterable) は 配列型(array-like) 出ない可能性があります。そして、同じように 配列型(array-like) も 反復可能(iterable) でない可能性があります。
 
-例えば、上の例の `range` は iterable ですが、 array-like ではありません。なぜなら、インデックスと `length` を持っていないからです。
+例えば、上の例の `range` は 反復可能(iterable) ですが、 配列型(array-like) ではありません。なぜなら、インデックスと `length` を持っていないからです。
 
-そして、ここでは array-like だけど、 iterable ではないオブジェクトです:
+そして、ここでは 配列型(array-like) だけど、 反復可能(iterable) ではないオブジェクトです:
 
 ```js run
 let arrayLike = { // has indexes and length => array-like
@@ -188,11 +188,11 @@ for (let item of arrayLike) {}
 */!*
 ```
 
-それらの共通点は -- iterables と array-like は両方とも通常 *配列ではなく*、`push` や `pop` などのメソッドを持っていません。もしもこのようなオブジェクトを持っていて、配列のように処理したい場合にはむしろ不便です。
+それらの共通点は -- 反復可能(iterable) と 配列型(array-like) は両方とも通常 *配列ではなく*、`push` や `pop` などのメソッドを持っていません。もしもこのようなオブジェクトを持っていて、配列のように処理したい場合にはむしろ不便です。
 
 ## Array.from
 
-それらを結びつける共通のメソッド [Array.from](mdn:js/Array/from) があります。これは iterable または array-like の値を取り、そこから "本当の" `Array` を作ります。その後、配列のメソッドを呼べるようになります。
+それらを結びつける共通のメソッド [Array.from](mdn:js/Array/from) があります。これは 反復可能(iterable) または 配列型(array-like) の値を取り、そこから "本当の" `Array` を作ります。その後、配列のメソッドを呼べるようになります。
 
 例:
 
@@ -209,9 +209,9 @@ let arr = Array.from(arrayLike); // (*)
 alert(arr.pop()); // World (method works)
 ```
 
-行 `(*)` の `Array.from` はオブジェクトを取り出し、iterable か array-like なのか調べ、新しい配列を作り、そこにすべてのアイテムをコピーします。
+行 `(*)` の `Array.from` はオブジェクトを取り出し、反復可能(iterable) か 配列型(array-like) なのか調べ、新しい配列を作り、そこにすべてのアイテムをコピーします。
 
-iterable でも同じことが起こります:
+反復可能(iterable) でも同じことが起こります:
 
 ```js
 // assuming that range is taken from the example above
@@ -285,7 +285,7 @@ alert( str.slice(1, 3) ); // garbage (two pieces from different surrogate pairs)
 
 ## サマリ
 
-`for..of` が使えるオブジェクトは *iterable(反復可能)* と呼ばれます。
+`for..of` が使えるオブジェクトは *反復可能(iterable)* と呼ばれます。
 
 - 技術的には、iterables は `Symbol.iterator` と呼ばれるメソッドを実装しなければなりません。
     - `obj[Symbol.iterator]` の結果は *iterator* と呼ばれます。それは、さらなる反復処理を行います。
@@ -294,8 +294,8 @@ alert( str.slice(1, 3) ); // garbage (two pieces from different surrogate pairs)
 - 文字列や配列のような組み込みの iterables もまた、`Symbol.iterator` を実装しています。
 - 文字列の iterator はサロゲートペアが考慮できます。
 
-インデックス付きのプロパティと `length` をもつオブジェクトは *array-like* と呼ばれます。このようなオブジェクトは他のプロパティやメソッドを持つことができますが、配列の組み込みメソッドは欠落しています。
+インデックス付きのプロパティと `length` をもつオブジェクトは *配列型(array-like)* と呼ばれます。このようなオブジェクトは他のプロパティやメソッドを持つことができますが、配列の組み込みメソッドは欠落しています。
 
-もしも、仕様の内側を見ると、−− ほとんどの組み込みメソッドは、"本当の" 配列の代わりに iterables または array-like で動作することを仮定していることがわかるでしょう。なぜなら、それらはより抽象的なためです。
+もしも、仕様の内側を見ると、−− ほとんどの組み込みメソッドは、"本当の" 配列の代わりに 反復可能(iterable) または 配列型(array-like) で動作することを仮定していることがわかるでしょう。なぜなら、それらはより抽象的なためです。
 
-`Array.from(obj[, mapFn, thisArg])` は iterable または array-like な `obj` の実際の `Array` を作成し、その後配列のメソッドを使えるようになります。オプションの引数 `mapFn` と `thisArg` は、各項目に関数を適用することを可能にします。
+`Array.from(obj[, mapFn, thisArg])` は 反復可能(iterable) または 配列型(array-like) な `obj` の実際の `Array` を作成し、その後配列のメソッドを使えるようになります。オプションの引数 `mapFn` と `thisArg` は、各項目に関数を適用することを可能にします。
