@@ -3,23 +3,23 @@ libs:
 
 ---
 
-# Currying and partials
+# カリー化(Currying) and 部分適用(partials)
 
-Till now we were only talking about binding `this`. Now let's make a step further.
+今まで、私たちは `this` をバインドすることについて話していました。 さあ、もう一歩を進めましょう。
 
-We can bind not only `this`, but also arguments. That's rarely done, but sometimes can be handy.
+私たちは、`this` だけでなく、引数もバインドすることができます。それはめったにされませんが、便利なときがあります。
 
 [cut]
 
-The full syntax of `bind`:
+`bind` の完全な構文です:
 
 ```js
 let bound = func.bind(context, arg1, arg2, ...);
 ```
 
-It allows to bind context as `this` and starting arguments of the function.
+これは、コンテキスト( `this` として)と、関数の開始引数をバインドすることができます。
 
-For instance, we have a multiplication function `mul(a, b)`:
+例えば、乗算関数 `mul(a, b)` を考えます:
 
 ```js
 function mul(a, b) {
@@ -27,7 +27,7 @@ function mul(a, b) {
 }
 ```
 
-Let's use `bind` to create a function `double` on its base:
+これをベースとした関数 `double` を作るために、`bind` を使ってみましょう。:
 
 ```js run
 *!*
@@ -39,13 +39,13 @@ alert( double(4) ); // = mul(2, 4) = 8
 alert( double(5) ); // = mul(2, 5) = 10
 ```
 
-The call to `mul.bind(null, 2)` creates a new function `double` that passes calls to `mul`, fixing `null` as the context and `2` as the first argument. Further arguments are passed "as is".
+`mul.bind(null, 2)` を呼び出すと、`mul` を呼び出す新しい関数 `double` が作成されます。それは、`null` がコンテキストとして、`2` が最初の引数として固定されます。さらに、その他の引数は "そのまま" 渡されます。
 
-That's called [partial function application](https://en.wikipedia.org/wiki/Partial_application) -- we create a new function by fixing some parameters of the existing one.
+これは [関数への部分的な適用(partial function application)](https://en.wikipedia.org/wiki/Partial_application)と呼ばれます -- 既存の関数の一部のパラメータを変更することで新しい関数を作ります。
 
-Please note that here we actually don't use `this` here. But `bind` requires it, so we must put in something like `null`.
+ここで、例では実際には `this` を使っていないことに注意してください。しかし `bind` はそれを必要とするため、`null` のような何かを指定する必要があります。
 
-The function `triple` in the code below triples the value:
+下のコードの関数 `triple` は値を3倍にします:
 
 ```js run
 *!*
@@ -57,23 +57,24 @@ alert( triple(4) ); // = mul(3, 4) = 12
 alert( triple(5) ); // = mul(3, 5) = 15
 ```
 
-Why do we usually make a partial function?
+なぜ、通常部分的な関数を作るのでしょうか？
 
-Here our benefit is that we created an independent function with a readable name (`double`, `triple`). We can use it and don't write the first argument of every time, cause it's fixed with `bind`.
+ここでの我々のメリットは、分かりやすい名前(`double`, `triple`)で独立した関数を作れたことです。私たちはそれを使うことができ、毎回最初の引数を書く必要がありません。なぜなら、`bind` で固定されているからです。
 
-In other cases, partial application is useful when we have a very generic function, and want a less universal variant of it for convenience.
+別のケースでは、非常に汎用的な関数を持っており、利便性のために汎用性を減らしたい時に部分適用は役立ちます。
 
-For instance, we have a function `send(from, to, text)`. Then, inside a `user` object we may want to use a partial variant of it: `sendTo(to, text)` that sends from the current user.
+例えば、関数 `send(from, to, text)` を考えます。次に、`user` オブジェクトの内側で、その部分的なバリアントを使いたいかもしれません。: 現在のユーザから送信を行う `sendTo(to, text)` 関数など。
 
-## Going partial without context
 
-What if we'd like to fix some arguments, but not bind `this`?
+## コンテキストなしの部分適用
 
-The native `bind` does not allow that. We can't just omit the context and jump to arguments.
+仮に、いくつかの引数を修正したいが、`this` をバインドしない場合はどうなるでしょう？
 
-Fortunately, a `partial` function for binding only arguments can be easily implemented.
+ネイティブの `bind` ではそれは許可されていません。単にコンテキストを省略し引数にジャンプすることは出来ません。
 
-Like this:
+ただ、幸いにも引数だけをバインドする `partial` 関数は簡単に実装することが出来ます。
+
+このようになります:
 
 ```js run
 *!*
@@ -100,22 +101,23 @@ user.sayNow("Hello");
 // [10:00] Hello, John!
 ```
 
-The result of `partial(func[, arg1, arg2...])` call is a wrapper `(*)` that calls `func` with:
-- Same `this` as it gets (for `user.sayNow` call it's `user`)
-- Then gives it `...argsBound` -- arguments from the `partial` call (`"10:00"`)
-- Then gives it `...args` -- arguments given to the wrapper (`"Hello"`)
+`partial(func[, arg1, arg2...])` の呼び出しの結果は次のように `func` を呼び出すラッパー `(*)` です。:
+- `this` はそれが取得したものと同じです（`user.sayNow` の場合 `user` です）。
+- 次に、`...argsBound` を与えます -- `partial` 呼び出しからの引数(`"10:00"`)です。
+- 次に、`...args` です -- ラッパーへ与えられた引数(`"Hello"`) です。
 
-So easy to do it with the spread operator, right?
+なのでスプレッド演算子を使えば簡単ですね。
 
-Also there's a ready [_.partial](https://lodash.com/docs#partial) implementation from lodash library.
+また、lodashライブラリの [_.partial](https://lodash.com/docs#partial) 実装も用意されています。
 
-## Currying
+## カリー化(Currying)
 
-Sometimes people mix up partial function application mentioned above with another thing named "currying". That's another interesting technique of working with functions that we just have to mention here.
+"カリー化" と呼ばれる別のものと、上で言及された関数の部分適用を混同する人もときどきいます。それはここで言及しておかなければならない関数を扱う別の興味深いテクニックです。
 
-[Currying](https://en.wikipedia.org/wiki/Currying) is translating a function from callable as `f(a, b, c)` into callable as `f(a)(b)(c)`.
+[Currying](https://en.wikipedia.org/wiki/Currying) は `f(a, b, c)` と呼び出し可能なものを `f(a)(b)(c)` として呼び出しできるように変換します。
 
-Let's make `curry` function that performs currying for binary functions. In other words, it translates `f(a, b)` into `f(a)(b)`:
+２変数関数に対するカリー化を行う関数 `curry` を作ってみましょう。言い換えると、それは `f(a, b)` を `f(a)(b)` に変換します
+。:
 
 ```js run
 *!*
@@ -138,13 +140,13 @@ let carriedSum = curry(sum);
 alert( carriedSum(1)(2) ); // 3
 ```
 
-As you can see, the implementation is a series of wrappers.
+上でわかるように、実装はラッパーの連続です。
 
-- The result of `curry(func)` is a wrapper `function(a)`.
-- When it is called like `sum(1)`, the argument is saved in the Lexical Environment, and a new wrapper is returned `function(b)`.
-- Then `sum(1)(2)` finally calls `function(b)` providing `2`, and it passes the call to the original multi-argument `sum`.
+- `curry(func)` の結果はラッパー `function(a)` です。
+- `sum(1)` のように呼ばれるとき、引数はレキシカル環境に保存され、新しいラッパー `function(b)` が返却されます。
+- そして、最終的に `sum(1)(2)` は `2` で `function(b)` を呼び、それは元の複数引数を取る `sum` を呼びます。
 
-More advanced implementations of currying like [_.curry](https://lodash.com/docs#curry) from lodash library do something more sophisticated. They return a wrapper that allows a function to be called normally when all arguments are supplied *or* returns a partial otherwise.
+lodash の [_.curry](https://lodash.com/docs#curry) のようなカリー化のより高度な実装は、より洗練された処理を行います。それらの関数は全ての引数が提供された場合には関数が正常に呼び出されるようなラッパーを返し、*そうでない場合* には、部分適用を返します。
 
 ```js
 function curry(f) {
@@ -156,11 +158,11 @@ function curry(f) {
 }
 ```
 
-## Currying? What for?
+## カリー化? 何のために?
 
-Advanced currying allows both to keep the function callable normally and to get partials easily. To understand the benefits we definitely need a worthy real-life example.
+高度なカリー化を使用すると、簡単に関数を通常呼び出し可能にしつつ、部分適用をすることができます。このメリットを理解するために、価値のある実例を見る必要があります。
 
-For instance, we have the logging function `log(date, importance, message)` that formats and outputs the information. In real projects such functions also have many other useful features like: sending it over the network or filtering:
+例えば、情報を整形して出力するロギング関数 `log(date, importance, message)` を持っているとします。実際のプロジェクトでは、このような関数には、ネットワーク経由での送信やフィルタリングなど、他にも多くの便利な機能があります。
 
 ```js
 function log(date, importance, message) {
@@ -168,25 +170,25 @@ function log(date, importance, message) {
 }
 ```
 
-Let's curry it!
+では、カリー化してみましょう!
 
 ```js
 log = _.curry(log);
 ```
 
-After that `log` still works the normal way:
+この処理の後でも `log` は通常の方法で動きます:
 
 ```js
 log(new Date(), "DEBUG", "some debug");
 ```
 
-...But also can be called in the curried form:
+...しかしカリー化された形式でも呼び出すことができます:
 
 ```js
 log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
 ```
 
-Let's get a convenience function for today's logs:
+今日のログのための便利な関数を取得してみましょう:
 
 ```js
 // todayLog will be the partial of log with fixed first argument
@@ -196,7 +198,7 @@ let todayLog = log(new Date());
 todayLog("INFO", "message"); // [HH:mm] INFO message
 ```
 
-And now a convenience function for today's debug messages:
+また、これで今日のデバッグメッセージのための便利関数ができます:
 
 ```js
 let todayDebug = todayLog("DEBUG");
@@ -204,13 +206,14 @@ let todayDebug = todayLog("DEBUG");
 todayDebug("message"); // [HH:mm] DEBUG message
 ```
 
-So:
-1. We didn't lose anything after currying: `log` is still callable normally.
-2. We were able to generate partial functions that are convenient in many cases.
+なので:
+1. カリー化をしても何も失いませんでした。: `log` は以前元のように呼び出し可能です。
+2. 色んなケースに応じて便利な部分適用した関数を生成する事ができました。
 
-## Advanced curry implementation
 
-In case you're interested, here's the "advanced" curry implementation that we could use above.
+## 高度なカリー実装
+
+ここでは、上で使用できる "高度な" カリー実装を示します。
 
 ```js run
 function curry(func) {
@@ -243,9 +246,9 @@ alert( curriedSum(1)(2,3) ); // 6
 alert( curriedSum(1)(2)(3) ); // 6
 ```
 
-The new `curry` may look complicated, but it's actually pretty easy to understand.
+新しい `curry` は複雑に見えますが、実際には理解するのはとても簡単です。
 
-The result of `curry(func)` is the wrapper `curried` that looks like this:
+`curry(func)` の結果は、このように `curried` のラッパーです。:
 
 ```js
 // func is the function to transform
@@ -260,39 +263,38 @@ function curried(...args) {
 };
 ```
 
-When we run it, there are two branches:
+これを実行すると、2つの分岐があります。:
 
-1. Call now: if passed `args` count is the same as the original function has in its definition (`func.length`) or longer, then just pass the call to it.
-2. Get a partial: otherwise, `func` is not called yet. Instead, another wrapper `pass` is returned, that will re-apply `curried` providing previous arguments together with the new ones. Then on a new call, again, we'll get either a new partial (if not enough arguments) or, finally, the result.
+1. 渡された `args` の数が元の関数が定義に持っている数と同じ (`func.length`) かより多い場合、単にそれを呼び出し `func` に渡します。
+2. 部分適用を得る: そうでない場合は、`func` はまだ呼ばれません。代わりに別のラッパー `pass` が返却されます。これは `curried` を再度適用して新しい引数と一緒に前の引数を提供します。その後、新しい呼び出しでは、新しい部分適用（引数が不十分な場合）か、最終的に結果が得られます。
 
-For instance, let's see what happens in the case of `sum(a, b, c)`. Three arguments, so `sum.length = 3`.
+例えば、`sum(a, b, c)` のケースで何が起きるのかを見てみましょう。3つの引数があるので、`sum.length = 3` です。
 
-For the call `curried(1)(2)(3)`:
+`curried(1)(2)(3)` に対しては次のようになります:
 
-1. The first call `curried(1)` remembers `1` in its Lexical Environment, and returns a wrapper `pass`.
-2. The wrapper `pass` is called with `(2)`: it takes previous args (`1`), concatenates them with what it got `(2)` and calls `curried(1, 2)` with them together.
+1. 最初の呼び出し `curried(1)` はそのレキシカル環境に `1` を覚え、ラッパー `pass` を返します。
+2. ラッパー `pass` は `(2)` で呼び出されます: それは前の引数（`1`)を取り、渡された `(2)` と連結し `curried(1, 2)` を呼び出します。引数の数としては、以前 3 より少ないので、`curry` は `pass` を返します。
+3. ラッパー `pass` は再び `(3)` で呼ばれ、次は `pass(3)` が以前の引数 (`1`, `2`) を取り、`3` を追加して `curried(1, 2, 3)` を呼び出します。 -- ついに引数が `3` となったので、それらは元の関数に渡されます。
 
-    As the argument count is still less than 3, `curry` returns `pass`.
-3. The wrapper `pass` is called again with `(3)`,  for the next call `pass(3)` takes previous args (`1`, `2`) and adds `3` to them, making the call `curried(1, 2, 3)` -- there are `3` arguments at last, they are given to the original function.
-
-If that's still not obvious, just trace the calls sequence in your mind or on the paper.
+もしまだ不明瞭であれば、心の中、あるいは紙に呼び出しシーケンスをトレースしてみると良いです。
 
 ```smart header="Fixed-length functions only"
-The currying requires the function to have a known fixed number of arguments.
+カリー化では、関数が固定数の引数を持つ必要があります。
 ```
 
 ```smart header="A little more than currying"
-By definition, currying should convert `sum(a, b, c)` into `sum(a)(b)(c)`.
+定義上、カリー化は `sum(a, b, c)` を `sum(a)(b)(c)` に変換するべきです。
 
-But most implementations of currying in JavaScript are advanced, as described: they also keep the function callable in the multi-argument variant.
+しかし、JavaScriptでのカリー化のほとんどの実装は説明されているように高度であり、複数引数のバリアントでも関数が呼び出し可能となっています。
 ```
 
-## Summary
+## サマリ
 
-- When we fix some arguments of an existing function, the resulting (less universal) function is called *a partial*. We can use `bind` to get a partial, but there are other ways also.
+- 私たちが既存の関数のいくつかの引数を修正するとき、結果となる(汎用さは減る)関数は、*部分適用* と呼ばれます。部分適用を得るために `bind` を使うことができますが、他の方法でも可能です。
 
-    Partials are convenient when we don't want to repeat the same argument over and over again. Like if we have a `send(from, to)` function, and `from` should always be the same for our task, we can get a partial and go on with it.
+    同じ引数を何度も繰り返し指定したくないとき、部分適用は便利です。それは、私たちが `send(from, to)` 関数を持っていて,
+    `from` が常に同じになるような場合です。部分適用を得て処理を続けることができます。
 
-- *Currying* is a transform that makes `f(a,b,c)` callable as `f(a)(b)(c)`. JavaScript implementations usually both keep the function callable normally and return the partial if arguments count is not enough.
+- *カリー化* は `f(a,b,c)` を `f(a)(b)(c)` として呼び出し可能に変換します。JavaScriptの実装は、通常の形で呼び出し可能な関数を維持し、かつ引数が不足している場合には部分適用を返します。
 
-    Currying is great when we want easy partials. As we've seen in the logging example: the universal function `log(date, importance, message)` after currying gives us partials when called with one argument like `log(date)` or two arguments `log(date, importance)`.  
+    簡単な部分適用がほしいときにカリー化は素晴らしいです。ロギングの例で見てきたように、カリー化後の汎用的な関数 `log(date, importance, message)` は、1つの引数 `log(date)` または2つの引数 `log(date, importance)` で呼び出された時には部分適用を返します。
