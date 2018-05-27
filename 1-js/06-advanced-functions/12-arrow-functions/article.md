@@ -1,28 +1,28 @@
-# Arrow functions revisited
+# アロー関数ふたたび
 
-Let's revisit arrow functions.
+アロー関数について改めて考えてみましょう。
 
 [cut]
 
-Arrow functions are not just a "shorthand" for writing small stuff.
+アロー関数は小さなものを書くための単なる "簡略化" ではありません。
 
-JavaScript is full of situations where we need to write a small function, that's executed somewhere else.
+JavaScriptは、小さな関数を書く必要がある状況に満ちており、それはいろんな場所で実行されます。
 
-For instance:
+例えば:
 
-- `arr.forEach(func)` -- `func` is executed by `forEach` for every array item.
-- `setTimeout(func)` -- `func` is executed by the built-in scheduler.
-- ...there are more.
+- `arr.forEach(func)` -- `func` は `forEach` によって、すべての配列項目に対して実行されます。
+- `setTimeout(func)` -- `func` は組み込みのスケジューラにより実行されます。
+- ...もっとあります。
 
-It's in the very spirit of JavaScript to create a function and pass it somewhere.
+関数を作成してどこかに渡すのは、JavaScriptの真髄です。
 
-And in such functions we usually don't want to leave the current context.
+そして、このような関数では、私たちは通常現在のコンテキストから離れたくありません。
 
-## Arrow functions have no "this"
+## アロー関数は "this" を持っていません
 
-As we remember from the chapter <info:object-methods>, arrow functions do not have `this`. If `this` is accessed, it is taken from the outside.
+チャプター <info:object-methods> で覚えているように、アロー関数は `this` を持っていません。もし `this` がアクセスされた場合、それは外側から取られます。
 
-For instance, we can use it to iterate inside an object method:
+例えば、私たちはそれを使ってオブジェクトメソッドの内側を反復することができます。:
 
 ```js run
 let group = {
@@ -41,9 +41,9 @@ let group = {
 group.showList();
 ```
 
-Here in `forEach`, the arrow function is used, so `this.title` in it is exactly the same as in the outer method `showList`. That is: `group.title`.
+`forEach` では、アロー関数が使われているので、その中の `this.title` は外部メソッド `showList` と全く同じです。つまり: `group.title` です。
 
-If we used a "regular" function, there would be an error:
+もし "通常の" 関数を使った場合はエラーになります。:
 
 ```js run
 let group = {
@@ -63,28 +63,28 @@ let group = {
 group.showList();
 ```
 
-The error occurs because `forEach` runs functions with `this=undefined` by default, so the attempt to access `undefined.title` is made.
+`forEach` は、デフォルトでは `this=undefined` で関数を実行するので、`undefined.title` へのアクセスへの試みが行われます。そのためエラーが起こります。
 
-That doesn't affect arrow functions, because they just don't have `this`.
+これはアロー関数には影響しません。なぜなら、`this` を持っていないためです。
 
 ```warn header="Arrow functions can't run with `new`"
-Not having `this` naturally means another limitation: arrow functions can't be used as constructors. They can't be called with `new`.
+`this` を持たないことは当然別の制限を意味します。アロー関数はコンストラクタとして使用できません。 彼らは `new` で呼び出すことはできません。
 ```
 
 ```smart header="Arrow functions VS bind"
-There's a subtle difference between an arrow function `=>` and a regular function called with `.bind(this)`:
+アロー関数 `=>` と `.bind(this)` で呼ばれた通常の関数の間には微妙な違いがあります。:
 
-- `.bind(this)` creates a "bound version" of the function.
-- The arrow `=>` doesn't create any binding. The function simply doesn't have `this`. The lookup of `this` is made exactly the same way as a regular variable search: in the outer lexical environment.
+- `.bind(this)` は関数の "バインドされたバージョン" を作ります。
+- アロー `=>` はバインディングを作成しません。関数には単に `this` がありません。`this` の検索は通常の変数検索とまったく同じ方法で行われます: 外部のレキシカル環境です。
 ```
 
-## Arrows have no "arguments"
+## アロー関数は "arguments" を持ちません
 
-Arrow functions also have no `arguments` variable.
+アロー関数は `arguments` 変数も持っていません。
 
-That's great for decorators, when we need to forward a call with the current `this` and `arguments`.
+それは、現在の `this` と `arguments` を使って呼び出しをフォワードする必要があるときなど、デコレータとしてはとても素晴らしいものです。
 
-For instance, `defer(f, ms)` gets a function and returns a wrapper around it that delays the call by `ms` milliseconds:
+例えば、`defer(f, ms)` は関数を得て、`ms` ミリ秒で呼び出しを遅らせるラッパーを返します。:
 
 ```js run
 function defer(f, ms) {
@@ -101,7 +101,7 @@ let sayHiDeferred = defer(sayHi, 2000);
 sayHiDeferred("John"); // Hello, John after 2 seconds
 ```
 
-The same without an arrow function would look like:
+アロー関数を使わない場合は次のようになります:
 
 ```js
 function defer(f, ms) {
@@ -114,15 +114,15 @@ function defer(f, ms) {
 }
 ```
 
-Here we had to create additional variables `args` and `ctx` so that the function inside `setTimeout` could take them.
+ここでは、私たちは `setTimeout` 内の関数がそれを受け取るために、余分な変数 `args` と `ctx` を作らなければなりませんでした。
 
-## Summary
+## サマリ
 
-Arrow functions:
+アロー関数:
 
-- Do not have `this`.
-- Do not have `arguments`.
-- Can't be called with `new`.
-- (They also don't have `super`, but we didn't study it. Will be in the chapter <info:class-inheritance>).
+- `this` を持ちません。
+- `arguments` を持ちません。
+- `new` で呼び出すことはできません。
+- (`super` も持っていません。が、私たちはまだそれを学んでいませんでした。チャプター <info:class-inheritance> で学習しましょう)。
 
-That's because they are meant for short pieces of code that do not have their own "context", but rather works in the current one. And they really shine in that use case.
+これは、独自の "コンテキスト" を持たず、むしろ現在のコンテキストで動作するコードの小さい部品を意味するためです。そして、そのようなユースケースで本当に輝きます。
