@@ -1,24 +1,25 @@
 # F.prototype
 
-In modern JavaScript we can set a prototype using `__proto__`, as described in the previous article. But it wasn't like that all the time.
+最新のJavaScriptでは、前の記事で説明したとおり、`__proto__` を使ってプロトタイプをセットすることができます。しかし、それはいつでもそうではありませんでした。
 
 [cut]
 
-JavaScript has had prototypal inheritance from the beginning. It was one of the core features of the language.
+JavaScriptは最初からプロトタイプの継承を持っています。 それは言語の中心的な特徴の1つでした。
 
-But in the old times, there was another (and the only) way to set it: to use a `"prototype"` property of the constructor function. And there are still many scripts that use it.
+しかし、以前は別(であり唯一)の方法がありました。: コンストラクタ関数の `"prototype"` プロパティを使うことです。そして、それを使っているスクリプトはまだたくさんあります。
 
-## The "prototype" property
+## "prototype" プロパティ
 
-As we know already, `new F()` creates a new object.
+すでにご存知の通り、`new F()` は新しいオブジェクトを作ります。
 
-When a new object is created with `new F()`, the object's `[[Prototype]]` is set to `F.prototype`.
+`new F()` で新しいオブジェクトが作られるとき、オブジェクトの `[[Prototype]]` は `F.prototype` にセットされます。
 
-In other words, if `F` has a `prototype` property with a value of the object type, then `new` operator uses it to set `[[Prototype]]` for the new object.
+言い換えると、もし `F` がオブジェクト型の値をもつ `prototype` プロパティを持っている場合、`new` 演算子は新しいオブジェクトに対してそれを `[[Prototype]]` にセットします。
 
-Please note that `F.prototype` here means a regular property named `"prototype"` on `F`. It sounds something similar to the term "prototype", but here we really mean a regular property with this name.
+ここで `F.prototype` は `F` 上の `"prototype"` と名付けられた通常のプロパティを意味していることに注意してください。用語 "prototype" と似ていますが、ここでは本当にその名前をもつ通常のプロパティを意味しています。
 
-Here's the example:
+
+ここではその例です:
 
 ```js run
 let animal = {
@@ -38,22 +39,22 @@ let rabbit = new Rabbit("White Rabbit"); //  rabbit.__proto__ == animal
 alert( rabbit.eats ); // true
 ```
 
-Setting `Rabbit.prototype = animal` literally states the following: "When a `new Rabbit` is created, assign its `[[Prototype]]` to `animal`".
+`Rabbit.prototype = animal` の設定は、文字通り次のことを述べています。: "`new Rabbit` が生成される時、その `[[Prototype]]` へ `animal` を割り当てます。"
 
-That's the resulting picture:
+これが結果のイメージです:
 
 ![](proto-constructor-animal-rabbit.png)
 
-On the picture, `"prototype"` is a horizontal arrow, it's a regular property, and `[[Prototype]]` is vertical, meaning the inheritance of `rabbit` from `animal`.
+イメージ上で、`"prototype"` は水平矢印で、それは通常のプロパティです。`[[Prototype]]` は縦矢印で、`animal` から `rabbit` の継承を意味しています。
 
 
-## Default F.prototype, constructor property
+## デフォルトの F.prototype, constructor プロパティ
 
-Every function has the `"prototype"` property even if we don't supply it.
+すべての関数は、たとえ明示的に提供されていなくても `"prototype"` プロパティを持っています。
 
-The default `"prototype"` is an object with the only property `constructor` that points back to the function itself.
+デフォルトの `"prototype"` は `constructor` というプロパティだけを持つオブジェクトで、それは関数自体を指します。
 
-Like this:
+こんな感じです:
 
 ```js
 function Rabbit() {}
@@ -65,7 +66,7 @@ Rabbit.prototype = { constructor: Rabbit };
 
 ![](function-prototype-constructor.png)
 
-We can check it:
+コードでそれを確認できます:
 
 ```js run
 function Rabbit() {}
@@ -75,7 +76,7 @@ function Rabbit() {}
 alert( Rabbit.prototype.constructor == Rabbit ); // true
 ```
 
-Naturally, if we do nothing, the `constructor` property is available to all rabbits through  `[[Prototype]]`:
+当然、何もしない場合、 `constructor` プロパティは `[[Prototype]]` を通じてすべての rabbit が利用できます。:
 
 ```js run
 function Rabbit() {}
@@ -89,9 +90,9 @@ alert(rabbit.constructor == Rabbit); // true (from prototype)
 
 ![](rabbit-prototype-constructor.png)
 
-We can use `constructor` property to create a new object using the same constructor as the existing one.
+`constructor` プロパティを使って既存のものと同じコンストラクタを使って新しいオブジェクトを作成することができます。
 
-Like here:
+このように:
 
 ```js run
 function Rabbit(name) {
@@ -106,17 +107,17 @@ let rabbit2 = new rabbit.constructor("Black Rabbit");
 */!*
 ```
 
-That's handy when we have an object, don't know which constructor was used for it (e.g. it comes from a 3rd party library), and we need to create another one of the same kind.
+これは、オブジェクトを持っているけどどのコンストラクタが使われたか分からない場合(例えば3rdパーティライブラリが使われているなど)で、同じ種類のものを使って別のオブジェクトを作る必要がある場合に便利です。
 
-But probably the most important thing about `"constructor"` is that...
+しかし、おそらく `"constructor"` に関する最も重要なことは...
 
-**...JavaScript itself does not ensure the right `"constructor"` value.**
+**...JavaScript 自体は正しい `"constructor"` 値を保証しません。**
 
-Yes, it exists in the default `"prototype"` for functions, but that's all. What happens with it later -- is totally on us.
+はい、関数のためのデフォルトの `"prototype"` は存在しますが、それがすべてです。その後どうなるかは私たち次第です。
 
-In particular, if we replace the default prototype as a whole, then there will be no `"constructor"` in it.
+特に、もしデフォルトプロトタイプ全体を置き換えると、その中に `"constructor"` はなくなります。
 
-For instance:
+例:
 
 ```js run
 function Rabbit() {}
@@ -130,7 +131,7 @@ alert(rabbit.constructor === Rabbit); // false
 */!*
 ```
 
-So, to keep the right `"constructor"` we can choose to add/remove properties to the default `"prototype"` instead of overwriting it as a whole:
+したがって、正しい `"constructor"` を維持するためには、全体を上書きする代わりに、デフォルト `"prototype"` に対して追加/削除を行います。:
 
 ```js
 function Rabbit() {}
@@ -141,7 +142,7 @@ Rabbit.prototype.jumps = true
 // the default Rabbit.prototype.constructor is preserved
 ```
 
-Or, alternatively, recreate the `constructor` property it manually:
+もしくは、代替として手動で `constructor` プロパティを再び作ります。:
 
 ```js
 Rabbit.prototype = {
@@ -154,18 +155,17 @@ Rabbit.prototype = {
 // now constructor is also correct, because we added it
 ```
 
+## サマリ
 
-## Summary
+このチャプターでは、constructor 関数を通して作成されたオブジェクトのための `[[Prototype]]` を設定方法について簡単に説明しました。後で、それに依存するより高度なプログラミングパターンを見ていきます。
 
-In this chapter we briefly described the way of setting a `[[Prototype]]` for objects created via a constructor function. Later we'll see more advanced programming patterns that rely on it.
+すべてが非常にシンプルで、物事を明確にするための留意事項はほんの少しです。:
 
-Everything is quite simple, just few notes to make things clear:
+- `F.prototype` プロパティは `[[Prototype]]` と同じではありません。`F.prototype` がする唯一のことは: `new F()` が呼ばれたときに新しいオブジェクトの `[[Prototype]]` をセットすることです。
+- `F.prototype` の値はオブジェクトまたは null でなければなりません。: 他の値では動作しません。
+- `"prototype"` プロパティは、コンストラクタ関数に設定され、 `new`で呼び出されたときにのみ、特別な効果があります。
 
-- The `F.prototype` property is not the same as `[[Prototype]]`. The only thing `F.prototype` does: it sets `[[Prototype]]` of new objects when `new F()` is called.
-- The value of `F.prototype` should be either an object or null: other values won't work.
--  The `"prototype"` property only has such a special effect when is set to a constructor function, and invoked with `new`.
-
-On regular objects the `prototype` is nothing special:
+通常のオブジェクトでは、`prototype` は特別なものではありません。:
 ```js
 let user = {
   name: "John",
@@ -173,4 +173,4 @@ let user = {
 };
 ```
 
-By default all functions have `F.prototype = { constructor: F }`, so we can get the constructor of an object by accessing its `"constructor"` property.
+デフォルトでは、すべての関数は `F.prototype = { constructor: F }` を持っているので、その `"constructor"` プロパティへアクセスすることで、オブジェクトの constructor を取得することができます。
