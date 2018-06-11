@@ -1,17 +1,17 @@
 
-# Methods for prototypes
+# プロトタイプのためのメソッド
 
-In this chapter we cover additional methods to work with a prototype.
+このチャプターでは、プロトタイプを操作する追加のメソッドを説明します。
 
-There are also other ways to get/set a prototype, besides those that we already know:
+私たちがすでに知っている方法以外にも、プロトタイプを get/set する方法があります。
 
-- [Object.create(proto[, descriptors])](mdn:js/Object/create) -- creates an empty object with given `proto` as `[[Prototype]]` and optional property descriptors.
-- [Object.getPrototypeOf(obj)](mdn:js/Object.getPrototypeOf) -- returns the `[[Prototype]]` of `obj`.
-- [Object.setPrototypeOf(obj, proto)](mdn:js/Object.setPrototypeOf) -- sets the `[[Prototype]]` of `obj` to `proto`.
+- [Object.create(proto[, descriptors])](mdn:js/Object/create) -- 与えられた `proto` を `[[Prototype]]` として、また任意のプロパティディスクリプタで空のオブジェクトを作ります。
+- [Object.getPrototypeOf(obj)](mdn:js/Object.getPrototypeOf) -- `obj` の `[[Prototype]]` を返します。
+- [Object.setPrototypeOf(obj, proto)](mdn:js/Object.setPrototypeOf) -- `obj` の `[[Prototype]]` に `proto` をセットします。
 
 [cut]
 
-For instance:
+例:
 
 ```js run
 let animal = {
@@ -33,7 +33,7 @@ Object.setPrototypeOf(rabbit, {}); // change the prototype of rabbit to {}
 */!*
 ```
 
-`Object.create` has an optional second argument: property descriptors. We can provide additional properties to the new object there, like this:
+`Object.create` は任意の2つ目の引数を持っています: プロパティディスクリプタです。私たちはこのように、新しいオブジェクトに追加のプロパティを提供することができます。:
 
 ```js run
 let animal = {
@@ -49,40 +49,42 @@ let rabbit = Object.create(animal, {
 alert(rabbit.jumps); // true
 ```
 
-The descriptors are in the same format as described in the chapter <info:property-descriptors>.
+ディスクリプタはチャプター <info:property-descriptors> で説明したのと同じフォーマットです。
 
-We can use `Object.create` to perform an object cloning more powerful than copying properties in `for..in`:
+`for..in` でプロパティをコピーするよりも、よりパワフルにオブジェクトをクローンするために `Object.create` を使うことができます。:
+
 
 ```js
 // fully identical shallow clone of obj
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 ```
 
-This call makes a truly exact copy of `obj`, including all properties: enumerable and non-enumerable, data properties and setters/getters -- everything, and with the right `[[Prototype]]`.
+この呼出はすべてのプロパティを含む `obj` の本当の正確なコピーを作ります。: 列挙型、非列挙型、データプロパティ、setter/getter -- すべてと、正確な `[[Prototype]]` です。
 
-## Brief history
+## 略史
 
-If we count all the ways to manage `[[Prototype]]`, there's a lot! Many ways to do the same!
+もし `[[Prototype]]` を管理するすべての方法を数えると、たくさんあります! 同じことをするたくさんの方法があります!
 
-Why so?
+なぜでしょう？
 
-That's for historical reasons.
+それは歴史的な理由のためです。
 
-- The `"prototype"` property of a constructor function works since very ancient times.
-- Later in the year 2012: `Object.create` appeared in the standard. It allowed to create objects with the given prototype, but did not allow to get/set it. So browsers implemented non-standard `__proto__` accessor that allowed to get/set a prototype at any time.
-- Later in the year 2015: `Object.setPrototypeOf` and `Object.getPrototypeOf` were added to the standard. The `__proto__` was de-facto implemented everywhere, so it made its way to the Annex B of the standard, that is optional for non-browser environments.
+- コンストラクタ関数の `"prototype"` プロパティは非常に古代から機能しています。
+- 2012年後半: `Object.create` が標準に登場しました。それは与えられたプロトタイプでオブジェクトを作りますが、それを取得/設定することはできませんでした。なのでブラウザはいつでもプロトタイプの取得/設定ができる非標準の `__proto__` アクセサを実装しました。
+- 2015年後半: `Object.setPrototypeOf` と `Object.getPrototypeOf` が標準に追加されました。`__proto__` はどこでも実行されているデファクトだったので、標準の付録Bに追加されています。これはブラウザ以外の環境ではオプションです。
 
-As of now we have all these ways at our disposal.
+今のところ、私たちはすべての方法を自由に使い分けています。
 
-Technically, we can get/set `[[Prototype]]` at any time. But usually we only set it once at the object creation time, and then do not modify: `rabbit` inherits from `animal`, and that is not going to change. And JavaScript engines are highly optimized to that. Changing a prototype "on-the-fly" with `Object.setPrototypeOf` or `obj.__proto__=` is a very slow operation. But it is possible.
+技術的には、いつでも `[[Prototype]]` の取得/設定が可能です。しかし、通常はオブジェクト作成時に一度だけ設定を行い、変更はしません。: `rabbit` は `animal` から継承しており、それは変更しません。また、JavaScriptエンジンは高度に最適化されています。`Object.setPrototypeOf` または `obj.__proto__=` で "その場で" プロトタイプを変更することは、可能ですがとても遅い操作になります。
 
-## "Very plain" objects
 
-As we know, objects can be used as associative arrays to store key/value pairs.
+## "非常にシンプルな" オブジェクト
 
-...But if we try to store *user-provided* keys in it (for instance, a user-entered dictionary), we can see an interesting glitch: all keys work fine except `"__proto__"`.
+ご存知の通り、オブジェクトはキー/値ペアを格納するための連想配列として使うことができます。
 
-Check out the example:
+...しかし、もしその中で *ユーザから提供された* キーを格納しようとした場合(例えばユーザが入力した辞書)、興味深い問題が起こります。: すべてのキーは `"__proto__"` を除いてうまく動作します。
+
+例を確認してみましょう:
 
 ```js run
 let obj = {};
@@ -93,31 +95,31 @@ obj[key] = "some value";
 alert(obj[key]); // [object Object], not "some value"!
 ```
 
-Here if the user types in `__proto__`, the assignment is ignored!
+もしユーザが `__proto__` を入力した場合、その代入は無視されます!
 
-That shouldn't surprise us. The `__proto__` property is special: it must be either an object or `null`, a string can not become a prototype.
+それは驚くことではありません。`__proto__` プロパティは特別です: それはオブジェクトまたは `null` であり、文字列はプロトタイプにはなれません。
 
-But we did not intend to implement such behavior, right? We want to store key/value pairs, and the key named `"__proto__"` was not properly saved. So that's a bug. Here the consequences are not terrible. But in other cases the prototype may indeed be changed, so the execution may go wrong in totally unexpected ways.
+しかし、私たちはこのような振る舞いを実装するつもりはありませんでした。私たちはキー/値ペアを格納したいですが、キー名が `"__proto__"` の場合は正しく保存されませんでした。なので、これはバグです。ここでの結果はひどくはありませんが、他のケースでは、プロトタイプは実際に変更される可能性があるため、処理が予期しない方向で間違ってしまう可能性があります。
 
-What's worst -- usually developers do not think about such possibility at all. That makes such bugs hard to notice and even turn them into vulnerabilities, especially when JavaScript is used on server-side.
+最悪なのは -- 通常開発者はこのような可能性について全く考えません。これにより、このようなバグが気付きにくくなり、特にJavaScriptがサーバー側で使用されている場合には、それらを脆弱性に変えることさえあります。
 
-Such thing happens only with `__proto__`. All other properties are "assignable" normally.
+このようなことは `__proto__` の場合にのみ起こります。すべての他のプロパティは通常 "代入可能" です。
 
-How to evade the problem?
+どうやってこの問題を回避しましょう？
 
-First, we can just switch to using `Map`, then everything's fine.
+最初に、私たちは `Map` を使うよう切り替えることができます。それですべて問題ありません。
 
-But `Object` also can serve us well here, because language creators gave a thought to that problem long ago.
+しかし、 言語の作成者がその問題をずっと前から考えていたため、`Object` もまたここでは上手くいきます。
 
-The `__proto__` is not a property of an object, but an accessor property of `Object.prototype`:
+`__proto__` はオブジェクトのプロパティではなく、`Object.prototype` のアクセサプロパティです。:
 
 ![](object-prototype-2.png)
 
-So, if `obj.__proto__` is read or assigned, the corresponding getter/setter is called from its prototype, and it gets/sets `[[Prototype]]`.
+なので、もし `obj.__proto__` が読み込まれたり代入された場合、該当の getter/setter がそのプロトタイプから呼ばれ、それは `[[Prototype]]` の取得/設定をします。
 
-As it was said in the beginning: `__proto__` is a way to access `[[Prototype]]`, it is not `[[Prototype]]` itself.
+最初に言ったとおり、`__proto__` は `[[Prototype]]` にアクセスする方法であり、`[[Prototype]]` 自身ではありません。
 
-Now, if we want to use an object as an associative array, we can do it with a little trick:
+今、もし連想配列としてオブジェクトを使いたい場合、リテラルのトリックを使ってそれを行う事ができます。:
 
 ```js run
 *!*
@@ -130,15 +132,15 @@ obj[key] = "some value";
 alert(obj[key]); // "some value"
 ```
 
-`Object.create(null)` creates an empty object without a prototype (`[[Prototype]]` is `null`):
+`Object.create(null)` はプロトタイプなし(`[[Prototype]]` が `null`)の空オブジェクトを作ります。:
 
 ![](object-prototype-null.png)
 
-So, there is no inherited getter/setter for `__proto__`. Now it is processed as a regular data property, so the example above works right.
+したがって、`__proto__` のための継承された getter/setter はありません。今や通常のデータプロパティとして処理されますので、上の例は正しく動作します。
 
-We can call such object "very plain" or "pure dictionary objects", because they are even simpler than regular plain object `{...}`.
+私たちはこのようなオブジェクトを "非常にシンプルな" または "純粋な辞書オブジェクト" と呼びます。なぜなら、それらは通常のオブジェクト `{...}` よりもシンプルなためです。
 
-A downside is that such objects lack any built-in object methods, e.g. `toString`:
+欠点は、そのようなオブジェクトには組み込みのオブジェクトメソッドがないことです。 `toString`:
 
 ```js run
 *!*
@@ -148,9 +150,9 @@ let obj = Object.create(null);
 alert(obj); // Error (no toString)
 ```
 
-...But that's usually fine for associative arrays.
+...しかし、連想配列ではそれは通常問題ありません。
 
-Please note that most object-related methods are `Object.something(...)`, like `Object.keys(obj)` -- they are not in the prototype, so they will keep working on such objects:
+ほとんどのオブジェクトに関連したメソッドは `Object.keys(obj)` のように `Object.something(...)` であることに注意してください。 -- それらはプロトタイプにはないので、このようなオブジェクトで機能し続けます。:
 
 
 ```js run
@@ -161,31 +163,32 @@ chineseDictionary.bye = "zai jian";
 alert(Object.keys(chineseDictionary)); // hello,bye
 ```
 
-## Getting all properties
+## すべてのプロパティを取得する
 
-There are many ways to get keys/values from an object.
+オブジェクトから キー/値 を取得する多くの方法があります。
 
-We already know these ones:
+それらの１つはすでに知っています。:
 
-- [Object.keys(obj)](mdn:js/Object/keys) / [Object.values(obj)](mdn:js/Object/values) / [Object.entries(obj)](mdn:js/Object/entries) -- returns an array of enumerable own string property names/values/key-value pairs. These methods only list *enumerable* properties, and those that have *strings as keys*.
+- [Object.keys(obj)](mdn:js/Object/keys) / [Object.values(obj)](mdn:js/Object/values) / [Object.entries(obj)](mdn:js/Object/entries) -- 列挙可能な自身の文字列プロパティ名/値/キー値ペアの配列を返します。それらのメソッドは *列挙可能な* プロパティで、*キーとして文字列を持つ* ものだけをリストします。
 
-If we want symbolic properties:
+もしもシンボリックプロパティがほしい場合は:
 
-- [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) -- returns an array of all own symbolic property names.
+- [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) -- すべての自身のシンボリックプロパティ名の配列を返します。
 
-If we want non-enumerable properties:
+非列挙型のプロパティが欲しい場合は:
 
-- [Object.getOwnPropertyNames(obj)](mdn:js/Object/getOwnPropertyNames) -- returns an array of all own string property names.
+- [Object.getOwnPropertyNames(obj)](mdn:js/Object/getOwnPropertyNames) -- すべての自身の文字列プロパティ名を返します。
 
-If we want *all* properties:
+*すべて* のプロパティが欲しい場合は:
 
-- [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) -- returns an array of all own property names.
+- [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) -- すべての自身のプロパティ名の配列を返します。
 
-These methods are a bit different about which properties they return, but all of them operate on the object itself. Properties from the prototype are not listed.
 
-The `for..in` loop is different: it loops over inherited properties too.
+これらのメソッドは、どのプロパティが返されるかについて少し異なりますが、すべてがそのオブジェクト自身で動作します。プロトタイプからのプロパティはリストされません。
 
-For instance:
+`for..in` ループは異なります。: それは継承されたプロパティもループします。
+
+例:
 
 ```js run
 let animal = {
@@ -208,9 +211,9 @@ for(let prop in rabbit) alert(prop); // jumps, then eats
 */!*
 ```
 
-If we want to distinguish inherited properties, there's a built-in method [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty): it returns `true` if `obj` has its own (not inherited) property named `key`.
+もし継承されたプロパティを区別したい場合、組み込みのメソッド [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty) があります。: それは `obj` 自身が `key` という名前のプロパティをもつ(継承でない) 場合に `true` を返します。
 
-So we can filter out inherited properties (or do something else with them):
+だから、継承されたプロパティをフィルタリングすることができます。:
 
 ```js run
 let animal = {
@@ -227,29 +230,30 @@ for(let prop in rabbit) {
   alert(`${prop}: ${isOwn}`); // jumps:true, then eats:false
 }
 ```
-Here we have the following inheritance chain: `rabbit`, then `animal`, then `Object.prototype` (because `animal` is a literal object `{...}`, so it's by default), and then `null` above it:
+ここでは、私たちは次の継承のチェーンを持っています。: `rabbit`, 次に `animal` そして `Object.prototype` (`animal` はリテラルオブジェクト `{...}` なので、これはデフォルトです)、その上に `null` があります。:
 
 ![](rabbit-animal-object.png)
 
-Note, there's one funny thing. Where is the method `rabbit.hasOwnProperty` coming from? Looking at the chain we can see that the method is provided by `Object.prototype.hasOwnProperty`. In other words, it's inherited.
+面白いことが1つあります。メソッド `rabbit.hasOwnProperty` はどこからきたでしょう？チェーンを見ると、`Object.prototype.hasOwnProperty` によってメソッドが提供されていることがわかります。言い換えると、それは継承されています。
 
-...But why `hasOwnProperty` does not appear in `for..in` loop, if it lists all inherited properties?  The answer is simple: it's not enumerable. Just like all other properties of `Object.prototype`. That's why they are not listed.
 
-## Summary
+...しかしなぜ `hasOwnProperty` は `for..in` ループで現れないのでしょうか？答えはシンプルです。それは列挙可能ではありません。 `Object.prototype`の他のすべてのプロパティと同様です。だからこそそれらはリストに載っていません。
 
-Here's a brief list of methods we discussed in this chapter -- as a recap:
+## サマリ
 
-- [Object.create(proto[, descriptors])](mdn:js/Object/create) -- creates an empty object with given `proto` as `[[Prototype]]` (can be `null`) and optional property descriptors.
-- [Object.getPrototypeOf(obj)](mdn:js/Object.getPrototypeOf) -- returns the `[[Prototype]]` of `obj` (same as `__proto__` getter).
-- [Object.setPrototypeOf(obj, proto)](mdn:js/Object.setPrototypeOf) -- sets the `[[Prototype]]` of `obj` to `proto` (same as `__proto__` setter).
-- [Object.keys(obj)](mdn:js/Object/keys) / [Object.values(obj)](mdn:js/Object/values) / [Object.entries(obj)](mdn:js/Object/entries) -- returns an array of enumerable own string property names/values/key-value pairs.
-- [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) -- returns an array of all own symbolic property names.
-- [Object.getOwnPropertyNames(obj)](mdn:js/Object/getOwnPropertyNames) -- returns an array of all own string property names.
-- [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) -- returns an array of all own property names.
-- [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty): it returns `true` if `obj` has its own (not inherited) property named `key`.
+このチャプターで説明したメソッドの簡単なリストを要約として示します。:
 
-We also made it clear that `__proto__` is a getter/setter for `[[Prototype]]` and resides in `Object.prototype`, just as other methods.
+- [Object.create(proto[, descriptors])](mdn:js/Object/create) -- 与えられた `proto` を `[[Prototype]]` (`null` もOK)として、また任意のプロパティディスクリプタで空のオブジェクトを作ります。
+- [Object.getPrototypeOf(obj)](mdn:js/Object.getPrototypeOf) -- `obj` の `[[Prototype]]` を返します( `__proto__` の getter と同じです)。
+- [Object.setPrototypeOf(obj, proto)](mdn:js/Object.setPrototypeOf) -- `obj` の `[[Prototype]]` に `proto` をセットします( `__proto__` の setter と同じです)。
+- [Object.keys(obj)](mdn:js/Object/keys) / [Object.values(obj)](mdn:js/Object/values) / [Object.entries(obj)](mdn:js/Object/entries) -- 列挙可能な自身の文字列プロパティ名/値/キー値ペアの配列を返します。
+- [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) -- すべての自身のシンボリックプロパティ名の配列を返します。
+- [Object.getOwnPropertyNames(obj)](mdn:js/Object/getOwnPropertyNames) -- すべての自身の文字列プロパティ名を返します。
+- [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) -- すべての自身のプロパティ名の配列を返します。
+- [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty): それは `obj` 自身が `key` という名前のプロパティをもつ(継承でない) 場合に `true` を返します。
 
-We can create an object without a prototype by `Object.create(null)`. Such objects are used as "pure dictionaries", they have no issues with `"__proto__"` as the key.
+私たちは `__proto__` は `[[Prototype]]` の getter/setterであり、他のメソッドと同様に `Object.prototype` に存在することも明らかにしました。
 
-All methods that return object properties (like `Object.keys` and others) -- return "own" properties. If we want inherited ones, then we can use `for..in`.
+私たちは、`Object.create(null)` によってプロトタイプなしのオブジェクトを作ることができます。このようなオブジェクトは "純粋な辞書" として使われ、キーとして `"__proto__"` の問題はありません。
+
+オブジェクトプロパティ(`Object.keys` など)を返すすべてのメソッドは -- "自身の" プロパティを返します。もし継承されたものが欲しい場合は、`for..in` を使います。
