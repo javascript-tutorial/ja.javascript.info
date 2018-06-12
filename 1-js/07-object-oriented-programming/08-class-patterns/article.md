@@ -1,22 +1,22 @@
 
-# Class patterns
+# Class パターン
 
 ```quote author="Wikipedia"
-In object-oriented programming, a *class* is an extensible program-code-template for creating objects, providing initial values for state (member variables) and implementations of behavior (member functions or methods).
+オブジェクト指向プログラミングでは、*クラス* はオブジェクト生成、状態(メンバ変数)の初期値の提供や振る舞いの実装(メンバ関数またはメソッド)のための拡張可能なプログラムコードテンプレートです。
 ```
 
-There's a special syntax construct and a keyword `class` in JavaScript. But before studying it, we should consider that the term "class" comes from the theory of object-oriented programming. The definition is cited above, and it's language-independant.
+JavaScriptには特別な構文構文とキーワード `class` があります。しかしそれを学ぶ前に、 "クラス" という言葉はオブジェクト指向プログラミングの理論に由来すると考えるべきでしょう。定義は上記で引用されている通り、言語に依存しません。。
 
-In JavaScript there are several well-known programming patterns to make classes even without using the `class` keyword. And here we'll talk about them first.
+JavaScriptでは、`class` キーワードを使わずにクラスを作成する、いくつかのよく知られたプログラミングパターンがあります。そしてここでは最初にそれについて話しましょう。
 
-The `class` construct will be described in the next chapter, but in JavaScript it's a "syntax sugar" and an extension of one of the patterns that we'll study here.
+`class` の構造は次のチャプターで説明しますが、JavaScriptでは、それは "シンタックスシュガー" であり、ここで学ぶパターンの1つの拡張です。
 
 [cut]
 
 
 ## Functional class pattern
 
-The constructor function below can be considered a "class" according to the definition:
+下のコンストラクタ関数は定義に従って、"クラス" と考えることができます。:
 
 ```js run
 function User(name) {
@@ -29,17 +29,17 @@ let user = new User("John");
 user.sayHi(); // John
 ```
 
-It follows all parts of the definition:
+それは定義のすべての部分に従います:
 
-1. It is a "program-code-template" for creating objects (callable with `new`).
-2. It provides initial values for the state (`name` from parameters).
-3. It provides methods (`sayHi`).
+1. オブジェクトを作成する (`new` で呼び出し可能) ための "プログラムコードテンプレート" である。
+2. 状態 (パラメータから `name`) の初期値を提供する。
+3. メソッド (`sayHi`) を提供する。
 
-This is called *functional class pattern*.
+これは、*関数的なクラスパターン(functional class pattern)* と呼ばれます。
 
-In the functional class pattern, local variables and nested functions inside `User`, that are not assigned to `this`, are visible from inside, but not accessible by the outer code.
+関数的なクラスパターンでは、`this` に割り当てられていない `User` の中のローカル変数とネストされた関数は内側からは見えますが、外のコードからはアクセスできません。
 
-So we can easily add internal functions and variables, like `calcAge()` here:
+なので、私たちは簡単に内部関数や変数を追加することができます。次の `calcAge()` のように:
 
 ```js run
 function User(name, birthday) {
@@ -60,17 +60,17 @@ let user = new User("John", new Date(2000,0,1));
 user.sayHi(); // John
 ```
 
-In this code variables `name`, `birthday` and the function `calcAge()` are internal, *private* to the object. They are only visible from inside of it.
+このコードでは、変数 `name`, `birthday` と関数 `calcAge()` はオブジェクトに対しては内部、*private* です。それはその内側からのみ見えます。
 
-From the other hand, `sayHi` is the external, *public* method. The external code that creates `user` can access it.
+一方、`sayHi` は外部、*public* メソッドです。`user` を作成する外部コードはそれにアクセスできます。
 
-This way we can hide internal implementation details and helper methods from the outer code. Only what's assigned to `this` becomes visible outside.
+このようにして、内部実装の詳細とヘルパーメソッドを外部コードから隠すことができます。 `this`に割り当てられたものだけが外側に見えるようになります。
 
 ## Factory class pattern
 
-We can create a class without using `new` at all.
+私たちは、`new` を全く使わずにクラスを生成することができます。
 
-Like this:
+このようになります:
 
 ```js run
 function User(name, birthday) {
@@ -92,15 +92,15 @@ let user = User("John", new Date(2000,0,1));
 user.sayHi(); // John
 ```
 
-As we can see, the function `User` returns an object with public properties and methods. The only benefit of this method is that we can omit `new`: write `let user = User(...)` instead of `let user = new User(...)`. In other aspects it's almost the same as the functional pattern.
+ご覧の通り、関数 `User` はパブリックなプロパティとメソッドを持つオブジェクトを返します。このメソッドの唯一のメリットは、`new` を省略できることです。: `let user = new User(...)` の代わりに `let user = User(...)` と書きます。別の側面では、ほとんど関数的なパターンと同じです。
 
-## Prototype-based classes
+## プロトタイプベースのクラス
 
-Prototype-based classes is the most important and generally the best. Functional and factory class patterns are rarely used in practice.
+プロトタイプベースのクラスは最も重要で一般的にベストです。 実際には、関数的なクラスパターンとファクトリクラスパターンはほとんど使用されません。
 
-Soon you'll see why.
+後ほどなぜかをお見せします。
 
-Here's the same class rewritten using prototypes:
+ここでは、プロトタイプを使って同じクラスを再度書いています。:
 
 ```js run
 function User(name, birthday) {
@@ -124,27 +124,27 @@ let user = new User("John", new Date(2000,0,1));
 user.sayHi(); // John
 ```
 
-The code structure:
+コード構造:
 
-- The constructor `User` only initializes the current object state.
-- Methods are added to `User.prototype`.
+- コンストラクタ `User` は現在のオブジェクトの状態のみを初期化します。
+- メソッドは `User.prototype` に追加されています。
 
-As we can see, methods are lexically not inside `function User`, they do not share a common lexical environment. If we declare variables inside `function User`, then they won't be visible to methods.
+ご覧の通り、メソッドは字句的に `function User` の中にはなく、共通のレキシカル環境を共有しません。もし `function User` の内側で変数を宣言した場合、それらはメソッドには見えません。
 
-So, there is a widely known agreement that internal properties and methods are prepended with an underscore `"_"`. Like `_name` or `_calcAge()`. Technically, that's just an agreement, the outer code still can access them. But most developers recognize the meaning of `"_"` and try not to touch prefixed properties and methods in the external code.
+従って、内部プロパティとメソッドはアンダースコア `"_"` が先頭に追加されているという、広く知られている合意があります。`_name` または `_calcAge()` のように。技術的にはそれは単なる合意であり、外部コードは依然としてそれらにアクセスすることはできます。しかし、ほとんどの開発者は `"_"` の意味を理解しており、外部コードの中でプロフィックスのついたプロパティやメソッドを触らないようにしています。
 
-Here are the advantages over the functional pattern:
+関数的なパターンと比較した時の利点は次の通りです。:
 
-- In the functional pattern, each object has its own copy of every method. We assign a separate copy of `this.sayHi = function() {...}` and other methods in the constructor.
-- In the prototypal pattern, all methods are in `User.prototype` that is shared between all user objects. An object itself only stores the data.
+- 関数的なパターンでは、各オブジェクトにはすべてのメソッドの独自のコピーがあります。 コンストラクタで `this.sayHi = function（）{...}` と他のメソッドの別のコピーを割り当てます。
+- プロトタイプ的なパターンでは、すべてのメソッドはすべての user オブジェクトで共有される `User.prototype` にあります。オブジェクト自身はデータだけを保持しています。
 
-So the prototypal pattern is more memory-efficient.
+従って、プロトタイプパターンはよりメモリ効率が良いです。
 
-...But not only that. Prototypes allow us to setup the inheritance in a really efficient way. Built-in JavaScript objects all use prototypes. Also there's a special syntax construct: "class" that provides nice-looking syntax for them. And there's more, so let's go on with them.
+...しかし、それだけではありません。プロトタイプを使うと継承を効率的にセットアップすることができます。すべての組み込みのJavaScriptオブジェクトはプロトタイプを使っています。また特別な構文構造があります: "class" は、見た目の良い構文を提供します。 そしてもっと多くのことがありますので、それらと一緒に進んでみましょう。
 
-## Prototype-based inheritance for classes
+## クラスのためのプロトタイプベースの継承(Prototype-based inheritance for classes)
 
-Let's say we have two prototype-based classes.
+2つのプロトタイプベースのクラスを持っているとしましょう。
 
 `Rabbit`:
 
@@ -162,7 +162,7 @@ let rabbit = new Rabbit("My rabbit");
 
 ![](rabbit-animal-independent-1.png)
 
-...And `Animal`:
+...そして `Animal`:
 
 ```js
 function Animal(name) {
@@ -178,21 +178,21 @@ let animal = new Animal("My animal");
 
 ![](rabbit-animal-independent-2.png)
 
-Right now they are fully independent.
+今はそれらは完全に独立しています。
 
-But we'd want `Rabbit` to extend `Animal`. In other words, rabbits should be based on animals, have access to methods of `Animal` and extend them with its own methods.
+しかし、私たちは `Rabbit` は `Animal` を拡張させたものにしたいです。言い換えると、rabbits は animals をベースとし、`Animal` のメソッドへのアクセスを持ち、自身のメソッドでそれを拡張する必要があります。
 
-What does it mean in the language of prototypes?
+プロトタイプの言語ではどういう意味でしょうか？
 
-Right now methods for `rabbit` objects are in `Rabbit.prototype`. We'd like `rabbit` to use `Animal.prototype` as a "fallback", if the method is not found in `Rabbit.prototype`.
+今、`rabbit` オブジェクトのメソッドは `Rabbit.prototype` にあります。`Rabbit.prototype` にメソッドが見つからない場合, `rabbit` に "フォールバック" として `Animal.prototype` を使ってほしいです。
 
-So the prototype chain should be `rabbit` -> `Rabbit.prototype` -> `Animal.prototype`.
+なので、プロトタイプチェーンは `rabbit` -> `Rabbit.prototype` -> `Animal.prototype` である必要があります。
 
-Like this:
+このように:
 
 ![](class-inheritance-rabbit-animal.png)
 
-The code to implement that:
+それを実装するコードは次の通りです:
 
 ```js run
 // Same Animal as before
@@ -226,18 +226,18 @@ rabbit.eat(); // rabbits can eat too
 rabbit.jump();
 ```
 
-The line `(*)` sets up the prototype chain. So that `rabbit` first searches methods in `Rabbit.prototype`, then `Animal.prototype`. And then, just for completeness, let's mention that if the method is not found in `Animal.prototype`, then the search continues in `Object.prototype`, because `Animal.prototype` is a regular plain object, so it inherits from it.
+行 `{*}` はプロトタイプチェーンを設定します。つまり、`rabbit` はまず `Rabbit.prototype` のメソッドを検索し、次に `Animal.prototype` を検索します。そして、完全性のために、もしメソッドが `Animal.prototype` に存在しない場合、`Object.prototype` で検索を継続します。`Animal.prototype` は通常のオブジェクトなので、それを継承しています。
 
-So here's the full picture:
+ここはその完全なイメージです。:
 
 ![](class-inheritance-rabbit-animal-2.png)
 
-## Summary
+## サマリ
 
-The term "class" comes from the object-oriented programming. In JavaScript it usually means the functional class pattern or the prototypal pattern. The prototypal pattern is more powerful and memory-efficient, so it's recommended to stick to it.
+"クラス" の言葉はオブジェクト指向プログラミングからきています。JavaScriptでは、それは通常関数クラスパターンまたはプロトタイプパターンを意味します。プロトタイプパターンはより協力でメモリ効率がよいので、それを使うことを推奨します。
 
-According to the prototypal pattern:
-1. Methods are stored in `Class.prototype`.
-2. Prototypes inherit from each other.
+プロトタイプのパターンによれば：
+1. メソッドは `Class.prototype` に格納されます。
+2. プロトタイプはお互いから継承します。
 
-In the next chapter we'll study `class` keyword and construct. It allows to write prototypal classes shorter and provides some additional benefits.
+次のチャプターでは、`class` キーワードと構造について学びます。プロトタイプクラスを短く書くことができ、いくつかの追加の利点があります。
