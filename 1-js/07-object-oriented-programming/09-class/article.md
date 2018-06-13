@@ -1,15 +1,15 @@
 
-# Classes
+# クラス
 
-The "class" construct allows to define prototype-based classes with a clean, nice-looking syntax.
+"class" 構造は、クリーンで見やすい構文でプロトタイプベースのクラスを定義することができます。
 
 [cut]
 
-## The "class" syntax
+## "class" 構文
 
-The `class` syntax is versatile, we'll start from a simple example first.
+`class` 構文は汎用性があり、最初にシンプルな例から始めます。
 
-Here's a prototype-based class `User`:
+これはプロトタイプベースのクラス `User` です:
 
 ```js run
 function User(name) {
@@ -24,7 +24,7 @@ let user = new User("John");
 user.sayHi();
 ```
 
-...And that's the same using `class` syntax:
+...そしてこれは `class` 構文を使った場合です:
 
 ```js run
 class User {
@@ -43,16 +43,16 @@ let user = new User("John");
 user.sayHi();
 ```
 
-It's easy to see that the two examples are alike. Just please note that methods in a class do not have a comma between them. Novice developers sometimes forget it and put a comma between class methods, and things don't work. That's not a literal object, but a class syntax.
+2つの例が似ていることは容易に分かると思います。クラス内のメソッドはそれらの間にカンマを持たないことに注意してください。新米の開発者はときどきそれを忘れて、クラスメソッドの間にカンマをおいてしまい動作しなくなります。これはリテラルオブジェクトではなく、クラス構文です。
 
-So, what exactly does `class` do? We may think that it defines a new language-level entity, but that would be wrong.
+では、`class` は正確になにをするでしょう？ 私たちはそれが新しい言語レベルの実態を定義していると思うかもしれませんが、それは間違っています。
 
-The `class User {...}` here actually does two things:
+ここで `class User {...}` は実際には2つのことをしています。:
 
-1. Declares a variable `User` that references the function named `"constructor"`.
-2. Puts into `User.prototype` methods listed in the definition. Here it includes `sayHi` and the `constructor`.
+1. `"constructor"` という名前の関数を参照する変数 `User` を宣言します。
+2. その定義の中にリストされているメソッドを `User.prototype` の中に置きます。ここでは、`sayHi` と `constructor` です。
 
-Here's the code to dig into the class and see that:
+次のコードでクラスを掘り下げてみましょう。:
 
 ```js run
 class User {
@@ -71,18 +71,17 @@ alert(User == User.prototype.constructor); // true
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 ```
 
-Here's the illustration of what `class User` creates:
+これは `class User` が生成するものの図です。:
 
 ![](class-user.png)
 
 
+従って、`class` はコンストラクタとプロトタイプメソッドを一緒に定義する特別な構文です。
 
-So `class` is a special syntax to define a constructor together with its prototype methods.
+...しかしそれだけではありません。小さな微調整があちこちにあります。:
 
-...But not only that. There are minor tweaks here and there:
-
-Constructors require `new`
-: Unlike a regular function, a class `constructor` can't be called without `new`:
+コンストラクタは `new` を必要とします
+: 通常の関数とは異なり、クラス `constructor` は `new` なしで呼ぶことはできません。:
 
 ```js run
 class User {
@@ -93,23 +92,23 @@ alert(typeof User); // function
 User(); // Error: Class constructor User cannot be invoked without 'new'
 ```
 
-Different string output
-: If we output it like `alert(User)`, some engines show `"class User..."`, while others show `"function User..."`.
+異なる文字列出力
+: もし `alert(User)` のように出力すると、エンジンによって `"class User..."` や `"function User..."` と表示されます。
 
-Please don't be confused: the string representation may vary, but that's still a function, there is no separate "class" entity in JavaScript language.
+混乱しないでください: 文字列の表現は様々ですが、それは依然として関数であり、JavaScript言語で別の "class" エンティティはありません。
 
-Class methods are non-enumerable
-: A class definition sets `enumerable` flag to `false` for all methods in the `"prototype"`. That's good, because if we `for..in` over an object, we usually don't want its class methods.
+クラスメソッドは非列挙型
+: クラス定義は、`"prototype"` の中のすべてのメソッドに対して `enumerable` フラグを `false` にセットします。オブジェクトを `for..in` したとき、通常クラスメソッドは出てきてほしくないので、これは良いことです。
 
-Classes have a default `constructor() {}`
-: If there's no `constructor` in the `class` construct, then an empty function is generated, same as if we had written `constructor() {}`.
+クラスはデフォルトの `constructor() {}` を持っています
+: `class` 構造の中に `constructor` がない場合、空の関数が生成され `constructor() {}` と書いたのと同じように動作します。
 
-Classes always `use strict`
-: All code inside the class construct is automatically in strict mode.
+クラスは常に `use strict` です
+: クラス構造の内側のすべてのコードは自動的に strict モードです。
 
 ### Getters/setters
 
-Classes may also include getters/setters. Here's an example with `user.name` implemented using them:
+クラスは getter/setter も含みます。以下はそれらを使って実装した `user.name` の例です。:
 
 ```js run
 class User {
@@ -143,7 +142,7 @@ alert(user.name); // John
 user = new User(""); // Name too short.
 ```
 
-Internally, getters and setters are also created on the `User` prototype, like this:
+内部的に、getter と setter もまた次のように `User` プロトタイプ上に作られます。:
 
 ```js
 Object.defineProperty(User.prototype, {
@@ -158,11 +157,11 @@ Object.defineProperty(User.prototype, {
 });
 ```
 
-### Only methods
+### メソッドのみ
 
-Unlike object literals, no `property:value` assignments are allowed inside `class`. There may be only methods and getters/setters. There is some work going on in the specification to lift that limitation, but it's not yet there.
+オブジェクトリテラルとは異なり、`class` の中で `property:value` 割り当ては許可していません。メソッドとgetter/setterのみです。その制限を緩和するために、仕様で進行中のものがいくつかありますが、それはまだありません。
 
-If we really need to put a non-function value into the prototype, then we can alter `prototype` manually, like this:
+もしプロトタイプに非関数の値を置く必要が本当にある場合、`prototype` を手動で修正することができます。以下を見てください:
 
 ```js run
 class User { }
@@ -172,9 +171,9 @@ User.prototype.test = 5;
 alert( new User().test ); // 5
 ```
 
-So, technically that's possible, but we should know why we're doing it. Such properties will be shared among all objects of the class.
+従って、技術的にはそれは可能です。が、なぜそうしているかを知るべきです。このようなプロパティはクラスのすべてのオブジェクトの間で共有されます。
 
-An "in-class" alternative is to use a getter:
+"クラス内" の代替は getter を使うことです。:
 
 ```js run
 class User {
@@ -186,13 +185,13 @@ class User {
 alert( new User().test ); // 5
 ```
 
-From the external code, the usage is the same. But the getter variant is a bit slower.
+外部コードからの使い方は同じですが、getter バリアントは少し遅いです。
 
-## Class Expression
+## クラス表現
 
-Just like functions, classes can be defined inside another expression, passed around, returned etc.
+関数と同様に、クラスは別の式の中で定義され、渡され、返されます。
 
-Here's a class-returning function ("class factory"):
+これは、クラスを返す関数("クラスファクトリー")です。:
 
 ```js run
 function makeClass(phrase) {
@@ -211,9 +210,9 @@ let User = makeClass("Hello");
 new User().sayHi(); // Hello
 ```
 
-That's quite normal if we recall that `class` is just a special form of a function-with-prototype definition.
+`class` はプロトタイプ付き関数の特別な形式であることを思い出すと、これはとても普通です。
 
-And, like Named Function Expressions, such classes also may have a name, that is visible inside that class only:
+また、名前付けされた関数表現のように、このようなクラスもまた名前を保つ場合があります。それはクラスの中でのみ見えます。:
 
 ```js run
 // "Named Class Expression" (alas, no such term, but that's what's going on)
@@ -228,11 +227,11 @@ new User().sayHi(); // works, shows MyClass definition
 alert(MyClass); // error, MyClass not visible outside of the class
 ```
 
-## Static methods
+## 静的メソッド(Static method)
 
-We can also assign methods to the class function, not to its `"prototype"`. Such methods are called *static*.
+私たちは、その `"prototype"` ではなく、クラス関数へメソッドを割り当てることもできます。このようなメソッドは *static* と呼ばれます。
 
-An example:
+例:
 
 ```js run
 class User {
@@ -246,7 +245,7 @@ class User {
 User.staticMethod(); // true
 ```
 
-That actually does the same as assigning it as a function property:
+これは実際には、関数プロパティとして代入するのと同じです。:
 
 ```js
 function User() { }
@@ -256,11 +255,11 @@ User.staticMethod = function() {
 };
 ```
 
-The value of `this` inside `User.staticMethod()` is the class constructor `User` itself (the "object before dot" rule).
+`User.staticMethod()` の中での `this` の値はクラスコンストラクタ `User` 自身です("ドットの前のオブジェクト" ルールです)。
 
-Usually, static methods are used to implement functions that belong to the class, but not to any particular object of it.
+通常、静的メソッドは特定のオブジェクトに依存せず、クラスに属する関数を実装するときに使われます。
 
-For instance, we have `Article` objects and need a function to compare them. The natural choice would be `Article.compare`, like this:
+例えば、私たちは `Article` オブジェクトを持っており、それらを比較する関数が必要とします。自然な選択だと、このように `Article.compare` になるでしょう。:
 
 ```js run
 class Article {
@@ -290,17 +289,17 @@ articles.sort(Article.compare);
 alert( articles[0].title ); // Body
 ```
 
-Here `Article.compare` stands "over" the articles, as a means to compare them. It's not a method of an article, but rather of the whole class.
+ここで、`Article.compare` は記事を比較するための手段として記事の "上に" 立っています。それは記事のメソッドではなく、クラス全体のメソッドです。
 
-Another example would be a so-called "factory" method. Imagine, we need few ways to create an article:
+別の例は、いわゆる "ファクトリー" メソッドです。イメージしてください、私たちは記事を作成する方法はほとんどありません。:
 
-1. Create by given parameters (`title`, `date` etc).
-2. Create an empty article with today's date.
+1. 与えられたパラメータ(`title`, `date` など)による作成
+2. 今日の日付の空の記事の作成
 3. ...
 
-The first way can be implemented by the constructor. And for the second one we can make a static method of the class.
+最初の方法はコンストラクタで実装することができます。また2つ目の方法としてクラスの静的メソッドを作ることができます。
 
-Like `Article.createTodays()` here:
+ここでの `Article.createTodays()` のように:
 
 ```js run
 class Article {
@@ -322,9 +321,9 @@ let article = Article.createTodays();
 alert( article.title ); // Todays digest
 ```
 
-Now every time we need to create a todays digest, we can call `Article.createTodays()`. Once again, that's not a method of an article, but a method of the whole class.
+現在、今日のダイジェストを作成する必要があるたびに、`Article.createTodays()` を呼ぶことができます。もう一度、これは記事のメソッドではなく、クラス全体のメソッドです。
 
-Static methods are also used in database-related classes to search/save/remove entries from the database, like this:
+静的メソッドは、次のように、データベース関連のクラスでデータベースの検索/保存/削除のためにも使用されます。:
 
 ```js
 // assuming Article is a special class for managing articles
@@ -332,9 +331,9 @@ Static methods are also used in database-related classes to search/save/remove e
 Article.remove({id: 12345});
 ```
 
-## Summary
+## サマリ
 
-The basic class syntax looks like this:
+基本のクラス構文はこのようになります。:
 
 ```js
 class MyClass {
@@ -350,8 +349,8 @@ class MyClass {
 }
 ```
 
-The value of `MyClass` is a function provided as `constructor`. If there's no `constructor`, then an empty function.
+`MyClass` の値は `constructor` として提供された関数です。もし `constructor` がなければ、空の関数です。
 
-In any case, methods listed in the class declaration become members of its `prototype`, with the exception of static methods that are written into the function itself and callable as `MyClass.staticMethod()`. Static methods are used when we need a function bound to a class, but not to any object of that class.
+いずれにしても、クラス宣言に列挙されたメソッドは `prototype`のメンバーになりますが、静的メソッドは関数自身に書き込まれ、`MyClass.staticMethod()` として呼び出すことができます。 静的メソッドは、クラスに結びつく関数が必要なときに使用されますが、そのクラスのオブジェクトに結びつく場合には使用されません。
 
-In the next chapter we'll learn more about classes, including inheritance.
+次のチャプターでは、継承を含め、よりクラスについて学びます。
