@@ -2,7 +2,6 @@ The HTML code:
 
 [html src="index.html"]
 
-For the file `alert.js` in the same folder:
+同じフォルダにある `alert.js` フォルダ:
 
 [js src="alert.js"]
-

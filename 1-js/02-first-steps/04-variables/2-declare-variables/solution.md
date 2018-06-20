@@ -1,21 +1,21 @@
-First, the variable for the name of our planet.
+最初に、我々の惑星の名前に対する変数からです。
 
-That's simple:
+シンプルです:
 
 ```js
 let ourPlanetName = "Earth";
 ```
 
-Note, we could use a shorter name `planet`, but it might be not obvious what planet it refers to. It's nice to be more verbose. At least until the variable isNotTooLong.
+注意してください。より短い名前 `planet` を使うことはできますが、どの惑星を指しているかが明白ではありません。より冗長な方がよいです。少なくとも変数が長すぎない程度まで。
 
-Second, the name of the current visitor:
+2つ目に、現在の訪問者の名前です。:
 
 ```js
 let currentUserName = "John";
 ```
 
-Again, we could shorten that to `userName` if we know for sure that the user is current.
+ユーザが現在のものであることがわかっている場合は、これを `userName` に短縮することもできます。
 
-Modern editors and autocomplete make long variable names easy to write. Don't save on them. A name with 3 words in it is fine.
+現代のエディタや自動補完により、長い変数名を簡単に書くことができます。節約は不要です。3単語の名前は良いです。
 
-And if your editor does not have proper autocompletion, get [a new one](/editors).
+また、もしあなたのエディタが適切な自動補完を持っていない場合には、[新しいエディタ](/editors) を入手してください。

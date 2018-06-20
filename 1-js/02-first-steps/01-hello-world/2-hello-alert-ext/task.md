@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Show an alert with an external script
+# 外部クリプトで alert を表示しましょう
 
-Take the solution of the previous task <info:task/hello-alert>. Modify it by extracting the script content into an external file `alert.js`, residing in the same folder.
+以前のタスク <info:task/hello-alert> の解決策を使ってください。スクリプトの内容を同じフォルダにある外部ファイル `alert.js` に抽出して変更します。
 
-Open the page, ensure that the alert works.
+ページを開いて alert が機能することを確認してください。

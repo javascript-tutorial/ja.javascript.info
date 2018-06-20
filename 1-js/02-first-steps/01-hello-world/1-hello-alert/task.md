@@ -2,11 +2,10 @@ importance: 5
 
 ---
 
-# Show an alert
+# alert を表示しましょう
 
-Create a page that shows a message "I'm JavaScript!".
+メッセージ "I'm JavaScript!" を表示するページを作ってください。
 
-Do it in a sandbox, or on your hard drive, doesn't matter, just ensure that it works.
+サンドボックスの中、もしくはあなたのハードドライブどちらでも構いません。動作することを確認してください。
 
 [demo src="solution"]
-

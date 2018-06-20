@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# Working with variables
+# 変数の操作
 
-1. Declare two variables: `admin` and `name`.
-2. Assign the value `"John"` to `name`.
-3. Copy the value from `name` to `admin`.
-4. Show the value of `admin` using `alert` (must output "John").
+1. 2つの変数を宣言してください: `admin` と `name`.
+2. 値 `"John"` を `name` に代入してください。
+3. 値を `name` から `admin` にコピーしてください。
+4. `alert` を使って `admin` の値を表示してください("John" を出力がされるはずです)。

@@ -2,7 +2,7 @@ importance: 3
 
 ---
 
-# Giving the right name
+# 正しい名前を与える
 
-1. Create the variable with the name of our planet. How would you name such a variable?
-2. Create the variable to store the name of the current visitor. How would you name that variable?
+1. 我々の惑星の名前を持つ変数を作成してください。あなたはこのような変数の名前をどのように指定しますか？
+2. 現在の訪問者の名前を格納する変数を作成してください。あなたはそのような変数の名前をどのように指定しますか？
