@@ -1,16 +1,16 @@
-# Error handling, "try..catch"
+# エラーハンドリング, "try..catch"
 
-No matter how great we are at programming, sometimes our scripts have errors. They may occur because of our mistakes, an unexpected user input, an erroneous server response and for a thousand of other reasons.
+どんなに我々のプログラミングが素晴らしくても、スクリプトがエラーになることはあります。それは私たちにミス、予期しないユーザ入力、間違ったサーバレスポンスやその他多くの理由により発生する可能性があります。
 
-Usually, a script "dies" (immediately stops) in case of an error, printing it to console.
+通常、エラーケースではスクリプトは "死" (即時に停止) に、それをコンソールに出力します。
 
-But there's a syntax construct `try..catch` that allows to "catch" errors and, instead of dying, do something more reasonable.
+しかし、エラーを "キャッチ" し、死ぬ代わりにより意味のあることをする構文構造 `try..catch` があります。
 
 [cut]
 
-## The "try..catch" syntax
+## "try..catch" 構文
 
-The `try..catch` construct has two main blocks: `try`, and then `catch`:
+`try..catch` 構造は2つのメインブロックを持っています: `try` と `catch` です。:
 
 ```js
 try {
@@ -24,19 +24,19 @@ try {
 }
 ```
 
-It works like this:
+それは次のように動作します:
 
-1. First, the code in `try {...}` is executed.
-2. If there were no errors, then `catch(err)` is ignored: the execution reaches the end of `try` and then jumps over `catch`.
-3. If an error occurs, then `try` execution is stopped, and the control flows to the beginning of `catch(err)`. The `err` variable (can use any name for it) contains an error object with details about what's happened.
+1. まず、`try {...}` のコードが実行されます。
+2. エラーがなければ、`catch(err)` は無視されます: 実行が `try` の最後に到達した後、`catch` を飛び越えます。
+3. エラーが発生した場合、`try`  の実行が停止し、コントロールフローは `catch(err)` の先頭になります。`err` 変数(任意の名前が使えます)は発生した事象に関する詳細をもつエラーオブジェクトを含んでいます。
 
 ![](try-catch-flow.png)
 
-So, an error inside the `try {…}` block does not kill the script: we have a chance to handle it in `catch`.
+従って、`try {…}` ブロックの内側のエラーはスクリプトを殺しません: `catch` の中でそれを扱う機会が持てます。
 
-Let's see more examples.
+より多くの例を見てみましょう。
 
-- An errorless example: shows `alert` `(1)` and `(2)`:
+- エラーなしの例: `alert` `(1)` と `(2)` を表示します:
 
     ```js run
     try {
@@ -55,7 +55,7 @@ Let's see more examples.
 
     alert("...Then the execution continues");
     ```
-- An example with an error: shows `(1)` and `(3)`:
+- エラーの例: `(1)` と `(3)` を表示します:
 
     ```js run
     try {
@@ -79,9 +79,9 @@ Let's see more examples.
 
 
 ````warn header="`try..catch` only works for runtime errors"
-For `try..catch` to work, the code must be runnable. In other words, it should be valid JavaScript.
+`try..catch` を動作させるために、コードは実行可能でなければなりません。つまり、有効なJavaScriptである必要があります。
 
-It won't work if the code is syntactically wrong, for instance it has unmatched figure brackets:
+もしコードが構文的に誤っている場合には動作しません。例えば次は角括弧の不一致です:
 
 ```js run
 try {
@@ -91,14 +91,14 @@ try {
 }
 ```
 
-The JavaScript engine first reads the code, and then runs it. The errors that occur on the reading phrase are called "parse-time" errors and are unrecoverable (from inside that code). That's because the engine can't understand the code.
+JavaScriptエンジンは最初にコードを読み、次にそれを実行します。読み込みのフェーズで発生したエラーは "解析時間(parse-time)" エラーと呼ばれ、回復不能です(コードの内部からは)。なぜなら、エンジンはそのコードを理解することができないからです。
 
-So, `try..catch` can only handle errors that occur in the valid code. Such errors are called "runtime errors" or, sometimes, "exceptions".
+そのため、`try..catch` は有効なコードの中で起きたエラーのみを扱うことができます。このようなエラーは "ランタイムエラー" または "例外" と呼ばれます。
 ````
 
 
 ````warn header="`try..catch` works synchronously"
-If an exception happens in a "scheduled" code, like in `setTimeout`, then `try..catch` won't catch it:
+もし `setTimeout` の中のような "スケジュールされた" コードで例外が発生した場合、`try..catch` はそれをキャッチしません。:
 
 ```js run
 try {
@@ -110,9 +110,9 @@ try {
 }
 ```
 
-That's because `try..catch` actually wraps the `setTimeout` call that schedules the function. But the function itself is executed later, when the engine has already have left the `try..catch` construct.
+`try..catch` は実際には関数をスケジュールする `setTimeout` 呼び出しをラップするためです。しかし関数自身は後で実行され、その時エンジンはすでに `try..catch` 構造を抜けています。
 
-To catch an exception inside a scheduled function, `try..catch` must be inside that function:
+スケジュールされた関数の内側の例外をキャッチするためには、その関数の中に `try..catch` が必要です。:
 ```js run
 setTimeout(function() {
   try {    
@@ -124,9 +124,9 @@ setTimeout(function() {
 ```
 ````
 
-## Error object
+## エラーオブジェクト
 
-When an error occurs, JavaScript generates an object containing the details about it. The object is then passed as an argument to `catch`:
+エラーが発生したとき、JavaScript はその詳細を含めたオブジェクトを生成します。そして `catch` の引数として渡されます。:
 
 ```js
 try {
@@ -136,20 +136,20 @@ try {
 }
 ```
 
-For all built-in errors, the error object inside `catch` block has two main properties:
+すべての組み込みのエラーに対して、`catch` ブロック内のエラーオブジェクトは2つの主なプロパティを持っています。:
 
 `name`
-: Error name. For an undefined variable that's `"ReferenceError"`.
+: エラー名です。未定義変数の場合、それは `"ReferenceError"` です。
 
 `message`
-: Textual message about error details.
+: エラー詳細に関するテキストメッセージです。
 
-There are other non-standard properties available in most environments. One of most widely used and supported is:
+ほとんどの環境では、その他非標準のプロパティが利用可能です。最も広く使われ、サポートされているのは以下です:
 
 `stack`
-: Current call stack: a string with information about the sequence of nested calls that led to the error. Used for debugging purposes.
+: 現在のコールスタックです: エラーに繋がったネスト呼び出しのシーケンスに関する情報を持つ文字列です。デバッグ目的で使われます。
 
-For instance:
+例:
 
 ```js run untrusted
 try {
@@ -168,15 +168,15 @@ try {
 ```
 
 
-## Using "try..catch"
+## "try..catch" の利用
 
-Let's explore a real-life use case of `try..catch`.
+`try..catch` の実際のユースケースについて探索してみましょう。
 
-As we already know, JavaScript supports method [JSON.parse(str)](mdn:js/JSON/parse) to read JSON-encoded values.
+すでにご存知の通り、JavaScriptは JSONエンコードされた値を読むためのメソッド [JSON.parse(str)](mdn:js/JSON/parse) がサポートされています。
 
-Usually it's used to decode the data received over the network, from the server or another source.
+通常、それはネットワーク経由でサーバまたは別のソースから受信したデータをデコードするために使われます。
 
-We receive it and call `JSON.parse`, like this:
+今、次のようにデータを受信し、`JSON.parse` を呼び出します。:
 
 ```js run
 let json = '{"name":"John", "age": 30}'; // data from the server
@@ -190,15 +190,15 @@ alert( user.name ); // John
 alert( user.age );  // 30
 ```
 
-More detailed information about JSON you can find in the chapter <info:json>.
+JSON に関する詳細な情報は、チャプター <info:json> を参照してください。
 
-**If `json` is malformed, `JSON.parse` generates an error, so the script "dies".**
+**`json` が不正な形式の場合、`JSON.parse` はエラーになるのでスクリプトは "死にます"。**
 
-Should we be satisfied with that? Of course, not!
+それで満足しますか？もちろん満足しません!
 
-This way if something's wrong with the data, the visitor will never know that (unless he opens developer console). And people really really don't like when something "just dies" without any error message.
+この方法だと、もしデータが何か間違っている場合、訪問者はそれを知ることができません(開発者コンソールを開かない限り)。また、人々は、エラーメッセージなしで何かが "単に死んでいる" ことを本当に本当に嫌います。
 
-Let's use `try..catch` to handle the error:
+エラーを扱うために `try..catch` を使いましょう。:
 
 ```js run
 let json = "{ bad json }";
@@ -220,13 +220,13 @@ try {
 }
 ```
 
-Here we use `catch` block only to show the message, but we can do much more: a new network request, suggest an alternative to the visitor, send the information about the error to a logging facility... All much better than just dying.
+ここでは、メッセージを表示するためのだけに `catch` ブロックを使っていますが、より多くのことをすることができます。: 新たなネットワーク要求、訪問者への代替手段の提案、ロギング機構へエラーに関する情報の送信... すべて、単に死ぬよりははるかに良いです。
 
-## Throwing our own errors
+## 我々独自のエラーをスローする
 
-What if `json` is syntactically correct... But doesn't have a required `"name"` property?
+仮に `json` が構文的に正しいが、必須の `"name"` プロパティを持っていない場合どうなるでしょう？
 
-Like this:
+このように:
 
 ```js run
 let json = '{ "age": 30 }'; // incomplete data
@@ -243,25 +243,25 @@ try {
 }
 ```
 
-Here `JSON.parse` runs normally, but the absence of `"name"` is actually an error for us.
+ここで、`JSON.parse` は通常どおり実行しますが、`"name"` の欠落は実際には我々にとってはエラーです。
 
-To unify error handling, we'll use the `throw` operator.
+エラー処理を統一するために、`throw` 演算子を使います。
 
-### "Throw" operator
+### "Throw" 演算子
 
-The `throw` operator generates an error.
+`throw` 演算子はエラーを生成します。
 
-The syntax is:
+構文は次の通りです:
 
 ```js
 throw <error object>
 ```
 
-Technically, we can use anything as an error object. That may be even a primitive, like a number or a string, but it's better to use objects, preferrably with `name` and `message` properties (to stay somewhat compatible with built-in errors).
+技術的には、エラーオブジェクトとしてなんでも使うことができます。たとえ、数値や文字列のようなプリミティブでもOKです。しかし、`name` と `message` プロパティを持つオブジェクトを使うのがベターです(組み込みのエラーと互換性をいくらか保つために)。
 
-JavaScript has many built-in constructors for standard errors: `Error`, `SyntaxError`, `ReferenceError`, `TypeError` and others. We can use them to create error objects as well.
+JavaScriptは標準エラーのための多くの組み込みのコンストラクタを持っています: `Error`, `SyntaxError`, `ReferenceError`, `TypeError` などです。私たちは同じようにエラーオブジェクトを作るためにそれらを使うことができます。
 
-Their syntax is:
+それらの構文は次の通りです:
 
 ```js
 let error = new Error(message);
@@ -271,9 +271,9 @@ let error = new ReferenceError(message);
 // ...
 ```
 
-For built-in errors (not for any objects, just for errors), the `name` property is exactly the name of the constructor. And `message` is taken from the argument.
+組み込みのエラー(任意のオブジェクトではなく、エラーのみ)では、`name` プロパティはコンストラクタの名前と全く同じになります。そして `message` は引数から取られます。
 
-For instance:
+例:
 
 ```js run
 let error = new Error("Things happen o_O");
@@ -282,7 +282,7 @@ alert(error.name); // Error
 alert(error.message); // Things happen o_O
 ```
 
-Let's see what kind of error `JSON.parse` generates:
+`JSON.parse` が生成するエラーの種類を見てみましょう:
 
 ```js run
 try {
@@ -295,11 +295,11 @@ try {
 }
 ```
 
-As we can see, that's a `SyntaxError`.
+ご覧の通り、それは `SyntaxError` です。
 
-...And in our case, the absense of `name` could be treated as a syntax error also, assuming that users must have a `"name"`.
+...そして、我々のケースでは、ユーザは必ず `"name"` を持っていると仮定するので、`name` の欠落もまた構文エラーとして扱います。
 
-So let's throw it:
+なので、それをスローするようにしましょう:
 
 ```js run
 let json = '{ "age": 30 }'; // incomplete data
@@ -321,15 +321,15 @@ try {
 }
 ```
 
-In the line `(*)` the `throw` operator generates `SyntaxError` with the given `message`, the same way as JavaScript would generate itself. The execution of `try` immediately stops and the control flow jumps into `catch`.
+行 `(*)` で、`throw` 演算子が与えられた `message` で `SyntaxError` を生成します。それは JavaScript が生成するのと同じ方法です。`try` の実行はすぐに停止し、制御フローは `catch` に移ります。
 
-Now `catch` became a single place for all error handling: both for `JSON.parse` and other cases.
+今や、`catch` はすべてのエラーハンドリングのための1つの場所になりました。: `JSON.parse` と他のケース。
 
 ## Rethrowing
 
-In the example above we use `try..catch` to handle incorrect data. But is it possible that *another unexpected error* occurs within the `try {...}` block? Like a variable is undefined or something else, not just that "incorrect data" thing.
+上の例で、私たちは不正なデータを処理するために `try..catch` を使っています。しかし、`try {...}` ブロックの中で *別の予期しないエラー* が発生する可能性はあるでしょうか？ 変数が未定義、またはその他、単に "不正なデータ" ではない何か。
 
-Like this:
+このように:
 
 ```js run
 let json = '{ "age": 30 }'; // incomplete data
@@ -344,11 +344,11 @@ try {
 }
 ```
 
-Of course, everything's possible! Programmers do make mistakes. Even in open-source utilities used by millions for decades -- suddenly a crazy bug may be discovered that leads to terrible hacks (like it happened with the `ssh` tool).
+もちろん、すべての可能性があります! プログラマはミスをするものです。何十年も何百万人もの人が使っているオープンソースのユーティリティであっても、突然酷いバグが発見され、ひどいハッキングにつながることがあります（ `ssh` ツールで起こったようなものです）。
 
-In our case, `try..catch` is meant to catch "incorrect data" errors. But by its nature, `catch` gets *all* errors from `try`. Here it gets an unexpected error, but still shows the same `"JSON Error"` message. That's wrong and also makes the code more difficult to debug.
+私たちのケースでは、`try..catch` は "不正なデータ" エラーをキャッチすることを意図しています。しかし、その性質上、`catch` は `try` からの *すべての* エラーを取得します。ここでは予期しないエラーが発生しますが、同じ `"JSON Error"` メッセージが表示されます。それは誤りでコードのでバッグをより難しくします。
 
-Fortunately, we can find out which error we get, for instance from its `name`:
+幸いにも、どのエラーを取得したかを知ることができます。例えば、`name` から:
 
 ```js run
 try {
@@ -360,17 +360,18 @@ try {
 }
 ```
 
-The rule is simple:
+ルールはシンプルです。:
 
+**キャッチはそれが知っているエラーだけを処理し、すべてのオブジェクトを "再スロー" するべきです**
 **Catch should only process errors that it knows and "rethrow" all others.**
 
-The "rethrowing" technique can be explained in more detail as:
+"再スロー" テクニックの詳細は次のように説明できます:
 
-1. Catch gets all errors.
-2. In `catch(err) {...}` block we analyze the error object `err`.
-2. If we don't know how to handle it, then we do `throw err`.
+1. すべてのエラーをキャッチします。
+2. `catch(err) {...}` ブロックで、エラーオブジェクト `err` を解析します。
+3. どう処理するばいいか分からなければ、`throw err` をします。
 
-In the code below, we use rethrowing so that `catch` only handles `SyntaxError`:
+下のコードでは、`catch` が `SyntaxError` だけを処理するよう再スローを使っています。:
 
 ```js run
 let json = '{ "age": 30 }'; // incomplete data
@@ -401,11 +402,11 @@ try {
 }
 ```
 
-The error throwing on line `(*)` from inside `catch` block "falls out" of `try..catch` and can be either caught by an outer `try..catch` construct (if it exists), or it kills the script.
+行 `(*)` での、`catch` ブロック内部からのエラーのスローは `try..catch` を "抜けて" 外部の `try..catch` 構造(存在する場合)でキャッチされる、またはスクリプトをキルします。
 
-So the `catch` block actually handles only errors that it knows how to deal with and "skips" all others.
+従って、`catch` ブロックは実際に扱い方を知っているエラーだけを処理しその他すべてを "スキップ" します。
 
-The example below demonstrates how such errors can be caught by one more level of `try..catch`:
+下の例は、このようなエラーが1つ上のレベルの `try..catch` で捕捉されるデモです:
 
 ```js run
 function readData() {
@@ -435,20 +436,20 @@ try {
 }
 ```
 
-Here `readData` only knows how to handle `SyntaxError`, while the outer `try..catch` knows how to handle everything.
+ここでは、`readData` は `SyntaxError` の処理の仕方だけ知っており、外部の `try..catch` はすべての処理の方法を知っています。
 
 ## try..catch..finally
 
-Wait, that's not all.
+待ってください、それですべてではありません。
 
-The `try..catch` construct may have one more code clause: `finally`.
+`try..catch` 構造はもう1つのコード句: `finally` を持つ場合があります。
 
-If it exists, it runs in all cases:
+もし存在する場合、それはすべてのケースで実行します。:
 
-- after `try`, if there were no errors,
-- after `catch`, if there were errors.
+- エラーが無かった場合は、`try` の後で。
+- エラーがあった場合には `catch` の後で。
 
-The extended syntax looks like this:
+拡張された構文はこのように見えます。:
 
 ```js
 *!*try*/!* {
@@ -460,7 +461,7 @@ The extended syntax looks like this:
 }
 ```
 
-Try running this code:
+このコードを実行してみましょう。:
 
 ```js run
 try {
@@ -473,18 +474,18 @@ try {
 }
 ```
 
-The code has two ways of execution:
+このコードは2つの実行方法があります。:
 
-1. If you answer "Yes" to "Make an error?", then `try -> catch -> finally`.
-2. If you say "No", then `try -> finally`.
+1. もし "Make an error" に "Yes" と答えると、`try -> catch -> finally` となります。
+2. もし "No" と言えば、`try -> finally` となります。
 
-The `finally` clause is often used when we start doing something before `try..catch` and want to finalize it in any case of outcome.
+`finally` 句は `try..catch` の前に何かを開始して、どのような結果であれファイナライズをしたいときにしばしば使われます。
 
-For instance, we want to measure time that a Fibonacci numbers function `fib(n)` takes. Naturally, we can start measuring before it runs and finish afterwards. But what if there's an error during the function call? In particular, the implementation of `fib(n)` in the code below returns an error for negative or non-integer numbers.
+例えば、フィボナッチ数関数 `fib(n)` にかかる時間を計測したいとします。当然ながら、それを実行する前に計測を開始して、実行後に終了させることができます。しかし、仮に関数呼び出しの間でエラーが起きたらどうなるでしょう？特に下のコードの `fib(n)` の実装では、負の値または非整数値だとエラーを返します。
 
-The `finally` clause is a great place to finish the measurements no matter what.
+`finally` 句は何があっても計測を完了させるのに良い場所です。
 
-Here `finally` guarantees that the time will be measured correctly in both situations -- in case of a successful execution of `fib` and in case of an error in it:
+ここで、`finally` は両方のシチュエーション -- `fib` の実行が成功するケースと失敗するケース -- で時間が正しく計測されることを保証します。:
 
 ```js run
 let num = +prompt("Enter a positive integer number?", 35)
@@ -515,21 +516,20 @@ alert(result || "error occured");
 alert( `execution took ${diff}ms` );
 ```
 
-You can check by running the code with entering `35` into `prompt` -- it executes normally, `finally` after `try`. And then enter `-1` -- there will be an immediate error, an the execution will take `0ms`. Both measurements are done correctly.
+コードを実行して `prompt` に `35` を入力することで確認できます -- 通常 `try` の後に `finally` を実行します。そして `-1` を入れると -- すぐにエラーになり、その実行は `0ms` となります。両方の計測は正しく行われています。
 
-In other words, there may be two ways to exit a function: either a `return` or `throw`. The `finally` clause handles them both.
-
+言い換えると、関数を終了するには方法が2つあります: `return` または `throw` です。 `finally` 句はそれら両方とも処理します。
 
 ```smart header="Variables are local inside `try..catch..finally`"
-Please note that `result` and `diff` variables in the code above are declared *before* `try..catch`.
+上のコードで `result` と `diff` 変数は `try..catch` の *前* で宣言されていることに注意してください。
 
-Otherwise, if `let` were made inside the `{...}` block, it would only be visible inside of it.
+そうでなく、`let` が `{...}` ブロックの中で作られている場合、その中でしか見えません。
 ```
 
 ````smart header="`finally` and `return`"
-Finally clause works for *any* exit from `try..catch`. That includes an explicit `return`.
+Finally 句は　`try..catch` からの *任意の* 終了に対して機能します。それは明白な `return` も含みます。
 
-In the example below, there's a `return` in `try`. In this case, `finally` is executed just before the control returns to the outer code.
+下の例では、`try` の中で `return` があります。この場合、`finally` は制御が外部コードに戻る前に実行されます。
 
 ```js run
 function func() {
@@ -554,7 +554,7 @@ alert( func() ); // first works alert from finally, and then this one
 
 ````smart header="`try..finally`"
 
-The `try..finally` construct, without `catch` clause, is also useful. We apply it when we don't want to handle errors right here, but want to be sure that processes that we started are finalized.
+`catch` 句がない `try..catch` 構造も役立ちます。私たちはここでエラーを正しく処理したくないが、開始した処理が完了したことを確認したいときに使います。
 
 ```js
 function func() {
@@ -566,22 +566,23 @@ function func() {
   }
 }
 ```
-In the code above, an error inside `try` always falls out, because there's no `catch`. But `finally` works before the execution flow jumps outside.
+上のコードでは、`try` の内側のエラーは常に抜けます。なぜなら `catch` がないからです。しかし `finally` は実行フローが外部に移る前に機能します。
 ````
 
-## Global catch
+## グローバルな catch
 
 ```warn header="Environment-specific"
-The information from this section is not a part of the core JavaScript.
+このセクションの情報はコアなJavaScriptの一部ではありません。
 ```
 
-Let's imagine we've got a fatal error outside of `try..catch`, and the script died. Like a programming error or something else terrible.
+`try..catch` の外側で致命的なエラーが起きてスクリプトが死んだことをイメージしてください。プログラミングエラーやその他何か酷いものによって。
 
-Is there a way to react on such occurrences? We may want to log the error, show something to the user (normally he doesn't see error messages) etc.
+そのような出来事に反応する方法はありますか？ エラーをログに記録したり、ユーザーに何かを見せたり（通常はエラーメッセージが表示されません）。
 
-There is none in the specification, but environments usually provide it, because it's really useful. For instance, Node.JS has [process.on('uncaughtException')](https://nodejs.org/api/process.html#process_event_uncaughtexception) for that. And in the browser we can assign a function to special [window.onerror](mdn:api/GlobalEventHandlers/onerror) property. It will run in case of an uncaught error.
+仕様ではそのようなものはありませんが、通常、環境がそれを提供しています。なぜなら本当に有用だからです。例えば、Node.JS はそのために [process.on('uncaughtException')](https://nodejs.org/api/process.html#process_event_uncaughtexception)を持っています。
+また、ブラウザでは関数を特別な [window.onerror](mdn:api/GlobalEventHandlers/onerror) プロパティに代入することができます。それはキャッチしていないエラーの場合に実行されます。
 
-The syntax:
+構文:
 
 ```js
 window.onerror = function(message, url, line, col, error) {
@@ -590,18 +591,18 @@ window.onerror = function(message, url, line, col, error) {
 ```
 
 `message`
-: Error message.
+: エラーメッセージ
 
 `url`
-: URL of the script where error happened.
+: エラーが起きたスクリプトのURL
 
 `line`, `col`
-: Line and column numbers where error happened.
+: エラーが起きた行と列番号
 
 `error`
-: Error object.
+: エラーオブジェクト
 
-For instance:
+例:
 
 ```html run untrusted refresh height=1
 <script>
@@ -619,22 +620,22 @@ For instance:
 </script>
 ```
 
-The role of the global handler `window.onerror` is usually not to recover the script execution -- that's probably impossible in case of programming errors, but to send the error message to developers.
+グローバルハンドラー `window.onerror` の役割は、通常スクリプトの実行の回復ではありません -- プログラミングエラーの場合、恐らくそれは不可能なので、開発者にエラーメッセージを送ります。
 
-There are also web-services that provide error-logging for such cases, like <https://errorception.com> or <http://www.muscula.com>.
+このようなケースでエラーログを提供する web サービスもあります。https://errorception.com> や <http://www.muscula.com>。
 
-They work like this:
+それらは次のように動きます:
 
-1. We register at the service and get a piece of JS (or a script URL) from them to insert on pages.
-2. That JS script has a custom `window.onerror` function.
-3. When an error occurs, it sends a network request about it to the service.
-4. We can log in to the service web interface and see errors.
+1. 私たちはサービスに登録し、ページにそうにゅうするためのJSのピース(またはスクリプトのURL)をそれらから得ます。
+2. そのJSスクリプトはカスタムの `window.onerror` 関数を持っています。
+3. エラーが起きた時、そのサービスへネットワークリクエストを送ります。
+4. 私たちはサービスのWebインタフェースにログインしてエラーを見ることができます。
 
-## Summary
+## サマリ
 
-The `try..catch` construct allows to handle runtime errors. It literally allows to try running the code and catch errors that may occur in it.
+`try..catch` 構造はランタイムエラーを処理することができます。文字通りコードを実行しようと試みて、その中で起こるエラーをキャッチします。
 
-The syntax is:
+構文は次の通りです:
 
 ```js
 try {
@@ -647,16 +648,16 @@ try {
 }
 ```
 
-There may be no `catch` section or no `finally`, so `try..catch` and `try..finally` are also valid.
+`catch` セクションがない、または `finally` がない場合があります。なので `try..catch` と `try..finally` もまた有効です。
 
-Error objects have following properties:
+エラーオブジェクトは次のプロパティを持っています。:
 
-- `message` -- the human-readable error message.
-- `name` -- the string with error name (error constructor name).
-- `stack` (non-standard) -- the stack at the moment of error creation.
+- `message` -- 人が読めるエラーメッセージです。
+- `name` -- エラー名を指す文字列です(エラーコンストラクタ名)
+- `stack` (非標準) -- エラー生成時のスタックです。
 
-We can also generate our own errors using the `throw` operator. Technically, the argument of `throw` can be anything, but usually it's an error object inheriting from the built-in `Error` class. More on extending errors in the next chapter.
+また、`throw` 演算子を使って独自のエラーを生成することもできます。技術的には、`throw` の引数は何でもよいですが、通常は組み込みの `Error` クラスを継承しているエラーオブジェクトです。次のチャプターでエラーを拡張する方法について詳しく説明します。
 
-Rethrowing is a basic pattern of error handling: a `catch` block usually expects and knows how to handle the particular error type, so it should rethrow errors it doesn't know.
+再スローはエラーハンドリングの基本パターンです。: `catch` ブロックは通常、特定のエラータイプを処理する方法を予期し、知っています。したがって、知らないエラーは再スローすべきです。
 
-Even if we don't have `try..catch`, most environments allow to setup a "global" error handler to catch errors that "fall out". In-browser that's `window.onerror`.
+たとえ `try..catch` を持っていない場合でも、ほとんどの環境では "抜け出た" エラーをキャッチするために "グローバル" なエラーハンドラを設定することができます。ブラウザでは、それは `window.onerror` です。
