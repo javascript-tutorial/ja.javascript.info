@@ -2,15 +2,14 @@ importance: 5
 
 ---
 
-# A question about "if"
+# "if" についても疑問
 
-Which of these `alert`s are going to execute?
+これらの `alert` で実行されるのはどれでしょう？
 
-What will be the results of the expressions inside `if(...)`?
+`if(...)` の内側の式の結果はどうなるでしょう？
 
 ```js
 if (-1 || 0) alert( 'first' );
 if (-1 && 0) alert( 'second' );
 if (null || -1 && 1) alert( 'third' );
 ```
-

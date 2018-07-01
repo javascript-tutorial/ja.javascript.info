@@ -1,12 +1,11 @@
-The first variant:
+最初のバリアント:
 
 ```js
 if (!(age >= 14 && age <= 90))
 ```
 
-The second variant:
+2つ目のバリアント:
 
 ```js
 if (age < 14 || age > 90)
 ```
-

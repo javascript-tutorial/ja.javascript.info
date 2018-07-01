@@ -1,15 +1,15 @@
 
-Backticks embed the expression inside `${...}` into the string.
+バッククォートは `${...}` の中の式を文字列に埋め込みます。
 
 ```js run
 let name = "Ilya";
 
-// the expression is a number 1
+// 式は数字の1です
 alert( `hello ${1}` ); // hello 1
 
-// the expression is a string "name"
+// 式は文字列の "name" です
 alert( `hello ${"name"}` ); // hello name
 
-// the expression is a variable, embed it
+// 式は変数で、そこに埋め込まれます
 alert( `hello ${name}` ); // hello Ilya
 ```

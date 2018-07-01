@@ -1,3 +1,3 @@
-# An introduction
+# 導入
 
-About the JavaScript language and the environment to develop with it.
+JavaScript言語とその開発環境について

@@ -2,11 +2,10 @@ importance: 3
 
 ---
 
-# What is the result of AND'ed alerts?
+# AND されたアラートの結果は何でしょう?
 
-What will this code show?
+下のコードは何を表示するでしょう?
 
 ```js
 alert( alert(1) && alert(2) );
 ```
-

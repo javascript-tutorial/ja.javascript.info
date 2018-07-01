@@ -1,12 +1,11 @@
-**Yes, it will.**
+**はい、表示されます。**
 
-Any string except an empty one (and `"0"` is not empty) becomes `true` in the logical context.
+空文字を除く文字列(`"0"` は空ではありません)は論理コンテキストでは `true` になります。
 
-We can run and check:
+実行して確認することができます:
 
 ```js run
 if ("0") {
   alert( 'Hello' );
 }
 ```
-

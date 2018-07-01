@@ -2,11 +2,10 @@ importance: 5
 
 ---
 
-# The result of OR AND OR
+# OR AND OR の結果
 
-What will be the result?
+結果はどうなるでしょう？
 
 ```js
 alert( null || 2 && 3 || 4 );
 ```
-

@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Rewrite 'if' into '?'
+# 'if' を '?' で書き直しましょう
 
-Rewrite this `if` using the ternary operator `'?'`:
+三項演算子 `'?'` を使って、この `if` を書き直してください。:
 
 ```js
 if (a + b < 4) {
@@ -13,4 +13,3 @@ if (a + b < 4) {
   result = 'Over';
 }
 ```
-

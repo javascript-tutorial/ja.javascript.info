@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# String quotes
+# 文字列の引用符
 
-What is the output of the script?
+このスクリプトの出力はどうなるでしょう？
 
 ```js
 let name = "Ilya";

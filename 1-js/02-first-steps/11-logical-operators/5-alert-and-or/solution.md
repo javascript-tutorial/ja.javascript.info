@@ -1,16 +1,15 @@
-The answer: `3`.
+答え: `3`.
 
 ```js run
 alert( null || 2 && 3 || 4 );
 ```
 
-The precedence of AND `&&` is higher than `||`, so it executes first.
+AND `&&` の優先順位は `||` よりも高いので、最初に実行されます。
 
-The result of `2 && 3 = 3`, so the expression becomes:
+`2 && 3 = 3` なので、式はこのようになります:
 
 ```
 null || 3 || 4
 ```
 
-Now the result if the first truthy value: `3`.
-
+これの最初の真値の結果なので、`3` です。

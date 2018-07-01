@@ -2,13 +2,12 @@ importance: 5
 
 ---
 
-# if (a string with zero)
+# if (ゼロの文字列)
 
-Will `alert` be shown?
+`alert` は表示されるでしょうか?
 
 ```js
 if ("0") {
   alert( 'Hello' );
 }
 ```
-

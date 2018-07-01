@@ -1,6 +1,5 @@
-The answer is `2`, that's the first truthy value.
+答えは `2` で、それが最初の真となる値です。
 
 ```js run
-alert( null || 2 || undefined );
-```
 
+```

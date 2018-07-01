@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Comparisons
+# 比較
 
-What will be the result for expressions?
+式の結果はどうなるでしょう？
 
 ```js no-beautify
 5 > 4
@@ -15,4 +15,3 @@ undefined === null
 null == "\n0\n"
 null === +"\n0\n"
 ```
-

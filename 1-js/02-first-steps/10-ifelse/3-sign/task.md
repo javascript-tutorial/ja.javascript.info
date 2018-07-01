@@ -4,12 +4,12 @@ importance: 2
 
 # Show the sign
 
-Using `if..else`, write the code which gets a number via `prompt` and then shows in `alert`:
+`if..else` を使って、`prompt` 経由で数値を取得し、`alert` で表示するコードを書いてください。:
 
-- `1`, if the value is greater than zero,
-- `-1`, if less than zero,
-- `0`, if equals zero.
+- `1`, 値がゼロよりも大きい場合,
+- `-1`, ゼロよりも小さい場合
+- `0`, ゼロと等しい場合
 
-In this task we assume that the input is always a number.
+このタスクでは、入力は常に数値であると仮定します。
 
 [demo src="if_sign"]

@@ -1,3 +1,3 @@
-# JavaScript Fundamentals
+# JavaScript の基礎
 
-Let's learn the fundamentals of script building.
+スクリプト作成の基本を学びましょう。

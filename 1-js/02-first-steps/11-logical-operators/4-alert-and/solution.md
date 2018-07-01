@@ -1,10 +1,9 @@
-The answer: `1`, and then `undefined`.
+答え: `1`, 次に `undefined`。
 
 ```js run
 alert( alert(1) && alert(2) );
 ```
 
-The call to `alert` returns `undefined` (it just shows a message, so there's no meaningful return).
+`alert` の呼び出しは `undefined` を返します(メッセージを表示するだけなので、意味のある返却はありません)。
 
-Because of that, `&&` evaluates the left operand (outputs `1`), and immediately stops, because `undefined` is a falsy value. And `&&` looks for a falsy value and returns it, so it's done.
-
+そのため、 `&&` が左のオペランドを検査(`1` を出力)し、すぐに停止します。なぜなら、`undefined` は偽値だからです。そして `&&` は偽値を探し、それを返します。

@@ -1,7 +1,7 @@
 
-# Rewrite with arrow functions
+# アロー関数を使った書き換え
 
-Replace Function Expressions with arrow functions in the code:
+次のコードで、関数式をアロー関数に置き換えてください。:
 
 ```js run
 function ask(question, yes, no) {

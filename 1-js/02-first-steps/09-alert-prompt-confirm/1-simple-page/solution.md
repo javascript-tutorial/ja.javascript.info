@@ -1,11 +1,11 @@
-JavaScript-code:
+JavaScriptコード:
 
 ```js demo run
 let name = prompt("What is your name?", "");
 alert(name);
 ```
 
-The full page:
+完全なページ:
 
 ```html
 <!DOCTYPE html>

@@ -2,11 +2,10 @@ importance: 3
 
 ---
 
-# What's the result of OR'ed alerts?
+# OR されたアラートの結果は何ですか？
 
-What the code below will output?
+下のコードは何を出力するでしょう？
 
 ```js
 alert( alert(1) || 2 || alert(3) );
 ```
-

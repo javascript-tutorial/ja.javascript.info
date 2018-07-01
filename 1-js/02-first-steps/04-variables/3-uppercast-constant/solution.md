@@ -1,5 +1,5 @@
-We generally use upper case for constants that are "hard-coded". Or, in other words, when the value is known prior to execution and directly written into the code.
+私たちは一般に、"ハードコード "された定数には大文字を使用します。 つまり、実行前に値がわかっていて、コードに直接書き込まれている場合です。
 
-In this code, `birthday` is exactly like that. So we could use the upper case for it.
+このコードでは、`birthday` はまさにそうです。なので、大文字を使います。
 
-In contrast, `age` is evaluated in run-time. Today we have one age, a year after we'll have another one. It is constant in a sense that it does not change through the code execution. But it is a bit "less of a constant" than `birthday`, it is calculated, so we should keep the lower case for it.
+対照的に、`age` は実行時に評価されます。 今日はある年齢で、1年後に別の年齢になります。コード実行によって変化しないという意味で一定ですがそれは `birthday` より "定数ではありません"。それは計算されるので、小文字を維持する必要があります。

@@ -1,6 +1,5 @@
-The answer: `null`, because it's the first falsy value from the list.
+答え: `null` です。なぜなら、それがリストの中の最初の偽値だからです。
 
 ```js run
 alert( 1 && null && 2 );
 ```
-

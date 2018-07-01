@@ -2,8 +2,8 @@ importance: 4
 
 ---
 
-# A simple page
+# シンプルなページ
 
-Create a web-page that asks for a name and outputs it.
+名前を訪ねて、それを出力する web ページを作りなさい。
 
 [demo]

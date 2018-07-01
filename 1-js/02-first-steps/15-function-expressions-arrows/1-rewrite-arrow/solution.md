@@ -14,4 +14,4 @@ ask(
 );
 ```
 
-Looks short and clean, right?
+短くてキレイに見えますね。

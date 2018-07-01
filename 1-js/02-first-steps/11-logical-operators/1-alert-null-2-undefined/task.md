@@ -2,11 +2,10 @@ importance: 5
 
 ---
 
-# What's the result of OR?
+# OR の結果はなんでしょう?
 
-What the code below is going to output?
+下のコードは何を出力するでしょう？
 
 ```js
 alert( null || 2 || undefined );
 ```
-

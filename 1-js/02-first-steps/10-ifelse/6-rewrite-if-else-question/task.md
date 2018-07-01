@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Rewrite 'if..else' into '?'
+# 'if..else' を '?' で書き直します
 
-Rewrite `if..else` using multiple ternary operators `'?'`.
+複数の三項演算子 `'?'` を使って `if..else` を書き直してください。
 
-For readability, it's recommended to split the code into multiple lines.
+可読性のために、コードを複数行に分割することをオススメします。
 
 ```js
 let message;

@@ -2,11 +2,10 @@ importance: 5
 
 ---
 
-# What is the result of AND?
+# AND の結果は何?
 
-What this code is going to show?
+このコードは何を表示するでしょう？
 
 ```js
 alert( 1 && null && 2 );
 ```
-

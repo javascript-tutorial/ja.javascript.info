@@ -1,20 +1,19 @@
-The answer: the first and the third will execute.
+答え: 1つ目と3つ目が実行されます。
 
-Details:
+詳細:
 
 ```js run
-// Runs.
-// The result of -1 || 0 = -1, truthy
+// 実行します
+// -1 || 0 = -1 なので真です
 if (-1 || 0) alert( 'first' );
 
-// Doesn't run
-// -1 && 0 = 0, falsy
+// 実行されません
+// -1 && 0 = 0, 偽です
 if (-1 && 0) alert( 'second' );
 
-// Executes
-// Operator && has a higher precedence than ||
-// so -1 && 1 executes first, giving us the chain:
+// 実行します
+// 演算子 && は || よりも高い優先順位を持っています
+// なので -1 && 1 が最初に実行されます:
 // null || -1 && 1  ->  null || 1  ->  1
 if (null || -1 && 1) alert( 'third' );
 ```
-

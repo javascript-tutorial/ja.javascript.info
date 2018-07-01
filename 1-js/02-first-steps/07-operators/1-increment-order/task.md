@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# The postfix and prefix forms
+# プレフィックス(接頭辞)とサフィックス(接尾辞)の形式
 
-What are the final values of all variables `a`, `b`, `c` and `d` after the code below?
+下のコード後、すべての変数 `a`, `b`, `c` と `d` の最終値はなんでしょう？
 
 ```js
 let a = 1, b = 1;
