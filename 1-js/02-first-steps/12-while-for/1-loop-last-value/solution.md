@@ -1,4 +1,4 @@
-The answer: `1`.
+答え: `1`.
 
 ```js run
 let i = 3;
@@ -8,18 +8,18 @@ while (i) {
 }
 ```
 
-Every loop iteration decreases `i` by `1`. The check `while(i)` stops the loop when `i = 0`.
+各ループイテレーションは `i` を `1` 減らします。チェック `while(i)` は `i = 0` のときにループを停止します。
 
-Hence, the steps of the loop form the following sequence ("loop unrolled"):
+従って、ループのステップは次のシーケンスを形成します。:
 
 ```js
 let i = 3;
 
-alert(i--); // shows 3, decreases i to 2
+alert(i--); // 3 を表示, i を 2 に減らす
 
-alert(i--) // shows 2, decreases i to 1
+alert(i--) // 2 を表示, i を 1 に減らす
 
-alert(i--) // shows 1, decreases i to 0
+alert(i--) // 1 を表示, i を 0 に減らす
 
-// done, while(i) check stops the loop
+// 完了。while(i)チェックでループが停止します。
 ```

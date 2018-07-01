@@ -4,7 +4,7 @@ importance: 4
 
 # Bad style
 
-What's wrong with the code style below?
+下のコードスタイルの何が悪いでしょうか？
 
 ```js no-beautify
 function pow(x,n)
@@ -25,4 +25,4 @@ else
 }
 ```
 
-Fix it.
+直してください。

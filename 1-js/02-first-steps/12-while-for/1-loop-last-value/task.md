@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# Last loop value
+# 最後のループ値
 
-What is the last value alerted by this code? Why?
+このコードで最後にアラートされる値は何でしょう？それはなぜでしょう？
 
 ```js
 let i = 3;

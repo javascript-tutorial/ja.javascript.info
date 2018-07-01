@@ -1,4 +1,4 @@
-Using a question mark operator `'?'`:
+疑問符演算子 `'?'` を利用:
 
 ```js
 function checkAge(age) {
@@ -6,7 +6,7 @@ function checkAge(age) {
 }
 ```
 
-Using OR `||` (the shortest variant):
+OR `||` を利用(最も短いバリアント):
 
 ```js
 function checkAge(age) {
@@ -14,4 +14,4 @@ function checkAge(age) {
 }
 ```
 
-Note that the parentheses around `age > 18` are not required here. They exist for better readabilty.
+`age > 18` の周りの括弧はここでは必須ではないことに留意してください。より良い可読性のために存在しています。

@@ -1,3 +1,3 @@
-# Code quality
+# コード品質
 
-This chapter explains coding practices that we'll use further in the development. 
+このチャプターでは、開発でさらに使用するコーディング慣行について説明します。

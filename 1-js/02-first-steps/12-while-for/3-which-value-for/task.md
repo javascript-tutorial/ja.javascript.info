@@ -2,18 +2,18 @@ importance: 4
 
 ---
 
-# Which values get shown by the "for" loop?
+# どの値が "for" ループによって表示されますか？
 
-For each loop write down which values it is going to show. Then compare with the answer.
+各ループでどの値が表示されるか書き留めてください。そして答えと比較してください。
 
-Both loops `alert` same values or not?
+両ループ同じ値を `alert` しますか？それとも違いますか？
 
-1. The postfix form:
+1. ポストフィックス形式:
 
     ```js
     for (let i = 0; i < 5; i++) alert( i );
     ```
-2. The prefix form:
+2. プレフィックス形式:
 
     ```js
     for (let i = 0; i < 5; ++i) alert( i );

@@ -1,29 +1,29 @@
 
-You could note the following:
+あなたは次のような事に気づけます:
 
 ```js no-beautify
-function pow(x,n)  // <- no space between arguments
-{  // <- figure bracket on a separate line
-  let result=1;   // <- no spaces to the both sides of =
-  for(let i=0;i<n;i++) {result*=x;}   // <- no spaces
-  // the contents of { ... } should be on a new line
+function pow(x,n)  // <- 引数の間にスペースがない
+{  // <- 別の行に波括弧がある
+  let result=1;   // <- = の両側にスペースがない
+  for(let i=0;i<n;i++) {result*=x;}   // <- スペースがない
+  // { ... } のコンテンツは新しい行に書くべきです
   return result;
 }
 
-let x=prompt("x?",''), n=prompt("n?",'') // <-- technically possible,
-// but better make it 2 lines, also there's no spaces and ;
-if (n<0)  // <- no spaces inside (n < 0), and should be extra line above it
-{   // <- figure bracket on a separate line
-  // below - a long line, may be worth to split into 2 lines
+let x=prompt("x?",''), n=prompt("n?",'') // <-- 技術的には可能ですが,
+// 2行にしたほうがよいです。またスペースもありません。 ; もないです。
+if (n<0)  // <- (n < 0) の中にスペースがありません。また、その上に余分な行があるべきです。
+{   // <- 波括弧が別の行に分かれています
+  // 下は -- 1行が長いです。2行に分けたほうがよいです
   alert(`Power ${n} is not supported, please enter an integer number greater than zero`);
 }
-else // <- could write it on a single line like "} else {"
+else // <- "} else {" のように1行で書いたほうがいいです。
 {
-  alert(pow(x,n))  // no spaces and ;
+  alert(pow(x,n))  // spaces と ; がありません。
 }
 ```
 
-The fixed variant:
+直したバリアントです:
 
 ```js
 function pow(x, n) {

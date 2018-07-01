@@ -2,11 +2,12 @@ importance: 4
 
 ---
 
-# Rewrite the function using '?' or '||'
+# '?' または '||' を使って関数を書き直す
 
-The following function returns `true` if the parameter `age` is greater than `18`.
 
-Otherwise it asks for a confirmation and returns its result.
+次の関数は、パラメータ `age` が `18` より大きい場合に `true` を返します。
+
+それ以外の場合には確認を行い、その結果を返します。:
 
 ```js
 function checkAge(age) {
@@ -18,9 +19,9 @@ function checkAge(age) {
 }
 ```
 
-Rewrite it, to perform the same, but without `if`, in a single line.
+それを書き直し、1行で `if` なしで同じをことを実行してください。
 
-Make two variants of `checkAge`:
+`checkAge` の2つのバリアントを作ってください。:
 
-1. Using a question mark operator `'?'`
-2. Using OR `||`
+1. 疑問符演算子 `'?'` を使うケース
+2. OR `||` を使うケース

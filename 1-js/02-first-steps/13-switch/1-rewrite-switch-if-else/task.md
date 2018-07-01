@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Rewrite the "switch" into an "if"
+# "switch" を "if" で書き直す
 
-Write the code using `if..else` which would correspond to the following `switch`:
+`if..else` を使って次の `switch` に対応するコードを書いてください。:
 
 ```js
 switch (browser) {
@@ -23,4 +23,3 @@ switch (browser) {
     alert( 'We hope that this page looks ok!' );
 }
 ```
-

@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# Rewrite "if" into "switch"
+# "if" を "switch" に書き換える
 
-Rewrite the code below using a single `switch` statement:
+下のコードを1つの `switch` 文を使って書き換えてください。:
 
 ```js run
 let a = +prompt('a?', '');
@@ -20,4 +20,3 @@ if (a == 2 || a == 3) {
   alert( '2,3' );
 }
 ```
-

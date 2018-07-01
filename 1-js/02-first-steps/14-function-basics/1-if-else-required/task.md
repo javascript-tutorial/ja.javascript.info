@@ -2,11 +2,11 @@ importance: 4
 
 ---
 
-# Is "else" required?
+# "else" は必須ですか？
 
-The following function returns `true` if the parameter `age` is greater than `18`.
+次の関数は、パラメータ `age` が `18` より大きい場合に `true` を返します。
 
-Otherwise it asks for a confirmation and returns its result:
+それ以外の場合には確認を行い、その結果を返します。:
 
 ```js
 function checkAge(age) {
@@ -21,7 +21,7 @@ function checkAge(age) {
 }
 ```
 
-Will the function work differently if `else` is removed?
+もし `else` が削除された場合、この関数は違う動きになるでしょうか？
 
 ```js
 function checkAge(age) {
@@ -35,4 +35,4 @@ function checkAge(age) {
 }
 ```
 
-Is there any difference in the behavior of these two variants?
+これら2つのバリアントの振る舞いで何か違いはあるでしょうか？

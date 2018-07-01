@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# What's wrong in the test?
+# このテストは何が問題でしょう？
 
-What's wrong in the test of `pow` below?
+下の `pow` のテストは何が問題でしょう？
 
 ```js
 it("Raises x to the power n", function() {
@@ -21,4 +21,4 @@ it("Raises x to the power n", function() {
 });
 ```
 
-P.S. Syntactically the test is correct and passes.
+P.S. 構文上、テストは正しいものであり、合格となります。

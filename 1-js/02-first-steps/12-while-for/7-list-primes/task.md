@@ -2,16 +2,16 @@ importance: 3
 
 ---
 
-# Output prime numbers
+# 素数の出力
 
-An integer number greater than `1` is called a [prime](https://en.wikipedia.org/wiki/Prime_number) if it cannot be divided without a remainder by anything except `1` and itself.
+`1` よりも大きい整数で、`1` と自身以外では、余りなく割ることができない場合、その数値は [素数(prime)](https://en.wikipedia.org/wiki/Prime_number)  と呼ばれます。
 
-In other words, `n > 1` is a prime if it can't be evenly divided by anything except `1` and `n`.
+つまり、`n > 1` は `1` と `n` を除いて均等に分割できない場合、素数です。
 
-For example, `5` is a prime, because it cannot be divided without a remainder by `2`, `3` and `4`.
+例えば、`5` は素数です。なぜなら、`2`, `3` と `4` ではあまり無く割ることができなからです。
 
-**Write the code which outputs prime numbers in the interval from `2` to `n`.**
+**`2` から `n` の範囲で、素数を出力するコードを書きなさい。**
 
-For `n = 10` the result will be `2,3,5,7`.
+`n = 10` の場合、結果は `2,3,5,7` です。
 
-P.S. The code should work for any `n`, not be hard-tuned for any fixed value.
+P.S. コードは任意の `n` で動作させてください。固定値でハードコードはしないでください。

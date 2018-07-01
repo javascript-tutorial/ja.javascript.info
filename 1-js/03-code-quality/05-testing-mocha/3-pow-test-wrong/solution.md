@@ -1,14 +1,14 @@
-The test demonstrates one of the temptations a developer meets when writing tests.
+このテストは、テストを書く時に開発者が出会うテンプレートの1つです。
 
-What we have here is actually 3 tests, but layed out as a single function with 3 asserts.
+ここで実際に持っているテストは 3つですが、3つのアサートを持つ1つの関数として並べられています。
 
-Sometimes it's easier to write this way, but if an error occurs, it's much less obvious what went wrong.
+この方法で書くほうが簡単な場合もありますが、エラーが起きた時、何が間違っていたのかが明らかではありません。
 
-If an error happens inside a complex execution flow, then we'll have to figure out the data at that point. We'll actually have to *debug the test*.
+もし複雑な実行フローの中でエラーが起きた場合、その時のデータを把握する必要があります。実際に *テストをデバッグ* しなければならなくなります。
 
-It would be much better to break the test into multiple `it` blocks with clearly written inputs and outputs.
+テストを、入出力が明白に書かれた複数の `it` ブロックに崩す方がはるかに良いです。
 
-Like this:
+このように:
 ```js
 describe("Raises x to power n", function() {
   it("5 in the power of 1 equals 5", function() {
@@ -25,9 +25,9 @@ describe("Raises x to power n", function() {
 });
 ```
 
-We replaced the single `it` with `describe` and a group of `it` blocks. Now if something fails we would see clearly what the data was.
+単一の `it` を `describe` と `it` ブロックのグループに置き換えました。 今何かが失敗した場合、データが何であるかが明確に分かります。
 
-Also we can isolate a single test and run it in standalone mode by writing `it.only` instead of `it`:
+また、`it` の代わりに `it.only` を書くことで、単一のテストに分離し、スタンドアローンモードで実行することができます。
 
 
 ```js

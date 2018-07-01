@@ -2,19 +2,19 @@ importance: 4
 
 ---
 
-# Which values shows the while?
+# while でどの値が表示される？
 
-For every loop, write down which values it shows, in your opinion. And then compare with the answer.
+各ループで、どの値が表示されるか、あなたの意見を書きなさい。また、それと答えを見比べてみてください。
 
-Both loops `alert` same values or not?
+両方のループは同じ数だけ `alert` されますか？それとも違いますか？
 
-1. The prefix form `++i`:
+1. プレフィックス形式 `++i`:
 
     ```js
     let i = 0;
     while (++i < 5) alert( i );
     ```
-2. The postfix form `i++`
+2. ポストフィックス形式 `i++`
 
     ```js
     let i = 0;

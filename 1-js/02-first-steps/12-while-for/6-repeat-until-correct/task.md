@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Repeat until the input is correct
+# 入力が正しいまで繰り返す
 
-Write a loop which prompts for a number greater than `100`. If the visitor enters another number -- ask him to input again.
+`100` より大きい数値を入力するプロンプトを書いてください。もし訪問者が別の数値を入力したら -- 再び入力を訪ねます。
 
-The loop must ask for a number until either the visitor enters a number greater than `100` or cancels the input/enters an empty line.
+ループは、訪問者が `100` より大きい値を入力するか、入力をキャンセル/空行の入力をするまで訪ねます。
 
-Here we can assume that the visitor only inputs numbers. There's no need to implement a special handling for a non-numeric input in this task.
+ここでは、訪問者は数値のみを入力すると仮定します。このタスクでは、非数値に対する特別な処理を実装する必要はありません。
 
 [demo]
