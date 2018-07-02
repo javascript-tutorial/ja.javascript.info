@@ -108,4 +108,4 @@ alert( isBoss ); // true if OK is pressed
 1. モーダルウィンドウの正確な位置はブラウザによって決定されます。通常それは中央です。
 2. ウィンドウの正確な見た目もまたブラウザに依存し、それを修正することはできません。
 
-That is the price for simplicity. There are other ways to show nicer windows and richer interaction with the visitor, but if "bells and whistles" do not matter much, these methods work just fine.
+それは単純化に対する代償です。より良いウィンドウを表示し、訪問者とのよりリッチなインタラクションを実現する方法もありますが、"不要な装飾" があまり重要でない場合、これらのメソッドが使えます。

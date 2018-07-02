@@ -17,7 +17,7 @@ ECMAScript 5(ES5) が登場したときは2009年でした。新しい機能が�
 ```js
 "use strict";
 
-// this code works the modern way
+// このコードはモダンな方法で動作します。
 ...
 ```
 
@@ -27,24 +27,24 @@ ECMAScript 5(ES5) が登場したときは2009年でした。新しい機能が�
 そのとき、その関数内でのみStrictモードが有効になります。しかし通常一美度はそれをスクリプト全体に対して使います。
 
 
-````warn header="Ensure that \"use strict\" is at the top"
-`"use strict"` がスクリプトの先頭香確認してください、そうでなければ strict mode は有効でないかもしれません。
+````warn header="\"use strict\" が先頭にあることを保証してください"
+`"use strict"` がスクリプトの先頭かを確認してください、そうでなければ strict mode は有効でないかもしれません。
 
 これは strict mode ではありません:
 
 ```js no-strict
 alert("some code");
-// "use strict" below is ignored, must be on the top
+// 下の "use strict" は無視されます, 先頭にある必要があります
 
 "use strict";
 
-// strict mode is not activated
+// strict mode はアクティブになりません
 ```
 
 コメントは `"use strict"` の上に現れることがあります。
 ````
 
-```warn header="There's no way to cancel `use strict`"
+```warn header="`use strict` をキャンセルする方法はありません"
 `"no use strict"` または同系の古い振る舞いを返すようなディレクティブはありません。
 
 一度 strict mode に入ったら、返ってきません。

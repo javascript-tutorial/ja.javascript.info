@@ -14,10 +14,10 @@ IDEはプロジェクト(多くのファイル)をロードし、ファイル間
 
 もしもまだIDEの選択を検討していないなら、次の亜種を見てみてください。
 
-- IntelliJ editors: [WebStorm](http://www.jetbrains.com/webstorm/) for frontend development and [PHPStorm (PHP)](http://www.jetbrains.com/phpstorm/), [IDEA (Java)](http://www.jetbrains.com/idea/), [RubyMine (Ruby)](http://www.jetbrains.com/ruby/) and others if you need additional languages.
-- Visual Studio is fine if you're a .NET developer, and a free version is available ([Visual Studio Community](https://www.visualstudio.com/vs/community/))
-- Eclipse-based products, like [Aptana](http://www.aptana.com/) and Zend Studio.
-- [Komodo IDE](http://www.activestate.com/komodo-ide) and its lightweight free version [Komodo Edit](http://www.activestate.com/komodo-edit).
+- IntelliJ editors: フロントエンド開発者のための [WebStorm](http://www.jetbrains.com/webstorm/) と他の言語が必要であれば [PHPStorm (PHP)](http://www.jetbrains.com/phpstorm/), [IDEA (Java)](http://www.jetbrains.com/idea/), [RubyMine (Ruby)](http://www.jetbrains.com/ruby/) など。
+- .NET 開発者の場合、Visual Studio は良いです。またフリー版も利用可能です ([Visual Studio Community](https://www.visualstudio.com/vs/community/))
+- [Aptana](http://www.aptana.com/) や Zend Studio のような Eclipse ベースのプロダクト。
+- [Komodo IDE](http://www.activestate.com/komodo-ide) やその軽量のフリー版 [Komodo Edit](http://www.activestate.com/komodo-edit).
 - [Netbeans](http://netbeans.org/).
 
 上に挙げたすべてのIDEはWindowとMacの環境で利用でき、Visual Studio以外のIDEはLinuxでも利用できます。
@@ -36,11 +36,11 @@ IDEはプロジェクト(多くのファイル)をロードし、ファイル間
 
 次の選択肢はあなたの注目に値します:
 
-- [Visual Studio Code](https://code.visualstudio.com/) (cross-platform, free).
-- [Atom](https://atom.io/) (cross-platform, free).
-- [Sublime Text](http://www.sublimetext.com) (cross-platform, shareware).
-- [Notepad++](https://notepad-plus-plus.org/) (Windows, free).
-- Vim and Emacs are also cool, if you know how to use them.
+- [Visual Studio Code](https://code.visualstudio.com/) (クロスプラットフォーム、フリー).
+- [Atom](https://atom.io/) (クロスプラットフォーム、フリー).
+- [Sublime Text](http://www.sublimetext.com) (クロスプラットフォーム、シェアウェア).
+- [Notepad++](https://notepad-plus-plus.org/) (Windows, フリー).
+- 使い方を知っている場合は、Vim や Emacs もまたクールです。
 
 ## 私のお気に入り
 
@@ -48,8 +48,8 @@ IDEはプロジェクト(多くのファイル)をロードし、ファイル間
 
 私は使っています:
 
-- [WebStorm](http://www.jetbrains.com/webstorm/) for JS, and if there is one more language in the project, then I switch to other Jetbrains editors like [PHPStorm](http://www.jetbrains.com/phpstorm/) (PHP), [IDEA](http://www.jetbrains.com/idea/) (Java), [RubyMine](http://www.jetbrains.com/ruby/) (Ruby). There are editors for other languages too, but I haven't used them.
-- As a lightweight editor -- [Sublime Text](http://www.sublimetext.com) or [Atom](https://atom.io/).
+- JS には [WebStorm](http://www.jetbrains.com/webstorm/), また、プロジェクトでもう1つ言語があるなら[PHPStorm](http://www.jetbrains.com/phpstorm/) (PHP), [IDEA](http://www.jetbrains.com/idea/) (Java), [RubyMine](http://www.jetbrains.com/ruby/) (Ruby)のような Jetbrains の別のエディタを使っています。使ったことはありませんが、他の言語用のものもあります。
+- 軽量なエディタとしては -- [Sublime Text](http://www.sublimetext.com) もしくは [Atom](https://atom.io/) です.
 
 もしも何を選べばよいか分からない場合、これらのものを検討できます。
 

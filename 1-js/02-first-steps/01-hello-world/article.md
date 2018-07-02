@@ -104,20 +104,20 @@ Scriptの前後のコメント
 それはトラフィックを節約し、ページをより速くします。
 ```
 
-````warn header="If `src` is set, the script content is ignored."
-A single `<script>` tag can't have both the `src` attribute and the code inside.
+````warn header="もし `src` が設定された場合, スクリプトの中身は無視されます。"
+1つの `<script>` タグは `src` 属性と中身のコード両方を持つことはできません。
 
-This won't work:
+これは動作しません:
 
 ```html
 <script *!*src*/!*="file.js">
-  alert(1); // the content is ignored, because src is set
+  alert(1); // src が設定されているので、このコンテントは無視されます。
 </script>
 ```
 
-We must choose: either it's an external `<script src="…">` or a regular `<script>` with code.
+私たちは選ぶ必要があります: 外部の `<script src="…">` または通常のコードをもつ `<script>`。
 
-The example above can be split into two scripts to work:
+上の例は、2つのスクリプトに分けることで動作させることができます。:
 
 ```html
 <script src="file.js"></script>

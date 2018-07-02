@@ -55,7 +55,7 @@ alert(3 +
 
 このようなケースで発生するエラーは検出と修正が非常に難しいです。
 
-````smart header="An example of an error"
+````smart header="エラーの例"
 もしもあなたがこのようなエラーの具体例を見て興味があるなら、このコードを確認してください:
 
 ```js run
@@ -87,14 +87,13 @@ alert("All fine now");
 セミコロンのない変種のエラーは、JavaScriptは角括弧 `[...]` の前のセミコロンを暗示しないために発生します。
 
 そのため、セミコロンは自動挿入されないので最初の例のコードは1つのステートメントとして扱われます。
-So, because the semicolon is not auto-inserted, the code in the first example is treated as a single statement.
 これは、どのようにエンジンがそれを見るかです:
 
 ```js run no-beautify
 alert("There will be an error")[1, 2].forEach(alert)
 ```
 
-しかし、それは1つではなく2つの別のステートメントであるべきです。今回のケースのようなマージは間違っているので、エラーです。このようなことが起こる他のシチュエーションもあります。
+しかし、それは1つではなく2つの別のステートメントであるべきです。今回のケースのようなマージは間違っているのでエラーです。このようなことが起こるシチュエーションは他にもあります。
 ````
 
 改行によってステートメントが分割されていたとしてもセミコロンを置くことを推奨します。このルールはコミュニティで広く採用されています。再度留意しましょう -- ほとんどの場合でセミコロンは除くことが *可能* です。しかし、安全です -- 特に初心者は -- それらを使うことが。
@@ -111,10 +110,10 @@ alert("There will be an error")[1, 2].forEach(alert)
 
 ここのように:
 ```js run
-// This comment occupies a line of its own
+// この行全体がコメントになります。
 alert('Hello');
 
-alert('World'); // This comment follows the statement
+alert('World'); // このコメントは文の後に続いています。
 ```
 
 **複数行のコメントはスラッシュとアスタリスク <code>/&#42;</code> で始まり、アスタリスクとスラッシュ <code>&#42;/</code> で終わります。**
@@ -122,8 +121,8 @@ alert('World'); // This comment follows the statement
 このように:
 
 ```js run
-/* An example with two messages.
-This is a multiline comment.
+/* 2つのメッセージを含む例。
+これは複数行のコメントです。
 */
 alert('Hello');
 alert('World');
@@ -135,18 +134,18 @@ alert('World');
 時々、コードの一部を一時的に無効にすると便利です:
 
 ```js run
-/* Commenting out the code
+/* コードのコメントアウト
 alert('Hello');
 */
 alert('World');
 ```
 
-```smart header="Use hotkeys!"
+```smart header="ホットキーを使いましょう!"
 殆どのエディタでは、コードの行は1行コメントとして `key:Ctrl+/` ホットキーによりコメントアウトすることができます。そして `key:Ctrl+Shift+/` のようなもので複数行コメントです(コードのいち部を選択し、ホットキーを押します)。
 Macでは、 `key:Ctrl` の代わりに `key:Cmd` を試してください。
 ```
 
-````warn header="Nested comments are not supported!"
+````warn header="入れ子のコメントはサポートされていません!"
 別の `/*...*/` の中に `/*...*/` はないかもしれません。
 
 このようなコードはエラーで死にます。

@@ -83,7 +83,7 @@ let user = 'John'
 技術的には、これらすべてのバリアントは同じです。なので、これは個人の好みと美学の問題です。
 
 
-````smart header="`var` instead of `let`"
+````smart header="`let` の代わりに `var`"
 古いスクリプトでは、別のキーワードを見つけるかもしれません: `let` の代わりに `var`:
 
 ```js
@@ -138,7 +138,7 @@ alert(hello); // Hello world!
 alert(message); // Hello world!
 ```
 
-```smart header="Functional languages"
+```smart header="関数言語"
 変数の値の変更を禁止する[functional](https://en.wikipedia.org/wiki/Functional_programming)プログラミング言語も存在することは興味深いかもしれません。たとえば, [Scala](http://www.scala-lang.org/) または [Erlang](http://www.erlang.org/).
 
 このような言語では、一度 "ボックスの中に" 値を格納すると、それは永遠です。もし他の何かを格納する必要がある場合、その言語は新しいボックスを作ることを強制します(新しい変数を宣言します)。私達は古いものを再利用することはできません。
