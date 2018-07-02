@@ -2,14 +2,14 @@ importance: 3
 
 ---
 
-# Multiply numeric properties by 2
+# 数値プロパティに2を掛ける
 
-Create a function `multiplyNumeric(obj)` that multiplies all numeric properties of `obj` by `2`.
+`obj` のすべての数値プロパティに `2` を掛ける関数 `multiplyNumeric(obj)` を作成しなさい。
 
-For instance:
+例:
 
 ```js
-// before the call
+// 呼び出し前
 let menu = {
   width: 200,
   height: 300,
@@ -18,7 +18,7 @@ let menu = {
 
 multiplyNumeric(menu);
 
-// after the call
+// 呼び出し後
 menu = {
   width: 400,
   height: 600,
@@ -26,8 +26,6 @@ menu = {
 };
 ```
 
-Please note that `multiplyNumeric` does not need to return anything. It should modify the object in-place.
+`multiplyNumeric` は何も返却する必要がないことに注意してください。オブジェクトをその場で変更する必要があります。
 
-P.S. Use `typeof` to check for a number here.
-
-
+P.S. ここでは数値のためのチェックに `typeof` を使います。

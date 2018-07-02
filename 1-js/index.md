@@ -1,6 +1,5 @@
-# The JavaScript language
+# JavaScript 言語
 
-Here we learn JavaScript, starting from scratch and go on to advanced concepts like OOP.
+ここでは JavaScript をゼロから始め、OOPのような高度なコンセプトを学びます。
 
-We concentrate on the language itself here, with the minimum of environment-specific notes.
-
+ここでは、環境固有の注意事項は最小限に抑えて、言語そのものに集中しています。

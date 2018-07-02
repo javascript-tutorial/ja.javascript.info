@@ -1,3 +1,3 @@
-# Objects, classes, inheritance
+# オブジェクト、クラス、継承
 
-In this section we return to objects and learn them even more in-depth.
+このセクションでは、オブジェクトに戻りさらに深く学びます。

@@ -1,1 +1,1 @@
-# Objects: the basics
+# オブジェクト: 基本

@@ -307,8 +307,7 @@ hi(); // Error, because this is undefined
 - `name` はプロパティです。
 - `strict` は `use strict` が効いている場合は true です。
 
-`user.hi` へのプロパティアクセスの結果は、関数ではなく参照型です。
-The result of a property access `user.hi` is not a function, but a value of Reference Type. strict mode での  `user.hi` はこうなります:
+`user.hi` へのプロパティアクセスの結果は、関数ではなく参照型です。strict mode での  `user.hi` はこうなります:
 
 ```js
 // Reference Type value

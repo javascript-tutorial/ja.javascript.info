@@ -1,1 +1,1 @@
-# Advanced working with functions
+# 関数の高度な機能

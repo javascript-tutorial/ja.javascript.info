@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Sum object properties
+# 合計のオブジェクトプロパティ
 
-We have an object storing salaries of our team:
+我々のチームの給与を格納しているオブジェクトがあります。:
 
 ```js
 let salaries = {
@@ -14,6 +14,6 @@ let salaries = {
 }
 ```
 
-Write the code to sum all salaries and store in the variable `sum`. Should be `390` in the example above.
+すべての給与を合計し変数 `sum` に格納するコードを書いてください。上の例では `390` になるはずです。
 
-If `salaries` is empty, then the result must be `0`.
+もし `salaries` が空の場合、結果は `0` である必要があります。

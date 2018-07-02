@@ -1,8 +1,9 @@
-Sure, it works, no problem.
+もちろん動きます。問題ありません。
 
-The `const` only protects the variable itself from changing. 
+`const` は変数自身のみ変更から保護します。
 
-In other words, `user` stores a reference to the object. And it can't be changed. But the content of the object can.
+つまり、`user` オブジェクトへの参照を格納しています。そしてそれは変更できません。しかし、オブジェクト中身は可能です。
+
 
 ```js run
 const user = {

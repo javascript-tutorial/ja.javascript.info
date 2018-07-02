@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Check for emptiness
+# 空のチェック
 
-Write the function `isEmpty(obj)` which returns `true` if the object has no properties, `false` otherwise.
+オブジェクトがプロパティを持っていない場合に `true` を、それ以外の場合には `false` を返す関数 `isEmpty(obj)` を書きなさい。
 
-Should work like that:
+このように動く必要があります:
 
 ```js
 let schedule = {};
@@ -17,4 +17,3 @@ schedule["8:30"] = "get up";
 
 alert( isEmpty(schedule) ); // false
 ```
-

@@ -2,11 +2,11 @@ importance: 3
 
 ---
 
-# Explain the value of "this"
+# "this" の値を説明してください
 
-In the code below we intend to call `user.go()` method 4 times in a row.
+下のコードで、`user.go()` メソッドを4回連続で呼び出すつもりです。
 
-But calls `(1)` and `(2)` works differently from `(3)` and `(4)`. Why?
+しかし、呼び出し `(1)` と `(2)` は `(3)` と `(4)` とは異なっています。なぜでしょう？
 
 ```js run no-beautify
 let obj, method;
@@ -23,4 +23,3 @@ obj.go();               // (1) [object Object]
 
 (obj.go || obj.stop)(); // (4) undefined
 ```
-

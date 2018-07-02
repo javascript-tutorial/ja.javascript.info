@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Constant objects?
+# 定数オブジェクト?
 
-Is it possible to change an object declared with `const`, how do you think?
+`const` で宣言されたオブジェクトを変更することは可能でしょうか？どう思いますか？
 
 ```js
 const user = {
@@ -12,7 +12,7 @@ const user = {
 };
 
 *!*
-// does it work?
+// 動作する?
 user.name = "Pete";
 */!*
 ```

@@ -1,3 +1,3 @@
-# Data types
+# データ型
 
-More data structures and more in-depth study of the types.
+より多くのデータ構造と型のより詳細な学習をします。
