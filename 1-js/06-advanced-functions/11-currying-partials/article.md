@@ -278,11 +278,11 @@ function curried(...args) {
 
 もしまだ不明瞭であれば、心の中、あるいは紙に呼び出しシーケンスをトレースしてみると良いです。
 
-```smart header="Fixed-length functions only"
+```smart header="固定長の関数のみ"
 カリー化では、関数が固定数の引数を持つ必要があります。
 ```
 
-```smart header="A little more than currying"
+```smart header="カリー化よりもさらに"
 定義上、カリー化は `sum(a, b, c)` を `sum(a)(b)(c)` に変換するべきです。
 
 しかし、JavaScriptでのカリー化のほとんどの実装は説明されているように高度であり、複数引数のバリアントでも関数が呼び出し可能となっています。

@@ -152,7 +152,7 @@ sayHi(); // Hi
 alert( `Called ${sayHi.counter} times` ); // Called 2 times
 ```
 
-```warn header="A property is not a variable"
+```warn header="プロパティは変数ではありません"
 `sayHi.counter = 0` のような関数に割り当てられたプロパティは、関数の中でローカル変数 `counter` として定義 *されません* 。言い換えると、プロパティ `counter` と変数 `let counter` は2つの無関係なものです。
 
 私たちは、関数をオブジェクトとして扱うことができ、その中にプロパティを格納することが出来ます。しかしそれはその実行には影響を与えません。変数は関数プロパティを使うことはなく、逆も然りです。これらは単なる2つの並列した言葉です。
@@ -331,7 +331,7 @@ welcome(); // Hello, Guest (nested call works)
 
 外部コードは依然として変数 `sayHi` または後の `welcome` を持っています。そして、`func` は "内部の関数名" であり、自身を呼び出すためのものです。
 
-```smart header="There's no such thing for Function Declaration"
+```smart header="関数宣言に対して、このようなことはありません"
 ここで説明された "内部名" の機能は関数式でのみ利用可能で、関数宣言では利用できません。関数宣言に対して、もう１つの "内部" の名前を追加する構文はありません。
 
 信頼できる内部名が必要なときには、それは関数宣言を名前付けされた関数式の形に書き換える理由になります。

@@ -218,7 +218,7 @@ alert( new PropertyRequiredError("field").name ); // PropertyRequiredError
 
 これで、カスタムエラーははるかに短くなりました。特に `ValidationError` はコンストラクタの `"this.name = ..."` の行を除いたので。
 
-## Wrapping exceptions
+## 例外のラッピング
 
 上のコードの関数 `readUser` の目的は "ユーザデータを読むこと" ですよね？ この処理では異なる種類のエラーが起こる可能性があります。今は `SyntaxError` と `ValidationError` を持っていますが、将来 `readUser` 関数が成長するかもしれません: 新たなコードが別の種類のエラーを生み出すかもしれません。
 

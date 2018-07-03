@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Inherit from SyntaxError
+# SyntaxError を継承する
 
-Create a class `FormatError` that inherits from the built-in `SyntaxError` class.
+組み込みの `SyntaxError` クラスを継承した `FormatError` クラスを作りなさい。
 
-It should support `message`, `name` and `stack` properties.
+`message`, `name` と `stack` プロパティをサポートする必要があります。
 
-Usage example:
+使用例:
 
 ```js
 let err = new FormatError("formatting error");
@@ -18,5 +18,5 @@ alert( err.name ); // FormatError
 alert( err.stack ); // stack
 
 alert( err instanceof FormatError ); // true
-alert( err instanceof SyntaxError ); // true (because inherits from SyntaxError)
+alert( err instanceof SyntaxError ); // true (SyntaxError を継承しているので)
 ```

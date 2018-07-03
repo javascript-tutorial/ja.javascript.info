@@ -100,7 +100,7 @@ alert( num.toString(2) );   // 11111111
     alert( 123456..toString(36) ); // 2n9c
     ```
 
-```warn header="Two dots to call a method"
+```warn header="メソッドを呼ぶための2つのドット"
 `123456..toString(36)` の2つのドットはタイプミスではないことに注意してください。上の例の `toString` のように、数値に対して直接メソッド呼び出しをしたいとき、その後に2つのドット `..` を置く必要があります。
 
 もし1つのドットを置いた場合 `123456.toString(36)`、エラーになるでしょう。なぜならJavaScript構文は最初のドットの後を少数部分と考えるためです。そして、もう1つどっとを置くと、JavaScriptは少数部分が空であることを知り、メソッドに行きます。
@@ -225,7 +225,7 @@ alert( 0.1.toFixed(20) ); // 0.10000000000000000555
 
 そういうわけで、 `0.1 + 0.2` は正確な `0.3` ではありません。
 
-```smart header="Not only JavaScript"
+```smart header="JavaScript だけではありません"
 同じ問題は多くの他のプログラミング言語で存在します。
 
 PHP, Java, C, Perl, Ruby は全く同じ結果を返します。なぜならそれらは同じ数値形式に基づいているためです。
@@ -257,7 +257,7 @@ PHP, Java, C, Perl, Ruby は全く同じ結果を返します。なぜならそ�
 
 3. もしもショップを扱っている場合、最も抜本的な解決策はセントで全ての価格を格納し、全く少数を使わないことです。しかし、30% のディスカウントを適用するとどうなるでしょうか？実際には、完全に回避することはほとんど不可能なので、上記の解決法はこの落とし穴を回避するのに役立ちます。
 
-````smart header="The funny thing"
+````smart header="興味深いこと"
 これを試してみてください:
 
 ```js run
@@ -270,7 +270,7 @@ alert( 9999999999999999 ); // shows 10000000000000000
 Javascriptはこのようなイベントではエラーをトリガーしません。数値を目的のフォーマットに合わせるための最善を行いますが、残念ながらこのフォーマットは十分大きいものではありません。
 ````
 
-```smart header="Two zeroes"
+```smart header="2つのゼロ"
 数値の内部表現のもう一つの面白い結果は、2つのゼロ、すなわち `0` と `-0` の存在です。
 
 記号は1ビットで表現されるため、すべての数字は、0を含めて正または負になります。
@@ -321,7 +321,7 @@ alert( isFinite(num) );
 
 空、またはスペースのみの文字列は、`isFinite` を含めた全ての数値関数で `0` として扱われる点に注意してください。
 
-```smart header="Compare with `Object.is`"
+```smart header="`Object.is` との比較"
 
 値を `===` のように比較する特別な組み込みメソッド [Object.is](mdn:js/Object/is) がありますが、2つのエッジケースではより信頼できます:
 
@@ -364,7 +364,7 @@ alert( parseFloat('12.3.4') ); // 12.3, the second point stops the reading
 alert( parseInt('a123') ); // NaN, the first symbol stops the process
 ```
 
-````smart header="The second argument of `parseInt(str, radix)`"
+````smart header="`parseInt(str, radix)` の2つ目の引数"
 `parseInt()` 関数は任意の2つ目のパラメータを持ちます。それは数値システムの基数を指定するので、`parseInt` もまた16進数、2進数などの文字列をパースすることが出来ます:
 
 

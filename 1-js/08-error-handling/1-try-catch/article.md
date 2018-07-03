@@ -78,7 +78,7 @@ try {
     ```
 
 
-````warn header="`try..catch` only works for runtime errors"
+````warn header="`try..catch` は実行時エラーにのみ作用します"
 `try..catch` を動作させるために、コードは実行可能でなければなりません。つまり、有効なJavaScriptである必要があります。
 
 もしコードが構文的に誤っている場合には動作しません。例えば次は角括弧の不一致です:
@@ -97,7 +97,7 @@ JavaScriptエンジンは最初にコードを読み、次にそれを実行し�
 ````
 
 
-````warn header="`try..catch` works synchronously"
+````warn header="`try..catch` は同期的に動作します"
 もし `setTimeout` の中のような "スケジュールされた" コードで例外が発生した場合、`try..catch` はそれをキャッチしません。:
 
 ```js run
@@ -520,13 +520,13 @@ alert( `execution took ${diff}ms` );
 
 言い換えると、関数を終了するには方法が2つあります: `return` または `throw` です。 `finally` 句はそれら両方とも処理します。
 
-```smart header="Variables are local inside `try..catch..finally`"
+```smart header="変数は `try..catch..finally` の内部でローカルです"
 上のコードで `result` と `diff` 変数は `try..catch` の *前* で宣言されていることに注意してください。
 
 そうでなく、`let` が `{...}` ブロックの中で作られている場合、その中でしか見えません。
 ```
 
-````smart header="`finally` and `return`"
+````smart header="`finally` と `return`"
 Finally 句は　`try..catch` からの *任意の* 終了に対して機能します。それは明白な `return` も含みます。
 
 下の例では、`try` の中で `return` があります。この場合、`finally` は制御が外部コードに戻る前に実行されます。
@@ -571,7 +571,7 @@ function func() {
 
 ## グローバルな catch
 
-```warn header="Environment-specific"
+```warn header="環境特有"
 このセクションの情報はコアなJavaScriptの一部ではありません。
 ```
 

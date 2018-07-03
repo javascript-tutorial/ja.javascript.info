@@ -126,7 +126,7 @@ showMessage();
 alert( userName ); // *!*John*/!*, unchanged, the function did not access the outer variable
 ```
 
-```smart header="Global variables"
+```smart header="グローバル変数"
 上のコードにおいて、外部の `userName` のような、任意の関数の外で宣言されている変数は *グローバル* と呼ばれます。
 
 グローバル変数はどの関数からも見えます(ローカル変数により隠れていなければ)。
@@ -207,7 +207,7 @@ function showMessage(from, text = anotherFunction()) {
 ```
 
 
-````smart header="Default parameters old-style"
+````smart header="デフォルトパラメータの古い形式"
 javascriptの古いエディションはデフォルトパラメータをサポートしていませんでした。そのため、それらをサポートするための別の方法があります。これは殆どの古いスクリプトの中で見つけることができます。
 
 例えば、`undefined` の明示的なチェック:
@@ -298,7 +298,7 @@ function showMovie(age) {
 
 上のコードでは、もしも `checkAge(age)`  が `false` を返すと、`showMovie` `alert` の処理をしません。
 
-````smart header="A function with an empty `return` or without it returns `undefined`"
+````smart header="空の `return` または返却がないものは `undefined` を返します"
 もしも関数が値を返却しない場合、`undefined` を返却した場合と同じです。:
 
 ```js run
@@ -318,7 +318,7 @@ alert( doNothing() === undefined ); // true
 ```
 ````
 
-````warn header="Never add a newline between `return` and the value"
+````warn header="`return`と値の間に改行を入れないでください"
 `return` での長い式では、このように別の行に書くのが魅力的に見えるかもしれません:
 
 ```js
@@ -362,7 +362,7 @@ checkPermission(..) // 権限をチェックし、true/false を返します
 
 決まった位置にプレフィックスを使用すると、関数名を見ると、それがどのような種類の処理を行い、どのような値を返すのかを理解することが出来ます。
 
-```smart header="One function -- one action"
+```smart header="1つの関数 -- 1つのアクション"
 関数はその名前により提案されたことを正確にするべきです。
 
 通常、2つの独立したアクションは、たとえそれらが一緒に呼ばれるとしても(その場合、私たちはそれらの2つを呼ぶ3つ目の関数を作ります)、2つの関数にするのが良いです。
@@ -376,7 +376,7 @@ checkPermission(..) // 権限をチェックし、true/false を返します
 これらの例はプレフィックスの共通の意味を前提としています。それらがあなたのために意味することは、あなたとあなたのチームで決めるということです。恐らく、あなたのコードが異なった振る舞いをすることは普通なことです。しかしあなたは、プレフィックスが意味すること、プレフィックスの付いた関数ができること、できないことについて、しっかりとした理解をもっておくべきです。同じプレフィックスの関数はルールに従うべきです。あおして、チームはその知識を共有するべきです。
 ```
 
-```smart header="Ultrashort function names"
+```smart header="究極短い関数名"
 *非常にしばしば* 使われる関数は、時々究極的に短い名前を持っています。
 
 例えば、[jQuery](http://jquery.com) フレームワークは関数 `$` を定義しています。[LoDash](http://lodash.com/) ライブラリは、そのコアな関数として `_` を持っています。

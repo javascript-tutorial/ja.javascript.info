@@ -52,7 +52,7 @@ let age = prompt('How old are you?', 100);
 alert(`You are ${age} years old!`); // You are 100 years old!
 ```
 
-````warn header="IE: always supply a `default`"
+````warn header="IE: 常に `デフォルト` を提供してください"
 2つ目のパラメータは任意です。しかし、それを供給しない場合、Internet Explorer はプロントにテキスト `"undefined"` を挿入します。
 
 それを見るために Internet Explorer でこのコードを実行しましょう:

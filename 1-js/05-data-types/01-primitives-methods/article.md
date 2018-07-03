@@ -81,7 +81,7 @@ alert( n.toFixed(2) ); // 1.23
 チャプター <info:number> と <info:string> でより具体的なメソッドを見ましょう。
 
 
-````warn header="Constructors `String/Number/Boolean` are for internal use only"
+````warn header="コンストラクタ `String/Number/Boolean` は内部でのみ利用します"
 Javaなどの言語は `new Number(1)` または `new Boolean(false)` のような構文を使うことで明示的にプリミティブのための "ラッパーオブジェクト" を作ることが出来ます。
 
 JavaScriptにおいても、歴史的な理由から可能ですが、強く *推奨しません*。いくつかの場所で物事がクレイジーになっていくでしょう。
@@ -113,7 +113,7 @@ let num = Number("123"); // convert a string to number
 ````
 
 
-````warn header="null/undefined have no methods"
+````warn header="null/undefined はメソッドを持ちません"
 特別なプリミティブ `null` と `undefined` は例外です。それらは対応する "ラッパーオブジェクト" を持たずメソッドを提供しません。ある意味では、それらは "最もプリミティブ" です。
 
 このような値のプロパティへのアクセスはエラーになります:

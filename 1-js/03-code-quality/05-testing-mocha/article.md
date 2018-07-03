@@ -263,7 +263,7 @@ describe("pow", function() {
 
 将来、自身のヘルパー関数と一緒にトップレベルにより多くの `it` や `describe` を追加することができ、それらに `makeTest` は見えません。
 
-````smart header="`before/after` and `beforeEach/afterEach`"
+````smart header="`before/after` と `beforeEach/afterEach`"
 テストを実行する前後に実行する `before/after` 関数を設定することができ、また *すべての* `it` の前後で実行する `beforeEach/afterEach` もあります。
 
 例:
@@ -337,7 +337,7 @@ describe("pow", function() {
 
 私たちの実装はそれらをサポートしていないので、新たに追加されたテストは失敗します。それが BDD の仕組みです: 最初に失敗するテストを書き、次にそれらのための実装を作ります。
 
-```smart header="Other assertions"
+```smart header="他のアサーション"
 
 `assert.isNaN` のアサーションに注目してください: `NaN` のチェックです。
 

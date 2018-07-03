@@ -99,7 +99,7 @@ arr.splice(2, 0, "complex", "language");
 alert( arr ); // "I", "study", "complex", "language", "JavaScript"
 ```
 
-````smart header="Negative indexes allowed"
+````smart header="負のインデックスは許容されます"
 ここや他の配列のメソッドでは、負のインデックスが許容されます。それらは配列の末尾からの位置を指定します。:
 
 ```js run
@@ -401,8 +401,8 @@ alert(arr);  // *!*1, 2, 15*/!*
 
 アルゴリズムは処理の中で複数回要素を比較しますが、できるだけ回数を少なくしようとします。
 
-````smart header="A comparison function may return any number"
-実際には、比較関数は、正の数を「より大きい」、負の数を「より小さい」として返すことだけが必要です。
+````smart header="比較関数は任意の数を返すことがあります"
+実際には、比較関数は正の数を「より大きい」、負の数を「より小さい」として返せば十分です。
 
 より短い関数で書くことができます:
 
@@ -415,7 +415,7 @@ alert(arr);  // *!*1, 2, 15*/!*
 ```
 ````
 
-````smart header="Arrow functions for the best"
+````smart header="ベストなアロー関数"
 [アロー関数](info:function-expression#arrow-functions) を覚えていますか? すっきりしたソートを書くために使えます。:
 
 ```js
@@ -466,7 +466,7 @@ let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
 alert(arr); // Bilbo, Gandalf
 ```
 
-````smart header="Split into letters"
+````smart header="文字への分割"
 空の `s` での `split(s)` の呼び出しは、文字列を文字の配列に分割します:
 
 ```js run

@@ -234,7 +234,7 @@ alert( 1 && 2 && null && 3 ); // null
 alert( 1 && 2 && 3 ); // 3, the last one
 ```
 
-````smart header="AND `&&` executes before OR `||`"
+````smart header="AND `&&` は OR `||` の前に実行します"
 AND `&&` 演算子の優先順位は OR `||` よりも高いです。そのため、ORの前の実行されます。
 
 下のコードでは、`1 && 0` が最初に計算されます:

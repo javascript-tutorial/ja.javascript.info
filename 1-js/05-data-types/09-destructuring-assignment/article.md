@@ -33,7 +33,7 @@ alert(surname);  // Kantor
 let [firstName, surname] = "Ilya Kantor".split(' ');
 ```
 
-````smart header="\"Destructuring\" does not mean \"destructive\""
+````smart header="\"分割\" は \"破壊的\" を意味しません"
 これは、項目を変数にコピーすることによって "非構造化(destructurizes)" するため、"分割代入(destructuring assignment)" と呼ばれています。 配列自体は変更されません。
 
 これは、より短い書き方になります:
@@ -44,7 +44,7 @@ let surname = arr[1];
 ```
 ````
 
-````smart header="Ignore first elements"
+````smart header="最初の要素を無視する"
 配列の不要な要素は、余分なカンマをつけることで捨てることができます:
 
 ```js run
@@ -59,9 +59,9 @@ alert( title ); // Consul
 上のコードでは、最初と2つ目の配列の要素がスキップされていますが、3つ目は `title` に代入され、残りもまたスキップされています。
 ````
 
-````smart header="Works with any iterable on the right-side"
+````smart header="右側の任意の反復可能なもの(iterable)で動作します"
 
-...実際には、配列だけでなく、任意の iterable で使うことができます:
+...実際には、配列だけでなく任意の反復可能なもの(iterable)で使うことができます:
 
 ```js
 let [a, b, c] = "abc"; // ["a", "b", "c"]
@@ -71,7 +71,7 @@ let [one, two, three] = new Set([1, 2, 3]);
 ````
 
 
-````smart header="Assign to anything at the left-side"
+````smart header="左側の任意のものに代入する"
 
 左側には任意の "割り当て可能なもの" を使用できます。
 
@@ -85,7 +85,7 @@ alert(user.name); // Ilya
 
 ````
 
-````smart header="Looping with .entries()"
+````smart header=".entries() を使ったループ"
 
 以前のチャプターで、私たちは [Object.entries(obj)](mdn:js/Object/entries) メソッドを見ました。
 

@@ -62,7 +62,7 @@ user.sayHi = sayHi;
 user.sayHi(); // Hello!
 ```
 
-```smart header="Object-oriented programming"
+```smart header="オブジェクト指向プログラミング"
 エンティティを表現するためにオブジェクトを使ってコードを書くとき、それは、[object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming), 略すと "OOP" とばれます。
 
 OOPは大きなものであり、それ自体の興味深い科学です。 正しいエンティティを選択するにはどうすればいいですか？ どのようにそれらの間の相互作用を整理しますか？それはアーキテクチャーであり、それらは E.Gamma, R.Helm, R.Johnson, J.Vissides による"Design Patterns: Elements of Reusable Object-Oriented Software" または G.Booch による "Object-Oriented Analysis and Design with Applications" などのような、そのトピックについての素晴らしい本があります。私たちは、チャプター <info:object-oriented-programming> の後半でそのトピックの表面について触れます。
@@ -220,7 +220,7 @@ sayHi(); // undefined
 
 一般的に、オブジェクトなしで `this` を使う関数の呼び出しは、通常ではなくプログラム上に誤りであることに注意してください。もし関数が `this` を持っていたら、それは通常オブエジェクトコンテキストで呼ばれることを意味しています。
 
-```smart header="The consequences of unbound `this`"
+```smart header="バインドしていない `this` の結果"
 もしあなたが別のプログラミング言語から来ていたら、恐らく "`this` のバインド" の考えに慣れているでしょう。それは、オブジェクトに定義されたメソッドは常にそのオブジェクトを参照する `this` を持っている、と言うものです。
 
 JavaScriptでは、 `this` は "自由" です。その値は実行時に評価され、メソッドが宣言されている場所には依存せず、 "ドットの前の" オブジェクトが何であるか、に依存します。
@@ -232,7 +232,7 @@ JavaScriptでは、 `this` は "自由" です。その値は実行時に評価�
 
 ## Internals: Reference Type
 
-```warn header="In-depth language feature"
+```warn header="詳細な言語機能"
 このセクションでは、特定のエッジケースをよりよく理解するための高度なトピックについて説明します。
 
 あなたが速く進めたいのであれば、スキップまたは別の機会に見てください。

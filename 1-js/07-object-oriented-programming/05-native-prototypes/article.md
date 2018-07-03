@@ -102,7 +102,7 @@ alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
 
 それらのオブジェクトは我々には見えない形で作られ、ほとんどのエンジンはそれらを最適化しますが、仕様ではこのように正確に説明されています。それらのオブジェクトのメソッドもまた `String.prototype`, `Number.prototype` や `Boolean.prototype` として利用可能なものとしてプロトタイプに存在します。
 
-```warn header="Values `null` and `undefined` have no object wrappers"
+```warn header="値 `null` と `undefined` はオブジェクトラッパーを持っていません"
 特別な値 `null` や `undefined` は別です。それらはオブジェクトラッパーを持ちません。そのため、利用可能なメソッドやプロパティはありません。また、それらに対応するプロトタイプもありません。
 ```
 

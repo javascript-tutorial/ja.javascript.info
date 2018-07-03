@@ -85,7 +85,7 @@ let user = {
 ![](object-user-props.png)
 
 
-````smart header="Trailing comma"
+````smart header="末尾のカンマ"
 このリストの最後のプロパティはカンマで終わることがあります:
 ```js
 let user = {
@@ -200,7 +200,7 @@ let bag = {
 
 
 
-````smart header="Reserved words are allowed as property names"
+````smart header="予約語はプロパティ名としては使えます"
 変数は "for", "let", "return" などのような 予約語と同じものをもつことはできません。
 
 しかし、オブジェクトプロパティでは、このような制限はありません。どんな名前でも大丈夫です:
@@ -314,7 +314,7 @@ let key = "age";
 alert( *!*key*/!* in user ); // true, takes the name from key and checks for such property
 ```
 
-````smart header="Using \"in\" for properties that store `undefined`"
+````smart header="`undefined` を格納しているプロパティに \"in\" を使う"
 通常、厳密等価演算子 `"=== undefined"` チェックは正しく動作します。しかし、それが失敗する特別なケースがありますが、 `"in"` は正しく動作します。
 
 それは、オブジェクトのプロパティは存在するが、`undefined` が格納されているときです:
@@ -403,7 +403,7 @@ for(let code in codes) {
 
 電話コードは昇順にソートされて表示されます。なぜなら、それらが整数だからです。なので、`1, 41, 44, 49` と見えます。
 
-````smart header="Integer properties? What's that?"
+````smart header="整数プロパティ? それはなに?"
 ここで "整数プロパティ" の用語は、変更なしで整数に変換できる文字列を意味します。
 
 したがって、"49" は整数のプロパティ名です。なぜなら、整数の数に変換されて戻っても、それは変わらないからです。 しかし、 "+49"と "1.2"はそうではありません:

@@ -90,7 +90,7 @@ alert( 'Too big' );
 alert( "I don't know such values" );
 ```
 
-````smart header="Any expression can be a `switch/case` argument"
+````smart header="どのような式も `switch / case` 引数になります"
 `switch` と `case` の両方は任意の表現が可能です。
 
 たとえば:

@@ -130,7 +130,7 @@ alert( `My\n`.length ); // 3
 
 `\n` は1つの "特殊" 文字であることに注意してください。なので、長さは実際に `3` です。
 
-```warn header="`length` is a property"
+```warn header="`length` はプロパティです"
 いくつかの他の言語を背景にもつ人々は、単なる `str.length` の代わりに `str.length()` と呼び間違えることがありますが、それは動作しません。
 
 `str.length` は数値プロパティであり、関数ではないことに注意してください。その後に括弧をつける必要はありません。
@@ -305,7 +305,7 @@ if (str.indexOf("Widget") != -1) {
 }
 ```
 
-````smart header="The bitwise NOT trick"
+````smart header="ビットの NOT トリック"
 ここで使われている古いトリックの1つは `~` 演算子の [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) です。それは、数値を 32bit 整数に変換し(もし存在すれば少数部分を除いて)、そのバリナリ表現のすべてのビットを反転反転します。
 
 32ビット整数の場合、 `〜n` は（IEEE-754形式のため） `-(n+1)` と全く同じ意味です。
@@ -448,8 +448,8 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
 | `substr(start, length)` | `start` から `length` 文字を取得 | 負の `start` を許可します |
 
 
-```smart header="Which one to choose?"
-これら全て仕事ができます。正式には、`substr` は小さな欠点があります: それは コアなJavaScriptの仕様ではなく、主に歴史的な理由から存在するブラウザ専用の機能を扱う Annex B で説明されています。なので、非ブラウザ環境ではサポートされていない可能性があります。ただ、実際にはほぼどこでも動作しています。
+```smart header="どれを選ぶ?"
+これらすべて仕事ができます。正確には、`substr` は小さな欠点があります: それは コアなJavaScriptの仕様ではなく、主に歴史的な理由から存在するブラウザ専用の機能を扱う Annex B で説明されています。なので、非ブラウザ環境ではサポートされていない可能性があります。ただ、実際にはほぼどこでも動作しています。
 
 著者はほとんどのケースで `slice` を使っています。
 ```
@@ -549,7 +549,7 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 
 ## 内部, Unicode
 
-```warn header="Advanced knowledge"
+```warn header="高度な知識"
 このセクションでは、文字列の内部構造について詳しく説明します。 この知識は、絵文字、珍しい数学的な象形文字やその他の珍しい記号を扱う予定の場合に便利です。
 
 それらをサポートする予定がない場合には、このセクションはスキップしてもOKです。

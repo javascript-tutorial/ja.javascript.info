@@ -80,7 +80,7 @@ let func = sayHi;
 すべて同じように動作します。さらに何が起こっているのか、より明白ですね。
 
 
-````smart header="Why there's a semicolon at the end?"
+````smart header="なぜ末尾にセミコロンがあるのでしょう？"
 疑問があるかもしれません。なぜ関数式は末尾にセミコロン `;` を持つのか、そして関数宣言にはそれがないのか:
 
 ```js
@@ -163,12 +163,12 @@ ask(
 
 このようなコードは我々のスクリプトでとても自然に表れます。それは JavaScript の精神に基づいています。
 
-```smart header="A function is a value representing an \"action\""
+```smart header="関数は \"アクション\" を表す値です"
 文字列や数値のような通常の値は *データ* を表します。
 
 関数は *アクション* として認識されます。
 
-私たちは、変数間でそれを渡し、必要な時に実行させることでます。
+私たちは、変数間でそれを渡し、必要な時に実行させることができます。
 ```
 
 
@@ -353,7 +353,7 @@ welcome(); // ok now
 ```
 
 
-```smart header="When to choose Function Declaration versus Function Expression?"
+```smart header="関数宣言と関数式のどちらを選択するのか？"
 経験則として、私たちが関数を宣言する必要があるとき、最初に考えるのは、以前私たちが使った関数宣言構文です。私たちはこれらの関数が宣言される前に呼ぶことができるため、コードを体系化する自由度が増します。
 
 また、コードの中で、`let f = function(…) {…}` よりも `function f(…) {…}`  の方が調べるのが少し簡単です。関数宣言はより "目を引きます"
@@ -436,7 +436,7 @@ welcome(); // ok now
 
 多くの文字を書くのが面倒なとき、シンプルなワンライナーの処理を書くときにはとても便利です。
 
-```smart header="Multiline arrow functions"
+```smart header="複数行のアロー関数"
 
 上の例は、`=>` の左から引数を取得し、右側の式を評価しました。
 
@@ -455,7 +455,7 @@ let sum = (a, b) => {  // the figure bracket opens a multiline function
 alert( sum(1, 2) ); // 3
 ```
 
-```smart header="More to come"
+```smart header="他にもあります"
 ここでは、簡潔にするためにアロー関数を賞賛しました。しかし、それだけではありません!!アロー関数は他にも興味深い機能を持っています。私たちは後ほどチャプター<info:arrow-functions>でそれらに戻ります。
 
 現時点では、我々は既にワンライナーの処理やコールバックのためにそれらを使うことが出来ます。

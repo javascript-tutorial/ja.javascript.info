@@ -86,7 +86,7 @@ alert(user.surname); // Cooper
 
 今私たちは "仮想" プロパティを持っています。 読み書き可能ですが、実際には存在しません。
 
-```smart header="Accessor properties are only accessible with get/set"
+```smart header="アクセサプロパティは get/set でのみアクセス可能です"
 プロパティは、 "データプロパティ" か "アクセサプロパティ" のいずれかになりますが、両方にはなりません。
 
 プロパティが `get prop()` または `set prop()` で定義されると、それはアクセサプロパティです。 なので、getter で読まなければなりません。それに値を割り当てたいならば、setter を使わなければなりません。

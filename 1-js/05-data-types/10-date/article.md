@@ -83,7 +83,7 @@
 [getHours()](mdn:js/Date/getHours), [getMinutes()](mdn:js/Date/getMinutes), [getSeconds()](mdn:js/Date/getSeconds), [getMilliseconds()](mdn:js/Date/getMilliseconds)
 : 対応する時刻の構成要素を取得します。
 
-```warn header="Not `getYear()`, but `getFullYear()`"
+```warn header="`getYear()` ではなく `getFullYear()` です"
 多くのJavaScriptエンジンは 標準ではないメソッド `getYear()` を実装しています。このメソッドは非推奨です。これは2桁の年を返す時がありますので、決して使わないでください。年のためには `getFullYear()` がります。
 ```
 
@@ -362,7 +362,7 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-```warn header="Be careful doing microbenchmarking"
+```warn header="マイクロベンチマークをするのは気をつけてください"
 現代のJavaScriptエンジンは多くの最適化を行います。それらは "人工的なテスト" の結果を "通常の使用" と比較して調整するかもしれません。 非常に小さいものをベンチマークするときは特にそうです。従って、あなたが真面目にパフォーマンスを理解したいのであれば、JavaScriptエンジンの仕組みを学んでください。そして、マイクロベンチマークは全く必要ないでしょう。
 
 V8 についての素晴らしい記事は <http://mrale.ph> にあります。

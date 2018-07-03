@@ -8,7 +8,7 @@
 
 [cut]
 
-```smart header="Not talking about objects yet"
+```smart header="まだオブジェクトについては話していません"
 このチャプターでは、まだ オブジェクト は説明しません。ここでは、最初にプリミティブを学びます。その後、オブジェクトについて学んだ後に、チャプター <info:object-toprimitive> で、どのようにオブジェクト変換が動作するのかを見ていきます。
 ```
 
@@ -83,7 +83,7 @@ alert( Number(false) );       // 0
 
 `null` と `undefined` はここでは異なる振る舞いをすることとに留意してください。: `undefined` が `NaN` になる一方、`null` は 0 になります。
 
-````smart header="Addition '+' concatenates strings"
+````smart header="'+'は文字列を連結します"
 ほとんどすべての算術演算は値を数値に変換します。
 Almost all mathematical operations convert values to numbers. 注目すべき例外は加算 `+` です。もしも加算された値の1つが文字列である場合、他の値は文字列に変換されます。
 
@@ -118,7 +118,7 @@ alert( Boolean("hello") ); // true
 alert( Boolean("") ); // false
 ```
 
-````warn header="Please note: the string with zero `\"0\"` is `true`"
+````warn header="注意してください: ゼロの文字列 `\"0\"` は `true` です"
 幾つかの言語(すなわち PHP)は `”0”` を `false` として扱います。しかし、JavaScriptでは、非空の文字列はいつも `true` です。
 
 ```js run

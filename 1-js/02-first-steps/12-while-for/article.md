@@ -49,7 +49,7 @@ while (i) { // when i becomes 0, the condition becomes falsy, and the loop stops
 }
 ```
 
-````smart header="Brackets are not required for a single-line body"
+````smart header="本体が1行の場合、括弧は必須ではありません"
 もしもループの本体が1つのステートメントを持っている場合、括弧`{…}`を省略することができます:
 
 ```js run
@@ -140,7 +140,7 @@ if (i < 3) { alert(i); i++ }
 // ...finish, because now i == 3
 ```
 
-````smart header="Inline variable declaration"
+````smart header="インライン変数宣言"
 ここで "カウンタ" 変数 `i` はループの中で正しく宣言されます。それは "インライン" 変数宣言と呼ばれます。
 このような変数はループの中でだけ見えます。
 
@@ -254,7 +254,7 @@ for (let i = 0; i < 10; i++) {
 `i` の値が偶数の場合、`continue` ディレクティブは本体の実行を停止し、`for` の次のイテレーションへ制御を渡しします(次の番号で)。
 したがって、`alert` は奇数値の対してのみ実行されます。
 
-````smart header="The directive `continue` helps to decrease nesting level"
+````smart header="ディレクティブ `continue` を使うと入れ子のレベルを減らせます"
 奇数値を表示するループはこのように書くこともできます:
 
 ```js
@@ -272,7 +272,7 @@ for (let i = 0; i < 10; i++) {
 しかし、副作用として1つ多くの括弧のネスティングレベルを得ます。もしも `if` のコードの中が数行より長い場合は、全体の可読性が下がる可能性があります。
 ````
 
-````warn header="No `break/continue` to the right side of '?'"
+````warn header="`?` の右側には `break/continue` はありません"
 式ではない構文構造は `'?'` の中では使うことはできないことに注意してください。特に、ディレクティブ `break/continue` はそこでは許可されません。
 
 例えば、このコードを使うとします:
@@ -363,7 +363,7 @@ for (let i = 0; i < 3; i++) { ... }
 
 `continue` ディレクティブもまたラベルと一緒に使うことが出来ます。このケースでは、実行はラベル付けされたループの次のイテレーションにジャンプします。
 
-````warn header="Labels are not a \"goto\""
+````warn header="ラベルは \"goto\" ではありません"
 ラベルはコードの任意の場所にジャンプすることはできません。
 
 例えば、このようにすることは出来ません:

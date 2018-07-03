@@ -184,7 +184,7 @@ say("Hello"); // Hello, John ("Hello" argument is passed to say)
 say("Bye"); // Bye, John ("Bye" is passed to say)
 ```
 
-````smart header="Convenience method: `bindAll`"
+````smart header="便利なメソッド: `bindAll`"
 もしオブジェクトが多くのメソッドを持ち、それらをバインドする必要がある場合、すべてループでバインドできます。:
 
 ```js

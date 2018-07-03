@@ -6,7 +6,7 @@
 
 [cut]
 
-```warn header="Irony detected"
+```warn header="諷刺"
 これらは悪いコードを書き込むルールです。なので、一部の人々には的を得ていません。
 ```
 

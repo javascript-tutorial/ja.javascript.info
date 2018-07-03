@@ -54,7 +54,7 @@ n = 12.345;
 
     そのため、数学的な表現の中のどこかに `NaN` がある場合は、結果全体に伝搬します。
 
-```smart header="Mathematical operations are safe"
+```smart header="算術演算子は安全です"
 JavaScriptでは数学をするのは安全です。私たちは何でもできます:
 ゼロにじょる除算、数値として数値ではない文字列を扱う等。
 
@@ -105,7 +105,7 @@ alert( "the result is ${1 + 2}" ); // the result is ${1 + 2} (double quotes do n
 
 私たちは、チャプター<info:string> で、より徹底的に文字列の説明します。
 
-```smart header="There is no *character* type."
+```smart header="*character* 型はありません"
 いくつかの言語では、1文字のための特別な "文字" 型があります。たとえば、C言語やJavaでは、それは `char` です。
 
 JavaScriptでは、このような型はありません。 `string` 型の1つだけです。文字列は1つの文字または複数のそれらから構成されます。

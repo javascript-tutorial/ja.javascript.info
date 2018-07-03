@@ -50,7 +50,7 @@ rabbit.hide(); // White Rabbit hides!
 
 なので、現在 `rabbit` は自身のメソッドと `Animal` のメソッド両方へのアクセスを持ちます。
 
-````smart header="Any expression is allowed after `extends`"
+````smart header="`extends` の後では任意の式が指定できます"
 クラス構文では単にクラスではなく、`extends` の後に任意の式を指定することができます。
 
 例えば、親クラスを生成する関数呼び出します:
@@ -138,7 +138,7 @@ rabbit.stop(); // White Rabbit stopped. White rabbit hides!
 
 これで `Rabbit` は処理の中で親 `super.stop()` を呼び出す `stop` メソッドを持っています。
 
-````smart header="Arrow functions have no `super`"
+````smart header="アロー関数は `super` を持っていません"
 チャプター <info:arrow-functions> で述べた通り、アロー関数には `super` がありません。
 
 もしアクセスすると、外部の関数から取得されます。例えば:

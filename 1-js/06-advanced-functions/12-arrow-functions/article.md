@@ -67,11 +67,11 @@ group.showList();
 
 これはアロー関数には影響しません。なぜなら、`this` を持っていないためです。
 
-```warn header="Arrow functions can't run with `new`"
+```warn header="アロー関数は `new` で実行することはできません"
 `this` を持たないことは当然別の制限を意味します。アロー関数はコンストラクタとして使用できません。 彼らは `new` で呼び出すことはできません。
 ```
 
-```smart header="Arrow functions VS bind"
+```smart header="アロー関数 VS bind"
 アロー関数 `=>` と `.bind(this)` で呼ばれた通常の関数の間には微妙な違いがあります。:
 
 - `.bind(this)` は関数の "バインドされたバージョン" を作ります。

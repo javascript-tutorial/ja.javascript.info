@@ -210,7 +210,7 @@ alert(user + 500); // toString -> John500
     alert(obj + 2); // 3 (ToPrimitive returned boolean, not string => ToNumber)
     ```
 
-```smart header="Historical notes"
+```smart header="歴史的な注釈"
 歴史的な理由で、メソッド `toString` または `valueOf` はプリミティブを *返すべきです*: もしそれらがオブジェクトを返した場合、エラーにはなりませんが、そのオブジェクトは無視されます(メソッドが存在しなかったかのように)。
 
 対象的に、`Symbol.toPrimitive` はプリミティブを *返さなければいけません*、そうでなければエラーになります。

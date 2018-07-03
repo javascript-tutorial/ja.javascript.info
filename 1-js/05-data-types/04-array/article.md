@@ -81,7 +81,7 @@ arr[3](); // hello
 ```
 
 
-````smart header="Trailing comma"
+````smart header="末尾のカンマ"
 An array, just like an object, may end with a comma:
 ```js
 let fruits = [

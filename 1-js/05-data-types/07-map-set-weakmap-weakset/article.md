@@ -76,16 +76,16 @@ alert( visitsCounts[john.id] ); // 123
 ...しかし `Map` ははるかにエレガントです。
 
 
-```smart header="How `Map` compares keys"
+```smart header="`Map` はどのようにキーを比較するか"
 等価のテストをするために、`Map` は [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero) アルゴリズムを使います。大雑把には厳密等価 `===` と同じですが、違いは `NaN` は `NaN` と等しいとみなされる点です。なので、`NaN` も同様にキーとして使うことができます。
 
 このアルゴリズムは変更したりカスタマイズすることは出来ません。
 ```
 
 
-````smart header="Chaining"
+````smart header="チェーン"
 
-すべての `map.set` は map 自身を返すので、呼び出しを "チェイン" することができます:
+すべての `map.set` は map 自身を返すので、呼び出しを "チェーン" することができます:
 
 ```js
 map.set('1', 'str1')
@@ -153,7 +153,7 @@ for (let entry of recipeMap) { // the same as of recipeMap.entries()
 }
 ```
 
-```smart header="The insertion order is used"
+```smart header="挿入順が使われます"
 繰り返しは値が挿入された順で行われます。通常の `Object` とは違い、`Map` はこの順番を保持しています。
 ```
 

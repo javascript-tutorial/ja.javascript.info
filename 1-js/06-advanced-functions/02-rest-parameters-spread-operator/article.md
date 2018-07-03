@@ -63,7 +63,7 @@ function showName(firstName, lastName, ...titles) {
 showName("Julius", "Caesar", "Consul", "Imperator");
 ```
 
-````warn header="The rest parameters must be at the end"
+````warn header="残りのパラメータは最後である必要があります"
 残りのパラメータはすべての残っている引数を集めるため、次は意味がありません:
 
 ```js
@@ -108,7 +108,7 @@ showName("Ilya");
 
 したがって、これらの機能が必要な場合は、残りのパラメータが好ましいです。
 
-````smart header="Arrow functions do not have `\"arguments\"`"
+````smart header="アロー関数は `\"arguments\"` を持ちません"
 もしもアロー関数から `arguments` オブジェクトにアクセスすると、外部の "通常の" 関数からそれらを取得します。
 
 ここではその例です:

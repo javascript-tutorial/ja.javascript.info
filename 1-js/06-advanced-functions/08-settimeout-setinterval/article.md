@@ -69,7 +69,7 @@ setTimeout("alert('Hello')", 1000);
 setTimeout(() => alert('Hello'), 1000);
 ```
 
-````smart header="Pass a function, but don't run it"
+````smart header="関数を渡しますが、実行はしないでください"
 初心者の開発者は、関数の後に括弧 `()` をつけるミスをすることがあります:
 
 ```js
@@ -128,7 +128,7 @@ let timerId = setInterval(() => alert('tick'), 2000);
 setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
 ```
 
-```smart header="Modal windows freeze time in Chrome/Opera/Safari"
+```smart header="Chrome/Opera/Safari ではモーダルウィンドウは時間を止めます"
 IEとFirefoxでは、内部タイマーは `alert/confirm/prompt` を表示している間も "作動" し続けますが、Chrome、Opera、Safariでは内部タイマーは "凍結" します。
 
 従って、もし上のコードを実行し、しばらく `alert` ウィンドウを消さなかった場合、Firefox/IE では次の `alert` はウィンドウを消した直後に表示されます(前の実行から2秒経過しているため)。Chrome/Opera/Safari では -- 2秒後に表示されます(タイマーは `alert` 中は作業していなかったため)。
@@ -224,7 +224,7 @@ setTimeout(function run() {
 
 新しい呼び出しは、以前の呼び出しの終わりに計画されるためです。
 
-````smart header="Garbage collection"
+````smart header="ガベージコレクション"
 関数が `setInterval/setTimeout` に渡されたとき、内部参照がそこに作られスケジューラに保存されます。この場合、たとえその関数への参照が他にない場合でも、関数はガベージコレクションの対象にはなりません。
 
 ```js
@@ -360,7 +360,7 @@ count();
 
 それを実行すると、時間が大幅に短縮されることに簡単に気づきます。
 
-````smart header="Minimal delay of nested timers in-browser"
+````smart header="ブラウザにおけるネストされたタイマーの最小遅延"
 ブラウザでは、ネストされたタイマーを実行できる頻度に制限があります。[HTML5 標準](https://www.w3.org/TR/html5/webappapis.html#timers) では次のように書かれています: "5つのネストされたタイマーの後には...間隔は少なくとも4ミリ秒に強制されます。"
 
 何を意味しているか、下の例でデモしてみましょう。例での `setTimeout` 呼び出しは、自身を `0ms` 後に実行するよう再スケジュールします。各呼び出しは `times` 配列に、直前のものからの実行時間を覚えています。実際の遅延はどのように見えるでしょう？見てみましょう:

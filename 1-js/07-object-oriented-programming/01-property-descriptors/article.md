@@ -240,8 +240,8 @@ Object.defineProperty(user, "name", {writable: true}); // Error
 */!*
 ```
 
-```smart header="Errors appear only in use strict"
-In the non-strict mode, no errors occur when writing to read-only properties and such. But the operation still won't succeed. Flag-violating actions are just silently ignored in non-strict.
+```smart header="use strict の場合にのみエラーとなります"
+非 strict mode では、読み取り専用プロパティなどに書き込むときにエラーは発生しません。 しかし、操作はまだ成功しません。フラグ違反の操作は、非 strict では無視されます。
 ```
 
 ## Object.defineProperties
