@@ -2,10 +2,9 @@ importance: 5
 
 ---
 
-# Can I add a string property?
+# 文字列プロパティを追加することはできる？
 
-
-Consider the following code:
+次のコードを考えてください:
 
 ```js
 let str = "Hello";
@@ -15,4 +14,4 @@ str.test = 5;
 alert(str.test);
 ```
 
-How do you think, will it work? What will be shown?
+あなたはどう思いますか？それはうまくいくでしょうか？ 何が表示されますか？

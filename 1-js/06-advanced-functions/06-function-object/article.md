@@ -1,5 +1,5 @@
 
-# 関数オブジェクト(Function object), NFE
+# 関数オブジェクト, NFE
 
 既に知っている通り、JavaScriptの関数は値です。
 

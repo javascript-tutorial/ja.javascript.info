@@ -1,4 +1,4 @@
-# Destructuring assignment (分割代入)
+# 分割代入
 
 JavaScriptで最も使われる2つのデータ構造は `Object` と `Array` です。
 

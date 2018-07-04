@@ -1,3 +1,4 @@
+内部的には、
 Internally the decimal fraction `6.35` is an endless binary. As always in such cases, it is stored with a precision loss.
 
 Let's see:
@@ -30,4 +31,3 @@ Note that `63.5` has no precision loss at all. That's because the decimal part `
 ```js run
 alert( Math.round(6.35 * 10) / 10); // 6.35 -> 63.5 -> 64(rounded) -> 6.4
 ```
-

@@ -1,31 +1,30 @@
 
-Try running it:
+動かしてみましょう:
 
 ```js run
 let str = "Hello";
 
 str.test = 5; // (*)
 
-alert(str.test); 
+alert(str.test);
 ```
 
-There may be two kinds of result:
+結果は2種類あります::
 1. `undefined`
-2. An error.
+2. エラー
 
-Why? Let's replay what's happening at line `(*)`:
+なぜでしょう？ `(*)` で何が起きているのかもう一度見てみましょう:
 
-1. When a property of `str` is accessed, a "wrapper object" is created.
-2. The operation with the property is carried out on it. So, the object gets the `test` property.
-3. The operation finishes and the "wrapper object" disappears.
+1. `str` のプロパティにアクセスされたとき、"ラッパーオブジェクト" が作られます。
+2. プロパティの操作はそこで行われます。なので、オブエジェクトは `test`  プロパティを取得します。
+3. 操作が終了し、"ラッパーオブジェクト" は消えます。
 
-So, on the last line, `str` has no trace of the property. A new wrapper object for every object operation on a string.
+なので、最後の行では `str` はそのプロパティへのトレースを持っていません。
 
-Some browsers though may decide to further limit the programmer and disallow to assign properties to primitives at all. That's why in practice we can also see errors at line `(*)`. It's a little bit farther from the specification though.
+しかし、ブラウザによっては、プログラマをさらに制限し、プロパティをプリミティブに割り当てることを禁止することもあります。そのため実際には `(*)` でエラーになることがあります。しかし、それは仕様からは少し離れています。
 
-**This example clearly shows that primitives are not objects.**
+**この例は、プリミティブがオブジェクトではないことを明確に示しています。**
 
-They just can not store data. 
+それらは単にデータを格納することができません。
 
-All property/method operations are performed with the help of temporary objects.
-
+すべてのプロパティ/メソッド操作は一時オブジェクトのヘルプによって実行されています。

@@ -2,10 +2,11 @@ importance: 5
 
 ---
 
-# Sum numbers from the visitor
+# 訪問者からの数値を合計する
+Sum numbers from the visitor
 
-Create a script that prompts the visitor to enter two numbers and then shows their sum.
+訪問者に2つの数値を入力させ、合計を表示するスクリプトを作りなさい。
 
 [demo]
 
-P.S. There is a gotcha with types.
+P.S. 型の落とし穴があります
