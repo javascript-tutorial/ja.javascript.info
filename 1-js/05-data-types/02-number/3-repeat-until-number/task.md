@@ -2,13 +2,12 @@ importance: 5
 
 ---
 
-# Repeat until the input is a number
+# 入力が数値であるまで繰り返す
 
-Create a function `readNumber` which prompts for a number until the visitor enters a valid numeric value.
+訪問者が有効な数値を入力するまで、数値を尋ねる関数 `readNumber` を作成してください。
 
-The resulting value must be returned as a number.
+結果の値は数値として返す必要があります。
 
-The visitor can also stop the process by entering an empty line or pressing "CANCEL". In that case, the function should return `null`.
+また、訪問者は空行の入力または "CANCEL" の選択により処理を停止することができます。このケースでは、関数は `null` を返します。
 
 [demo]
-

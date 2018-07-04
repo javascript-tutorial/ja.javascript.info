@@ -1,6 +1,6 @@
-That's because `i` would never equal `10`.
+なぜなら、`i` は決して `10` と等しくならないからです。
 
-Run it to see the *real* values of `i`:
+`i` の *本当* の値を見るために実行してみましょう。:
 
 ```js run
 let i = 0;
@@ -10,8 +10,8 @@ while (i < 11) {
 }
 ```
 
-None of them is exactly `10`.
+ちょうど `10` になるものはありません。
 
-Such things happen because of the precision losses when adding fractions like `0.2`.
+`0.2` のような少数を足すときの精度の低下によりこのようなことが起こります。
 
-Conclusion: evade equality checks when working with decimal fractions.
+結論: 小数部分を扱うとき、等価チェックを避けましょう。

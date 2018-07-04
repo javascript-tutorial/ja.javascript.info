@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Truncate the text
+# テキストを切り捨てる
 
-Create a function `truncate(str, maxlength)` that checks the length of the `str` and, if it exceeds `maxlength` -- replaces the end of `str` with the ellipsis character `"…"`, to make its length equal to `maxlength`.
+`str` の長さをチェックし、`maxlength` を超えていた場合には、-- 長さを `maxlength` と等しくするために、`str` の末尾を省略記号 `"…"` に置き換える関数 `truncate(str, maxlength)` を作りなさい。
 
-The result of the function should be the truncated (if needed) string.
+関数の結果は(必要であれば)切り捨てられた文字列です。
 
-For instance:
+例:
 
 ```js
 truncate("What I'd like to tell on this topic is:", 20) = "What I'd like to te…"

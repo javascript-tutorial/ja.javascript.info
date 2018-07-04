@@ -2,13 +2,13 @@ importance: 2
 
 ---
 
-# A random number from min to max
+# min から max のランダムな数値
 
-The built-in function `Math.random()` creates a random value from `0` to `1` (not including `1`).
+組み込み関数 `Math.random()` は `0` から `1` (`1` は含まない)のランダムな値を作成します。
 
-Write the function `random(min, max)` to generate a random floating-point number from `min` to `max` (not including `max`).
+`min` から `max` (`max` は含まない)のランダムな少数値を生成する関数 `random(min, max)` を書いてください。
 
-Examples of its work:
+動作例:
 
 ```js
 alert( random(1, 5) ); // 1.2345623452
@@ -16,4 +16,4 @@ alert( random(1, 5) ); // 3.7894332423
 alert( random(1, 5) ); // 4.3435234525
 ```
 
-You can use the solution of the [previous task](info:task/random-min-max) as the base.
+ベースとして、[previous task](info:task/random-min-max) の解法が使えます。

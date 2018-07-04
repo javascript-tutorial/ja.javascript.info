@@ -2,14 +2,13 @@ importance: 2
 
 ---
 
-# A random integer from min to max
+# min から max のランダムな整数
 
-Create a function `randomInteger(min, max)` that generates a random *integer* number from `min` to `max` including both `min` and `max` as possible values.
+取りうる値として `min` と `max` を含む、`min` から `max` のランダムな *整数* 値を生成する関数 `randomInteger(min, max)` を作りなさい。
 
-Any number from the interval `min..max` must appear with the same probability.
+範囲 `min..max` からの任意の値は、同じ確率で現れなければいけません。
 
-
-Examples of its work:
+動作例:
 
 ```js
 alert( random(1, 5) ); // 1

@@ -2,15 +2,14 @@ importance: 4
 
 ---
 
-# Extract the money
+# お金を抽出する
 
-We have a cost in the form `"$120"`. That is: the dollar sign goes first, and then the number.
+私たちは `"$120"` という形式のコストを持っています。つまり、ドル記号が最初に表示され、次に数値が表示されます。
 
-Create a function `extractCurrencyValue(str)` that would extract the numeric value from such string and return it. 
+このような文字列から数値を抽出し、それを返す関数 `extractCurrencyValue` を作りなさい。
 
-The example:
+例:
 
 ```js
 alert( extractCurrencyValue('$120') === 120 ); // true
 ```
-

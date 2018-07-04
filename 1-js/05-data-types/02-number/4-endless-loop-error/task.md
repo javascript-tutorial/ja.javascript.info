@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# An occasional infinite loop
+# 偶発的な無限ループ
 
-This loop is infinite. It never ends. Why?
+このループは無限です。終わりません。なぜでしょう？
 
 ```js
 let i = 0;
@@ -12,4 +12,3 @@ while (i != 10) {
   i += 0.2;
 }
 ```
-

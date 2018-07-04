@@ -8,16 +8,15 @@ function readNumber() {
   } while ( !isFinite(num) );
 
   if (num === null || num === '') return null;
-  
+
   return +num;
 }
 
 alert(`Read: ${readNumber()}`);
 ```
 
-The solution is a little bit more intricate that it could be because we need to handle `null`/empty lines.
+`null`/空行を処理する必要がある分、この解答はすこし入り組んでいます。
 
-So we actually accept the input until it is a "regular number". Both `null` (cancel) and empty line also fit that condition, because in numeric form they are `0`.
+実際には、入力が「通常の数字」になるまで入力を受け入れます。`null` (キャンセル)と空行、両方とも数値形式では `0` なので、その条件にフィットしています。
 
-After we stopped, we need to treat `null` and empty line specially (return `null`), because converting them to a number would return `0`.
-
+停止した後、`null` と空行特別に扱う必要がります(`null` を返す)、なぜならそれらの数値への変換は `0` になるためです。

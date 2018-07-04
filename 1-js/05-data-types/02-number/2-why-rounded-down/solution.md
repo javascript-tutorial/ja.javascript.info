@@ -1,33 +1,31 @@
-内部的には、
-Internally the decimal fraction `6.35` is an endless binary. As always in such cases, it is stored with a precision loss.
+内部的には、小数部分 `6.35` は無限のバイナリです。このような場合はいつものように、精度が低下されたものが保存されています。
 
-Let's see:
+見てみましょう:
 
 ```js run
 alert( 6.35.toFixed(20) ); // 6.34999999999999964473
 ```
 
-The precision loss can cause both increase and decrease of a number. In this particular case the number becomes a tiny bit less, that's why it rounded down.
+精度の低下は数値のインクリメント/デクリメント両方を引き起こす可能性があります。この特定のケースで、数値は少し小さくなり、そういう訳で丸め下げされます。
 
-And what's for `1.35`?
+また、`1.35` は何でしょう？
 
 ```js run
 alert( 1.35.toFixed(20) ); // 1.35000000000000008882
 ```
 
-Here the precision loss made the number a little bit greater, so it rounded up.
+ここでは、精度の低下は数値を少し大きくしました。なので丸め上げられます。
 
-**How can we fix the problem with `6.35` if we want it to be rounded the right way?**
+**正しい方法で丸めたい場合、`6.35` で問題を解決するにはどうすればいいですか？**
 
-We should bring it closer to an integer prior to rounding:
+そのためには、丸める前に整数に近づける必要があります:
 
 ```js run
 alert( (6.35 * 10).toFixed(20) ); // 63.50000000000000000000
 ```
 
-Note that `63.5` has no precision loss at all. That's because the decimal part `0.5` is actually `1/2`. Fractions divided by powers of `2` are exactly represented in the binary system, now we can round it:
-
+`63.5` はまったく精度の低下がないことに注意してください。それは、小数部分 `0.5` は実際には `1/2` だからです。2のべき乗で除算された分数は、バイナリシステムで正確に表現されます。今度はそれを丸めることができます:
 
 ```js run
-alert( Math.round(6.35 * 10) / 10); // 6.35 -> 63.5 -> 64(rounded) -> 6.4
+alert( Math.round(6.35 * 10) / 10); // 6.35 -> 63.5 -> 64(丸められた) -> 6.4
 ```
