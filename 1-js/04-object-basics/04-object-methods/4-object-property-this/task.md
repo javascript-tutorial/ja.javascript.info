@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Using "this" in object literal
+# オブジェクトリテラルで "this" を使う
 
-Here the function `makeUser` returns an object.
+ここにオブジェクトを返す `makeUser` 関数があります。
 
-What is the result of accessing its `ref`? Why?
+その `ref` へのアクセス結果なんでしょう？それはなぜでしょう？
 
 ```js
 function makeUser() {
@@ -18,6 +18,5 @@ function makeUser() {
 
 let user = makeUser();
 
-alert( user.ref.name ); // What's the result?
+alert( user.ref.name ); // 結果はなに？
 ```
-

@@ -1,4 +1,4 @@
-The solution is to return the object itself from every call.
+解決策はすべての呼び出しでオブジェクト自身を返すことです。
 
 ```js run
 let ladder = {
@@ -26,9 +26,9 @@ let ladder = {
 ladder.up().up().down().up().down().showStep(); // 1
 ```
 
-We also can write a single call per line. For long chains it's more readable:
+また、1行毎に1つの呼び出しで書くこともできます。長い連鎖の場合はより読みやすいです。:
 
-```js 
+```js
 ladder
   .up()
   .up()
@@ -37,4 +37,3 @@ ladder
   .down()
   .showStep(); // 1
 ```
-

@@ -1,6 +1,6 @@
-**Answer: an error.**
+**答え: エラーです**
 
-Try it:
+やってみましょう:
 ```js run
 function makeUser() {
   return {
@@ -14,15 +14,16 @@ let user = makeUser();
 alert( user.ref.name ); // Error: Cannot read property 'name' of undefined
 ```
 
-That's because rules that set `this` do not look at object literals. 
+これは `this` をセットするルールがオブジェクトリテラルを見ないためです。
 
-Here the value of `this` inside `makeUser()` is `undefined`, because it is called as a function, not as a method.
+ここで `makeUser()` の中の `this` 値は `undefined` です。なぜなら、関数として呼ばれており、メソッドではないためです。
 
-And the object literal itself has no effect on `this`. The value of `this` is one for the whole function, code blocks and object literals do not affect it.
+また、オブジェクトリテラル自身は `this` に影響しません。`this` の値は関数全体で、コードブロックやオブジェクトリテラルはそれに影響しません。
 
-So `ref: this` actually takes current `this` of the function.
+従って、`ref: this` は実際にはその関数の現在の `this` を取ります。
 
-Here's the opposite case:
+
+これは反対のケースです:
 
 ```js run
 function makeUser() {
@@ -41,6 +42,4 @@ let user = makeUser();
 alert( user.ref().name ); // John
 ```
 
-Now it works, because `user.ref()` is a method. And the value of `this` is set to the object before dot `.`.
-
-
+これは動作します。なぜなら `user.ref()` はメソッドだからです。そして `this` の値はドット `.` の前のオブジェクトがセットされます。

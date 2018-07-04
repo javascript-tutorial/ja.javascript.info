@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# Two functions – one object
+# 2つの関数 - 1つのオブジェクト
 
-Is it possible to create functions `A` and `B` such as `new A()==new B()`?
+`new A()==new B()` のような関数 `A` と `B` を作ることはできるでしょうか？
 
 ```js no-beautify
 function A() { ... }
@@ -16,4 +16,4 @@ let b = new B;
 alert( a == b ); // true
 ```
 
-If it is, then provide an example of their code.
+もしできるなら、そのコード例を書いてみてください。

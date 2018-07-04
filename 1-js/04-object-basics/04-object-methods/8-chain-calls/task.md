@@ -2,26 +2,26 @@ importance: 2
 
 ---
 
-# Chaining
+# チェーン
 
-There's a `ladder` object that allows to go up and down:
+上下に移動できる `ladder` オブジェクトがあります。:
 
 ```js
 let ladder = {
   step: 0,
-  up() { 
+  up() {
     this.step++;
   },
-  down() { 
+  down() {
     this.step--;
   },
-  showStep: function() { // shows the current step
+  showStep: function() { // 現在の段を表示します
     alert( this.step );
   }
 };
 ```
 
-Now, if we need to make several calls in sequence, can do it like this:
+さて、順番にいくつかの呼び出しをする場合、このようにできます:
 
 ```js
 ladder.up();
@@ -30,10 +30,10 @@ ladder.down();
 ladder.showStep(); // 1
 ```
 
-Modify the code of `up` and `down` to make the calls chainable, like this:
+`up` と `down` のコードを修正して、連鎖可能な呼び出しができるようにしてください。:
 
 ```js
 ladder.up().up().down().showStep(); // 1
 ```
 
-Such approach is widely used across JavaScript libraries.
+このようなアプローチはJavaScriptライブラリの中で広く使われています。

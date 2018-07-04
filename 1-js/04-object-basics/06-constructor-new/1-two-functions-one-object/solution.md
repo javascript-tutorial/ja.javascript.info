@@ -1,8 +1,8 @@
-Yes, it's possible.
+はい、可能です。
 
-If a function returns an object then `new` returns it instead of `this`.
+もし関数がオブジェクトを返す場合、`new` は `this` の代わりにそれを返します。
 
-So thay can, for instance, return the same externally defined object `obj`:
+なので、例えば、同じ外部で定義されたオブジェクト `obj` を返すことで実現できます。:
 
 ```js run no-beautify
 let obj = {};

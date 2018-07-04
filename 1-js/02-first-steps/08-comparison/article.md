@@ -148,17 +148,17 @@ alert( 0 === false ); // false, because the types are different
 厳密な等価チェック `===` の場合
 :それぞれ、それ自身の別々の型に所属しているため、それらの値は異なります。
 
-    ```js run
-    alert( null === undefined ); // false
-    ```
+```js run
+alert( null === undefined ); // false
+```
 
 非厳密なチェック `==` の場合
 :特別なルールがあります。それら2つは "甘いカップル" です: それらはお互いに等しくなります(`==` の意味で)が、他の価値はありません。
 For a non-strict check `==`
 
-    ```js run
-    alert( null == undefined ); // true
-    ```
+```js run
+alert( null == undefined ); // true
+```
 
 数学や他の比較 `< > <= >=`
 : 値 `null/undefined` は数値に変換されます: `null` は `0` になり、`undefined` は `NaN` になります。
@@ -181,9 +181,9 @@ alert( null >= 0 ); // (3) *!*true*/!*
 
 一方、`undefined` と `null` の等価チェック `==` はいずれの変換もなしにルールによって処理します。それらはお互い等価で他のいずれとも等価ではありません。そういうわけで (2) `null == 0` は false です。
 
-### An incomparable undefined
+### 比べるもののない undefined
 
-値 `undefined` は比較において全く参加するべきではありません。:
+値 `undefined` は比較において参加するべきではありません。:
 
 ```js run
 alert( undefined > 0 ); // false (1)

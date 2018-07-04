@@ -2,24 +2,24 @@ importance: 5
 
 ---
 
-# Create new Accumulator
+# 新しい Accumulator を作る
 
-Create a constructor function `Accumulator(startingValue)`.
+コンストラクタ関数 `Accumulator(startingValue)` を作りなさい。
 
-Object that it creates should:
+作成するオブジェクトは:
 
-- Store the "current value" in the property `value`. The starting value is set to the argument of the constructor `startingValue`.
-- The `read()` method should use `prompt` to read a new number and add it to `value`.
+- "現在の値" をプロパティ `value` に格納します。開始値はコンストラクタ `startingValue` の引数がセットされます。
+- `read()` メソッドは `prompt` を使って新しい値を読み込み、`value` に加算します。
 
-In other words, the `value` property is the sum of all user-entered values with the initial value  `startingValue`.
+つまり、`value` プロパティーはユーザーが入力したすべての値と初期値 `startingValue` の合計です。
 
-Here's the demo of the code:
+これはそのコードのデモです:
 
 ```js
-let accumulator = new Accumulator(1); // initial value 1
-accumulator.read(); // adds the user-entered value
-accumulator.read(); // adds the user-entered value
-alert(accumulator.value); // shows the sum of these values
+let accumulator = new Accumulator(1); // 初期値 1
+accumulator.read(); // ユーザの入力値の加算
+accumulator.read(); // ユーザの入力値の加算
+alert(accumulator.value); // それらの値の合計を表示
 ```
 
 [demo]

@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Create a calculator
+# 計算機を作成する
 
-Create an object `calculator` with three methods:
+3つのメソッドをもつ `calculator` オブジェクトを作りなさい。:
 
-- `read()` prompts for two values and saves them as object properties.
-- `sum()` returns the sum of saved values.
-- `mul()` multiplies saved values and returns the result.
+- `read()` は2つの値を聞き、オブジェクトプロパティとしてそれらを格納します。
+- `sum()` は保存した値の合計を返します。
+- `mul()` は保存した値を掛け、その結果を返します。
 
 ```js
 let calculator = {
@@ -21,4 +21,3 @@ alert( calculator.mul() );
 ```
 
 [demo]
-
