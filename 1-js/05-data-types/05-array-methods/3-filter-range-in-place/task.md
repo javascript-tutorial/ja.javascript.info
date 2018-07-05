@@ -2,17 +2,17 @@ importance: 4
 
 ---
 
-# Filter range "in place"
+# "その場" でフィルター範囲
 
-Write a function `filterRangeInPlace(arr, a, b)` that gets an array `arr` and removes from it all values except those that are between `a` and `b`. The test is: `a ≤ arr[i] ≤ b`.
+配列 `arr` を取得し、`a` と `b` の間を除くすべての値をそこから削除する関数 `filterRangeInPlace(arr, a, b)` を書いてください。テストは `a ≤ arr[i] ≤ b` です。
 
-The function should only modify the array. It should not return anything.
+この関数は配列のみを修正するべきです。なにも返却するべきではありません。
 
-For instance:
+例:
 ```js
 let arr = [5, 3, 8, 1];
 
-filterRangeInPlace(arr, 1, 4); // removed the numbers except from 1 to 4
+filterRangeInPlace(arr, 1, 4); // 1 から 4 までの値以外を削除
 
 alert( arr ); // [3, 1]
 ```

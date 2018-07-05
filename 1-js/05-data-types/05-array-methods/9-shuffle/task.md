@@ -2,11 +2,11 @@ importance: 3
 
 ---
 
-# Shuffle an array
+# 配列のシャッフル
 
-Write the function `shuffle(array)` that shuffles (randomly reorders) elements of the array.
+配列の要素をシャッフル(ランダムに再配置)する関数 `shuffle(array)` を書いてください。
 
-Multiple runs of `shuffle` may lead to different orders of elements. For instance:
+`shuffle` の複数回実行すると、異なる要素順になります。例えば:
 
 ```js
 let arr = [1, 2, 3];
@@ -22,4 +22,4 @@ shuffle(arr);
 // ...
 ```
 
-All element orders should have an equal probability. For instance, `[1,2,3]` can be reordered as `[1,2,3]` or `[1,3,2]` or `[3,1,2]` etc, with equal probability of each case.
+すべての要素順は等しい発生確率である必要があります。例えば、`[1,2,3]` は `[1,2,3]` または `[1,3,2]` または `[3,1,2]` などに並び替えられる可能性があり、各ケースの発生確率は同じです。

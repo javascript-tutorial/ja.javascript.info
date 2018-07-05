@@ -2,13 +2,12 @@ importance: 4
 
 ---
 
-# Sort in the reverse order
+# 逆の順序でソートする
 
 ```js
 let arr = [5, 2, 1, -10, 8];
 
-// ... your code to sort it in the reverse order
+// ... 逆順でソートをするあなたのコード
 
 alert( arr ); // 8, 5, 2, 1, -10
 ```
-

@@ -2,13 +2,13 @@ importance: 4
 
 ---
 
-# Get average age
+# 平均年齢の取得
 
-Write the function `getAverageAge(users)` that gets an array of objects with property `age` and gets the average.
+プロパティ `age` をもつオブジェクtの配列を取得し、その平均を取得する関数 `getAverageAge(users)` を書いてください。
 
-The formula for the average is `(age1 + age2 + ... + ageN) / N`.
+平均の公式は `(age1 + age2 + ... + ageN) / N` です。
 
-For instance:
+例:
 
 ```js no-beautify
 let john = { name: "John", age: 25 };
@@ -19,4 +19,3 @@ let arr = [ john, pete, mary ];
 
 alert( getAverageAge(arr) ); // (25 + 30 + 29) / 3 = 28
 ```
-

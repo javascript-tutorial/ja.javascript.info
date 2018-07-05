@@ -1,9 +1,9 @@
-Please note the subtle, but important detail of the solution. We don't convert `value` to number instantly after `prompt`, because after `value = +value` we would not be able to tell an empty string (stop sign) from the zero (valid number). We do it later instead.
+些細ですが重要な解法の詳細に注意してください。私たちは、`prompt` のあと、すぐに `value` を数値に変換しません。なぜなら、`value = +value` の後に、ゼロ（有効数字）から空の文字列（停止のサイン）を伝えることができないからです。私たちは後ほど代わりにそれを行います。
 
 
 ```js run demo
 function sumInput() {
- 
+
   let numbers = [];
 
   while (true) {
@@ -23,6 +23,5 @@ function sumInput() {
   return sum;
 }
 
-alert( sumInput() ); 
+alert( sumInput() );
 ```
-

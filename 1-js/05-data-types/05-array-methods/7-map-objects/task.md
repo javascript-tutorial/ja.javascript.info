@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Map to objects
+# オブジェクトへのマップ
 
-You have an array of `user` objects, each one has `name`, `surname` and `id`.
+あなたは `user` オブジェクトの配列をもっており、それは `name`, `surname` と `id` を持っています。
 
-Write the code to create another array from it, of objects with `id` and `fullName`, where `fullName` is generated from `name` and `surname`.
+そこから、`id` と `fullName` (`fullName` は `name` と `surname` から生成されます)をもつオブジェクトの別の配列を作成するコードを書いてください。
 
-For instance:
+例:
 
 ```js no-beautify
 let john = { name: "John", surname: "Smith", id: 1 };
@@ -33,4 +33,4 @@ alert( usersMapped[0].id ) // 1
 alert( usersMapped[0].fullName ) // John Smith
 ```
 
-So, actually you need to map one array of objects to another. Try using `=>` here. There's a small catch.
+したがって、実際には、オブジェクトの1つの配列を別の配列にマップする必要があります。 ここで `=>`を使ってみてください。 

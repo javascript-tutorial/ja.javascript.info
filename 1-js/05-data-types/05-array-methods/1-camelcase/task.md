@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Translate border-left-width to borderLeftWidth
+# border-left-width を borderLeftWidth に変換する
 
-Write the function `camelize(str)` that changes dash-separated words like "my-short-string" into camel-cased "myShortString".
+"my-short-string" のようなダッシュ区切りの言葉をキャメルケースの "myShortString" に変更する関数 `camelize(str)` を書いてください。
 
-That is: removes all dashes, each word after dash becomes uppercased.
+つまり、すべてのダッシュを削除し、ダッシュの後の各言葉を大文字にします。
 
-Examples:
+例:
 
 ```js
 camelize("background-color") == 'backgroundColor';
@@ -16,4 +16,4 @@ camelize("list-style-image") == 'listStyleImage';
 camelize("-webkit-transition") == 'WebkitTransition';
 ```
 
-P.S. Hint: use `split` to split the string into an array, transform it and `join` back.
+P.S. ヒント: 文字列を配列に分割するために `split` を使い、それを変換し、`join` 結果を返してください。

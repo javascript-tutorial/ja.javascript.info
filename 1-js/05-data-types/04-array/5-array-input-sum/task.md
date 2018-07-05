@@ -2,14 +2,14 @@ importance: 4
 
 ---
 
-# Sum input numbers
+# 入力値の合計
 
-Write the function `sumInput()` that:
+次のような関数 `sumInput()` を書きなさい:
 
-- Asks the user for values using `prompt` and stores the values in the array.
-- Finishes asking when the user enters a non-numeric value, an empty string, or presses "Cancel".
-- Calculates and returns the sum of array items.
+- 値に関して、`prompt` を使ってユーザに訪ね、配列にその値を格納します。
+- ユーザが非数値、空文字、または "キャンセル" を選択したとき、数値を尋ねるのを終了します。
+- 配列のアイテムを計算し、合計を返します。
 
-P.S. A zero `0` is a valid number, please don't stop the input on zero.
+P.S. ゼロ `0` は有効な数値です。ゼロで入力をストップしないでください。
 
 [demo]

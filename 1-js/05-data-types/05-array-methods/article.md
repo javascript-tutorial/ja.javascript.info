@@ -583,7 +583,7 @@ arr.reduce((sum, current) => sum + current);
 [arr.reduceRight](mdn:js/Array/reduceRight) メソッドも同じをことを行いますが、右から左に実行します。
 
 
-## Iterate: forEach
+## 反復: forEach
 
 [arr.forEach](mdn:js/Array/forEach) メソッドは配列の全要素に対して関数を実行することができます。
 

@@ -2,21 +2,20 @@ importance: 4
 
 ---
 
-# Filter range
+# フィルター範囲
 
-Write a function `filterRange(arr, a, b)` that gets an array `arr`, looks for elements between `a` and `b` in it and returns an array of them. 
+配列 `arr` を取得し、`a` と `b` の間で要素を探し、それらの配列を返す関数 `filterRange(arr, a, b)` を書いてください。
 
-The function should not modify the array. It should return the new array.
+この関数は配列を変更するべきではありません。新しい配列を返すべきです。
 
-For instance:
+例:
 
 ```js
 let arr = [5, 3, 8, 1];
 
-let filtered = filterRange(arr, 1, 4); 
+let filtered = filterRange(arr, 1, 4);
 
-alert( filtered ); // 3,1 (matching values)
+alert( filtered ); // 3,1 (マッチした値)
 
-alert( arr ); // 5,3,8,1 (not modified)
+alert( arr ); // 5,3,8,1 (修正されていない)
 ```
-

@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Filter unique array members
+# ユニークな配列メンバのフィルタをする
 
-Let `arr` be an array.
+`arr` は配列としてます。
 
-Create a function `unique(arr)` that should return an array with unique items of `arr`.
+`arr` のユニークなアイテムを持つ配列を返す関数 `unique(arr)` を作成してください。
 
-For instance:
+例:
 
 ```js
 function unique(arr) {
@@ -22,6 +22,6 @@ let values = ["Hare", "Krishna", "Hare", "Krishna",
 alert( unique(values) ); // Hare, Krishna, :-O
 ```
 
-P.S. Here strings are used, but can be values of any type.
+P.S ここでは文字列が使われていますが、任意の型の値にすることができます。
 
-P.P.S. Use `Set` to store unique values.
+P.P.S. ユニークな値を格納するために `Set` を使ってください。

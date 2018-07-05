@@ -25,9 +25,9 @@ alert( usersMapped[0].id ); // 1
 alert( usersMapped[0].fullName ); // John Smith
 ```
 
-Please note that in for the arrow functions we need to use additional brackets. 
+アロー関数の場合、追加の括弧が必要であることに注意してください。
 
-We can't write like this:
+このように書くことはできません:
 ```js
 let usersMapped = users.map(user => *!*{*/!*
   fullName: `${user.name} ${user.surname}`,
@@ -35,9 +35,9 @@ let usersMapped = users.map(user => *!*{*/!*
 });
 ```
 
-As we remember, there are two arrow functions: without body `value => expr` and with body `value => {...}`.
+ご存知のように、2つのアロー関数があります: 本体なし `value => expr` と本体あり `value => {...}`。
 
-Here JavaScript would treat `{` as the start of function body, not the start of the object. The workaround is to wrap them in the "normal" brackets:
+ここでは、JavaScript は `{` をオブジェクトの開始ではなく、関数本体の開始として扱います。ワークアラウンドは "通常の" 括弧でそれらを囲むことです。:
 
 ```js
 let usersMapped = users.map(user => *!*({*/!*
@@ -46,6 +46,4 @@ let usersMapped = users.map(user => *!*({*/!*
 }));
 ```
 
-Now fine.
-
-
+これで大丈夫です。

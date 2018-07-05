@@ -1,6 +1,6 @@
-The method `date.getDay()` returns the number of the weekday, starting from sunday.
+メソッド `date.getDay()` は日曜開始で平日の数値を返します。
 
-Let's make an array of weekdays, so that we can get the proper day name by its number:
+その数値から適切な日の名前が取得できるよう、平日の配列を作りましょう。
 
 ```js run
 function getWeekDay(date) {

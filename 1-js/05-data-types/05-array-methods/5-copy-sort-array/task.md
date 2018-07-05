@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Copy and sort array
+# 配列のコピーとソート
 
-We have an array of strings `arr`. We'd like to have a sorted copy of it, but keep `arr` unmodified.
+文字列の配列 `arr` を持っています。私たちはソートされたそのコピーを持ちたいですが、`arr` を修正はせずにキープしたいです。
 
-Create a function `copySorted(arr)` that returns such a copy.
+このようなコピーを返す関数 `copySorted(arr)` を作成してください。
 
 ```js
 let arr = ["HTML", "JavaScript", "CSS"];

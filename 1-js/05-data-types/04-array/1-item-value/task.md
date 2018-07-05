@@ -2,18 +2,17 @@ importance: 3
 
 ---
 
-# Is array copied?
+# 配列はコピーされる？
 
-What is this code going to show?
+このコードはどのように表示されますか？
 
 ```js
 let fruits = ["Apples", "Pear", "Orange"];
 
-// push a new value into the "copy"
+// 新しい値を "コピー" へプッシュ
 let shoppingCart = fruits;
 shoppingCart.push("Banana");
 
-// what's in fruits?
+// fruits の中身は何?
 alert( fruits.length ); // ?
 ```
-

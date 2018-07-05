@@ -1,4 +1,4 @@
-The result is `4`:
+結果は `4` です:
 
 
 ```js run
@@ -13,5 +13,4 @@ alert( fruits.length ); // 4
 */!*
 ```
 
-That's because arrays are objects. So both `shoppingCart` and `fruits` are the references to the same array.
-
+配列はオブジェクトです。なので `shoppingCart` と `fruits` は同じ配列への参照です。

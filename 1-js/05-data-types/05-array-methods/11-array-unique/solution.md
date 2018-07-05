@@ -1,6 +1,6 @@
-Let's walk the array items:
-- For each item we'll check if the resulting array already has that item.
-- If it is so, then ignore, otherwise add to results.
+配列要素を見ていきましょう:
+- 各アイテムに対して、返却する配列がすでにそれを持っているかをチェックします。
+- もしそうであれば無視し、持っていなければ結果に追加します。
 
 ```js run
 function unique(arr) {
@@ -22,18 +22,18 @@ let strings = ["Hare", "Krishna", "Hare", "Krishna",
 alert( unique(strings) ); // Hare, Krishna, :-O
 ```
 
-The code works, but there's a potential performance problem in it.
+このコードは機能しますが、そこには潜在的な性能問題があります。
 
-The method `result.includes(str)` internally walks the array `result` and compares each element against `str` to find the match.
+メソッド `result.includes(str)` は内部で配列 `result` を歩き、各要素を `str` と比較して一致するものを探します。
 
-So if there are `100` elements in `result` and no one matches `str`, then it will walk the whole `result` and do exactly `100` comparisons. And if `result` is large, like `10000`, then there would be `10000` comparisons.
+従って、もし `result` の中に `100` 要素あり、誰も `str` にマッチしない場合、`result` 全体を歩き、正確に `100` 回の比較を行うことになります。また、 `10000` のように `result` が大きいと `10000` 回の比較になります。
 
-That's not a problem by itself, because JavaScript engines are very fast, so walk `10000` array is a matter of microseconds.
+JavaScriptエンジンは非常に高速なので、それ自体は問題ではありません。なので、 `10000` 配列を見るのはマイクロ秒のレベルです。
 
-But we do such test for each element of `arr`, in the `for` loop.
+しかし、`for` ループの中で `arr` の各要素にこのようなテストをします。
 
-So if `arr.length` is `10000` we'll have something like `10000*10000` = 100 millions of comparisons. That's a lot.
+すると、`arr.length` が `10000` の場合、`10000*10000` = 1億回の比較になります。これは多いです。
 
-So the solution is only good for small arrays.
+従って、この解答は小さい配列の場合にのみ良いです。
 
-Further in the chapter <info:map-set-weakmap-weakset> we'll see how to optimize it.
+さらにチャプター <info:map-set-weakmap-weakset> では、それを最適化する方法を見ていきます。

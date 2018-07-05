@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Sort objects
+# ソートオブジェクト
 
-Write the function `sortByName(users)` that gets an array of objects with property `name` and sorts it.
+プロパティ `name` を持つオブジェクトの配列を取得し、それをソートする関数 `sortByName(users)` を書いてください。
 
-For instance:
+例:
 
 ```js no-beautify
 let john = { name: "John", age: 25 };
@@ -20,4 +20,3 @@ sortByName(arr);
 // now: [john, mary, pete]
 alert(arr[1].name); // Mary
 ```
-

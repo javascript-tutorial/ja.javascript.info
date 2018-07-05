@@ -1,4 +1,4 @@
-The simple solution could be:
+シンプルな解法は次のようになります:
 
 ```js run
 *!*
@@ -12,18 +12,18 @@ shuffle(arr);
 alert(arr);
 ```
 
-That somewhat works, because `Math.random() - 0.5` is a random number that may be positive or negative, so the sorting function reorders elements randomly.
+それはいくらか動作します。なぜなら `Math.random() - 0.5` は正または負のランダム値なので、ソート関数はランダムに要素を並び替えます。
 
-But because the sorting function is not meant to be used this way, not all permutations have the same probability.
+しかし、ソート関数はこのように使われることを意図していないので、すべての順列が同じ確率を持つわけではありません。
 
-For instance, consider the code below. It runs `shuffle` 1000000 times and counts appearances of all possible results:
+例えば、下のコードを考えてみてください。`shuffle` を 1000000回実行し、可能性のあるすべての順序の出現数をカウントします。:
 
 ```js run
 function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
-// counts of appearances for all possible permutations
+// 可能性のあるすべての順列の出現数
 let count = {
   '123': 0,
   '132': 0,
@@ -39,13 +39,13 @@ for (let i = 0; i < 1000000; i++) {
   count[array.join('')]++;
 }
 
-// show counts of all possible permutations
+// 結果を表示します
 for (let key in count) {
   alert(`${key}: ${count[key]}`);
 }
 ```
 
-An example result (for V8, July 2017):
+結果例は次の通りです(V8, 2017/7):
 
 ```js
 123: 250706
@@ -56,24 +56,24 @@ An example result (for V8, July 2017):
 321: 125223
 ```
 
-We can see the bias clearly: `123` and `213` appear much more often than others.
+明らかにバイアスがあることが分かります: `123` と `213` は他のものよりはるかに多く出現しています。
 
-The result of the code may vary between JavaScript engines, but we can already see that the approach is unreliable.
+このコードの結果は JavaScriptエンジンによって異なる可能性がありますが、このアプローチが信頼できないことが分かります。
 
-Why it doesn't work? Generally speaking, `sort` is a "black box": we throw an array and a comparison function into it and expect the array to be sorted. But due to the utter randomness of the comparison the black box goes mad, and how exactly it goes mad depends on the concrete implementation that differs between engines.
+なぜ上手く動作しないのでしょうか？一般に、`sort` は "ブラックボックス" です: 配列と比較関数をそこに投げ、配列がソートされることを期待します。しかし、比較の完全なランダム性によりブラックボックスが狂ってしまい、どの程度狂ってしまうかはエンジンによって異なる具体的な実装に依存します。
 
-There are other good ways to do the task. For instance, there's a great algorithm called [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle). The idea is to walk the array in the reverse order and swap each element with a random one before it:
+このタスクをするための他の良い方法があります。例えば、[Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle) と呼ばれる素晴らしいアルゴリズムがあります。この考えは、逆順に配列を見ていき、各要素をその前のランダムな要素と入れ替えます。
 
 ```js
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-    [array[i], array[j]] = [array[j], array[i]]; // swap elements
+    let j = Math.floor(Math.random() * (i + 1)); // 0 から i のランダムなインデックス
+    [array[i], array[j]] = [array[j], array[i]]; // 要素を入れ替えます
   }
 }
 ```
 
-Let's test it the same way:
+同じ方法でテストしてみましょう。:
 
 ```js run
 function shuffle(array) {
@@ -105,7 +105,7 @@ for (let key in count) {
 }
 ```
 
-The example output:
+出力例です:
 
 ```js
 123: 166693
@@ -116,6 +116,6 @@ The example output:
 321: 166316
 ```
 
-Looks good now: all permutations appear with the same probability.
+良い感じに見えます: すべての順列は同じ確率で表示されています。
 
-Also, performance-wise the Fisher-Yates algorithm is much better, there's no "sorting" overhead.
+また、Fisher-Yates アルゴリズムはパフォーマンスの面で遥かに優れており、"ソート" のオーバヘッドがありません。

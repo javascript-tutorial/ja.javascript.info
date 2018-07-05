@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Map to names
+# 名前へのマップ
 
-You have an array of `user` objects, each one has `user.name`. Write the code that converts it into an array of names.
+`user` オブジェクトの配列を持っているとします。それは `user.name` を持っています。それは名前の配列に変換するコードを書いてください。
 
-For instance:
+例:
 
 ```js no-beautify
 let john = { name: "John", age: 25 };
@@ -19,4 +19,3 @@ let names = /* ... your code */
 
 alert( names ); // John, Pete, Mary
 ```
-

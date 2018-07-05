@@ -1,6 +1,6 @@
-The call `arr[2]()` is syntactically the good old `obj[method]()`, in the role of `obj` we have `arr`, and in the role of `method` we have `2`.
+呼び出し `arr[2]()` は、構文的には良く、古い `obj[method]()` であり、`obj` の役割は `arr` で、`method` は `2` です。
 
-So we have a call of the function `arr[2]` as an object method. Naturally, it receives `this` referencing the object `arr` and outputs the array:
+従って、オブジェクトメソッドとして関数 `arr[2]` を呼び出します。当然のことながら、オブジェクト `arr` を参照している `this` を受け取り、配列を出力します。:
 
 ```js run
 let arr = ["a", "b"];
@@ -12,4 +12,4 @@ arr.push(function() {
 arr[2](); // "a","b",function
 ```
 
-The array has 3 values: initially it had two, plus the function. 
+配列は 3つの値をもっています: 初期に2つを持っているのに加えて、関数です。

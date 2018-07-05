@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Calling in an array context
+# 配列コンテキストでの呼び出し
 
-What is the result? Why?
+結果は何でしょうか？それはなぜでしょう？
 
 ```js
 let arr = ["a", "b"];
@@ -15,4 +15,3 @@ arr.push(function() {
 
 arr[2](); // ?
 ```
-
