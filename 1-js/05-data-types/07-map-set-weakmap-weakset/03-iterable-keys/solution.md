@@ -1,8 +1,7 @@
 
-That's because `map.keys()` returns an iterable, but not an array.
+これは、`map.keys()` は配列ではなく、反復可能(iterable) を返すためです。
 
-We can convert it into an array using `Array.from`:
-
+`Array.from` を使うことで、それを配列に変換できます:
 
 ```js run
 let map = new Map();

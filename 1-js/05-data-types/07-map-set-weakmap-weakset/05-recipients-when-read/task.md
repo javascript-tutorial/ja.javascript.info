@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Store read dates
+# 読んだ日付を格納する
 
-There's an array of messages as in the [previous task](info:task/recipients-read). The situation is similar.
+[前のタスク](info:task/recipients-read)のメッセージ配列があります。状況は似ています。
 
 ```js
 let messages = [
@@ -14,6 +14,6 @@ let messages = [
 ];
 ```
 
-The question now is: which data structure you'd suggest to store the information: "when the message was read?".
+この問題: "いつメッセージが読まれたか" という情報を格納するのにあなたが提案するのはどのようなデータ構造ですか？
 
-In the previous task we only needed to store the "yes/no" fact. Now we need to store the date and it, once again, should disappear if the message is gone.
+前のタスクでは、"既読/未読" の事実の保持だけが必要でした。今度は日付を保存する必要があります。なお、前と同じようにメッセージが削除されたら現れないでください。

@@ -4,9 +4,9 @@ importance: 5
 
 # Finally or just the code?
 
-Compare the two code fragments.
+2つのコードの断片を比較してみてください。
 
-1. The first one uses `finally` to execute the code after `try..catch`:
+1. 1つ目は `try..catch` のあとにコードを実行するために `finally` を使います:
 
     ```js
     try {
@@ -15,11 +15,11 @@ Compare the two code fragments.
       handle errors
     } finally {
     *!*
-      cleanup the working space
+      作業場所のクリーンアップ
     */!*
     }
     ```
-2. The second fragment puts the cleaning right after `try..catch`:
+2. 2つ目は `try..catch` の直後にクリーンアップする処理を置きます:
 
     ```js
     try {
@@ -29,10 +29,10 @@ Compare the two code fragments.
     }
 
     *!*
-    cleanup the working space
+    作業場所のクリーンアップ
     */!*
     ```
 
-We definitely need the cleanup after the work has started, doesn't matter if there was an error or not.
+私たちは、処理が開始された後には、それがエラーかどうかは関係なく必ずクリーンアップが必要です。
 
-Is there an advantage here in using `finally` or both code fragments are equal? If there is such an advantage, then give an example when it matters.
+`finally` を使うことの利点はあるでしょうか？それとも両方のコードは同じでしょうか？もし利点がある場合はそれが関係する例を挙げてください。

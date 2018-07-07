@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Store "unread" flags
+# "未既読" フラグを格納する
 
-There's an array of messages:
+メッセージの配列があります:
 
 ```js
 let messages = [
@@ -14,10 +14,10 @@ let messages = [
 ];
 ```
 
-Your code can access it, but the messages are managed by someone else's code. New messages are added, old ones are removed regularly by that code, and you don't know the exact moments when it happens.
+あなたのコードでそれにアクセスできますが、メッセージは他の誰かのコードで管理されています。そのコードによって新しいメッセージが追加され、古いものが定期的に削除されます。そして、あなたはそれが発生する正確なタイミングを知りません。
 
-Now, which data structure you could use to store information whether the message "have been read"? The structure must be well-suited to give the answer "was it read?" for the given message object.
+今、メッセージを "読んだ" かの情報を格納するために使えるのはどのデータ構造でしょうか？その構造は与えられたメッセージオブジェクトに対して、"読んだか？" という解答を与えるのに適したものでなければなりません。
 
-P.S. When a message is removed from `messages`, it should disappear from your structure as well.
+P.S メッセージが `messages` から削除されたとき、あなたの構造からも同様に消える必要があります。
 
-P.P.S. We shouldn't modify message objects directly. If they are managed by someone else's code, then adding extra properties to them may have bad consequences.
+P.P.S. 私たちはメッセージオブジェクトを直接変更すべきではありません。ほかの誰かのコードによって管理されている場合、余分なプロパティの追加は悪い結果になる可能性があります。

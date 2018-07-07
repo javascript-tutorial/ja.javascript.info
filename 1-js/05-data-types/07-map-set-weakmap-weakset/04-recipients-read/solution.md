@@ -1,4 +1,4 @@
-The sane choice here is a `WeakSet`:
+ここでの良い選択肢は `WeakSet` です:
 
 ```js
 let messages = [
@@ -9,33 +9,33 @@ let messages = [
 
 let readMessages = new WeakSet();
 
-// two messages have been read
+// 2つのメッセージは読まれました
 readMessages.add(messages[0]);
 readMessages.add(messages[1]);
-// readMessages has 2 elements
+// readMessages は2つの要素を持っています
 
-// ...let's read the first message again!
+// ...再び最初のメッセージを読みましょう!
 readMessages.add(messages[0]);
-// readMessages still has 2 unique elements
+// readMessages は依然として2つのユニークな要素をもっています
 
-// answer: was the message[0] read?
+// 答え: message[0] は読んだ?
 alert("Read message 0: " + readMessages.has(messages[0])); // true
 
 messages.shift();
-// now readMessages has 1 element (technically memory may be cleaned later)
+// これで readMessages の要素は1つです(技術的にはメモリは後ほどクリーンされるかもしれません)
 ```
 
-The `WeakSet` allows to store a set of messages and easily check for the existance of a message in it.
+`WeakSet` でメッセージのセットを格納し、その中でメッセージの存在を簡単に確認することができます。
 
-It cleans up itself automatically. The tradeoff is that we can't iterate over it. We can't get "all read messages" directly. But we can do it by iterating over all messages and filtering those that are in the set.
+それは自動的に自身をクリーンアップします。トレードオフはそれをイテレートすることができないことです。私たちは直接 "すべての既読メッセージ" を取得することができません。しかし、すべての messages をイテレートし、set 中のものをフィルタリングすることでそれを実現できます。
 
-P.S. Adding a property of our own to each message may be dangerous if messages are managed by someone else's code, but we can make it a symbol to evade conflicts.
+P.S メッセージが誰か他の人のコードで管理されている場合、各メッセージに同時のプロパティを追加することは危険です。が、衝突を回避するためにシンボルでそれをすることができます。
 
-Like this:
+このようになります:
 ```js
-// the symbolic property is only known to our code
+// シンボリックプロパティは我々のコードだけが知っています
 let isRead = Symbol("isRead");
 messages[0][isRead] = true;
 ```
 
-Now even if someone else's code uses `for..in` loop for message properties, our secret flag won't appear.
+これで、たとえ他のコードがメッセージプロパティのために `for..in` ループを使っても、隠しフラグは表示されません。
