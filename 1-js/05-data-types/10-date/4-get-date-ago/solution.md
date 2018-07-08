@@ -1,4 +1,4 @@
-The idea is simple: to substract given number of days from `date`:
+考え方はシンプルです: `date` から与えられた日数を減算します:
 
 ```js
 function getDateAgo(date, days) {
@@ -7,9 +7,9 @@ function getDateAgo(date, days) {
 }
 ```
 
-...But the function should not change `date`. That's an important thing, because the outer code which gives us the date does not expect it to change.
+...しかし、関数は `date` を変えてはいけません。私たちに日付を与えた外部コードはそれが変更することは期待していないからです。
 
-To implement it let's clone the date, like this:
+それを実装するために、次のように日付をクローンしましょう:
 
 ```js run
 function getDateAgo(date, days) {

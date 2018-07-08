@@ -1,26 +1,26 @@
-To get the time from `date` till now -- let's substract the dates.
+`date` から "今" までの 時間を取得するために -- 日付を減算しましょう。
 
 ```js run
 function formatDate(date) {
-  let diff = new Date() - date; // the difference in milliseconds
+  let diff = new Date() - date; // ミリ秒での差
 
-  if (diff < 1000) { // less than 1 second
+  if (diff < 1000) { // 1秒未満
     return 'right now';
   }
 
-  let sec = Math.floor(diff / 1000); // convert diff to seconds
+  let sec = Math.floor(diff / 1000); // 差分を秒に変換
 
   if (sec < 60) {
     return sec + ' sec. ago';
   }
 
-  let min = Math.floor(diff / 60000); // convert diff to minutes
+  let min = Math.floor(diff / 60000); // 差分を分に変換
   if (min < 60) {
     return min + ' min. ago';
   }
 
-  // format the date
-  // add leading zeroes to single-digit day/month/hours/minutes
+  // 日付のフォーマット
+  // 1桁の 日/月/時/分 に先頭のゼロを追加
   let d = date;
   d = [
     '0' + d.getDate(),
@@ -28,9 +28,9 @@ function formatDate(date) {
     '' + d.getFullYear(),
     '0' + d.getHours(),
     '0' + d.getMinutes()
-  ].map(component => component.slice(-2)); // take last 2 digits of every component
+  ].map(component => component.slice(-2)); // すべてのコンポーネントの最後の2桁を取る
 
-  // join the components into date
+  // コンポーネントを日付に連結
   return d.slice(0, 3).join('.') + ' ' + d.slice(3).join(':');
 }
 

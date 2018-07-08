@@ -17,7 +17,7 @@ alert( JSON.stringify(meetup, function replacer(key, value) {
   return (key != "" && value == meetup) ? undefined : value;
 }));
 
-/* 
+/*
 {
   "title":"Conference",
   "occupiedBy":[{"name":"John"},{"name":"Alice"}],
@@ -26,5 +26,4 @@ alert( JSON.stringify(meetup, function replacer(key, value) {
 */
 ```
 
-Here we also need to test `key==""` to exclude the first call where it is normal that `value` is `meetup`.
-
+ここでは、`value` が `meetup` である通常の場合の最初の呼び出しを除外するために `key==""` のテストもする必要があります。

@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Sum the properties
+# プロパティを合計する
 
-There is a `salaries` object with arbitrary number of salaries. 
+任意の数の給与を持つ `salaries` オブジェクトがあります。
 
-Write the function `sumSalaries(salaries)` that returns the sum of all salaries using `Object.values` and the `for..of` loop.
+`Object.values` と `for..of` ループを使ってすべての給与の合計を返す関数 `sumSalaries(salaries)` を書いてください。
 
-If `salaries` is empty, then the result must be `0`.
+もし `salaries` が空の場合、結果は `0` になります。
 
-For instance:
+例:
 
 ```js
 let salaries = {
@@ -21,4 +21,3 @@ let salaries = {
 
 alert( sumSalaries(salaries) ); // 650
 ```
-

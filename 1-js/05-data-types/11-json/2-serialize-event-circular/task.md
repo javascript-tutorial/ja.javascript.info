@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Exclude backreferences
+# 後方参照を除外する
 
-In simple cases of circular references, we can exclude an offending property from serialization by its name.
+循環参照のシンプルなケースでは、問題のあるプロパティをその名前でシリアライズから除外することができます。
 
-But sometimes there are many backreferences. And names may be used both in circular references and normal properties.
+しかし、ときには多くの後方参照があります。また、名前は循環参照と通常のプロパティの両方で使用される可能性があります。
 
-Write `replacer` function to stringify everything, but remove properties that reference `meetup`:
+すべてを文字列化しますが、`meetup` を参照するプロパティを削除する `replacer` 関数を書いてください。:
 
 ```js run
 let room = {
@@ -22,7 +22,7 @@ let meetup = {
 };
 
 *!*
-// circular references 
+// 循環参照
 room.occupiedBy = meetup;
 meetup.self = meetup;
 */!*
@@ -31,7 +31,7 @@ alert( JSON.stringify(meetup, function replacer(key, value) {
   /* your code */
 }));
 
-/* result should be:
+/* 結果は次のようになるはずです:
 {
   "title":"Conference",
   "occupiedBy":[{"name":"John"},{"name":"Alice"}],
@@ -39,4 +39,3 @@ alert( JSON.stringify(meetup, function replacer(key, value) {
 }
 */
 ```
-

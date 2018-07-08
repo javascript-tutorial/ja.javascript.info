@@ -1,12 +1,12 @@
-To get the number of milliseconds till tomorrow, we can from "tomorrow 00:00:00" substract the current date.
+"明日の 00:00:00" から現在の日付を減算することで、明日までのミリ秒を取得することができます。
 
-First, we generate that "tomorrow", and then do it:
+最初に、"明日"  を生成してそれをします:
 
 ```js run
 function getSecondsToTomorrow() {
   let now = new Date();
 
-  // tomorrow date
+  // 明日の日付
   let tomorrow = new Date(now.getFullYear(), now.getMonth(), *!*now.getDate()+1*/!*);
 
   let diff = tomorrow - now; // difference in ms

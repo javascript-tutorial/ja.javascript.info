@@ -215,7 +215,7 @@ alert( JSON.stringify(meetup, *!*['title', 'participants']*/!*) );
 // {"title":"Conference","participants":[{},{}]}
 ```
 
-ここでは、私たちはあまりにも厳しいかもしれません。 プロパティリストは、オブジェクト構造全体に適用されます。 したがって、`name` はリストにないので、participants は空です。
+ここでは、私たちはあまりにも厳しいかもしれません。プロパティリストは、オブジェクト構造全体に適用されます。 したがって、`name` はリストにないので、participants は空です。
 
 循環参照を引き起こす `room.occupiedBy` を除いた各プロパティを含めましょう:
 
@@ -244,7 +244,7 @@ alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'num
 
 これで、 `occupiedBy` を除くすべてがシリアライズされました。しかし、プロパティのリストがとても長いです。
 
-幸いなことに、`replacer` として配列の代わりに関数を使うことができます。
+幸いなことに、配列の代わりに `replacer` 関数を使うことができます。
 
 関数はすべての `(key,value)` ペアで呼ばれ、"置換された" 値を返す必要があります。そしてそれはオリジナルのものの代わりに使われます。
 
@@ -258,17 +258,17 @@ let room = {
 let meetup = {
   title: "Conference",
   participants: [{name: "John"}, {name: "Alice"}],
-  place: room // meetup references room
+  place: room // meetup が room を参照する
 };
 
-room.occupiedBy = meetup; // room references meetup
+room.occupiedBy = meetup; // room が meetup を参照する
 
 alert( JSON.stringify(meetup, function replacer(key, value) {
-  alert(`${key}: ${value}`); // to see what replacer gets
+  alert(`${key}: ${value}`); // replacer が取得しているものを見るために
   return (key == 'occupiedBy') ? undefined : value;
 }));
 
-/* key:value pairs that come to replacer:
+/* replacer に来た key:value ペア:
 :             [object Object]
 title:        Conference
 participants: [object Object],[object Object]
@@ -281,7 +281,7 @@ number:       23
 */
 ```
 
-`replacer` 関数はネストされたオブジェクトや配列のアイテムを含むすべての key/value ペアを取得することに留意してください。再帰的に適用されます。`replaceer` の内側での `this` の値は現在のプロパティを含むオブジェクトです。
+`replacer` 関数はネストされたオブジェクトや配列のアイテムを含むすべての key/value ペアを取得することに留意してください。再帰的に適用されます。`replacer` の内側での `this` の値は現在のプロパティを含むオブジェクトです。
 
 最初の呼び出しだけ特別です。これは特別な "ラッパーオブジェクト" (`{"": meetup}`) を使って作られます。 言い換えると、最初の `(key,value)` ペアは空のキーを持ち、値はターゲットのオブジェクト全体です。そういう訳で、上の例の最初の行は `":[object Object]"` となっています。
 
