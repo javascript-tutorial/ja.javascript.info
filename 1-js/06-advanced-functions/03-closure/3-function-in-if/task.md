@@ -1,7 +1,7 @@
 
-# Function in if
+# if の中の関数
 
-Look at the code. What will be result of the call at the last line?
+このコードを見てください。最後の行の呼び出しの結果は何でしょうか？
 
 ```js run
 let phrase = "Hello";

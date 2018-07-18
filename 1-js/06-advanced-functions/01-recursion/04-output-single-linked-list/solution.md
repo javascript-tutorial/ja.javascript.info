@@ -1,6 +1,6 @@
-# Loop-based solution
+# ループベースの解法
 
-The loop-based variant of the solution:
+ループベースの解法のバリアントです:
 
 ```js run
 let list = {
@@ -30,7 +30,7 @@ function printList(list) {
 printList(list);
 ```
 
-Please note that we use a temporary variable `tmp` to walk over the list. Technically, we could use a function parameter `list` instead:
+リストを歩くために一時的な変数 `tmp` を使用していることに留意してください。技術的には、代わりに関数パラメータ `list` を使うことができます。:
 
 ```js
 function printList(list) {
@@ -43,15 +43,15 @@ function printList(list) {
 }
 ```
 
-...But that would be unwise. In the future we may need to extend a function, do something else with the list. If we change `list`, then we loose such ability.
+...しかし、それは賢くありません。将来、リストに何かをするよう、関数を拡張する必要があるかもしれません。もし `list` を変えると、このような能力を失います。
 
-Talking about good variable names, `list` here is the list itself. The first element of it. And it should remain like that. That's clear and reliable.
+良い変数名について言うと、`list` はここではリスト自身です。その最初の要素です。そして、それはそのままでいるべきです。それは明らかで信頼できるものです。
 
-From the other side, the role of `tmp` is exclusively a list traversal, like `i` in the `for` loop.
+一方、`tmp` の役割は `for` ループでの `i` のように、排他的なリストのトラバーサルです。
 
-# Recursive solution
+# 再帰的な解法
 
-The recursive variant of `printList(list)` follows a simple logic: to output a list we should output the current element `list`, then do the same for `list.next`:
+`printList(list)` の再帰的なバリアントはシンプルなロジックに従います: リストを出力するために、現在の要素 `list` を出力し、`list.next` に対して同じことをします。:
 
 ```js run
 let list = {
@@ -70,10 +70,10 @@ let list = {
 
 function printList(list) {
 
-  alert(list.value); // output the current item
+  alert(list.value); // 現在のアイテムを出力
 
   if (list.next) {
-    printList(list.next); // do the same for the rest of the list
+    printList(list.next); // 残ったリストに対して同じことをする
   }
 
 }
@@ -81,8 +81,8 @@ function printList(list) {
 printList(list);
 ```
 
-Now what's better?
+さて、何がベターでしょう？
 
-Technically, the loop is more effective. These two variants do the same, but the loop does not spend resources for nested function calls.
+技術的には、ループはより効率的です。これらの2つのバリアントは同じことをしますが、ループは入れ子の関数呼び出しのためのリソースを消費しません。
 
-From the other side, the recursive variant is shorter and sometimes easier to understand.
+別の観点では、再帰のバリアントはより短く、理解しやすい場合があります。

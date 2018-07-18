@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# Sum with an arbitrary amount of brackets
+# 任意の量の括弧で合計する
 
-Write function `sum` that would work like this:
+このように動作する関数 `sum` を書いてください。:
 
 ```js
 sum(1)(2) == 3; // 1 + 2
@@ -14,4 +14,4 @@ sum(6)(-1)(-2)(-3) == 0
 sum(0)(1)(2)(3)(4)(5) == 15
 ```
 
-P.S. Hint: you may need to setup custom object to primitive conversion for your function.
+P.S. ヒント: 関数のプリミティブ変換にカスタムオブジェクトを設定する必要があるかもしれません。

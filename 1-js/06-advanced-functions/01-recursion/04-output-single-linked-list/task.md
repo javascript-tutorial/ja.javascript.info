@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Output a single-linked list
+# 単一連結リストを出力する
 
-Let's say we have a single-linked list (as described in the chapter <info:recursion>):
+単一の連結リスト(チャプター <info:recursion> での説明の通り)を持っています。:
 
 ```js
 let list = {
@@ -21,9 +21,8 @@ let list = {
   }
 };
 ```
+リストのアイテムを1つずつ出力する関数 `printList(list)` を書いてください。
 
-Write a function `printList(list)` that outputs list items one-by-one.
+解法を2つのバリアントで作成してください: ループを使った方法と再帰を利用した方法。
 
-Make two variants of the solution: using a loop and using recursion.
-
-What's better: with recursion or without it?
+ベターなのは？: 再帰 or 再帰なし？

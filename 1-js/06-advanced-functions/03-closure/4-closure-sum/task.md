@@ -2,16 +2,15 @@ importance: 4
 
 ---
 
-# Sum with closures
+# クロージャで合計する
 
-Write function `sum` that works like this: `sum(a)(b) = a+b`.
+`sum(a)(b) = a+b` のように動作する関数 `sum` を書いてください。
 
-Yes, exactly this way, via double brackets (not a mistype).
+はい、正確にこの通りダブル括弧で指定します(ミスタイプではありません)。
 
-For instance:
+例:
 
 ```js
 sum(1)(2) = 3
 sum(5)(-1) = 4
 ```
-

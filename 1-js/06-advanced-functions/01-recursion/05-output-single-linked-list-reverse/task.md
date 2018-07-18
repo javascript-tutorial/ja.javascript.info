@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Output a single-linked list in the reverse order
+# 単一連結リストを逆順で出力する
 
-Output a single-linked list from the previous task <info:task/output-single-linked-list> in the reverse order.
+前のタスク <info:task/output-single-linked-list> からの単一の連結リストを逆順で出力してください。
 
-Make two solutions: using a loop and using a recursion.
+2つの解法を作ってください。: ループと再帰を使った方法です。

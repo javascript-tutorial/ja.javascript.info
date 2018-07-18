@@ -1,14 +1,14 @@
 
-Let's examine what's done inside `makeArmy`, and the solution will become obvious.
+`makeArmy` の中で行われていることを検査してみましょう、それで解決策が明白になるでしょう。
 
-1. It creates an empty array `shooters`:
+1. 空の配列 `shooters` を作ります:
 
     ```js
     let shooters = [];
     ```
-2. Fills it in the loop via `shooters.push(function...)`.
+2. ループで、`shooters.push(function...)` を通してそれを埋めます。
 
-    Every element is a function, so the resulting array looks like this:
+    すべての要素は関数なので、結果の配列はこのように見えます:
 
     ```js no-beautify
     shooters = [
@@ -25,17 +25,17 @@ Let's examine what's done inside `makeArmy`, and the solution will become obviou
     ];
     ```
 
-3. The array is returned from the function.
+3. 配列が関数から返却されます。
 
-Then, later, the call to `army[5]()` will get the element `army[5]` from the array (it will be a function) and call it.
+次に、`army[5]()` の呼び出しは、その配列から `army[5]` の要素を取得(それは関数になります)し、呼び出します。
 
-Now why all such functions show the same?
+さて、なぜすべての関数は同じものを表示するのでしょう？
 
-That's because there's no local variable `i` inside `shooter` functions. When such a function is called, it takes `i` from its outer lexical environment.
+それは、`shooter` 関数の内側にローカル変数 `i` がないからです。このような関数が呼ばれるとき、`i` はその外部のレキシカル環境から取られます。
 
-What will be the value of `i`?
+`i` の値は何になるでしょう？
 
-If we look at the source:
+ソースを見ると:
 
 ```js
 function makeArmy() {
@@ -51,11 +51,11 @@ function makeArmy() {
 }
 ```
 
-...We can see that it lives in the lexical environment associated with the current `makeArmy()` run. But when `army[5]()` is called, `makeArmy` has already finished its job, and `i` has the last value: `10` (the end of `while`).
+...`i` は現在の `makeArmy()` の実行に関連付けられたレキシカル環境で生きているのがわかります。しかし、`army[5]()` が呼ばれたとき、`makeArmy` はすでにその処理を終えているので、`i` は最後の値である `10` (`while` の最後) です。
 
-As a result, all `shooter` functions get from the outer lexical envrironment the same, last value `i=10`.
+結果として、すべての `shooter` 関数は外部のレキシカル環境から同じ最後の値 `i=10` を取ります。
 
-The fix can be very simple:
+修正はとてもシンプルです。:
 
 ```js run
 function makeArmy() {
@@ -80,15 +80,15 @@ army[0](); // 0
 army[5](); // 5
 ```
 
-Now it works correctly, because every time the code block in `for (..) {...}` is executed, a new Lexical Environment is created for it, with the corresponding value of `i`.
+これで、正しく動きます。なぜなら、`for (..) {...}` で毎回コードブロックが実行され、`i` の値に対応する新しいレキシカル環境が作られるからです。
 
-So, the value of `i` now lives a little bit closer. Not in `makeArmy()` Lexical Environment, but in the Lexical Environment that corresponds the current loop iteration. A `shooter` gets the value exactly from the one where it was created.
+従って、`i` の値は今は少し近くにあります。`makeArmy` レキシカル環境ではなく、現在のループイテレーションに対応するレキシカル環境の中です。`shooter` は作られたレキシカル環境から値を取り出します。
 
 ![](lexenv-makearmy.png)
 
-Here we rewrote `while` into `for`.
+これは、`while` を `for` で書き直しました。
 
-Another trick could be possible, let's see it for better understanding of the subject:
+別のトリックでも可能です。この話題をより理解するために次のコードを見てみましょう。:
 
 
 ```js run
@@ -116,6 +116,6 @@ army[0](); // 0
 army[5](); // 5
 ```
 
-The `while` loop, just like `for`, makes a new Lexical Environment for each run. So here we make sure that it gets the right value for a `shooter`.
+ちょうど `for` と同じように `while` ループは各実行に対するレキシカル環境を作ります。従って、`shooter` の正しい値を取得することが確認できます。
 
-We copy `let j = i`. This makes a loop body local `j` and copies the value of `i` to it. Primitives are copied "by value", so we actually get a complete independent copy of `i`, belonging to the current loop iteration.
+私たちは `let j = i` のコピーをしています。これはループ本体のローカル `j` を作り、`i` の値をコピーします。プリミティブは "値によって" コピーされるので、現在のループイテレーションに属する実際に完全に独立した `i` のコピーになります。

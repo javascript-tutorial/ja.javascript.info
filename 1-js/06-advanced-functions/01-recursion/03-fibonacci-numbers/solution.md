@@ -1,6 +1,6 @@
-The first solution we could try here is the recursive one.
+ここでトライする最初の解法は再帰的なものです。
 
-Fibonacci numbers are recursive by definition:
+フィボナッチ数は定義上再帰的です:
 
 ```js run
 function fib(n) {
@@ -9,14 +9,14 @@ function fib(n) {
 
 alert( fib(3) ); // 2
 alert( fib(7) ); // 13
-// fib(77); // will be extremely slow!
+// fib(77); // とても遅いでしょう!
 ```
 
-...But for big values of `n` it's very slow. For instance, `fib(77)` may hang up the engine for some time eating all CPU resources.
+...しかし、`n` が大きな値だととても遅いです。例えば `fib(77)` はしばらくすべてのCPUリソースを食べるのでエンジンがハングアップするかもしれません。
 
-That's because the function makes too many subcalls. The same values are re-evaluated again and again.
+それは、関数があまりにも多くのサブコールを作るためです。同じ値が何度も何度も再評価されます。
 
-For instance, let's see a piece of calculations for `fib(5)`:
+例えば、`fib(5)` に対する計算の一部を見てみましょう:
 
 ```js no-beautify
 ...
@@ -25,68 +25,68 @@ fib(4) = fib(3) + fib(2)
 ...
 ```
 
-Here we can see that the value of `fib(3)` is needed for both `fib(5)` and `fib(4)`. So `fib(3)` will be called and evaluated two times completely independently.
+ここでは、 `fib(3)` の値が `fib(5)` と `fib(4)` 両方で必要とされていることが分かります。なので `fib(3)` は2回完全に独立して呼び出され、評価されます。
 
-Here's the full recursion tree:
+これは完全な再帰ツリーです:
 
 ![fibonacci recursion tree](fibonacci-recursion-tree.png)
 
-We can clearly notice that `fib(3)` is evaluated two times and `fib(2)` is evaluated three times. The total amount of computations grows much faster than `n`, making it enormous even for `n=77`.
+`fib(3)` が 2回評価され、`fib(2)` は3回評価されることが明確にわかります。計算の総量は `n` よりも遥かに速く大きくなり、`n=77` でさえ巨大になります。
 
-We can optimize that by remembering already-evaluated values: if a value of say `fib(3)` is calculated once, then we can just reuse it in future computations.
+私たちは、すでに評価された値を覚えておくことでそれを最適化することができます: もし `fib(3)` が一度呼ばれると、以降の将来の計算では単にそれを再利用させます。
 
-Another variant would be to give up recursion and use a totally different loop-based algorithm.
+別のバリアントとしては、再帰をやめ、全く異なるループベースのアルゴリズムを使うことです。
 
-Instead of going from `n` down to lower values, we can make a loop that starts from `1` and `2`, then gets `fib(3)` as their sum, then `fib(4)` as the sum of two previous values, then `fib(5)` and goes up and up, till it gets to the needed value. On each step we only need to remember two previous values.
+`n` から小さい値へ進む代わりに、`1` や `2` から開始するループを作ることができます。それらの合計として `fib(3)` を取得し、次に2つ前の値の合計として `fib(4)` を、次に `fib(5)` と必要な値を取得するまで上に上がっていきます。各ステップでは以前の2つの値を覚えておくだけで済みます。
 
-Here are the steps of the new algorithm in details.
+ここでは、新しいアルゴリズムのステップの詳細を示します。
 
-The start:
+スタート:
 
 ```js
-// a = fib(1), b = fib(2), these values are by definition 1
+// a = fib(1), b = fib(2), これらの値は定義のより 1 です
 let a = 1, b = 1;
 
-// get c = fib(3) as their sum
+// これらの合計として get c = fib(3)
 let c = a + b;
 
-/* we now have fib(1), fib(2), fib(3)
+/* 今 fib(1), fib(2), fib(3) を持っています
 a  b  c
 1, 1, 2
 */
 ```
 
-Now we want to get `fib(4) = fib(2) + fib(3)`.
+今、`fib(4) = fib(2) + fib(3)` を取得したいとします。
 
-Let's shift the variables: `a,b` will get `fib(2),fib(3)`, and `c` will get their sum:
+変数をシフトさせましょう: `a,b` は `fib(2),fib(3)` を取り、`c` はそれらの合計です:
 
 ```js no-beautify
-a = b; // now a = fib(2)
-b = c; // now b = fib(3)
+a = b; // 今 a = fib(2)
+b = c; // 今 b = fib(3)
 c = a + b; // c = fib(4)
 
-/* now we have the sequence:
+/* 今私たちが持っている数列:
    a  b  c
 1, 1, 2, 3
 */
 ```
 
-The next step gives another sequence number:
+次のステップは別の数列を与えます:
 
 ```js no-beautify
-a = b; // now a = fib(3)
-b = c; // now b = fib(4)
+a = b; // 今 a = fib(3)
+b = c; // 今 b = fib(4)
 c = a + b; // c = fib(5)
 
-/* now the sequence is (one more number):
+/* 今、数列は次の通り:
       a  b  c
 1, 1, 2, 3, 5
 */
 ```
 
-...And so on until we get the needed value. That's much faster than recursion and involves no duplicate computations.
+...として必要な値まで繰り返します。これは再帰よりも遥かに速く、重複する計算を起こしません。
 
-The full code:
+完全なコードです:
 
 ```js run
 function fib(n) {
@@ -105,6 +105,6 @@ alert( fib(7) ); // 13
 alert( fib(77) ); // 5527939700884757
 ```
 
-The loop starts with `i=3`, because the first and the second sequence values are hard-coded into variables `a=1`, `b=1`.
+ループは `i=3` でスタートします。なぜなら、最初と2番目の数列値は変数 `a=1`, `b=1` でハードコードされているためです。
 
-The approach is called [dynamic programming bottom-up](https://en.wikipedia.org/wiki/Dynamic_programming).
+このアプローチは[動的計画法(dynamic programming bottom-up)](https://en.wikipedia.org/wiki/Dynamic_programming)と呼ばれます。

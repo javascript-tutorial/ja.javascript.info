@@ -1,7 +1,7 @@
 
-Surely it will work just fine.
+もちろん、それは正常に動作します。
 
-Both nested functions are created within the same outer Lexical Environment, so they share access to the same `count` variable:
+両方の入れ子関数は同じ外部レキシカル環境内で作られているので、同じ `count` 変数へのアクセスを共有します。:
 
 ```js run
 function Counter() {
@@ -10,7 +10,7 @@ function Counter() {
   this.up = function() {
     return ++count;
   };
-  
+
   this.down = function() {
     return --count;
   };

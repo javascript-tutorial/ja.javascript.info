@@ -1,4 +1,4 @@
-The solution using a loop:
+ループを使った解決策です:
 
 ```js run
 function sumTo(n) {
@@ -12,7 +12,7 @@ function sumTo(n) {
 alert( sumTo(100) );
 ```
 
-The solution using recursion:
+再帰を使った解決策です:
 
 ```js run
 function sumTo(n) {
@@ -23,7 +23,7 @@ function sumTo(n) {
 alert( sumTo(100) );
 ```
 
-The solution using the formula: `sumTo(n) = n*(n+1)/2`:
+公式: `sumTo(n) = n*(n+1)/2` を使った解決策です:
 
 ```js run
 function sumTo(n) {
@@ -33,8 +33,8 @@ function sumTo(n) {
 alert( sumTo(100) );
 ```
 
-P.S. Naturally, the formula is the fastest solution. It uses only 3 operations for any number `n`. The math helps!
+P.S. 当然のことながら、この式は最速の解法です。任意の数 n に対して3つの演算しか使用しません。数学は助けます！
 
-The loop variant is the second in terms of speed. In both the recursive and the loop variant we sum the same numbers. But the recursion involves nested calls and execution stack management. That also takes resources, so it's slower.
+ループのバリアントは速度の点では2番目です。再帰とループのバリアント共に同じ数を合計していますが、再帰にはネストされた呼び出しと実行スタック管理が含まれます。それもまたリソースを取るため、より遅くなります。
 
-P.P.S. The standard describes a "tail call" optimization: if the recursive call is the very last one in the function (like in `sumTo` above), then the outer function will not need to resume the execution and we don't need to remember its execution context. In that case `sumTo(100000)` is countable. But if your JavaScript engine does not support it, there will be an error: maximum stack size exceeded, because there's usually a limitation on the total stack size.
+P.P.S この規格は、「テールコール(末尾呼び出し)」最適化について説明しています。もし再帰呼び出しが関数の中の最後のものである場合(上の `sumTo` のように)、外部の関数は実行を再開する必要はなく、その実行コンテキストを覚えておく必要はありません。その場合であれば、`sumTo(100000)` はカウント可能です。しかし、もしあなたのJavaScriptエンジンがそれをサポートしていない場合は最大スタックサイズを超えたというエラーが発生します。これは、通常、スタックサイズの合計に制限があるためです。

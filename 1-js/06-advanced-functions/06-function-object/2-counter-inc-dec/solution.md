@@ -1,2 +1,2 @@
 
-The solution uses `count` in the local variable, but addition methods are written right into the `counter`. They share the same outer lexical environment and also can access the current `count`.
+解法はローカル変数で `count` を使いますが、追加のメソッドは `counter` に書かれています。それらは同じ外部のレキシカル環境を共有し、また現在の `count` にアクセスすることができます。

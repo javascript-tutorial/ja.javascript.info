@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Sort by field
+# フィールドでソートする
 
-We've got an array of objects to sort:
+ソートするオブジェクトの配列を持っているとします。:
 
 ```js
 let users = [
@@ -14,7 +14,7 @@ let users = [
 ];
 ```
 
-The usual way to do that would be:
+それをするための通常の方法はこのようになります:
 
 ```js
 // by name (Ann, John, Pete)
@@ -24,13 +24,13 @@ users.sort((a, b) => a.name > b.name ? 1 : -1);
 users.sort((a, b) => a.age > b.age ? 1 : -1);
 ```
 
-Can we make it even less verbose, like this?
+私たちはこのように冗長さを無くすことはできますか？
 
 ```js
 users.sort(byField('name'));
 users.sort(byField('age'));
 ```
 
-So, instead of writing a function, just put `byField(fieldName)`.
+つまり、関数を角換わりに `byField(fieldName)` を置きます。
 
-Write the function `byField` that can be used for that.
+このために使う `byField` 関数を書いてください。

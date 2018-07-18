@@ -2,17 +2,17 @@ importance: 5
 
 ---
 
-# Fibonacci numbers
+# フィボナッチ数
 
-The sequence of [Fibonacci numbers](https://en.wikipedia.org/wiki/Fibonacci_number) has the formula <code>F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub></code>. In other words, the next number is a sum of the two preceding ones.
+[フィボナッチ数(Fibonacci numbers)](https://en.wikipedia.org/wiki/Fibonacci_number)の配列には <code>F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub></code> という式があります。つまり、次の数字は前の2つの数字の合計です。
 
-First two numbers are `1`, then `2(1+1)`, then `3(1+2)`, `5(2+3)` and so on: `1, 1, 2, 3, 5, 8, 13, 21...`.
+最初の2角数値は `1` で、次に `2(1+1)`、次は `3(1+2)`, `5(2+3)`, と続きます: `1, 1, 2, 3, 5, 8, 13, 21...`.
 
-Fibonacci numbers are related to the [Golden ratio](https://en.wikipedia.org/wiki/Golden_ratio) and many natural phenomena around us.
+フィボナッチ数は [黄金比](https://en.wikipedia.org/wiki/Golden_ratio)や私たちの周りの多くの自然現象に関連しています。
 
-Write a function `fib(n)` that returns the `n-th` Fibonacci number.
+`n-th` のフィボナッチ数を返す関数 `fib(n)` を書いてください。
 
-An example of work:
+動作例:
 
 ```js
 function fib(n) { /* your code */ }
@@ -22,4 +22,4 @@ alert(fib(7)); // 13
 alert(fib(77)); // 5527939700884757
 ```
 
-P.S. The function should be fast. The call to `fib(77)` should take no more than a fraction of a second.
+P.S. 関数は速くあるべきです。`fib(77)` の呼び出しは1秒より小さくある必要があります。

@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Counter object
+# カウンタオブジェクト
 
-Here a counter object is made with the help of the constructor function.
+これはコンストラクタ関数の助けを借りて作られたカウンタオブジェクトです。
 
-Will it work? What will it show?
+これは動作するでしょうか？何が表示されるでしょう？
 
 ```js
 function Counter() {
@@ -26,4 +26,3 @@ alert( counter.up() ); // ?
 alert( counter.up() ); // ?
 alert( counter.down() ); // ?
 ```
-

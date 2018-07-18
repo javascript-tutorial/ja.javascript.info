@@ -2,17 +2,17 @@ importance: 4
 
 ---
 
-# Calculate factorial
+# 階乗を計算する
 
-The [factorial](https://en.wikipedia.org/wiki/Factorial) of a natural number is a number multiplied by `"number minus one"`, then by `"number minus two"`, and so on till `1`. The factorial of `n` is denoted as `n!`
+自然数の [階乗](https://en.wikipedia.org/wiki/Factorial) は 数値に `"数値 - 1"` を掛け、次に `"数値 - 2"` を掛け、... `1` まで行います。`n` の階乗は `n!` と表されます。
 
-We can write a definition of factorial like this:
+階乗の定義はこのように書くことができます:
 
 ```js
 n! = n * (n - 1) * (n - 2) * ...*1
 ```
 
-Values of factorials for different `n`:
+異なる `n` の階乗の値は次のようになります:
 
 ```js
 1! = 1
@@ -22,10 +22,10 @@ Values of factorials for different `n`:
 5! = 5 * 4 * 3 * 2 * 1 = 120
 ```
 
-The task is to write a function `factorial(n)` that calculates `n!` using recursive calls.
+このタスクは再帰呼び出しを使って `n!` の計算をする関数 `factorial(n)` を書くことです。
 
 ```js
 alert( factorial(5) ); // 120
 ```
 
-P.S. Hint: `n!` can be written as `n * (n-1)!` For instance: `3! = 3*2! = 3*2*1! = 6`
+P.S. ヒント: `n!` は `n * (n-1)!` と書くことができます。例えば: `3! = 3*2! = 3*2*1! = 6`
