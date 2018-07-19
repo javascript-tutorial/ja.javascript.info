@@ -2,12 +2,11 @@ importance: 5
 
 ---
 
-# Output every second
+# 毎秒を出力する
 
-Write a function `printNumbers(from, to)` that outputs a number every second, starting from `from` and ending with `to`.
+`from` から始まり `to` で終わる、毎秒の数値を出力する関数 `printNumbers(from, to)` を書いてください。
 
-Make two variants of the solution.
+解法は2つのバリアントで作ってください。
 
-1. Using `setInterval`.
-2. Using recursive `setTimeout`.
-
+1. `setInterval` を利用する。
+2. `setTimeout` の再帰を利用する。

@@ -2,17 +2,17 @@ importance: 5
 
 ---
 
-# Spy decorator
+# Spy デコレータ
 
-Create a decorator `spy(func)` that should return a wrapper that saves all calls to function in its `calls` property.
+その `calls` プロパティにすべての関数呼び出しを保存するラッパーを返すデコレータ `spy(func)` を作成してください。
 
-Every call is saved as an array of arguments.
+すべての呼び出しは引数の配列として格納されます。
 
 For instance:
 
 ```js
 function work(a, b) {
-  alert( a + b ); // work is an arbitrary function or method
+  alert( a + b ); // work は任意の関数またはメソッド
 }
 
 *!*
@@ -27,4 +27,4 @@ for (let args of work.calls) {
 }
 ```
 
-P.S. That decorator is sometimes useful for unit-testing, it's advanced form is `sinon.spy` in [Sinon.JS](http://sinonjs.org/) library.
+P.S. このデコレータはユニットテストで役立つ場合があります。その高度な形は [Sinon.JS](http://sinonjs.org/) ライブラリの `sinon.spy` です。

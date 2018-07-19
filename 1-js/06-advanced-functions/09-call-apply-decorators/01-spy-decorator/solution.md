@@ -1,1 +1,1 @@
-Here we can use `calls.push(args)` to store all arguments in the log and `f.apply(this, args)` to forward the call.
+ここでは、ログにすべての引数を格納するために `calls.push(args)` を使い、呼び出しをフォワードするために、`f.apply(this, args)` を使う事ができます。

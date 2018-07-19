@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Partial application for login
+# ログイン用の部分的なアプリケーション
 
-The task is a little more complex variant of <info:task/question-use-bind>. 
+このタスクは <info:task/question-use-bind> 少しより複雑なバリアントです。  
 
-The `user` object was modified. Now instead of two functions `loginOk/loginFail`, it has a single function `user.login(true/false)`.
+`user` オブジェクトが修正されました。今、2つの関数 `loginOk/loginFail` の代わりに、単一の関数 `user.login(true/false)` があります。
 
-What to pass `askPassword` in the code below, so that it calls `user.login(true)` as `ok` and `user.login(fail)` as `fail`?
+下のコードでは、何を渡すと `ok` として `user.login(true)` を、`fail` として `user.login(fail)` を呼ぶでしょうか？
 
 ```js
 function askPassword(ok, fail) {
@@ -30,5 +30,5 @@ askPassword(?, ?); // ?
 */!*
 ```
 
-Your changes should only modify the highlighted fragment.
+変更はハイライトされた箇所の修正だけにしてください。
 

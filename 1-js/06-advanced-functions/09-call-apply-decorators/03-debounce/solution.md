@@ -18,13 +18,13 @@ function debounce(f, ms) {
 }
 ```
 
-The call to `debounce` returns a wrapper. There may be two states:
+`debounce` 呼び出しはラッパーを返します。そこには2つの状態があります:
 
-- `isCooldown = false` -- ready to run.
-- `isCooldown = true` -- waiting for the timeout.
+- `isCooldown = false` -- 実行する準備ができている
+- `isCooldown = true` -- タイムアウトを待っている
 
-In the first call `isCooldown` is falsy, so the call proceeds, and the state changes to `true`.
+最初の呼び出しで、 `isCooldown` は偽なので、呼び出しは処理され、状態は `true` になります。
 
-While `isCooldown` is true, all other calls are ignored.
+`isCooldown` が true の間、すべての他の呼び出しは無視されます。
 
-Then `setTimeout` reverts it to `false` after the given delay.
+その後、与えられた遅延後に `setTimeout` がそれを `false` に戻します。

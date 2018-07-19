@@ -30,10 +30,10 @@ function throttle(func, ms) {
 }
 ```
 
-A call to `throttle(func, ms)` returns `wrapper`.
+`throttle(func, ms)` の呼び出しは `wrapper` を返します。
 
-1. During the first call, the `wrapper` just runs `func` and sets the cooldown state (`isThrottled = true`).
-2. In this state all calls memorized in `savedArgs/savedThis`. Please note that both the context and the arguments are equally important and should be memorized. We need them simultaneously to reproduce the call.
-3. ...Then after `ms` milliseconds pass, `setTimeout` triggers. The cooldown state is removed (`isThrottled = false`). And if we had ignored calls, then `wrapper` is executed with last memorized arguments and context.
+1. 最初の呼び出しの間、`wrapper` は単に `func` を実行し、クールダウンの状態を設定します(`isThrottled = true`)。
+2. この状態では、すべての呼び出しは `savedArgs/savedThis` に記憶されます。コンテキストと引数両方とも等しく重要で、覚えておく必要があることに注意してください。呼び出しを再現するために、それらが同時に必要になります。
+3. ...次に `ms` ミリ秒が経過後、`setTimeout` がトリガーをかけます。クールダウン状態が削除されます(`isThrottled = false`)。そして無視された呼び出しがあった場合には、最後に記憶した引数とコンテキストで `wrapper` が実行されます。
 
-The 3rd step runs not `func`, but `wrapper`, because we not only need to execute `func`, but once again enter the cooldown state and setup the timeout to reset it.
+3つ目のステップは `func` ではなく `wrapper` を実行します。なぜなら、私たちは `func` を実行するだけではなく、再びクールダウン状態に入り、それをリセットするためのタイムアウトを設定する必要があるためです。

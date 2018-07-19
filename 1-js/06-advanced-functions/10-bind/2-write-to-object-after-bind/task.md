@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Bound function as a method
+# メソッドとしてのバインドされた関数
 
-What will be the output?
+何が出力されるでしょう?
 
 ```js
 function f() {

@@ -4,11 +4,11 @@ importance: 5
 
 # Ask losing this
 
-The call to `askPassword()` in the code below should check the password and then call `user.loginOk/loginFail` depending on the answer.
+下のコードの `askPassword()` の呼び出しは、パスワードをチェックし、その回答により `user.loginOk/LoginFail` を呼びます。
 
-But it leads to an error. Why?
+しかし、それはエラーになります、なぜでしょう？
 
-Fix the highlighted line for everything to start working right (other lines are not to be changed).
+すべてが正しく動作し始めるよう、ハイライトされた行を修正してください(他の行は変更しません)。
 
 ```js run
 function askPassword(ok, fail) {

@@ -1,5 +1,5 @@
 
-Using `setInterval`:
+`setInterval` を使った場合:
 
 ```js run
 function printNumbers(from, to) {
@@ -18,7 +18,7 @@ function printNumbers(from, to) {
 printNumbers(5, 10);
 ```
 
-Using recursive `setTimeout`:
+再帰的な `setTimeout` を使った場合:
 
 
 ```js run
@@ -38,5 +38,4 @@ function printNumbers(from, to) {
 printNumbers(5, 10);
 ```
 
-Note that in both solutions, there is an initial delay before the first output. Sometimes we need to add a line to make the first output immediately, that's easy to do.
-
+両方の解法において、最初の出力前の初期遅延があることに注意してください。最初の出力をすぐにするために行を追加する必要がある場合もありますが、簡単です。

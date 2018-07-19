@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Second bind
+# 2つの bind
 
-Can we change `this` by additional binding?
+追加のバインディングで `this` を変更することができるでしょうか？
 
-What will be the output?
+何が出力されるでしょう？
 
 ```js no-beautify
 function f() {

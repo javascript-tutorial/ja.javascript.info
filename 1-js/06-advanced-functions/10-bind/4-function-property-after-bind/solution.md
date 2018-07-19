@@ -1,4 +1,3 @@
-The answer: `undefined`.
+解答: `undefined`.
 
-The result of `bind` is another object. It does not have the `test` property.
-
+`bind` の結果は別のオブジェクトです。それは `test` プロパティを持っていません。
