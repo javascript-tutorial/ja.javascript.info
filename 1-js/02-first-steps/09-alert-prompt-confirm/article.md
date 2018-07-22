@@ -85,7 +85,7 @@ OK が押された場合の結果は `true` で、それ以外は `false` です
 ```js run
 let isBoss = confirm("Are you the boss?");
 
-alert( isBoss ); // true if OK is pressed
+alert( isBoss ); // true OKが押された場合
 ```
 
 ## サマリ

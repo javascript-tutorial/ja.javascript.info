@@ -79,7 +79,7 @@ function hello(name) {
   let phrase = `Hello, ${name}!`;
 
 *!*
-  debugger;  // <-- the debugger stops here
+  debugger;  // <-- デバッガはここで止まります
 */!*
 
   say(phrase);

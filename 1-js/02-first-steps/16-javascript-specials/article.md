@@ -33,11 +33,11 @@ alert("There will be an error after this message")
 
 ```js
 function f() {
-  // no semicolon needed after function declaration
+  // 関数宣言のあとにセミコロンは不要です
 }
 
 for(;;) {
-  // no semicolon needed after the loop
+  // ループの後にセミコロンは不要です
 }
 ```
 
@@ -92,8 +92,8 @@ x = "John";
 
 `typeof` 演算子は値の型を返します。2つ例外があります:
 ```js
-typeof null == "object" // error in the language
-typeof function(){} == "function" // functions are treated specially
+typeof null == "object" // 言語の間違い
+typeof function(){} == "function" // 関数は特別に扱われます
 ```
 
 より詳細はこちらです: <info:variables> and <info:types>.
@@ -211,7 +211,7 @@ let age = prompt('Your age?', 18);
 
 switch (age) {
   case 18:
-    alert("Won't work"); // the result of prompt is a string, not a number
+    alert("Won't work"); // プロンプトの結果は文字列であり、数値ではありません
 
   case "18":
     alert("This works!");
@@ -253,19 +253,19 @@ switch (age) {
 3. アロー関数:
 
     ```js
-    // expression at the right side
+    // 右側の式です
     let sum = (a, b) => a + b;
 
-    // or multi-line syntax with { ... }, need return here:
+    // もしくは { ... } を使った複数行の構文で、return が必要です:
     let sum = (a, b) => {
       // ...
       return a + b;
     }
 
-    // without arguments
+    // 引数なし
     let sayHi = () => alert("Hello");
 
-    // with a single argument
+    // 1つの引数
     let double = n => n * 2;
     ```
 

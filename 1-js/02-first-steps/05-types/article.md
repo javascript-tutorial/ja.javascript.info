@@ -3,7 +3,7 @@
 JavaScriptの変数はどんなデータでも入れることができます。変数はある時点では文字列で、その後数値を受け取ることができます。:
 
 ```js
-// no error
+// エラーなし
 let message = "hello";
 message = 123456;
 ```
@@ -32,18 +32,18 @@ n = 12.345;
     ゼロによる除算の結果でそれを得ることができます。:
 
     ```js run
-    alert( 1 / 0 ); // Infinity
+    alert( 1 / 0 ); // 無限大
     ```
 
     もしくは、単にコードで直接それに言及します:
 
     ```js run
-    alert( Infinity ); // Infinity
+    alert( Infinity ); // 無限大
     ```
 - `NaN` は計算上のエラーを表します。正しくない、もしくは未定義の数学的な操作の結果です。たとえば:
 
     ```js run
-    alert( "not a number" / 2 ); // NaN, such division is erroneous
+    alert( "not a number" / 2 ); // NaN, このような除算は誤りです
     ```
 
     `NaN` は粘着性です。`NaN` 以上のどのような操作でも `NaN` を得ます:
@@ -56,7 +56,7 @@ n = 12.345;
 
 ```smart header="算術演算子は安全です"
 JavaScriptでは数学をするのは安全です。私たちは何でもできます:
-ゼロにじょる除算、数値として数値ではない文字列を扱う等。
+ゼロによる除算、数値として数値ではない文字列を扱う等。
 
 スクリプトは決して致命的なエラー（"死"）で止まらないでしょう。 最悪の場合、NaN を結果として得ます。
 ```
@@ -92,7 +92,7 @@ let name = "John";
 alert( `Hello, *!*${name}*/!*!` ); // Hello, John!
 
 // embed an expression
-alert( `the result is *!*${1 + 2}*/!*` ); // the result is 3
+alert( `the result is *!*${1 + 2}*/!*` ); // 結果は 3
 ```
 
 `${…}` の中の表現は評価され、結果は文字列の一部になります。そこにはなんでも置くことができます: `name` のような変数、`1 + 2` のような算術表現、またはより複雑なもの。
@@ -100,7 +100,7 @@ alert( `the result is *!*${1 + 2}*/!*` ); // the result is 3
 これはバッククォートの中でのみ行われることに留意してください。他のクォートはこのような埋め込みは許容しません!
 
 ```js run
-alert( "the result is ${1 + 2}" ); // the result is ${1 + 2} (double quotes do nothing)
+alert( "the result is ${1 + 2}" ); // 結果は ${1 + 2} です(ダブルクォートは何もしません)
 ```
 
 私たちは、チャプター<info:string> で、より徹底的に文字列の説明します。
@@ -111,7 +111,7 @@ alert( "the result is ${1 + 2}" ); // the result is ${1 + 2} (double quotes do n
 JavaScriptでは、このような型はありません。 `string` 型の1つだけです。文字列は1つの文字または複数のそれらから構成されます。
 ```
 
-## boolean (logical type)
+## boolean (論理型)
 
 boolean 型は2つの値だけを持ちます: `true` と `false`
 
@@ -120,8 +120,8 @@ boolean 型は2つの値だけを持ちます: `true` と `false`
 たとえば:
 
 ```js
-let nameFieldChecked = true; // yes, name field is checked
-let ageFieldChecked = false; // no, age field is not checked
+let nameFieldChecked = true; // yes, 名前フィールドはチェックされている
+let ageFieldChecked = false; // no, 年齢フィールドは未チェック
 ```
 
 Boolean 値は比較の結果としても来ます:
@@ -129,7 +129,7 @@ Boolean 値は比較の結果としても来ます:
 ```js run
 let isGreater = 4 > 1;
 
-alert( isGreater ); // true (the comparison result is "yes")
+alert( isGreater ); // true (比較結果は "yes" です)
 ```
 
 私たちは、後ほどチャプター<info:logical-operators>でbooleanのより詳細を説明します。
@@ -161,7 +161,7 @@ JavaScriptでは、 `null` は他の言語のような "存在しないオブジ
 ```js run
 let x;
 
-alert(x); // shows "undefined"
+alert(x); // "undefined" を表示
 ```
 
 技術的には、どの変数にも `undefined` を代入することができます。
@@ -176,7 +176,7 @@ alert(x); // "undefined"
 
 ...しかし、そのようにするのは推奨されません。一般的に、私たちは、 "空" や "不明な値" を書き込むために `null` を使い、`undefined` は変数が割り当てられているか、もしくは似たような確認のために使います。
 
-## Objects and Symbols
+## オブジェクトとシンボル
 
 `object` 型は特殊です。
 

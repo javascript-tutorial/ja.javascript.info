@@ -2,7 +2,7 @@
 
 時々、条件に基づいて異なるアクションを実行する必要があります。
 
-そのための `if` ステートメントがあります。また、私たちが "疑問符" 演算子 `"?"` として参照する、条件付き評価のための条件(3項)演算子もあります: 簡潔な `"?"`
+そのための `if` ステートメントがあります。また、私たちが "疑問符" 演算子 `"?"` として参照する、条件付き評価のための条件(3項)演算子もあります: `"?"` で簡潔に書けます。 
 
 [cut]
 
@@ -45,7 +45,7 @@ if (year == 2015) {
 さて、下のコードですが、この条件は決して実行されません:
 
 ```js
-if (0) { // 0 is falsy
+if (0) { // 0 は偽
   ...
 }
 ```
@@ -53,7 +53,7 @@ if (0) { // 0 is falsy
 ...また、この条件は -- 常に処理します:
 
 ```js
-if (1) { // 1 is truthy
+if (1) { // 1 は真
   ...
 }
 ```
@@ -61,7 +61,7 @@ if (1) { // 1 is truthy
 事前評価されたBool値を `if` に通すこともできます、ここにあるように:
 
 ```js
-let cond = (year == 2015); // equality evaluates to true or false
+let cond = (year == 2015); // == は true または false を評価する
 
 if (cond) {
   ...
@@ -79,7 +79,7 @@ let year = prompt('In which year was ECMAScript-2015 specification published?', 
 if (year == 2015) {
   alert( 'You guessed it right!' );
 } else {
-  alert( 'How can you be so wrong?' ); // any value except 2015
+  alert( 'How can you be so wrong?' ); // 2015 以外のケース
 }
 ```
 
@@ -146,8 +146,8 @@ let accessAllowed = (age > 18) ? true : false;
 技術的には、私たちは `age > 18` の周りの括弧を省くことができます。疑問符演算子は低い優先順位を持っていますので、比較 `>` の後に実行されます。そのためそれらは同じように動作します:
 
 ```js
-// the comparison operator "age > 18" executes first anyway
-// (no need to wrap it into parentheses)
+// 比較演算子 "age > 18" が最初に実行されます
+// (丸括弧で囲む必要はありません)
 let accessAllowed = age > 18 ? true : false;
 ```
 

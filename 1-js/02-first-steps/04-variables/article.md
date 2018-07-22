@@ -1,7 +1,7 @@
 # 変数
 
 ほとんどの場合で、JavaScript アプリケーションは情報を処理する必要があります。ここに2つの例があります。
-1. オンラインショップ -- 情報は、売られれている商品やショッピングカートを含むかもしれません。
+1. オンラインショップ -- 情報は、売られている商品やショッピングカートを含むかもしれません。
 2. チャットアプリケーション -- 情報は、ユーザ、メッセージやより多くのものが含まれるかもしれません。
 
 変数は情報を保持するために使われます。
@@ -26,7 +26,7 @@ let message;
 let message;
 
 *!*
-message = 'Hello'; // store the string
+message = 'Hello'; // 文字列を格納します
 */!*
 ```
 
@@ -37,14 +37,14 @@ let message;
 message = 'Hello!';
 
 *!*
-alert(message); // shows the variable content
+alert(message); // 変数の中身を表示します
 */!*
 ```
 
 簡潔にするために、私達は変数宣言と代入を1行にマージすることができます。
 
 ```js run
-let message = 'Hello!'; // define the variable and assign the value
+let message = 'Hello!'; // 変数宣言と値の代入
 
 alert(message); // Hello!
 ```
@@ -95,7 +95,7 @@ let user = 'John'
 `let` と `var` には微妙な違いがありますが、それらはまだ私たちにとって関係ありません。 その詳細については、<info:var> のチャプターでカバーします。
 ````
 
-## 現実との類似性
+## 現実での例え
 
 ユニークな名前のステッカーを付けて、データの "ボックス" として想像すれば、私たちは "変数" という概念を簡単に把握できます。
 
@@ -167,8 +167,8 @@ let test123;
 それらの名前は正しいです:
 
 ```js run untrusted
-let $ = 1; // declared a variable with the name "$"
-let _ = 2; // and now a variable with the name "_"
+let $ = 1; // 名前 "$" の変数を宣言
+let _ = 2; // またここでは名前 "_" の変数です
 
 alert($ + _); // 3
 ```
@@ -176,12 +176,12 @@ alert($ + _); // 3
 正しくない変数名の例です:
 
 ```js no-beautify
-let 1a; // cannot start with a digit
+let 1a; // 数値から開始はできません
 
-let my-name; // a hyphen '-' is not allowed in the name
+let my-name; // ハイフン '-' は名前で許可されていません
 ```
 
-```smart header="Case matters"
+```smart header="大文字小文字の区別"
 変数名 `apple` と `AppLE` -- は2つの異なる変数です。
 ```
 
@@ -204,8 +204,8 @@ let 我 = '...';
 下のコードは構文エラーです:
 
 ```js run no-beautify
-let let = 5; // can't name a variable "let", error!
-let return = 5; // also can't name it "return", error!
+let let = 5; // "let" という変数名にはできません、エラーです!
+let return = 5; // 同様に "return" という名前もエラーです!
 ```
 ````
 
@@ -214,9 +214,9 @@ let return = 5; // also can't name it "return", error!
 通常、変数を使う前に定義する必要があります。しかし、以前は `let` なしで、単に値を代入することによって変数を作成することが技術的に可能でした。`use strict` でない場合はこれは今でも動作します。その振る舞いは古いスクリプトの互換性のために維持されています。
 
 ```js run no-strict
-// note: no "use strict" in this example
+// 注意: この例は "use strict" なしモードです
 
-num = 5; // the variable "num" is created if didn't exist
+num = 5; // 存在しなかった場合、変数 "num" が作られます
 
 alert(num); // 5
 ```
@@ -227,7 +227,7 @@ alert(num); // 5
 "use strict";
 
 *!*
-num = 5; // error: num is not defined
+num = 5; // エラー: num が未定義です
 */!*
 ```
 
@@ -246,7 +246,7 @@ const myBirthday = '18.04.1982';
 ```js run
 const myBirthday = '18.04.1982';
 
-myBirthday = '01.01.2001'; // error, can't reassign the constant!
+myBirthday = '01.01.2001'; // エラー, 定数の再代入はできません!
 ```
 
 プログラマがその変数は決して変更されないべきと確信するとき、 それを保証し、また、みんなにその事実を明示的に示すために `const` を使うことが出来ます。
@@ -266,7 +266,7 @@ const COLOR_GREEN = "#0F0";
 const COLOR_BLUE = "#00F";
 const COLOR_ORANGE = "#FF7F00";
 
-// ...when we need to pick a color
+// ...色を使う必要がある場合、次のようにします
 let color = COLOR_ORANGE;
 alert(color); // #FF7F00
 ```
@@ -283,14 +283,14 @@ alert(color); // #FF7F00
 
 たとえば:
 ```js
-const pageLoadTime = /* time taken by a webpage to load */;
+const pageLoadTime = /* webページの読み込み時間 */;
 ```
 
 `pageLoadTime` の値はページロードする前にはわからないので、通常の名前がつけられます。しかし代入後に変更されないので、それは定数です。
 
 言い換えると、大文字の名前の定数は "ハードコードされた" 値のエイリアスとしてのみ使われます。
 
-## Name things right
+## 正しい名前をつける
 
 変数について話すとき、もう1つ極めて重要な事が有ります。
 

@@ -35,7 +35,7 @@ function sayHi() {
 }
 
 *!*
-alert( sayHi ); // shows the function code
+alert( sayHi ); // 関数のコードが表示されます
 */!*
 ```
 
@@ -50,14 +50,14 @@ JavaScriptでは、関数は値です。そのため、それを値として扱�
 関数を別の変数にコピーすることが出来ます:
 
 ```js run no-beautify
-function sayHi() {   // (1) create
+function sayHi() {   // (1) 作成
   alert( "Hello" );
 }
 
-let func = sayHi;    // (2) copy
+let func = sayHi;    // (2) コピー
 
-func(); // Hello     // (3) run the copy (it works)!
-sayHi(); // Hello    //     this still works too (why wouldn't it)
+func(); // Hello     // (3) コピーの実行(動きます)!
+sayHi(); // Hello    //     これもまだ動きます(なぜでしょう？)
 ```
 
 上記で起こっていることの詳細は次の通りです:
@@ -131,7 +131,7 @@ function showCancel() {
   alert( "You canceled the execution." );
 }
 
-// usage: functions showOk, showCancel are passed as arguments to ask
+// 使用法: 関数 showOk, showCancel は ask の引数として渡されます
 ask("Do you agree?", showOk, showCancel);
 ```
 
@@ -181,17 +181,16 @@ ask(
 - *関数宣言:* メインのコードフローで別のステートメントとして宣言された関数
 
     ```js
-    // Function Declaration
+    // 関数宣言
     function sum(a, b) {
       return a + b;
     }
     ```
 - *関数式:* 式の内部、または別の構文構造の中で作れらた関数
 
-    ここで、関数は "代入式 =" の右側に作成されます。
-    Here, the function is created at the right side of the "assignment expression =":
+    ここで、関数は "代入式 =" の右側に作成されます。:
     ```js
-    // Function Expression
+    // 関数式
     let sum = function(a, b) {
       return a + b;
     };
@@ -252,7 +251,7 @@ let sayHi = function(name) {  // (*) no magic any more
 ```js run
 let age = prompt("What is your age?", 18);
 
-// conditionally declare a function
+// 条件付きで関数を宣言する
 if (age < 18) {
 
   function welcome() {
@@ -267,9 +266,9 @@ if (age < 18) {
 
 }
 
-// ...use it later
+// ...後でそれを使う
 *!*
-welcome(); // Error: welcome is not defined
+welcome(); // エラー: welcome は未定義です
 */!*
 ```
 
@@ -278,33 +277,33 @@ welcome(); // Error: welcome is not defined
 別の例です:
 
 ```js run
-let age = 16; // take 16 as an example
+let age = 16; // 例として16
 
 if (age < 18) {
 *!*
-  welcome();               // \   (runs)
+  welcome();               // \   (実行)
 */!*
                            //  |
   function welcome() {     //  |  
-    alert("Hello!");       //  |  Function Declaration is available
-  }                        //  |  everywhere in the block where it's declared
+    alert("Hello!");       //  |  関数宣言はそれが宣言されたブロックの中であれば
+  }                        //  |  どこでも利用可能です
                            //  |
 *!*
-  welcome();               // /   (runs)
+  welcome();               // /   (実行)
 */!*
 
 } else {
 
-  function welcome() {     //  for age = 16, this "welcome" is never created
+  function welcome() {     //  age = 16 の場合, この "welcome" は決して作られません
     alert("Greetings!");
   }
 }
 
-// Here we're out of figure brackets,
-// so we can not see Function Declarations made inside of them.
+// ここは、波括弧の外です
+// なのでその中で作られた関数宣言は見ることができません
 
 *!*
-welcome(); // Error: welcome is not defined
+welcome(); // エラー: welcome は定義されていません
 */!*
 ```
 
@@ -387,7 +386,7 @@ let func = function(arg1, arg2, ...argN) {
 ```js run
 let sum = (a, b) => a + b;
 
-/* The arrow function is a shorter form of:
+/* アロー関数は次の形式のより短い形です:
 
 let sum = function(a, b) {
   return a + b;
@@ -401,7 +400,7 @@ alert( sum(1, 2) ); // 3
 もしも引数が1つだけの場合、括弧は省略可能なので、さらに短くできます:
 
 ```js run
-// same as
+// 次と同じです
 // let double = function(n) { return n * 2 }
 *!*
 let double = n => n * 2;
@@ -445,10 +444,10 @@ welcome(); // ok now
 このように:
 
 ```js run
-let sum = (a, b) => {  // the figure bracket opens a multiline function
+let sum = (a, b) => {  // 波括弧を使って複数行の関数を書けます
   let result = a + b;
 *!*
-  return result; // if we use figure brackets, use return to get results
+  return result; // 波括弧を使った場合、結果を得るには return を使います
 */!*
 };
 

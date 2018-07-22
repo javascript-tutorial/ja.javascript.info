@@ -15,7 +15,7 @@
 ```js
 while (condition) {
   // code
-  // so-called "loop body"
+  // いわゆる "ループ本体"
 }
 ```
 
@@ -25,7 +25,7 @@ while (condition) {
 
 ```js run
 let i = 0;
-while (i < 3) { // shows 0, then 1, then 2
+while (i < 3) { // 0, 次に 1, 次に 2 を表示
   alert( i );
   i++;
 }
@@ -42,7 +42,7 @@ while (i < 3) { // shows 0, then 1, then 2
 ```js run
 let i = 3;
 *!*
-while (i) { // when i becomes 0, the condition becomes falsy, and the loop stops
+while (i) { // i が 0 になったとき、条件が偽になり、ループが止まります
 */!*
   alert( i );
   i--;
@@ -99,7 +99,7 @@ for (begin; condition; step) {
 例でこれらのパーツの意味を学びましょう。下のループは `0` から `3` まで(`3` は含みません)、`i` に対して `alert(i)` を実行します。:
 
 ```js run
-for (let i = 0; i < 3; i++) { // shows 0, then 1, then 2
+for (let i = 0; i < 3; i++) { // 0, 次に 1, 次に 2 を表示
   alert(i);
 }
 ```
@@ -115,10 +115,10 @@ for (let i = 0; i < 3; i++) { // shows 0, then 1, then 2
 
 一般的なループアルゴリズムは次のように動作します:
 ```
-Run begin
-→ (if condition → run body and run step)
-→ (if condition → run body and run step)
-→ (if condition → run body and run step)
+begin を実行
+→ (if condition → body を実行し step を実行)
+→ (if condition → body を実行し step を実行)
+→ (if condition → body を実行し step を実行)
 → ...
 ```
 
@@ -129,15 +129,15 @@ Run begin
 ```js
 // for (let i = 0; i < 3; i++) alert(i)
 
-// run begin
+// begin を実行
 let i = 0
-// if condition → run body and run step
+// if condition → body を実行し step を実行
 if (i < 3) { alert(i); i++ }
-// if condition → run body and run step
+// if condition → body を実行し step を実行
 if (i < 3) { alert(i); i++ }
-// if condition → run body and run step
+// if condition → body を実行し step を実行
 if (i < 3) { alert(i); i++ }
-// ...finish, because now i == 3
+// ...終わり, 今 i == 3 なので
 ```
 
 ````smart header="インライン変数宣言"
@@ -148,7 +148,7 @@ if (i < 3) { alert(i); i++ }
 for (*!*let*/!* i = 0; i < 3; i++) {
   alert(i); // 0, 1, 2
 }
-alert(i); // error, no such variable
+alert(i); // エラー, そのような変数はありません
 ```
 
 変数を宣言する代わりに、存在するもの使うことも出来ます:
@@ -156,11 +156,11 @@ alert(i); // error, no such variable
 ```js run
 let i = 0;
 
-for (i = 0; i < 3; i++) { // use an existing variable
+for (i = 0; i < 3; i++) { // 既存の変数を使用
   alert(i); // 0, 1, 2
 }
 
-alert(i); // 3, visible, because declared outside of the loop
+alert(i); // 3, ループの外で宣言されているので見える
 ```
 
 ````
@@ -174,9 +174,9 @@ alert(i); // 3, visible, because declared outside of the loop
 このように:
 
 ```js run
-let i = 0; // we have i already declared and assigned
+let i = 0; // すでに i を宣言し代入済み
 
-for (; i < 3; i++) { // no need for "begin"
+for (; i < 3; i++) { // "begin" 不要
   alert( i ); // 0, 1, 2
 }
 ```
@@ -197,7 +197,7 @@ for (; i < 3;) {
 
 ```js
 for (;;) {
-  // repeats without limits
+  // 制限なしで繰り返し
 }
 ```
 
@@ -244,10 +244,10 @@ alert( 'Sum: ' + sum );
 ```js run no-beautify
 for (let i = 0; i < 10; i++) {
 
-  // if true, skip the remaining part of the body
+  // true の場合、本体の残りのパートをスキップ
   *!*if (i % 2 == 0) continue;*/!*
 
-  alert(i); // 1, then 3, 5, 7, 9
+  alert(i); // 1, 次に 3, 5, 7, 9
 }
 ```
 
@@ -288,7 +288,7 @@ if (i > 5) {
 ...そして、疑問符を使って書き直します:
 
 ```js no-beautify
-(i > 5) ? alert(i) : *!*continue*/!*; // continue not allowed here
+(i > 5) ? alert(i) : *!*continue*/!*; // continue はここでは使えません
 ```
 
 ...それは動作を停止します。このようなコードは構文エラーになります:
@@ -310,7 +310,7 @@ for (let i = 0; i < 3; i++) {
 
     let input = prompt(`Value at coords (${i},${j})`, '');
 
-    // what if I want to exit from here to Done (below)?
+    // 仮にここで終了して下にある Done をしたい場合にはどうすればよいでしょう？
 
   }
 }
@@ -341,10 +341,10 @@ labelName: for (...) {
 
     let input = prompt(`Value at coords (${i},${j})`, '');
 
-    // if an empty string or canceled, then break out of both loops
+    // 文字から文字またはキャンセルされた場合、両方のループから抜ける
     if (!input) *!*break outer*/!*; // (*)
 
-    // do something with the value...
+    // 値に何かをする処理...
   }
 }
 alert('Done!');
@@ -368,7 +368,7 @@ for (let i = 0; i < 3; i++) { ... }
 
 例えば、このようにすることは出来ません:
 ```js
-break label;  // jumps to label? No.
+break label;  // label にジャンプ? いいえ。
 
 label: for (...)
 ```

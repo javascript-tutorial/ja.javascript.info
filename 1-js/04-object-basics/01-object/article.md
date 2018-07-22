@@ -16,8 +16,8 @@
 空のオブジェクト("空のキャビネット")は2つ構文のうちどちらかで作ることが出来ます:
 
 ```js
-let user = new Object(); // "object constructor" syntax
-let user = {};  // "object literal" syntax
+let user = new Object(); // "オブジェクトコンストラクタ" 構文
+let user = {};  // "オブジェクトリテラル" 構文
 ```
 
 ![](object-user-empty.png)
@@ -29,9 +29,9 @@ let user = {};  // "object literal" syntax
 私たちはすぐに幾つかのプロパティを "key: value" のペアとして `{...}` の中に置くことが出来ます。
 
 ```js
-let user = {     // an object
-  name: "John",  // by key "name" store value "John"
-  age: 30        // by key "age" store value 30
+let user = {     // オブジェクト
+  name: "John",  // キー "name" に値 "John" が格納される
+  age: 30        // キー "age" に値 30 が格納される
 };
 ```
 
@@ -51,7 +51,7 @@ let user = {     // an object
 プロパティ値へはドット表記を使いアクセスすることができます。:
 
 ```js
-// get fields of the object:
+// オブジェクトのフィールドを取得:
 alert( user.name ); // John
 alert( user.age ); // 30
 ```
@@ -78,7 +78,7 @@ delete user.age;
 let user = {
   name: "John",
   age: 30,
-  "likes birds": true  // multiword property name must be quoted
+  "likes birds": true  // 複数語のプロパティ名は引用符で囲まなければなりません
 };
 ```
 
@@ -101,7 +101,7 @@ let user = {
 複数語のプロパティでは、ドットアクセスが動作しません:
 
 ```js run
-// this would give a syntax error
+// これは構文エラーになります
 user.likes birds = true
 ```
 
@@ -130,7 +130,7 @@ delete user["likes birds"];
 ```js
 let key = "likes birds";
 
-// same as user["likes birds"] = true;
+// user["likes birds"] = true; と同じ
 user[key] = true;
 ```
 
@@ -146,8 +146,8 @@ let user = {
 
 let key = prompt("What do you want to know about the user?", "name");
 
-// access by variable
-alert( user[key] ); // John (if enter "name")
+// 変数でアクセス
+alert( user[key] ); // John ("name" が入力された場合)
 ```
 
 
@@ -162,11 +162,11 @@ let fruit = prompt("Which fruit to buy?", "apple");
 
 let bag = {
 *!*
-  [fruit]: 5, // the name of the property is taken from the variable fruit
+  [fruit]: 5, // プロパティ名は変数 fruit から取られます
 */!*
 };
 
-alert( bag.apple ); // 5 if fruit="apple"
+alert( bag.apple ); // 5 fruit="apple" の場合
 ```
 
 算出プロパティの意味はシンプルです: `[fruit]` はプロパティ名は変数 `fruit` の値になることを意味します。
@@ -179,7 +179,7 @@ The meaning of a computed property is simple: `[fruit]` means that the property 
 let fruit = prompt("Which fruit to buy?", "apple");
 let bag = {};
 
-// take property name from the fruit variable
+// fruit 変数からプロパティ名を取る
 bag[fruit] = 5;
 ```
 
@@ -220,7 +220,7 @@ alert( obj.for + obj.let + obj.return );  // 6
 ```js run
 let obj = {};
 obj.__proto__ = 5;
-alert(obj.__proto__); // [object Object], didn't work as intended
+alert(obj.__proto__); // [object Object], 期待通りには動作しません。
 ```
 
 コードから見たように、プリミティブ `5` への代入は無視されます。
@@ -244,7 +244,7 @@ function makeUser(name, age) {
   return {
     name: name,
     age: age
-    // ...other properties
+    // ...他のプロパティ
   };
 }
 
@@ -260,8 +260,8 @@ alert(user.name); // John
 function makeUser(name, age) {
 *!*
   return {
-    name, // same as name: name
-    age   // same as age: age
+    name, // name: name と同じ
+    age   // age: age と同じ
     // ...
   };
 */!*
@@ -272,7 +272,7 @@ function makeUser(name, age) {
 
 ```js
 let user = {
-  name,  // same as name:name
+  name,  // name:name と同じ
   age: 30
 };
 ```
@@ -284,7 +284,7 @@ let user = {
 ```js run
 let user = {};
 
-alert( user.noSuchProperty === undefined ); // true means "no such property"
+alert( user.noSuchProperty === undefined ); // true は "そのようなプロパティはありません" を意味する
 ```
 
 プロパティの存在チェックのための特別な演算子 `"in"` もあります。
@@ -299,8 +299,8 @@ alert( user.noSuchProperty === undefined ); // true means "no such property"
 ```js run
 let user = { name: "John", age: 30 };
 
-alert( "age" in user ); // true, user.age exists
-alert( "blabla" in user ); // false, user.blabla doesn't exist
+alert( "age" in user ); // true, user.age は存在する
+alert( "blabla" in user ); // false, user.blabla は存在しない
 ```
 
 `in` の左側は *プロパティ名* である必要があることに注意してください。それは通常引用符で囲まれた文字列です。
@@ -311,7 +311,7 @@ alert( "blabla" in user ); // false, user.blabla doesn't exist
 let user = { age: 30 };
 
 let key = "age";
-alert( *!*key*/!* in user ); // true, takes the name from key and checks for such property
+alert( *!*key*/!* in user ); // true, キーから名前を取り、そのプロパティをチェック
 ```
 
 ````smart header="`undefined` を格納しているプロパティに \"in\" を使う"
@@ -324,9 +324,9 @@ let obj = {
   test: undefined
 };
 
-alert( obj.test ); // it's undefined, so - no such property?
+alert( obj.test ); // これは undefined, なので - このようなプロパティはなし?
 
-alert( "test" in obj ); // true, the property does exist!
+alert( "test" in obj ); // true, プロパティは存在します!
 ```
 
 
@@ -344,7 +344,7 @@ alert( "test" in obj ); // true, the property does exist!
 
 ```js
 for(key in object) {
-  // executes the body for each key among object properties
+  // オブジェクトプロパティの各キーに対して本体を実行
 }
 ```
 
@@ -409,24 +409,24 @@ for(let code in codes) {
 したがって、"49" は整数のプロパティ名です。なぜなら、整数の数に変換されて戻っても、それは変わらないからです。 しかし、 "+49"と "1.2"はそうではありません:
 
 ```js run
-// Math.trunc is a built-in function that removes the decimal part
-alert( String(Math.trunc(Number("49"))) ); // "49", same, integer property
-alert( String(Math.trunc(Number("+49"))) ); // "49", not same ⇒ not integer property
-alert( String(Math.trunc(Number("1.2"))) ); // "1", not same ⇒ not integer property
+// Math.trunc は小数部を取り除く組み込み関数
+alert( String(Math.trunc(Number("49"))) ); // "49", 同じ, 整数プロパティ
+alert( String(Math.trunc(Number("+49"))) ); // "49", 同じではない ⇒ 非整数プロパティ
+alert( String(Math.trunc(Number("1.2"))) ); // "1", 同じではない ⇒ 非整数プロパティ
 ```
 ````
 
-...一方、もしキーが整数出ない場合、作られた順でリストされます。例です:
+...一方、もしキーが整数でない場合、作られた順でリストされます。例です:
 
 ```js run
 let user = {
   name: "John",
   surname: "Smith"
 };
-user.age = 25; // add one more
+user.age = 25; // 1つ追加
 
 *!*
-// non-integer properties are listed in the creation order
+// 非整数プロパティは作成順にリストされます
 */!*
 for (let prop in user) {
   alert( prop ); // name, surname, age
@@ -496,7 +496,7 @@ let user = {
 ```js no-beautify
 let user = { name: "John" };
 
-let admin = user; // copy the reference
+let admin = user; // リファレンスのコピー
 ```
 
 今、私たちは2つの変数を持っており、それぞれ同じオブジェクトへの参照を持っています。:
@@ -511,10 +511,10 @@ let user = { name: 'John' };
 let admin = user;
 
 *!*
-admin.name = 'Pete'; // changed by the "admin" reference
+admin.name = 'Pete'; // "admin" 参照によって変更される
 */!*
 
-alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
+alert(*!*user.name*/!*); // 'Pete', 変更は "user" 参照から見えます
 ```
 
 上の例は1つのオブジェクトしかないことのデモです。もし私たちがキャビネットと2つの鍵を持っていたとして、それらの1つ(`admin`)を使ってその中のものを取得したように。そして、後で別の鍵(`user`)を使ったときには、先ほど変更した結果が見えます。
@@ -529,9 +529,9 @@ alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
 
 ```js run
 let a = {};
-let b = a; // copy the reference
+let b = a; // 参照のコピー
 
-alert( a == b ); // true, both variables reference the same object
+alert( a == b ); // true, 両方の変数は同じオブジェクトを参照しています
 alert( a === b ); // true
 ```
 
@@ -539,7 +539,7 @@ alert( a === b ); // true
 
 ```js run
 let a = {};
-let b = {}; // two independent objects
+let b = {}; // 2つの独立したオブジェクト
 
 alert( a == b ); // false
 ```
@@ -574,7 +574,7 @@ const user = {
 };
 
 *!*
-// Error (can't reassign user)
+// エラー (user の再代入ができない)
 */!*
 user = {
   name: "Pete"
@@ -602,18 +602,18 @@ let user = {
 };
 
 *!*
-let clone = {}; // the new empty object
+let clone = {}; // 新しいからオブジェクト
 
-// let's copy all user properties into it
+// すべての user プロパティをその中にコピーしましょう
 for (let key in user) {
   clone[key] = user[key];
 }
 */!*
 
-// now clone is a fully independant clone
-clone.name = "Pete"; // changed the data in it
+// 今、clone は完全に独立したクローンです
+clone.name = "Pete"; // その中のデータを変更
 
-alert( user.name ); // still John in the original object
+alert( user.name ); // 依然としてオリジナルのオブジェクトは John
 ```
 
 また、そのために、[Object.assign](mdn:js/Object/assign) 関数を使うことができます。

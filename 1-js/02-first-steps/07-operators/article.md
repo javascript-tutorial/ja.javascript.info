@@ -19,13 +19,13 @@
     *!*
     x = -x;
     */!*
-    alert( x ); // -1, unary negation was applied
+    alert( x ); // -1, 単項否定が適用されました
     ```
 - 演算子が2つのオペランドを保つ場合は *バイナリ* です。同じマイナスもバイナリ形式で同様に存在します:
 
     ```js run no-beautify
     let x = 1, y = 3;
-    alert( y - x ); // 2, binary minus subtracts values
+    alert( y - x ); // 2, バイナリマイナスは値を減算します
     ```
 
     正式には、ここでは2つの異なった演算子について話しています。: 単行否定(1つのオペランド, 符号の反転)　とバイナリ減算(2つのオペランド、減算)
@@ -67,12 +67,12 @@ alert( '6' / '2' ); // 3
 
 プラス `+` は2つの形で存在します。上で使ったようなバイナリ形式と単項形式です。
 
-単項プラス、もしくは言い換えると単一の値に適用されるプラス演算子 `+` は、数値に対しては何もしません。しかし、もしもオペランドが数値出ない場合、数値に変換します。
+単項プラス、もしくは言い換えると単一の値に適用されるプラス演算子 `+` は、数値に対しては何もしません。しかし、もしもオペランドが数値でない場合は数値に変換します。
 
 例:
 
 ```js run
-// No effect on numbers
+// 数値には何の影響もありません
 let x = 1;
 alert( +x ); // 1
 
@@ -80,7 +80,7 @@ let y = -2;
 alert( +y ); // -2
 
 *!*
-// Converts non-numbers
+// 非数値を変換
 alert( +true ); // 1
 alert( +"" );   // 0
 */!*
@@ -90,7 +90,7 @@ alert( +"" );   // 0
 
 文字列から数値に変換する必要が非常に多く発生します。私たちがHTMLのフォームフィールドから値を取得する場合、それらは通常文字列です。
 
-もしもそれらの合計が欲しい場合はどうなるでしょう？
+もしそれらの合計が欲しい場合はどうなるでしょう？
 
 バリナリプラスはそれらを文字列として追加します。:
 
@@ -98,7 +98,7 @@ alert( +"" );   // 0
 let apples = "2";
 let oranges = "3";
 
-alert( apples + oranges ); // "23", the binary plus concatenates strings
+alert( apples + oranges ); // "23", バイナリプラスは文字列を連結します
 ```
 
 それらを文字列として扱いたい場合、変換してそれらを合計することが出来ます:
@@ -108,11 +108,11 @@ let apples = "2";
 let oranges = "3";
 
 *!*
-// both values converted to numbers before the binary plus
+// バイナリプラスの前に両方の値が数値に変換されます
 alert( +apples + +oranges ); // 5
 */!*
 
-// the longer variant
+// 長いバリアント
 // alert( Number(apples) + Number(oranges) ); // 5
 ```
 
@@ -180,7 +180,7 @@ alert( c ); // 4
 ````smart header="代入演算子 `\"=\"` は値を返します"
 演算子は常に値を返します。それは加算 `+` または 乗算 `*` のようにほとんどの場合明らかです。しかし代入演算子もそのルールに従います。
 
-`x = value` の呼び出しは `value` を `x` に書き込み、 *それを返却します*。 d then returns it*.
+`x = value` の呼び出しは `value` を `x` に書き込み、 *それを返却します*
 
 これは、より複雑な式の一部として代入を使ったデモです:
 
@@ -211,9 +211,9 @@ alert( c ); // 0
 例:
 
 ```js run
-alert( 5 % 2 ); // 1 is a remainder of 5 divided by 2
-alert( 8 % 3 ); // 2 is a remainder of 8 divided by 3
-alert( 6 % 3 ); // 0 is a remainder of 6 divided by 3
+alert( 5 % 2 ); // 1は5を2で割った余りです
+alert( 8 % 3 ); // 2は8を3で割った余りです
+alert( 6 % 3 ); // 0は6を3で割った余りです
 ```
 
 ## べき乗 **
@@ -233,8 +233,8 @@ alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2)
 演算子は非整数値の `a` や　`b` でも同様に動作します。例えば:
 
 ```js run
-alert( 4 ** (1/2) ); // 2 (power of 1/2 is the same as a square root, that's maths)
-alert( 8 ** (1/3) ); // 2 (power of 1/3 is the same as a cubic root)
+alert( 4 ** (1/2) ); // 2 (1/2のべき乗は平方根と同じです、それは数学です)
+alert( 8 ** (1/3) ); // 2 (1/3のべき乗は、立方根と同じです)
 ```
 
 ## インクリメント/デクリメント
@@ -249,14 +249,14 @@ alert( 8 ** (1/3) ); // 2 (power of 1/3 is the same as a cubic root)
 
     ```js run no-beautify
     let counter = 2;
-    counter++;      // works same as counter = counter + 1, but shorter
+    counter++;      // counter = counter + 1 と同じですがより短いです
     alert( counter ); // 3
     ```
 - **デクリメント** `--` 変数を1減少させる:
 
     ```js run no-beautify
     let counter = 2;
-    counter--;      // works same as counter = counter - 1, but shorter
+    counter--;      // counter = counter - 1 と同じですがより短いです
     alert( counter ); // 1
     ```
 
@@ -290,7 +290,7 @@ alert(a); // *!*2*/!*
 
 ```js run
 let counter = 1;
-let a = counter++; // (*) changed ++counter to counter++
+let a = counter++; // (*) ++counter を counter++ に変更
 
 alert(a); // *!*1*/!*
 ```
@@ -305,7 +305,7 @@ alert(a); // *!*1*/!*
     let counter = 0;
     counter++;
     ++counter;
-    alert( counter ); // 2, the lines above did the same
+    alert( counter ); // 2, 上の行は同じことをします
     ```
 - もしも値を増加に *加えて*、すぐに演算子の結果を使いたい場合は、前置式が必要になります:
 
@@ -334,7 +334,7 @@ alert( 2 * ++counter ); // 4
 
 ```js run
 let counter = 1;
-alert( 2 * counter++ ); // 2, because counter++ returns the "old" value
+alert( 2 * counter++ ); // 2, counter++ は "古い" 値を返すからです
 ```
 
 技術的には許容されますが、このような記法は一般的に、コードの可読性を下げます。1行で複数のことを行う -- よいことではありません。
@@ -369,7 +369,7 @@ counter++;
 これらの演算子はめったに使われません。それらを理解するためには、私たちは低レベルの数値表現について掘り下げるべきであり、それは現時点では最適ではないでしょう。特に、すぐには必要ないからです。もしもあなたが興味をもっている場合は、MDNの[ビット演算子 ](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators)の記事を読むことが出来ます。実際に必要になったときにそれをするのがより現実的でしょう。
 
 
-## 場所の変更
+## インプレースで変更する
 
 私たちは、しばしば変数に演算子を適用し、その中に新しい値を格納する必要があります。
 
@@ -385,8 +385,8 @@ n = n * 2;
 
 ```js run
 let n = 2;
-n += 5; // now n = 7 (same as n = n + 5)
-n *= 2; // now n = 14 (same as n = n * 2)
+n += 5; // 今 n = 7 (n = n + 5 と同じ)
+n *= 2; // 今 n = 14 (n = n * 2 と同じ)
 
 alert( n ); // 14
 ```
@@ -400,7 +400,7 @@ let n = 2;
 
 n *= 3 + 5;
 
-alert( n ); // 16  (right part evaluated first, same as n *= 8)
+alert( n ); // 16  (右のパートが最初に評価されるので、 n *= 8 と同じです)
 ```
 
 ## カンマ
@@ -416,7 +416,7 @@ alert( n ); // 16  (right part evaluated first, same as n *= 8)
 let a = (1 + 2, 3 + 4);
 */!*
 
-alert( a ); // 7 (the result of 3 + 4)
+alert( a ); // 7 (3 + 4 の結果)
 ```
 
 ここで、最初の式 `1 + 2` は評価され、その結果はどこかへ捨てられます。次に `3 + 4` が評価され、結果として返却されます。
@@ -434,7 +434,7 @@ alert( a ); // 7 (the result of 3 + 4)
 例:
 
 ```js
-// three operations in one line
+// 1行に3つの演算子
 for (*!*a = 1, b = 3, c = a * b*/!*; a < 10; a++) {
  ...
 }

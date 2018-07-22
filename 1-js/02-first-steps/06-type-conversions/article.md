@@ -1,6 +1,6 @@
 # 型変換
 
-ほとんどの時間、演算子と関数は自動的に値を正しい型に変換します。それを "型変換" と呼びます。
+多くの場合、演算子と関数は自動的に値を正しい型に変換します。それを "型変換" と呼びます。
 
 たとえば、 `alert` はそれを表示するために、自動的にある値を文字列へ変換します。数学的な処理は値を数値に変換します。
 
@@ -25,7 +25,7 @@ let value = true;
 alert(typeof value); // boolean
 
 *!*
-value = String(value); // now value is a string "true"
+value = String(value); // 今、値は文字列の "true"
 alert(typeof value); // string
 */!*
 ```
@@ -39,7 +39,7 @@ alert(typeof value); // string
 たとえば、非数値に除算 `/` が適用された場合:
 
 ```js run
-alert( "6" / "2" ); // 3, strings are converted to numbers
+alert( "6" / "2" ); // 3, 文字列は数値に変換されます
 ```
 
 また、明示的に `value` を変換するために `Number(value)` を使うことができます。
@@ -48,7 +48,7 @@ alert( "6" / "2" ); // 3, strings are converted to numbers
 let str = "123";
 alert(typeof str); // string
 
-let num = Number(str); // becomes a number 123
+let num = Number(str); // 数値の 123 になります
 
 alert(typeof num); // number
 ```
@@ -60,7 +60,7 @@ alert(typeof num); // number
 ```js run
 let age = Number("an arbitrary string instead of a number");
 
-alert(age); // NaN, conversion failed
+alert(age); // NaN, 変換失敗
 ```
 
 数値変換ルール:
@@ -69,14 +69,14 @@ alert(age); // NaN, conversion failed
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
-|<code>true&nbsp;and&nbsp;false</code> | `1` and `0` |
+|<code>true&nbsp;と&nbsp;false</code> | `1` and `0` |
 | `string` | 最初と最後のスペースは取り除かれます。そして、残った文字列が空の場合は結果は 0 になります。そうでなければ、文字レウtから "読んだ" 数値です。 エラーでは `NaN` が与えられます。|
 
 たとえば:
 
 ```js run
 alert( Number("   123   ") ); // 123
-alert( Number("123z") );      // NaN (error reading a number at "z")
+alert( Number("123z") );      // NaN ("z" の読み込みでエラー)
 alert( Number(true) );        // 1
 alert( Number(false) );       // 0
 ```
@@ -84,14 +84,13 @@ alert( Number(false) );       // 0
 `null` と `undefined` はここでは異なる振る舞いをすることとに留意してください。: `undefined` が `NaN` になる一方、`null` は 0 になります。
 
 ````smart header="'+'は文字列を連結します"
-ほとんどすべての算術演算は値を数値に変換します。
-Almost all mathematical operations convert values to numbers. 注目すべき例外は加算 `+` です。もしも加算された値の1つが文字列である場合、他の値は文字列に変換されます。
+ほとんどすべての算術演算は値を数値に変換します。 注目すべき例外は加算 `+` です。もしも加算された値の1つが文字列である場合、他の値は文字列に変換されます。
 
 そして、それらを連結（結合）します。:
 
 ```js run
-alert( 1 + '2' ); // '12' (string to the right)
-alert( '1' + 2 ); // '12' (string to the left)
+alert( 1 + '2' ); // '12' (右側が文字列)
+alert( '1' + 2 ); // '12' (左側が文字列)
 ```
 
 引数の1つが文字列の場合にのみそれは起こります。それ以外では値は数値に変換されます。
@@ -103,7 +102,7 @@ alert( '1' + 2 ); // '12' (string to the left)
 
 論理演算(後ほど条件テストやそれらの他の種類を見ます)で起こりますが、`Boolean(value)` を呼ぶことで手動で実行させる事もできます。
 
-The conversion rule:
+変換ルール:
 
 - `0`, 空文字, `null`, `undefined` や `NaN` のように直感的に "空" の値は `false` になります。
 - 他の値は `true` になります。
@@ -123,7 +122,7 @@ alert( Boolean("") ); // false
 
 ```js run
 alert( Boolean("0") ); // true
-alert( Boolean(" ") ); // spaces, also true (any non-empty string is true)
+alert( Boolean(" ") ); // スペースもまた true です (任意の非空文字は true)
 ```
 ````
 
@@ -143,8 +142,8 @@ alert( Boolean(" ") ); // spaces, also true (any non-empty string is true)
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
-|<code>true&nbsp;and&nbsp;false</code> | `1` and `0` |
-| `string` | 最初と最後のスペースは取り除かれます。そして、残った文字列が空の場合は結果は 0 になります。そうでなければ、文字レウtから "読んだ" 数値です。 エラーでは `NaN` が与えられます。|
+|<code>true&nbsp;と&nbsp;false</code> | `1` and `0` |
+| `string` | 最初と最後のスペースは取り除かれます。そして、残った文字列が空の場合は結果は 0 になります。そうでなければ、文字列から "読んだ" 数値です。 エラーでは `NaN` が与えられます。|
 
 **`真偽値変換`** -- 論理演算で発生するか、`Boolean(value)` で実行できます。
 

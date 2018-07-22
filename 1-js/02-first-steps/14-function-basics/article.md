@@ -1,6 +1,6 @@
 # 関数
 
-多くの場合、スクリプトの多くの場所で同様のアクションを実行する必要があります。
+多くの場合、スクリプトの様々な場所で同様のアクションを実行する必要があります。
 
 例えば、訪問者がログイン、ログアウトしたり、また他の場所にいる時に見栄の良いメッセージを表示する必要があります。
 
@@ -57,7 +57,7 @@ showMessage();
 ```js run
 function showMessage() {
 *!*
-  let message = "Hello, I'm JavaScript!"; // local variable
+  let message = "Hello, I'm JavaScript!"; // ローカル変数
 */!*
 
   alert( message );
@@ -65,7 +65,7 @@ function showMessage() {
 
 showMessage(); // Hello, I'm JavaScript!
 
-alert( message ); // <-- Error! The variable is local to the function
+alert( message ); // <-- エラー! 変数は関数のローカルです
 ```
 
 ## 外部変数
@@ -91,17 +91,17 @@ showMessage(); // Hello, John
 let *!*userName*/!* = 'John';
 
 function showMessage() {
-  *!*userName*/!* = "Bob"; // (1) changed the outer variable
+  *!*userName*/!* = "Bob"; // (1) 外部変数の変更
 
   let message = 'Hello, ' + *!*userName*/!*;
   alert(message);
 }
 
-alert( userName ); // *!*John*/!* before the function call
+alert( userName ); // 関数呼び出しの前は *!*John*/!* 
 
 showMessage();
 
-alert( userName ); // *!*Bob*/!*, the value was modified by the function
+alert( userName ); // *!*Bob*/!*, 関数によって値が変更されました
 ```
 
 外部変数は、ローカル変数が存在しない場合にのみ使われます。そのため、私たちが `let` を忘れていたら偶発的な修正が必要になるかもしれません。
@@ -113,17 +113,17 @@ let userName = 'John';
 
 function showMessage() {
 *!*
-  let userName = "Bob"; // declare a local variable
+  let userName = "Bob"; // ローカル変数の宣言
 */!*
 
   let message = 'Hello, ' + userName; // *!*Bob*/!*
   alert(message);
 }
 
-// the function will create and use it's own userName
+// 関数は作られ独自の userName を使います
 showMessage();
 
-alert( userName ); // *!*John*/!*, unchanged, the function did not access the outer variable
+alert( userName ); // *!*John*/!*, 変更されていません。関数は外部変数へアクセスしませんでした
 ```
 
 ```smart header="グローバル変数"
@@ -141,7 +141,7 @@ alert( userName ); // *!*John*/!*, unchanged, the function did not access the ou
 下の例では、関数は2つのパラメータを持っています:  `from` と `text` です。
 
 ```js run
-function showMessage(*!*from, text*/!*) { // arguments: from, text
+function showMessage(*!*from, text*/!*) { // 引数: from, text
   alert(from + ': ' + text);
 }
 
@@ -159,7 +159,7 @@ showMessage('Ann', "What's up?"); // Ann: What's up? (**)
 function showMessage(from, text) {
 
 *!*
-  from = '*' + from + '*'; // make "from" look nicer
+  from = '*' + from + '*'; // "from" をより良く見せる
 */!*
 
   alert( from + ': ' + text );
@@ -169,7 +169,7 @@ let from = "Ann";
 
 showMessage(from, "Hello"); // *Ann*: Hello
 
-// the value of "from" is the same, the function modified a local copy
+// "from" の値は同じで、関数はローカルコピーを変更しました。
 alert( from ); // Ann
 ```
 
@@ -201,8 +201,8 @@ showMessage("Ann"); // Ann: no text given
 
 ```js run
 function showMessage(from, text = anotherFunction()) {
-  // anotherFunction() only executed if no text given
-  // its result becomes the value of text
+  // anotherFunction() はテキストが与えられなかった場合にのみ実行されます
+  // その結果がtextの値になります
 }
 ```
 
@@ -228,7 +228,7 @@ function showMessage(from, text) {
 
 ```js
 function showMessage(from, text) {
-  // if text is falsy then text gets the "default" value
+  // text が偽の場合、tetxt は "デフォルト" 値を取得します
   text = text || 'no text given';
   ...
 }

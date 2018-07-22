@@ -36,7 +36,7 @@ alert( false || false ); // false
 例えば、数値 `1`  は `true` として扱われ、数値 `0` は -- `false` となります:
 
 ```js run
-if (1 || 0) { // works just like if( true || false )
+if (1 || 0) { // if( true || false ) のように動作します
   alert( 'truthy!' );
 }
 ```
@@ -62,7 +62,7 @@ let hour = 12;
 let isWeekend = true;
 
 if (hour < 10 || hour > 18 || isWeekend) {
-  alert( 'The office is closed.' ); // it is the weekend
+  alert( 'The office is closed.' ); // 週末です
 }
 ```
 
@@ -91,12 +91,12 @@ OR `"||"` 演算子は次のように動きます:
 例:
 
 ```js run
-alert( 1 || 0 ); // 1 (1 is truthy)
-alert( true || 'no matter what' ); // (true is truthy)
+alert( 1 || 0 ); // 1 (1 は真)
+alert( true || 'no matter what' ); // (true は真)
 
-alert( null || 1 ); // 1 (1 is the first truthy value)
-alert( null || 0 || 1 ); // 1 (the first truthy value)
-alert( undefined || null || 0 ); // 0 (all falsy, returns the last value)
+alert( null || 1 ); // 1 (1 は最初の真値)
+alert( null || 0 || 1 ); // 1 (最初の真値)
+alert( undefined || null || 0 ); // 0 (すべて偽、なので最後の値が返却される)
 ```
 
 それは "純粋で古典的な真偽値のみのOR" と比較して、いくつかの興味深い使用方法使用方法につながります。
@@ -115,7 +115,7 @@ alert( undefined || null || 0 ); // 0 (all falsy, returns the last value)
     let name = currentUser || defaultUser || "unnamed";
     */!*
 
-    alert( name ); // selects "John" – the first truthy value
+    alert( name ); // "John" – 最初の真値です
     ```
 
     もしも `currentUser` と `defaultUser` が共に偽の場合、`"unnamed"` が結果になります。
@@ -133,7 +133,7 @@ alert( undefined || null || 0 ); // 0 (all falsy, returns the last value)
 
     *!*true*/!* || (x = 1);
 
-    alert(x); // undefined, because (x = 1) not evaluated
+    alert(x); // undefined, なぜなら (x = 1) は評価されないため
     ```
 
     ...また、もしも1つ目の引数が `false` の場合、 `OR` は次へ行き2つ目の評価をし、代入を実行します:
@@ -183,7 +183,7 @@ if (hour == 12 && minute == 30) {
 OR のように、AND のオペランドとして任意の値が許可されています:
 
 ```js run
-if (1 && 0) { // evaluated as true && false
+if (1 && 0) { // true && false として評価される
   alert( "won't work, because the result is falsy" );
 }
 ```
@@ -210,13 +210,13 @@ AND `"&&"` 演算子は次のようにします:
 例:
 
 ```js run
-// if the first operand is truthy,
-// AND returns the second operand:
+// 最初のオペランドが真の場合、
+// AND は2つ目のオペランドを返す:
 alert( 1 && 0 ); // 0
 alert( 1 && 5 ); // 5
 
-// if the first operand is falsy,
-// AND returns it. The second operand is ignored
+// 最初のオペランドが偽の場合、
+// AND はそれを返します。2つ目のオペランドは無視されます。
 alert( null && 5 ); // null
 alert( 0 && "no matter what" ); // 0
 ```
@@ -231,7 +231,7 @@ alert( 1 && 2 && null && 3 ); // null
 すべての値が真のとき、最後の値が返却されます。:
 
 ```js run
-alert( 1 && 2 && 3 ); // 3, the last one
+alert( 1 && 2 && 3 ); // 3, 最後のオペランド
 ```
 
 ````smart header="AND `&&` は OR `||` の前に実行します"

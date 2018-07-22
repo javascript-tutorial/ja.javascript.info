@@ -13,21 +13,21 @@
 
 他のすべての演算子と同様、比較も値を返却します。値はBoolean型です。
 
-- `true` -- "yes", "correct" or "the truth" を意味します.
-- `false` --　"no", "wrong" or "a lie" を意味します.
+- `true` -- "はい", "正しい" もしくは "真" を意味します.
+- `false` --　"いいえ", "誤り" もしくは "偽" を意味します.
 
 例:
 
 ```js run
-alert( 2 > 1 );  // true (correct)
-alert( 2 == 1 ); // false (wrong)
-alert( 2 != 1 ); // true (correct)
+alert( 2 > 1 );  // true (正しい)
+alert( 2 == 1 ); // false (誤り)
+alert( 2 != 1 ); // true (正しい)
 ```
 
 任意の値のように、比較結果は変数に代入することができます:
 
 ```js run
-let result = 5 > 4; // assign the result of the comparison
+let result = 5 > 4; // 比較の結果を代入
 alert( result ); // true
 ```
 
@@ -74,8 +74,8 @@ alert( 'Bee' > 'Be' ); // true
 例:
 
 ```js run
-alert( '2' > 1 ); // true, string '2' becomes a number 2
-alert( '01' == 1 ); // true, string '01' becomes a number 1
+alert( '2' > 1 ); // true, 文字列 '2' は数値 2 になります
+alert( '01' == 1 ); // true, 文字列 '01' は数値 1 になります
 ```
 
 真偽値の場合、`true` は `1` になり、 `false` は `0` になります。そういうわけで:
@@ -132,7 +132,7 @@ alert( '' == false ); // true
 試してみましょう:
 
 ```js run
-alert( 0 === false ); // false, because the types are different
+alert( 0 === false ); // false, 型が異なるためです
 ```
 
 `!=` の類似類似として、"厳密な非等価" 演算子 `!==` もまた存在します。
@@ -146,15 +146,14 @@ alert( 0 === false ); // false, because the types are different
 `null` もしくは `undefined` が他の値と比較される場合、非直感的に振る舞いになります。
 
 厳密な等価チェック `===` の場合
-:それぞれ、それ自身の別々の型に所属しているため、それらの値は異なります。
+: それぞれ、それ自身の別々の型に所属しているため、それらの値は異なります。
 
 ```js run
 alert( null === undefined ); // false
 ```
 
 非厳密なチェック `==` の場合
-:特別なルールがあります。それら2つは "甘いカップル" です: それらはお互いに等しくなります(`==` の意味で)が、他の価値はありません。
-For a non-strict check `==`
+: 特別なルールがあります。それら2つは "甘いカップル" です: それらはお互いに等しくなります(`==` の意味で)が、他の価値はありません。
 
 ```js run
 alert( null == undefined ); // true
