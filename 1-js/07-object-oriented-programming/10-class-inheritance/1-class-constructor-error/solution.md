@@ -1,6 +1,6 @@
-That's because the child constructor must call `super()`.
+これは、子のコンストラクタは `super()` を必ず呼ばないといけないためです。
 
-Here's the corrected code:
+これが正しいコードです。
 
 ```js run
 class Animal {

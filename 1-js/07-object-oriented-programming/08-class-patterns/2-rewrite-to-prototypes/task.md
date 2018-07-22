@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Rewrite to prototypes
+# プロトタイプに書き直す
 
-The `Clock` class is written in functional style. Rewrite it using prototypes.
+`Clock` クラスは関数スタイルで書かれています。プロトタイプを使って書き直してください。
 
-P.S. The clock ticks in the console, open it to see.
+P.S. 時計はコンソールで動きます、開いて見てください。

@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# The difference beteeen calls
+# 呼び出し感の差異
 
-Let's create a new `rabbit` object:
+新しい `rabbit` オブジェクトを作りましょう:
 
 ```js
 function Rabbit(name) {
@@ -17,7 +17,7 @@ Rabbit.prototype.sayHi = function() {
 let rabbit = new Rabbit("Rabbit");
 ```
 
-These calls do the same thing or not?
+これらの呼び出しは同じことをしますか？それとも違う？
 
 ```js
 rabbit.sayHi();

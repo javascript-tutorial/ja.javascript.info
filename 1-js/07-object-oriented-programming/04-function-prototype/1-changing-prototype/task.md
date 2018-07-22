@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Changing "prototype"
+# "prototype" の変更
 
-In the code below we create `new Rabbit`, and then try to modify its prototype.
+下のコードでは、`new Rabbit` を作り、そのプロトタイプを変更しようとしています。
 
-In the start, we have this code:
+最初は次のコードがあります:
 
 ```js run
 function Rabbit() {}
@@ -20,7 +20,7 @@ alert( rabbit.eats ); // true
 ```
 
 
-1. We added one more string (emphasized), what `alert` shows now?
+1. 1つ文字列を追加しました(強調部分)。今 `alert` は何が表示されるでしょう?
 
     ```js
     function Rabbit() {}
@@ -37,7 +37,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-2. ...And if the code is like this (replaced one line)?
+2. ...また、コードが次のような場合は(1行置き換えました)?
 
     ```js
     function Rabbit() {}
@@ -54,7 +54,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-3. Like this (replaced one line)?
+3. この場合は (1行置き換えました)?
 
     ```js
     function Rabbit() {}
@@ -71,7 +71,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-4. The last variant:
+4. 最後のバリアントです:
 
     ```js
     function Rabbit() {}

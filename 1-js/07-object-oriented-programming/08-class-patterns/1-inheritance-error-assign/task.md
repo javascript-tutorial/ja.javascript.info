@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# An error in the inheritance
+# 継承でのエラー
 
-Find an error in the prototypal inheritance below.
+下のプロトタイプ継承でのエラーを見つけてください。
 
-What's wrong? What are consequences going to be?
+何が間違っていますか？どのような結果になるでしょうか？
 
 ```js
 function Animal(name) {

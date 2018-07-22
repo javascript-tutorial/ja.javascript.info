@@ -2,30 +2,30 @@ importance: 5
 
 ---
 
-# Add toString to the dictionary
+# 辞書に toString を追加する
 
-There's an object `dictionary`, created as `Object.create(null)`, to store any `key/value` pairs.
+任意の `key/value` ペアを格納するために `Object.create(null)` として生成されたオブジェクト `dictonary` があります。
 
-Add method `dictionary.toString()` into it, that should return a comma-delimited list of keys. Your `toString` should not show up in `for..in` over the object.
+その中にメソッド `dictionary.toString()` を追加してください。それはカンマ区切りのキーのリストを返します。あなたの `toString` はオブジェクト上の `for..in` で現れるべきではありません。
 
-Here's how it should work:
+次のように動作します:
 
 ```js
 let dictionary = Object.create(null);
 
 *!*
-// your code to add dictionary.toString method
+// dictionary.toString メソッドを追加するあなたのコード
 */!*
 
-// add some data
+// データの追加
 dictionary.apple = "Apple";
-dictionary.__proto__ = "test"; // __proto__ is a regular property key here
+dictionary.__proto__ = "test"; // __proto__ はここでは通常のプロパティキー
 
-// only apple and __proto__ are in the loop
+// ループでは apple と __proto__ だけです
 for(let key in dictionary) {
   alert(key); // "apple", then "__proto__"
 }  
 
-// your toString in action
+// 実行時のあなたの toString です
 alert(dictionary); // "apple,__proto__"
 ```

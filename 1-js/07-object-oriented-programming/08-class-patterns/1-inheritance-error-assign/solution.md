@@ -1,12 +1,12 @@
-Here's the line with the error:
+エラーとなる行はここです:
 
 ```js
 Rabbit.prototype = Animal.prototype;
 ```
 
-Here `Rabbit.prototype` and `Animal.prototype` become the same object. So methods of both classes become mixed in that object.
+ここで、`Rabbit.prototype` と `Animal.prototype` は同じオブジェクトになります。なので、両方のクラスのメソッドがそのオブジェクトに混在します。
 
-As a result, `Rabbit.prototype.walk` overwrites `Animal.prototype.walk`, so all animals start to bounce:
+結果として、`Rabbit.prototyp.walk` は `Animal.prototype.walk` を上書きするので、すべての animals は跳ね始めます(bounce)。:
 
 ```js run
 function Animal(name) {
@@ -35,12 +35,12 @@ animal.walk(); // pig bounces!
 */!*
 ```
 
-The correct variant would be:
+正しいバリアントは次の通りです:
 
 ```js
 Rabbit.prototype.__proto__ = Animal.prototype;
-// or like this:
+// もしくはこのような形です:
 Rabbit.prototype = Object.create(Animal.prototype);
 ```
 
-That makes prototypes separate, each of them stores methods of the corresponding class, but `Rabbit.prototype` inherits from `Animal.prototype`.
+これによりプロトタイプは分離され、それぞれ対応するクラスのメソッドを格納します。が、`Rabbit.prototype` は `Animal.prototype` を継承します。

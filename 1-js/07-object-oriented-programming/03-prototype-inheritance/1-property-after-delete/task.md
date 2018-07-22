@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Working with prototype
+# プロトタイプの操作
 
-Here's the code that creates a pair of objects, then modifies them.
+ここに2つのオブジェクトを作り、次にそれらを変更するコードがあります。
 
-Which values are shown in the process?
+処理の中で、どの値が表示されるでしょう？
 
 ```js
 let animal = {
@@ -28,4 +28,4 @@ delete animal.jumps;
 alert( rabbit.jumps ); // ? (3)
 ```
 
-There should be 3 answers.
+3つ答えてください。
