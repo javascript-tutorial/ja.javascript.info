@@ -43,7 +43,7 @@ try {
 
       alert('Start of try runs');  // *!*(1) <--*/!*
 
-      // ...no errors here
+      // ...ここではエラーはありません
 
       alert('End of try runs');   // *!*(2) <--*/!*
 
@@ -63,7 +63,7 @@ try {
       alert('Start of try runs');  // *!*(1) <--*/!*
 
     *!*
-      lalala; // error, variable is not defined!
+      lalala; // エラー, 変数は宣言されていません!
     */!*
 
       alert('End of try (never reached)');  // (2)
@@ -103,7 +103,7 @@ JavaScriptエンジンは最初にコードを読み、次にそれを実行し�
 ```js run
 try {
   setTimeout(function() {
-    noSuchVariable; // script will die here
+    noSuchVariable; // スクリプトはここで死にます
   }, 1000);
 } catch (e) {
   alert( "won't work" );
@@ -116,7 +116,7 @@ try {
 ```js run
 setTimeout(function() {
   try {    
-    noSuchVariable; // try..catch handles the error!
+    noSuchVariable; // try..catch がエラーをハンドリングします!
   } catch (e) {
     alert( "error is caught here!" );
   }
@@ -131,7 +131,7 @@ setTimeout(function() {
 ```js
 try {
   // ...
-} catch(err) { // <-- the "error object", could use another word instead of err
+} catch(err) { // <-- "エラーオブジェクト", err の代わりに別の名前を使うこともできます
   // ...
 }
 ```
@@ -154,15 +154,15 @@ try {
 ```js run untrusted
 try {
 *!*
-  lalala; // error, variable is not defined!
+  lalala; // エラー, 変数が宣言されていません!
 */!*
 } catch(err) {
   alert(err.name); // ReferenceError
   alert(err.message); // lalala is not defined
   alert(err.stack); // ReferenceError: lalala is not defined at ...
 
-  // Can also show an error as a whole
-  // The error is converted to string as "name: message"
+  // 全体としてエラーを表示する事もできます
+  // エラーは "name: message" として文字列に変換されます
   alert(err); // ReferenceError: lalala is not defined
 }
 ```
@@ -179,13 +179,13 @@ try {
 今、次のようにデータを受信し、`JSON.parse` を呼び出します。:
 
 ```js run
-let json = '{"name":"John", "age": 30}'; // data from the server
+let json = '{"name":"John", "age": 30}'; // サーバからのデータ
 
 *!*
-let user = JSON.parse(json); // convert the text representation to JS object
+let user = JSON.parse(json); // テキスト表現をJSオブジェクトに変換
 */!*
 
-// now user is an object with properties from the string
+// 今、 user 文字列からプロパティを持つオブジェクトです
 alert( user.name ); // John
 alert( user.age );  // 30
 ```
@@ -206,13 +206,13 @@ let json = "{ bad json }";
 try {
 
 *!*
-  let user = JSON.parse(json); // <-- when an error occurs...
+  let user = JSON.parse(json); // <-- エラーが起きたとき...
 */!*
-  alert( user.name ); // doesn't work
+  alert( user.name ); // 動作しません
 
 } catch (e) {
 *!*
-  // ...the execution jumps here
+  // ...実行はここに飛びます
   alert( "Our apologies, the data has errors, we'll try to request it one more time." );
   alert( e.name );
   alert( e.message );
@@ -229,13 +229,13 @@ try {
 このように:
 
 ```js run
-let json = '{ "age": 30 }'; // incomplete data
+let json = '{ "age": 30 }'; // 不完全なデータ
 
 try {
 
-  let user = JSON.parse(json); // <-- no errors
+  let user = JSON.parse(json); // <-- エラーなし
 *!*
-  alert( user.name ); // no name!
+  alert( user.name ); // name はありません!
 */!*
 
 } catch (e) {
@@ -302,11 +302,11 @@ try {
 なので、それをスローするようにしましょう:
 
 ```js run
-let json = '{ "age": 30 }'; // incomplete data
+let json = '{ "age": 30 }'; // 不完全なデータ
 
 try {
 
-  let user = JSON.parse(json); // <-- no errors
+  let user = JSON.parse(json); // <-- エラーなし
 
   if (!user.name) {
 *!*
@@ -332,15 +332,15 @@ try {
 このように:
 
 ```js run
-let json = '{ "age": 30 }'; // incomplete data
+let json = '{ "age": 30 }'; // 不完全なデータ
 
 try {
-  user = JSON.parse(json); // <-- forgot to put "let" before user
+  user = JSON.parse(json); // <-- user の前に "let" をつけ忘れた
 
   // ...
 } catch(err) {
   alert("JSON Error: " + err); // JSON Error: ReferenceError: user is not defined
-  // (not JSON Error actually)
+  // (実際にはJSONのエラーではありません)
 }
 ```
 
@@ -355,7 +355,7 @@ try {
   user = { /*...*/ };
 } catch(e) {
 *!*
-  alert(e.name); // "ReferenceError" for accessing an undefined variable
+  alert(e.name); // 未定義変数へのアクセスに対する "ReferenceError"
 */!*
 }
 ```
@@ -374,7 +374,7 @@ try {
 下のコードでは、`catch` が `SyntaxError` だけを処理するよう再スローを使っています。:
 
 ```js run
-let json = '{ "age": 30 }'; // incomplete data
+let json = '{ "age": 30 }'; // 不完全なデータ
 try {
 
   let user = JSON.parse(json);
@@ -384,7 +384,7 @@ try {
   }
 
 *!*
-  blabla(); // unexpected error
+  blabla(); // 予期しないエラー
 */!*
 
   alert( user.name );
@@ -395,7 +395,7 @@ try {
   if (e.name == "SyntaxError") {
     alert( "JSON Error: " + e.message );
   } else {
-    throw e; // rethrow (*)
+    throw e; // 再スロー (*)
   }
 */!*
 
@@ -421,7 +421,7 @@ function readData() {
     // ...
     if (e.name != 'SyntaxError') {
 *!*
-      throw e; // rethrow (don't know how to deal with it)
+      throw e; // 再スロー (今のエラーの扱い方を知らない)
 */!*
     }
   }
@@ -548,7 +548,7 @@ function func() {
   }
 }
 
-alert( func() ); // first works alert from finally, and then this one
+alert( func() ); // 最初に finally の alert が動作し、次にこれが動作します
 ```
 ````
 
@@ -558,11 +558,11 @@ alert( func() ); // first works alert from finally, and then this one
 
 ```js
 function func() {
-  // start doing something that needs completion (like measurements)
+  // (計測など)完了させる必要のあるなにかを開始する
   try {
     // ...
   } finally {
-    // complete that thing even if all dies
+    // すべてが死んでいても完了させる
   }
 }
 ```
@@ -613,7 +613,7 @@ window.onerror = function(message, url, line, col, error) {
 */!*
 
   function readData() {
-    badFunc(); // Whoops, something went wrong!
+    badFunc(); // おっと、何かがおかしいです!
   }
 
   readData();
@@ -639,12 +639,12 @@ window.onerror = function(message, url, line, col, error) {
 
 ```js
 try {
-  // run this code
+  // コードを実行
 } catch(err) {
-  // if an error happened, then jump here
-  // err is the error object
+  // エラーが起きた場合、ここにジャンプ
+  // err はエラーオブジェクト
 } finally {
-  // do in any case after try/catch
+  // すべてのケースで try/catch 後に実行する
 }
 ```
 

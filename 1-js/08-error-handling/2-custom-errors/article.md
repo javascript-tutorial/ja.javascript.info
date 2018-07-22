@@ -31,11 +31,11 @@ let json = `{ "name": "John", "age": 30 }`;
 これです:
 
 ```js
-// The "pseudocode" for the built-in Error class defined by JavaScript itself
+// JavaScript自体で定義された組み込みのErrorクラスの「擬似コード」
 class Error {
   constructor(message) {
     this.message = message;
-    this.name = "Error"; // (different names for different built-in error classes)
+    this.name = "Error"; // (組み込みのエラークラスごとに異なる名前)
     this.stack = <nested calls>; // non-standard, but most environments support it
   }
 }
@@ -62,7 +62,7 @@ try {
 } catch(err) {
   alert(err.message); // Whoops!
   alert(err.name); // ValidationError
-  alert(err.stack); // a list of nested calls with line numbers for each
+  alert(err.stack); // それぞれの行番号を持つネストされたコールのリスト
 }
 ```
 
@@ -95,7 +95,7 @@ function readUser(json) {
   return user;
 }
 
-// Working example with try..catch
+// try..catch での動作例
 
 try {
   let user = readUser('{ "age": 25 }');
@@ -107,7 +107,7 @@ try {
   } else if (err instanceof SyntaxError) { // (*)
     alert("JSON Syntax Error: " + err.message);
   } else {
-    throw err; // unknown error, rethrow it (**)
+    throw err; // 知らないエラーなので、再スロー
   }
 }
 ```
@@ -120,7 +120,7 @@ try {
 
 ```js
 // ...
-// instead of (err instanceof SyntaxError)
+// (err instanceof SyntaxError) の代わり
 } else if (err.name == "SyntaxError") { // (*)
 // ...
 ```  
@@ -152,7 +152,7 @@ class PropertyRequiredError extends ValidationError {
 }
 */!*
 
-// Usage
+// 使用法
 function readUser(json) {
   let user = JSON.parse(json);
 
@@ -166,7 +166,7 @@ function readUser(json) {
   return user;
 }
 
-// Working example with try..catch
+// try..catch での動作例
 
 try {
   let user = readUser('{ "age": 25 }');
@@ -180,7 +180,7 @@ try {
   } else if (err instanceof SyntaxError) {
     alert("JSON Syntax Error: " + err.message);
   } else {
-    throw err; // unknown error, rethrow it
+    throw err; // 知らないエラーなので、それを再スロー
   }
 }
 ```
