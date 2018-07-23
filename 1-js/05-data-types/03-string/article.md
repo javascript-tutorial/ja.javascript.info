@@ -6,7 +6,7 @@ JavaScriptでは、テキストデータは文字列として格納されます�
 
 [cut]
 
-## 引用符
+## 引用符 [#quotes]
 
 引用符の種類を思い出してみましょう。
 
@@ -52,7 +52,7 @@ let guestList = "Guests:  // Error: Unexpected token ILLEGAL
 バッククォートはまた、最初のバッククォートの前に "テンプレート関数" を指定することができます。構文は次のようになります:
  <code>func&#96;string&#96;</code>. 関数 `func` は自動的に呼ばれ、文字列と埋め込まれた式を受け取り、それらを処理することが出来ます。[docs](mdn:/JavaScript/Reference/Template_literals#Tagged_template_literals) で、これに関してより知ることができます。これは "タグ付きテンプレートリテラル" と呼ばれます。この機能により、文字列をカスタムテンプレートやその他の機能に簡単にラップできますが、ほとんど使用されません。
 
-## 特殊文字
+## 特殊文字 [#special-characters]
 
 `\n` と書かれた、いわゆる "改行文字" を使うことで、シングルクォートで複数行の文字列を作ることが可能です。
 
@@ -120,7 +120,7 @@ alert( `I'm the Walrus!` ); // I'm the Walrus!
 alert( `The backslash: \\` ); // The backslash: \
 ```
 
-## 文字列長
+## 文字列長 [#string-length]
 
 `length` プロパティは文字列の長さを持ちます:
 
@@ -136,7 +136,7 @@ alert( `My\n`.length ); // 3
 `str.length` は数値プロパティであり、関数ではないことに注意してください。その後に括弧をつける必要はありません。
 ```
 
-## 文字へのアクセス
+## 文字へのアクセス [#accessing-characters]
 
 `pos` の位置の文字を取得する場合、角括弧 `[pos]` を使うか、もしくは [str.charAt(pos)](mdn:js/String/charAt) メソッドを呼び出します。最初の文字は 0 の位置から始まります:
 
@@ -170,7 +170,7 @@ for (let char of "Hello") {
 }
 ```
 
-## 文字列は不変です
+## 文字列は不変です [#strings-are-immutable]
 
 JavaScriptでは文字列は変更できません。文字を変えることは不可能です。
 
@@ -197,7 +197,7 @@ alert( str ); // hi
 
 次のセクションでは、これについてのより多くの例を見ていきます。
 
-## ケースを変更する
+## ケースを変更する [#changing-the-case]
 
 メソッド [toLowerCase()](mdn:js/String/toLowerCase) と [toUpperCase()](mdn:js/String/toUpperCase) はケースを変更します:
 
@@ -212,7 +212,7 @@ alert( 'Interface'.toLowerCase() ); // interface
 alert( 'Interface'[0].toLowerCase() ); // 'i'
 ```
 
-## 部分文字列の検索
+## 部分文字列の検索 [#searching-for-a-substring]
 
 文字列の中で、部分文字列を探す方法はいくつかあります。
 
@@ -366,7 +366,7 @@ alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
 alert( "Widget".endsWith("get") );   // true, "Widget" ends with "get"
 ```
 
-## 部分文字列を取得する
+## 部分文字列を取得する [#getting-a-substring]
 
 JavaScriptでは、部分文字列を取得する3つの方法があります: `substring`, `substr` と `slice` です。
 
@@ -454,7 +454,7 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
 著者はほとんどのケースで `slice` を使っています。
 ```
 
-## 文字列比較
+## 文字列比較 [#comparing-strings]
 
 チャプター <info:comparison> で知ったように、文字列はアルファベット順に文字ごとに比較されます。
 
@@ -547,7 +547,7 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 
 実際、このメソッドは [the documentation](mdn:js/String/localeCompare) で指定されている2つの追加の引数を持ちます。これにより言語を指定することができ(デフォルトは環境から判断されます)、大文字と小文字や、`"a"` と `"á"` が同じように扱われるなどの追加のルールを設定することが出来ます。
 
-## 内部, Unicode
+## 内部, Unicode [#internals-unicode]
 
 ```warn header="高度な知識"
 このセクションでは、文字列の内部構造について詳しく説明します。 この知識は、絵文字、珍しい数学的な象形文字やその他の珍しい記号を扱う予定の場合に便利です。

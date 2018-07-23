@@ -42,7 +42,7 @@ alert(obj.__proto__ === Object.prototype); // true
 alert(Object.prototype.__proto__); // null
 ```
 
-## 他の組み込みのプロトタイプ
+## 他の組み込みのプロトタイプ [#other-built-in-prototypes]
 
 `Array`, `Date`, `Function` のような、他の組み込みのプロトタイプもまたプロトタイプにメソッドを保持しています。
 
@@ -143,7 +143,7 @@ if (!String.prototype.repeat) { // if there's no such method
 alert( "La".repeat(3) ); // LaLaLa
 ```
 
-## プロトタイプからの借用
+## プロトタイプからの借用 [#borrowing-from-prototypes]
 
 チャプター <info:call-apply-decorators#method-borrowing> で私たちはメソッドの借用について話しました。:
 

@@ -6,7 +6,7 @@
 
 [cut]
 
-## 作成
+## 作成 [#creation]
 
 新しい `Date` オブジェクトを作るために、 次の引数のいずれかで `new Date()` を呼びます:
 
@@ -124,7 +124,7 @@ alert( date.getUTCHours() );
 
     ```
 
-## 日付の構成要素を設定する
+## 日付の構成要素を設定する [#setting-date-components]
 
 次のメソッドで、日付/時刻の構成要素をセットすることができます:
 
@@ -153,7 +153,7 @@ today.setHours(0, 0, 0, 0);
 alert(today); // still today, now 00:00:00 sharp.
 ```
 
-## 自動補正
+## 自動補正 [#autocorrection]
 
 *自動補正* は `Date` オブジェクトのとても便利な機能です。私たちが範囲外の値を指定することができますが、それは自動的に調節されます。
 
@@ -198,7 +198,7 @@ date.setDate(0); // min day is 1, so the last day of the previous month is assum
 alert( date ); // 31 Dec 2015
 ```
 
-## 日付から数値へ、日付の差分
+## 日付から数値へ、日付の差分 [#date-to-number-date-diff]
 
 `Date` オブジェクトが数値へ変換されるとき、`date.getTime()` と同じようにタイムスタンプになります:
 
@@ -224,7 +224,7 @@ let end = new Date(); // done
 alert( `The loop took ${end - start} ms` );
 ```
 
-## Date.now()
+## Date.now() [#date-now]
 
 もしも差分だけ測定したい場合、`Date` オブジェクトを使う必要はありません。
 
@@ -253,7 +253,7 @@ let end = Date.now(); // done
 alert( `The loop took ${end - start} ms` ); // subtract numbers, not dates
 ```
 
-## ベンチマーク
+## ベンチマーク [#benchmarking]
 
 CPUを必要とする機能の信頼できるベンチマークが必要な場合は、注意が必要です。
 

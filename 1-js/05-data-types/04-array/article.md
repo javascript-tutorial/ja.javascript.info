@@ -10,7 +10,7 @@
 
 [cut]
 
-## 宣言
+## 宣言 [#declaration]
 
 空の配列を作る2つの構文があります:
 
@@ -95,7 +95,7 @@ let fruits = [
 ````
 
 
-## pop/push, shift/unshift メソッド
+## pop/push, shift/unshift メソッド [#methods-pop-push-shift-unshift]
 
 [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) は配列で最も一般的に使われるものの１つです。コンピュータ・サイエンスでは、これは2つの操作をサポートする要素の順序付きコレクションを意味します。:
 
@@ -189,7 +189,7 @@ fruits.unshift("Pineapple", "Lemon");
 alert( fruits );
 ```
 
-## 内部詳細
+## 内部詳細 [#internals]
 
 配列は特別な種類のオブジェクトです。プロパティ `arr[0]` にアクセスするために使う角括弧は、実際にはオブジェクト構文から来ています。数字がキーとして使用されます。
 
@@ -237,7 +237,7 @@ fruits.age = 25; // create a property with an arbitrary name
 
 *順序付きデータ* を処理するための特別な構造として配列を考えてください。配列はそのための特別なメソッドを提供します。配列は連続した順序付きデータを処理するため、JavaScriptエンジン内部で注意深くチューニングされています。このために配列を使ってください。そして、任意のキーが必要なときは、通常のオブジェクト `{}` が必要な可能性が高いです。
 
-## パフォーマンス
+## パフォーマンス [#performance]
 
 メソッド `push/pop` は処理が速く、`shift/unshift` は遅いです。
 
@@ -277,7 +277,7 @@ fruits.pop(); // take 1 element from the end
 
 `push` メソッドも同じです。
 
-## ループ
+## ループ [#loops]
 
 配列アイテムを循環させる最も古い方法の1つは、インデックス上の `for` ループです:
 
@@ -327,7 +327,7 @@ for (let key in arr) {
 一般的に、配列に対しては `for..in` は使うべきではありません。
 
 
-## "length"
+## "length" [#a-word-about-length]
 
 配列を変更したとき、`length` プロパティは自動的に更新されます。正確には、それは配列の実際の値の数ではなく、最大の数値インデックスに1を加えたものです。
 
@@ -385,7 +385,7 @@ alert( arr.length ); // length 2
 
 このような驚きを避けるため、私たちが何をしているのか本当に分かっていない限り、通常は角括弧を使います。
 
-## 多次元配列
+## 多次元配列 [#multidimensional-arrays]
 
 配列は配列も持つことができます。我々は行列を格納するために、それを多次元配列として使うことができます。:
 

@@ -7,7 +7,7 @@
 
 [cut]
 
-## シンボル
+## シンボル [#symbols]
 
 "シンボル" 値はユニークな識別子を表現します。
 
@@ -63,7 +63,7 @@ alert(id.toString()); // Symbol(id), now it works
 それは文字列とシンボルが根本的に異なっており、それを変換すべきではないので、混乱することに対する「言語ガード」です。
 ````
 
-## "隠れた" プロパティ
+## "隠れた" プロパティ [#hidden-properties]
 
 シンボルは、我々にオブジェクトの "隠れた" プロパティを作ることを許可します。コードの他の部分が時々アクセスしたり上書きしたりすることはありません。
 
@@ -180,7 +180,7 @@ alert( obj[0] ); // test (same property)
 ```
 ````
 
-## グローバルシンボル
+## グローバルシンボル [#global-symbols]
 
 見てきたように、通常、たとえ同じ名前であったとしても、全てのシンボルは異なります。しかし、時には同じ名前のシンボルを同じエンティティにしたいときがあります。
 
@@ -239,7 +239,7 @@ alert( Symbol.keyFor(Symbol.for("name")) ); // name, global symbol
 alert( Symbol.keyFor(Symbol("name2")) ); // undefined, the argument isn't a global symbol
 ```
 
-## システムシンボル
+## システムシンボル [#system-symbols]
 
 JavaScriptが内部的に使用する多くの "システム" シンボルが存在し、それを使うことでオブジェクトの様々な側面を微調整することができます。
 

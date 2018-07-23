@@ -9,7 +9,7 @@
 
 [cut]
 
-## Symbol.iterator
+## Symbol.iterator [#symbol-iterator]
 
 我々自身で作ることで、iterables の概念を簡単に掴む事ができます。
 
@@ -114,7 +114,7 @@ for (let num of range) {
 ```
 
 
-## 文字列は反復可能です
+## 文字列は反復可能です [#string-is-iterable]
 
 配列と文字列は、最も広く組み込みの iterables で使われています。
 
@@ -135,7 +135,7 @@ for (let char of str) {
 }
 ```
 
-## iterator を明示的に呼び出す
+## iterator を明示的に呼び出す [#calling-an-iterator-explicitly]
 
 通常、iterables の内部は外部のコードから隠れています。`for..of` ループがありそれは動作します。それが知る必要があるすべてです。
 
