@@ -198,7 +198,7 @@ alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
 
 これは、型を文字列として取得するだけでなく、チェックするために、組み込みオブジェクトに対して `instanceof` の代わりに使用できます。
 
-## サマリ
+## サマリ [#summary]
 
 私たちが知っている型チェックメソッドについて再確認しましょう:
 

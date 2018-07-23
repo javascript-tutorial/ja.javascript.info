@@ -710,7 +710,7 @@ alert(clone.sizes.width); // 51, see the result from the other one
 車輪の再発明をしないために、JavaScript ライブラリ[lodash](https://lodash.com) から、その動作を行う実装を使うことが出来ます。そのメソッドは [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) と呼ばれています。
 
 
-## サマリ
+## サマリ [#summary]
 
 オブジェクトは幾つかの特別な機能を持つ連想配列です。
 

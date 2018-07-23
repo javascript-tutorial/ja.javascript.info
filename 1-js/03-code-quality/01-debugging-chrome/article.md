@@ -170,7 +170,7 @@ for (let i = 0; i < 5; i++) {
 コードに十分なログを仕込んでいれば、デバッガーなしで、その記録から何が行っているか知ることが出来ます。
 If we have enough logging in our code, then we can see what's going on from the records, without the debugger.
 
-## サマリ
+## サマリ [#summary]
 
 ご覧のとおり、スクリプトを一時停止するには主に3つの方法があります。
 1. ブレイクポイント

@@ -375,7 +375,7 @@ function pow(x, n) {
 
 [edit src="pow-full" title="Open the full final example in the sandbox."]
 
-## サマリ
+## サマリ [#summary]
 
 BDDでは、仕様が最初で実装はそれに従います。最終的に仕様とコードを持つ事になります。
 

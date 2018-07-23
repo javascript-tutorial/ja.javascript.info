@@ -408,7 +408,7 @@ JavaScript は数学関数と定数の小さなライブラリを含む組み込
 
 [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) にある三角法など、`Math` オブジェクトには、より多くの関数や定数があります。
 
-## サマリ
+## サマリ [#summary]
 
 大きな数値を書くために:
 

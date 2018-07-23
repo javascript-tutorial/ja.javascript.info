@@ -155,7 +155,7 @@ Rabbit.prototype = {
 // now constructor is also correct, because we added it
 ```
 
-## サマリ
+## サマリ [#summary]
 
 このチャプターでは、constructor 関数を通して作成されたオブジェクトのための `[[Prototype]]` を設定方法について簡単に説明しました。後で、それに依存するより高度なプログラミングパターンを見ていきます。
 

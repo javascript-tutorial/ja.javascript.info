@@ -675,7 +675,7 @@ alert(youngerUsers.length); // 2
 
 上の呼び出しでは、フィルタとして `user.younger` を使い、そのコンテキストとして `user` を提供しています。もしもコンテキストを提供しなかった場合、`users.filter(user.younger)` はスタンドアロン関数として `this=undefined` で `user.younger` を呼び出します。それは即時エラーを意味します。
 
-## サマリ
+## サマリ [#summary]
 
 配列メソッドの Cheat Sheet です:
 

@@ -519,7 +519,7 @@ alert( schedule.meetups[1].date.getDate() ); // works!
 
 
 
-## サマリ
+## サマリ [#summary]
 
 - JSON はほとんどのプログラミング言語に、独自の標準とライブラリを持つデータ形式です。
 - JSON はプレーンなオブジェクト、配列、文字列、数値、真偽値、`null` をサポートします。

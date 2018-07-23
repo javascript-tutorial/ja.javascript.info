@@ -246,7 +246,7 @@ alert(animal.isSleeping); // undefined (no such property in the prototype)
 
 結果として、メソッドは共有されますが、オブジェクトの状態は共有されません。
 
-## サマリ
+## サマリ [#summary]
 
 - JavaScriptでは、すべてのオブジェクトは隠れた `[[Prototype]]` プロパティを持っており、それは別のオブジェクトまたは `null` です。
 - 私たちはそれにアクセスするために `obj.__proto__` を使うことができます(他の方法もあります。それらは後ほど学びます)。

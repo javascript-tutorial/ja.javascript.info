@@ -283,7 +283,7 @@ alert( str.slice(1, 3) ); // garbage (two pieces from different surrogate pairs)
 ```
 
 
-## サマリ
+## サマリ [#summary]
 
 `for..of` が使えるオブジェクトは *反復可能(iterable)* と呼ばれます。
 

@@ -198,7 +198,7 @@ for (let key in user) {
 JavaScriptライブラリはまた、便利な大量バインディングのための機能も提供しています。e.g. [_.bindAll(obj)](http://lodash.com/docs#bindAll) in lodash.
 ````
 
-## サマリ
+## サマリ [#summary]
 
 メソッド `func.bind(context, ...args)` はコンテキスト `this` を固定した関数 `func` の "束縛されたバリアント" を返します。
 

@@ -331,7 +331,7 @@ alert( article.title ); // Todays digest
 Article.remove({id: 12345});
 ```
 
-## サマリ
+## サマリ [#summary]
 
 基本のクラス構文はこのようになります。:
 

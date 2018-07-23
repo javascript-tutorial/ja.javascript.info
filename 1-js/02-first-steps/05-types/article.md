@@ -14,7 +14,7 @@ JavaScriptでは7つの基本的なデータ型があります。ここでは基
 
 [cut]
 
-## 数値
+## 数値 [#a-number]
 
 ```js
 let n = 123;
@@ -65,7 +65,7 @@ JavaScriptでは数学をするのは安全です。私たちは何でもでき�
 
 私たちはチャプター <info:number> でより数値の動作について見るでしょう。
 
-## 文字列
+## 文字列 [#a-string]
 
 JavaScriptの文字列は引用符で囲む必要があります。
 
@@ -111,7 +111,7 @@ alert( "the result is ${1 + 2}" ); // 結果は ${1 + 2} です(ダブルクォ�
 JavaScriptでは、このような型はありません。 `string` 型の1つだけです。文字列は1つの文字または複数のそれらから構成されます。
 ```
 
-## boolean (論理型)
+## boolean (論理型) [#a-boolean-logical-type]
 
 boolean 型は2つの値だけを持ちます: `true` と `false`
 
@@ -134,7 +134,7 @@ alert( isGreater ); // true (比較結果は "yes" です)
 
 私たちは、後ほどチャプター<info:logical-operators>でbooleanのより詳細を説明します。
 
-## "null" 値
+## "null" 値 [#the-null-value]
 
 特殊な `null` 値は上の述べたどの型にも属しません。
 
@@ -150,7 +150,7 @@ JavaScriptでは、 `null` は他の言語のような "存在しないオブジ
 
 上のコードは、 `age` は何らかの理由で不明な値もしくは空であることを述べています。
 
-## "undefined" 値
+## "undefined" 値 [#the-undefined-value]
 
 特殊な値 `undefined` は別として立っています。`null` のように、それ自身の形を作ります。
 
@@ -176,7 +176,7 @@ alert(x); // "undefined"
 
 ...しかし、そのようにするのは推奨されません。一般的に、私たちは、 "空" や "不明な値" を書き込むために `null` を使い、`undefined` は変数が割り当てられているか、もしくは似たような確認のために使います。
 
-## オブジェクトとシンボル
+## オブジェクトとシンボル [#objects-and-symbols]
 
 `object` 型は特殊です。
 
@@ -229,7 +229,7 @@ typeof alert // "function"  (3)
 3. `alert` は言語の機能なので、`typeof alert` の結果は `"function"` です。私たちは、次のチャプターで function を勉強します。そして、言語の中で特殊な "function" 型がないことがわかるでしょう。function はオブジェクト型に属します。しかし `typeof` はそれらを別々に扱います。正式には、それは正しくありませんが、実際にはとても便利です。
 
 
-## サマリ
+## サマリ [#summary]
 
 JavaScriptには7つの基本型があります。
 

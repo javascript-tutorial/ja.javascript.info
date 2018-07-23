@@ -8,7 +8,7 @@ ECMAScript 5(ES5) が登場したときは2009年でした。新しい機能が�
 
 [cut]
 
-## "use strict"
+## "use strict" [#use-strict]
 
 そのディレクティブは文字列のように見えます: `"use strict"` もしくは `'use strict'`. スクリプトの先頭に位置する場合、すべてのスクリプトは "最新の" 方法で動作します。
 
@@ -50,7 +50,7 @@ alert("some code");
 一度 strict mode に入ったら、返ってきません。
 ```
 
-## いつも "use strict"
+## いつも "use strict" [#always-use-strict]
 
 `"use strict"` と "default" モードの違いはまだカバーされています。
 

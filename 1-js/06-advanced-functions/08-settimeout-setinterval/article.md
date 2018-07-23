@@ -443,7 +443,7 @@ setTimeout(function run() {
 
 これで、`<div>` は `i` の値の増加を表示します。
 
-## サマリ
+## サマリ [#summary]
 
 - メソッド `setInterval(func, delay, ...args)` と `setTimeout(func, delay, ...args)` は、`delay` ミリ秒に `func` を定期的に/一度だけ実行することができます。
 - 実行をキャンセルするためには、`setInterval/setTimeout` で返却された値と一緒に `clearInterval/clearTimeout` を呼ぶ必要があります。
