@@ -14,7 +14,7 @@ JavaScriptでは、`class` キーワードを使わずにクラスを作成す�
 [cut]
 
 
-## Functional class pattern
+## 関数クラスパターン [#functional-class-pattern]
 
 下のコンストラクタ関数は定義に従って、"クラス" と考えることができます。:
 
@@ -66,7 +66,7 @@ user.sayHi(); // John
 
 このようにして、内部実装の詳細とヘルパーメソッドを外部コードから隠すことができます。 `this`に割り当てられたものだけが外側に見えるようになります。
 
-## Factory class pattern
+## ファクトリークラスパターン [#factory-class-pattern]
 
 私たちは、`new` を全く使わずにクラスを生成することができます。
 

@@ -102,7 +102,7 @@ new User("Dude").sayHi(); // Hello Dude!
 
 これは `sayHiMixin` のメソッドに `[[HomeObject]]` がセットされているからです。そのため、`super` は実際には `sayHiMixin.__proto__`を意味し、`User.__proto__`を意味しません。
 
-## EventMixin
+## イベントMixin [#eventmixin]
 
 さて、実践のためのミックスインを作ってみましょう。
 
