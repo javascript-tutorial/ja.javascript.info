@@ -1,3 +1,3 @@
-# Browser: Document, Events, Interfaces 
+# ブラウザ: Document, Events, Interfaces 
 
-Learning how to manage the browser page: add elements, manipulate their size and position, dynamically create interfaces and interact with the visitor.
+ブラウザページを管理する方法を学びます: 要素の追加、それらのサイズや位置の操作、動的なインタフェースの追加や訪問者とのインタラクションについて。

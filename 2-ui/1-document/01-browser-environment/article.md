@@ -1,123 +1,120 @@
-# Browser environment, specs
+# ブラウザ環境, 仕様
 
-The JavaScript language was initially created for web browsers. Since then, it evolved and became a language with many uses and platforms.
+当初、JavaScript言語は web ブラウザのために作られました。それ以降、言語は進化し、多くの用途やプラットフォームをもつ言語になりました。
 
-A platform may be either a browser or a web-server or a washing machine or another *host*. Each of them provides platform-specific functionality. The JavaScript specification calls that a *host environment*.
-
-A host environment provides platform-specific objects and functions additionally to the language core. Web browsers give means to control web pages. Node.JS provides server-side features, and so on.
+ホスト環境は、言語のコアに加えてプラットフォーム固有のオブジェクトや機能を提供します。Web ブラウザは webページを制御する手段を提供します。Node.JSはサーバサイドの機能などを提供します。
 
 [cut]
 
-Here's a bird-eye view of what we have when JavaScript runs in a web-browser:
+これは、JavaScript がWebブラウザで実行されているときの鳥瞰図です:
 
 ![](windowObjects.png)
 
-There's a "root" object called `window`. It has two roles:
+`window` と呼ばれる "ルート" オブジェクトがあります。それは2つの役割を持ちます。:
 
-1. First, it is a global object for JavaScript code, as described in the chapter <info:global-object>.
-2. Second, it represents the "browser window" and provides methods to control it.
+1. 1つ目は、それはJavaScriptコードのグローバルオブジェクトであり、チャプター <info:global-object> で説明したとおりです。
+2. 2つ目は、それは "ブラウザウィンドウ" を表し、ウィンドウを制御するためのメソッドを提供します。
 
-For instance, here we use it as a global object:
+例えば、ここではグローバルオブジェクトとして使います:
 
 ```js run
 function sayHi() {
   alert("Hello");
 }
 
-// global functions are accessible as properties of window
+// グローバル関数は window のプロパティとしてアクセス可能
 window.sayHi();
 ```
 
-And here we use it as a browser window, to see the window height:
+また、ここではウィンドウの高さを見るためにブラウザウィンドウとして使います:
 
 ```js run
-alert(window.innerHeight); // inner window height
+alert(window.innerHeight); // 内部の window の高さ
 ```
 
-There are more window-specific methods and properties, we'll cover them later.
+window固有のメソッドやプロパティがたくさんあります。我々は後ほどそれをカバーしましょう。
 
-## Document Object Model (DOM)
+## ドキュメントオブジェクトモデル (DOM) [#document-object-model]
 
-The `document` object gives access to the page content. We can change or create anything on the page using it.
+`document` オブジェクトはページのコンテンツへのアクセスを提供します。私たちはそれを使ってページ上のものを変更したり作成することができます。
 
-For instance:
+例:
 ```js run
-// change the background color to red
+// 背景色を赤に変える
 document.body.style.background = 'red';
 
-// change it back after 1 second
+// それを1秒後に戻す
 setTimeout(() => document.body.style.background = '', 1000);
 ```
 
-Here we used `document.body.style`, but there's much, much more. Properties and methods are described in the specification. By chance, there are two working groups who develop it:
+ここでは `document.body.style` を使いましたが、まだまだあります。プロパティとメソッドは仕様で説明されています。偶然にも、それを開発する2つのワーキンググループがあります:
 
-1. [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium) -- the documentation is at <https://www.w3.org/TR/dom>.
-2. [WhatWG](https://en.wikipedia.org/wiki/WHATWG), publishing at <https://dom.spec.whatwg.org>.
+1. [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium) -- ドキュメントは <https://www.w3.org/TR/dom> です.
+2. [WhatWG](https://en.wikipedia.org/wiki/WHATWG), <https://dom.spec.whatwg.org> で公開しています.
 
-As it happens, the two groups don't always agree, so we have like 2 sets of standards. But they are in the tight contact and eventually things merge. So the documentation that you can find on the given resources is very similar, there's like 99% match. There are very minor differences, you probably won't notice them.
+あいにく、2つのグループが必ずしも一致するわけではないので、2組の標準があります。しかし、彼らは密接な関係にあり、最終的には物事はマージされます。従って、あなたが見つけたドキュメントはとても似ており、99% 一致します。ごくわずかな違いがありますが、気づかないかもしれません。
 
-Personally, I find <https://dom.spec.whatwg.org> more pleasant to use.
+個人的には、<https://dom.spec.whatwg.org> が使いやすいと思います。
 
-In the ancient past, there was no standard at all -- each browser implemented whatever it wanted. So different browsers had different sets methods and properties for the same thing, and developers had to write different code for each of them. Dark, messy times.
+ずいぶん昔、まったく標準がありませんでした -- 各ブラウザが必要なものを実装しました。従って、異なるブラウザは、同じものに対して異なるセットのメソッドとプロパティを持っていました。そして、開発者はそれぞれのために異なるコードを書かなければなりませんでした。暗く、散らかった時代です。
 
-Even now we can sometimes meet old code that uses browser-specific properties and works around incompatibilities. But in this tutorial we'll use modern stuff: there's no need to learn old things until you really need those (chances are high you won't).
+今でさえ、ブラウザ固有のプロパティを使い、非互換を回避している古いコードに出会うことがあります。しかし、このチュートリアルでは、現代の物を使います: あなたが本当に必要になるときまで、古いものを学ぶ必要はありません(本当に必要になるときはあまりないでしょう)。
 
-Then the DOM standard appeared, in an attempt to bring everyone to an agreement. The first version was "DOM Level 1", then it was extended by DOM Level 2, then DOM Level 3, and now it's DOM Level 4. People from WhatWG group got tired of version and are calling that just "DOM", without a number. So will do we.
+その後、誰もが合意をするための試みとして、DOM標準が現れました。最初のバージョンは "DOM Level 1" で、それは DOM Level 2, 次に DOM Level 3 と拡張され、今は DOM Level 4 になりました。WhatWG グループの人々はバージョンに疲れて、単に "DOM" と番号なしで呼んでいます。私たちもそうしましょう。
 
-```smart header="DOM is not only for browsers"
-The DOM specification explains the structure of a document and provides objects to manipulate it. There are non-browser instruments that use it too.
+```smart header="DOM はブラウザだけではありません"
+DOM 仕様は document の構造を説明し、それを操作するためのオブジェクトを提供します。それを使う非ブラウザのものもあります。
 
-For instance, server-side tools that download HTML pages and process them. They may support only a part of the DOM specification though.
+例えば、HTMLページをダウンロードしそれを処理するサーバサイドのツールです。DOM仕様の一部のみをサポートしているかもしれませんが。
 ```
 
-```smart header="CSSOM for styling"
-CSS rules and stylesheets are structured not like HTML. So there's a separate specification [CSSOM](https://www.w3.org/TR/cssom-1/) that explains how they are represented as objects, how to read and write them.
+```smart header="スタイルのための CSSOM"
+CSS ルールやスタイルシートは HTML のように構造化されていません。そのため、それらがオブジェクトとしてどのように表現され、どのようにそれらを読み書きするかを説明する別の仕様[CSSOM](https://www.w3.org/TR/cssom-1/)があります。
 
-CSSOM is used together with DOM when we modify style rules for the document. In practice though, CSSOM is rarely required, because usually CSS rules are static. We rarely need to add/remove CSS rules from JavaScript, so we won't cover it right now.
+CSSMON は document のスタイルルールを変更するとき、DOM と一緒に使われます。実際には、通常はCSSルールが静的であるため、CSSOMはめったに必要ありません。 JavaScriptのCSSルールを追加/削除することはめったにありませんので、今すぐはカバーしません。
 ```
 
-## BOM (part of HTML spec)
+## BOM (HTML仕様の一部) [#bom]
 
-Browser Object Model (BOM) are additional objects provided by the browser (host environment) to work with everything except the document.
+ブラウザオブジェクトモデル(BOM)は document 以外のすべてと連携するブラウザ(ホスト環境)により提供される追加オブジェクトです。
 
-For instance:
+例えば:
 
-- [navigator](mdn:api/Window/navigator) object provides background information about the browser and the operation system. There are many properties, but two most widely known are: `navigator.userAgent` -- about the current browser, and `navigator.platform` -- about the platform (can help to differ between Windows/Linux/Mac etc).
-- [location](mdn:api/Window/location) object allows to read the current URL and redirect the browser to a new one.
+- [navigator](mdn:api/Window/navigator) オブジェクトはブラウザとオペレーティングシステムのバックグラウンドの情報を提供します。多くのプロパティを持っていますが、最も広く知られている2つのプロパティはこれです: `navigator.userAgent` -- 現在のブラウザについて, `navigator.platform` -- プラットフォームについて(Windows/Linux/Macなどを分ける)
+- [location](mdn:api/Window/location) オブジェクトは現在のURLを読み、ブラウザを新しいURLへリダイレクトできます。
 
-Here's how we can use the `location` object:
+これは、`location` オブジェクトを使う方法です:
 
 ```js run
-alert(location.href); // shows current URL
+alert(location.href); // 現在のURLを表示
 if (confirm("Go to wikipedia?")) {
-  location.href = 'https://wikipedia.org'; // redirect the browser to another URL
+  location.href = 'https://wikipedia.org'; // 別のURLへリダイレクト
 }
 ```
 
-Functions `alert/confirm/prompt` are also a part of BOM: they are directly not related to the document, but represent pure browser methods of communicating with the user.
+関数 `alert/confirm/prompt` もまた BOM の一部です: それらは直接は document と関係はしませんが、ユーザとコミュニケーションをとる純粋なブラウザメソッドを表します。
 
+```smart header="HTML 仕様"
+BOM は一般的な [HTML 仕様](https://html.spec.whatwg.org)の一部です。
 
-```smart header="HTML specification"
-BOM is the part of the general [HTML specification](https://html.spec.whatwg.org).
-
-Yes, you heard that right. The HTML spec at <https://html.spec.whatwg.org> is not only about the "HTML language" (tags, attributes), but also covers a bunch of objects, methods and browser-specific DOM extensions. That's "HTML in broad terms".
+<https://html.spec.whatwg.org> のHTML仕様は "HTML言語" (タグ、属性) についてだけでなく、多くのオブジェクトやメソッド、ブラウザ固有のDOM拡張をカバーします。それは "広義のHTML" です。
 ```
 
-## Summary
+## サマリ [#summary]
 
-Talking about standards, we have:
+標準に関して:
 
-DOM specification
-: Describes the document structure, manipulations and events, see <https://dom.spec.whatwg.org>.
+DOM 仕様
+: document 構造、操作、およびイベントについて説明します。<https://dom.spec.whatwg.org> を見てください。
 
-CSSOM specification
-: Describes stylesheets and style rules, manipulations with them and their binding to documents, see <https://www.w3.org/TR/cssom-1/>.
+CSSOM 仕様
+: スタイルシートとスタイルルール、それらの操作や document へのバインディングについて説明します。<https://www.w3.org/TR/cssom-1/> を見てください。
 
-HTML specification
-: Describes HTML language (tags etc) and also BOM (browser object model) -- various browser functions: `setTimeout`, `alert`, `location` and so on, see <https://html.spec.whatwg.org>. It takes DOM specification and extends it with many additional properties and methods.
+HTML 仕様
+: HTML言語(タグなど) や BOM(ブラウザオブジェクトモデル) を説明します -- 様々なブラウザ関数があります: `setTimeout`, `alert`, `location` など、<https://html.spec.whatwg.org> を見てください。それは DOM 仕様と多くの追加プロパティやメソッドを使ったその拡張です。
 
-Now we'll get down to learning DOM, because the document plays the central role in the UI, and working with it is the most complex part.
+document はUIで中心的な役割を果たすため、今からDOMを学ぶことになるでしょう。それを使って作業するのが最も複雑な部分です。
 
-Please note the links above, because there's so many stuff to learn, it's impossible to cover and remember everything.
+学ぶことが非常に多くあるので、上のリンクには注意してください。すべてをカバーし、覚えるのは不可能です。
 
-When you'd like to read about a property or a method -- the Mozilla manual at <https://developer.mozilla.org/en-US/search> is a nice one, but reading the corresponding spec may be better: more complex and longer to read, but will make your fundamental knowledge sound and complete.
+プロパティまたはメソッドについて読みたくなったとき -- <https://developer.mozilla.org/en-US/search> のMozilla マニュアルは良いです、が対応する仕様を読む方がよりよりかもしれません: より複雑で長いですが、基本の知識は健全で完全なものになります。
