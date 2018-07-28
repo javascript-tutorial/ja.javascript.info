@@ -1,3 +1,3 @@
-# Document
+# ドキュメント
 
-Here we'll learn to manipulate a web-page using JavaScript.
+ここでは JavaScript を使って webページを操作する方法を学びます。
