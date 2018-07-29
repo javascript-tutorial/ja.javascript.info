@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# The sibling question
+# 兄弟に関する質問
 
-If `elem` -- is an arbitrary DOM element node...
+もし `elem` -- が任意の DOM 要素ノードの場合...
 
-- Is it true that `elem.lastChild.nextSibling` is always `null`?
-- Is it true that `elem.children[0].previousSibling` is always `null` ?
+- `elem.lastChild.nextSibling` は常に `null` である、は真実？
+- `elem.children[0].previousSibling` は常に `null` である、は真実？

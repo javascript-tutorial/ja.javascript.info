@@ -1,17 +1,17 @@
-There are many ways, for instance:
+多くの方法があります、例えば:
 
 
-The `<div>` DOM node:
+`<div>` DOM ノード:
 
 ```js
 document.body.firstElementChild
 // or
 document.body.children[0]
-// or (the first node is space, so we take 2nd)
+// or (最初のノードはスペースなので、2つ目を取得します)
 document.body.childNodes[1]
 ```
 
-The `<ul>` DOM node:
+`<ul>` DOM ノード:
 
 ```js
 document.body.lastElementChild
@@ -19,9 +19,9 @@ document.body.lastElementChild
 document.body.children[1]
 ```
 
-The second `<li>` (with Pete):
+2つ目の `<li>` (Pete):
 
 ```js
-// get <ul>, and then get its last element child
+// <ul> を取得し、その最後の要素の子を取得
 document.body.lastElementChild.lastElementChild
 ```

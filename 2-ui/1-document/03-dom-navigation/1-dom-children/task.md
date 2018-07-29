@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# DOM children
+# DOM の子
 
-For the page:
+次のページに対して:
 
 ```html
 <html>
@@ -18,7 +18,7 @@ For the page:
 </html>
 ```
 
-How to access:
-- The `<div>` DOM node?
-- The `<ul>` DOM node?
-- The second `<li>` (with Pete)?
+次へのアクセスの方法はどうなるでしょう？:
+- `<div>` DOM ノード?
+- `<ul>` DOM ノード?
+- 2つ目の `<li>` (Pete を持つ)?

@@ -1,1 +1,1 @@
-We'll be using `rows` and `cells` properties to access diagonal table cells.
+対角テーブルセルにアクセスするため、`rows` と `cells` プロパティを使っています。

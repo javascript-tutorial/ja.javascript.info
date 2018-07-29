@@ -2,17 +2,17 @@ importance: 5
 
 ---
 
-# Select all diagonal cells
+# すべての対角線上のセルを選択する
 
-Write the code to paint all diagonal table cells in red.
+対角線上のすべての表のセルを赤でペイントするコードを書いてください。
 
-You'll need to get all diagonal `<td>` from the `<table>` and paint them using the code:
+`<table>` からすべての体格 `<td>` を取得し、コードを使ってペイントする必要があります。:
 
 ```js
-// td should be the reference to the table cell
+// td はテーブルセルへの参照
 td.style.backgroundColor = 'red';
 ```
 
-The result should be:
+結果はこのようになるはずです:
 
 [iframe src="solution" height=180]
