@@ -1,4 +1,4 @@
-Let's make a loop over `<li>`:
+`<li>` のループを作りましょう:
 
 ```js
 for (let li of document.querySelector('li')) {
@@ -6,14 +6,14 @@ for (let li of document.querySelector('li')) {
 }
 ```
 
-In the loop we need to get the text inside every `li`. We can read it directly from the first child node, that is the text node:
+このループでは、各 `li` の中のテキストを取得する必要があります。最初の子ノードから直接それを読むことができ、それはテキストノードです。
 
 ```js
 for (let li of document.querySelector('li')) {
   let title = li.firstChild.data;
 
-  // title is the text in <li> before any other nodes
+  // titleは他のノードの前の <li> のテキストです
 }
 ```
 
-Then we can get the number of descendants `li.getElementsByTagName('li')`.
+そして、子孫の数は `li.getElementsByTagName('li')` で取得できます。

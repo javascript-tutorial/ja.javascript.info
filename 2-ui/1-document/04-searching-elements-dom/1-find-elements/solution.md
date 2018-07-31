@@ -1,36 +1,36 @@
-There are many ways to do it.
+多くの方法があります。
 
-Here are some of them:
+これはそのいくつかです。:
 
 ```js
-// 1. The table with `id="age-table"`.
+// 1. id="age-table" を持つテーブル
 let table = document.getElementById('age-table')
 
-// 2. All label elements inside that table
+// 2. テーブル内のすべての label 要素
 table.getElementsByTagName('label')
 // or
 document.querySelectorAll('#age-table label')
 
-// 3. The first td in that table (with the word "Age").
+// 3. そのテーブル内の最初の td (“Age” という言葉を持つ).
 table.rows[0].cells[0]
 // or
 table.getElementsByTagName('td')[0]
 // or
 table.querySelector('td')
 
-// 4. The form with the name "search".
-// assuming there's only one element with name="search"
+// 4. 名前が search の form.
+// name="search" を持つ要素が1つと想定しています
 let form = document.getElementsByName('search')[0]
-// or, form specifically
+// or, form をつけ具体的に
 document.querySelector('form[name="search"]')
 
-// 5. The first input in that form.
+// 5. フォーム内の最初の input
 form.getElementsByTagName('input')
 // or
 form.querySelector('input')
 
-// 6. The last input in that form.
-// there's no direct query for that
-let inputs = form.querySelectorAll('input') // search all
-inputs[inputs.length-1] // take last
+// 6. フォーム内の最後の input
+// それ用の直接のクエリはありません
+let inputs = form.querySelectorAll('input') // 全検索
+inputs[inputs.length-1] // 最後を取る
 ```
