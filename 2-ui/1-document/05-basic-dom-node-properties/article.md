@@ -1,58 +1,58 @@
-# Node properties: type, tag and contents
+# ノードのプロパティ: タイプ、タグとコンテンツ
 
-Let's get a more in-depth look at DOM nodes.
+DOM ノードをより深く見ていきましょう。
 
-In this chapter we'll see more into what they are and their most used properties.
+このチャプターでは、それらが何者であるか、最もよく使われるプロパティについて詳しく見ていきます。
 
 [cut]
 
-## DOM node classes
+## DOM ノードクラス [#dom-node-classes]
 
-DOM nodes have different properties depending on their class. For instance, an element node corresponding to tag `<a>` has link-related properties, and the one corresponding to `<input>` has input-related properties and so on. Text nodes are not the same as element nodes. But there are also common properties and methods between all of them, because all classes of DOM nodes form a single hierarchy.
+DOM ノードはそれらのクラスに応じて異なるプロパティを持っています。例えば、タグ `<a>` に対応する要素ノードはリンク関連のプロパティを持っており、`<input>` に対応する要素ノードは入力関連のプロパティを持っています。テキストノードは要素ノードとは違います。しかし、すべての DOM ノードのクラスは単一の階層を形成するため、すべてのノードの間で共通のプロパティやメソッドを持っています。
 
-Each DOM node belongs to the corresponding built-in class.
+各 DOM ノードは対応する組み込みクラスに属しています。
 
-The root of the hierarchy is [EventTarget](https://dom.spec.whatwg.org/#eventtarget), that is inherited by  [Node](http://dom.spec.whatwg.org/#interface-node), and other DOM nodes inherit from it.
+階層のルートは [EventTarget](https://dom.spec.whatwg.org/#eventtarget) で、これは [Node](http://dom.spec.whatwg.org/#interface-node) により継承されています。また他の DOM ノードはそれを継承しています。
 
-Here's the picture, explanations to follow:
+ここに、図と説明があります:
 
 ![](dom-class-hierarchy.png)
 
 The classes are:
 
-- [EventTarget](https://dom.spec.whatwg.org/#eventtarget) -- is the root "abstract" class. Objects of that class are never created. It serves as a base, so that all DOM nodes support so-called "events", we'll study them later.
-- [Node](http://dom.spec.whatwg.org/#interface-node) -- is also an "abstract" class, serving as a base  for DOM nodes. It provides the core tree functionality: `parentNode`, `nextSibling`, `childNodes` and so on (they are getters). Objects of `Node` class are never created. But there are concrete node classes that inherit from it, namely: `Text` for text nodes, `Element` for element nodes and more exotic ones like `Comment` for comment nodes.
-- [Element](http://dom.spec.whatwg.org/#interface-element) -- is a base class for DOM elements. It provides element-level navigation like `nextElementSibling`, `children` and searching methods like `getElementsByTagName`, `querySelector`. In the browser there may be not only HTML, but also XML and SVG documents. The `Element` class serves as a base for more specific classes: `SVGElement`, `XMLElement` and `HTMLElement`.
-- [HTMLElement](https://html.spec.whatwg.org/multipage/dom.html#htmlelement) -- is finally the basic class for all HTML elements. It is inherited by various HTML elements:
-    - [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) -- the class for `<input>` elements,
-    - [HTMLBodyElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlbodyelement) -- the class for `<body>` elements,
-    - [HTMLAnchorElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlanchorelement) -- the class for `<a>` elements
-    - ...and so on, each tag has its own class that may provide specific properties and methods.
+- [EventTarget](https://dom.spec.whatwg.org/#eventtarget) -- はルートの "抽象" クラスです。そのクラスのオブジェクトは決して生成されません。これはベースとして機能し、すべての DOM ノードはいわゆる "イベント" をサポートします。イベントについては後ほど学びます。
+- [Node](http://dom.spec.whatwg.org/#interface-node) -- もまた "抽象" クラスで、DOM ノードの基底として機能します。これはコアなツリー機能を提供します。: `parentNode`, `nextSibling`, `childNodes` など(これらは getter です)。`Node` クラスのオブジェクトは決して生成されません。しかし、それを継承した具体的なノードクラス、即ち: テキストノードの `Text`, 要素ノードの `Element` やコメントノードの `Comment` のようによりエキゾチックなものもあります。
+- [Element](http://dom.spec.whatwg.org/#interface-element) -- は DOM 要素のベースクラスです。それは、`nextElementSibling`, `children` や `getElementsByTagName`, `querySelector` のような検索メソッドといった要素レベルのナビゲーションを提供します。ブラウザでは、HTML だけでなく、XML や SVG のドキュメントがある場合もあります。`Element` クラスは ` SVGElement`、`XMLElement`、`HTMLElement` といったより具体的なクラスのベースとして機能します。
+- [HTMLElement](https://html.spec.whatwg.org/multipage/dom.html#htmlelement) -- は最終的にすべてのHTML要素のベースクラスです。色々な HTML要素 がこれを継承しています。:
+    - [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) -- `<input>` 要素のためのクラス,
+    - [HTMLBodyElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlbodyelement) -- `<body>` 要素のためのクラス,
+    - [HTMLAnchorElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlanchorelement) -- `<a>`　要素のためのクラス
+    - ...など、各タグは固有のプロパティやメソッドを提供する独自のクラスを持っています。
 
-So, the full set of properties and methods of a given node comes as the result of the inheritance.
+従って、指定されたノードのプロパティとメソッドのフルセットは継承の結果として得られます。
 
-For example, let's consider the DOM object for an `<input>` element. It belongs to [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) class. It gets properties and methods as a superposition of:
+例えば、`<input>` 要素の DOM オブジェクトを考えてみましょう。これは [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) クラスに属しています。それは、次の重ね合わせとしてプロパティとメソッドを取得します。:
 
-- `HTMLInputElement` -- this class provides input-specific properties, and inherits from...
-- `HTMLElement` -- it provides common HTML element methods (and getters/setters) and inherits from...
-- `Element` -- provides generic element methods and inherits from...
-- `Node` -- provides common DOM node properties and inherits from...
-- `EventTarget` -- gives the support for events (to be covered),
-- ...and finally it inherits from `Object`, so "pure object" methods like `hasOwnProperty` are also available.
+- `HTMLInputElement` -- このクラスは入力固有のプロパティを提供し、次を継承しています。
+- `HTMLElement` -- 共通のHTML要素メソッド (とgetter/setter)を提供し、次を継承しています。
+- `Element` -- 一般的な要素のメソッドを提供し、次を継承しています。
+- `Node` -- 共通の DOM ノードのプロパティを提供し、次を継承しています。
+- `EventTarget` -- (対象となる)イベントをサポートし、
+- ...そして最後に、それは `Object` を継承しています。なので、`hasOwnProperty` のような "純粋なオブジェクト" メソッドも利用可能です。
 
-To see the DOM node class name, we can recall that an object usually has the `constructor` property. It references to the class constructor, and `constructor.name` is its name:
+DOM ノードのクラス名を見るに、オブジェクトは通常 `constructor` プロパティを持っていることを思い出してください。 これはクラスコンストラクタを参照し、 `constructor.name` はその名前です:
 
 ```js run
 alert( document.body.constructor.name ); // HTMLBodyElement
 ```
 
-...Or we can just `toString` it:
+...もしくはその `toString`:
 
 ```js run
 alert( document.body ); // [object HTMLBodyElement]
 ```
 
-We also can use `instanceof` to check the inheritance:
+また、継承チェックに `instanceof` を使うこともできます:
 
 ```js run
 alert( document.body instanceof HTMLBodyElement ); // true
@@ -62,38 +62,38 @@ alert( document.body instanceof Node ); // true
 alert( document.body instanceof EventTarget ); // true
 ```
 
-As we can see, DOM nodes are regular JavaScript objects. They use prototype-based classes for inheritance.
+ご覧の通り、DOM ノードは通常の JavaScript オブジェクトです。それらは継承のためにプロトタイプベースのクラスを使います。
 
-That's also easy to see by outputting an element with `console.dir(elem)` in a browser. There in the console you can see `HTMLElement.prototype`, `Element.prototype` and so on.
+ブラウザ、`console.dir(elem)` を使った要素の出力でも簡単に見ることができます。コンソールでは、`HTMLElement.prototype`, `Element.prototype` などを見ることができます。
 
-```smart header="`console.dir(elem)` versus `console.log(elem)`"
-Most browsers support two commands in their developer tools: `console.log` and `console.dir`. They output their arguments to the console. For JavaScript objects these commands usually do the same.
+```smart header="`console.dir(elem)` VS `console.log(elem)`"
+ほとんどのブラウザは、その開発者ツールで2つのコマンドをサポートしています。`console.log` と `console.dir` です。それらは引数をコンソールに出力します。JavaScript オブジェクトに対して、それらは通常同じ動作をします。
 
-But for DOM elements they are different:
+しかし、DOM 要素に対しては異なります。:
 
-- `console.log(elem)` shows the element DOM tree.
-- `console.dir(elem)` shows the element as a DOM object, good to explore its properties.
+- `console.log(elem)` は要素の DOM ツリーを表示します
+- `console.dir(elem)` は DOM オブジェクトとして要素を表示します。プロパティを調べるのには良いです。
 
-Try it on `document.body`.
+`document.body` でそれを使ってみてください。
 ```
 
-````smart header="IDL in the spec"
-In the specification classes are described using not JavaScript, but a special [Interface description language](https://en.wikipedia.org/wiki/Interface_description_language) (IDL), that is usually easy to understand.
+````smart header="仕様での IDL"
+仕様では、クラスは JavaScript ではなく、特別な [Interface description language](https://en.wikipedia.org/wiki/Interface_description_language) (IDL) を使って説明されています。これは通常理解しやすいです。
 
-In IDL all properties are prepended with their types. For instance, `DOMString`, `boolean` and so on.
+IDL では、すべてのプロパティの型が前についています。例えば `DOMString`, `boolean` などです。
 
-Here's an excerpt from it, with comments:
+これはそこからの抜粋とコメントです:
 
 ```js
-// Define HTMLInputElement
+// HTMLInputElement の定義
 *!*
-// The colon ":" means that HTMLInputElement inherits from HTMLElement
+// コロン ":" は HTMLInputElement は HTMLElement を継承していることを意味します。
 */!*
 interface HTMLInputElement: HTMLElement {
-  // here go properties and methods of <input> elements
+  // ここに <input> 要素のプロパティとメソッドがあります
 
 *!*
-  // "DOMString" means that these properties are strings
+  // "DOMString" はプロパティが文字列であることを意味します。
 */!*
   attribute DOMString accept;
   attribute DOMString alt;
@@ -101,76 +101,75 @@ interface HTMLInputElement: HTMLElement {
   attribute DOMString value;
 
 *!*
-  // boolean property (true/false)
+  // boolean プロパティ (true/false)
   attribute boolean autofocus;
 */!*
   ...
 *!*
-  // now the method: "void" means that that returns no value
+  // ここはメソッドです: "void" は返却値なしを意味します。
 */!*
   void select();
   ...
 }
 ```
 
-Other classes are somewhat similar.
+他のクラスもいくらか似ています。
 ````
 
-## The "nodeType" property
+## "nodeType" プロパティ
 
-The `nodeType` property provides an old-fashioned way to get the "type" of a DOM node.
+`nodeType` プロパティは DOM ノードの "タイプ" を取得する昔ながらの方法を提供します。
 
-It has a numeric value:
-- `elem.nodeType == 1` for element nodes,
-- `elem.nodeType == 3` for text nodes,
-- `elem.nodeType == 9` for the document object,
-- there are few other values in [the specification](https://dom.spec.whatwg.org/#node).
+それは次の数値を持っています:
+- `elem.nodeType == 1` は要素ノード,
+- `elem.nodeType == 3` はテキストノード,
+- `elem.nodeType == 9` はドキュメントオブジェクト,
+- [仕様](https://dom.spec.whatwg.org/#node) ではもういくつかの値があります。
 
-For instance:
+例えば:
 
 ```html run
 <body>
   <script>  
   let elem = document.body;
 
-  // let's examine what it is?
+  // それが何かを調べてみましょう
   alert(elem.nodeType); // 1 => element
 
-  // and the first child is...
+  // 最初の子は...
   alert(elem.firstChild.nodeType); // 3 => text
 
-  // for the document object, the type is 9
+  // ドキュメントオブジェクトは、タイプは 9 です
   alert( document.nodeType ); // 9
   </script>
 </body>
 ```
 
-In modern scripts, we can use `instanceof` and other class-based tests to see the node type, but sometimes `nodeType` may be simpler. We can only read `nodeType`, not change it.
+現代のスクリプトでは、`instanceof` と他のクラスベースのテストを使ってノードタイプを見ることができますが、`nodeType` の方がシンプルなときもあります。`nodeType` は参照のみで変更はできません。
 
-## Tag: nodeName and tagName
+## タグ: nodeName と tagName [#tag:nodename-and-tagname]
 
-Given a DOM node, we can read its tag name from `nodeName` or `tagName` properties:
+与えられた DOM ノードに対して、`nodeName` または `tagName` プロパティでそのタグの名前を見ることができます。:
 
-For instance:
+例:
 
 ```js run
 alert( document.body.nodeName ); // BODY
 alert( document.body.tagName ); // BODY
 ```
 
-Is there any difference between tagName and nodeName?
+tagName と nodeName に違いはあるでしょうか？
 
-Sure, the difference is reflected in their names, but is indeed a bit subtle.
+もちろん、その違いはそれらの名前に反映されていますが、実際は少し微妙です。
 
-- The `tagName` property exists only for `Element` nodes.
-- The `nodeName` is defined for any `Node`:
-    - for elements it means the same as `tagName`.
-    - for other node types (text, comment etc) it has a string with the node type.
+- `tagName` プロパティは `Element` ノードに対してのみ存在します。
+- `nodeName` は任意の `Node` で定義されています:
+    - 要素の場合は、`tagName` と同じ意味です。
+    - 他のノードタイプ(テキスト、コメントなど)の場合、ノードタイプの文字列を持ちます。
 
-In other words, `tagName` is only supported by element nodes (as it originates from `Element` class), while `nodeName` can say something about other node types.
+つまり、`tagName` は要素ノード(`Element` クラスから始まる)によってのみサポートされています。一方、`nodeName` は他のノードタイプについてな何か言うことができます。
 
-For instance let's compare `tagName` and `nodeName` for the `document` and a comment node:
-
+例えば、`document` ノードとコメントノードに対して、`tagName` と `nodeName` を比較してみましょう。:
 
 ```html run
 <body><!-- comment -->
@@ -187,25 +186,25 @@ For instance let's compare `tagName` and `nodeName` for the `document` and a com
 </body>
 ```
 
-If we only deal with elements, then `tagName` is the only thing we should use.
+もし要素だけを扱う場合、`tagName` だけを使うべきです。
 
 
-```smart header="The tag name is always uppercase except XHTML"
-The browser has two modes of processing documents: HTML and XML. Usually the HTML-mode is used for webpages. XML-mode is enabled when the browser receives an XML-document with the header: `Content-Type: application/xml+xhtml`.
+```smart header="タグ名は XHTML を除いて常に大文字です"
+ブラウザはドキュメントを処理する2つのモードを持っています。: HTML と XML です。通常webページではHTMLモードが使われます。XMLモードは、ブラウザがヘッダでXMLドキュメントを受け取ったときに有効になります。: `Content-Type: application/xml+xhtml`。
 
-In HTML mode `tagName/nodeName` is always uppercased: it's `BODY` either for `<body>` or `<BoDy>`.
+HTMLモードでは、`tagName/nodeName` は常に大文字です: `<body>` または `<BoDy>` は `BODY` です。
 
-In XML mode the case is kept "as is". Nowadays XML mode is rarely used.
+XMLモードでは、文字の大小は "そのまま" 維持されます。最近 XML モードはほとんど使われません。
 ```
 
 
-## innerHTML: the contents
+## innerHTML: そのコンテンツ [#innerHTML:-the-contents]
 
-The [innerHTML](https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML) property allows to get the HTML inside the element as a string.
+[innerHTML](https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML)プロパティは要素内の HTML を文字列として取得することができます。
 
-We can also modify it. So it's one of most powerful ways to change the page.
+我々はそれを変更することもできます。なので、ページを変更する最も強力な方法の1つです。
 
-The example shows the contents of `document.body` and then replaces it completely:
+この例は `document.body` のコンテンツを表示し、その後それを完全に置き換えます:
 
 ```html run
 <body>
@@ -213,73 +212,74 @@ The example shows the contents of `document.body` and then replaces it completel
   <div>A div</div>
 
   <script>
-    alert( document.body.innerHTML ); // read the current contents
-    document.body.innerHTML = 'The new BODY!'; // replace it
+    alert( document.body.innerHTML ); // 現在の内容を読む
+    document.body.innerHTML = 'The new BODY!'; // 置き換える
   </script>
 
 </body>
 ```
 
-We can try to insert an invalid HTML, the browser will fix our errors:
+無効な HTML を挿入しようとすると、ブラウザはエラーを修正します。:
 
 ```html run
 <body>
 
   <script>
-    document.body.innerHTML = '<b>test'; // forgot to close the tag
-    alert( document.body.innerHTML ); // <b>test</b> (fixed)
+    document.body.innerHTML = '<b>test'; // タグのクローズ忘れ
+    alert( document.body.innerHTML ); // <b>test</b> (修正された)
   </script>
 
 </body>
 ```
 
-```smart header="Scripts don't execute"
-If `innerHTML` inserts a `<script>` tag into the document -- it doesn't execute.
+```smart header="スクリプトは実行しません"
+もし `innerHTML` が `<script>` タグをドキュメントに挿入した場合、-- それは実行しません。
 
-It becomes a part of HTML, just as a script that has already run.
+それはすでに実行したスクリプトとして HTML の一部になります。
 ```
 
-### Beware: "innerHTML+=" does a full overwrite
+### 注意: "innerHTML+=" は完全な置き換えをします
 
-We can append "more HTML" by using `elem.innerHTML+="something"`.
+`elem.innerHTML+="何か"` を使って "より多くのHTML" を追加することができます。
 
-Like this:
+このように:
 
 ```js
 chatDiv.innerHTML += "<div>Hello<img src='smile.gif'/> !</div>";
 chatDiv.innerHTML += "How goes?";
 ```
 
-But we should be very careful about doing it, because what's going on is *not* an addition, but a full overwrite.
+しかし、これをする場合にはとても注意が必要です。なぜなら行われていることは追加 *ではなく* 完全な置き換えだからです。
 
-Technically, these two lines do the same:
+技術的には、これらの2つの行は同じです:
 
 ```js
 elem.innerHTML += "...";
-// is a shorter way to write:
+// は、次のコードのより短い書き方です:
 *!*
 elem.innerHTML = elem.innerHTML + "..."
 */!*
 ```
 
-In other words, `innerHTML+=` does this:
+つまり、`innerHTML+=` は次のことをします:
 
-1. The old contents is removed.
-2. The new `innerHTML` is written instead (a concatenation of the old and the new one).
+1. 古いコンテンツは削除されます。
+2. 代わりに新しい `innerHTML` が書かれます(古いものと新しいものの連結)。
 
-**As the content is "zeroed-out" and rewritten from the scratch, all images and other resources will be reloaded**.
 
-In the `chatDiv` example above the line `chatDiv.innerHTML+="How goes?"` re-creates the HTML content and reloads `smile.gif` (hope it's cached). If `chatDiv` has a lot of other text and images, then the reload becomes clearly visible.
+**コンテンツが "完全に取り除かれ" 、最初から書き直されると、すべての画像やその他のリソースはリロードされます**。
 
-There are other side-effects as well. For instance, if the existing text was selected with the mouse, then most browsers will remove the selection upon rewriting `innerHTML`. And if there was an `<input>` with a text entered by the visitor, then the text will be removed. And so on.
+上の `chatDiv` の例では、行 `chatDiv.innerHTML+="How goes?"` は HTML コンテンツを再作成し、 `smile.gif` をリロードします(キャッシュされていることを望みます)。もし `chatDiv` が多くのテキストや画像を持っている場合、リロードがはっきり見えます。
 
-Luckily, there are other ways to add HTML besides `innerHTML`, and we'll study them soon.
+同様に他の副作用もあります。例えば、既存のテキストがマウスで選択されていた場合、ほとんどのブラウザは再書き込みした `innerHTML` 上の選択を除去します。そして、訪問者によって入力されたテキストを持つ `<input>` が会った場合、そのテキストは除去されます、等。
 
-## outerHTML: full HTML of the element
+幸い、`innerHTML` に加えてHTMLを追加する他の方法があります。すぐにそれらを見ていきます。
 
-The `outerHTML` property contains the full HTML of the element. That's like `innerHTML` plus the element itself.
+## outerHTML: 要素の完全な HTML
 
-Here's an example:
+`outerHTML` プロパティは要素の完全な HTML を含みます。それは `innerHTML` に要素自身を加えたようなものです。
+
+例:
 
 ```html run
 <div id="elem">Hello <b>World</b></div>
@@ -289,11 +289,11 @@ Here's an example:
 </script>
 ```
 
-**Beware: unlike `innerHTML`, writing to `outerHTML` does not change the element. Instead, it replaces it as a whole in the outer context.**
+**注意: `innerHTML` とは違い、`outerHTML` への書き込みは要素を変更しません。代わりに、それは外部のコンテキストでそれを全体として置き換えます。**
 
-Yeah, sounds strange, and strange it is, that's why we make a separate note about it here. Take a look.
+ええ、奇妙に聞こえ、それは確かに奇妙です。なのでそれについて別々のメモをします。見てみましょう:
 
-Consider the example:
+例を考えてみましょう:
 
 ```html run
 <div>Hello, world!</div>
@@ -302,34 +302,34 @@ Consider the example:
   let div = document.querySelector('div');
 
 *!*
-  // replace div.outerHTML with <p>...</p>
+  // div.outerHTML を <p>...</p> に置き換え
 */!*
   div.outerHTML = '<p>A new element!</p>'; // (*)
 
 *!*
-  // Wow! The div is still the same!
+  // なんと! div はまだ同じです!
 */!*
   alert(div.outerHTML); // <div>Hello, world!</div>
 </script>
 ```
 
-In the line `(*)` we take the full HTML of `<div>...</div>` and replace it by `<p>...</p>`. In the outer document we can see the new content instead of the `<div>`. But the old `div` variable is still the same.
+行 `(*)` では、`<div>...</div>` の完全な HTML を取り、`<p>...</p>` によって置き換えます。外側のドキュメントでは、`<div>` の代わりに新しいコンテンツを見ることができます。しかし、古い `div` 変数は以前として同じです。
+ 
+`outerHTML` の代入は DOM 要素を変更するのではなく、外側のコンテキストからそれを抽出し、代わりに新しい HTML の一部を挿入します。
 
-The `outerHTML` assignment does not modify the DOM element, but extracts it from the outer context and inserts a new piece of HTML instead of it.
+初心者の開発者は時々ここで間違いをします: 彼らは `div.outerHTML` を修正し、`div` がまるで新しいコンテンツを持っているかのように処理を続けます。
 
-Novice developers sometimes make an error here: they modify `div.outerHTML` and then continue to work with `div` as if it had the new content in it.
+それは `innerHTML` では可能ですが、`outerHTML` ではできません。
 
-That's possible with `innerHTML`, but not with `outerHTML`.
+私達は `outerHTML` へ書き込みはできますが、書き込んでいる要素は変更されないことについて留意しておくべきです。代わりにその場所に新しいコンテンツを作成します。DOM に問い合わせることで新しい要素を参照することができます。
 
-We can write to `outerHTML`, but should keep in mind that it doesn't change the element we're writing to. It creates the new content on its place instead. We can get a reference to new elements by querying DOM.
+## nodeValue/data: テキストノードのコンテンツ
 
-## nodeValue/data: text node content
+`innerHTML` プロパティは要素ノードに対してのみ有効です。
 
-The `innerHTML` property is only valid for element nodes.
+他のノードタイプはそれらに対応するものを持っています: `nodeValue` と `data` プロパティです。これら2つは実際の利用ではほとんど同じで、仕様上少し違いがあるだけです。なので、より短い `data` を使います。
 
-Other node types have their counterpart: `nodeValue` and `data` properties. These two are almost the same for practical use, there are only minor specification differences. So we'll use `data`, because it's shorter.
-
-We can read it, like this:
+次のようにして `data` を読むことができます:
 
 ```html run height="50"
 <body>
@@ -349,7 +349,7 @@ We can read it, like this:
 </body>
 ```
 
-For text nodes we can imagine a reason to read or modify them, but why comments? Usually, they are not interesting at all, but sometimes developers embed information into HTML in them, like this:
+テキストノードに対しては、それらが読めたり修正できる理由が想像できます。しかしなぜコメントも？通常それらは全く興味ありませんが、次のように開発者が HTML の中に情報を埋め込むことがあります。:
 
 ```html
 <!-- if isAdmin -->
@@ -357,13 +357,13 @@ For text nodes we can imagine a reason to read or modify them, but why comments?
 <!-- /if -->
 ```
 
-...Then JavaScript can read it and process embedded instructions.
+...そして、JavaScriptはそれを読み、埋め込まれた命令を処理することができます。
 
-## textContent: pure text
+## textContent: 純粋なテキスト
 
-The `textContent` provides access to the *text* inside the element: only text, minus all `<tags>`.
+`textContent` は要素内の *テキスト* へのアクセスを提供します: テキストだけで、すべての `<tags>` を除きます。
 
-For instance:
+例:
 
 ```html run
 <div id="news">
@@ -377,18 +377,18 @@ For instance:
 </script>
 ```
 
-As we can see, only text is returned, as if all `<tags>` were cut out, but the text in them remained.
+ご覧の通り、すべての `<タグ>` が切り取られたがその中のテキストは残っているような形でテキストのみが返却されます。
 
-In practice, reading such text is rarely needed.
+実際、このようなテキストを読み込むことはめったにありません。
 
-**Writing to `textContent` is much more useful, because it allows to write text the "safe way".**
+**`textContent` への書き込みはとても役立ちます。なぜならテキストを "安全な方法" で書くことができるからです。**
 
-Let's say we have an arbitrary string, for instance entered by a user, and want to show it.
+例えばユーザによって入力された任意の文字列を持っていて、それを表示したいとしましょう。
 
-- With `innerHTML` we'll have it inserted "as HTML", with all HTML tags.
-- With `textContent` we'll have it inserted "as text", all symbols are treated literally.
+- `innerHTML` を使うと、すべての HTML タグを共に、"HTML として" 挿入されます。
+- `textContent` では、すべてのシンボルは文字通り扱われ、"テキスト として" 挿入されます。
 
-Compare the two:
+2つを比べてみます:
 
 ```html run
 <div id="elem1"></div>
@@ -402,16 +402,16 @@ Compare the two:
 </script>
 ```
 
-1. The first `<div>` gets the name "as HTML": all tags become tags, so we see the bold name.
-2. The second `<div>` gets the name "as text", so we literally see `<b>Winnie-the-pooh!</b>`.
+1. 最初の `<div>` は "HTML として" 名前を取得します: すべてのタグはタグになるので、太字の名前になります。
+2. 2つ目の `<div>` は "テキストとして" 名前を取得するので、文字通り `<b>Winnie-the-pooh!</b>` と見えます。
 
-In most cases, we expect the text from a user, and want to treat it as text. We don't want unexpected HTML in our site. An assignment to `textContent` does exactly that.
+ユーザーからのテキストはテキストとして扱われたいと考えています。 私たちは予期せぬHTMLを私たちのサイトでは望みません。 `textContent`への代入はそれを正確に行います。
 
-## The "hidden" property
+## "hidden" プロパティ [#the-"hidden"-property]
 
-The "hidden" attribute and the DOM property specifies whether the element is visible or not.
+"hidden" 属性と DOM プロパティは要素が見えるかどうかを指定します。
 
-We can use it in HTML or assign using JavaScript, like this:
+私たちは次のように HTML の中、もしくは JavaScript を使った代入で使うことができます。:
 
 ```html run height="80"
 <div>Both divs below are hidden</div>
@@ -425,9 +425,9 @@ We can use it in HTML or assign using JavaScript, like this:
 </script>
 ```
 
-Technically, `hidden` works the same as `style="display:none"`. But it's shorter to write.
+技術的には、`hidden` は `style="display:none"` と同じ動きです。しかしより短く書けます。
 
-Here's a blinking element:
+ここでは要素がブリンクしています:
 
 
 ```html run height=50
@@ -440,14 +440,14 @@ Here's a blinking element:
 
 ## More properties
 
-DOM elements also have additional properties, many of them provided by the class:
+DOM 要素は追加のプロパティも持っており、それらの多くはクラスによって提供されています。:
 
-- `value` -- the value for `<input>`, `<select>` and `<textarea>` (`HTMLInputElement`, `HTMLSelectElement`...).
-- `href` -- the "href" for `<a href="...">` (`HTMLAnchorElement`).
-- `id` -- the value of "id" attribute, for all elements (`HTMLElement`).
-- ...and much more...
+- `value` -- `<input>`, `<select>` や `<textarea>` (`HTMLInputElement`, `HTMLSelectElement`...) のための値。
+- `href` -- `<a href="...">` (`HTMLAnchorElement`) の `href`.
+- `id` -- すべての要素(`HTMLElement`)に対する "id" 属性の値
+- ...などもっと...
 
-For instance:
+例:
 
 ```html run height="80"
 <input type="text" id="elem" value="value">
@@ -459,39 +459,39 @@ For instance:
 </script>
 ```
 
-Most standard HTML attributes have the corresponding DOM property, and we can access it like that.
+ほとんどの一般的な HTML 属性は対応する DOM プロパティを持っており、このようにしてアクセスすることができます。
 
-If we want to know the full list of supported properties for a given class, we can find them in the specification. For instance, HTMLInputElement is documented at <https://html.spec.whatwg.org/#htmlinputelement>.
+もし指定したクラスに対して、サポートされているすべてのプロパティのリストが知りたい場合、仕様でそれを見つけることができます。例えば、HTMLInputElemen は <https://html.spec.whatwg.org/#htmlinputelement> でドキュメント化されています。
 
-Or if we'd like to get them fast or interested in the concrete browser -- we can always output the element using `console.dir(elem)` and read the properties. Or explore "DOM properties" in Elements tab of the browser developer tools.
+あるいは、速くそれを知りたい場合や具体的なブラウザで関心がある場合には、-- いつでも `console.dir(elem)` を使って要素を出力しプロパティを読むことができます。もしくはブラウザ開発者ツールの Elements タブで "DOM プロパティ" を参照してください。
 
-## Summary
+## サマリ [#summary]
 
-Each DOM node belongs to a certain class. The classes form a hierarchy. The full set of properties and methods comes as the result of inheritance.
+各 DOM ノードは特定のクラスに属します。クラスは階層を形成します。プロパティとメソッドの完全なセットは継承の結果として得られます。
 
-Main DOM node properties are:
+メインの DOM ノードプロパティは次の通りです:
 
 `nodeType`
-: Node type. We can get it from the DOM object class, but often we need just to see if it is a text or element node. The `nodeType` property is good for that. It has numeric values, most important are: `1` -- for elements,`3` -- for text nodes. Read-only.
+: ノードタイプ。DOM オブジェクトクラスから取得することができますが、それがテキストノードか要素ノードかを単に知りたいだけであることがしばしばです。 `nodeType` プロパティはそれに適しています。これは数値で最も重要なのは: 要素の場合 `1` と、テキストノードの場合 `3` です。読み取り専用です。
 
 `nodeName/tagName`
-: For elements, tag name (uppercased unless XML-mode). For non-element nodes `nodeName` describes what is it. Read-only.
+: 要素の場合、タグ名です(XMLモードを除いて大文字)。非要素ノードの場合、`nodeName` それが何であるかを説明します。読み取り専用。
 
 `innerHTML`
-: The HTML content of the element. Can modify.
+: 要素のHTMLコンテンツ。変更可能。
 
 `outerHTML`
-: The full HTML of the element. A write operation into `elem.outerHTML` does not touch `elem` itself. Instead it gets replaced with the new HTML in the outer context.
+: 要素の完全なHTMLです。`elem.outerHTML` への書き込み操作は `elem` 自体に触れません。代わりに、外部のコンテキストにおいて、新しいHTMLで置き換えます。
 
 `nodeValue/data`
-: The content of a non-element node (text, comment). These two are almost the same, usually we use `data`. Can modify.
+: 非要素ノード(テキスト、コメント)のコンテンツです。これら2つはほとんど同じで通常は `data` を使います。変更可能。
 
 `textContent`
-: The text inside the element, basically HTML minus all `<tags>`. Writing into it puts the text inside the element, with all special characters and tags treated exactly as text. Can safely insert user-generated text and protect from unwanted HTML insertions.
+: 要素中のテキストで、基本的には HTML からすべての `<タグ>` を除いたものです。それに書き込むと、要素内にテキストが配置され、すべての特殊文字とタグがテキストとして正確に扱われます。 ユーザーが作成したテキストを安全に挿入し、不要なHTMLの挿入を防ぐことができます。
 
 `hidden`
-: When set to `true`, does the same as CSS `display:none`.
+: `true` をセットした場合、CSSの　`display:none` と同じです。
 
-DOM nodes also have other properties depending on their class. For instance, `<input>` elements (`HTMLInputElement`) support `value`, `type`, while `<a>` elements (`HTMLAnchorElement`) support `href` etc. Most standard HTML attributes have the corresponding DOM property.
+DOM ノードはクラスに応じて他のプロパティも持っています。例えば `<input>` 要素(`HTMLInputElement`) は `value`, `type` をサポートし、 `<a>` 要素 (`HTMLAnchorElement`) は `href` などです。ほとんどの標準HTML属性は対応する DOM プロパティを持っています。
 
-But HTML attributes and DOM properties are not always the same, as we'll see in the next chapter.
+しかし、HTML属性とDOMプロパティは必ずしも同じではありません。これについては次のチャプターで説明します。
