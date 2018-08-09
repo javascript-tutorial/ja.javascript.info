@@ -1,20 +1,20 @@
-# Attributes and properties
+# 属性とプロパティ
 
-When the browser loads the page, it "reads" (another word: "parses") HTML text and generates DOM objects from it. For element nodes most standard HTML attributes automatically become properties of DOM objects.
+ブラウザがページをロードするとき、HTMLテキストを "読み" (別の言葉: "パース")、そこから DOM オブジェクトを生成します。要素ノードの場合、ほとんどの標準のHTML属性は自動的に DOM オブジェクトのプロパティになります。
 
-For instance, if the tag is `<body id="page">`, then the DOM object has `body.id="page"`.
+例えば、もしタグが `<body id="page">` の場合、DOM オブジェクトは `body.id="page"` を持ちます。
 
-But the attribute-property mapping is not one-to-one! In this chapter we'll pay attention to separate these two notions, to see how to work with them, when they are same, and when they are different.
+しかし、属性-プロパティのマッピングは1対1ではありません! このチャプターでは、これら2つの概念を分け、それらが同じであるとき、異なるときにそれらがどのように機能するか、見てみましょう。
 
 [cut]
 
-## DOM properties
+## DOM プロパティ [#dom-property]
 
-We've already seen built-in DOM properties. There's a lot. But technically no one limits us, and if it's not enough -- we can add our own.
+私たちはすでに組み込みの DOM プロパティを見ました。それらはたくさんありますが、技術的には誰も制限はしておらず、もしそれが十分でなければ -- 我々自身で追加することができます。
 
-DOM nodes are regular JavaScript objects. We can alter them.
+DOM ノードは通常のJavaScriptオブジェクトです。それを変更することができます。
 
-For instance, let's create a new property in `document.body`:
+例えば、`document.body` に新しいプロパティを作成してみましょう:
 
 ```js run
 document.body.myData = {
@@ -25,17 +25,17 @@ document.body.myData = {
 alert(document.body.myData.title); // Imperator
 ```
 
-We can add a method as well:
+同様にメソッドの追加もできます:
 
 ```js run
 document.body.sayHi = function() {
   alert(this.tagName);
 };
 
-document.body.sayHi(); // BODY (the value of "this" in the method is document.body)
+document.body.sayHi(); // BODY (このメソッドの "this" の値は document.body)
 ```
 
-We can also modify built-in prototypes like `Element.prototype` and add new methods to all elements:
+`Element.prototype` のように組込のプロトタイプを修正し、すべての要素に新しいメソッドを追加することも可能です:
 
 ```js run
 Element.prototype.sayHi = function() {
@@ -46,107 +46,107 @@ document.documentElement.sayHi(); // Hello, I'm HTML
 document.body.sayHi(); // Hello, I'm BODY
 ```
 
-So, DOM properties and methods behave just like those of regular JavaScript objects:
+従って、DOM プロパティとメソッドは、通常のJavaScriptオブジェクトと同じように振る舞います:
 
-- They can have any value.
-- They are case-sensitive (write `elem.nodeType`, not `elem.NoDeTyPe`).
+- 任意の値を持つことができる
+- 大文字と小文字が区別される(`elem.NoDeTyPe` ではなく、`elem.nodeType` と書きます。)
 
-## HTML attributes
+## HTML 属性 [#HTML-attributes]
 
-In HTML language, tags may have attributes. When the browser reads HTML text and creates DOM objects for tags, it recognizes *standard* attributes and creates DOM properties from them.
+HTML 言語では、タグは属性を持つことがあります。ブラウザがHTMLテキストを読み込み、タグに対する DOM オブジェクトを作成するとき、それは *標準の* 属性を認識し、それらから DOM プロパティを生成します。
 
-So when an element has `id` or another *standard* attribute, the corresponding property gets created. But that doesn't happen if the attribute is non-standard.
+従って、要素が `id` または別の *標準の* 属性を持っているとき、対応するプロパティは生成されます。しかし、属性が非標準でない場合には、それは起こりません。
 
-For instance:
+例:
 ```html run
 <body id="test" something="non-standard">
   <script>
     alert(document.body.id); // test
 *!*
-    // non-standard attribute does not yield a property
+    // 非標準の属性はプロパティを生成しません
     alert(document.body.something); // undefined
 */!*
   </script>
 </body>
 ```
 
-Please note that a standard attribute for one element can be unknown for another one. For instance, `"type"` is standard for `<input>` ([HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement)), but not for `<body>` ([HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement)). Standard attributes are described in the specification for the corresponding element class.
+ある要素に対する標準属性は別の要素にとっては未知になる可能性があることに注意してください。例えば、`"type"` は `<input>` ([HTMLInputElement](https://html.spec.whatwg.org/#htmlinputelement)) では標準ですが、`<body>` ([HTMLBodyElement](https://html.spec.whatwg.org/#htmlbodyelement)) では標準はありません。標準属性は対応する要素クラスの仕様で記述されています。
 
-Here we can see it:
+ここではそれを見ることができます:
 ```html run
 <body id="body" type="...">
   <input id="input" type="text">
   <script>
     alert(input.type); // text
 *!*
-    alert(body.type); // undefined: DOM property not created, because it's non-standard
+    alert(body.type); // undefined: 非標準のため、DOM プロパティは作られません
 */!*
   </script>
 </body>
 ```
 
-So, if an attribute is non-standard, there won't be DOM-property for it. Is there a way to access such attributes?
+なので、もし属性が非標準の場合、それに対する DOM プロパティはありません。このような属性にアクセスする方法はあるでしょうか？
 
-Sure. All attributes are accessible using following methods:
+もちろんです。すべての属性は次のメソッドを使ってアクセスすることができます。:
 
-- `elem.hasAttribute(name)` -- checks for existence.
-- `elem.getAttribute(name)` -- gets the value.
-- `elem.setAttribute(name, value)` -- sets the value.
-- `elem.removeAttribute(name)` -- removes the attribute.
+- `elem.hasAttribute(name)` -- 存在をチェックします。
+- `elem.getAttribute(name)` -- 値を取得します。
+- `elem.setAttribute(name, value)` -- 値を設定します。
+- `elem.removeAttribute(name)` -- 属性を削除します。
 
-These methods operate exactly with what's written in HTML.
+これらのメソッドは HTML で書かれているものと正確に操作します。
 
-Also one can read all attributes using `elem.attributes`: a collection of objects that belong to a built-in [Attr](https://dom.spec.whatwg.org/#attr) class, with `name` and `value` properties.
+`elem.attributes` を使うことで、すべての属性を読み込むこともできます: 組み込み [Attr](https://dom.spec.whatwg.org/#attr) クラスに属し、 `name` と `value` プロパティをもつ、オブジェクトのコレクションです。
 
-Here's a demo of reading a non-standard property:
+これは、非標準のプロパティを読み込む例です:
 
 ```html run
 <body something="non-standard">
   <script>
 *!*
-    alert(document.body.getAttribute('something')); // non-standard
+    alert(document.body.getAttribute('something')); // 非標準
 */!*
   </script>
 </body>
 ```
 
-HTML attributes have following features:
+HTML属性は次の特徴を持っています:
 
-- Their name is case-insensitive (that's HTML: `id` is same as `ID`).
-- They are always strings.
+- それらの名前は大文字小文字を区別しません(それはHTMLです: `id` は `ID` と同じです)
+- それらは常に文字列です。
 
-Here's an extended demo of working with attributes:
+ここでは、属性を使った動作の拡張デモを紹介します。:
 
 ```html run
 <body>
   <div id="elem" about="Elephant"></div>
 
   <script>
-    alert( elem.getAttribute('About') ); // (1) 'Elephant', reading
+    alert( elem.getAttribute('About') ); // (1) 'Elephant', 読み込み
 
-    elem.setAttribute('Test', 123); // (2), writing
+    elem.setAttribute('Test', 123); // (2), 書き込み
 
-    alert( elem.outerHTML ); // (3), see it's there
+    alert( elem.outerHTML ); // (3), 参照
 
-    for (let attr of elem.attributes) { // (4) list all
+    for (let attr of elem.attributes) { // (4) すべてをリスト
       alert( attr.name + " = " + attr.value );
     }
   </script>
 </body>
 ```
 
-Please note:
+注意事項:
 
-1. `getAttribute('About')` -- the first letter is uppercase here, and in HTML it's all lowercase. But that doesn't matter: attribute names are case-insensitive.
-2. We can assign anything to an attribute, but that becomes a string. So here we have `"123"` as the value.
-3. All attributes including ones that we set are visible in `outerHTML`.
-4. The `attributes` collection is iterable and has all attributes with `name` and `value`.
+1. `getAttribute('About')` -- 最初の文字はここでは大文字で、HTMLではすべて小文字です。 しかし、それは重要ではありません。: 属性名は大文字と小文字を区別しません。
+2. 属性には何でも割り当てることができますが、それは文字列になります。 だからここでは値として `"123"` があります。
+3. 私たちが設定したものを含むすべての属性は `outerHTML` で見えます。
+4. `attributes` のコレクションは反復可能で、属性は `name` と `value` を持っています。
 
-## Property-attribute synchronization
+## プロパティ-属性 の同期 [#Property-attribute-synchronization]
 
-When a standard attribute changes, the corresponding property is auto-updated, and (with some exceptions) vise-versa.
+標準の属性を変更するとき、対応するプロパティは自動更新され、(いくつかの例外を除いては)逆もまた然りです。
 
-In the example below `id` is modified as an attribute, and we can see the property change too. And then the same backwards:
+下の例では、`id` は属性として修正され、我々はそのプロパティの変更も見ることができます。そして後ろも同じです。:
 
 ```html run
 <input>
@@ -154,17 +154,17 @@ In the example below `id` is modified as an attribute, and we can see the proper
 <script>
   let input = document.querySelector('input');
 
-  // attribute => property
+  // 属性 => プロパティ
   input.setAttribute('id', 'id');
-  alert(input.id); // id (updated)
+  alert(input.id); // id (更新された)
 
-  // property => attribute
+  // プロパティ => 属性
   input.id = 'newId';
-  alert(input.getAttribute('id')); // newId (updated)
+  alert(input.getAttribute('id')); // newId (更新された)
 </script>
 ```
 
-But there are exclusions, for instance `input.value` synchronizes only from attribute -> to property, but not back:
+しかし、例外もあります。例えば、 `input.value` の同期は 属性から -> プロパティの場合のみで、逆は同期されません: 
 
 ```html run
 <input>
@@ -172,38 +172,38 @@ But there are exclusions, for instance `input.value` synchronizes only from attr
 <script>
   let input = document.querySelector('input');
 
-  // attribute => property
+  // 属性 => プロパティ
   input.setAttribute('value', 'text');
   alert(input.value); // text
 
 *!*
-  // NOT property => attribute
+  // ☓ プロパティ => 属性
   input.value = 'newValue';
-  alert(input.getAttribute('value')); // text (not updated!)
+  alert(input.getAttribute('value')); // text (更新されていません!)
 */!*
 </script>
 ```
 
-In the example above:
-- Changing the attribute `value` updates the property.
-- But the property change does not affect the attribute.
+上の例では:
+- 属性 `value` の変更は、プロパティも更新します。
+- しかし、プロパティの変更は属性に影響を与えません。
 
-That "feature" may actually can come in handy, because the user may modify `value`, and then after it, if we want to recover the "original" value from HTML, it's in the attribute.
+この "特徴" は実際には便利な場合があります。なぜなら、ユーザは `value` を変更する可能性があるからです。その後、HTMLから元の値を復元する場合、それは属性の中にあります。
 
-## DOM properties are typed
+## DOM プロパティは型付けられています [#DOM-properties-are-typed]
 
-DOM properties are not always strings. For instance, `input.checked` property (for checkboxes) is boolean:
+DOM プロパティは常に文字列とは限りません。例えば、`input.checked` プロパティ(チェックボックス用)は真偽値です:
 
 ```html run
 <input id="input" type="checkbox" checked> checkbox
 
 <script>
-  alert(input.getAttribute('checked')); // the attribute value is: empty string
-  alert(input.checked); // the property value is: true
+  alert(input.getAttribute('checked')); // 属性値: 空文字
+  alert(input.checked); // プロパティ値: true
 </script>
 ```
 
-There are other examples. The `style` attribute is a string, but `style` property is an object:
+他の例があります。`style` 属性は文字列ですが、`style` プロパティはオブジェクトです:
 
 ```html run
 <div id="div" style="color:red;font-size:120%">Hello</div>
@@ -218,62 +218,62 @@ There are other examples. The `style` attribute is a string, but `style` propert
 </script>
 ```
 
-That's an important difference. But even if a DOM property type is a string, it may differ from the attribute!
+これは重要な違いです。しかし、たとえ DOM プロパティの型が文字列でも、属性とは異なる可能性があります!
 
-For instance, the `href` DOM property is always a *full* URL, even if the attribute contains a relative URL or just a `#hash`.
+例えば `href` DOM プロパティは、たとえ属性に相対URLや単なる `#hash` が含まれていても常に *完全な* URLです。
 
-Here's an example:
+以下、例です:
 
 ```html height=30 run
 <a id="a" href="#hello">link</a>
 <script>
-  // attribute
+  // 属性
   alert(a.getAttribute('href')); // #hello
 
-  // property
-  alert(a.href ); // full URL in the form http://site.com/page#hello
+  // プロパティ
+  alert(a.href ); // 完全なURLの形式 http://site.com/page#hello
 </script>
 ```
 
-If we need the value of `href` or any other attribute exactly as written in the HTML, we can use `getAttribute`.
+もし HTMLの中で書かれている通りの正確な `href` や他の属性値が必要な場合、`getAttrubute` を使います。
 
 
-## Non-standard attributes, dataset
+## 非標準の属性、データ・セット [#Non-standard-attributes,-dataset]
 
-When writing HTML, we use a lot of standard attributes. But what about non-standard, custom ones? First, let's see whether they are useful or not? What for?
+HTMLを記述する際には、多くの標準属性を使います。しかし、非標準、カスタムのものはどうでしょう？まず、それらが役立つのかどうか、何のために必要なのかを見てみましょう。
 
-Sometimes non-standard attributes are used to pass custom data from HTML to JavaScript, or to "mark" HTML-elements for JavaScript.
+HTML から JavaScript へカスタムデータを渡す、もしくは JavaScript のためにHTML要素を "マークする" ために、非標準の属性が使われることがあります。
 
-Like this:
+このようになります:
 
 ```html run
-<!-- mark the div to show "name" here -->
+<!-- "name" を表示する div をマークします -->
 <div *!*show-info="name"*/!*></div>
-<!-- and age here -->
+<!-- ここは age です -->
 <div *!*show-info="age"*/!*></div>
 
 <script>
-  // the code finds an element with the mark and shows what's requested
+  // コードは、マークのある要素を探し、要求されたものを表示します
   let user = {
     name: "Pete",
     age: 25
   };
 
   for(let div of document.querySelectorAll('[show-info]')) {
-    // insert the corresponding info into the field
+    // フィールドに、対応する情報を挿入します
     let field = div.getAttribute('show-info');
     div.innerHTML = user[field]; // Pete, then age
   }
 </script>
 ```
 
-Also they can be used to style an element.
+また、要素のスタイルのために使われることもあります。
 
-For instance, here for the order state the attribute `order-state` is used:
+例えば、ここでは注文状態に対して、属性 `order-state` が使われます:
 
 ```html run
 <style>
-  /* styles rely on the custom attribute "order-state" */
+  /* スタイルはカスタム属性 "order-state" に依存します */
   .order[order-state="new"] {
     color: green;
   }
@@ -300,24 +300,24 @@ For instance, here for the order state the attribute `order-state` is used:
 </div>
 ```
 
-Why the attribute may be preferable to classes like `.order-state-new`, `.order-state-pending`, `order-state-canceled`?
+属性が `.order-state-new`、`.order-state-pending`、`order-state-canceled` のようなクラスよりも好ましい理由は何でしょう？
 
-That's because an attribute is more convenient to manage. The state can be changed as easy as:
+それは、属性はより管理がしやすいためです。状態は次のように簡単に変更できます。:
 
 ```js
-// a bit simpler than removing old/adding a new class
+// 古いクラスの削除/新しいクラスの追加よりも少しシンプルです
 div.setAttribute('order-state', 'canceled');
 ```
 
-But there may be a possible problem with custom attributes. What if we use a non-standard attribute for our purposes and later the standard introduces it and makes it do something? The HTML language is alive, it grows, more attributes appear to suit the needs of developers. There may be unexpected effects in such case.
+しかし、カスタム属性には問題がある可能性があります。仮に、我々の目的のために非標準の属性を使い、後に標準がそれを発表し何かをさせるとしたらどうでしょう？HTML言語は生きており、成長し、開発者のニーズに合うようなより多くの属性が登場しています。このような場合に予期しない影響が生じることがあります。
 
-To evade conflicts, there exist [data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes) attributes.
+衝突を避けるために、[data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes) 属性があります。
 
-**All attributes starting with "data-" are reserved for programmers' use. They are available in `dataset` property.**
+**"data-" で始まるすべての属性はプログラマのために予約されています。それらは `dataset` プロパティで利用可能です。**
 
-For instance, if an `elem` has an attribute named `"data-about"`, it's available as `elem.dataset.about`.
+例えば、もし `elem` が `"data-about"` という名前の属性を持っている場合、それは `elem.dataset.about` として利用できます。
 
-Like this:
+このように:
 
 ```html run
 <body data-about="Elephants">
@@ -326,9 +326,9 @@ Like this:
 </script>
 ```
 
-Multiword attributes like `data-order-state` become camel-cased: `dataset.orderState`.
+`data-order-state` のような複数語はキャメルケースになります: `dataset.orderState`.
 
-Here's a rewritten "order state" example:
+ここでは "order state" の例を書き直しています:
 
 ```html run
 <style>
@@ -358,31 +358,31 @@ Here's a rewritten "order state" example:
 </script>
 ```
 
-Using `data-*` attributes is a valid, safe way to pass custom data.
+`data-*` 属性の利用は、カスタムデータを渡す有効かつ安全な方法です。
 
-Please note that we can not only read, but also modify data-attributes. Then CSS updates the view accordingly: in the example above the last line `(*)` changes the color to blue.
+data-属性の読み込みだけでなく、変更もできることに注意してください。そして、CSS はそれに応じて ビューを更新します。: 上の例では、最後の行 `(*)` で色を青に変更しています。
 
-## Summary
+## サマリ [#Summary]
 
-- Attributes -- is what's written in HTML.
-- Properties -- is what's in DOM objects.
+- 属性 -- は HTML で書かれているものです。
+- プロパティ -- は DOM オブジェクトの中にあるものです。
 
-A small comparison:
+小さな比較:
 
-|            | Properties | Attributes |
+|            | プロパティ | 属性 |
 |------------|------------|------------|
-|Type|Any value, standard properties have types described in the spec|A string|
-|Name|Name is case-sensitive|Name is not case-sensitive|
+|型|任意の値、標準プロパティーには、仕様に記述されているタイプがあります|文字列|
+|名前|名前は大文字と小文字を区別します|名前は大文字と小文字を区別しません|
 
-Methods to work with attributes are:
+属性を操作するメソッドは次のとおりです:
 
-- `elem.hasAttribute(name)` -- to check for existence.
-- `elem.getAttribute(name)` -- to get the value.
-- `elem.setAttribute(name, value)` -- to set the value.
-- `elem.removeAttribute(name)` -- to remove the attribute.
-- `elem.attributes` is a collection of all attributes.
+- `elem.hasAttribute(name)` -- 存在をチェックします
+- `elem.getAttribute(name)` -- 値を取得します
+- `elem.setAttribute(name, value)` -- 値をセットします
+- `elem.removeAttribute(name)` -- 属性を削除します
+- `elem.attributes` はすべての属性の集合です
 
-For most needs DOM properties can serve us well. We should refer to attributes only when DOM properties do not suit us, when we need exactly attributes, for instance:
+ほとんどのニーズに対して、DOMプロパティはうまく機能します。 次の例ように、正確な属性が必要なとき、DOMプロパティが適切でない場合にのみ属性を参照すべきです。:
 
-- We need a non-standard attribute. But if it starts with `data-`, then we should use `dataset`.
-- We want to read the value "as written" in HTML. The value of the DOM property may be different, for instance `href` property is always a full URL, and we may want to get the "original" value.
+- 非標準の属性が必要な場合。ただし、`data-` で始まる場合は `dataset`を使うべきです。
+- HTMLで "書かれている" 値を読みたい場合。 DOMプロパティの値は異なる可能性があります。例えば、 `href` プロパティは常に完全なURLであり、私たちは "オリジナル" の値を取得したい場合があります。
