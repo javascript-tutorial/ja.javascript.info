@@ -2,15 +2,15 @@ importance: 3
 
 ---
 
-# Make external links orange
+# 外部リンクをオレンジにする
 
-Make all external links orange by altering their `style` property.
+`style` プロパティを変更することで、すべての外部リンクをオレンジにしてください。
 
-A link is external if:
-- It's `href` has `://` in it
-- But doesn't start with `http://internal.com`.
+次のものが外部リンクです:
+- `href` の中に `://` がある場合
+- しかし、`http://internal.com` から始まらない場合
 
-Example:
+例:
 
 ```html run
 <a name="list">the list</a>
@@ -24,12 +24,12 @@ Example:
 </ul>
 
 <script>
-  // setting style for a single link
+  // 単一リンクの style を設定
   let link = document.querySelector('a');
   link.style.color = 'orange';
 </script>
 ```
 
-The result should be:
+結果は次のようになるはずです:
 
 [iframe border=1 height=180 src="solution"]

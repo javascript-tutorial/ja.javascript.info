@@ -1,9 +1,9 @@
 
-First, we need to find all external references.
+最初に、すべての外部参照を見つける必要があります。
 
-There are two ways.
+2つの方法があります。
 
-The first is to find all links using `document.querySelectorAll('a')` and then filter out what we need:
+1つ目は `document.querySelectorAll('a')` を使ってすべてのリンクを見つけ、必要なものをフィルタする方法です:
 
 ```js
 let links = document.querySelectorAll('a');
@@ -12,23 +12,22 @@ for (let link of links) {
 *!*
   let href = link.getAttribute('href');
 */!*
-  if (!href) continue; // no attribute
+  if (!href) continue; // 属性なし
 
-  if (!href.includes('://')) continue; // no protocol
+  if (!href.includes('://')) continue; // プロトコルなし
 
-  if (href.startsWith('http://internal.com')) continue; // internal
+  if (href.startsWith('http://internal.com')) continue; // 内部
 
   link.style.color = 'orange';
 }
 ```
 
-Please note: we use `link.getAttribute('href')`. Not `link.href`, because we need the value from HTML.
+注意してください: `link.getAttribute('href')` を使っています。 `link.href` ではありません。なぜなら、 HTML からの値が必要なためです。
 
-...Another, simpler way would be to add the checks to CSS selector:
+...もう1つ、よりシンプルな方法は CSS セレクタにチェックを追加する方法です。:
 
 ```js
-// look for all links that have :// in href
-// but href doesn't start with http://internal.com
+// href の中に :// を持つリンクを探しますが、href は http://internal.com から始まらないもの
 let selector = 'a[href*="://"]:not([href^="http://internal.com"])';
 let links = document.querySelectorAll(selector);
 

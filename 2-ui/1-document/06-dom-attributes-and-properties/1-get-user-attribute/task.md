@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Get the attribute
+# 属性を取得する
 
-Write the code to select the element with `data-widget-name` attribute from the document and to read its value.
+ドキュメントから `data-widget-name` 属性を持つ要素を選択し、その値を読むコードを書いてください。
 
 ```html run
 <!DOCTYLE HTML>
