@@ -1,18 +1,18 @@
-# Modifying the document
+# ドキュメントの変更
 
-DOM modifications is the key to create "live" pages.
+DOMの変更は "ライブ" ページを作成するための鍵です。
 
-Here we'll see how to create new elements "on the fly" and modify the existing page content.
+ここでは、新しい要素を "その場" で作成し、既存のページコンテンツを変更する方法を見ていきます。
 
-First we'll see a simple example and then explain the methods.
+まず、簡単な例を見てメソッドを説明します。
 
 [cut]
 
-## Example: show a message
+## 例: メッセージを表示 [#Example:-show-a-message]
 
-For the start, let's see how to add a message on the page that looks nicer than `alert`.
+はじめに、`alert` よりも見栄えの良いメッセージをページに追加する方法を見てみましょう。
 
-Here's how it will look:
+次のように見えるとしましょう:
 
 ```html autorun height="80"
 <style>
@@ -32,30 +32,29 @@ Here's how it will look:
 */!*
 ```
 
-That was an HTML example. Now let's create the same `div` with JavaScript (assuming that the styles are still in the HTML or an external CSS).
+これは HTML の例でした。では JavaScript で同じ `div` を作ってみましょう(スタイルは依然として HTML の中、もしくは外部CSSにあると想定します)。
 
-## Creating an element
+## 要素の作成 [#Creating-an-element]
 
-
-To create DOM nodes, there are two methods:
+DOM ノードを作成するためのメソッドが2つあります。:
 
 `document.createElement(tag)`
-: Creates a new element with the given tag:
+: 与えられたタグの新しい要素を作成します:
 
     ```js
     let div = document.createElement('div');
     ```
 
 `document.createTextNode(text)`
-: Creates a new *text node* with the given text:
+: 与えられたテキストの新しい *テキストノード* を作成します:
 
     ```js
     let textNode = document.createTextNode('Here I am');
     ```
 
-### Creating the message
+### メッセージの作成 [#Creating-the-message]
 
-In our case we want to make a `div` with given classes and the message in it:
+我々のケースでは、与えられたクラスとメッセージをその中にもつ `div` を作りたいです。:
 
 ```js
 let div = document.createElement('div');
@@ -63,15 +62,15 @@ div.className = "alert alert-success";
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
-After that, we have a ready DOM element. Right now it's in the variable, but can not be seen, because not inserted into the page yet.
+これで、準備ができたDOM要素があります。 今は変数に入っていますが、まだページには挿入されていないため見えません。
 
-## Insertion methods
+## 挿入メソッド [#Insertion-methods]
 
-To make the `div` show up, we need to insert it somewhere into `document`. For instance, in `document.body`.
+`div` を表示するためには、`document` のどこかに挿入する必要があります。例えば、`document.body` です。
 
-There's a special method for that: `document.body.appendChild(div)`.
+そのための特別なメソッドがあります: `document.body.appendChild(div)`.
 
-Here's the full code:
+ここに完全なコードを載せます:
 
 ```html run height="80"
 <style>
@@ -95,12 +94,12 @@ Here's the full code:
 </script>
 ```
 
-Here's a brief list of methods to insert a node into a parent element (`parentElem` for short):
+ここに、親要素(略して `parentElem` )へノードを挿入するメソッドの簡単なリストを示します:
 
 `parentElem.appendChild(node)`
-: Appends `node` as the last child of `parentElem`.
+: `parentElem` の最後の子として `node` を追加します。
 
-    The following example adds a new `<li>` to the end of `<ol>`:
+    次の例は新しい `<li>` を `<ol>` の末尾に追加します:
 
     ```html run height=100
     <ol id="list">
@@ -118,9 +117,9 @@ Here's a brief list of methods to insert a node into a parent element (`parentEl
     ```
 
 `parentElem.insertBefore(node, nextSibling)`
-: Inserts `node` before `nextSibling` into `parentElem`.
+: `parentElem` の中の `nextSibling` の前に `node` を挿入します。
 
-    The following code inserts a new list item before the second `<li>`:
+    次のコードは2つ目の `<li>` の前に新しいリストアイテムを挿入します:
 
     ```html run height=100
     <ol id="list">
@@ -138,34 +137,34 @@ Here's a brief list of methods to insert a node into a parent element (`parentEl
     </script>
     ```
 
-    To insert as the first element, we can do like this:
+    最初の要素として挿入するには、このようにします:
 
     ```js
     list.insertBefore(newLi, list.firstChild);
     ```
 
 `parentElem.replaceChild(node, oldChild)`
-: Replaces `oldChild` with `node` among children of `parentElem`.
+: `parentElem` の子供の間の `oldChild` を `node` に置き換えます。
 
-All these methods return the inserted node. In other words, `parentElem.appendChild(node)` returns `node`. But usually the returned value is not used, we just run the method.
+これらすべてのメソッドは挿入したノードを返します。言い換えると、`parentElem.appendChild(node)` は `node` を返します。しかし通常は返却値は使わず、単にメソッドを実行するだけです。
 
-These methods are "old school": they exist from the ancient times and we can meet them in many old scripts. Unfortunately, there are some tasks that are hard to solve with them.
+これらのメソッドは "古い学校" です: これらは古代から存在し、多くの古いスクリプトで見ることができます。残念なことに、それらでは解決するのが難しい作業がいくつかあります。
 
-For instance, how to insert *html* if we have it as a string? Or, given a node, how to insert another node *before* it? Of course, all that is doable, but not in an elegant way.
+例えば、文字列として持っている *html* を挿入する方法は？もしくは指定されたノードに対し、その *前* に別のノードを挿入する方法は？ もちろん、すべて実行可能ですが、エレガントな方法ではありません。
 
-So there exists two other sets of insertion methods to handle all cases easily.
+したがって、簡単にすべてのケースを処理する2つの挿入メソッドセットが存在します。
 
 ### prepend/append/before/after
 
-This set of methods provides more flexible insertions:
+このメソッドのセットはより柔軟な挿入を提供します:
 
-- `node.append(...nodes or strings)` -- append nodes or strings at the end of `node`,
-- `node.prepend(...nodes or strings)` -- insert nodes or strings into the beginning of `node`,
-- `node.before(...nodes or strings)` –- insert nodes or strings before the `node`,
-- `node.after(...nodes or strings)` –- insert nodes or strings after the `node`,
-- `node.replaceWith(...nodes or strings)` –- replaces `node` with the given nodes or strings.
+- `node.append(...nodes or strings)` -- `node` の末尾にノードまたは文字列を追加します,
+- `node.prepend(...nodes or strings)` -- `node` の先頭にノードまたは文字列を挿入します,
+- `node.before(...nodes or strings)` –- `node` の前にノードまたは文字列を追加します,
+- `node.after(...nodes or strings)` –- `node` の後にノードまたは文字列を追加します,
+- `node.replaceWith(...nodes or strings)` –- `node` を与えられたノードまたは文字列で置き換えます。
 
-Here's an example of using these methods to add more items to a list and the text before/after it:
+これらのメソッドを使用して、リストに項目を追加し、項目の前後にテキストを追加する例を次に示します。:
 
 ```html autorun
 <ol id="ol">
@@ -188,11 +187,11 @@ Here's an example of using these methods to add more items to a list and the tex
 </script>
 ```
 
-Here's a small picture what methods do:
+これはメソッドがしていることを示す図です:
 
 ![](before-prepend-append-after.png)
 
-So the final list will be:
+なので、最終的には次のようなリストになります:
 
 ```html
 before
@@ -206,9 +205,9 @@ before
 after
 ```
 
-These methods can insert multiple list of nodes and text pieces in a single call.
+これらのメソッドは1回の呼び出しで複数のノードやテキストのリストを挿入できます。
 
-For instance, here a string and an element are inserted:
+例えば、これは文字列と要素が挿入されます:
 
 ```html run
 <div id="div"></div>
@@ -217,9 +216,9 @@ For instance, here a string and an element are inserted:
 </script>
 ```
 
-All text is inserted *as text*.
+すべてのテキストは *テキストとして* 挿入されます。
 
-So the final HTML is:
+なので、最終的なHTMLは次のようになります:
 
 ```html run
 *!*
@@ -229,26 +228,26 @@ So the final HTML is:
 <div id="div"></div>
 ```
 
-In other words, strings are inserted in a safe way, like `elem.textContent` does it.
+言い換えると、`elem.textContent` がするように、文字列は安全な方法で挿入されています。
 
-So, these methods can only be used to insert DOM nodes or text pieces.
+従って、これらのメソッドは DOM ノードまたはテキストを挿入するためにのみ使うことができます。
 
-But what if we want to insert HTML "as html", with all tags and stuff working, like `elem.innerHTML`?
+しかし、仮に `elem.innerHTML` のようにすべてのタグやものが動作するよう、 "HTML として" HTMLを挿入したい場合にはどうすればよいでしょう？
 
 ### insertAdjacentHTML/Text/Element
 
-There's another, pretty versatile method: `elem.insertAdjacentHTML(where, html)`.
+もう1つ、非常に多彩なメソッドがあります: `elem.insertAdjacentHTML（where、html）`。
 
-The first parameter is a string, specifying where to insert, must be one of the following:
+最初のパラメータは文字列で、挿入場所を指定し、次のどれかでなければなりません:
 
-- `"beforebegin"` -- insert `html` before `elem`,
-- `"afterbegin"` -- insert `html` into `elem`, at the beginning,
-- `"beforeend"` -- insert `html` into `elem`, at the end,
-- `"afterend"` -- insert `html` after `elem`.
+- `"beforebegin"` -- `elem` の前に `html` を挿入します,
+- `"afterbegin"` -- `elem` の中の先頭に `html` を挿入します,
+- `"beforeend"` -- `elem` の中の末尾に `html` を挿入します,
+- `"afterend"` -- `elem` の後に `html` を挿入します.
 
-The second parameter is an HTML string, inserted "as is".
+2つ目のパラメータは "そのまま" 挿入されるHTML文字列です。
 
-For instance:
+例:
 
 ```html run
 <div id="div"></div>
@@ -258,7 +257,7 @@ For instance:
 </script>
 ```
 
-...Would lead to:
+...は次のようになります:
 
 ```html run
 <p>Hello</p>
@@ -266,22 +265,22 @@ For instance:
 <p>Bye</p>
 ```
 
-That's how we can append an arbitrary HTML to our page.
+これは任意のHTMLをページに追加できる方法です。
 
-Here's the picture of insertion variants:
+これは挿入バリエーションの図です:
 
 ![](insert-adjacent.png)
 
-We can easily notice similarities between this and the previous picture. The insertion points are actually the same, but this method inserts HTML.
+これと前の図との類似点は簡単に気づけます。 挿入ポイントは実際には同じですが、このメソッドはHTMLを挿入します。
 
-The method has two brothers:
+メソッドは2つの兄弟がいます:
 
-- `elem.insertAdjacentText(where, text)` -- the same syntax, but a string of `text` in inserted "as text" instead of HTML,
-- `elem.insertAdjacentElement(where, elem)` -- the same syntax, but inserts an element.
+- `elem.insertAdjacentText(where, text)` -- 同じ構文ですが、HTML の代わりに "テキストとして" 挿入される `text` の文字列です。
+- `elem.insertAdjacentElement(where, elem)` -- 同じ構文ですが、要素を挿入します。
 
-They exist mainly to make the syntax "uniform". In practice, most of time only `insertAdjacentHTML` is used, because for elements and text we have methods `append/prepend/before/after` -- they are shorter to write and can insert nodes/text pieces.
+これらは主に構文を "統一的" にするために存在します。実際にはほぼ `insertAdjacentHTML` だけが使われます。なぜなら、要素やテキストに対しては、`append/prepend/before/after` というメソッドがあるためです -- これらはより短く書くことができ、ノード/テキストの部分を挿入することが可能です。
 
-So here's an alternative variant of showing a message:
+したがって、これはメッセージを表示する別の方法です:
 
 ```html run
 <style>
@@ -301,17 +300,17 @@ So here's an alternative variant of showing a message:
 </script>
 ```
 
-## Cloning nodes: cloneNode
+## ノードのクローン:cloneNode [#Cloning-nodes:-cloneNode]
 
-How to insert one more similar message?
+似たようなメッセージを複数挿入するにはどうすればよいでしょう？
 
-We could do a function and put the code there. But the alternative way would be to *clone* the existing `div` and modify the text inside it (if needed).
+我々は関数を実行してコードをそこに置くことができました。 しかし、別の方法は、既存の `div` を *クローン* し、その中のテキストを変更することです（必要な場合）。
 
-Sometimes when we have a big element, that may be faster and simpler.
+大きな要素を持っているケースで、この方法がより速くシンプルになる場合があります。
 
-- The call `elem.cloneNode(true)` creates a "deep" clone of the element -- with all attributes and subelements. If we call `elem.cloneNode(false)`, then the clone is made without child elements.
+- 呼び出し `elem.cloneNode(true)` は、すべての属性とサブ要素を含む要素の "ディープ" クローンを作成します。もし `elem.cloneNode(false)` を呼び出すと、子要素なしのクローンが作られます。
 
-An example of copying the message:
+メッセージをコピーする例です:
 
 ```html run height="120"
 <style>
@@ -330,45 +329,45 @@ An example of copying the message:
 
 <script>
 *!*
-  let div2 = div.cloneNode(true); // clone the message
-  div2.querySelector('strong').innerHTML = 'Bye there!'; // change the clone
+  let div2 = div.cloneNode(true); // メッセージをクローンします
+  div2.querySelector('strong').innerHTML = 'Bye there!'; // クローンを変更します
 
-  div.after(div2); // show the clone after the existing div
+  div.after(div2); // 既存の div の後に div2 を表示
 */!*
 </script>
 ```
 
-## Removal methods
+## 削除メソッド [#Removal-methods]
 
-To remove nodes, there are following methods:
+ノードを削除するために、次のメソッドがあります:
 
 
 `parentElem.removeChild(node)`
-: Removes `elem` from  `parentElem` (assuming it's a child).
+: `parentElem` から `node` を削除します(`parentElem` の子と想定)
 
 `node.remove()`
-: Removes the `node` from its place.
+: その場所から `node` を削除します。
 
-We can easily see that the second method is much shorter. The first one exists for historical reasons.
+2つ目のメソッドの方がはるかに短いのが分かると思います。1つ目のメソッドは歴史的な理由で存在しています。
 
 ````smart
-If we want to *move* an element to another place -- there's no need to remove it from the old one.
+もしある要素を別の場所に *移動* したいとき -- 古い場所からそれを除去する必要はありません。
 
-**All insertion methods automatically remove the node from the old place.**
+**すべての挿入メソッドは自動的に古い場所からノードを削除します**
 
-For instance, let's swap elements:
+例えば、要素を入れ替えてみましょう:
 
 ```html run height=50
 <div id="first">First</div>
 <div id="second">Second</div>
 <script>
-  // no need to call remove
-  second.after(first); // take #second and after it - insert #first
+  // 削除呼び出しする必要はありません
+  second.after(first); // #second の後に #first を挿入します
 </script>
 ```
 ````
 
-Let's make our message disappear after a second:
+1秒後に消えるメッセージを作りましょう:
 
 ```html run untrusted
 <style>
@@ -389,16 +388,16 @@ Let's make our message disappear after a second:
   document.body.append(div);
 *!*
   setTimeout(() => div.remove(), 1000);
-  // or setTimeout(() => document.body.removeChild(div), 1000);
+  // もしくは setTimeout(() => document.body.removeChild(div), 1000);
 */!*
 </script>
 ```
 
-## A word about "document.write"
+## "document.write" について [#A-word-about-"document.write"]
 
-There's one more, very ancient method of adding something to a web-page: `document.write`.
+もう1つ、webページに何かを追加する非常に古代の方法があります: `document.write` です。
 
-The syntax:
+構文:
 
 ```html run
 <p>Somewhere in the page...</p>
@@ -410,76 +409,76 @@ The syntax:
 <p>The end</p>
 ```
 
-The call to `document.write(html)` writes the `html` into page "right here and now". The `html` string can be dynamically generated, so it's kind of flexible. We can use JavaScript to create a full-fledged webpage and write it.
+`document.write(html)` の呼び出しは `html` を "すぐにその場で" ページに書き込みます。`html` 文字列は動的に生成することができるので、柔軟性があります。JavaScriptを使用して本格的なWebページを作成し、それを書き出すことができます。
 
-The method comes from times when there were no DOM, no standards... Really old times. It still lives, because there are scripts using it.
+このメソッドは DOMがなく、標準もないときに出来ました... 本当に昔です。それは、それを使っているスクリプトがあるので、まだ生きています。
 
-In modern scripts we can rarely see it, because of the important limitation.
+現代のスクリプトでは、重要な制限があるためほとんど見かけません。
 
-**The call to `document.write` only works while the page is loading.**
+**`document.write`の呼び出しはページがロードされている間だけ動作します**
 
-If we call it afterwards, the existing document content is erased.
+もしその後に呼び出した場合、既存のドキュメントのコンテンツが削除されます。
 
-For instance:
+例:
 
 ```html run
 <p>After one second the contents of this page will be replaced...</p>
 *!*
 <script>
-  // document.write after 1 second
-  // that's after the page loaded, so it erases the existing content
+  // 1秒後に document.write をします
+  // それはページがロードされた後です、なのでそれは既存のコンテンツを削除します
   setTimeout(() => document.write('<b>...By this.</b>'), 1000);
 </script>
 */!*
 ```
 
-So it's kind of unusable at "after loaded" stage, unlike other DOM methods we covered above.
+したがって、上で取り上げたような他の DOMメソッドとは異なり、"ロード後" の段階では利用できません。
 
-That was the downside.
+それは欠点でした。
 
-Technically, when `document.write` is called while the browser is still reading HTML, it appends something to it, and the browser consumes it just as it were initially there.
+技術的には、ブラウザがまだ HTML を読んでいる間に `document.write` が呼び出されると、それは何かを追加し、ブラウザは最初と同じようにそれを消費します。
 
-That gives us the upside -- it works blazingly fast, because there's *no DOM modification*. It writes directly into the page text, while the DOM is not yet built, and the browser puts it into DOM at generation-time.
+それは我々に良い面をもたらします -- それは *DOMの修正がないため* 驚くほど速く動作します。DOMがまだビルドされていない間、それは直接ページテキストに書き込み、ブラウザは生成時にそれをDOMを挿入します。
 
-So if we need to add a lot of text into HTML dynamically, and we're at page loading phase, and the speed matters, it may help. But in practice these requirements rarely come together. And usually we can see this method in scripts just because they are old.
+なので、HTMLの動的に多くのテキストを追加する必要があり、またページをロードするフェーズであること、速度を考慮する必要がある場合にはそれは役立ちます。しかし実際にはこれらの要件が一緒に来ることは殆どありません。通常、このメソッドを見るときは、単に古いスクリプトだからと言う理由です。
 
-## Summary
+## サマリ [#Summary]
 
-Methods to create new nodes:
+新しいノードを生成するメソッド:
 
-- `document.createElement(tag)` -- creates an element with the given tag,
-- `document.createTextNode(value)` -- creates a text node (rarely used),
-- `elem.cloneNode(deep)` -- clones the element, if `deep==true` then with all descendants.  
+- `document.createElement(tag)` -- 与えられたタグを要素を作成します
+- `document.createTextNode(value)` -- テキストノードを作成します (めったに使われません)),
+- `elem.cloneNode(deep)` -- 要素をクローンします。 `deep==true` の場合、すべての子孫も含みます。  
 
-Insertion and removal of nodes:
+ノードの挿入と削除:
 
-- From the parent:
+- 親から:
   - `parent.appendChild(node)`
   - `parent.insertBefore(node, nextSibling)`
   - `parent.removeChild(node)`
   - `parent.replaceChild(newElem, node)`
 
-  All these methods return `node`.
+  これらのメソッドはすべて `node` を返します。
 
-- Given a list of nodes and strings:
-  - `node.append(...nodes or strings)` -- insert into `node`, at the end,
-  - `node.prepend(...nodes or strings)` -- insert into `node`, at the beginning,
-  - `node.before(...nodes or strings)` –- insert right before `node`,
-  - `node.after(...nodes or strings)` –- insert right after `node`,
-  - `node.replaceWith(...nodes or strings)` –- replace `node`.
-  - `node.remove()` –- remove the `node`.
+- 与えられたノードと文字列のリスト:
+  - `node.append(...nodes or strings)` -- `node` の末尾に追加します,
+  - `node.prepend(...nodes or strings)` -- `node` の先頭に挿入します,
+  - `node.before(...nodes or strings)` –- `node` の前に追加します,
+  - `node.after(...nodes or strings)` –- `node` の後に追加します,
+  - `node.replaceWith(...nodes or strings)` –- `node` を置き換えます。
+  - `node.remove()` –- `node` を削除します.
 
-  Text strings are inserted "as text".
+  テキスト文字列は "テキストとして" 挿入されます。
 
-- Given a piece of HTML: `elem.insertAdjacentHTML(where, html)`, inserts depending on where:
-  - `"beforebegin"` -- insert `html` right before `elem`,
-  - `"afterbegin"` -- insert `html` into `elem`, at the beginning,
-  - `"beforeend"` -- insert `html` into `elem`, at the end,
-  - `"afterend"` -- insert `html` right after `elem`.
+- 与えられた HTML の一部: `elem.insertAdjacentHTML(where, html)`, `where` に応じて挿入します:
+  - `"beforebegin"` -- `elem` の前に `html` を挿入します,
+  - `"afterbegin"` -- `elem` の中の先頭に `html` を挿入します,
+  - `"beforeend"` -- `elem` の中の末尾に `html` を挿入します,
+  - `"afterend"` -- `elem` の後に `html` を挿入します.
 
-  Also there are similar methods `elem.insertAdjacentText` and `elem.insertAdjacentElement`, they  insert text strings and elements, but they are rarely used.
+  また、類似メソッド `elem.insertAdjacentText` と `elem.insertAdjacentElement` があり、それらはテキスト文字列と要素を挿入しますが、めったに使われません。
 
-- To append HTML to the page before it has finished loading:
+- ロードが完了する前に、ページにHTMLをつかするには:
   - `document.write(html)`
 
-  After the page is loaded such call erases the document. Mostly seen in old scripts.
+  ページがロードされた後、この呼び出しはドキュメントを削除します。ほぼ古いスクリプトで見られます。
