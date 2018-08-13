@@ -2,16 +2,16 @@ importance: 4
 
 ---
 
-# Create a calendar
+# カレンダーを作成する
 
-Write a function `createCalendar(elem, year, month)`.
+関数 `createCalendar(elem, year, month)` を書いてください。
 
-The call should create a calendar for the given year/month and put it inside `elem`.
+この呼び出しは、与えられた年/月でカレンダーを作成し、`elem` の中に置きます。
 
-The calendar should be a table, where a week is `<tr>`, and a day is `<td>`. The table top should be `<th>` with weekday names: the first day should be Monday, and so on till Sunday.
+カレンダーはテーブルである必要があり、その週は `<tr>` で、日は `<td>` です。テーブルのトップは曜日の `<tr>` です: 最初の日は月曜で、日曜まで続きます。
 
-For instance, `createCalendar(cal, 2012, 9)` should generate in element `cal` the following calendar:
+例えば、`createCalendar(cal, 2012, 9)` は要素 `cal` に次のカレンダーを生成します:
 
 [iframe height=210 src="solution"]
 
-P.S. For this task it's enough to generate the calendar, should not yet be clickable.
+P.S. このタスクでは、カレンダーの生成で十分です。まだクリック可能にする必要はありません。

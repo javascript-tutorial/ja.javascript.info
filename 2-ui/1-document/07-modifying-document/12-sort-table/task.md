@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Sort the table
+# テーブルをソートする
 
-There's a table:
+テーブルがあります:
 
 <table>
 <tr>
@@ -34,6 +34,6 @@ There's a table:
 </tr>
 </table>
 
-There may be more rows in it.
+そこにはもっと多くの行があるかもしれません。
 
-Write the code to sort it by the `"name"` column.
+`"name"` 列でソートするコードを書いてください。

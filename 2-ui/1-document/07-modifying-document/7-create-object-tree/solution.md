@@ -1,4 +1,4 @@
-The easiest way to walk the object is to use recursion.
+オブジェクトを歩いて回る最も簡単な方法は再帰を使う方法です。
 
-1. [The solution with innerHTML](sandbox:innerhtml).
-2. [The solution with DOM](sandbox:build-tree-dom).
+1. [innerHTML を使った解法](sandbox:innerhtml).
+2. [DOM を使った解法](sandbox:build-tree-dom).

@@ -1,8 +1,8 @@
-Answer: **1 and 3**.
+答え: **1 and 3**.
 
-Both commands result in adding the `text` "as text" into the `elem`.
+両方のコマンドは `elem` へ "テキストとして" `text` を追加します。
 
-Here's an example:
+例:
 
 ```html run height=80
 <div id="elem1"></div>

@@ -1,6 +1,6 @@
-First, let's make HTML/CSS.
+まず、HTML/CSS を作りましょう。
 
-Each component of the time would look great in its own `<span>`:
+時間の各要素は独自の `<span>` ではっきり見えます:
 
 ```html
 <div id="clock">
@@ -8,9 +8,9 @@ Each component of the time would look great in its own `<span>`:
 </div>
 ```
 
-Also we'll need CSS to color them.
+またそれらを色付けするために CSS が必要です。
 
-The `update` function will refresh the clock, to be called by `setInterval` every second:
+`udpate` 関数は時計をリフレッシュし、毎秒 `setInterval` によって呼び出されます:
 
 ```js
 function update() {
@@ -32,9 +32,9 @@ function update() {
 }
 ```
 
-In the line `(*)` we every time check the current date. The calls to `setInterval` are not reliable: they may happen with delays.
+行 `(*)` で、毎回現在の日付をチェックします。`setInterval` の呼び出しは信頼できません: 遅延が発生する可能性があります。
 
-The clock-managing functions:
+時計管理の関数です:
 
 ```js
 let timerId;
@@ -50,4 +50,4 @@ function clockStop() {
 }
 ```
 
-Please note that the call to `update()` is not only scheduled in `clockStart()`, but immediately run in the line `(*)`. Otherwise the visitor would have to wait till the first execution of `setInterval`. And the clock would be empty till then.
+`update()` の呼び出しは `clockStart()` でスケジュールされるだけでなく、行 `(*)` でも即時実行さることに注意してください。それ以外の場合は、訪問者は`setInterval`の最初の実行まで待つ必要があります。また、時計はそれまで空です。

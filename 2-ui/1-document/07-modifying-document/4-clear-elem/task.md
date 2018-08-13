@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Clear the element
+# 要素をクリアする
 
-Create a function `clear(elem)` that removes everything from the element.
+要素からすべてを削除する関数 `clear(elem)` を作成してください。
 
 ```html run height=60
 <ol id="elem">
@@ -15,6 +15,6 @@ Create a function `clear(elem)` that removes everything from the element.
 <script>
   function clear(elem) { /* your code */ }
 
-  clear(elem); // clears the list
+  clear(elem); // リストをクリアします
 </script>
 ```

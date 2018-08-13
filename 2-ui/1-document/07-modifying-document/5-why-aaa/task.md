@@ -2,9 +2,9 @@ importance: 1
 
 ---
 
-# Why "aaa" remains?
+# なぜ "aaa" が残るのでしょう?
 
-Run the example. Why `table.remove()` does not delete the text `"aaa"`?
+例を実行してください。なぜ `table.remove()` はテキスト `"aaa"` を削除しないのでしょうか？
 
 ```html height=100 run
 <table id="table">
@@ -15,9 +15,9 @@ Run the example. Why `table.remove()` does not delete the text `"aaa"`?
 </table>
 
 <script>
-  alert(table); // the table, as it should be
+  alert(table); // テーブルがあります
 
   table.remove();
-  // why there's still aaa in the document?
+  // なぜドキュメントの中にまだ aaa があるのでしょう？
 </script>
 ```

@@ -1,4 +1,4 @@
-The solution is short, yet may look a bit tricky, so here I provide it with extensive comments:
+解答は短いですが、少しトリッキーに見えるかもしれないので、ここでは詳細なコメントをします。
 
 
 ```js
@@ -9,11 +9,11 @@ let sortedRows = Array.from(table.rows)
 table.tBodies[0].append(...sortedRows);
 ```
 
-1. Get all `<tr>`, like `table.querySelectorAll('tr')`, then make an array from them, cause we need array methods.
-2. The first TR (`table.rows[0]`) is actually a table header, so we take the rest by `.slice(1)`.
-3. Then sort them comparing by the content of the first `<td>` (the name field).
-4. Now insert nodes in the right order by `.append(...sortedRows)`.
+1. `table.querySelectorAll('tr')` のように、すべての `<tr>` を取得し、それらから配列を作ります。なぜなら配列メソッドが必要なためです。
+2. 最初の TR (`table.rows[0]`) は実際にはテーブルのヘッダです、なので `.slice(1) で残りを取ります。
+3. 最初の `<td>` (name フィールド) のコンテンツで比較してソートします。
+4. `.append(...sortedRows)` で正しい順序でノードを挿入します。
 
-    Tables always have an implicit <tbody> element, so we need to take it and insert into it: a simple `table.append(...)` would fail.
+    テーブルは常に暗黙の<tbody>要素を持っているので、それを取り、その中に挿入する必要があります。単純な `table.append(...)` は失敗します。
 
-    Please note: we don't have to remove them, just "re-insert", they leave the old place automatically.
+    私たちはそれらを削除する必要がないことに留意してください。単に "再挿入" です。それらは自動的に古い場所を去ります。

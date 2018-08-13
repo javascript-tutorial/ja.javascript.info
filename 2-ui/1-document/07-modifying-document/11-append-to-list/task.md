@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Insert the HTML in the list
+# リストで HTML を挿入する
 
-Write the code to insert `<li>2</li><li>3</li>` between two `<li>` here:
+2つの `<li>` の間に  `<li>2</li><li>3</li>` を挿入するコードを書いてください。:
 
 ```html
 <ul id="ul">

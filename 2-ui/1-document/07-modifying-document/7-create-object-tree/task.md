@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Create a tree from the object
+# オブジェクトからツリーを作成する
 
-Write a function `createTree` that creates a nested `ul/li` list from the nested object.
+入れ子オブジェクトから、入れ子の `ul/li` のリストを作成する関数 `createTree` を書いてください。
 
-For instance:
+例:
 
 ```js
 let data = {
@@ -28,24 +28,24 @@ let data = {
 };
 ```
 
-The syntax:
+構文:
 
 ```js
 let container = document.getElementById('container');
 *!*
-createTree(container, data); // creates the tree in the container
+createTree(container, data); // container の中にリストを作ります
 */!*
 ```
 
-The result (tree) should look like this:
+結果(ツリー)は次のようになる必要があります。:
 
 [iframe border=1 src="build-tree-dom"]
 
-Choose one of two ways of solving this task:
+このタスクを解決する2つの方法のうち1つを選んでください:
 
-1. Create the HTML for the tree and then assign to `container.innerHTML`.
-2. Create tree nodes and append with DOM methods.
+1. ツリーのためのHTMLを生成し、`container.innerHTML` で割り当てます。
+2. ツリーノードを生成し、DOMメソッドで追加します。
 
-Would be great if you could do both.
+両方をすることができれば素晴らしいです。
 
-P.S. The tree should not have "extra" elements like empty `<ul></ul>` for the leaves.
+P.S. ツリーは空の `<ul></ul>` のような余分な要素を葉に持つべきではありません。

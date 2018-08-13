@@ -2,8 +2,8 @@ importance: 4
 
 ---
 
-# Colored clock with setInterval
+# setInterval を使用した色付き時計
 
-Create a colored clock like here:
+次のような色付き時計を作成してください:
 
 [iframe src="solution" height=60]

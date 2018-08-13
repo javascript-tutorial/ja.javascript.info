@@ -1,1 +1,1 @@
-Please note the usage of `textContent` to assign the `<li>` content.
+`<li>` の中身を割り当てるための `textContent` の使い方に注意してください。

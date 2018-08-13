@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Show descendants in a tree
+# ツリーの子孫を表示する
 
-There's a tree organized as nested `ul/li`.
+入れ子の `ul/li` で構成されているツリーがあります。
 
-Write the code that adds to each `<li>` the number of its descendants. Skip leaves (nodes without children).
+各 `<li>` にその子孫の数を追加するコードを書いてください。葉(子を持たないノード)はスキップしてください。
 
-The result:
+結果:
 
 [iframe border=1 src="solution"]

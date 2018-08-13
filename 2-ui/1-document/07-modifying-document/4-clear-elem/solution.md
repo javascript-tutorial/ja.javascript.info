@@ -1,5 +1,5 @@
 
-First, let's see how *not* to do it:
+まず、それを *しない* 方法を見てみましょう:
 
 ```js
 function clear(elem) {
@@ -9,11 +9,12 @@ function clear(elem) {
 }
 ```
 
-That won't work, because the call to `remove()` shifts the collection `elem.childNodes`, so elements start from the index `0` every time. But `i` increases, and some elements will be skipped.
+これは動作しません。なぜなら、`remove()` の呼び出しは集合 `elem.childNodes` をシフトするからです。なので、要素は毎回インデックス `0` から開始します。しかし、 `i` は増加するので、いくつかの要素はスキップされるでしょう。
 
-The `for..of` loop also does the same.
 
-The right variant could be:
+`for..of` ループも同じです。
+
+正しいバリアントは次のようになります:
 
 ```js
 function clear(elem) {
@@ -23,7 +24,7 @@ function clear(elem) {
 }
 ```
 
-And also there's a simpler way to do the same:
+また、よりシンプルな方法として次のように書くこともできます:
 
 ```js
 function clear(elem) {
