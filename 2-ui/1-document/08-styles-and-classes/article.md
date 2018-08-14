@@ -1,38 +1,39 @@
-# Styles and classes
+# スタイルとクラス
 
-Before we get to JavaScript ways of dealing with styles and classes -- here's an important rule. Hopefully it's obvious enough, but we still have to mention it.
+JavaScriptでスタイルとクラスを扱う方法を習得する前に、 -- ここには重要なルールがあります。うまくいけばそれは十分明らかですが、それでも言及する必要があります。
 
-There are generally two ways to style an element:
+一般的には要素をスタイルする2つの方法があります:
 
-1. Create a class in CSS and add it: `<div class="...">`
-2. Write properties directly into `style`: `<div style="...">`.
+1. CSS でクラスを生成し、それを追加します: `<div class="...">`
+2. `style` に直接プロパティを書きます: `<div style="...">`.
 
 [cut]
 
-CSS is always the preferred way -- not only for HTML, but in JavaScript as well.
+CSS は常に好まれる方法です -- HTML に対してだけではなく JavaScript でも同様です。
 
-We should only manipulate the `style` property if classes "can't handle it".
+クラスが "処理することが出来ない" 場合にのみ、`style` プロパティを操作するべきです。
 
-For instance, `style` is acceptable if we calculate coordinates of an element dynamically and want to set them from JavaScript, like this:
+例えば、要素の座標を動的に計算し、JavaScriptからそれを設定する場合には `style` は受け入れられます。:
 
 ```js
-let top = /* complex calculations */;
-let left = /* complex calculations */;
+let top = /* 複雑な計算 */;
+let left = /* 複雑な計算 */;
 elem.style.left = left; // e.g '123px'
 elem.style.top = top; // e.g '456px'
 ```
 
-For other cases, like making the text red, adding a background icon -- describe that in CSS and then apply the class. That's more flexible and easier to support.
+テキストを赤にしたり、背景アイコンを追加するような他のケースの場合 -- CSS でそれを記述した後にそのクラスを適用します。それはより柔軟でサポートしやすくなります。
 
-## className and classList
+## className と classList
 
-Changing a class is one of the most often actions in scripts.
+クラスを変更することは、スクリプトで最も頻繁に行われる操作の1つです。
 
-In the ancient time, there was a limitation in JavaScript: a reserved word like `"class"` could not be an object property. That limitation does not exist now, but at that time it was impossible to have a `"class"` property, like `elem.class`.
+ずっと昔、JavaScript には制限がありました: `"class"` のような予約語はオブジェクトプロパティにはできませんでした。その制限は今は存在しませんが、その当時は `elem.class` にように `"class"` プロパティを持つことは不可能でした。
 
-So for classes the similar-looking property `"className"` was introduced: the `elem.className` corresponds to the `"class"` attribute.
+したがって、クラスに対しては類似したプロパティ名 `"className"` が導入されました:
+ `elem.className` は `"class"` 属性に対応します。
 
-For instance:
+例:
 
 ```html run
 <body class="main page">
@@ -42,19 +43,19 @@ For instance:
 </body>
 ```
 
-If we assign something to `elem.className`, it replaces the whole strings of classes. Sometimes that's what we need, but often we want to add/remove a single class.
+もし何かを `elem.className` に割り当てた場合、クラスの文字列全体を置き換えます。それが必要なときもありますが、多くの場合は1つのクラスの追加/削除がしたいです。
 
-There's another property for that: `elem.classList`.
+そのための別のプロパティもあります: `elem.classList` です。
 
-The `elem.classList` is a special object with methods to `add/remove/toggle` classes.
+`elem.classList` はクラスを `追加/削除/切り替える` ためのメソッドを持つ特別なオブジェクトです。 
 
-For instance:
+例:
 
 ```html run
 <body class="main page">
   <script>
 *!*
-    // add a class
+    // クラスを追加します
     document.body.classList.add('article');
 */!*
 
@@ -63,15 +64,15 @@ For instance:
 </body>
 ```
 
-So we can operate both on the full class string using `className` or on individual classes using `classList`. What we choose depends on our needs.
+したがって、`className` を使って完全なクラス文字列操作したり、`classList` を使って個々のクラスを操作することができます。私たちが選ぶものは、私たちのニーズに応じたものになります。
 
-Methods of `classList`:
+`classList` のメソッド:
 
-- `elem.classList.add/remove("class")` -- adds/removes the class.
-- `elem.classList.toggle("class")` -- if the class exists, then removes it, otherwise adds it.
-- `elem.classList.contains("class")` -- returns `true/false`, checks for the given class.
+- `elem.classList.add/remove("class")` -- クラスの追加/削除をします。
+- `elem.classList.toggle("class")` -- もしクラスが存在する場合は削除します。そうでなければ追加します。
+- `elem.classList.contains("class")` -- 指定されたクラスをチェックし、 `true/false` を返します。
 
-Besides that, `classList` is iterable, so we can list all classes like this:
+それに加え、`classList` は反復可能です。なので、このようにすべてのクラスを列挙する事ができます:
 
 ```html run
 <body class="main page">
@@ -83,11 +84,11 @@ Besides that, `classList` is iterable, so we can list all classes like this:
 </body>
 ```
 
-## Element style
+## 要素のスタイル [#Element-style]
 
-The property `elem.style` is an object that corresponds to what's written in the `"style"` attribute. Setting `elem.style.width="100px"` works as if we had in the attribute `style="width:100px"`.
+プロパティ `elem.style` は `"style"` 属性に書かれたものに対応するオブジェクトです。`elem.style.width="100px"` の設定は、属性 `style="width:100px"` を持っているかのように機能します。
 
-For multi-word property the camelCase is used:
+複数語のプロパティは、キャメルケースが使われます:
 
 ```js no-beautify
 background-color  => elem.style.backgroundColor
@@ -95,50 +96,50 @@ z-index           => elem.style.zIndex
 border-left-width => elem.style.borderLeftWidth
 ```
 
-For instance:
+例:
 
 ```js run
 document.body.style.backgroundColor = prompt('background color?', 'green');
 ```
 
-````smart header="Prefixed properties"
-Browser-prefixed properties like `-moz-border-radius`, `-webkit-border-radius` also follow the same rule, for instance:
+````smart header="プレフィックス付きのプロパティ"
+`-moz-border-radius` や `-webkit-border-radius` のようなブラウザプレフィックスが付いたプロパティもまた同じルールに従います。例えば:
 
 ```js
 button.style.MozBorderRadius = '5px';
 button.style.WebkitBorderRadius = '5px';
 ```
 
-That is: a dash `"-"` becomes an uppercase.
+つまり: ダッシュ `"-"` は大文字になります。
 ````
 
-## Resetting the style property
+## スタイルプロパティのリセット [#Resetting the style property]
 
-Sometimes we want to assign a style property, and later remove it.
+時々、スタイルプロパティを割り当て、後ほどそれを削除したい場合があります。
 
-For instance, to hide an element, we can set `elem.style.display = "none"`.
+例えば、要素を隠すために `elem.style.display = "none"` と設定できます。
 
-Then later we may want to remove the `style.display` as if it were not set. Instead of `delete elem.style.display` we should assign an empty line to it: `elem.style.display = ""`.
+そして、後でそれがセットされていなかったかのように、 `style.display` を削除したいかもしれません。`delete elem.style.display` の代わりに空行を割り当てるべきです: `elem.style.display = ""`.
 
 ```js run
-// if we run this code, the <body> "blinks"
-document.body.style.display = "none"; // hide
+// このコードを実行すると、<body> が "点滅" します
+document.body.style.display = "none"; // 隠します
 
-setTimeout(() => document.body.style.display = "", 1000); // back to normal
+setTimeout(() => document.body.style.display = "", 1000); // 通常に戻ります
 ```
 
-If we set `display` to an empty string, then the browser applies CSS classes and its built-in styles normally, as if there were no such `style` property at all.
+`display` を空文字列に設定した場合、ブラウザは通常 CSS クラスと組み込みのスタイルを適用します。まるで `style` プロパティが全くないかのように振る舞います。
 
-````smart header="Full rewrite with `style.cssText`"
-Normally, we use `style.*` to assign individual style properties. We can't set the full style like `div.style="color: red; width: 100px"`, because `div.style` is an object, and it's read-only.
+````smart header="`style.cssText` で完全に書き直す"
+通常、個々のスタイルプロパティを割り当てるために `style.*` を使います。`div.style` はオブジェクトであり、読み取り専用であるため、`div.style="color: red; width: 100px"` のような完全なスタイルを設定することはできません。
 
-To set the full style as a string, there's a special property `style.cssText`:
+文字列で完全なスタイルを設定するための特別なプロパティ`style.cssText` があります:
 
 ```html run
 <div id="div">Button</div>
 
 <script>
-  // we can set special style flags like "important" here
+  // ここで "important" のような特別なスタイルのフラグを設定することも出来ます
   div.style.cssText=`color: red !important;
     background-color: yellow;
     width: 100px;
@@ -149,27 +150,27 @@ To set the full style as a string, there's a special property `style.cssText`:
 </script>
 ```
 
-We rarely use it, because such assignment removes all existing styles: it does not add, but replaces them. May occasionally delete something needed. But still can be done for new elements when we know we don't delete something important.
+このような代入は既存のすべてのスタイルを削除するので、めったに使われません。: それは追加ではなく置換です。場合によっては必要なものを削除する可能性があります。しかし、私たちが重要なものを削除しないことを知っているとき、新しい要素に対しては行う事ができます。
 
-The same can be accomplished by setting an attribute: `div.setAttribute('style', 'color: red...')`.
+属性を設定することで同じことを達成することが出来ます。: `div.setAttribute('style', 'color: red...')`.
 ````
 
-## Mind the units
+## 単位を気にする [#Mind the units]
 
-CSS units must be provided in style values.
+CSS の単位はスタイルの値の中で指定する必要があります。
 
-For instance, we should not set `elem.style.top` to `10`, but rather to `10px`. Otherwise it wouldn't work:
+例えば、`elem.style.top` は `10` ではなくむしろ `10px` とする必要があります。そうれなければ動作しません:
 
 ```html run height=100
 <body>
   <script>
   *!*
-    // doesn't work!
+    // 動作しません!
     document.body.style.margin = 20;
-    alert(document.body.style.margin); // '' (empty string, the assignment is ignored)
+    alert(document.body.style.margin); // '' (空文字列、この代入は無視されます)
   */!*
 
-    // now add the CSS unit (px) - and it works
+    // 今 CSS の単位(px) を追加 -- これは動作します
     document.body.style.margin = '20px';
     alert(document.body.style.margin); // 20px
 
@@ -179,19 +180,19 @@ For instance, we should not set `elem.style.top` to `10`, but rather to `10px`. 
 </body>
 ```
 
-Please note how the browser "unpacks" the property `style.margin` in the last lines and infers `style.marginLeft` and `style.marginTop` (and other partial margins) from it.
+ブラウザが最後の行で `style.margin` を "アンパック" し、`style.marginLeft`と `style.marginTop`（および他の部分的なマージン）をどのように推測するか注意してください。
 
-## Computed styles: getComputedStyle
+## 算出スタイル: getComputedStyle [#Computed styles: getComputedStyle]
 
-Modifying a style is easy. But how to *read* it?
+スタイルを変更するのは簡単です。しかしどうやってそれを *読み* ますか？
 
-For instance, we want to know the size, margins, the color of an element. How to do it?
+例えば、要素のサイズ、マージン、色が知りたいです。どうやりますか？
 
-**The `style` property operates only on the value of the `"style"` attribute, without any CSS cascade.**
+**`style` プロパティは CSS カスケードなしで、その `"style"` 属性の値だけを操作します。**
 
-So we can't read anything that comes from CSS classes using `elem.style`.
+なので、`elem.style` を使って CSS クラスから来たものを読むことは出来ません。
 
-For instance, here `style` doesn't see the margin:
+例えば、ここでは `style` はマージンを見ません:
 
 ```html run height=60 no-beautify
 <head>
@@ -202,32 +203,32 @@ For instance, here `style` doesn't see the margin:
   The red text
   <script>
 *!*
-    alert(document.body.style.color); // empty
-    alert(document.body.style.marginTop); // empty
+    alert(document.body.style.color); // 空
+    alert(document.body.style.marginTop); // 空
 */!*
   </script>
 </body>
 ```
 
-...But what if we need, say, increase the margin by 20px? We want the current value for the start.
+...しかし仮にマージンを 20px に増加する必要がある場合はどうすればよいでしょう？そのために現在の値がほしいです。 
 
-There's another method for that: `getComputedStyle`.
+そのための別のメソッドがあります: `getComputedStyle`.
 
-The syntax is:
+構文は次の通りです:
 
 ```js
 getComputedStyle(element[, pseudo])
 ```
 
 element
-: Element to read the value for.
+: 値を読み取る要素
 
 pseudo
-: A pseudo-element if required, for instance `::before`. An empty string or no argument mean the element itself.
+: 疑似要素(必要な場合)。例えば `::before`。空文字列または引数なしは要素自身を意味します。
 
-The result is an object with style properties, like `elem.style`, but now with respect to all CSS classes.
+結果は、`elem.style` のようにスタイルプロパティを持つオブジェクトですが、今はすべての CSS クラスに関してのものです。
 
-For instance:
+例:
 
 ```html run height=100
 <head>
@@ -238,7 +239,7 @@ For instance:
   <script>
     let computedStyle = getComputedStyle(document.body);
 
-    // now we can read the margin and the color from it
+    // 今やそこからマージンや色を読み取る事ができます
 
     alert( computedStyle.marginTop ); // 5px
     alert( computedStyle.color ); // rgb(255, 0, 0)
@@ -247,23 +248,24 @@ For instance:
 </body>
 ```
 
-```smart header="Computed and resolved values"
-There are two concepts in [CSS](https://drafts.csswg.org/cssom/#resolved-values):
+```smart header="算出(comupted)と解析(resolved)値"
+[CSS](https://drafts.csswg.org/cssom/#resolved-values) には2つのコンセプトがあります:
 
-1. A *computed* style value is the value after all CSS rules and CSS inheritance is applied, as the  result of the CSS cascade. If can look like `height:1em` or `font-size:125%`.
-2. A *resolved* style value is the one finally applied to the element. Values like `1em` or `125%` are relative. The browser takes the computed value and makes all units fixed and absolute, for instance: `height:20px` or `font-size:16px`. For geometry properties resolved values may have a floating point, like `width:50.5px`.
+1. *算出* スタイル値(*computed* style value)は、CSS カスケードの結果として、すべての CSS ルールと CSS 継承が適用された後の値です。`height:1em` または `font-size:125%` のように見えます。
 
-Long time ago `getComputedStyle` was created to get computed values, but it turned out that resolved values are much more convenient, and the standard changed.
+2. *解析* スタイル値(*resolved* style value)は要素に最終的に適用される値です。`1em` or `125%` のような値は相対的なものです。ブラウザは計算された値を取り、`height: 20px` や` font-size: 16px` のようにすべての単位を固定し絶対的にします。 幾何学プロパティの場合、解析された値は `width：50.5px`のような浮動小数点を持ちます。
 
-So nowadays `getComputedStyle` actually returns the resolved value of the property.
+ずっと以前に、`getComputedStyle` は計算された値を取得するために作られましたが、解析された値がはるかに便利であることが分かり、標準が変更されました。
+
+したがって、最近では `getComputedStyle` は実際にはプロパティの解析された値を返します。
 ```
 
-````warn header="`getComputedStyle` requires the full property name"
-We should always ask for the exact property that we want, like `paddingLeft` or `marginTop` or `borderTopWidth`. Otherwise the correct result is not guaranteed.
+````warn header="`getComputedStyle` には完全なプロパティ名が必要です"
+`paddingLeft` や `marginTop` や `borderTopWidth` のように、常に正確なプロパティを求めてください。 そうしないと、正しい結果が保証されません。
 
-For instance, if there are properties `paddingLeft/paddingTop`, then what should we get for `getComputedStyle(elem).padding`? Nothing, or maybe a "generated" value from known paddings? There's no standard rule here.
+例えば、`paddingLeft/paddingTop` プロパティがある場合、`getComputedStyle(elem).padding` のためにどうすればよいでしょうか？何もない、または知られているパディングから"生成された" 値があるでしょうか？そこに標準的なルールはありません。
 
-There are other inconsistencies. As an example, some browsers (Chrome) show `10px` in the document below, and some of them (Firefox) --  do not:
+他にも矛盾があります。 たとえば、一部のブラウザ（Chrome）では下記のドキュメントに"10px" と表示されていますが、他の一部のブラウザ（Firefox）では -- そうではありません:
 
 ```html run
 <style>
@@ -273,32 +275,32 @@ There are other inconsistencies. As an example, some browsers (Chrome) show `10p
 </style>
 <script>
   let style = getComputedStyle(document.body);
-  alert(style.margin); // empty string in Firefox
+  alert(style.margin); // Firefox では空文字です
 </script>
 ```
 ````
 
-```smart header="\"Visited\" links styles are hidden!"
-Visited links may be colored using `:visited` CSS pseudoclass.
+```smart header="\"訪問された\" リンクのスタイルは表示されません!"
+訪問されたリンクは `:visited` CSS 疑似クラスを使って色付けされるかもしれません。
 
-But `getComputedStyle` does not give access to that color, because otherwise an arbitrary page could find out whether the user visited a link by creating it on the page and checking the styles.
+しかし、`getComputedStyle` はその色へのアクセスを提供しません。なぜなら、そうでなければ、任意のページが、ページ上でそれを作りスタイルをチェックすることによって、ユーザがリンクを訪れたかどうかを知ることができるためです。
 
-JavaScript we may not see the styles applied by `:visited`. And also, there's a limitation in CSS that forbids to apply geometry-changing styles in `:visited`. That's to guarantee that there's no side way for an evil page to test if a link was visited and hence to break the privacy.
+JavaScriptでは、 `:visited` によって適用されたスタイルは見えません。また、`:visited` にジオメトリの変更スタイルを適用することを禁止するという制限が CSS にはあります。それは、リンクが訪問された場合に悪意のあるページがテストしてプライバシを破る方法がないことを保証するためです。
 ```
 
-## Summary
+## サマリ [#Summary]
 
-To manage classes, there are two DOM properties:
+クラスを管理するために、2つのDOMプロパティがあります:
 
-- `className` -- the string value, good to manage the whole set of classes.
-- `classList` -- the object with methods `add/remove/toggle/contains`, good for individual classes.
+- `className` -- 文字列値で、クラスのセット全体を管理するのに良いです。
+- `classList` -- メソッド `add/remove/toggle/contains` を持つオブジェクトで, 個々のクラスを管理するのに良いです。
 
-To change the styles:
+スタイルを変更するために:
 
-- The `style` property is an object with camelCased styles. Reading and writing to it has the same meaning as modifying individual properties in the `"style"` attribute. To see how to apply `important` and other rare stuff -- there's a list of methods at [MDN](mdn:api/CSSStyleDeclaration).
+- `style` プロパティはキャメルケース化されたスタイルを持つオブジェクトです。それへの読み書きは、 `"style"` 属性の個々のプロパティを変更するのと同じ意味を持ちます。`important` や他の珍しいものを適用する方法を知るには -- [MDN](mdn:api/CSSStyleDeclaration) にメソッドのリストがあります。
 
-- The `style.cssText` property corresponds to the whole `"style"` attribute, the full string of styles.
+- `style.cssText` プロパティは `"style"` 属性全体に対応し、スタイルの完全な文字列です。
 
-To read the resolved styles (with respect to all classes, after all CSS is applied and final values are calculated):
+解析されたスタイル(すべてのクラスに関して、すべてのCSSが適用され、最終的な値が計算された後)を読むために:
 
-- The `getComputedStyle(elem[, pseudo])` returns the style-like object with them. Read-only.
+- `getComputedStyle(elem[, pseudo])` はそれらのスタイルライクなオブジェクトを返します。読み取り専用です。
