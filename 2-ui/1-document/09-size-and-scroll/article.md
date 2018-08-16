@@ -1,15 +1,15 @@
-# Element size and scrolling
+# 要素サイズとスクローリング
 
-There are many JavaScript properties that allow to read information about element width, height and other geometry features.
+要素の幅、高さや他のジオメトリの特徴を関する情報を読み取ることのできる JavaScript のプロパティがたくさんあります。
 
-We often need them when moving or positioning elements in JavaScript, to correctly calculate coordinates.
+JavaScript では、要素を移動したり配置するときに、座標を正しく計算するためにしばしばそれらを必要とします。
 
 [cut]
 
 
-## Sample element
+## サンプル要素 [#Sample element]
 
-As a sample element to demonstrate properties we'll use the one given below:
+プロパティを示すサンプルの要素として、以下のものを使用します:
 
 ```html no-beautify
 <div id="example">
@@ -26,49 +26,49 @@ As a sample element to demonstrate properties we'll use the one given below:
 </style>
 ```
 
-It has the border, padding and scrolling. The full set of features. There are no margins, as they are not the part of the element itself, and there are no special properties for them.
+それはボーダー、パディングとスクローリングを持っています。特徴のフルセットです。要素自体の一部ではないため、マージンはありません。また、特別なプロパティはありません。
 
-The element looks like this:
+要素はこのように見えます:
 
 ![](metric-css.png)
 
-You can [open the document in the sandbox](sandbox:metric).
+[サンドボックスでドキュメントを開く](sandbox:metric) ことができます。
 
-```smart header="Mind the scrollbar"
-The picture above demonstrates the most complex case when the element has a scrollbar. Some browsers (not all) reserve the space for it by taking it from the content.
+```smart header="スクロールバーを気にしてください"
+上の図は、要素にスクロールバーがあるときの最も複雑なケースを示します。いくつかのブラウザ(すべてではありません)はコンテンツから取得することで、スクロールバーの領域を予約します。
 
-So, without scrollbar the content width would be `300px`, but if the scrollbar is `16px` wide (the width may vary between devices and browsers) then only `300-16 = 284px` remains, and we should take it into account. That's why examples from this chapter assume that there's a scrollbar. If there's no scrollbar, then things are just a bit simpler.
+したがって、スクロールバーがなければ、コンテンツの幅は `300px` になりますが、スクロールバーの幅が `16px` の場合(幅はデバイスやブラウザによって異なる場合があります)、 `300-16 = 284px` しか残っておらず、我々はそれを考慮する必要があります。そのため、このチャプターの例ではスクロールバーがあると仮定しています。もしスクロールバーがない場合には、物事は少しシンプルです。
 ```
 
-```smart header="The `padding-bottom` may be filled with text"
-Usually paddings are shown empty on illustrations, but if there's a lot of text in the element and it overflows, then browsers show the "overflowing" text at `padding-bottom`, so you can see that in examples. But the padding is still there, unless specified otherwise.
+```smart header="`padding-bottom` はテキストで埋められるかもしれません"
+通常、パディングはイラストでは空白で表示されますが、要素に多くのテキストがあり、オーバーフローする場合、ブラウザは `padding-bottom` に "オーバーフローしている" テキストを表示します。例でそれを見ることができます。しかし特に明記されていない限り、パディングは依然としてそこにあります。
 ```
 
-## Geometry
+## ジオメトリ [#Geometry]
 
-Element properties that provide width, height and other geometry are always numbers. They are assumed to be in pixels.
+幅、高さや他のジオメトリを提供する要素プロパティは常に数値です。それらはピクセルと仮定されます。
 
-Here's the overall picture:
+ここに全体像があります:
 
 ![](metric-all.png)
 
-They are many properties, it's difficult to fit them all in the single picture, but their values are simple and easy to understand.
+それらは多くのプロパティがあり、1つの図でそれらすべてを表現するのは難しいです。が、それらの値は単純で理解しやすいものです。
 
-Let's start exploring them from the outside of the element.
+要素の外側からそれらを調べてみましょう。
 
 ## offsetParent, offsetLeft/Top
 
-These properties are rarely needed, but still they are the "most outer" geometry properties, so we'll start with them.
+これらのプロパティは殆ど必要とされませんが、依然としてそれらは "最も外側の" ジオメトリプロパティなので、ここから始めましょう。
 
-The `offsetParent` is the nearest ancestor that is:
+`offsetParent` は次のような、最も近い祖先です。:
 
-1. CSS-positioned (`position` is `absolute`, `relative` or `fixed`),
-2. or `<td>`, `<th>`, `<table>`,
-2. or `<body>`.
+1. CSS-positioned(CSS位置) (`position` は `absolute`, `relative` または `fixed`),
+2. もしくは `<td>`, `<th>`, `<table>`,
+2. もしくは `<body>`.
 
-In most practical cases we can use `offsetParent` to get the nearest CSS-positioned ancestor. And `offsetLeft/offsetTop` provide x/y coordinates relative to it's left-upper corner.
+ほとんどの実践的なケースでは、`offsetParent` を使用して、最も近い CSS位置の祖先の取得出来ます。そして、`offsetLeft/offsetTop` はその左上隅への相対的な x/y 座標を提供します。
 
-In the example below the inner `<div>` has `<main>` as `offsetParent` and `offsetLeft/offsetTop` are shifts from its left-upper corner (`180`):
+下の例では、内部の `<div>` は `offsetParent` として `<main>` を持っており、`offsetLeft/offsetTop` はその左上隅(`180`)からシフトしています。:
 
 ```html run height=10
 <main style="position: relative" id="main">
@@ -85,34 +85,33 @@ In the example below the inner `<div>` has `<main>` as `offsetParent` and `offse
 
 ![](metric-offset-parent.png)
 
+`offsetParent` が `null` である場合がいくつかあります:
 
-There are several occasions when `offsetParent` is `null`:
-
-1. For not shown elements (`display:none` or not in the document).
-2. For `<body>` and `<html>`.
-3. For elements with `position:fixed` on them.
+1. 表示されていない要素(`display:none` またはドキュメント上にない)の場合
+2. `<body>` と `<html>` の場合
+3. `position:fixed` を持つ要素の場合
 
 ## offsetWidth/Height
 
-Now let's move to the element itself.
+次に、要素自身へ移動しましょう。
 
-These two properties are the simplest ones. They provide the "outer" width/height of the element. Or, in other words, its full size including borders.
+これら2つのプロパティは最もシンプルなものです。これらは要素の "外部の" 幅/高さを提供します。もしくは、言い換えると、ボーダーを含むその要素の完全なサイズです。
 
 ![](metric-offset-width-height.png)
 
-For our sample element:
+サンプル要素の場合:
 
-- `offsetWidth = 390` -- the outer width, can be calculated as inner CSS-width (`300px`) plus paddings (`2*20px`) and borders (`2*25px`).
-- `offsetHeight = 290` -- the outer height.
+- `offsetWidth = 390` -- 外部の幅で、内部のCSS幅(`300px`)とパディング(`2*20px`) とボーダー(`2*25px`) を足したものです。
+- `offsetHeight = 290` -- 外部の高さです。
 
-````smart header="Geometry properties for not shown elements are zero/null"
-Geometry properties are calculated only for shown elements.
+````smart header="表示されていない要素のジオメトリプロパティはゼロ/nullです"
+ジオメトリプロパティは表示されている要素に対してのみ計算されます。
 
-If an element (or any of its ancestors) has `display:none` or is not in the document, then all geometry properties are zero or `null` depending on what it is.
+もし要素(またはその祖先)が `display:none` を持っている、もしくはドキュメント上にない場合、それに応じてすべてのジオメトリプロパティはゼロもしくは `null` になります。
 
-For example, `offsetParent` is `null`, and `offsetWidth`, `offsetHeight` are `0`.
+例えば、`offsetParent` が `null` で `offsetWidt`, `offsetHeight` は `0` です。
 
-We can use this to check if an element is hidden, like this:
+私たちは次のように、これを要素が隠されているかをチェックするための使う事ができます:
 
 ```js
 function isHidden(elem) {
@@ -120,73 +119,73 @@ function isHidden(elem) {
 }
 ```
 
-Please note that such `isHidden` returns `true` for elements that are on-screen, but have zero sizes (like an empty `<div>`).
+このような `isHidden` は、(空の `<div>` のように)画面上にあるがサイズがゼロの要素の場合に `true` を返します。
 ````
 
 ## clientTop/Left
 
-Inside the element we have the borders.
+要素の内側にはボーダーがあります。
 
-To measure them, there are properties `clientTop` and `clientLeft`.
+それらを測るため、`clientTop` と `clientLeft` があります。
 
-In our example:
+私たちの例では:
 
-- `clientLeft = 25` -- left border width
-- `clientTop = 25` -- top border width
+- `clientLeft = 25` -- 左のボーダー幅
+- `clientTop = 25` -- トップのボーダー幅
 
 ![](metric-client-left-top.png)
 
-...But to be precise -- they are not borders, but relative coordinates of the inner side from the outer side.
+...しかし正確には -- それらはボーダーではなく、外側から内側の相対座標です。
 
-What's the difference?
+違いは何でしょう?
 
-It becomes visible when the document is right-to-left (the operation system is in arabic or hebrew languages). The scrollbar is then not on the right, but on the left, and then `clientLeft` also includes the scrollbar width.
+ドキュメントが右から左のとき(OSがアラビア語またはヘブライ語のとき)、その違いが見えます。スクロールバーは右側にはなく左側にあります。`clientLeft` にはスクロールバーの幅も含まれます。
 
-In that case `clientLeft` in our example would be not `25`, but with the scrollbar width `25+16=41`:
+この場合、今回の例の `clientLeft` は `25` ではなく、スクロールバーの幅を含めたものになります `25+16=41`:
 
 ![](metric-client-left-top-rtl.png)
 
 ## clientWidth/Height
 
-These properties provide the size of the area inside the element borders.
+これらのプロパティは要素のボーダーの内側の領域のサイズを提供します。
 
-They include the content width together with paddings, but without the scrollbar:
+パディングと一緒にコンテンツの幅を含みますが、スクロールバーは含まれません。:
 
 ![](metric-client-width-height.png)
 
-On the picture above let's first consider `clientHeight`: it's easier to evaluate. There's no horizontal scrollbar, so it's exactly the sum of what's inside the borders: CSS-height `200px` plus top and bottom paddings (`2*20px`) total `240px`.
+上の図では、最初に `clientHeight` を考えましょう: これは評価するのが簡単です。水平スクロールバーがないので、ボーダーの内側の合計になります: CSS高さ `200px` に top と bottom のパディング(`2*20px`) を加えた合計 `240px` です。
 
-Now `clientWidth` -- here the content width is not `300px`, but `284px`, because `16px` are occupied by the scrollbar. So the sum is `284px` plus left and right paddings, total `324px`.
+さて、`clientWidth` は -- コンテンツ幅は `300px` ではなく `284px` です。なぜなら `16px` はスクロールバーの幅だからです。したがって、合計は `284px` に左右のパディングを足した `324px` です。
 
-**If there are no paddings, then `clientWidth/Height` is exactly the content area, inside the borders and the scrollbar (if any).**
+**もしパディングがない場合、`clientWidth/Height` は丁度ボーダーとスクロールバー(存在する場合)の内側のコンテンツ領域なります。**
 
 ![](metric-client-width-nopadding.png)
 
-So when there's no padding we can use `clientWidth/clientHeight` to get the content area size.
+したがって、パディングがない場合には、コンテンツ領域のサイズを取得するために `clientWidth/clientHeight` を使うことができます。
 
 ## scrollWidth/Height
 
-- Properties `clientWidth/clientHeight` only account for the visible part of the element.
-- Properties `scrollWidth/scrollHeight` also include the scrolled out (hidden) part:
+- プロパティ `clientWidth/clientHeight` は要素の可視部分のみを占めます。
+- プロパティ `scrollWidth/scrollHeight` はスクロールアウトされた(隠れた)部分も含めます:
 
 ![](metric-scroll-width-height.png)
 
-On the picture above:
+上の図では:
 
-- `scrollHeight = 723` -- is the full inner height of the content area including the scrolled out part.
-- `scrollWidth = 324` -- is the full inner width, here we have no horizontal scroll, so it equals `clientWidth`.
+- `scrollHeight = 723` -- はスクロールアウト部分を含めたコンテンツ領域一杯の内部の高さです。
+- `scrollWidth = 324` -- は内部の全幅で、ここでは水平スクロールがないので、`clientWidth` と等しくなります。
 
-We can use these properties to expand the element wide to its full width/height.
+要素の広さを、その一杯の幅/高さに広げるのにこれらのプロパティを使うことができます。
 
-Like this:
+このように:
 
 ```js
-// expand the element to the full content height
+// 要素をコンテンツの高さ一杯に広げます
 element.style.height = element.scrollHeight + 'px';
 ```
 
 ```online
-Click the button to expand the element:
+ボタンをクリックして要素を広げてください:
 
 <div id="element" style="width:300px;height:200px; padding: 0;overflow: auto; border:1px solid black;">text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text</div>
 
@@ -195,44 +194,44 @@ Click the button to expand the element:
 
 ## scrollLeft/scrollTop
 
-Properties `scrollLeft/scrollTop` are the width/height of the hidden, scrolled out part of the element.
+プロパティ `scrollLeft/scrollTop` は隠された部分の 幅/高さ で、要素のスクロールアウトされた部分です。
 
-On the picture below we can see `scrollHeight` and `scrollTop` for a block with a vertical scroll.
+下の図では、縦スクロールのブロックに対する `scrollHeight` と `scrollTop` を見ることが出来ます。
 
 ![](metric-scroll-top.png)
 
-In other words, `scrollTop` is "how much is scrolled up".
+つまり、`scrollTop` は "どのくらいスクロールされているか" です。
 
-````smart header="`scrollLeft/scrollTop` can be modified"
-Most geometry properties that are read-only, but `scrollLeft/scrollTop` can be changed, and the browser will scroll the element.
+````smart header="`scrollLeft/scrollTop` は変更可能です"
+ほとんどのジオメトリプロパティは読み取り専用ですが、`scrollLeft/scrollTop` は変更可能で、ブラウザは要素をスクロールさせます。
 
 ```online
-If you click the element below, the code `elem.scrollTop+=10` executes. That makes the element content scroll `10px` below.
+下の要素をクリックすると、コード `elem.scrollTop+=10` を実行します。それは要素のコンテンツを `10px` 下にスクロールします。
 
 <div onclick="this.scrollTop+=10" style="cursor:pointer;border:1px solid black;width:100px;height:80px;overflow:auto">Click<br>Me<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
 ```
 
-Setting `scrollTop` to `0` or `Infinity` will make the element scroll to the very top/bottom respectively.
+`scrollTop` を `0` または `Infinity` に設定すると、要素はそれぞれトップ/ボトムまでスクロールします。
 ````
 
-## Don't take width/height from CSS
+## CSS から幅/高さを取らないでください [#Don't take width/height from CSS]
 
-We've just covered geometry properties of DOM elements. They are normally used to get widths, heights and calculate distances.
+私たちは、DOM要素のジオメトリプロパティを説明してきました。それらは通常、幅や高さを取得したり、距離を計算するために使われます。
 
-But as we know from the chapter <info:styles-and-classes>, we can read CSS-height and width using `getComputedStyle`.
+しかし、チャプター <info:styles-and-classes> でご存知の通り、CSSの幅/高さは`getComputedStyle` を使って読み取る事ができます。
 
-So why not to read the width of an element like this?
+なので、次のようにして要素の幅を読んだらどうでしょう？
 
 ```js run
 let elem = document.body;
 
-alert( getComputedStyle(elem).width ); // show CSS width for elem
+alert( getComputedStyle(elem).width ); // 要素の CSS幅を表示します
 ```
 
-Why we should use geometry properties instead? There are two reasons:
+なぜ代わりにジオメトリプロパティを使う必要があるのでしょうか？2つ理由があります:
 
-1. First, CSS width/height depend on another property: `box-sizing` that defines "what is" CSS width and height. A change in `box-sizing` for CSS purposes may break such JavaScript.
-2. Second, CSS `width/height` may be `auto`, for instance for an inline element:
+1. まず、CSS 幅/高さ は別のプロパティに依存しています: CSS の幅と高さが "何か" を定義する `box-sizing` です。CSS 目的のために `box-sizing` を変更すると、このような JavaScript が壊れる可能性があります。
+2. 次に、CSS `width/height` は `auto` の場合があります。例えば、インライン要素の場合です:
 
     ```html run
     <span id="elem">Hello!</span>
@@ -244,34 +243,35 @@ Why we should use geometry properties instead? There are two reasons:
     </script>
     ```
 
-    From the CSS standpoint, `width:auto` is perfectly normal, but in JavaScript we need an exact size in `px` that we can use in calculations. So here CSS width is useless at all.
+    CSSの立場からだと、`width:auto` は完全は正常ですが, JavaScript では計算で使える `px` での正確なサイズが必要です。そのため、ここでは CSS 幅は全く役に立ちません。
 
-And there's one more reason: a scrollbar. Sometimes the code that works fine without a scrollbar starts to bug with it, because a scrollbar takes the space from the content in some browsers. So the real width available for the content is *less* than CSS width. And `clientWidth/clientHeight` take that into account.
+また、もう1つ理由があります: スクロールバーです。スクロールバーがない場合に上手く動作するコードは、スクロールバーがあると不具合を引き起こすことがあります。なぜなら、スクロールバーは、ブラウザによってはコンテンツからスペースを取るためです。従って、コンテンツのために本当に利用可能な幅は CSS 幅よりも *小さい* です。そして、`clientWidth/clientHeight` はそれを考慮します。
 
-...But with `getComputedStyle(elem).width` the situation is different. Some browsers (e.g. Chrome) return the real inner width, minus the scrollbar, and some of them (e.g. Firefox) -- CSS width (ignore the scrollbar). Such cross-browser differences is the reason not to use `getComputedStyle`, but rather rely on geometry properties.
+...しかし、`getComputedStyle(elem).width` を使った状況では異なります。一部のブラウザ(e.g. Chrome) ではスクロールバーを引いた実際の内部幅を返し、別のいくつか(e.g. Firefox)は -- CSS 幅を返します(スクロールバーを無視)。このようなクロスブラザの差異が、`getComputedStyle` の利用ではなく、むしろジオメトリプロパティに頼るべき理由です。
+
 
 ```online
-If your browser reserves the space for a scrollbar (most browsers for Windows do), then you can test it below.
+もしあなたのブラウザがスクロールバーのスペースを確保するなら(Windows用のほとんどのブラウザがそうです)、下のサンプルでそれをテストできます。
 
 [iframe src="cssWidthScroll" link border=1]
 
-The element with text has CSS `width:300px`.
+テキストを持つ要素は CSS `width:300x` です。
 
-On a Desktop Windows OS, Firefox, Chrome, Edge all reserve the space for the scrollbar. But  Firefox shows `300px`, while Chrome and Edge show less. That's because Firefox returns the CSS width and other browsers return the "real" width.
+デスクトップ Windows OS 上の Firefox, Chrome, Edge はすべてスクロールバーのためのスペースを確保します。しかし、ChromeとEdgeがより小さい値を表示する一方、Firefox は `300px` を表示します。これは、Firefox が CSS 幅を返し、他のブラウザは "実際の" 幅を返すためです。
 ```
 
-Please note that the described difference are only about reading `getComputedStyle(...).width` from JavaScript, visually everything is correct.
+説明した違いは JavaScript から `getComputedStyle(...).width` を読むことについてのみであり、視覚的にはすべて正しいことに注意してください。
 
-## Summary
+## サマリ [#Summary]
 
-Elements have the following geometry properties:
+要素は次のジオメトリプロパティを持っています:
 
-- `offsetParent` -- is the nearest positioned ancestor or `td`, `th`, `table`, `body`.
-- `offsetLeft/offsetTop` -- coordinates relative to the left-upper edge of `offsetParent`.
-- `offsetWidth/offsetHeight` -- "outer" width/height of an element including borders.
-- `clientLeft/clientTop` -- the distance from the left-upper outer corner to its left-upper inner corner. For left-to-right OS they are always the widths of left/top borders. For right-to-left OS the vertical scrollbar is on the left so `clientLeft` includes its width too.
-- `clientWidth/clientHeight` -- the width/height of the content including paddings, but without the scrollbar.
-- `scrollWidth/scrollHeight` -- the width/height of the content including the scrolled out part. Also includes paddings, but not the scrollbar.
-- `scrollLeft/scrollTop` -- width/height of the scrolled out part of the element, starting from its left-upper corner.
+- `offsetParent` -- は最も近い position 指定された祖先 もしくは `td`, `th`, `table`, `body` です。
+- `offsetLeft/offsetTop` -- は `offsetParent` の左上端を基準とする座標です。
+- `offsetWidth/offsetHeight` -- はボーダーを含む要素の "外部の" 幅/高さです。
+- `clientLeft/clientTop` -- は左上の外側の角から左上の内側の角までの距離です。 左から右の OS では、常に左/上のボーダー幅です。 右から左へのOSの場合、縦スクロールバーは左にあります。したがって、 `clientLeft` もその幅を含みます。
+- `clientWidth/clientHeight` -- はパディングを含むコンテンツの幅/高さですが、スクロールバーは含みません。
+- `scrollWidth/scrollHeight` -- スクロールアウト部分を含むコンテンツの幅/高さです。パディングも含みますが、スクロールバーは含みません。
+- `scrollLeft/scrollTop` -- 要素のスクロールアウトされた部分の幅/高さで、左上の角から距離です。
 
-All properties are read-only except `scrollLeft/scrollTop`. They make the browser scroll the element if changed.
+`scrollLeft/scrollTop` 以外のすべてのプロパティは読み取り専用です。`scrollLeft/scrollTop` を変更するとブラウザは要素をスクロールします。
