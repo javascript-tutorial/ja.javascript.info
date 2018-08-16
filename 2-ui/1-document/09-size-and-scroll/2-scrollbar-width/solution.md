@@ -1,16 +1,16 @@
-To get the scrollbar width, we can create an element with the scroll, but without borders and paddings.
+スクロールバーの幅を取得するために、私たちはスクロールを持つがボーダーとパディングは含まない要素を作成することができます。
 
-Then the difference between its full width `offsetWidth` and the inner content area width `clientWidth` will be exactly the scrollbar:
+そして、その全幅 `offsetWidth` と内部コンテンツ領域幅 `clientWidth` の間の違いは、スクロールバーになります:
 
 ```js run
-// create a div with the scroll
+// スクロールを持つ div を作成します
 let div = document.createElement('div');
 
 div.style.overflowY = 'scroll';
 div.style.width = '50px';
 div.style.height = '50px';
 
-// must put it in the document, otherwise sizes will be 0
+// ドキュメントに置く必要があります、さもないとサイズは 0 です
 document.body.append(div);
 let scrollWidth = div.offsetWidth - div.clientWidth;
 

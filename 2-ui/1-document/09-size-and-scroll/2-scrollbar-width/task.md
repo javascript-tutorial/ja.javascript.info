@@ -2,10 +2,10 @@ importance: 3
 
 ---
 
-# What is the scrollbar width?
+# スクロールバーの幅は何でしょう？
 
-Write the code that returns the width of a standard scrollbar.
+標準のスクロールバーの幅を返すコードを書いてください。
 
-For Windows it usually varies between `12px` and `20px`. If the browser doesn't reserves any space for it, then it may be `0px`.
+Windowsでは、通常 `12px` と `20px` の間で変化します。もしブラウザがスクロールバーのためのスペースを予約していない場合は、`0px` の可能性があります。
 
-P.S. The code should work for any HTML document, do not depend on its content.
+P.S. コードは任意のHTMLドキュメントで動作すべきで、コンテンツには依存しません。

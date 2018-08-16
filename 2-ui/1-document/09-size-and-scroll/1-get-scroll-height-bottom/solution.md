@@ -1,7 +1,7 @@
-The solution is:
+解決策は:
 
 ```js
 let scrollBottom = elem.scrollHeight - elem.scrollTop - elem.clientHeight;
 ```
 
-In other words: (full height) minus (scrolled out top part) minus (visible part) -- that's exactly the scrolled out bottom part.
+つまり: (全高さ) - (スクロールアウトしたトップ部分) - (可視部分) -- これは正確にスクロールアウトしたボトム部分です。

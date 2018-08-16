@@ -1,50 +1,50 @@
-The ball has `position:absolute`. It means that its `left/top` coordinates are measured from the nearest positioned element, that is `#field` (because it has `position:relative`).
+ボールは `position:absolute` を持っています。それは、その `left/top` 座標は最も近い position指定された要素、つまり `#field` から測定されることを意味します(なぜなら `#field` は `position:relative` を持っているため)。
 
-The coordinates start from the inner left-upper corner of the field:
+座標は、フィールド内部の左上の角から始まります:
 
 ![](field.png)
 
-The inner field width/height is `clientWidth/clientHeight`. So the field center has coordinates `(clientWidth/2, clientHeight/2)`.
+内部フィールドの幅/高さは `clientWidth/clientHeight` です。なので、フィールドの中央は、座標 `(clientWidth/2, clientHeight/2)` となります。
 
-...But if we set `ball.style.left/top` to such values, then not the ball as a whole, but the left-upper edge of the ball would be in the center:
+...しかし、`ball.style.left/top` をこのような値にセットした場合、ボール全体ではなく、ボールの左上の端が中心になります:
 
 ```js
 ball.style.left = Math.round(field.clientWidth / 2) + 'px';
 ball.style.top = Math.round(field.clientHeight / 2) + 'px';
 ```
 
-Here's how it looks:
+次のように見えます:
 
 [iframe height=180 src="ball-half"]
 
-To align the ball center with the center of the field, we should move the ball to the half of its width to the left and to the half of its height to the top:
+ボールの中心をフィールドの中心に揃えるために、ボールをその幅の半分だけ左に移動させ、その高さの半分だけ上に移動させる必要があります。:
 
 ```js
 ball.style.left = Math.round(field.clientWidth / 2 - ball.offsetWidth / 2) + 'px';
 ball.style.top = Math.round(field.clientHeight / 2 - ball.offsetHeight / 2) + 'px';
 ```
 
-**Attention: the pitfall!**
+**注意: 落とし穴!**
 
-The code won't work reliably while `<img>` has no width/height:
+`<img>` が幅/高さを持たないとき、コードは確実に動作しません:
 
 ```html
 <img src="ball.png" id="ball">
 ```
 
-When the browser does not know the width/height of an image (from tag attributes or CSS), then it assumes them to equal `0` until the image finishes loading.
+ブラウザがイメージの幅/高さを知らないとき(タグ属性またはCSSから)、イメージの読み込みが終了するまで `0` と等しいと仮定します。
 
-In real life after the first load browser usually caches the image, and on next loads it will have the size immediately.
+実際には、最初の読み込みの後、ブラウザは通常イメージをキャッシュし、次の読み込みではすぐにサイズを取得します。
 
-But on the first load the value of `ball.offsetWidth` is `0`. That leads to wrong coordinates.
+しかし、最初の読み込み時、 `ball.offsetWidth` の値は `0` です。それは間違った座標に繋がります。
 
-We should fix that by adding `width/height` to `<img>`:
+`<img>` に `width/height` を追加し、それを修正する必要があります:
 
 ```html
 <img src="ball.png" *!*width="40" height="40"*/!* id="ball">
 ```
 
-...Or provide the size in CSS:
+...または CSS でサイズを与えます:
 
 ```css
 #ball {

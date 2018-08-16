@@ -2,10 +2,10 @@ importance: 5
 
 ---
 
-# What's the scroll from the bottom?
+# ボトムからのスクロールは何でしょう？
 
-The `elem.scrollTop` property is the size of the scrolled out part from the top. How to get "`scrollBottom`" -- the size from the bottom?
+`elem.scrollTop` プロパティはトップからスクロールアウトした部分のサイズです。"`scrollBottom`" ーーボトムからのサイズはどうやったら取得できるでしょうか？
 
-Write the code that works for an arbitrary `elem`.
+任意の `elem` で動作するコードを書いてください。
 
-P.S. Please check your code: if there's no scroll or the element is fully scrolled down, then it should return `0`.
+P.S. あなたのコードを確認してください: もしスクロールがない、もしくは要素が完全に下にスクロールしている場合、`0` を返すべきです。
