@@ -1,40 +1,41 @@
-# Coordinates
+# 座標
 
-To move elements around we should be familiar with coordinates.
+要素を移動させるには、座標についてよく知っている必要があります。
 
-Most JavaScript methods deal with one of two coordinate systems:
+ほとんどの JavaScript メソッドは２つの座標系のいずれかを扱います:
 
-1. Relative to the window(or another viewport) top/left.
-2. Relative to the document top/left.
+1. ウィンドウ(もしくは別のビューポート)の 上/左 を基準にします
+2. ドキュメントの 上/左 を基準とします
 
-It's important to understand the difference and which type is where.
+違いを理解し、どのタイプがどこにあるかを理解することは重要です。
 
 [cut]
 
-## Window coordinates: getBoundingClientRect
+## ウィンドウ座標: getBoundingClientRect [#Window coordinates]
 
-Window coordinates start at the left-upper corner of the window.
+ウィンドウ座標はウィンドウの左上端から始まります。
 
-The method `elem.getBoundingClientRect()` returns window coordinates for `elem` as an object with properties:
+メソッド `elem.getBoundingClientRect()` はプロパティを持つオブジェクトとして `elem` に対するウィンドウ座標を返します。:
 
-- `top` -- Y-coordinate for the top element edge,
-- `left` -- X-coordinate for the left element edge,
-- `right` -- X-coordinate for the right element edge,
-- `bottom` -- Y-coordinate for the bottom element edge.
+- `top` -- 要素の上端の Y-座標,
+- `left` -- 要素の左端の X-座標,
+- `right` -- 要素の右端の X-座標,
+- `bottom` -- 要素の下端の Y-座標.
 
-Like this:
+このようになります:
 
 ![](coords.png)
 
 
-Window coordinates do not take the scrolled out part of the document into account, they are calculated from the window left-upper corner.
+ウィンドウ座標はドキュメントのスクロールアウト部分を考慮せず、ウィンドウの左上端から計算されたものになります。
 
-In other words, when we scroll the page, the element goes up or down, *its window coordinates change*. That's very important.
+言い換えると、ページをスクロールするとき、要素は上下に移動し、*そのウィンドウ座標は変わります*。これはとても重要です。
+
 
 ```online
-Click the button to see its window coordinates:
+ボタンをクリックしてウィンドウ座標を見てみてください:
 
-<input id="brTest" type="button" value="Show button.getBoundingClientRect() for this button" onclick='showRect(this)'/>
+<input id="brTest" type="button" value="このボタンの  button.getBoundingClientRect() を表示する" onclick='showRect(this)'/>
 
 <script>
 function showRect(elem) {
@@ -43,34 +44,34 @@ function showRect(elem) {
 }
 </script>
 
-If you scroll the page, the button position changes, and window coordinates as well.
+もしページをスクロールすると、ボタン位置は代わり、ウィンドウ座標も同様に変わります。
 ```
 
-Also:
+また:
 
-- Coordinates may be decimal fractions. That's normal, internally browser uses them for calculations. We don't have to round them when setting to `style.position.left/top`, the browser is fine with fractions.
-- Coordinates may be negative. For instance, if the page is scrolled down and the `elem` top is now above the window then `elem.getBoundingClientRect().top` is negative.
-- Some browsers (like Chrome) also add to the result `getBoundingClientRect` properties `width` and `height`. We can get them also by subtraction: `height=bottom-top`, `width=right-left`.
+- 座標は少数の場合があります。それは正常で、内部的にはブラウザは計算のためにそれを使用します。私たちは `style.position.left/top` へ設定するときにそれらを丸める必要はありません。ブラウザで少数は問題ありません。
+- 座標は負の値になる場合があります。例えば、ページが下にスクロールされ、`elem` の上端がウィンドウの上にある場合、`elem.getBoundingClientRect().top` は負の値になります。
+- Chromeような一部のブラウザでは、結果 `getBoundingClientRect` にプロパティ `width` と `height` も追加します。減算することでもそれらを取得することは可能です: `height=bottom-top`, `width=right-left`。
 
-```warn header="Coordinates right/bottom are different from CSS properties"
-If we compare window coordinates versus CSS positioning, then there are obvious similarities to `position:fixed` -- also the position relative to the viewport.
+```warn header="座標 右/下 は CSS プロパティとは異なります"
+ウィンドウ座標と CSSの配置を比較すると、`position:fixed` との明らかな類似点があります -- ビューポートを基準とした位置も同じです。
 
-But in CSS the `right` property means the distance from the right edge, and the `bottom` -- from the bottom edge.
+しかし、CSS では `right` プロパティは右端からの距離を意味し、`bottom` は -- 下端からの距離です。
 
-If we just look at the picture below, we can see that in JavaScript it is not so. All window coordinates are counted from the upper-left corner, including these ones.
+上の図を見た時、JavaScriptではそうでないことが分かります。すべてのウィンドウ座標は左上隅から数えられます。
 ```
 
 ## elementFromPoint(x, y) [#elementFromPoint]
 
-The call to `document.elementFromPoint(x, y)` returns the most nested element at window coordinates `(x, y)`.
+`document.elementFromPoint(x, y)` の呼び出しは、ウィンドウ座標 `(x, y)` で最もネストされた要素を返します。
 
-The syntax is:
+構文は次の通りです:
 
 ```js
 let elem = document.elementFromPoint(x, y);
 ```
 
-For instance, the code below highlights and outputs the tag of the element that is now in the middle of the window:
+例えば、下のコードは今ウィンドウの中央にある要素のタグを強調表示し、出力します。:
 
 ```js run
 let centerX = document.documentElement.clientWidth / 2;
@@ -82,45 +83,45 @@ elem.style.background = "red";
 alert(elem.tagName);
 ```
 
-As it uses window coordinates, the element may be different depending on the current scroll position.
+ウィンドウ座標を使うので、要素は現在のスクロール位置に応じて異なります。
 
-````warn header="For out-of-window coordinates the `elementFromPoint` returns `null`"
-The method `document.elementFromPoint(x,y)` only works if `(x,y)` are inside the visible area.
+````warn header="ウィンドウ外の座標の場合、`elementFromPoint` は `null` を返します。"
+メソッド `document.elementFromPoint(x,y)` は `(x,y)` が可視領域にある場合にのみ動作します。
 
-If any of the coordinates is negative or exceeds the window width/height, then it returns `null`.
+もしある座標が負の値またはウィンドウの幅/高さを超えている場合、`null` を返します。
 
-In most cases such behavior is not a problem, but we should keep that in mind.
+ほとんどの場合、このような振る舞いは問題ではありませんが、それを心に留めておく必要があります。
 
-Here's a typical error that may occur if we don't check for it:
+これは、それをチェックしない場合に発生する可能性のある典型的なエラーです:
 
 ```js
 let elem = document.elementFromPoint(x, y);
-// if the coordinates happen to be out of the window, then elem = null
+// 座標がウィンドウ外の場合、elem = null
 *!*
-elem.style.background = ''; // Error!
+elem.style.background = ''; // エラー!
 */!*
 ```
 ````
 
-## Using for position:fixed
+## position:fixed を用いる [#Using for position:fixed]
 
-Most of time we need coordinates to position something. In CSS, to position an element relative to the viewport we use `position:fixed` together with `left/top` (or `right/bottom`).
+多くの場合、何かを配置するために座標を必要とします。CSS ではビューポートを基準として要素を配置するために、`left/top` (または `right/bottom`) と一緒に `position:fixed` を使います。
 
-We can use `getBoundingClientRect` to get coordinates of an element, and then to show something near it.
+私たちは、`getBoundingClientRect` を使って要素の座標を取得し、その近くに何かを表示することができます。
 
-For instance, the function `createMessageUnder(elem, html)` below shows the message under `elem`:
+例えば、下の関数 `createMessageUnder(elem, html)` は `elem` の下にメッセージを表示します。:
 
 ```js
 let elem = document.getElementById("coords-show-mark");
 
 function createMessageUnder(elem, html) {
-  // create message element
+  // メッセージ要素の作成
   let message = document.createElement('div');
-  // better to use a css class for the style here
+  // ここでは、スタイルにCSSクラスを使う方が良いです
   message.style.cssText = "position:fixed; color: red";
 
 *!*
-  // assign coordinates, don't forget "px"!
+  // 座標の設定, "px" を忘れないこと!
   let coords = elem.getBoundingClientRect();
 
   message.style.left = coords.left + "px";
@@ -132,63 +133,63 @@ function createMessageUnder(elem, html) {
   return message;
 }
 
-// Usage:
-// add it for 5 seconds in the document
+// 使用例:
+// ドキュメント上に５秒間追加します
 let message = createMessageUnder(elem, 'Hello, world!');
 document.body.append(message);
 setTimeout(() => message.remove(), 5000);
 ```
 
 ```online
-Click the button to run it:
+実行するにはボタンをクリックしてください:
 
-<button id="coords-show-mark">Button with id="coords-show-mark", the message will appear under it</button>
+<button id="coords-show-mark">id="coords-show-mark" のボタン, この下にメッセージが現れます</button>
 ```
 
-The code can be modified to show the message at the left, right, below, apply CSS animations to "fade it in" and so on. That's easy, as we have all the coordinates and sizes of the element.
+このコードを変更して、メッセージを左、右、下に表示したり、"フェードイン" するための CSS アニメーションを適用することができます。私たちは要素のすべての座標とサイズを知っているので簡単にできます。
 
-But note the important detail: when the page is scrolled, the message flows away from the button.
+しかし、重要な点に注意してください: ページがスクロールされたとき、メッセージはボタンから離れていきます。
 
-The reason is obvious: the message element relies on `position:fixed`, so it remains at the same place of the window while the page scrolls away.
+理由は明らかです: メッセージ要素は `position:fixed` に依存しているので、ページがスクロールしている間、ウィンドウの同じ場所にい続けます。
 
-To change that, we need to use document-based coordinates and `position:absolute`.
+変更するためには、ドキュメントベースの座標を使い、`position:absolute` をを使う必要があります。
 
-## Document coordinates
+## ドキュメント座標 [#Document coordinates]
 
-Document-relative coordinates start from the left-upper corner of the document, not the window.
+ドキュメント相対座標は、ウィンドウではなくドキュメントの左上端から始めます。
 
-In CSS, window coordinates correspond to `position:fixed`, while document coordinates are similar to `position:absolute` on top.
+CSS では、ウィンドウ座標は `position:fixed` に対応する一方、ドキュメント座標は `position:absolute` に似ています。
 
-We can use `position:absolute` and `top/left` to put something at a certain place of the document, so that it remains there during a page scroll. But we need the right coordinates first.
+`position:absolute` と `top/left` を使うことで、ドキュメント上の特定の場所に何かを置くことができます。なので、ページのスクロール時にそこに残ることができます。しかし、最初に正しい座標が必要です。
 
-For clarity we'll call window coordinates `(clientX,clientY)` and document coordinates `(pageX,pageY)`.
+分かりやすくするために、ウィンドウ座標 `(clientX,clientY)` とドキュメント座標 `(pageX,pageY)` を呼び出します。
 
-When the page is not scrolled, then window coordinate and document coordinates are actually the same. Their zero points match too:
+ページがスクロールされていないとき、ウィンドウ座標とドキュメント座標はまったく同じです。それらのゼロの点も一致します:
 
 ![](document-window-coordinates-zero.png)
 
-And if we scroll it, then `(clientX,clientY)` change, because they are relative to the window, but `(pageX,pageY)` remain the same.
+そして、スクロールをすると、`(clientX,clientY)` が変わります。なぜなら、それらはウィンドウに相対的なためです。しかし、`(pageX,pageY)` は同じままです。
 
-Here's the same page after the vertical scroll:
+これは縦スクロール後の同じページです:
 
 ![](document-window-coordinates-scroll.png)
 
-- `clientY` of the header `"From today's featured article"` became `0`, because the element is now on window top.
-- `clientX` didn't change, as we didn't scroll horizontally.
-- `pageX` and `pageY` coordinates of the element are still the same, because they are relative to the document.
+- 要素は今ウィンドウの上部にあるので、ヘッダー `"From today's featured article"` の `clientY` は `0` になりました。
+- 水平スクロールをしなかったため、`clientX` は変わりませんでした。
+- 要素の `pageX` と `pageY` 座標は依然として同じです。なぜなら、それらはドキュメントに相対的だからです。
 
-## Getting document coordinates [#getCoords]
+## ドキュメント座標の取得 [#getCoords]
 
-There's no standard method to get document coordinates of an element. But it's easy to write it.
+要素のドキュメント座標を取得するための標準メソッドはありません。しかし、簡単に書けます。
 
-The two coordinate systems are connected by the formula:
-- `pageY` = `clientY` + height of the scrolled-out vertical part of the document.
-- `pageX` = `clientX` + width of the scrolled-out horizontal part of the document.
+２つの座標系は次の式で繋がれます:
+- `pageY` = `clientY` + ドキュメントのスクロールアウトした垂直部分の高さ
+- `pageX` = `clientX` + ドキュメントのスクロールアウトした水平部分の幅
 
-The function `getCoords(elem)` will take window coordinates from `elem.getBoundingClientRect()` and add the current scroll to them:
+関数 `getCoords(elem)` は `elem.getBoundingClientRect()` からウィンドウ座標を取り、それらに現在のスクロールを加えます。:
 
 ```js
-// get document coordinates of the element
+// 要素のドキュメント座標を取得
 function getCoords(elem) {
   let box = elem.getBoundingClientRect();
 
@@ -199,13 +200,13 @@ function getCoords(elem) {
 }
 ```
 
-## Summary
+## サマリ [#Summary]
 
-Any point on the page has coordinates:
+ページ上に任意の点は座標を持っています:
 
-1. Relative to the window -- `elem.getBoundingClientRect()`.
-2. Relative to the document -- `elem.getBoundingClientRect()` plus the current page scroll.
+1. ウィンドウに相対的 -- `elem.getBoundingClientRect()`
+2. ドキュメントに相対的 -- `elem.getBoundingClientRect()` + 現在のページスクロール
 
-Window coordinates are great to use with `position:fixed`, and document coordinates do well with `position:absolute`.
+ウィンドウ座標は `position:fixed` と一緒に使用するのが賢明で、ドキュメント座標は `position:absolute` と上手くやります。
 
-Both coordinate systems have their "pro" and "contra", there are times we need one or the other one, just like CSS `position` `absolute` and `fixed`.
+どちらの座標系も "長所" と "短所" を持っており、CSS の `position` `absolute` と `fixed` のように、どちらか一方が必要なときがあります。
