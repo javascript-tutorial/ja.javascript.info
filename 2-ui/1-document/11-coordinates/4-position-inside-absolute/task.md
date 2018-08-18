@@ -2,27 +2,27 @@ importance: 5
 
 ---
 
-# Position the note inside (absolute)
+# ノートを内部に配置する (absolute)
 
-Extend the previous task <info:task/position-at-absolute>: teach the function  `positionAt(anchor, position, elem)` to insert `elem` inside the `anchor`.
+前のタスク <info:task/position-at-absolute> を拡張してください: 関数 `positionAt(anchor, position, elem)` に、 `anchor` の内側に `elem` を挿入するよう教えてください。
 
-New values for `position`:
+`position` のための新しい値:
 
-- `top-out`, `right-out`, `bottom-out` -- work the same as before, they insert the `elem` over/right/under `anchor`.
-- `top-in`, `right-in`, `bottom-in` -- insert `elem` inside the `anchor`: stick it to the upper/right/bottom edge.
+- `top-out`, `right-out`, `bottom-out` -- 前と同じように動作し、`elem` を `anchor` の上/右/下に挿入します。
+- `top-in`, `right-in`, `bottom-in` -- `anchor` の内側に `elem` を挿入します。: 上/右/下端に取り付けます。
 
-For instance:
+例:
 
 ```js
-// shows the note above blockquote
+// blockquote の上にノートを表示します
 positionAt(blockquote, "top-out", note);
 
-// shows the note inside blockquote, at the top
+// blockquote の内側の先頭にノートを表示します
 positionAt(blockquote, "top-in", note);
 ```
 
-The result:
+結果:
 
 [iframe src="solution" height="310" border="1" link]
 
-As the source code, take the solution of the task <info:task/position-at-absolute>.
+ソースコードとして、タスク <info:task/position-at-absolute> の解決策を使ってください。

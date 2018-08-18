@@ -2,10 +2,10 @@ importance: 5
 
 ---
 
-# Show a note near the element (absolute)
+# 要素の近くにノートを表示する(absolute)
 
-Modify the solution of the [previous task](info:task/position-at) so that the note uses `position:absolute` instead of `position:fixed`.
+ノートが `position:fixed` の代わりに `position:absolute` を使うよう、 [前のタスク](info:task/position-at) の解決策を修正してください。
 
-That will prevent its "runaway" from the element when the page scrolls.
+それはページスクロール時に、要素から "離れていく" のを防ぎます。
 
-Take the solution of that task as a starting point. To test the scroll, add the style `<body style="height: 2000px">`.
+そのタスクの解決策を出発点にしてください。スクロールをテストするために、スタイル `<body style="height: 2000px">` を追加してください。

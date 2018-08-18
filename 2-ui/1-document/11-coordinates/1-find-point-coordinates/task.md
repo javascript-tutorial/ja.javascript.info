@@ -2,23 +2,23 @@ importance: 5
 
 ---
 
-# Find window coordinates of the field
+# フィールドのウィンドウ座標を見つける
 
-In the iframe below you can see a document with the green "field".
+下の iframe では、緑の "フィールド" を持つドキュメントがあります。
 
-Use JavaScript to find window coordinates of corners pointed by with arrows.
+矢印でポイントされた角のウィンドウ座標を見つけるために、JavaScript を使用してください。
 
-There's a small feature implemented in the document for convenience. A click at any place shows coordinates there.
+便宜のために、ドキュメント上に実装している小さな機能があります。任意の場所をクリックすると、そこの座標を表示します。
 
 [iframe border=1 height=360 src="source" link edit]
 
-Your code should use DOM to get window coordinates of:
+あなたのコードは次のウィンドウ座標を取得するために DOM を使う必要があります:
 
-1. Left-upper outer corner (that's simple).
-2. Right-bottom outer corner (simple too).
-3. Left-upper inner corner (a bit harder).
-4. Right-bottom inner corner (there are several ways, choose one).
+1. 左上の外部の角(それはシンプルです)
+2. 右下の外部の角(これもシンプルです)
+3. 左上の内部の角(少し難しいです)
+4. 右下の内部の角(いくつか方法があり、１つを選んでください)
 
-The coordinates that you calculate should be the same as those returned by the mouse click.
+あなたが計算する座標は、マウスクリックで返却されるものと同じであるべきです。
 
-P.S. The code should also work if the element has another size or border, not bound to any fixed values.
+P.S. コードは要素が別のサイズやボーダーの場合でも動作する必要があります。任意の固定値で束縛しないでください。

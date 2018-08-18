@@ -1,4 +1,4 @@
-The solution is actually pretty simple:
+解法は実際には非常にシンプルです:
 
-- Use `position:absolute` in CSS instead of `position:fixed` for `.note`.
-- Use the function [getCoords()](info:coordinates#getCoords) from the chapter <info:coordinates> to get document-relative coordinates.
+- `.note` に、`position:fixed` の代わりに `position:absolute` を CSS で使ってください。
+- ドキュメント相対座標を取得するために、チャプター <info:coordinates> の関数 [getCoords()](info:coordinates#getCoords) を使ってください。

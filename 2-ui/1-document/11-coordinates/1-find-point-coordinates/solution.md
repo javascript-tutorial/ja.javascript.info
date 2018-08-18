@@ -1,8 +1,8 @@
-# Outer corners
+# 外部の角
 
-Outer corners are basically what we get from  [elem.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/DOM/element.getBoundingClientRect).
+外部の角は基本的に [elem.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/DOM/element.getBoundingClientRect) から取得したものです。
 
-Coordinates of the upper-left corner `answer1` and the bottom-right corner `answer2`:
+左上の角 `answer1` と、右下の角 `answer2` の座標は:
 
 ```js
 let coords = elem.getBoundingClientRect();
@@ -11,19 +11,19 @@ let answer1 = [coords.left, coords.top];
 let answer2 = [coords.right, coords.bottom];
 ```
 
-# Left-upper inner corner
+# 左上の内部の角
 
-That differs from the outer corner by the border width. A reliable way to get the distance is `clientLeft/clientTop`:
+それはボーダーの幅が外部の角とは異なります。その距離を取得する信頼できる方法は `clientLeft/clientTop` です。:
 
 ```js
 let answer3 = [coords.left + field.clientLeft, coords.top + field.clientTop];
 ```
 
-# Right-bottom inner corner
+# 右下の内部の角
 
-In our case we need to substract the border size from the outer coordinates.
+我々のケースでは、外部の座標からボーダーのサイズを減算する必要があります。
 
-We could use CSS way:
+CSS の方法を使用することができます:
 
 ```js
 let answer4 = [
@@ -32,7 +32,7 @@ let answer4 = [
 ];
 ```
 
-An alternative way would be to add `clientWidth/clientHeight` to coordinates of the left-upper corner. That's probably even better:
+代わりの方法は `clientWidth/clientHeight` を左上の角の座標に足す方法です。おそらくこれはより良い方法でしょう。:
 
 ```js
 let answer4 = [

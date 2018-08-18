@@ -1,4 +1,4 @@
-In this task we only need to accuracely calculate the coorindates. See the code for details.
+このタスクは、座標を正しく計算するだけで済みます。詳細についてはコードを見てください。
 
-Please note: the elements must be in the document to read `offsetHeight` and other properties.
-A hidden (`display:none`) or out of the document element has no size.
+注意: `offsetHeight` や他のプロパティを読むために要素はドキュメント上になければなりません。
+隠れた (`display:none`) またはドキュメント外の要素はサイズがありません。

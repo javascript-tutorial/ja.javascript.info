@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# Show a note near the element
+# 要素の近くにノート(メモ)を表示する
 
-Create a function `positionAt(anchor, position, elem)` that positions `elem`, depending on  `position` either at the top (`"top"`), right (`"right"`) or bottom (`"bottom"`) of the element `anchor`.
+要素 `anchor` の 上 (`"top"`), 右 (`"right"`) または下 (`"bottom"`) のいずれかにある `position` に応じて `elem` を配置する関数 `positionAt(anchor, position, elem)` を作成してください。
 
-Use it to make a function `showNote(anchor, position, html)` that shows an element with the class `"note"` and the text `html` at the given position near the anchor.
+それを使って、クラス `"note"` を持つ要素と、`anchor` の近くの指定された位置にテキスト `html` を表示する関数 `showNote(anchor, position, html)` を作成します。
 
-Show the notes like here:
+次のようなノートを表示します:
 
 [iframe src="solution" height="350" border="1" link]
 
-P.S. The note should have `position:fixed` for this task.
+P.S. ノートはこのタスクでは `position:fixed` を持たなければなりません。
