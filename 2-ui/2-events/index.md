@@ -1,3 +1,3 @@
-# Introduction into Events
+# イベント概論
 
-An introduction to browser events, event properties and handling patterns.
+ブラウザイベント、イベントプロパティ、および処理パターンを紹介します。

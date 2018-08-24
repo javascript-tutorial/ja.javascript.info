@@ -1,58 +1,58 @@
-# Introduction to browser events
+# ブラウザイベントの紹介
 
-*An event* is a signal that something has happened. All DOM nodes generate such signals (but events are not limited to DOM).
+*イベント* は何かが起きたと言う信号です。すべての DOM ノードはこのような信号を生成します(ただし、イベントは DOM に限ったものではありません)。
 
 [cut]
 
-Here's a list of the most useful DOM events, just to take a look at:
+ここでは最も有用なDOMイベントのリストを見てみましょう。:
 
-**Mouse events:**
-- `click` -- when the mouse clicks on an element (touchscreen devices generate it on a tap).
-- `contextmenu` -- when the mouse right-clicks on an element.
-- `mouseover` / `mouseout` -- when the mouse cursor comes over / leaves an element.
-- `mousedown` / `mouseup` -- when the mouse button is pressed / released over an element.
-- `mousemove` -- when the mouse is moved.
+**マウスイベント:**
+- `click` -- 要素上でマウスをクリックしたとき(タッチスクリーンデバイスでは、タップでこのイベントを生成します)。
+- `contextmenu` -- 要素上でマウスを右クリックしたとき。
+- `mouseover` / `mouseout` -- マウスカーソルが要素へ来た/出たとき。
+- `mousedown` / `mouseup` -- 要素上でマウスボタンを押したり離されたとき。
+- `mousemove` -- マウスが移動したとき。
 
-**Form element events:**
-- `submit` -- when the visitor submits a `<form>`.
-- `focus` --  when the visitor focuses on an element, e.g. on an `<input>`.
+**フォーム要素イベント:**
+- `submit` -- 訪問者が `<form>` をサブミットしたとき。
+- `focus` --  訪問者が要素にフォーカスしたとき。e.g. `<input>`。
 
-**Keyboard events:**
-- `keydown` and `keyup` -- when the visitor presses and then releases the button.
+**キーボードイベント:**
+- `keydown` と `keyup` -- 訪問者がボタンを押したり離したとき。
 
-**Document events**
-- `DOMContentLoaded` -- when the HTML is loaded and processed, DOM is fully built.
+**ドキュメントイベント**
+- `DOMContentLoaded` -- HTMLがロードされ処理されたとき、DOM は完全に構築済みです。
 
-**CSS events:**
-- `transitionend` -- when a CSS-animation finishes.
+**CSS イベント:**
+- `transitionend` -- CSS アニメーションが終了したとき。
 
-There are many other events. We'll get into more details of particular events in next chapters.
+他にも多くのイベントがあります。次のチャプターで特定のイベントについてより詳細を見ていきます。
 
-## Event handlers
+## イベントハンドラ [#Event handlers]
 
-To react on events we can assign a *handler* -- a function that runs in case of an event.
+イベントに反応するために、*ハンドラ* -- イベント発生時に実行する関数 -- を割り当てることができます。
 
-Handlers is a way to run JavaScript code in case of user actions.
+ハンドラは、ユーザのアクション時に JavaScript コードを実行する方法です。
 
-There are several ways to assign a handler. Let's see them, starting from the simplest one.
+ハンドラを割り当てる方法はいくつかあります。最も簡単なものから始め、それらを見ていきましょう。
 
-### HTML-attribute
+### HTML 属性 [#HTML-attribute]
 
-A handler can be set in HTML with an attribute named `on<event>`.
+ハンドラは `on<event>` と言う名前の属性で、 HTML 上で設定できます。
 
-For instance, to assign a `click` handler for an `input`, we can use `onclick`, like here:
+例えば、`input` に対して `click` ハンドラを割り当てるためには、このように `onclick` を使います:
 
 ```html run
 <input value="Click me" *!*onclick="alert('Click!')"*/!* type="button">
 ```
 
-On mouse click, the code inside `onclick` runs.
+マウスをクリックすると、`onclick` 内のコードが実行されます。
 
-Please note that inside `onclick` we use single quotes, because the attribute itself is in double quotes. If we forget that the code is inside the attribute and use double quotes inside, like this:  `onclick="alert("Click!")"`, then it won't work right.
+`onclick` 内で、シングルクォーテーションを使用していることに注意してください。これは、属性自身がダブルクォーテーションの中にいるためです。もし属性の中にいることを忘れ、ダブルクォーテーションを使った場合、次のようになります: `onclick="alert("Click!")"` , これは正しく動作しません。
 
-An HTML-attribute is not a convenient place to write a lot of code, so we'd better create a JavaScript function and call it there.
+HTML 属性は多くのコードを書くのに便利な場所ではないので、JavaScript 関数を作り、そこでその関数を呼ぶのが良いです。
 
-Here a click runs the function `countRabbits()`:
+ここでは、クリックで関数 `countRabbits()` を実行します:
 
 ```html autorun height=50
 <script>
@@ -66,13 +66,13 @@ Here a click runs the function `countRabbits()`:
 <input type="button" *!*onclick="countRabbits()"*/!* value="Count rabbits!">
 ```
 
-As we know, HTML attribute names are not case-sensitive, so `ONCLICK` works as well as `onClick` and `onCLICK`... But usually attributes are lowercased: `onclick`.
+ご存知の通り、HTML 属性名は大文字小文字を区別しません。そのため、`ONCLICK` は `onClick` や `onCLICK` と同様に動作します。が、通常属性は小文字表記です: `onclick`。
 
-### DOM property
+### DOM プロパティ [#DOM property]
 
-We can assign a handler using a DOM property `on<event>`.
+DOM プロパティ `on<event>` を使ってハンドラを割り当てることができます。
 
-For instance, `elem.onclick`:
+例えば, `elem.onclick`:
 
 ```html autorun
 <input id="elem" type="button" value="Click me">
@@ -85,15 +85,15 @@ For instance, `elem.onclick`:
 </script>
 ```
 
-If the handler is assigned using an HTML-attribute then the browser reads it, creates a new function from the attribute content and writes it to the DOM property.
+ハンドラが HTML属性を使用して割り当てられた場合、ブラウザはそれを読み、属性のコンテンツから新しい関数を作成し、DOM プロパティに書きこみます。
 
-So this way is actually the same as the previous one.
+したがって、この方法は実際には前の方法と同じです。
 
-**The handler is always in the DOM property: the HTML-attribute is just one of the ways to initialize it.**
+**ハンドラは常に DOM プロパティにあります: HTML属性は単にその初期化の方法の1つにすぎません。**
 
-These two code pieces work the same:
+これらの２つのコードは同じように動作します:
 
-1. Only HTML:
+1. HTMLのみ:
 
     ```html autorun height=50
     <input type="button" *!*onclick="alert('Click!')"*/!* value="Button">
@@ -111,22 +111,22 @@ These two code pieces work the same:
     </script>
     ```
 
-**As there's only one `onclick` property, we can't assign more than one event handler.**
+**`onclick`プロパティは１つしかないため、1つ以上のイベントハンドラを割り当てることはできません。**
 
-In the example below adding a handler with JavaScript overwrites the existing handler:
+下の例では、JavaScript でのハンドラの追加は、既存のハンドラを上書きします:
 
 ```html run height=50 autorun
 <input type="button" id="elem" onclick="alert('Before')" value="Click me">
 <script>
 *!*
-  elem.onclick = function() { // overwrites the existing handler
-    alert('After'); // only this will be shown
+  elem.onclick = function() { // 既存のハンドラを上書きします
+    alert('After'); // これだけが表示されます
   };
 */!*
 </script>
 ```
 
-By the way, we can assign an existing function as a handler directly:
+ちなみに、既存の関数を直接ハンドラとして割り当てることもできます:
 
 ```js
 function sayThanks() {
@@ -136,112 +136,111 @@ function sayThanks() {
 elem.onclick = sayThanks;
 ```
 
-To remove a handler -- assign `elem.onclick = null`.
+ハンドラを削除するには -- `elem.onclick = null` を代入します。
 
-## Accessing the element: this
+## 要素 this にアクセスする [#Accessing the element: this]
 
-The value of `this` inside a handler is the element. The one which has the handler on it.
+ハンドラの中の `this` の値はその要素です。
 
-In the code below `button` shows its contents using `this.innerHTML`:
+下のコードでは、`button` は `this.innerHTML` で自身の中身を表示します:
 
 ```html height=50 autorun
 <button onclick="alert(this.innerHTML)">Click me</button>
 ```
 
-## Possible mistakes
+## ありそうなミス [#Possible mistakes]
 
-If you're starting to work with event -- please note some subtleties.
+イベントを使う場合は、微妙な点に注意してください。
 
-**The function should be assigned as `sayThanks`, not `sayThanks()`.**
+**関数は `sayThanks()` ではなく、`sayThanks` で割り当てる必要があります。**
 
 ```js
-// right
+// 正しい
 button.onclick = sayThanks;
 
-// wrong
+// 誤り
 button.onclick = sayThanks();
 ```
 
-If we add brackets, then `sayThanks()` --  will be the *result* of the function execution, so `onclick` in the last code becomes `undefined` (the function returns nothing). That won't work.
+もしカッコをつけると、`sayThanks()` 関数の実行 *結果* になるので、最後の行の `onclick` は `undefined` (関数が何も返さない)になります。それは動作しません。
 
-...But in the markup we do need the brackets:
+...しかしマークアップでは、カッコは必要です:
 
 ```html
 <input type="button" id="button" onclick="sayThanks()">
 ```
 
-The difference is easy to explain. When the browser reads the attribute, it creates a handler function with the body from its content.
+この違いは簡単に説明出来ます。ブラウザが属性を読みとると、その内容から本体を含むハンドラ関数が作成されます。
 
-So the last example is the same as:
+したがって、最後の例は次と同じです:
 ```js
 button.onclick = function() {
 *!*
-  sayThanks(); // the attribute content
+  sayThanks(); // ここが属性の中身
 */!*
 };
 ```
 
-**Use functions, not strings.**
+**文字列ではなく関数を使用します。**
 
-The assignment `elem.onclick = "alert(1)"` would work too. It works for compatibility reasons, but strongly not recommended.
+割り当て `elem.onclick = "alert(1)"` も動作します。これは互換性のために動作しますが、強く推奨されません。
 
-**Don't use `setAttribute` for handlers.**
+**ハンドラに対して、`setAttribute` は使わないでください。**
 
-Such a call won't work:
+このような呼び出しは動作しません:
 
 ```js run no-beautify
-// a click on <body> will generate errors,
-// because attributes are always strings, function becomes a string
+// <body> のクリックはエラーになります,
+// なぜなら、属性は常に文字列であり、関数は文字列になります
 document.body.setAttribute('onclick', function() { alert(1) });
 ```
 
-**DOM-property case matters.**
+**DOMプロパティは大文字小文字の区別をします**
 
-Assign a handler to `elem.onclick`, not `elem.ONCLICK`, because DOM properties are case-sensitive.
+DOM プロパティは大文字小文字を区別するので、`elem.ONCLICK` ではなく `elem.onclick` にハンドラを割り当ててください。
 
 ## addEventListener
 
-The fundamental problem of the aforementioned ways to assign handlers -- we can't assign multiple handlers to one event.
+ハンドラを割り当てるための前述の根本的な問題は -- １つのイベントに複数のハンドラを割り当てられないことです。
 
-For instance, one part of our code wants to highlight a button on click, and another one wants to show a message.
+例えば、コードのある一部がクリック時にボタンを強調表示し、別のコードがメッセージを表示したい場合です。
 
-We'd like to assign two event handlers for that. But a new DOM property will overwrite the existing one:
+私たちは、そのために２つのイベントハンドラを割り当てたいです。が、新しい DOM プロパティは既存のものを上書きします:
 
 ```js no-beautify
 input.onclick = function() { alert(1); }
 // ...
-input.onclick = function() { alert(2); } // replaces the previous handler
+input.onclick = function() { alert(2); } // 前のハンドラを上書きします
 ```
 
-Web-standard developers understood that long ago and suggested an alternative way of managing handlers using special methods `addEventListener` and `removeEventListener`. They are free of such a problem.
+Web標準の開発者はずっと前に理解しており、特別なメソッド `addEventListener` と `removeEventListener` を使うことで、ハンドラを管理する別の方法を提案しました。これらはこのような問題から解放されています。
 
-The syntax to add a handler:
+ハンドラを追加する構文は次のようになります:
 
 ```js
 element.addEventListener(event, handler[, phase]);
 ```
 
 `event`
-: Event name, e.g. `"click"`.
+: イベント名, e.g. `"click"`.
 
 `handler`
-: The handler function.
+: ハンドラ関数.
 
 `phase`
-: An optional argument, the "phase" for the handler to work. To be covered later. Usually we don't use it.
+: オプションの引数で、ハンドラが動作する "フェーズ" です。後ほど説明します。通常は使いません。
 
-To remove the handler, use `removeEventListener`:
-
+ハンドラを削除する場合は `removeEventListener` を使います:
 
 ```js
-// exactly the same arguments as addEventListener
+// addEventListener とまったく同じ引数です
 element.removeEventListener(event, handler[, phase]);
 ```
 
-````warn header="Removal requires the same function"
-To remove a handler we should pass exactly the same function as was assigned.
+````warn header="削除は同じ関数が必要です"
+ハンドラを削除するには、割り当てたものとまったく同じ関数を渡す必要があります。
 
-That doesn't work:
+これは動作しません:
 
 ```js no-beautify
 elem.addEventListener( "click" , () => alert('Thanks!'));
@@ -249,9 +248,9 @@ elem.addEventListener( "click" , () => alert('Thanks!'));
 elem.removeEventListener( "click", () => alert('Thanks!'));
 ```
 
-The handler won't be removed, because `removeEventListener` gets another function -- with the same code, but that doesn't matter.
+ハンドラは削除されません、なぜなら `removeEventListener` は別の関数を取得するためです -- 同じコードだとしても関係ありません。
 
-Here's the right way:
+こちらが正しい方法です:
 
 ```js
 function handler() {
@@ -263,10 +262,10 @@ input.addEventListener("click", handler);
 input.removeEventListener("click", handler);
 ```
 
-Please note -- if we don't store the function in a variable, then we can't remove it. There's no way to "read back" handlers assigned by `addEventListener`.
+注意してください -- もし関数を変数に保持しない場合、それを削除することはできません。`addEventListener` で割り当てられたハンドラを "読み戻す" 方法はありません。
 ````
 
-Multiple calls to `addEventListener` allow to add multiple handlers, like this:
+`addEventListener` の複数回の呼び出しで、複数のハンドラを追加することが可能です。例:
 
 ```html run no-beautify
 <input id="elem" type="button" value="Click me"/>
@@ -288,14 +287,14 @@ Multiple calls to `addEventListener` allow to add multiple handlers, like this:
 </script>
 ```
 
-As we can see in the example above, we can set handlers *both* using a DOM-property and `addEventListener`. But generally we use only one of these ways.
+上の例で分かる通り、DOMプロパティと `addEventListener` 両方を使ってハンドラを設定することができます。しかし、一般的にどちらかの方法を使います。
 
-````warn header="For some events handlers only work with `addEventListener`"
-There exist events that can't be assigned via a DOM-property. Must use `addEventListener`.
+````warn header="いくつかのイベントでは、ハンドラは `addEventListener`でのみ動作します"
+DOMプロパティ経由では割り当てることができないイベントが存在します。`addEventListener` を使用しなければなりません。
 
-For instance, the event `transitionend` (CSS animation finished) is like that.
+例えば、`transitionend` (CSS アニメーションの終了) イベントなどです。
 
-Try the code below. In most browsers only the second handler works, not the first one.
+下のコードを試してみてください。ほとんどのブラウザでは２つ目のハンドラのみ動作し、１つ目は動作しません:
 
 ```html run
 <style>
@@ -313,67 +312,67 @@ Try the code below. In most browsers only the second handler works, not the firs
 
 <script>
   elem.ontransitionend = function() {
-    alert("DOM property"); // doesn't work
+    alert("DOM property"); // 動作しません
   };
 
 *!*
   elem.addEventListener("transitionend", function() {
-    alert("addEventListener"); // shows up when the animation finishes
+    alert("addEventListener"); // アニメーションが終わったときに表示されます
   });
 */!*
 </script>
 ```
 ````
 
-## Event object
+## イベントオブジェクト [#Event object]
 
-To properly handle an event we'd want to know more about what's happened. Not just a "click" or a "keypress", but what were the pointer coordinates? Which key was pressed? And so on.
+イベントを適切に処理するためには、私たちは何が起こったのかをもっと知りたいです。単に "click" や "keypress" だけではなく、ポインタの座標はなにか？どのキーが押されたのか？などです。
 
-When an event happens, the browser creates an *event object*, puts details into it and passes it as an argument to the handler.
+イベントが起こったとき、ブラウザは *イベントオブジェクト* を作り、そこに詳細を入れ、ハンドラの引数として渡します。
 
-Here's an example of getting mouse coordinates from the event object:
+イベントオブジェクトからマウス座標を取得例です:
 
 ```html run
 <input type="button" value="Click me" id="elem">
 
 <script>
   elem.onclick = function(*!*event*/!*) {
-    // show event type, element and coordinates of the click
+    // イベントタイプ、要素、クリック座標を表示
     alert(event.type + " at " + event.currentTarget);
     alert("Coordinates: " + event.clientX + ":" + event.clientY);
   };
 </script>
 ```
 
-Some properties of `event` object:
+`event` オブジェクトのいくつかのプロパティです:
 
 `event.type`
-: Event type, here it's `"click"`.
+: イベントタイプ、ここでは `"click"` です.
 
 `event.currentTarget`
-: Element that handled the event. That's exactly the same as `this`, unless you bind `this` to something else, and then `event.currentTarget` becomes useful.
+: イベントを処理した要素です。これは、あなたが `this` を他の何かにバインドしない限り、`this` とまったく同じであり、`event.currentTarget` は役立ちます。
 
 `event.clientX / event.clientY`
-: Window-relative coordinates of the cursor, for mouse events.
+: マウスイベントに対するカーソルのウィンドウ相対座標です。
 
-There are more properties. They depend on the event type, so we'll study them later when come to different events in details.
+他にもプロパティがあります。それらはイベントのタイプによって異なりますので、詳細については別のイベントを扱う時にそれらを学びます。
 
-````smart header="The event object is also accessible from HTML"
-If we assign a handler in HTML, we can also use the `event` object, like this:
+````smart header="イベントオブジェクトもまた HTML からアクセス可能です"
+もし HTML でハンドラを割り当てる場合、このようにし `event` オブジェクトを使うことも可能です。:
 
 ```html autorun height=60
 <input type="button" onclick="*!*alert(event.type)*/!*" value="Event type">
 ```
 
-That's possible because when the browser reads the attribute, it creates a handler like this:  `function(event) { alert(event.type) }`. That is: its first argument is called `"event"`, and the body is taken from the attribute.
+ブラウザが属性を読み込むとき、次のようにしてハンドラを生成するため、これも可能です:  `function(event) { alert(event.type) }`. つまり、最初の引数は `"event"` と呼ばれ、本体は属性から取られたものです。
 ````
 
 
-## Object handlers: handleEvent
+## オブジェクトハンドラ: handleEvent [#Object handlers: handleEvent]
 
-We can assign an object as an event handler using `addEventListener`. When an event occurs, its `handleEvent` method is called with it.
+`addEventListener` を使用したイベントハンドラとしてオブジェクトを割り当てることも可能です。イベントが発生するとき、その `handleEvent` メソッドが呼ばれます。
 
-For instance:
+例えば:
 
 
 ```html run
@@ -388,9 +387,9 @@ For instance:
 </script>
 ```
 
-In other words, when `addEventListener` receives an object as the handler, it calls `object.handleEvent(event)` in case of an event.
+言い換えると、`addEventListener` がハンドラとしてオブジェクトを受け取ると、イベント時に `object.handleEvent(event)` を呼び出します。
 
-We could also use a class for that:
+そのためのクラスを使うこともできます:
 
 
 ```html run
@@ -418,9 +417,9 @@ We could also use a class for that:
 </script>
 ```
 
-Here the same object handles both events. Please note that we need to explicitly setup the events to listen using `addEventListener`. The `menu` object only gets `mousedown` and `mouseup` here, not any other types of events.
+ここでは両方のイベントを同じオブジェクトで処理しています。`addEventListener` を使用してリッスンするイベントを明示的に設定する必要があることに注意してください。`menu` オブジェクトはここでは `mousedown` と `mouseup` のみ取得し、その他のイベントタイプには反応しません。
 
-The method `handleEvent` does not have to do all the job by itself. It can call other event-specific methods instead, like this:
+メソッド `handleEvent` はそれ自身ですべてのジョブを行う必要はありません。次のように、変わりに他のイベント固有のメソッドを呼び出すことができます。
 
 ```html run
 <button id="elem">Click me</button>
@@ -448,22 +447,22 @@ The method `handleEvent` does not have to do all the job by itself. It can call 
 </script>
 ```
 
-Now event handlers are clearly separated, that may be easier to support.
+これでイベントハンドラは明確に分離されたので、サポートしやすいです。
 
-## Summary
+## サマリ [#Summary]
 
-There are 3 ways to assign event handlers:
+イベントハンドラを割り当てる３つの方法があります。:
 
-1. HTML attribute: `onclick="..."`.
-2. DOM property: `elem.onclick = function`.
-3. Methods: `elem.addEventListener(event, handler[, phase])` to add, `removeEventListener` to remove.
+1. HTML 属性: `onclick="..."`.
+2. DOM プロパティ: `elem.onclick = function`.
+3. メソッド: 追加は `elem.addEventListener(event, handler[, phase])`, 削除は `removeEventListener`.
 
-HTML attributes are used sparingly, because JavaScript in the middle of an HTML tag looks a little bit odd and alien. Also can't write lots of code in there.
+HTML 属性は控えめに使われます。なぜなら HTML タグ中の JavaScript は少し変わっており異質に見えるためです。また、そこでは多くのコードを書くことができません。
 
-DOM properties are ok to use, but we can't assign more than one handler of the particular event. In many cases that limitation is not pressing.
+DOM プロパティは使うのは問題ありませんが、特定のイベントに対して１つ以上のハンドラを割り当てることができません。多くの場合、その制限は切実ではありません。
 
-The last way is the most flexible, but it is also the longest to write. There are few events that only work with it, for instance `transtionend` and `DOMContentLoaded` (to be covered). Also `addEventListener` supports objects as event handlers. In that case the method `handleEvent` is called in case of the event.
+最後の方法は最も柔軟ですが、記述が最も長くなります。これでしか動作しないイベントがいくつかあります, 例えば `transtionend` や `DOMContentLoaded` です。`addEventListener` はイベントハンドラとしてオブジェクトもサポートします。この場合、イベント時にはメソッド `handleEvent` が呼ばれます。
 
-No matter how you assign the handler -- it gets an event object as the first argument. That object contains the details about what's happened.
+どのようにハンドラを割り当てても -- 最初の引数としてイベントオブジェクトを取得します。オブジェクトには何が起きたかの詳細が含まれています。
 
-We'll learn more about events in general and about different types of events in the next chapters.
+次のチャプターでは、一般的なイベントとさまざまなタイプのイベントについて詳しく学んでいきます。
