@@ -2,12 +2,12 @@ importance: 4
 
 ---
 
-# Carousel
+# カルーセル
 
-Create a "carousel" -- a ribbon of images that can be scrolled by clicking on arrows.
+"カルーセル" -- 矢印をクリックすることでスクロールできる画像のリボン -- を作成してください。
 
 [iframe height=200 src="solution"]
 
-Later we can add more features to it: infinite scrolling, dynamic loading etc.
+あとで、そこへより多くの機能を追加できます: 無限スクロール、動的ローディングなど。
 
-P.S. For this task HTML/CSS structure is actually 90% of the solution.
+P.S. このタスクでは、HTML/CSS 構造が解決策の 90% です。

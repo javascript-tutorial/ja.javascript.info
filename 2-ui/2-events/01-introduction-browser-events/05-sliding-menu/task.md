@@ -2,10 +2,10 @@ importance: 5
 
 ---
 
-# Create a menu sliding menu
+# スライドするメニューを作る
 
-Create a menu that opens/collapses on click:
+クリック時に 開く/閉じる メニューを作成してください:
 
 [iframe border=1 height=100 src="solution"]
 
-P.S. HTML/CSS of the source document is to be modified.
+P.S. ソースドキュメントの HTML/CSS を変更します。

@@ -1,8 +1,8 @@
-The answer: `1` and `2`.
+答え: `1` と `2`.
 
-The first handler triggers, because it's not removed by `removeEventListener`. To remove the handler we need to pass exactly the function that was assigned. And in the code a new function is passed, that looks the same, but is still another function.
+最初のハンドラは実行されます、 `removeEventListener` で削除されていないからです。 ハンドラを削除するには、割り当てたものと全く同じ関数を渡す必要があります。また、コード内に新しい関数が渡されます。これは同じように見えますが、別の関数です。
 
-To remove a function object, we need to store a reference to it, like this:
+関数オブジェクトを削除するためには、このように参照を保持しなければなりません。:
 
 ```js
 function handler() {
@@ -13,4 +13,4 @@ button.addEventListener("click", handler);
 button.removeEventListener("click", handler);
 ```
 
-The handler `button.onclick` works independantly and in addition to `addEventListener`.
+ハンドラ `button.onclick` は `addEventListener` に加えて、独立して動作します。

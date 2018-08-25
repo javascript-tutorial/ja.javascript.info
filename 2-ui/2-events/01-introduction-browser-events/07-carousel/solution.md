@@ -1,17 +1,17 @@
-The images ribbon can be represented as `ul/li` list of images `<img>`.
+イメージのリボンは、イメージ `<img>` の `ul/li` リストとして表現できます。
 
-Normally, such a ribbon is wide, but we put a fixed-size `<div>` around to "cut" it, so that only a part of the ribbon is visibble:
+通常、このようなリボンは幅広ですが、リボンの一部のみが見えるよう、固定サイズの `<div>` を置いて、それを "切り取る" ようにします:
 
 ![](carousel1.png)
 
-To make the list show horizontally we need to apply correct CSS properties for `<li>`, like `display: inline-block`.
+リストを水平に表示するために、`display: inline-block` のような `<li>` に対して正しい CSS プロパティを適用する必要があります。
 
-For `<img>` we should also adjust `display`, because by default it's `inline`. There's extra space reserved under `inline` elements for "letter tails", so we can use `display:block` to remove it.
+`<img>` では、デフォルトでは `inline` なので `display` の調整も必要です。"文字の終わり" のための `inline` 要素の下に余分なスペースが確保されているので、`display:block` を使ってそれを削除します。
 
-To do the scrolling, we can shift `<ul>`. There are many ways to do it, for instance by changing `margin-left` or (better performance) use `transform: translateX()`:
+スクロールするために、`<ul>` をシフトします。そのための方法はたくさんありますが、例えば `margin-left` を変更するか `transform: translateX()` (より良いパフォーマンスです)を使います。:
 
 ![](carousel2.png)
 
-The outer `<div>` has a fixed width, so "extra" images are cut.
+外部の `<div>` は固定幅なので、"余分な" イメージはカットされます。
 
-The whole carousel is a self-contained "graphical component" on the page, so we'd better wrap it into a single `<div class="carousel">` and style things inside it.
+カルーセル全体は、ページ上で、自身で構成されている "グラフィカルコンポーネント" なので、単一の `<div class="carousel">` でまとめ、その中でスタイルするのが良いでしょう。

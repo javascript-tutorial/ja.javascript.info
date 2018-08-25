@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Add a closing button
+# 閉じるボタンを追加する
 
-There's a list of messages.
+メッセージのリストがあります。
 
-Use JavaScript to add a closing button to the right-upper corner of each message.
+JavaScript を使って、各メッセージの右上端に閉じるボタンを追加してください。
 
-The result should look like this:
+結果はこのようになります:
 
 [iframe src="solution" height=450]

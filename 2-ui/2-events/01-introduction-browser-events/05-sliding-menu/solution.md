@@ -1,12 +1,12 @@
 
 # HTML/CSS
-First let's create HTML/CSS.
+最初に HTML/CSS を作成しましょう。
 
-A menu is a standalone graphical component on the page, so its better to put it into a single DOM element.
+メニューはページ上のスタンドアロンのグラフィカルコンポーネントなので、単一の DOM 要素に配置するのが良いです。
 
-A list of menu items can be layed out as a list `ul/li`.
+メニュー項目のリストは、リスト `ul/li` として配置することができます。
 
-Here's the example structure:
+これはその構造例です:
 
 ```html
 <div class="menu">
@@ -19,29 +19,29 @@ Here's the example structure:
 </div>
 ```
 
-We use `<span>` for the title, because `<div>` has an implicit `display:block` on it, and it will occupy 100% of the horizontal width.
+`<div>` は暗黙で `display:block` を持っており、水平幅の 100% を占めるため、タイトルには `<span>` を使います。
 
-Like this:
+このようになります:
 
 ```html autorun height=50
 <div style="border: solid red 1px" onclick="alert(1)">Sweeties (click me)!</div>
 ```
 
-So if we set `onclick` on it, then it will catch clicks to the right of the text.
+なので、`onclick` を設定した場合、それはテキストの右側のクリックをキャッチします。
 
-...but `<span>` has an implicit `display: inline`, so it occupies exactly enough place to fit all the text:
+...しかし、`<span>` 暗黙の `display: inline` を持っているので、すべてのテキストにフィットするのに十分な場所を占めます。
 
 ```html autorun height=50
 <span style="border: solid red 1px" onclick="alert(1)">Sweeties (click me)!</span>
 ```
 
-# Toggling the menu
+# メニューを切り替える
 
-Toggling the menu should change the arrow and show/hide the menu list.
+メニューを切り替えると、矢印が変わり、メニューリストが表示/非表示になります。
 
-All these changes are perfectly handled by CSS. In JavaScript we should label the current state of the menu by adding/removing the class `.open`.
+これらすべての変更は、完全に CSS によって行われます。JavaScript では、クラス `.open` の追加/削除によって、現在のメニューの状態を分類する必要があります。
 
-Without it, the menu will be closed:
+`.open` がない場合メニューは閉じられます:
 
 ```css
 .menu ul {
@@ -58,7 +58,7 @@ Without it, the menu will be closed:
 }
 ```
 
-...And with `.open` the arrow changes and the list shows up:
+...そして `.open` では、矢印は変わりリストが表示されます:
 
 ```css
 .menu.open .title::before {

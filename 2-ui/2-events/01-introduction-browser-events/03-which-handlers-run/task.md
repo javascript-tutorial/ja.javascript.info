@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Which handlers run?
+# どのハンドラが実行されますか?
 
-There's a button in the variable. There are no handlers on it.
+変数の中にボタンがあります。そこにはハンドラはありません。
 
-Which handlers run on click after the following code? Which alerts show up?
+次のコードの後クリックするとどのハンドラが実行されるでしょう？どのアラートが表示されますか？
 
 ```js no-beautify
 button.addEventListener("click", () => alert("1"));

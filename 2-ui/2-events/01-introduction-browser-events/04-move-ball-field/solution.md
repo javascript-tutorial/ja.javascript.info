@@ -1,11 +1,11 @@
 
-First we need to choose a method of positioning the ball.
+まず、ボールを配置するメソッドを選ぶ必要があります。
 
-We can't use `position:fixed` for it, because scrolling the page would move the ball from the field.
+ページをスクロールすると、フィールドからボールを移動させるため、`position:fixed` を使うことは出来ません。
 
-So we should use `position:absolute` and, to make the positioning really solid, make `field` itself positioned.
+なので、`position:absolute` を使うべきであり、配置を本当に堅実にするために、`field` 自体を位置決めしてください。
 
-Then the ball will be positioned relatively to the field:
+次に、ボールはフィールに相対的に配置されます:
 
 ```css
 #field {
@@ -16,36 +16,37 @@ Then the ball will be positioned relatively to the field:
 
 #ball {
   position: absolute;
-  left: 0; /* relative to the closest positioned ancestor (field) */
+  left: 0; /* 最も近い配置された祖先(field)への相対 */
   top: 0;
-  transition: 1s all; /* CSS animation for left/top makes the ball fly */
+  transition: 1s all; /* ボールを飛ばずための、左/上 に対するCSS アニメーション */
 }
 ```
 
-Next we need to assign the correct `ball.style.position.left/top`. They contain field-relative coordinates now.
+次に、正しい `ball.style.position.left/top` を割り当てる必要があります。
+それらはフィールドに相対的な座標を含みます。
 
-Here's the picture:
+これはその図です:
 
 ![](move-ball-coords.png)
 
-We have `event.clientX/clientY` -- window-relative coordinates of the click.
+私たちは `event.clientX/clientY` -- クリックのウィンドウに相対的な座標 -- を持っています。
 
-To get field-relative `left` coordinate of the click, we can substract the field left edge and the border width:
+クリック時のフィールドに相対的な `left` 座標を取得するには、フィールドの左端とボーダーの幅を引きます。:
 
 ```js
 let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
 ```
 
-Normally, `ball.style.position.left` means the "left edge of the element" (the ball). So if we assign that `left`, then the ball edge would be under the mouse cursor.
+通常、 `ball.style.position.left` は "要素(ボール)の左端" を意味します。なので、その `left` を割り当てると、ボールの端がマウスカーソルの下に来ることになります。
 
-We need to move the ball half-width left and half-height up to make it center.
+私たちは、それを中心にするために、ボールの半分の幅を左へ、半分の高さを上へ移動させる必要があります。
 
-So the final `left` would be:
+なので、最終的な `left` は次のようになります:
 
 ```js
 let left = event.clientX - fieldInnerCoords.left - field.clientLeft - ball.offsetWidth/2;
 ```
 
-The vertical coordinate is calculated using the same logic.
+縦の座標はは同じロジックを使って計算します。
 
-Please note that the ball width/height must be known at the time we access `ball.offsetWidth`. Should be specified in HTML or CSS.
+ボールの幅/高さは、`ball.offsetWidth` にアクセスしたときに知っていなければならないことに注意してください。HTMLまたはCSSで指定する必要があります。

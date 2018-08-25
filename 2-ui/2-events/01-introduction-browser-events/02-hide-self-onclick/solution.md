@@ -1,4 +1,4 @@
-Can use `this` in the handler to reference "itself" here:
+"自分自身" の参照にはハンドラ中の `this` を使います:
 
 ```html run height=50
 <input type="button" onclick="this.hidden=true" value="Click to hide">

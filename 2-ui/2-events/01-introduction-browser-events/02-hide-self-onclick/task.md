@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Hide self
+# 自身を隠す
 
-Create a button that hides itself on click.
+クリックで自分自身を隠すブランを作成してください。
 
 ```online
-Like this:
+このようになります:
 <input type="button" onclick="this.hidden=true" value="Click to hide">
 ```

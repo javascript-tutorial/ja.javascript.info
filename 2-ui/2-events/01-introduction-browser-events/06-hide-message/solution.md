@@ -1,12 +1,12 @@
 
-To add the button we can use either `position:absolute` (and make the pane `position:relative`) or `float:right`. The `float:right` has the benefit that the button never overlaps the text, but `position:absolute` gives more freedom. So the choice is yours.
+ボタンを追加するには、`position:absolute` (と `position:relative` のペインを作る) または `float:right` のいずれかを使用できます。`float:right` はボタンがテキストと重ならないと言う利点はありますが、`position:absolute` はより自由度があります。なので、選択はあなた次第です。
 
-Then for each pane the code can be like:
+次に、各ペインに対して、コードは次のようになります:
 ```js
 pane.insertAdjacentHTML("afterbegin", '<button class="remove-button">[x]</button>');
 ```
 
-Then the `<button>` becomes `pane.firstChild`, so we can add a handler to it like this:
+そして、`<button>` は `pane.firstChild` になるので、このようにしてハンドラを追加できます:
 
 ```js
 pane.firstChild.onclick = () => pane.remove();

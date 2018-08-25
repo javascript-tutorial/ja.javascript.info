@@ -2,20 +2,20 @@ importance: 5
 
 ---
 
-# Move the ball across the field
+# フィールド上でボールを移動させる
 
-Move the ball across the field to a click. Like this:
+クリックでフィールド上のボールを移動させてください。このように:
 
 [iframe src="solution" height="260" link]
 
-Requirements:
+要件:
 
-- The ball center should come exactly under the pointer on click (if possible without crossing the field edge).
-- CSS-animation is welcome.
-- The ball must not cross field boundaries.
-- When the page is scrolled, nothing should break.
+- ボールの中心は、クリック時のポインタの下に正確に来る必要があります(可能な場合はフィールドの端を超えないでください)
+- CSS アニメーションは歓迎します
+- ボールはフィールドの境界を超えてはいけません
+- ページがスクロールしても壊れません
 
-Notes:
+補足:
 
-- The code should also work with different ball and field sizes, not be bound to any fixed values.
-- Use properties `event.clientX/event.clientY` for click coordinates.
+- コードは、任意の固定しに縛られるのではなく、異なるボールやフィールドサイズでも動作する必要があります。
+- クリック座標のために `event.clientX/event.clientY` プロパティを使ってください。
