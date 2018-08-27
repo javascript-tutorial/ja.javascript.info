@@ -1,15 +1,15 @@
 
-# Event delegation
+# イベント移譲(Event delegation)
 
-Capturing and bubbling allow to implement one of most powerful event handling patterns called *event delegation*.
+キャプチャリングとバブリングにより、 *イベント移譲* と呼ばれる最も強力なイベントハンドリングのパターンの一つを実装することができます。
 
-The idea is that if we have a lot of elements handled in a similar way, then instead of assigning a handler to each of them -- we put a single handler on their common ancestor.
+この考え方は、似たような方法で多くの要素を処理する場合に、それら一つ一つにハンドラを割り当てる代わりに、共通の祖先に１つハンドラを置きます。
 
-In the handler we get `event.target`, see where the event actually happened and handle it.
+ハンドラでは、`event.target` を取得し、実際にどこでイベントが起きたかを見てそれを処理します。
 
-Let's see an example -- the [Ba-Gua diagram](http://en.wikipedia.org/wiki/Ba_gua) reflecting the ancient Chinese philosophy.
+例を見てみましょう -- 古代の中国の哲学を反映した [八卦掌図(Ba-Gua diagram)](http://en.wikipedia.org/wiki/Ba_gua) です。
 
-Here it is:
+これです:
 
 [iframe height=350 src="bagua" edit link]
 
@@ -30,45 +30,45 @@ The HTML is like this:
 </table>
 ```
 
-The table has 9 cells, but there could be 99 or 9999, doesn't matter.
+テーブルは9つのセルを持っていますが、 99 でも 9999 でも関係ありません。
 
-**Our task is to highlight a cell `<td>` on click.**
+**我々のタスクはクリックで `<td>` セルを強調表示することです**
 
-Instead of assign an `onclick` handler to each `<td>` (can be many) -- we'll setup the "catch-all" handler on `<table>` element.
+それぞれの `<td>` (多くなります) に `onclick` を割り当てる代わりに、`<table>` 要素で "すべてをキャッチ" するハンドラを設定します。
 
-It will use `event.target` to get the clicked element and highlight it.
+クリックされた要素を取得し、強調表示するために `event.target` を使います。
 
-The code:
+コードは次の通りです:
 
 ```js
 let selectedTd;
 
 *!*
 table.onclick = function(event) {
-  let target = event.target; // where was the click?
+  let target = event.target; // どこがクリックされた?
 
-  if (target.tagName != 'TD') return; // not on TD? Then we're not interested
+  if (target.tagName != 'TD') return; // TDではない？ そうなら興味ありません
 
-  highlight(target); // highlight it
+  highlight(target); // 強調します
 };
 */!*
 
 function highlight(td) {
-  if (selectedTd) { // remove the existing highlight if any
+  if (selectedTd) { // あれば既存の強調表示を消します
     selectedTd.classList.remove('highlight');
   }
   selectedTd = td;
-  selectedTd.classList.add('highlight'); // highlight the new td
+  selectedTd.classList.add('highlight'); // 新しいIDを強調表示します
 }
 ```
 
-Such a code doesn't care how many cells there are in the table. We can add/remove `<td>` dynamically at any time and the highlighting will still work.
+このようなコードはテーブルにどれだけセルが多くても気にしません。いつでも動的に `<td>` の追加/削除が可能で、それでも強調表示は動作します。
 
-Still, there's a drawback.
+それでも欠点があります。
 
-The click may occur not on the `<td>`, but inside it.
+クリックは `<td>` ではなく、その内側で起こる可能性があります。
 
-In our case if we take a look inside the HTML, we can see nested tags inside `<td>`, like `<strong>`:
+我々の場合、HTML の中を見ると、`<strong>` のように、`<td>` の内側にネストされたタグが見えます。:
 
 ```html
 <td>
@@ -79,13 +79,13 @@ In our case if we take a look inside the HTML, we can see nested tags inside `<t
 </td>
 ```
 
-Naturally, if a click happens on that `<strong>` then it becomes the value of `event.target`.
+当然、その `<strong>` でクリックが起きた場合、それは `event.target` の値になります。
 
 ![](bagua-bubble.png)
 
-In the handler `table.onclick` we should take such `event.target` and find out whether the click was inside `<td>` or not.
+`table.onclick` ハンドラでは、このような `event.target` を取り、クリックが `<td>` の中で行われたのかそうでないのかを知る必要があります。
 
-Here's the improved code:
+以下は改良したコードです:
 
 ```js
 table.onclick = function(event) {
@@ -99,27 +99,27 @@ table.onclick = function(event) {
 };
 ```
 
-Explanations:
-1. The method `elem.closest(selector)` returns the nearest ancestor that matches the selector. In our case we look for `<td>` on the way up from the source element.
-2. If `event.target` is not inside any `<td>`, then the call returns `null`, and we don't have to do anything.
-3. In case of nested tables, `event.target` may be a `<td>` lying outside of the current table. So we check if that's actually *our table's* `<td>`.
-4. And, if it's so, then highlight it.
+説明:
+1. メソッド `elem.closest(selector)` はセレクタに合致する最も近い祖先を返します。我々のケースではソース要素から上昇し `<td>` を探します。
+2. もし `event.target` がどの `<td>` の内側にもない場合、その呼出は `null` を返し、何もする必要はありません。
+3. ネストしたテーブルでは、`event.target` は現在のテーブルの外側ににある `<td>` かもしれません。なので、実際に *テーブルの* `<td>` かどうかをチェックします。
+4. もしそうであれば、強調表示します。
 
-## Delegation example: actions in markup
+## 移譲サンプル: マークアップ内のアクション [#Delegation example: actions in markup]
 
-The event delegation may be used to optimize event handling. We use a single handler for similar actions on many elements. Like we did it for highlighting `<td>`.
+イベント移譲はイベント処理を最適化するために使うことができます。我々は多くの要素で類似のアクションに対し単一のハンドラを使います。`<td>` の強調表示で行ったように。
 
-But we can also use a single handler as an entry point for many different things.
+しかし、多くの異なるものに対する入り口としても単一のハンドラを使うことができます、
 
-For instance, we want to make a menu with buttons "Save", "Load", "Search" and so on. And there's an object with methods `save`, `load`, `search`....
+例えば、"Save" と "Load", "Search" などのボタンをもつメニューを作りたいとします。そしてメソッド `save`, `load`, `search`.... を持つオブジェクトがあります。
 
-The first idea may be to assign a separate handler to each button. But there's a more elegant solution. We can add a handler for the whole menu and `data-action` attributes for buttons that has the method to call:
+最初の考えは、各ボタンに別々のハンドラを割り当てる事かもしれません。しかし、よりエレガントな方法があります。私たちはメニュー全体に対してハンドラを追加し、呼び出すメソッドを持っているに対して `date-action` 属性を追加します。:
 
 ```html
 <button *!*data-action="save"*/!*>Click to Save</button>
 ```
 
-The handler reads the attribute and executes the method. Take a look at the working example:
+ハンドラは属性を読み込み、メソッドを実行します。動作例をみてください:
 
 ```html autorun height=60 run
 <div id="menu">
@@ -161,28 +161,28 @@ The handler reads the attribute and executes the method. Take a look at the work
 </script>
 ```
 
-Please note that `this.onClick` is bound to `this` in `(*)`. That's important, because otherwise `this` inside it would reference the DOM element (`elem`), not the menu object, and `this[action]` would not be what we need.
+`this.onClick` は `(*)` で `this` がバインドされていることに注意してください。それは重要です。なぜなら、そうしていなければ `this` はメニューオブジェクトではなく DOM 要素を参照し、`this[action]` は我々が必要とするものではいからです。
 
-So, what the delegation gives us here?
+したがって、この移譲が我々に与えれくれたものはなんでしょう？
 
 ```compare
-+ We don't need to write the code to assign a handler to each button. Just make a method and put it in the markup.
-+ The HTML structure is flexible, we can add/remove buttons at any time.
++ 私たちはそれぞれのボタンへハンドラを割り当てるコードを書く必要はありません。単にメソッドを作り、マークアップ上にそれを置くだけです。
++ HTML 構造は柔軟で、いつでもボタンの追加/削除が可能です。
 ```
 
-We could also use classes `.action-save`, `.action-load`, but an attribute `data-action` is better semantically. And we can use it in CSS rules too.
+また、クラス `.action-save`, `.action-load` を使うこともできますが、属性 `date-action` が意味的にベターです。そして、CSS ルールの中でも使用できます。
 
-## The "behavior" pattern
+## "振る舞い" パターン [#The "behavior" pattern]
 
-We can also use event delegation to add "behaviors" to elements *declaratively*, with special attributes and classes.
+イベントの委譲を使用して、特別な属性やクラスを使用して、*宣言的* に要素に "振る舞い" を追加することもできます。
 
-The pattern has two parts:
-1. We add a special attribute to an element.
-2. A document-wide handler tracks events, and if an event happens on an attributed element -- performs the action.
+このパターンは2つのパートがあります:
+1. 要素に特別な属性を追加します。
+2. ドキュメント全体のハンドラはイベントを追跡し、属性付けされた要素でイベントが発生した場合は、そのアクションを実行します。
 
 ### Counter
 
-For instance, here the attribute `data-counter` adds a behavior: "increase on click" to buttons:
+例えば、ここでは属性 `data-counter` は振る舞いを追加します: ボタンをクリックすると増加します。:
 
 ```html run autorun height=60
 Counter: <input type="button" value="1" data-counter>
@@ -191,7 +191,7 @@ One more counter: <input type="button" value="2" data-counter>
 <script>
   document.addEventListener('click', function(event) {
 
-    if (event.target.dataset.counter != undefined) { // if the attribute exists...
+    if (event.target.dataset.counter != undefined) { // もし属性が存在すれば
       event.target.value++;
     }
 
@@ -199,19 +199,19 @@ One more counter: <input type="button" value="2" data-counter>
 </script>
 ```
 
-If we click a button -- its value is increased. Not buttons, but the general approach is important here.
+もしボタンをクリックすると -- その値が増えます。ボタンではなく、ここではこの一般的なアプローチが重要です。
 
-There can be as many attributes with `data-counter` as we want. We can add new ones to HTML at any moment. Using the event delegation we "extended" HTML, added an attribute that describes a new behavior.
+私たちが望むだけ、`data-counter` を持つ多くの属性があります。 私たちはいつでもHTMLに新しいものを加えることができます。 イベントの委任を使用してHTMLを "拡張" し、新しい動作を記述する属性を追加しました。
 
-```warn header="For document-level handlers -- always `addEventListener`"
-When we assign an event handler to the `document` object, we should always use `addEventListener`, not `document.onclick`, because the latter will cause conflicts: new handlers overwrite old ones.
+```warn header="ドキュメントレベルハンドラの場合、常に `addEventListener` です"
+`document` オブジェクトにイベントハンドラを割り当てるとき、常に `addEventListener` を使用する必要があります。`document.onclick` ではありません。なぜなら、後者はコンフリクトを起こすためです: 新しいハンドラを古いものを上書きします。
 
-For real projects it's normal that there are many handlers on `document` set by different parts of the code.
+実際のプロジェクトでは、コードの異なる部分で設定された `document` に多くのハンドラがあるのは普通です。
 ```
 
 ### Toggler
 
-One more example. A click on an element with the attribute `data-toggle-id` will show/hide the element with the given `id`:
+もう１つの例です。属性 `data-toggle-id` を持つ要素をクリックすると、指定された `id` の要素が表示/非表示になります。:
 
 ```html autorun run height=60
 <button *!*data-toggle-id="subscribe-mail"*/!*>
@@ -236,37 +236,37 @@ One more example. A click on an element with the attribute `data-toggle-id` will
 </script>
 ```
 
-Let's note once again what we did. Now, to add toggling functionality to an element -- there's no need to know JavaScript, just use the attribute `data-toggle-id`.
+私たちがしたことをもう一度メモしましょう。要素にトグル機能を追加するには -- JavaScriptを知る必要はありません。ただ属性 `data-toggle-id` を使うだけです。
 
-That may become really convenient -- no need to write JavaScript for every such element. Just use the behavior. The document-level handler makes it work for any element of the page.
+それは本当に便利になるかもしれません -- すべてのこのような要素に対してJavaScriptを書く必要はありあせん。ただその振る舞いを使うだけです。ドキュメントレベルのハンドラは、ページ上に任意の要素に対して機能します。
 
-We can combine multiple behaviors on a single element as well.
+単一の要素上で複数の振る舞いを繋げることもできます。
 
-The "behavior" pattern can be an alternative of mini-fragments of JavaScript.
+"振る舞い" パターンは JavaScript の小さい破片の代替になります。
 
-## Summary
+## サマリ [#Summary]
 
-Event delegation is really cool! It's one of the most helpful patterns for DOM events.
+イベント移譲は本当にクールです! DOM イベントに対する最も役立つパターンの１つです。
 
-It's often used to add same handling for many similar elements, but not only for that.
+同じような多くの要素に対して同じ処理を追加するためによく使われますが、そのためだけではありません。
 
-The algorithm:
+アルゴリズム:
 
-1. Put a single handler on the container.
-2. In the handler -- check the source element `event.target`.
-3. If the event happened inside an element that interests us, then handle the event.
+1. コンテナに単一のハンドラを置きます
+2. ハンドラの中で -- ソース要素 `event.target` をチェックします
+3. イベントが関心のある要素の中で起きていた場合、イベントを処理します。
 
-Benefits:
+メリット:
 
 ```compare
-+ Simplifies initialization and saves memory: no need to add many handlers.
-+ Less code: when adding or removing elements, no need to add/remove handlers.
-+ DOM modifications: we can mass add/remove elements with `innerHTML` and alike.
++ 初期化の簡素化とメモリの節約: 多くのハンドラを追加する必要はありません。
++ コードを減らす code: 要素を追加または削除するときに、ハンドラを追加/削除する必要はありません。
++ DOM の変更: `innerHTML` などで要素を一括して追加/削除することができます
 ```
 
-The delegation has its limitations of course:
+移譲はには、もちろん制限があります:
 
 ```compare
-- First, the event must be bubbling. Some events do not bubble. Also, low-level handlers should not use `event.stopPropagation()`.
-- Second, the delegation may add CPU load, because the container-level handler reacts on events in any place of the container, no matter if they interest us or not. But usually the load is negligible, so we don't take it into account.
+- まず、イベントがバブリングする必要があります。バブリングしないイベントもあります。また低レベルのハンドラは `event.stopPropagation()` を使うべきではありません。
+- 2つ目に、移譲は CPU負荷を上げる可能性があります。なぜなら、コンテナレベルのハンドラは、関心があるかどうかに関わらずコンテナの任意の場所のイベントに反応するたｍです。しかし通常その負荷は無視できるので、考慮しません。
 ```
