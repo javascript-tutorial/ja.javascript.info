@@ -1,8 +1,8 @@
-# Bubbling and capturing
+# バブリング と キャプチャリング
 
-Let's start with an example.
+例で始めてみましょう。
 
-This handler is assigned to `<div>`, but also runs if you click any nested tag like `<em>` or `<code>`:
+このハンドラは `<div>` へ割り当てられますが、`<em>` や `<code>` のような任意のネストされたタグをクリックしたときにも実行されます:
 
 ```html autorun height=60
 <div onclick="alert('The handler!')">
@@ -10,15 +10,15 @@ This handler is assigned to `<div>`, but also runs if you click any nested tag l
 </div>
 ```
 
-Isn't it a bit strange? Why the handler on `<div>` runs if the actual click was on `<em>`?
+少し奇妙に見えますよね？ なぜ実際のクリックが `<em>` だった場合に `<div>` 上のハンドラが実行されるでしょう？
 
-## Bubbling
+## バブリング(Bubbling) [#Bubbling]
 
-The bubbling principle is simple.
+バブリングの原理はシンプルです。
 
-**When an event happens on an element, it first runs the handlers on it, then on its parent, then all the way up on other ancestors.**
+**要素上でイベントが起きると、最初にその上のハンドラが実行され、次にその親のハンドラが実行され、他の祖先に到達するまでそれらが行われます。**
 
-Let's say, we have 3 nested elements `FORM > DIV > P` with a handler on each of them:
+たとえば、3つのネストされた要素 `FORM > DIV > P` があり、それぞれにハンドラがあります:
 
 ```html run autorun
 <style>
@@ -35,57 +35,57 @@ Let's say, we have 3 nested elements `FORM > DIV > P` with a handler on each of 
 </form>
 ```
 
-A click on the inner `<p>` first runs `onclick`:
-1. On that `<p>`.
-2. Then on the outer `<div>`.
-3. Then on the outer `<form>`.
-4. And so on upwards till the `document` object.
+`<p>` の内部のクリックでは、最初に `onclick` を実行します:
+1. その `<p>`.
+2. 次に外部の `<div>`.
+3. 次に外部の `<form>`.
+4. そして、`document` オブジェクトまで登ります.
 
 ![](event-order-bubbling.png)
 
-So if we click on `<p>`, then we'll see 3 alerts: `p` -> `div` -> `form`.
+なので、`<p>` をクリックすると、3つのアラートが表示されます: `p` -> `div` -> `form`
 
-The process is called "bubbling", because events "bubble" from the inner element up through parents like a bubble in the water.
+このプロセスは "バブリング" と呼ばれます。なぜなら、水の中の泡のように、イベントが内部の要素から親に至るまで "バブル" しているためです。
 
-```warn header="*Almost* all events bubble."
-The key word in this phrase is "almost".
+```warn header="*ほぼ* すべてのイベントがバブルします"
+このフレーズのキーワードは、"ほとんど" です。
 
-For instance, a `focus` event does not bubble. There are other examples too, we'll meet them. But still it's an exception, rather than a rule, most events do bubble.
+例えば、`focus` イベントはバブルしません。他にも例があり、私たちはそれらを見ていくでしょう。しかし、それはルールというよりはむしろ例外であり、ほとんどのイベントはバブルします。
 ```
 
 ## event.target
 
-A handler on a parent element can always get the details about where it actually happened.
+親要素のハンドラは、常に実際に発生した場所についての詳細を取得できます。
 
-**The most deeply nested element that caused the event is called a *target* element, accessible as `event.target`.**
+**イベントを起こした最も深くネストされた要素は *ターゲット* 要素と呼ばれ、 `event.target` でアクセス可能です。**
 
-Note the differences from `this` (=`event.currentTarget`):
+`this` (=`event.currentTarget`) との違いは次です:
 
-- `event.target` -- is the "target" element that initiated the event, it doesn't change through the bubbling process.
-- `this` -- is the "current" element, the one that has a currently running handler on it.
+- `event.target` -- はイベントを始めた "ターゲット" 要素で、バブリングプロセスを通して変化しません。
+- `this` -- は "現在" の要素で、現在実行中のハンドラを持ちます。
 
-For instance, if we have a single handler `form.onclick`, then it can "catch" all clicks inside the form. No matter where the click happened, it bubbles up to `<form>` and runs the handler.
+例えば、単一のハンドラ `form.onclick` を持っている場合、その form 中のすべてのクリックを "キャッチ" できます。どこでクリックされたかは関係なく、`<form>` までバブルし、そのハンドラを実行します。
 
-In `form.onclick` handler:
+`form.onclick` ハンドラの中は:
 
-- `this` (`=event.currentTarget`) is the `<form>` element, because the handler runs on it.
-- `event.target` is the concrete element inside the form that actually was clicked.
+- `this` (`=event.currentTarget`) は `<form>` 要素です。なぜなら、ハンドラはそこで動いているからです。
+- `event.target` は実際にクリックされた form の内側にある具体的な要素です。
 
-Check it out:
+見てみましょう:
 
 [codetabs height=220 src="bubble-target"]
 
 It's possible that `event.target` equals `this` -- when the click is made directly on the `<form>` element.
 
-## Stopping bubbling
+## バブリングを止める [#Stopping bubbling]
 
-A bubbling event goes from the target element straight up. Normally it goes upwards till `<html>`, and then to `document` object, and some events even reach `window`, calling all handlers on the path.
+バブリングイベントはターゲット要素からまっすぐ上がってきます。通常、それは `<html>` まで到達し、次に `document` オブジェクトに移動し、いくつかのイベントは `window` にも到達し、そのパス上のすべてのハンドラを呼び出します。
 
-But any handler may decide that the event has been fully processed and stop the bubbling.
+しかし、どのハンドラも、イベントが完全に処理されたと判断し、バブリングを止めることができます。
 
-The method for it is `event.stopPropagation()`.
+そのためのメソッドは `event.stopPropagation()` です.
 
-For instance, here `body.onclick` doesn't work if you click on `<button>`:
+例えば、ここで `<button>` をクリックしても `body.onclick` は動作しません。
 
 ```html run autorun height=60
 <body onclick="alert(`the bubbling doesn't reach here`)">
@@ -94,60 +94,60 @@ For instance, here `body.onclick` doesn't work if you click on `<button>`:
 ```
 
 ```smart header="event.stopImmediatePropagation()"
-If an element has multiple event handlers on a single event, then even if one of them stops the bubbling, the other ones still execute.
+ある要素が、1つのイベントに対し複数のイベントハンドラを持っている場合、それらの１つがバブリングを止めたとしても、残りのイベントハンドラは引き続き実行されます。
 
-In other words, `event.stopPropagation()` stops the move upwards, but on the current element all other handlers will run.
+つまり、`event.stopPropagation()` は上に移動するのは止めますが、現在の要素上にある他のすべてのハンドラは実行します。
 
-To stop the bubbling and prevent handlers on the current element from running, there's a method `event.stopImmediatePropagation()`. After it no other handlers execute.
+バブリングを止め、現在の要素のハンドラを実行しないようにするために、`event.stopImmediatePropagation()` メソッドがあります。この後は他のハンドラは実行されません。
 ```
 
-```warn header="Don't stop bubbling without a need!"
-Bubbling is convenient. Don't stop it without a real need: obvious and architecturally well-thought.
+```warn header="必要なければバブリングは止めないでください!"
+バブリングは便利です。本当に必要な場合を除いて止めないでください。: 明白で構造的によく知られているような場合。
 
-Sometimes `event.stopPropagation()` creates hidden pitfalls that later may become problems.
+`event.stopPropagation()` は後に問題になるかもしれない隠れた落とし穴を作る場合があります。
 
-For instance:
+例えば:
 
-1. We create a nested menu. Each submenu handles clicks on its elements and calls `stopPropagation` so that outer menu don't trigger.
-2. Later we decide to catch clicks on the whole window, to track users' behavior (where people click). Some analytic systems do that. Usually the code uses `document.addEventListener('click'…)` to catch all clicks.
-3. Our analytic won't work over the area where clicks are stopped by `stopPropagation`. We've got a "dead zone".
+1. 私たちはネストされたメニューを作ります。各サブメニューはその要素上でクリックを処理し、外部のメニューがトリガされないよう、`stopPropagation` を呼び出します。
+2. 後ほど、ユーザの行動(人々がクリックした場所)を追跡するためにウィンドウ全のクリックをキャッチすることに決めました。いくつかの分析システムはそのようなことをします。通常、すべてのクリックをキャッチするためのコードは `document.addEventListener('click'…)` を使います。
+3. 我々の分析は、クリックが `stopPropagation` で止められた領域上では動作しません。それは "デッドゾーン" になります。
 
-There's usually no real need to prevent the bubbling. A task that seemingly requires that may be solved by other means. One of them is to use custom events, we'll cover them later. Also we can write our data into the `event` object in one handler and read it in another one, so we can pass to handlers on parents information about the processing below.
+通常、本当にバブリングを防がなければならないケースはほとんどありません。必要と思われるタスクは他の手段で解決できる可能性があります。そのうちの１つはカスタムイベントを利用することで、後でそれを説明します。また、データをあるハンドラの `event` オブジェクトに書き込み、別のハンドラでそれを読み込むこともできるので、親のハンドラに下位の処理に関する情報を渡すことができます。
 ```
 
 
-## Capturing
+## キャプチャリング(Capturing) [#Capturing]
 
-There's another phase of event processing called "capturing". It is rarely used in real code, but sometimes can be useful.
+"キャプチャリング" と呼ばれるイベント処理の別のフェーズがあります。実際のコードではほとんど使われませんが、役立つときがあります。
 
-The standard [DOM Events](http://www.w3.org/TR/DOM-Level-3-Events/) describes 3 phases of event propagation:
+標準 [DOM Events](http://www.w3.org/TR/DOM-Level-3-Events/) はイベント伝搬の３つのフェーズを説明しています。:
 
-1. Capturing phase -- the event goes down to the element.
-2. Target phase -- the event reached the target element.
-3. Bubbling phase -- the event bubbles up from the element.
+1. キャプチャリングフェーズ -- イベントが要素へ下りていきます。
+2. ターゲットフェーズ -- イベントがターゲット要素に到達しました。
+3. バブリングフェーズ -- イベントが要素から上にバブルします。
 
-Here's the picture of a click on `<td>` inside a table, taken from the specification:
+これは、テーブル中の `<td>` をクリックしたときの図で、仕様から抜粋したものです:
 
 ![](eventflow.png)
 
-That is: for a click on `<td>` the event first goes through the ancestors chain down to the element (capturing), then it reaches the target, and then it goes up (bubbles), calling handlers on its way.
+つまり: `<td>` をクリックした場合、イベントは最初に祖先のチェーンを通って要素へ下りていき(キャプチャリング)、ターゲットに到達した後、ハンドラを呼び出しながら上に行き(バブル)ます。
 
-**Before we only talked about bubbling, because the capturing phase is rarely used. Normally it is invisible to us.**
+**以前バブリングについてのみ話しましたが、それはキャプチャリングフェーズはほとんど使われないためです。通常それは私たちには見えません。**
 
-Handlers added using `on<event>`-property or using HTML attributes or using `addEventListener(event, handler)` don't know anything about capturing, they only run on the 2nd and 3rd phases.
+`on<event>`プロパティまたは HTML属性、もしくは `addEventListener(event, handler)` を使って追加されたハンドラはキャプチャリングについて何も知りません。それらはフェーズ 2 と 3 でのみ実行されます。
 
-To catch an event on the capturing phase, we need to set the 3rd argument of `addEventListener` to `true`.
+キャプチャリングフェーズでイベントをキャッチするには、`addEventListener` の３つ目の引数を `true` にする必要があります。
 
-There are two possible values for that optional last argument:
+最後の引数は２つのとり得る値があります:
 
-- If it's `false` (default), then the handler is set on the bubbling phase.
-- If it's `true`, then the handler is set on the capturing phase.
+- `false` (デフォルト) の場合、ハンドラはバブリングフェーズで設定されます。
+- `true` の場合、ハンドラはキャプチャリングフェーズで設定されます。
 
-Note that while formally there are 3 phases, the 2nd phase ("target phase": the event reached the element) is not handled separately: handlers on both capturing and bubbling phases trigger at that phase.
+正式には３つのフェーズがありますが、２つ目のフェーズ("ターゲットフェーズ": イベントが要素に到達した)は個別に処理されないことに注意してください: キャプチャフェーズとバブリングフェーズの両方のハンドラがそのフェーズでトリガします。
 
-If one puts capturing and bubbling handlers on the target element, the capture handler triggers last in the capturing phase and the bubble handler triggers first in the bubbling phase.
+キャプチャリングとバブリングハンドラをターゲット要素に置くと、キャプチャハンドラはキャプチャフェーズの最後にトリガし、バブルハンドラはバブリングフェーズで最初にトリガします。
 
-Let's see it in action:
+動作を見てみましょう:
 
 ```html run autorun height=140 edit
 <style>
@@ -171,37 +171,37 @@ Let's see it in action:
 </script>
 ```
 
-The code sets click handlers on *every* element in the document to see which ones are working.
+どのハンドラが動作するかを見るために、ドキュメント上の *すべての* 要素にクリックハンドラを設定しています。
 
-If you click on `<p>`, then the sequence is:
+`<p>` をクリックすると、シーケンスは次の通りです:
 
-1. `HTML` -> `BODY` -> `FORM` -> `DIV` -> `P` (capturing phase, the first listener), and then:
-2. `P` -> `DIV` -> `FORM` -> `BODY` -> `HTML` (bubbling phase, the second listener).
+1. `HTML` -> `BODY` -> `FORM` -> `DIV` -> `P` (キャプチャリングフェーズ, １つ目のリスナーです)そして、:
+2. `P` -> `DIV` -> `FORM` -> `BODY` -> `HTML` (バブリングフェーズ, 2つ目のリスナーです).
 
-Please note that `P` shows up two times: at the end of capturing and at the start of bubbling.
+`P` が2回表示されることに注意してください: キャプチャリングの終わりと、バブリングの開始です。
 
-There's a property `event.eventPhase` that tells us the number of the phase on which the event was caught. But it's rarely used, because we usually know it in the handler.
+イベントが捕捉されたフェーズの番号を示すプロパティ `event.eventPhase` があります。 しかし、私たちは通常ハンドラでそれを知っているので、めったに使用されません。
 
-## Summary
+## サマリ [#Summary]
 
-The event handling process:
+イベントハンドラプロセスです:
 
-- When an event happens -- the most nested element where it happens gets labeled as the "target element" (`event.target`).
-- Then the event first moves from the document root down the `event.target`, calling handlers assigned with `addEventListener(...., true)` on the way.
-- Then the event moves from `event.target` up to the root, calling handlers assigned using  `on<event>` and `addEventListener` without the 3rd argument or with the 3rd argument `false`.
+- イベントが発生したとき -- それが起きた最もネストされた要素は "ターゲット要素" (`event.target`) としてラベル付けされます。
+- 次にイベントは `addEventListener(...., true)` で割り当てられたハンドラを呼び出しながらドキュメントルートから `event.target` へ下りていきます。
+- その後、イベントは `on<event>` と3つ目の引数ががないもしくは `false` の `addEventListener` を使って割り当てられたハンドラを実行しながら `event.target` からルートまで上がっていきます。
 
-Each handler can access `event` object properties:
+それぞれのハンドラは `event` オブジェクトのプロパティにアクセスできます:
 
-- `event.target` -- the deepest element that originated the event.
-- `event.currentTarget` (=`this`) -- the current element that handles the event (the one that has the handler on it)
-- `event.eventPhase` -- the current phase (capturing=1, bubbling=3).
+- `event.target` -- イベントを発生させた最も深い要素です。
+- `event.currentTarget` (=`this`) -- イベントを処理する現在の要素（ハンドラを持つ要素）
+- `event.eventPhase` -- 現在のフェーズ (キャプチャリング=1, バブリング=3).
 
-Any event handler can stop the event by calling `event.stopPropagation()`, but that's not recommended, because we can't really be sure we won't need it above, maybe for completely different things.
+どのハンドラも `event.stopPropagation()` を呼び出すことでイベントを止めることができますが、それは推奨しません。
 
-The capturing phase is used very rarely, usually we handle events on bubbling. And there's a logic behind that.
+キャプチャリングフェーズはめったに使われません、通常バブリングでイベントを処理します。その背後には論理があります。
 
-In real world, when an accident happens, local authorities react first. They know best the area where it happened. Then higher-level authorities if needed.
+実世界では、事故が起こると地方自治体がまず反応します。 彼らは起こった場所を最もよく知っています。 その後、必要に応じてより高いレベルの権限が反応します。
 
-The same for event handlers. The code that set the handler on a particular element knows maximum  details about the element and what it does. A handler on a particular `<td>` may be suited for that exactly `<td>`, it knows everything about it, so it should get the chance first. Then its immediate parent also knows about the context, but a little bit less, and so on till the very top element that handles general concepts and runs the last.
+イベントハンドラでも同じです。特定の要素に対してハンドラを設定するコードは、その要素と起きることについて最もよく知っています。特定の `<td>` のハンドラは、まさにその `<td>` に適合することができ、それについてすべてを知っています。なので、最初に機会を得るべきです。次に、直近の親もまたそのコンテキストについて知っていますが、知っていることは少し少なくなります。そのようにして、一般的な概念を扱い、最後に実行する最上位の要素まで処理をします。
 
-Bubbling and capturing lay the foundation for "event delegation" -- an extremely powerful event handling pattern that we study in the next chapter.
+バブリングとキャプチャリングは次のチャプターで学ぶ非常に強力なイベント処理パターンである "イベント委任(event delegation)" の基盤となります。
