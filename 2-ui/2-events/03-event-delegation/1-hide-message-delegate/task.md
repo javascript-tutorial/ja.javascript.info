@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Hide messages with delegation
+# 移譲でメッセージを隠す
 
-There's a list of messages with removal buttons `[x]`. Make the buttons work.
+削除ボタン `[x]` のあるメッセージ一覧があります。ボタンが動作するようにしてください。
 
-Like this:
+このように:
 
 [iframe src="solution" height=420]
 
-P.S. Should be only one event listener on the container, use event delegation.
+P.S. イベント移譲を使って、コンテナ上でイベントリスナは１つだけにしてください。

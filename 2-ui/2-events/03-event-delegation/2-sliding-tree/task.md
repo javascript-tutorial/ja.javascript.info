@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Tree menu
+# ツリーメニュー
 
-Create a tree that shows/hides node children on click:
+クリックでノードの子供を表示/非表示にするツリーを作成してください。:
 
 [iframe border=1 src="solution"]
 
-Requirements:
+要件:
 
-- Only one event handler (use delegation)
-- A click outside the node title (on an empty space) should not do anything.
+- イベントハンドラは1つだけ(移譲を使ってください)
+- ノードタイトルの外側(空の巣ペース)のクリックでは何もしないようにしてください。

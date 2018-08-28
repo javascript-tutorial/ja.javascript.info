@@ -1,4 +1,4 @@
-The solution has two parts.
+解決策には２つのパートがあります。
 
-1. Wrap every tree node title into `<span>`. Then we can CSS-style them on `:hover` and handle clicks exactly on text, because `<span>` width is exactly the text width (unlike without it).
-2. Set a handler to the `tree` root node and handle clicks on that `<span>` titles.
+1. すべてのツリーノードのタイトルを `<span>` で囲みます。私たちは、 `:hover` で CSS-スタイルを行い、テキストに対してクリックを正確に処理することが出来ます。なぜなら `<span>` 幅はちょうどテキスト幅になるためです(それがない場合と違って)。
+2. `tree` のルートノードにハンドラを設定し、`<span>` タイトルのクリックを処理します。
