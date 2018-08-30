@@ -1,25 +1,25 @@
-# Browser default actions
+# ブラウザのデフォルト動作
 
-Many events automatically lead to browser actions.
+多くのイベントは自動的にブラウザの動作に繋がります。
 
-For instance:
+例えば:
 
-- A click on a link -- initiates going to its URL.
-- A click on submit button inside a form -- initiates its submission to the server.
-- Pressing a mouse button over a text and moving it -- selects the text.
+- リンクのクリック -- そのURLに行くのを開始します。
+- フォーム内のサブミットボタンのクリック -- サーバへの送信を開始します。
+- テキスト上でマウスボタンを押し、移動させる -- テキストを選択します。
 
-If we handle an event in JavaScript, often we don't want browser actions. Fortunately, it can be prevented.
+JavaScript でイベントを処理している場合、ブラウザの動作は必要ないことがよくあります。幸いにも、それは防ぐことができます。
 
 [cut]
 
-## Preventing browser actions
+## ブラウザの動作を防ぐ [#Preventing browser actions]
 
-There are two ways to tell the browser we don't want it to act:
+ブラウザに動作してほしくないと伝える方法が2つあります:
 
-- The main way is to use the `event` object. There's a method `event.preventDefault()`.
-- If the handler is assigned using `on<event>` (not by `addEventListener`), then we can just return `false` from it.
+- 主な方法は、`event` オブジェクトを使うことです。メソッド `event.preventDefault()` があります。
+- ハンドラが `on<event>` (`addEventListener` ではない)を使って割り当てられている場合、そこから `false` を返すだけで実現できます。
 
-In the example below there a click to links don't lead to URL change:
+下の例では、リンクをクリックしてもURLが変更されません:
 
 ```html autorun height=60 no-beautify
 <a href="/" onclick="return false">Click here</a>
@@ -27,17 +27,17 @@ or
 <a href="/" onclick="event.preventDefault()">here</a>
 ```
 
-```warn header="Not necessary to return `true`"
-The value returned by an event handler is usually ignored.
+```warn header="`true` を返す必要はありません"
+イベントハンドラによって返される値は通常無視されます。
 
-The only exception -- is `return false` from a handler assigned using `on<event>`.
+唯一の例外は -- `on<event>` を使用して割り当てられたハンドラからの `return false` です。
 
-In all other cases, the return is not needed and it's not processed anyhow.
+その他すべての場合、返却は必要とされず何もされません。
 ```
 
-### Example: the menu
+### 例: メニュー [#Example: the menu]
 
-Consider a site menu, like this:
+サイトのメニューを考えましょう:
 
 ```html
 <ul id="menu" class="menu">
@@ -47,68 +47,68 @@ Consider a site menu, like this:
 </ul>
 ```
 
-Here's how it looks with some CSS:
+ここでは、CSS を使用して次のように見えます:
 
 [iframe height=70 src="menu" link edit]
 
-Menu items are links `<a>`, not buttons. There are several benefits, for instance:
+メニュー項目はリンク `<a>` でボタンではありません。それは例えば次のようないくつかの利点があります:
 
-- Many people like to use "right click" -- "open in a new window". If we use `<button>` or `<span>`, that doesn't work.
-- Search engines follow `<a href="...">` links while indexing.
+- 多くの人は "右クリック" を使うのが好きです -- "新しいウィンドウで開く"。`<button>` または `<span>` を使うと、それは動作しません。
+- 検索エンジンは、インデックスを作成するとき、`<a href="...">` のリンクを辿ります。
 
-So we use `<a>` in the markup. But normally we intend to handle clicks in JavaScript. So we should prevent the default browser action.
+なので、私たちはマークアップでは `<a>` を使います。しかし、通常は JavaScript でクリックを処理することを意図します。だから、デフォルトのブラウザ動作を防ぐ必要があります。
 
-Like here:
+このようになります:
 
 ```js
 menu.onclick = function(event) {
   if (event.target.nodeName != 'A') return;
 
   let href = event.target.getAttribute('href');
-  alert( href ); // ...can be loading from the server, UI generation etc
+  alert( href ); // ...サーバからのロード、UIの生成など
 
 *!*
-  return false; // prevent browser action (don't go to the URL)
+  return false; // ブラウザ動作を防ぐ (URLへ行きません)
 */!*
 };
 ```
 
-If we omit `return false`, then after our code executes the browser will do its "default action" -- following to the URL in `href`.
+もし `return false` を省略すると、我々のコードを実行した後、ブラウザは "デフォルト動作" を行うでしょう -- `href` の URL を辿ります。
 
-By the way, using event delegation here makes our menu flexible. We can add nested lists and style them using CSS to "slide down".
+ところで、ここではイベント移譲を使うと、メニューを柔軟にできます。ネストされたリストを追加したり、CSSを使って "スライドダウン" することができます。
 
 
-## Prevent further events
+## さらなるイベントの防止 [#Prevent further events]
 
-Certain events flow one into another. If we prevent the first event, there will be no second.
+あるイベントは別のものへと流れます。もし最初のイベントを防ぐ場合、２つ目はありません。
 
-For instance, `mousedown` on an `<input>` field leads to focusing in it, and the `focus` event. If we prevent the `mousedown` event, there's no focus.
+例えば、`<input>` フィールド上の `mousedown` は、それにフォーカスし、`focus` イベントに繋がります。もし `mousedown` イベントを防ぐ場合、フォーカスは起こりません。
 
-Try to click on the first `<input>` below -- the `focus` event happens. That's normal.
+下の最初の `<input>` をクリックしてみてください -- `focus` イベントが起きます。これは正常です。
 
-But if you click the second one, there's no focus.
+しかし、2つ目をクリックした場合、フォーカスはありません。
 
 ```html run autorun
 <input value="Focus works" onfocus="this.value=''">
 <input *!*onmousedown="return false"*/!* onfocus="this.value=''" value="Click me">
 ```
 
-That's because the browser action is canceled on `mousedown`. The focusing is still possible if we use another way to enter the input. For instance, the `key:Tab` key to switch from the 1st input into the 2nd. But not with the mouse click any more.
+なぜなら、ブラウザのアクションは `mousedown` でキャンセルされたためです。input を入力する別の方法を使うと、フォーカスはまだ可能です。例えば、最初の入力から次の入力に切り替えるための `key:Tab` キーです。しかしマウスクリックはこれ以上動作しません。
 
 
 ## event.defaultPrevented
 
-The property `event.defaultPrevented` is `true` if the default action was prevented, and `false` otherwise.
+デフォルトアクションが防がれた場合、プロパティ `event.defaultPrevented` は `true` で、それ以外は `false` です。
 
-There's an interesting use case for it.
+興味深いユースケースがあります。
 
-You remember in the chapter <info:bubbling-and-capturing> we talked about `event.stopPropagation()`  and why stopping bubbling is bad?
+チャプター <info:bubbling-and-capturing> で `event.stopPropagation()` について話しましたが、バブリングの停止が悪い理由を覚えていますか？
 
-Sometimes we can use `event.defaultPrevented` instead.
+代わりに、`event.defaultPrevented` を使用することがあります。
 
-Let's see a practical example where stopping the bubbling looks necessary, but actually we can do well without it.
+バブリングの停止が必要に見える実践的な例を見てみましょう。しかし、実際にはバブリングを止めることなく上手く行うことができます。
 
-By default the browser on `contextmenu` event (right mouse click) shows a context menu with standard options. We can prevent it and show our own, like this:
+デフォルトでは、`contextmen` イベント時(マウスの右クリック)のブラウザは、標準オプション付きのコンテキストメニューを表示します。私たちはそれを防いで、独自のメニューを表示することができます:
 
 ```html autorun height=50 no-beautify run
 <button>Right-click for browser context menu</button>
@@ -118,7 +118,7 @@ By default the browser on `contextmenu` event (right mouse click) shows a contex
 </button>
 ```
 
-Now let's say we want to implement our own document-wide context menu, with our options. And inside the document we may have other elements with their own context menus:
+今、我々のオプションを使用した、独自のドキュメント全体のコンテキストメニューを実装したいとしましょう。そしてドキュメント内には、独自のコンテキストメニューを持つ他の要素がある可能性があります。:
 
 ```html autorun height=80 no-beautify run
 <p>Right-click here for the document context menu</p>
@@ -137,9 +137,9 @@ Now let's say we want to implement our own document-wide context menu, with our 
 </script>
 ```
 
-The problem is that when we click on `elem`, we get two menus: the button-level and (the event bubbles up) the document-level menu.
+問題は、 `elem` のクリック時2つのメニューを取得します: ボタンレベルと(イベントがバブルし)ドキュメントレベルのメニューです。 
 
-How to fix it? One of solutions is to think like: "We fully handle the event in the button handler, let's stop it" and use `event.stopPropagation()`:
+どうやって修正しますか？1つの方法はこのように考えることです: "ボタンハンドラの中でイベントを完全を処理し、それを止める" で、`event.stopPropagation()` を使います:
 
 ```html autorun height=80 no-beautify run
 <p>Right-click for the document menu</p>
@@ -161,9 +161,9 @@ How to fix it? One of solutions is to think like: "We fully handle the event in 
 </script>
 ```
 
-Now the button-level menu works as intended. But the price is high. We forever deny access to information about right-clicks for any outer code, including counters that gather statistics and so on. That's quite unwise.
+これで、ボタンレベルのメニューは期待通り動作します。しかしコストは高いです。統計を収集するカウンターなど、外部コードの右クリックに関する情報へのアクセスは永久に拒否されます。 それはまったく賢明ではありません。
 
-An alternative solution would be to check in the `document` handler if the default action was prevented? If it is so, then the event was handled, and we don't need to react on it.
+代替の解決策は、デフォルトのアクションが防がれたかどうかを `document` ハンドラの中で、チェックすることです。もしそうであれば、イベントは処理されており、反応する必要はありません。
 
 
 ```html autorun height=80 no-beautify run
@@ -187,44 +187,44 @@ An alternative solution would be to check in the `document` handler if the defau
 </script>
 ```
 
-Now everything also works correctly. If we have nested elements, and each of them has a context menu of its own, that would also work. Just make sure to check for `event.defaultPrevented` in each `contextmenu` handler.
+これで、すべて正しく動作します。ネストされた要素を持っており、それらが独自のコンテキストメニューを持っている場合も動作します。ただ、各 `contextmen` ハンドラの中で `event.defaultPrevented` を確認してください。
 
-```smart header="event.stopPropagation() and event.preventDefault()"
-As we can clearly see, `event.stopPropagation()` and `event.preventDefault()` (also known as `return false`) are two different things. They are not related to each other.
+```smart header="event.stopPropagation() と event.preventDefault()"
+明らかに分かるように、`event.stopPropagation()` と `event.preventDefault()` (`return false` としても知られている)は2つの異なるものです。それらはお互い関係ありません。
 ```
 
-```smart header="Nested context menus architecture"
-There are also alternative ways to implement nested context menus. One of them is to have a special global object with a method that handles `document.oncontextmenu`, and also methods that allow to store various "lower-level" handlers in it.
+```smart header="ネストされたコンテキストメニューのアーキテクチャ"
+ネストされたコンテキストメニューを実装する別の方法もあります。その1つは、`document.oncontextmenu` を処理するメソッドを持つ特別なグローバルオブジェクトと、様々な "低レベル" のハンドラをそこに格納できるメソッドを持つことです。
 
-The object will catch any right-click, look through stored handlers and run the appropriate one.
+オブジェクトは任意の右クリックをキャッチし、格納されているハンドラを見て適切なものを実行するでしょう。
 
-But then each piece of code that wants a context menu should know about that object and use its help instead of the own `contextmenu` handler.
+しかし、コンテキストメニューを必要とする各コードは、そのオブジェクトについて知っていて、自身の `contextmenu`ハンドラの代わりにそのヘルプを使うべきです
 ```
 
-## Summary
+## サマリ [#Summary]
 
-There are many default browser actions:
+多くのデフォルトのブラウザアクションがあります:
 
-- `mousedown` -- starts the selection (move the mouse to select).
-- `click` on `<input type="checkbox">` -- checks/unchecks the `input`.
-- `submit` -- clicking an `<input type="submit">` or hitting `key:Enter` inside a form field causes this event to happen, and the browser submits the form after it.
-- `wheel` -- rolling a mouse wheel event has scrolling as the default action.
-- `keydown` -- pressing a key may lead to adding a character into a field, or other actions.
-- `contextmenu` -- the event happens on a right-click, the action is to show the browser context menu.
-- ...there are more...
+- `mousedown` -- 選択を始めます(選択するにはマウスを移動します)。
+- `<input type="checkbox">` の `click` -- `input` のチェックON/OFF。
+- `submit` -- `<input type="submit">` のクリックまたはフォームフィールド内で `key:Enter` を押すとこのイベントが発生し、ブラウザはその後にフォームを送信します。
+- `wheel` -- マウスホイールイベントはデフォルト動作としてスクロールをします。
+- `keydown` -- キーの押下はフィールドへの文字の追加、または別のアクションになります。
+- `contextmenu` -- このイベントは右クリックで発生し、アクションはブラウザのコンテキストメニューを表示することです。
+- ...他にもあります...
 
-All the default actions can be prevented if we want to handle the event exclusively by JavaScript.
+JavaScriptでイベントを排他的に処理したい場合、デフォルトのアクションをすべて防ぐことができます。
 
-To prevent a default action -- use either `event.preventDefault()` or  `return false`. The second method works only for handlers assigned with `on<event>`.
+デフォルトのアクションを防ぐには -- `event.preventDefault()` または `return false` を使います。2つ目の方法は `on<event>` で割り当てられたハンドラに対してのみ機能します。
 
-If the default action was prevented, the value of `event.defaultPrevented` becomes `true`, otherwise it's `false`.
+デフォルトアクションが防がれた場合、`event.defaultPrevented` の値は `true` になり、それ以外は `false` になります。
 
-```warn header="Stay semantic, don't abuse"
-Technically, by preventing default actions and adding JavaScript we can customize the behavior of any elements. For instance, we can make a link `<a>` work like a button, and a button `<button>` behave as a link (redirect to another URL or so).
+```warn header="セマンティックのままで、乱用しないでください"
+技術的には、デフォルトアクションを防ぎ、JavaScript を追加することによって、任意の要素の振る舞いをカスタマイズすることが可能です。例えば、`<a>` を作り、それをボタンのように動作させたり、`<button>` をリンク(別のURLにリダイレクトするなど)として振る舞わせることができます。
 
-But we should generally keep the semantic meaning of HTML elements. For instance, `<a>` should preform navigation, not a button.
+しかし、一般的には HTML要素のセマンティックな意味を維持するべきです。例えば、`<a>` はボタンではなくナビゲーションを実行するべきです。
 
-Besides being "just a good thing", that makes your HTML better in terms of accessibility.
+"単なる良いもの" に加えて、アクセシビリティの点でHTMLをより良くします。
 
-Also if we consider the example with `<a>`, then please note: a browser allows to open such links in a new window (by right-clicking them and other means). And people like that. But if we make a button behave as a link using JavaScript and even look like a link using CSS, then `<a>`-specific browser features still won't work for it.
+また、`<a>` の例を考える場合、次のことに注意してください: ブラウザはこのようなリンクを新しいウィンドウ(右クリックしたり他の手段で)で開くことができます。そして人々はそれが好きです。しかし、JavaScript を使ってリンクとして振る舞うボタンを作り、CSSを使ってリンクのような見た目にしても、`<a>` 固有のブラウザ機能は依然として動作しません。
 ```
