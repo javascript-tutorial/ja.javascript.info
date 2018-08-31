@@ -1,1 +1,1 @@
-The solution is to assign the handler to the container and track clicks. If a click is on the `<a>` link, then change `src` of `#largeImg` to the `href` of the thumbnail.
+この解決策はコンテナにハンドラを割り当ててクリックを追跡することです。`<a>` のリンクでクリックがあった場合、`#largeImg` の `src` をサムネイルの `href` に変更します。

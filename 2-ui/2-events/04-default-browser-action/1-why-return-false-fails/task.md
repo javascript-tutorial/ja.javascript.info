@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# Why "return false" doesn't work?
+# なぜ "return false" が動作しないのでしょう?
 
-Why in the code below `return false` doesn't work at all?
+なぜ下のコードで `return false` がまったく動かないのでしょうか？
 
 ```html autorun run
 <script>
@@ -17,6 +17,6 @@ Why in the code below `return false` doesn't work at all?
 <a href="http://w3.org" onclick="handler()">the browser will go to w3.org</a>
 ```
 
-The browser follows the URL on click, but we don't want it.
+ブラウザはクリックでそのURLを辿りますが、それをしたくありません。
 
-How to fix?
+どのように修正しますか？

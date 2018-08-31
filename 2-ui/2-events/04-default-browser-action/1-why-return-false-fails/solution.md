@@ -1,16 +1,16 @@
-When the browser reads the `on*` attribute like `onclick`, it creates the handler from its content.
+ブラウザが `onclick` のような `on*` 属性を読み込むとき、そのコンテンツからハンドラを生成します。
 
-For `onclick="handler()"` the function will be:
+`onclick="handler()"` の場合、関数はこうなります:
 
 ```js
 function(event) {
-  handler() // the content of onclick
+  handler() // onclick のコンテンツ
 }
 ```
 
-Now we can see that the value returned by `handler()` is not used and does not affect the result.
+今、`handler()` により返却された値は使われておらず、結果には影響しないことが分かります。
 
-The fix is simple:
+修正例です:
 
 ```html run
 <script>
@@ -23,7 +23,7 @@ The fix is simple:
 <a href="http://w3.org" onclick="*!*return handler()*/!*">w3.org</a>
 ```
 
-Also we can use `event.preventDefault()`, like this:
+もしくは、このように `event.preventDefault()` を使うこともできます:
 
 ```html run
 <script>

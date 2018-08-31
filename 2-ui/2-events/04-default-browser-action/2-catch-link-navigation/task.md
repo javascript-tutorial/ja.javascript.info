@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Catch links in the element
+# 要素内のリンクをキャッチする
 
-Make all links inside the element with `id="contents"` ask the user if he really wants to leave. And if he doesn't then don't follow.
+`id="contents"` の要素内のすべてのリンクが、ユーザに本当に離れたいかを尋ねるようにしてください。そして、答えが No の場合は遷移しません。
 
-Like this:
+このようになります:
 
 [iframe height=100 border=1 src="solution"]
 
-Details:
+詳細:
 
-- HTML inside the element may be loaded or regenerated dynamically at any time, so we can't find all links and put handlers on them. Use the event delegation.
-- The content may have nested tags. Inside links too, like `<a href=".."><i>...</i></a>`.
+- 要素内の HTML はロードされているかもしれないし、いつでも動的に再作成されるかもしれません。そのため、すべてのリンクを見つけてハンドラを配置することはできません。イベントの移譲を使ってください。
+- コンテンツはネストされたタグを持っている場合があります。リンクも同じです。 `<a href=".."><i>...</i></a>`.

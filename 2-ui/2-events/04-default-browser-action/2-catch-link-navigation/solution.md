@@ -1,5 +1,5 @@
-That's a great use of the event delegation pattern.
+これはイベント移譲パターンを大いに活用してものです。
 
-In real life instead of asking we can send a "logging" request to the server that saves the information about where the visitor left. Or we can load the content and show it right in the page (if allowable).
+実際には、尋ねる代わりに、訪問者がどこから離れたかに関する情報を保存する "ログ"要求をサーバーに送信できます。 または、コンテンツを読み込んでページに表示することもできます（許可されている場合）。
 
-All we need is to catch the `contents.onclick` and use `confirm` to ask the user. A good idea would be to use `link.getAttribute('href')` instead of `link.href` for the URL. See the solution for details.
+私たちに必要なことは、`contents.onclick` をキャッチし、ユーザの確認するために `confirm` を使うことです。良いアイデアは URL に対して `link.href` の代わりに、`link.getAttribute('href')` を使うことです。詳細は解決策を見てください。
