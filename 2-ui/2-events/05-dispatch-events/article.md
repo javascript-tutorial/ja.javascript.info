@@ -1,39 +1,39 @@
-# Dispatching custom events
+# カスタムイベントのディスパッチ
 
-We can not only assign handlers, but also generate events from JavaScript.
+私たちは、ハンドラを割り当てるだけでなく、JavaScript からイベントを生成することもできます。
 
-Custom events can be used to create "graphical components". For instance, a root element of the menu may trigger events telling what happens with the menu: `open` (menu open),  `select` (an item is selected) and so on.
+カスタムイベントを使用して「グラフィックコンポーネント」を作成できます。例えば、メニューのルート要素は、メニューで起きたことを伝えるイベントをトリガすることができます: `open` (メニューを開く), `select` (項目が選択された) など。
 
-Also we can generate built-in events like `click`, `mousedown` etc, that may be good for testing.
+`click`, `mousedown` などのような、組み込みのイベントを生成することもでき、テストをするときに便利です。
 
 [cut]
 
-## Event constructor
+## イベントコンストラクタ [#Event constructor]
 
-Events form a hierarchy, just like DOM element classes. The root is the built-in [Event](http://www.w3.org/TR/dom/#event) class.
+イベントはDOM 要素クラスと同様、階層を形成します。ルートは組み込みの [Event](http://www.w3.org/TR/dom/#event) クラスです。
 
-We can create `Event` objects like this:
+このようにして `Event` オブジェクトを生成できます:
 
 ```js
 let event = new Event(event type[, options]);
 ```
 
-Arguments:
+引数:
 
-- *event type* -- may be any string, like `"click"` or our own like `"hey-ho!"`.
-- *options* -- the object with two optional properties:
-  - `bubbles: true/false` -- if `true`, then the event bubbles.
-  - `cancelable: true/false` -- if `true`, then the "default action"  may be prevented. Later we'll see what it means for custom events.
+- *event type* -- `"click"` や独自の `"hey-ho!"` のような任意の文字列です。
+- *options* -- 2つのオプションのプロパティを持つオブジェクトです:
+  - `bubbles: true/false` -- `true` の場合、イベントがバブルします。
+  - `cancelable: true/false` -- `true` の場合、"デフォルトアクション" が防がれます。後ほど、 カスタムイベントに対して意味していることを見てきます。
 
-  By default both are false: `{bubbles: false, cancelable: false}`.
+  デフォルトでは、両方とも false です: `{bubbles: false, cancelable: false}`.
 
 ## dispatchEvent
 
-After an event object is created, we should "run" it on an element using the call  `elem.dispatchEvent(event)`.
+イベントオブジェクトを作成した後、`elem.dispatchEvent(event)` を使って、要素上で "実行" する必要があります。
 
-Then handlers react on it as if it were a regular built-in event. If the event was created with the `bubbles` flag, then it bubbles.
+その後、ハンドラは、それが正規の組み込みイベントであるかのようにそれに反応します。もし `bubbles` フラグでイベントが作成されていた場合、バブルします。
 
-In the example below the `click` event is initiated in JavaScript. The handler works same way as if the button was clicked:
+下の例では、`click` イベントが JavaScript の中で開始されます。ハンドラはボタンがクリックされたかのように動作します。:
 
 ```html run no-beautify
 <button id="elem" onclick="alert('Click!');">Autoclick</button>
@@ -45,42 +45,42 @@ In the example below the `click` event is initiated in JavaScript. The handler w
 ```
 
 ```smart header="event.isTrusted"
-There is a way to tell a "real" user event from a script-generated one.
+"本当の" ユーザイベントであることを伝える方法があります。
 
-The property `event.isTrusted` is `true` for events that come from real user actions and `false` for script-generated events.
+本当のユーザアクションから来たイベントの場合、プロパティ `event.isTrusted` は `true` になります。スクリプトで生成されたイベントは `false` です。
 ```
 
-## Bubbling example
+## バブリング例 [#Bubbling example]
 
-We can create a bubbling event with the name `"hello"` and catch it on `document`.
+`"hello"` という名前のバブリングイベントを作成し、`document` でキャッチすることができます。
 
-All we need is to set `bubbles` to `true`:
+必要なことは、`bubbles` を `true` にセットすることです。:
 
 ```html run no-beautify
 <h1 id="elem">Hello from the script!</h1>
 
 <script>
-  // catch on document...
+  // document でキャッチ...
   document.addEventListener("hello", function(event) { // (1)
     alert("Hello from " + event.target.tagName); // Hello from H1
   });
 
-  // ...dispatch on elem!
+  // ...elem でディスパッチ!
   let event = new Event("hello", {bubbles: true}); // (2)
   elem.dispatchEvent(event);
 </script>
 ```
 
-Notes:
+補足:
 
-1. We should use `addEventListener` for our custom events, because `on<event>` only exists for built-in events, `document.onhello` doesn't work.
-2. Must set `bubbles:true`, otherwise the event won't bubble up.
+1. カスタムイベントに対しては、`addEventListener` を使うべきです。なぜなら、`on<event>` は組み込みイベントに対してのみ存在するからです。`document.onhello` は動作しません。
+2. `bubbles:true` を設定しなければなりません。さもないと、イベントはバブルしません。
 
-The bubbling mechanics is the same for built-in (`click`) and custom (`hello`) events. There are also capturing and bubbling stages.
+バブリングの仕組みは、組み込み (`click`) と カスタム (`hello`) イベントで同じです。キャプチャリングとバブリングのフェーズもあります。
 
-## MouseEvent, KeyboardEvent and others
+## MouseEvent, KeyboardEvent 等
 
-Here's a short list of classes for UI Events from the [UI Event specification](https://www.w3.org/TR/uievents):
+以下は [UI Event specification](https://www.w3.org/TR/uievents) のUIイベントのクラスのリストの一部です。:
 
 - `UIEvent`
 - `FocusEvent`
@@ -89,11 +89,11 @@ Here's a short list of classes for UI Events from the [UI Event specification](h
 - `KeyboardEvent`
 - ...
 
-We should use them instead of `new Event` if we want to create such events. For instance, `new MouseEvent("click")`.
+これらのイベントを生成したいときは、`new Event` の代わりに、これらを使うべきです。例えば、`new MouseEvent("click")`。
 
-The right constructor allows to specify standard properties for that type of event.
+コンストラクタでは、そのイベントのタイプの標準プロパティを指定できます。
 
-Like `clientX/clientY` for a mouse event:
+マウスイベントの `clientX/clientY` だとこのようにできます:
 
 ```js run
 let event = new MouseEvent("click", {
@@ -108,40 +108,40 @@ alert(event.clientX); // 100
 */!*
 ```
 
-Please note: the generic `Event` constructor does not allow that.
+注意: `Event` コンストラクタはそれを許可しません。
 
-Let's try:
+試してみましょう:
 
 ```js run
 let event = new Event("click", {
-  bubbles: true, // only bubbles and cancelable
-  cancelable: true, // work in the Event constructor
+  bubbles: true, // bubbles と cancelable のみ
+  cancelable: true, // Event constructor で動作します
   clientX: 100,
   clientY: 100
 });
 
 *!*
-alert(event.clientX); // undefined, the unknown property is ignored!
+alert(event.clientX); // undefined, 未知のプロパティは無視されます!
 */!*
 ```
 
-Technically, we can work around that by assigning directly `event.clientX=100` after creation. So that's a matter of convenience and following the rules. Browser-generated events always have the right type.
+技術的には、生成後に直接 `event.clientX=100` を割り当てることで回避できます。それは利便性の問題であり、ルールに従うためです。ブラウザで生成されたイベントは常に正しいタイプを持っています。
 
-The full list of properties for different UI events is in the specification, for instance  [MouseEvent](https://www.w3.org/TR/uievents/#mouseevent).
+異なるUIイベントの、プロパティの完全なリストは仕様にあります。例えば、[MouseEvent](https://www.w3.org/TR/uievents/#mouseevent) など。
 
-## Custom events
+## カスタムイベント [#Custom events]
 
-For our own, custom events like `"hello"` we should use `new CustomEvent`. Technically [CustomEvent](https://dom.spec.whatwg.org/#customevent) is the same as `Event`, with one exception.
+`"hello"` のような独自のカスタムイベントに対しては、`new CustomEvent` を使うべきです。技術的には [CustomEvent](https://dom.spec.whatwg.org/#customevent) は1つの例を除いて `Event` と同じです。
 
-In the second argument (object) we can add an additional property `detail` for any custom information that we want to pass with the event.
+2つ目の引数(オブジェクト)では、イベントと一緒に渡したい任意の情報のために、追加のプロパティ `detail` を追加することが出来ます。
 
-For instance:
+例:
 
 ```html run refresh
 <h1 id="elem">Hello for John!</h1>
 
 <script>
-  // additional details come with the event to the handler
+  // イベントと一緒にハンドラに来る追加の詳細情報です
   elem.addEventListener("hello", function(event) {
     alert(*!*event.detail.name*/!*);
   });
@@ -154,25 +154,25 @@ For instance:
 </script>
 ```
 
-The `detail` property can have any data. Technically we could live without, because we can assign any properties into a regular `new Event` object after its creation. But `CustomEvent` provides the special `detail` field for it to evade conflicts with other event properties.
+`detail` プロパティは任意のデータを持てます。技術的には、通常の `new Event` オブジェクトを作った後、そこに任意のプロパティを割り当てる事ができるため、それなしでも生きていくことはできます。しかし、`CustomEvent` は他のイベントプロパティとの衝突を避けるための特別な `detail` フィールドを提供します。
 
-The event class tells something about "what kind of event" it is, and if the event is custom, then we should use `CustomEvent` just to be clear about what it is.
+イベントクラスは "どのような種類のイベント" かを示し、もしイベントがカスタムであれば、それが何であるかを明確にするために `CusstomEvent` を使うべきです。 
 
 ## event.preventDefault()
 
-We can call `event.preventDefault()` on a script-generated event if `cancelable:true` flag is specified.
+もし `cancelable:true` フラグが指定されている場合、スクリプトで生成されたイベントで `event.preventDefault()` を呼び出すことができます。
 
-Of course, if the event has a non-standard name, then it's not known to the browser, and there's no "default browser action" for it.
+もちろん、イベントが非標準の名前である場合、ブラウザはそれを知らないので、そのための "デフォルトブラウザアクション" はありません。
 
-But the event-generating code may plan some actions after `dispatchEvent`.
+しかし、イベントを生成するコードは `dispatchEvent` の後にいくつかのアクションを計画するかもしれません。
 
-The call of `event.preventDefault()` is a way for the handler to send a signal that those actions shouldn't be performed.
+`event.preventDefault()` の呼び出しは、ハンドラがそれらのアクションを実行すべきではないという信号を送信する方法です。
 
-In that case the call to `elem.dispatchEvent(event)` returns `false`. And the event-generating code knows that the processing shouldn't continue.
+その場合、`elem.dispatchEvent(event)` への呼び出しは `false` を返します。そして、イベント生成コードは処理は継続すべきでないと知ります。
 
-For instance, in the example below there's a `hide()` function. It generates the `"hide"` event on the element `#rabbit`, notifying all interested parties that the rabbit is going to hide.
+例えば、下の例では `hide()` 関数があります。それは要素 `#rabbit` で `"hide"` イベントを生成し、すべての関係者に うさぎ(rabbit)が隠れることを通知します。
 
-A handler set by `rabbit.addEventListener('hide',...)` will learn about that and, if it wants, can prevent that action by calling `event.preventDefault()`. Then the rabbit won't hide:
+`rabbit.addEventListener('hide',...)` で設定されたハンドラは、それについて学び、必要な場合には `event.preventDefault()` を呼び出すことでそのアクションを防ぐことができます。すると、うさぎは隠れません。:
 
 ```html run refresh
 <pre id="rabbit">
@@ -184,10 +184,10 @@ A handler set by `rabbit.addEventListener('hide',...)` will learn about that and
 </pre>
 
 <script>
-  // hide() will be called automatically in 2 seconds
+  // hide() は2秒後に自動で呼び出されます
   function hide() {
     let event = new CustomEvent("hide", {
-      cancelable: true // without that flag preventDefault doesn't work
+      cancelable: true // このフラグがないと preventDefault が動作しません
     });
     if (!rabbit.dispatchEvent(event)) {
       alert('the action was prevented by a handler');
@@ -209,15 +209,15 @@ A handler set by `rabbit.addEventListener('hide',...)` will learn about that and
 ```
 
 
-## Events-in-events are synchronous
+## イベント中のイベントは同期的です [#Events-in-events are synchronous]
 
-Usually events are processed asynchronously. That is: if the browser is processing `onclick` and in the process a new event occurs, then it awaits till `onclick` processing is finished.
+通常、イベントは非同期に処理されます。つまり: ブラウザが `onclick` を処理しており、そのプロセスの中で新しいイベントが起きた場合、`onclick` が終わるまでそれは待ちます。
 
-The exception is when one event is initiated from within another one.
+例外は、あるイベントが別のイベントから開始された場合です。
 
-Then the control jumps to the nested event handler, and after it goes back.
+次に、制御はネストされたイベントハンドラに飛び、その後戻ってきます。
 
-For instance, here the nested `menu-open` event is processed synchronously, during the `onclick`:
+例えば、ここではネストされた `menu-open` イベントは `onclick` の間、同期的に処理されます。:
 
 ```html run
 <button id="menu">Menu (click me)</button>
@@ -239,11 +239,11 @@ For instance, here the nested `menu-open` event is processed synchronously, duri
 </script>
 ```    
 
-Please note that the nested event `menu-open` bubbles up and is handled on the `document`. The propagation of the nested event is fully finished before the processing gets back to the outer code (`onclick`).
+ネストされたイベント `menu-open` はバブルアップし `document` で処理されることに注意してください。ネストされたイベントの伝搬は、外部のコード(`onclick`) に戻る前に完全に終了します。
 
-That's not only about `dispatchEvent`, there are other cases. JavaScript in an event handler can call methods that lead to other events -- they are too processed synchronously.
+それは `dispatchEvent` についてだけでなく、他のケースも同様です。イベントハンドラ中の JavaScrit は別のイベントにつながるメソッドを呼び出すことができます -- それらも同期的に処理されます。
 
-If we don't like it, we can either put the `dispatchEvent` (or other event-triggering call) at the end of `onclick` or, if inconvenient, wrap it in `setTimeout(...,0)`:
+もしそれが気に入らなければ、`onclick` の末尾に `dispatchEvent` (または他のイベントトリガ呼び出し) を置くか、不便であれば `setTimeout(..., 0)` で囲みます。:
 
 ```html run
 <button id="menu">Menu (click me)</button>
@@ -265,25 +265,25 @@ If we don't like it, we can either put the `dispatchEvent` (or other event-trigg
 </script>
 ```    
 
-## Summary
+## サマリ [#Summary]
 
-To generate an event, we first need to create an event object.
+イベントを生成するためには、最初にイベントオブジェクトを作成する必要があります。
 
-The generic `Event(name, options)` constructor accepts an arbitrary event name and the `options` object with two properties:
-  - `bubbles: true` if the event should bubble.
-  - `cancelable: true` is the `event.preventDefault()` should work.
+汎用的な `Event(name, options)` コンストラクタは、任意のイベント名と2つのプロパティを持つ `options` オブジェクトを受け取ります。:
+  - イベントがバブルするべきであれば、`bubbles: true`。
+  - `cancelable: true` は `event.preventDefault()` が動作します。
 
-Other constructors of native events like `MouseEvent`, `KeyboardEvent` and so on accept properties specific to that event type. For instance, `clientX` for mouse events.
+他の `MouseEvent`, `KeyboardEvent` などのようなネイティブイベントのコンストラクタはそのイベントタイプに固有のプロパティを受け入れます。例えば、マウスイベントであれば `clientX` です。
 
-For custom events we should use `CustomEvent` constructor. It has an additional option named `detail`, we should assign the event-specific data to it. Then all handlers can access it as `event.detail`.
+カスタムイベントの場合、`CustomEvent` コンストラクタを使うべきです。それは `detail` と言う名の追加のオプションを持っており、そこへイベント固有のデータを割り当てるべきです。そして、以降すべてのハンドラは `event.detail` でそこにアクセスすることができます。
 
-Despite the technical possibility to generate browser events like `click` or `keydown`, we should use with the great care.
+`click` や `keydown` のようなブラウザイベントを生成することは技術的には可能性ですが、大きな注意を払って使うべきです。
 
-We shouldn't generate browser events as it's a hacky way to run handlers. That's a bad architecture most of the time.
+ハンドラを実行するために、ブラウザイベントをハックな方法で生成するべきではありません。 これは、ほとんどの場合、悪いアーキテクチャです。
 
-Native events might be generated:
+ネイティブイベントは次のような場合に生成される場合があります:
 
-- As a dirty hack to make 3rd-party libraries work the needed way, if they don't provide other means of interaction.
-- For automated testing, to "click the button" in the script and see if the interface reacts correctly.
+- サードパーティライブラリが他のインタラクションの手段を提供していない場合に、動作させるための汚いハックとして。
+- 自動テストの場合で、スクリプトの中で "ボタンをクリック" し、インタフェースが正しく反応するかを見るために。
 
-Custom events with our own names are often generated for architectural purposes, to signal what happens inside our menus, sliders, carousels etc.
+独自の名前を持つカスタムイベントは、アーキテクチャ上の目的で、メニュー、スライダ、カルーセルなどの内部で何が起こるかを伝えるために生成されることがよくあります。
