@@ -1,3 +1,3 @@
-# Events in details
+# イベントの詳細
 
-Here we cover most important events and details of working with them.
+ここでは、最も重要なイベントとその動作の詳細について説明します。
