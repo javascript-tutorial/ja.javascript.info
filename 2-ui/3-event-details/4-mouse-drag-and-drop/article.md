@@ -1,42 +1,41 @@
-# Drag'n'Drop with mouse events
+# マウスイベントでのドラッグ&ドロップ
 
-Drag'n'Drop is a great interface solution. Taking something, dragging and dropping is a clear and simple way to do many things, from copying and moving (see file managers) to ordering (drop into cart).
+ドラッグ&ドロップは素晴らしいインタフェースソリューションです。何かを掴み、ドラッグとドロップをすることは、コピーや移動(ファイルマネージャを参照)から注文(カートにドロップする)まで、多くのことをするための明白かつ簡単な方法です。
 
-In the modern HTML standard there's a [section about Drag Events](https://html.spec.whatwg.org/multipage/interaction.html#dnd).
+現在の HTML 標準では [ドラッグイベントに関するセクション](https://html.spec.whatwg.org/multipage/interaction.html#dnd) があります。
 
-They are interesting, because they allow to solve simple tasks easily, and also allow to handle drag'n'drop of "external" files into the browser. So we can take a file in the OS file-manager and drop it into the browser window. Then JavaScript gains access to its contents.
+それらはシンプルなタスクを簡単に解決したり、"外部" ファイルのドラッグ＆ドロップをブラウザで扱うことができたりと、興味深いです。したがって、OSのファイルマネージャでファイルを取り、ブラウザウィンドウへドロップすることができます。その後、JavaScript はそのコンテンツへアクセスできます。
 
-But native Drag Events also have limitations. For instance, we can limit dragging by a certain area. Also we can't make it "horizontal" or "vertical" only. There are other drag'n'drop tasks that can't be implemented using that API.
+しかし、ネイティブのドラッグイベントにも制限があります。例えば、特定の領域でドラッグを制限することができます。また、ドラッグを "水平" または "垂直" のみにすることはできません。そのAPIでは実装できない他のドラッグ&ドロップのタスクがあります。
 
-So here we'll see how to implement Drag'n'Drop using mouse events. Not that hard either.
+そのため、ここではマウスイベントを使用したドラッグ&ドロップの実装方法を見ていきます。それほど難しくはありません。
 
-## Drag'n'Drop algorithm
+## ドラッグ&ドロップ アルゴリズム [#Drag'n'Drop algorithm]
 
-The basic Drag'n'Drop algorithm looks like this:
+基本のドラッグ&ドロップのアルゴリズムはこのようになります:
 
-1. Catch `mousedown` on a draggable element.
-2. Prepare the element to moving (maybe create a copy of it or whatever).
-3. Then on `mousemove` move it by changing `left/top` and `position:absolute`.
-4. On `mouseup` (button release) -- perform all actions related to a finished Drag'n'Drop.
+1. ドラッグ可能な要素で `mousedown` をキャッチします。
+2. 移動する要素を準備します (そのコピーを作成したりなど)
+3. その後、`mousemove` で `left/top` と `position:absolute` を変更することで、それを移動させます。
+4. `mouseup` (ボタンを離す) で、 -- 終了したドラッグ&ドロップに関連するすべてのアクションを実行します。
 
-These are the basics. We can extend it, for instance, by highlighting droppable (available for the drop) elements when hovering over them.
+これらは基本です。私たちはそれを拡張することができます。例えば、ドロップ可能な要素上にマウスを持ってきたときに、それを強調表示するなどです。
 
-Here's the algorithm for drag'n'drop of a ball:
+ここでは、ボールのドラッグ&ドロップの場合のアルゴリズムです:
 
 ```js
-ball.onmousedown = function(event) { // (1) start the process
+ball.onmousedown = function(event) { // (1) 処理を開始
 
-  // (2) prepare to moving: make absolute and on top by z-index
+  // (2) 移動のための準備: absolute にし、z-index でトップにする
   ball.style.position = 'absolute';
   ball.style.zIndex = 1000;
-  // move it out of any current parents directly into body
-  // to make it positioned relative to the body
+  // 現在の親から body へ直接移動させ、body に対して相対配置をする
   document.body.append(ball);  
-  // ...and put that absolutely positioned ball under the cursor
+  // ...そしてその絶対配置されたボールをカーソルの下に置く
 
   moveAt(event.pageX, event.pageY);
 
-  // centers the ball at (pageX, pageY) coordinates
+  // ボールを（pageX、pageY）座標の中心に置く
   function moveAt(pageX, pageY) {
     ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
     ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
@@ -46,10 +45,10 @@ ball.onmousedown = function(event) { // (1) start the process
     moveAt(event.pageX, event.pageY);
   }
 
-  // (3) move the ball on mousemove
+  // (3) mousemove でボールを移動する
   document.addEventListener('mousemove', onMouseMove);
 
-  // (4) drop the ball, remove unneeded handlers
+  // (4) ボールをドロップする。不要なハンドラを削除する
   ball.onmouseup = function() {
     document.removeEventListener('mousemove', onMouseMove);
     ball.onmouseup = null;
@@ -58,19 +57,20 @@ ball.onmousedown = function(event) { // (1) start the process
 };
 ```
 
-If we run the code, we can notice something strange. On the beginning of the drag'n'drop, the ball "forks": we start to dragging it's "clone".
+コードを実行すると、何かおかしいことに気づきます。ドラッグ&ドロップの開始時に、ボールは "分岐" します: 我々はその "クローン" をドラッグし始めます。
+
 
 ```online
-Here's an example in action:
+これは、アクションの例です:
 
 [iframe src="ball" height=230]
 
-Try to drag'n'drop the mouse and you'll see the strange behavior.
+マウスをドラッグ&ドロップし、奇妙な振る舞いをみてみてください。
 ```
 
-That's because the browser has its own Drag'n'Drop for images and some other elements that runs automatically and conflicts with ours.
+ブラウザは、画像や自動的に実行する他の要素のための独自のドラッグ&ドロップを持っており、それが私たちのコードと競合するためです。
 
-To disable it:
+それを無効にするためには:
 
 ```js
 ball.ondragstart = function() {
@@ -78,40 +78,40 @@ ball.ondragstart = function() {
 };
 ```
 
-Now everything will be all right.
+これで、すべて大丈夫です。
 
 ```online
-In action:
+アクション:
 
 [iframe src="ball2" height=230]
 ```
 
-Another important aspect -- we track `mousemove` on `document`, not on `ball`. From the first sight it may seem that the mouse is always over the ball, and we can put `mousemove` on it.
+もう１つの重要な側面 -- 私たちは `ball` ではなく、`document` の `mousemove` を追跡しています。一見すると、マウスは常にボールの上にあり、その上に `mousemove` を置くことができるように見えるかもしれません。
 
-But as we remember, `mousemove` triggers often, but not for every pixel. So after swift move the cursor can jump from the ball somewhere in the middle of document (or even outside of the window).
+しかし、覚えているように、`mousemove` は頻繁にトリガしますがピクセル毎ではありません。そのため、すばやく移動した後、カーソルはボールからドキュメント(またはウィンドウの外側)上のどこかにジャンプする可能性があります。
 
-So we should listen on `document` to catch it.
+したがって、それをキャッチするために `document` でリッスンする必要があります。
 
-## Correct positioning
+## 正しいポジショニング [#Correct positioning]
 
-In the examples above the ball is always centered under the pointer:
+上の例では、ボールは常にポインタの下で中央配置されています。:
 
 ```js
 ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
 ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 ```
 
-Not bad, but there's a side-effect. To initiate the drag'n'drop can we `mousedown` anywhere on the ball. If do it at the edge, then the ball suddenly "jumps" to become centered.
+悪くはありませんが副作用があります。ドラッグ&ドロップを開始するために、私たちはボール上どこでも `mousedown` できます。もしボールの端でそれをした場合、ボールは突然中央になるために "ジャンプ" します。
 
-It would be better if we keep the initial shift of the element relative to the pointer.
+ポインタに対する要素の初期のずれを維持するようが良いでしょう。
 
-For instance, if we start dragging by the edge of the ball, then the cursor should remain over the edge while dragging.
+例えば、ボールの端でドラッグを開始する場合、ドラッグ中のカーソルは端のままであるべきです。
 
 ![](ball_shift.png)
 
-1. When a visitor presses the button (`mousedown`) -- we can remember the distance from the cursor to the left-upper corner of the ball in variables `shiftX/shiftY`. We should keep that distance while dragging.
+1. 訪問者がボタン (`mousedown`) を押したとき -- 変数 `shiftX/shiftY` に、カーソルからボールの左上端の距離を覚えることができます。私たちはドラッグの間その距離を維持する必要があります。
 
-    To get these shifts we can substract the coordinates:
+    それらのシフト(ずれ)を取得するには、座標の減算をします:
 
     ```js
     // onmousedown
@@ -119,9 +119,9 @@ For instance, if we start dragging by the edge of the ball, then the cursor shou
     let shiftY = event.clientY - ball.getBoundingClientRect().top;
     ```
 
-    Please note that there's no method to get document-relative coordinates in JavaScript, so we use window-relative coordinates here.
+    JavaScript では、document に相対的な座標を取得するメソッドがないことに注意してください。そのため、ここではウィンドウに相対的な座標を使っています。
 
-2. Then while dragging we position the ball on the same shift relative to the pointer, like this:
+2. 次に、ドラッグの間はこのようにして、ポインタに相対的な同じシフトにボールを置きます。:
 
     ```js
     // onmousemove
@@ -130,7 +130,7 @@ For instance, if we start dragging by the edge of the ball, then the cursor shou
     ball.style.top = event.pageY - *!*shiftY*/!* + 'px';
     ```
 
-The final code with better positioning:
+より良いポジショニングとなる最終的なコードです:
 
 ```js
 ball.onmousedown = function(event) {
@@ -146,7 +146,7 @@ ball.onmousedown = function(event) {
 
   moveAt(event.pageX, event.pageY);
 
-  // centers the ball at (pageX, pageY) coordinates
+  // ボールを（pageX、pageY）座標の中心に置く
   function moveAt(pageX, pageY) {
     ball.style.left = pageX - *!*shiftX*/!* + 'px';
     ball.style.top = pageY - *!*shiftY*/!* + 'px';
@@ -156,10 +156,10 @@ ball.onmousedown = function(event) {
     moveAt(event.pageX, event.pageY);
   }
 
-  // (3) move the ball on mousemove
+  // (3) mousemove でボールを移動する
   document.addEventListener('mousemove', onMouseMove);
 
-  // (4) drop the ball, remove unneeded handlers
+  // (4) ボールをドロップする。不要なハンドラを削除する
   ball.onmouseup = function() {
     document.removeEventListener('mousemove', onMouseMove);
     ball.onmouseup = null;
@@ -173,30 +173,30 @@ ball.ondragstart = function() {
 ```
 
 ```online
-In action (inside `<iframe>`):
+アクション (`<iframe>` の中):
 
 [iframe src="ball3" height=230]
 ```
 
-The difference is especially noticeable if we drag the ball by it's right-bottom corner. In the previous example the ball "jumps" under the pointer. Now it fluently follows the cursor from the current position.
+ボールの右下端でドラッグをする場合に、違いは特に顕著になります。以前の例ではボールはポイントの下に "ジャンプ" します。今は現在の位置からのなめらかにカーソルを追うことができます。
 
-## Detecting droppables
+## ドロップ可能を検出する [#Detecting droppables]
 
-In previous examples the ball could be dropped just "anywhere" to stay. In real-life we usually take one element and drop it onto another. For instance, a file into a folder, or a user into a trash can or whatever.
+前の例では、ボールは "どこにでも" ドロップすることができました。実際には、通常1つの要素を取り、別の要素へそれをドロップします。例えば、ファイルをフォルダに、またはユーザをゴミ箱に、などです。
 
-Abstractly, we take a "draggable" element and drop it onto "droppable" element.
+抽象的には、私たちは "ドラッグ可能な" 要素を取り、"ドロップ可能な" 要素上にドロップします。
 
-We need to know the target droppable at the end of Drag'n'Drop -- to do the corresponding action, and, preferably, during the dragging process, to highlight it.
+ドラッグ&ドロップの最後には、ドロップ可能なターゲットを知る必要があります -- 対応するアクションを行ったり、できれば、ドラッグ処理中にそれを強調表示したりします。
 
-The solution is kind-of interesting and just a little bit tricky, so let's cover it here.
+そのソリューションは興味深くもあり難解でもあるため、ここで説明しましょう。
 
-What's the first idea? Probably to put `onmouseover/mouseup` handlers on potential droppables and detect when the mouse pointer appears over them. And then we know that we are dragging/dropping on that element.
+最初のアイデアは何でしょう？恐らく潜在的なドロップ可能要素に `onmouseover/mouseup` ハンドラを設定し、マウスポインタがその上に現れたときに検出するやり方です。そうすると、その要素上でドラッグ/ドロップしていることが分かります。
 
-But that doesn't work.
+しかし、これは動作しません。
 
-The problem is that, while we're dragging, the draggable element is always above other elements. And mouse events only happen on the top element, not on those below it.
+問題は、私たちがドラッグしている間、ドラッグ可能な要素は常に他の要素の上にあることです。また、マウスイベントは最上位の要素でのみ発生し、下位の要素では発生しません。
 
-For instance, below are two `<div>` elements, red on top of blue. There's no way to catch an event on the blue one, because the red is on top:
+例えば、以下は2つの `<div>` 要素があり、青の上に赤があります。この場合、赤は最上位であるため、青要素のイベントをキャッチする手段はありません。:
 
 ```html run autorun height=60
 <style>
@@ -211,32 +211,32 @@ For instance, below are two `<div>` elements, red on top of blue. There's no way
 <div style="background:red" onmouseover="alert('over red!')"></div>
 ```
 
-The same with a draggable element. The ball in always on top over other elements, so events happen on it. Whatever handlers we set on lower elements, they won't work.
+ドラッグ可能な要素も同じです。ボールは常に他の要素の上にあるため、そこでイベントが発生します。下位の要素でどんなハンドラを設定しても、それらは動作しません。
 
-That's why the initial idea to put handlers on potential droppables doesn't work in practice. They won't run.
+そういう訳で、ドロップ可能要素にハンドラを置くと言う最初のアイデアは実践では上手くいきません。それらは実行されないでしょう。
 
-So, what to do?
+では、何をすればよいでしょう？
 
-There's a method called `document.elementFromPoint(clientX, clientY)`. It returns the most nested element on given window-relative coordinates (or `null` if coordinates are out of the window).
+`document.elementFromPoint(clientX, clientY)` と言うメソッドがあります。これは指定された ウィンドウ相対座標上の最もネストされた要素を返します(座標がウィンドウの外の場合は `null` です)。
 
-So in any of our mouse event handlers we can detect the potential droppable under the pointer like this:
+なので、任意のマウスイベントハンドラで、ポインタの下のドロップ可能要素を検出することができます。次のようになります:
 
 ```js
-// in a mouse event handler
+// マウスイベントハンドラの中
 ball.hidden = true; // (*)
 let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
 ball.hidden = false;
-// elemBelow is the element below the ball. If it's droppable, we can handle it.
+// elemBelow はボールの下の要素です. もしそれがドロップ可能であれば処理します
 ```
 
-Please note: we need to hide the ball before the call `(*)`. Otherwise we'll usually have a ball on these coordinates, as it's the top element under the pointer: `elemBelow=ball`.
+注意:`(*)` 呼び出しの前に、ボールを隠す必要があります。そうしなければ、ポインタ下の最上位の要素として、通常その座標にはボールがあるためです: `elemBelow=ball`
 
-We can use that code to check what we're "flying over" at any time. And handle the drop when it happens.
+私たちはこのコードを使って、いつでも "飛んでいる場所" を確認することができます。そして、それが起きるとドロップを処理します。
 
-An extended code of `onMouseMove` to find "droppable" elements:
+"ドロップ可能な" 要素を探すよう拡張された `onMouseMove` のコードです:
 
 ```js
-let currentDroppable = null; // potential droppable that we're flying over right now
+let currentDroppable = null; // 今飛んでいるドロップ可能要素
 
 function onMouseMove(event) {
   moveAt(event.pageX, event.pageY);
@@ -245,37 +245,37 @@ function onMouseMove(event) {
   let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
   ball.hidden = false;
 
-  // mousemove events may trigger out of the window (when the ball is dragged off-screen)
-  // if clientX/clientY are out of the window, then elementfromPoint returns null
+  // mousemove イベントはウィンドウ外をトリガする可能性があります(ボールが画面外にドラッグされたとき)
+  // clientX/clientY がウィンドウ外の場合、elementfromPoint は null を返します
   if (!elemBelow) return;
 
-  // potential droppables are labeled with the class "droppable" (can be other logic)
+  // 潜在的なドロップ可能領域は "droppable" クラスでラベル付されています (他のロジックの場合もあります)
   let droppableBelow = elemBelow.closest('.droppable');
 
-  if (currentDroppable != droppableBelow) { // if there are any changes
-    // we're flying in or out...
-    // note: both values can be null
-    //   currentDroppable=null if we were not over a droppable (e.g over an empty space)
-    //   droppableBelow=null if we're not over a droppable now, during this event
+  if (currentDroppable != droppableBelow) { // 変更がある場合
+    // 私たちは飛んでいます(入ったか出たか)...
+    // 注意: 両方の値は null になりえます。
+    //   currentDroppable=null ドロップ可能領域にいなかった場合 (e.g 空白スペース)
+    //   droppableBelow=null このイベント中、今ドロップ可能領域にいない場合
 
     if (currentDroppable) {
-      // the logic to process "flying out" of the droppable (remove highlight)
+      // ドロップ可能領域を "飛び出る" 処理のためのロジック (強調表示の除去)
       leaveDroppable(currentDroppable);
     }
     currentDroppable = droppableBelow;
     if (currentDroppable) {
-      // the logic to process "flying in" of the droppable
+      // ドロップ可能領域に "入る" 処理のためのロジック
       enterDroppable(currentDroppable);
     }
   }
 }
 ```
 
-In the example below when the ball is dragged over the soccer gate, the gate is highlighted.
+下の例では、ボールがサッカーゴールにドラッグされたとき、ゴールが強調表示されます。
 
 [codetabs height=250 src="ball4"]
 
-Now we have the current "drop target" in the variable `currentDroppable` during the whole process and can use it to highlight or any other stuff.
+今、プロセス全体で、変数 `currentDroppable` の中に現在の "ドロップターゲット" があり、強調表示やその他のことをするのに使うことができます。
 
 ## Summary
 

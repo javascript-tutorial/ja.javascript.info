@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Slider
+# スライダー
 
-Create a slider:
+スライダーを作ってください:
 
 [iframe src="solution" height=60 border=1]
 
-Drag the blue thumb with the mouse and move it.
+マウスで青いハンドルをドラッグして移動させてください。
 
-Important details:
+重要な詳細:
 
-- When the mouse button is pressed, during the dragging the mouse may go over or below the slider. The slider will still work (convenient for the user).
-- If the mouse moves very fast to the left or to the right, the thumb should stop exactly at the edge.
+- マウスボタンが押されたとき、ドラッグ中にマウスがスライダーの上下に行く可能性があります。スライダーはそれでも動作します(ユーザには便利です)。
+- もしマウス左右に非常に速く移動する場、ハンドルは正確に端で止まります。

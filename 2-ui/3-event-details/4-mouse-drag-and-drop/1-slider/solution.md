@@ -1,4 +1,4 @@
 
-We have a horizontal Drag'n'Drop here.
+ここでは、水平なドラッグ&ドロップです。
 
-To position the element we use `position:relative` and slider-relative coordinates for the thumb. Here it's more convenient here than `position:absolute`.
+要素を配置するために、ハンドルに対して、`position:relative` とスライダーに相対的な座標を使います。ここでは　`position:absolute`　を使うよりもより便利です。
