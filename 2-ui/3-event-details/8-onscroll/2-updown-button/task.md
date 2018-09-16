@@ -4,13 +4,13 @@ importance: 5
 
 # Up/down button
 
-Create a "to the top" button to help with page scrolling.
+ページスクロールを助けるための "トップへ" ボタンを作成してください。
 
-It should work like this:
-- While the page is not scrolled down at least for the window height -- it's invisible.
-- When the page is scrolled down more than the window height -- there appears an "upwards" arrow in the left-top corner. If the page is scrolled back, it disappears.
-- When the arrow is clicked, the page scrolls to the top.
+次のように動作します:
+- ページが少なくともウィンドウの高さよりスクロールされていない間は見えません。
+- ページがウィンドウの高さよりもスクロールされたとき、-- 左上端に "上向き" の矢印が表示されます。ページがスクロールで上に戻されると消えます。
+- 矢印をクリックすると、ページはトップへスクロールします。
 
-Like this:
+このようになります:
 
 [iframe border="1" height="200" link src="solution"]

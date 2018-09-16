@@ -1,8 +1,6 @@
-The `onscroll` handler should check which images are visible and show them.
+`onscroll` ハンドラでどの画像が見えているのかを確認し、それらを表示する必要があります。
 
-We also may want to run it when the page loads, to detect immediately visible images prior to any scrolling and load them.
-
-If we put it at the `<body>` bottom, then it runs when the page content is loaded.
+また、スクロールをする前にすぐに見える画像を検知してそれらを読み込むために、ページが読み込まれた時にもそれを実行したいです。
 
 ```js
 // ...the page content is above...
@@ -26,6 +24,6 @@ window.onscroll = showVisible;
 */!*
 ```
 
-For visible images we can take `img.dataset.src` and assign it to `img.src` (if not did it yet).
+見えている画像に対して、`img.dataset.src` を取り、`img.src` に割り当てます(まだしていない場合)。
 
-P.S. The solution also has a variant of `isVisible` that "pre-loads" images that are within 1 page  above/below (the page height is `document.documentElement.clientHeight`).
+P.S. この解決策は１ページ上下にある画像を "プリロード" する `isVisibe` のバリアントも持っています(ページの高さは `document.documentElement.clientHeight` です)。

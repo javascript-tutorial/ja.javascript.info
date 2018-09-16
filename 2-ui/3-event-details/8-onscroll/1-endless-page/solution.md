@@ -1,53 +1,51 @@
-The core of the solution is a function that adds more dates to the page (or loads more stuff in real-life) while we're at the page end.
+この解決策のコア部分は、ページの末尾にいるときに、日付情報をページに追加(もしくは、実践ではより多くのものを読み込む)する関数です。
 
-We can call it immediately and add as a `window.onscroll` handler.
+私たちは、それをすぐに呼びだしたり、`window.onscroll` ハンドラとして追加することができます。
 
-The most important question is: "How do we detect that the page is scrolled to bottom?"
+最も重要な問題は、"ページが末尾までスクロールされたかをどのようにして検出するか？" です。
 
-Let's use window-relative coordinates.
+ウィンドウ相対座標を使いましょう。
 
-The document is represented (and contained) within `<html>` tag, that is `document.documentElement`.
+ドキュメントは `<html>` タグ、つまり  `document.documentElement` の中に表現されます。
 
-We can get window-relative coordinates of the whole document as `document.documentElement.getBoundingClientRect()`. And the `bottom` property will be window-relative coordinate of the document end.
+`document.documentElement.getBoundingClientRect()` でドキュメント全体のウィンドウ相対座標を得ることができます。そして、`bottom` プロパティはドキュメントの終わりのウィンドウ相対座標です。
 
-For instance, if the height of the whole HTML document is 2000px, then:
+例えば、HTML ドキュメント全体の高さが 2000px の場合は:
 
 ```js
-// When we're on the top of the page
-// window-relative top = 0
+// ページのトップにいるとき
+// ウィンドウ相対のトップは 0 です
 document.documentElement.getBoundingClientRect().top = 0
 
-// window-relative bottom = 2000
-// the document is long, so that is probably far beyond the window bottom
+// ウィンドウ相対の底 = 2000
+// ドキュメントが長いので、おそらくウィンドウの底をはるかに超えています
 document.documentElement.getBoundingClientRect().bottom = 2000
 ```
 
-If we scroll `500px` below, then:
+もし `500px` 下にスクロールすると:
 
 ```js
-// document top is above the window 500px
+// ドキュメントトップはウィンドウより 500px 上にあります
 document.documentElement.getBoundingClientRect().top = -500
-// document bottom is 500px closer
+// ドキュメントの底は 500px 近い
 document.documentElement.getBoundingClientRect().bottom = 1500
 ```
 
-When we scroll till the end, assuming that the window height is `600px`:
+最後までスクロールするとき、ウィンドウの高さを `600px` と仮定すると:
 
 
 ```js
-// document top is above the window 500px
 document.documentElement.getBoundingClientRect().top = -1400
-// document bottom is 500px closer
 document.documentElement.getBoundingClientRect().bottom = 600
 ```
 
-Please note that the bottom can't be 0, because it never reaches the window top. The lowest limit of the bottom coordinate is the window height, we can't scroll it any more up.
+bottom は 0 にはなれないことに注意してください。なぜなら、決してウィンドウのトップには到達しないからです。底の座標の最も小さい制限はウィンドウの高さで、それ以上スクロールすることはできません。
 
-And the window height is `document.documentElement.clientHeight`.
+また、ウィンドウの高さは `document.documentElement.clientHeight` です。
 
-We want the document bottom be no more than `100px` away from it.
+私たちは、ドキュメントの底部がそれからd `100px` 以上は離れていてほしくないです。
 
-So here's the function:
+したがって、関数は次のようになります:
 
 ```js
 function populate() {
@@ -55,11 +53,11 @@ function populate() {
     // document bottom
     let windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
 
-    // if it's greater than window height + 100px, then we're not at the page back
-    // (see examples above, big bottom means we need to scroll more)
+    // もしウィンドウの高さ + 100px よりも大きい場合、ページの終わりではありません
+    // (上の例の通り、大きい bottom はもっとスクロールが必要であることを意味します
     if (windowRelativeBottom > document.documentElement.clientHeight + 100) break;
 
-    // otherwise let's add more data
+    // それ以外はデータを追加する
     document.body.insertAdjacentHTML("beforeend", `<p>Date: ${new Date()}</p>`);
   }
 }

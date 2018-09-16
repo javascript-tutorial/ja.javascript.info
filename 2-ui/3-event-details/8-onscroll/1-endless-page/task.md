@@ -2,19 +2,19 @@ importance: 5
 
 ---
 
-# Endless page
+# エンドレスなページ
 
-Create an endless page. When a visitor scrolls it to the end, it auto-appends current date-time to the text (so that a visitor can scroll more).
+終わりのないページを作ってください。訪問者が最後までスクロールしたとき、現在の日付をテキストに自動追加します(訪問者がよりスクロールできるように)。
 
-Like this:
+このようになります:
 
 [iframe src="solution" height=200]
 
-Please note two important features of the scroll:
+スクロールに関して２つの重要な特徴について留意してください:
 
-1. **The scroll is "elastic".** We can scroll a little beyond the document start or end in some browsers/devices (empty space below is shown, and then the document will automatically "bounces back" to normal).
-2. **The scroll is imprecise.** When we scroll to page end, then we may be in fact like 0-50px away from the real document bottom.
+1. **スクロールは "弾み" ます。** 一部のブラウザ/デバイスでは、ドキュメントの開始または終了を超えてスクロールすることができます(下に空白が表示され、その後ドキュメントは自動的に通常に "戻されます")。
+2. **スクロールは精密ではありません。** ページを最後までスクロールするとき、実際には本当のドキュメントの底から 0-50px 程度離れている可能性があります。
 
-So, "scrolling to the end" should mean that the visitor is no more than 100px away from the document end.
+したがって、"最後までスクロールする" とは、訪問者はドキュメントの底から 100px 以上は離れていないことを意味します。
 
-P.S. In real life we may want to show "more messages" or "more goods".
+P.S. 実践では、"より多くのメッセージ" や "より多くの商品" を表示したいです。

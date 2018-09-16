@@ -2,29 +2,29 @@ importance: 4
 
 ---
 
-# Load visible images
+# 目に見える画像を読み込む
 
-Let's say we have a slow-speed client and want to save his mobile traffic.
+低速のクライアントがおり、モバイルのトラフィックを節約したいとしましょう。
 
-For that purpose we decide not to show images immediately, but rather replace them with placeholders, like this:
+この目的に対し、画像をすぐには表示せず、それらをプレースホルダに置き換えることに決めました。次のようになります:
 
 ```html
 <img *!*src="placeholder.svg"*/!* width="128" height="128" *!*data-src="real.jpg"*/!*>
 ```
 
-So, initially all images are `placeholder.svg`. When the page scrolls to the position where the user can see the image -- we change `src` to the one in `data-src`, and so the image loads.
+なので、最初はすべての画像が `placeholder.svg` です。ユーザが画像を見ることができる位置までページがスクロールされたとき、-- `src` を `data-src` のものに変更します。そうすると画像が読み込まれます。
 
-Here's an example in `iframe`:
+`iframe` に例があります:
 
 [iframe src="solution"]
 
-Scroll it to see images load "on-demand".
+画像を見るためにスクロールし、"要求があり次第" 読み込みます。
 
-Requirements:
-- When the page loads, those images that are on-screen should load immediately, prior to any scrolling.
-- Some images may be regular, without `data-src`. The code should not touch them.
-- Once an image is loaded, it should not reload any more when scrolled in/out.
+要件:
+- ページが読み込まれると、スクロールする前に画面に表示されている画像はすぐに読み込まれます。
+- 画像の中には、`data-src` がないものもあります。 コードはそれらに触れるべきではありません。
+- 一旦ロードされた画像は、スクロールで画面内/外が変わってもそれ以上再読込されるべきではありません。
 
-P.S. If you can, make a more advanced solution that would "preload" images that are one page below/after the current position.
+P.S. 可能であれば、現在の位置の1ページ前後にある画像を「プリロードする」より高度な解決策を作成してください。
 
-P.P.S. Only vertical scroll is to be handled, no horizontal scrolling.
+P.P.S. 垂直スクロールのみが処理され、水平スクロールは処理されません。
