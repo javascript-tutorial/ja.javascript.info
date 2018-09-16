@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Extended hotkeys
+# 拡張ホットキー
 
-Create a function `runOnKeys(func, code1, code2, ... code_n)` that runs `func` on simultaneous pressing of keys with codes `code1`, `code2`, ..., `code_n`.
+コード `code1`, `code2`, ..., `code_n` のキーを同時に押したときに `func` を実行する関数 `runOnKeys(func, code1, code2, ... code_n)` を作成してください。
 
-For instance, the code below shows `alert` when `"Q"` and `"W"` are pressed together (in any language, with or without CapsLock)
+例えば、下のコードは、 `"Q"` と `"W"` が同時に押されたときに `alert` を表示します(任意の言語で、CapsLockの有無にかかわらず)。
 
 ```js no-beautify
 runOnKeys(
