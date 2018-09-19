@@ -1,39 +1,39 @@
-# Page lifecycle: DOMContentLoaded, load, beforeunload, unload
+# ページのライフサイクル: DOMContentLoaded, load, beforeunload, unload
 
-The lifecycle of an HTML page has three important events:
+HTML ページのライフサイクルは、3つの重要なイベントを持っています:
 
-- `DOMContentLoaded` -- the browser fully loaded HTML, and the DOM tree is built, but external resources like pictures `<img>` and stylesheets may be not yet loaded.  
-- `load` -- the browser loaded all resources (images, styles etc).
-- `beforeunload/unload` -- when the user is leaving the page.
+- `DOMContentLoaded` -- ブラウザが HTML を完全に読み込み、DOM ツリーは構築されましたが、写真 `<img>` のような外部リソースやスタイルシートはまだ読み込まれていない可能性があります。
+- `load` -- ブラウザがすべてのリソース（画像, スタイルなど）を読み込みました。
+- `beforeunload/unload` -- ユーザがページを離れようとしているとき。
 
-Each event may be useful:
+それぞれのイベントが役に立つ場合があります:
 
-- `DOMContentLoaded` event -- DOM is ready, so the handler can lookup DOM nodes, initialize the interface.
-- `load` event -- additional resources are loaded, we can get image sizes (if not specified in HTML/CSS) etc.
-- `beforeunload/unload` event -- the user is leaving: we can check if the user saved the changes and  ask him whether he really wants to leave.
+- `DOMContentLoaded` イベント -- DOMは準備できたので、ハンドラは DOM ノードを調べ、インタフェースを初期化することができます。
+- `load` イベント -- 追加のリソースがロードされ、画像のサイズなどが取得できます(HTML/CSSで指定されていない場合)。
+- `beforeunload/unload` イベント -- ユーザが離れようとしており、ユーザが行ったページ上での変更を保存するかを確認したり、本当に離れたいかを尋ねることができます。
 
-Let's explore the details of these events.
+これらのイベントの詳細について見ていきましょう。
 
 [cut]
 
 ## DOMContentLoaded
 
-The `DOMContentLoaded` event happens on the `document` object.
+`DOMContentLoaded` イベントは `document` オブジェクトで発生します。
 
-We must use `addEventListener` to catch it:
+キャッチするためには `addEventListener` を使わなければなりません:
 
 ```js
 document.addEventListener("DOMContentLoaded", ready);
 ```
 
-For instance:
+例:
 
 ```html run height=200 refresh
 <script>
   function ready() {
     alert('DOM is ready');
 
-    // image is not yet loaded (unless was cached), so the size is 0x0
+    // イメージはまだロードされていません(キャッシュされてない限り), なのでサイズは 0x0 です
     alert(`Image size: ${img.offsetWidth}x${img.offsetHeight}`);
   }
 
@@ -45,74 +45,74 @@ For instance:
 <img id="img" src="https://en.js.cx/clipart/train.gif?speed=1&cache=0">
 ```
 
-In the example the `DOMContentLoaded` handler runs when the document is loaded, not waits for the page load. So `alert` shows zero sizes.
+例では、`DOMContentLoaded` ハンドラはドキュメントがロードされたときに実行され、ページ読み込みは待ちません。したがって、`alert` で表示されるサイズはゼロです。
 
-At the first sight `DOMContentLoaded` event is very simple. The DOM tree is ready -- here's the event. But there are few peculiarities.
+一見すると、`DOMContentLoaded` イベントはとてもシンプルです。DOM ツリーが準備できた -- ここのイベントです。しかし、特徴はほとんどありません。
 
-### DOMContentLoaded and scripts
+### DOMContentLoaded と scripts
 
-When the browser initially loads HTML and comes across a `<script>...</script>` in the text, it can't continue building DOM. It must execute the script right now. So `DOMContentLoaded` may only happen after all such scripts are executed.
+ブラウザが最初にHTMLをロードし、テキスト中の `<script>...</script>` に出くわすと、DOM の構築を続けることができません。すぐにスクリプトを実行する必要があります。そのため、このようなスクリプトがすべて実行された後にのみ `DOMContentLoaded` は発生する可能性があります。
 
-External scripts (with `src`) also put DOM building to pause while the script is loading and executing. So `DOMContentLoaded` waits for external scripts as well.
+外部スクリプト (`src` を持つもの) も、スクリプトがロードされ実行されている間はDOM の構築は一時停止します。したがって、`DOMContentLoaded` は外部スクリプトも待ちます。
 
-The only exception are external scripts with `async` and `defer` attributes. They tell the browser to continue processing without waiting for the scripts. So the user can see the page before scripts finish loading, good for performance.
+唯一の例外は、`async` や `defter` 属性をもつ外部スクリプトです。これらは、ブラウザにそのスクリプトは待たずに処理を続けるよう言います。なので、ユーザはスクリプトのロードが終わる前にページを見ることができ、パフォーマンスに良いです。
 
-```smart header="A word about `async` and `defer`"
-Attributes `async` and `defer` work only for external scripts. They are ignored if there's no `src`.
+```smart header="`async` と `defer` に関する言葉"
+属性 `async` と `defer` は外部スクリプトに対してのみ動作します。`src` がない場合には無視されます。
 
-Both of them tell the browser that it may go on working with the page, and load the script "in background", then run the script when it loads. So the script doesn't block DOM building and page rendering.
+どちらも、ブラウザにページでの処理をつづけるよう言い、"バックグラウンド" でスクリプトをロードします。その後、ロードできたらスクリプトを実行します。したがって、スクリプトは DOM の構築とページレンダリングをブロックしません。
 
-There are two differences between them.
+そららの間に2つの違いがあります。
 
 |         | `async` | `defer` |
 |---------|---------|---------|
-| Order | Scripts with `async` execute *in the load-first order*. Their document order doesn't matter -- which loads first runs first. | Scripts with `defer` always execute *in the document order* (as they go in the document). |
-| `DOMContentLoaded` | Scripts with `async` may load and execute while the document has not yet been fully downloaded. That happens if scripts are small or cached, and the document is long enough. | Scripts with `defer` execute after the document is loaded and parsed (they wait if needed), right before `DOMContentLoaded`. |
+| 順番 | `async` を持つスクリプトは *読み込んだもの順* で実行します。ドキュメント順は関係ありません -- 最初にロードされたものが最初に実行されます。 | `defer` を持つスクリプトは常に *ドキュメント順* で実行されます。 |
+| `DOMContentLoaded` | `async` を持つスクリプトは、ドキュメントがまだ完全にダウンロードされていなくても実行されることがあります。これはスクリプトが小さい or キャッシュされており、ドキュメントが十分長い場合に発生します。 | `defer` を持つスクリプトは、ドキュメントがロードされ、パースされた後（必要に応じて待機する）に実行されます。`DOMContentLoaded` の直前です。|
 
-So `async` is used for totally independent scripts.
+そのため、`async` は完全に独立したスクリプトに対して使われます。
 
 ```
 
-### DOMContentLoaded and styles
+### DOMContentLoaded と styles
 
-External style sheets don't affect DOM, and so `DOMContentLoaded` does not wait for them.
+外部のスタイルシートは DOM には影響しないので、`DOMContentLoaded` はそれらを待ちません。
 
-But there's a pitfall: if we have a script after the style, then that script must wait for the stylesheet to execute:
+しかし、落とし穴があります: スタイルの後にスクリプトがある場合、そのスクリプトはスタイルシートが実行されるのを待たなければなりません。:
 
 ```html
 <link type="text/css" rel="stylesheet" href="style.css">
 <script>
-  // the script doesn't not execute until the stylesheet is loaded
+  // スクリプトはスタイルシートが読み込まれるまで実行されません
   alert(getComputedStyle(document.body).marginTop);
 </script>
 ```
 
-The reason is that the script may want to get coordinates and other style-dependent properties of elements, like in the example above. Naturally, it has to wait for styles to load.
+この理由は、上の例のように、スクリプトが座標や他のスタイルに依存した要素のプロパティを取得したい場合があるためです。当然、それはスタイルがロードされるのを待たなければいけません。
 
-As `DOMContentLoaded` waits for scripts, it now waits for styles before them as well.
+`DOMContentLoaded` がスクリプトを待つので、その前のスタイルも同様に待つことになります。
 
-### Built-in browser autofill
+### 組み込みのブラウザの自動入力 [#Built-in browser autofill]
 
-Firefox, Chrome and Opera autofill forms on `DOMContentLoaded`.
+Firefox, Chrome や Opera の自動入力は `DOMContentLoaded` で起こります。
 
-For instance, if the page has a form with login and password, and the browser remembered the values, then on `DOMContentLoaded` it may try to autofill them (if approved by the user).
+例えば、ページがログインとパスワードのフォームを持っていて、ブラウザがその値を覚えていた場合、 `DOMContentLoaded` でそれらを自動入力しようとする場合があります(ユーザが許可している場合)。
 
-So if `DOMContentLoaded` is postponed by long-loading scripts, then autofill also awaits. You probably saw that on some sites (if you use browser autofill) -- the login/password fields don't get autofilled immediately, but there's a delay till the page fully loads. That's actually the delay until the `DOMContentLoaded` event.
+なので、読み込みに時間のかかるスクリプトによって `DOMContentLoaded` が延びると、自動入力もまた待ちます。恐らくあなたもサイトによっては見たことがあるでしょう(ブラウザの自動入力を利用している場合) -- ログイン/パスワードフィールドの自動入力がすぐにはされず、ページが完全にロードされるまで遅延があります。実際、それは `DOMContentLoaded` イベントまでの遅延です。
 
-One of minor benefits in using `async` and `defer` for external scripts -- they don't block `DOMContentLoaded` and don't delay browser autofill.
+外部スクリプトに対して `async` や `defer` を使う小さなメリットの１つは -- `DOMContentLoaded` をブロックせず、ブラウザの自動入力に遅延がないことです。
 
 ## window.onload [#window-onload]
 
-The `load` event on the `window` object triggers when the whole page is loaded including styles, images and other resources.
+`window` オブジェクトの `load` イベントはスタイルや画像、その他リソースを含めページ全体が読み込まれたときにトリガされます。
 
-The example below correctly shows image sizes, because `window.onload` waits for all images:
+下の例では、`window.onload` がすべての画像を待つため、画像サイズを正しく表示します。:
 
 ```html run height=200 refresh
 <script>
   window.onload = function() {
     alert('Page loaded');
 
-    // image is loaded at this time
+    // この時、画像はロードされています
     alert(`Image size: ${img.offsetWidth}x${img.offsetHeight}`);
   };
 </script>
@@ -122,17 +122,17 @@ The example below correctly shows image sizes, because `window.onload` waits for
 
 ## window.onunload
 
-When a visitor leaves the page, the `unload` event triggers on `window`. We can do something there that doesn't involve a delay, like closing related popup windows. But we can't cancel the transition to another page.
+訪問者がページを離れるとき、`unload` イベントが `window` でトリガされます。そこでは、関連するポップアップウィンドウを閉じるなど、遅延なく何かをすることができます。しかし、別のページへの遷移をキャンセルすることはできません。
 
-For that we should use another event -- `onbeforeunload`.
+そのためには、別のイベント `onbeforeunload` を使う必要があります。
 
 ## window.onbeforeunload [#window.onbeforeunload]
 
-If a visitor initiated leaving the page or tries to close the window, the `beforeunload` handler can ask for additional confirmation.
+訪問者がページを離れ始めたり、ウィンドウを閉じようとした場合、`beforeunload` ハンドラで追加の確認を尋ねることができます。
 
-It needs to return the string with the question. The browser will show it.
+質問の文字列を返す必要があります。ブラウザはそれを表示します。
 
-For instance:
+例えば:
 
 ```js
 window.onbeforeunload = function() {
@@ -141,32 +141,32 @@ window.onbeforeunload = function() {
 ```
 
 ```online
-Click on the button in `<iframe>` below to set the handler, and then click the link to see it in action:
+下の `<iframe>` でハンドラを設定するためにボタンをクリックしてください。その後、そのハンドラの実行を見るためにリンクをクリックしてみてください。:
 
 [iframe src="window-onbeforeunload" border="1" height="80" link edit]
 ```
 
-```warn header="Some browsers ignore the text and show their own message instead"
-Some browsers like Chrome and Firefox ignore the string and shows its own message instead. That's for sheer safety, to protect the user from potentially misleading and hackish messages.
+```warn header="テキストを無視し、代わりに独自のメッセージを表示するブラウザもあります"
+Chrome や Firefox のような一部のブラウザは文字列を無視し、代わりに独自のメッセージを表示します。これは安全のためであり、潜在的な誤解を招くメッセージやハックしたメッセージからユーザを保護するためにそのようになっています。
 ```
 
 ## readyState
 
-What happens if we set the `DOMContentLoaded` handler after the document is loaded?
+ドキュメントがロードされた後に `DOMContentLoaded` ハンドラを設定すると何が起こるでしょうか？
 
-Naturally, it never runs.
+当然、実行されません。
 
-There are cases when we are not sure whether the document is ready or not, for instance an external script with `async` attribute loads and runs asynchronously. Depending on the network, it may load and execute before the document is complete or after that, we can't be sure. So we should be able to know the current state of the document.
+ドキュメントが準備できたかどうかが定かでない場合があります。例えば `async` 属性を持つ外部スクリプトを読み込み、それが非同期に実行するような場合です。ネットワークに依存して、ドキュメントが完成する前に実行されるかもしれないし、その後かもしれず、定かではありません。従って、我々はドキュメントの現在の状態を知ることができるべきです。
 
-The `document.readyState` property gives us information about it. There are 3 possible values:
+`document.readyState` プロパティは我々にその情報を提供します。3つの値を取り得ます。:
 
-- `"loading"` -- the document is loading.
-- `"interactive"` -- the document was fully read.
-- `"complete"` -- the document was fully read and all resources (like images) are loaded too.
+- `"loading"` -- ドキュメントがロード中です。
+- `"interactive"` -- ドキュメントは完全に読み込まれました。
+- `"complete"` -- ドキュメントは完全に読み込まれ、すべてのリソース(画像のような)も読み込まれました。
 
-So we can check `document.readyState` and setup a handler or execute the code immediately if it's ready.
+なので、 `document.readyState` をチェックし、ハンドラを設定、もしくはすでに準備出来ている場合はすぐにコードを実行することができます。
 
-Like this:
+このように:
 
 ```js
 function work() { /*...*/ }
@@ -178,21 +178,21 @@ if (document.readyState == 'loading') {
 }
 ```
 
-There's a `readystatechange` event that triggers when the state changes, so we can print all these states like this:
+状態が変わったときにトリガされる `readystatechange` イベントがあります。なので、次のようにしてこれらの状態を出力することができます。:
 
 ```js run
-// current state
+// 現在の状態
 console.log(document.readyState);
 
-// print state changes
+// 状態の変化を出力
 document.addEventListener('readystatechange', () => console.log(document.readyState));
 ```
 
-The `readystatechange` event is an alternative mechanics of tracking the document loading state, it appeared long ago. Nowadays, it is rarely used, but let's cover it for completeness.
+`readystatechange` イベントはドキュメントの読み込み状態を追跡する代替のメカニズムで、それは昔に登場しました。最近ではほとんど使われていませんが、完全性のために説明しておきます。
 
-What is the place of `readystatechange` among other events?
+他のイベントの中で `readystatechange` の場所はどこでしょう？
 
-To see the timing, here's a document with `<iframe>`, `<img>` and handlers that log events:
+タイミングを見るために、ここではイベントを記録する `<iframe>`, `<img>` とハンドラを持つドキュメントがあります。:
 
 ```html
 <script>
@@ -213,9 +213,9 @@ To see the timing, here's a document with `<iframe>`, `<img>` and handlers that 
 </script>
 ```
 
-The working example is [in the sandbox](sandbox:readystate).
+動作例は [サンドボックスの中](sandbox:readystate) です。
 
-The typical output:
+典型的な出力:
 1. [1] initial readyState:loading
 2. [2] readyState:interactive
 3. [2] DOMContentLoaded
@@ -224,23 +224,22 @@ The typical output:
 6. [4] img onload
 7. [4] window onload
 
-The numbers in square brackets denote the approximate time of when it happens. The real time is a bit greater, but events labeled with the same digit happen approximately at the same time (+- a few ms).
+角括弧内の数値はそれが発生したおおよその時間を示します。実際の時間はもう少し大きいですが、同じ数字でラベル付けされたイベントは、ほぼ同時に発生します(+- 数ミリ秒)。
 
-- `document.readyState` becomes `interactive` right before `DOMContentLoaded`. These two events actually mean the same.
-- `document.readyState` becomes `complete` when all resources (`iframe` and `img`) are loaded. Here we can see that it happens in about the same time as `img.onload` (`img` is the last resource) and `window.onload`. Switching to `complete` state means the same as `window.onload`. The difference is that `window.onload` always works after all other `load` handlers.
+- `document.readyState` は `DOMContentLoaded` の直前に `interactive` になります。これら２つのイベントは実際には同じことを意味します。
+- `document.readyState` は、すべてのリソース(`iframe` や `img`)がロードされたときに `complete` になります。ここでは、`img.onload` (`img` は最後のリソース) と `window.onload` がほぼ同じ時間に発生していることが分かります。`complete` 状態にスイッチすることは、`window.onload` と同じことを意味します。違いは、`window.onload` は常に他のすべての `load` ハンドラの後で動作するということです。
 
+## サマリ [#Summary]
 
-## Summary
+ページのライフサイクルイベント:
 
-Page lifecycle events:
-
-- `DOMContentLoaded` event triggers on `document` when DOM is ready. We can apply JavaScript to elements at this stage.
-  - All scripts are executed except those that are external with `async` or `defer`
-  - Images and other resources may still continue loading.
-- `load` event on `window` triggers when the page and all resources are loaded. We rarely use it, because there's usually no need to wait for so long.
-- `beforeunload` event on `window` triggers when the user wants to leave the page. If it returns a string, the browser shows a question whether the user really wants to leave or not.
-- `unload` event on `window` triggers when the user is finally leaving, in the handler we can only do simple things that do not involve delays or asking a user. Because of that limitation, it's rarely used.
-- `document.readyState` is the current state of the document, changes can be tracked in the `readystatechange` event:
-  - `loading` -- the document is loading.
-  - `interactive` -- the document is parsed, happens at about the same time as `DOMContentLoaded`, but before it.
-  - `complete` -- the document and resources are loaded, happens at about the same time as `window.onload`, but before it.
+- `DOMContentLoaded` イベントは DOM が準備できたときに `document` 上でトリガされます。この段階では要素に対して JavaScript を適用することができます。
+  - `async` または `defer` もつ外部のものを除いたすべてのスクリプトが実行されます。
+  - 画像や他のリソースはまだ読み込み中かもしれません。
+- `window` での `load` イベントはページとすべてのリソースがロードされたときにトリガされます。通常はこんなに長く待つ必要はないため、めったに使われません。
+- `window` での `beforeunload` イベントは、ユーザがページから離れたいときにトリガされます。もし文字列を返すと、ブラウザはユーザが本当に離れたいかどうかの質問を表示します。
+- `window` での `unload` イベントはユーザが最終的に離れるときにトリガされます。ハンドラの中では遅延やユーザへの質問を含まないシンプルなことのみが可能です。その制限があるので、ほとんど使われません。
+- `document.readyState` はドキュメントの現在の状態で、変更は `readystatechange` イベントで追跡することが可能です。:
+  - `loading` -- ドキュメントは読み込み中です。
+  - `interactive` -- ドキュメントはパースされ、`DOMContentLoaded` とほぼ同じ時間に発生しますが、その前に発生します。
+  - `complete` -- ドキュメントとリソースが読み込まれました。`window.onload` とほぼ同じ時間に発生しますが、その前に起きます。
