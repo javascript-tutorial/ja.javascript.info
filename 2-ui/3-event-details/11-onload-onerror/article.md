@@ -1,17 +1,17 @@
-# Resource loading: onload and onerror
+# リソース読み込み: onload と onerror
 
-The browser allows to track the loading of external resources -- scripts, iframes, pictures and so on.
+ブラウザは外部リソース -- スクリプト, iframse, 画像 など -- の読み込みを追跡することができます。
 
-There are two events for it:
+そのためのイベントが２つあります:
 
-- `onload` -- successful load,
-- `onerror` -- an error occurred.
+- `onload` -- ロードが成功した,
+- `onerror` -- エラーが発生した.
 
-## Loading a script
+## スクリプトの読み込み [#Loading scripts]
 
-Let's say we need to call a function that resides in an external script.
+外部スクリプトにある関数を呼び出す必要があるとしましょう。
 
-We can load it dynamically, like this:
+次のようにして動的にロードすることができます。:
 
 ```js
 let script = document.createElement('script');
@@ -20,42 +20,40 @@ script.src = "my.js";
 document.head.append(script);
 ```
 
-...But how to run the function that is declared inside that script? We need to wait until the script loads, and only then we can call it.
+...しかし、どうやってそのスクリプトの中で宣言された関数を実行するのでしょう？私たちはそのスクリプトの読み込みまで待つ必要があり、その後に初めて呼び出すことができます。
 
 ### script.onload
 
-The main helper is the `load` event. It triggers after the script was loaded and executed.
-
-For instance:
+主なヘルパーは `load` イベントです。スクリプトがロードされ、実行された後にトリガされます。
 
 ```js run untrusted
 let script = document.createElement('script');
 
-// can load any script, from any domain
+// 任意のドメインから任意のスクリプトがロードできます
 script.src = "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.js"
 document.head.append(script);
 
 *!*
 script.onload = function() {
-  // the script creates a helper function "_"
-  alert(_); // the function is available
+  // スクリプトはヘルパー関数 "_" を作ります
+  alert(_); // 関数は利用可能です
 };
 */!*
 ```
 
-So in `onload` we can use script variables, run functions etc.
+そのため、`onload` では、スクリプト変数の利用や関数の実行などが可能です。
 
-...And what if the loading failed? For instance, there's no such script (error 404) or the server or the server is down (unavailable).
+...そして、仮に読み込みが失敗したらどうなるでしょう？例えば、そのようなスクリプトがない(404 エラー)もしくはサーバがない、サーバがダウンしている場合です。
 
 ### script.onerror
 
-Errors that occur during the loading (but not execution) of the script can be tracked on `error` event.
+スクリプトの読み込み(実行ではない)中に発生したエラーは `error` イベントで追跡することが可能です。
 
-For instance, let's request a script that doesn't exist:
+例えば、存在しないスクリプトを要求してみましょう:
 
 ```js run
 let script = document.createElement('script');
-script.src = "https://example.com/404.js"; // no such script
+script.src = "https://example.com/404.js"; // こんなスクリプトはありません
 document.head.append(script);
 
 *!*
@@ -65,27 +63,27 @@ script.onerror = function() {
 */!*
 ```
 
-Please note that we can't get error details here. We don't know was it error 404 or 500 or something else. Just that the loading failed.
+ここではエラーの詳細を取得することはできないことに注意してください。エラーが 404, 500, または他の何かだったのかは分かりません。単に読み込みに失敗したということだけです。
 
-## Other resources
+## 他のリソース [#Other resources]
 
-The `load` and `error` events also work for other resources. There may be minor differences though.
+`load` と `error` イベントは他のリソースに対しても機能します。そこには微妙な違いがあります。
 
-For instance:
+例えば:
 
-`<img>`, `<link>` (external stylesheets)
-: Both `load` and `error` events work as expected.
+`<img>`, `<link>` (外部のスタイルシート)
+: `load` と `error` 両方のイベントは期待通りに機能します。
 
 `<iframe>`
-: Only `load` event when the iframe loading finished. It triggers both for successful load and in case of an error. That's for historical reasons.
+: iframe の読み込みが完了した時の `load` イベントのみです。ロードが成功した場合とエラーが発生した場合の両方をトリガーします。 これは歴史的な理由によるものです。
 
-## Summary
+## サマリ [#Summary]
 
-Pictures `<img>`, external styles, scripts and other resources provide `load` and `error` events to track their loading:
+画像 `<img>`, 外部スタイル, スクリプトや他のリソースは、それらの読み込みを追跡するために `load` と `error` イベントを提供しています。:
 
-- `load` triggers on a successful load,
-- `error` triggers on a failed load.
+- `load` はロードが成功したときにトリガされます。
+- `error` はロードに失敗したときにトリガされます。
 
-The only exception is `<iframe>`: for historical reasons it always triggers `load`, for any load completion, even if the page is not found.
+唯一の例外は `<iframe>` です: 歴史的な理由により、どんな完了にもかかわらず(たとえページが見つからなくても)、常に `load` をトリガします。
 
-The `readystatechange` event also works for resources, but is rarely used, because `load/error` events are simpler.
+`readystatechange` イベントもリソースに対して機能しますが、殆ど使われません。なぜなら `load/error` イベントの方がシンプルなためです。
