@@ -1,3 +1,3 @@
-# Forms, controls
+# フォーム, コントロール
 
-Special properties and events for forms `<form>` and controls: `<input>`, `<select>` and other.
+フォル `<form>` やコントロール (`<input>`, `<select>`, その他) のための特別なプロパティやイベント。

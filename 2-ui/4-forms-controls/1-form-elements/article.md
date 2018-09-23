@@ -1,25 +1,25 @@
-# Form properties and methods
+# フォームプロパティとメソッド
 
-Forms and control elements, such as `<input>` have a lot of special properties and events.
+フォームや `<input>` のようなコントロール要素は多くの特別なプロパティやイベントを持っています。
 
-Working with forms can be much more convenient if we know them.
+それらを知っていると、フォームを使った作業がはるかに便利になります。
 
 [cut]
 
-## Navigation: form and elements
+## ナビゲーション: フォームと要素 [#Navigation: form and elements]
 
-Document forms are members of the special collection `document.forms`.
+ドキュメントフォームは特別な集合 `document.forms` のメンバです。
 
-That's a *named* collection: we can use both the name and the number to get the form.
+それは *名付けされた* 集合で、名前と数字の両方を使ってフォームを取得することができます。
 
 ```js no-beautify
-document.forms.my - the form with name="my"
-document.forms[0] - the first form in the document
+document.forms.my - name="my" のフォーム
+document.forms[0] - ドキュメント中の最初のフォーム
 ```
 
-When we have a form, then any element is available in the named collection `form.elements`.
+フォームをもつと、名前付けされた集合 `forms.elements` で、任意の要素が利用可能です。
 
-For instance:
+例:
 
 ```html run height=40
 <form name="my">
@@ -28,19 +28,19 @@ For instance:
 </form>
 
 <script>
-  // get the form
+  // フォーム取得
   let form = document.forms.my; // <form name="my"> element
 
-  // get the element
+  // 要素取得
   let elem = form.elements.one; // <input name="one"> element
 
   alert(elem.value); // 1
 </script>
 ```
 
-There may be multiple elements with the same name, that's often the case with radio buttons.
+同じ名前で複数の要素がある可能性があり、それはラジオボタンの場合がよくあります。
 
-In that case `form.elements[name]` is a collection, for instance:
+この場合、`form.elements[name]` は集合です、例えば:
 
 ```html run height=40
 <form>
@@ -53,17 +53,17 @@ let form = document.forms[0];
 
 let ageElems = form.elements.age;
 
-alert(ageElems[0].value); // 10, the first input value
+alert(ageElems[0].value); // 10, 1つ目の input の値
 </script>
 ```
 
-These navigation properties do not depend on the tag structure. All elements, no matter how deep they are in the form, are available in `form.elements`.
+これらのナビゲーションプロパティはタグ構造には依存しません。すべての要素はフォーム中での深さに関係なく `form.elements` で利用可能です。
 
 
-````smart header="Fieldsets as \"subforms\""
-A form may have one or many `<fieldset>` elements inside it. They also support the `elements` property.
+````smart header="\"サブフォーム\"としてのフィールドセット"
+フォームは１つ以上の `<fieldset>` 要素をその中にもっている場合があります。それらも `elements` プロパティでサポートされています。
 
-For instance:
+例:
 
 ```html run height=80
 <body>
@@ -81,7 +81,7 @@ For instance:
     let fieldset = form.elements.userFields;
     alert(fieldset); // HTMLFieldSetElement
 
-    // we can get the input both from the form and from the fieldset
+    // フォームとフィールドセット両方から input を取得することができます
     alert(fieldset.elements.login == form.elements.login); // true
 */!*
   </script>
@@ -89,14 +89,14 @@ For instance:
 ```
 ````
 
-````warn header="Shorter notation: `form.name`"
-There's a shorter notation: we can access the element as `form[index/name]`.
+````warn header="より短い記法: `form.name`"
+より短い記法があります: `form[index/name]` で要素にアクセスすることができます。
 
-Instead of `form.elements.login` we can write `form.login`.
+`form.elements.login` の代わりに、`form.login` と書けます。
 
-That also works, but there's a minor issue: if we access an element, and then change its `name`, then it is still available under the old name (as well as under the new one).
+これも動作しますが、小さな問題があります: もし要素にアクセスし、その後でその `name` を変えた場合、依然として古い名前で利用可能です(新しい名前と同様に)。
 
-That's easy to see in an example:
+例で簡単に見れます:
 
 ```html run height=40
 <form id="form">
@@ -104,35 +104,34 @@ That's easy to see in an example:
 </form>
 
 <script>
-  alert(form.elements.login == form.login); // true, the same <input>
+  alert(form.elements.login == form.login); // true, 同じ <input>
 
-  form.login.name = "username"; // change the name of the input
+  form.login.name = "username"; // input の名前を変更
 
-  // form.elements updated the name:
+  // form.elements は name を更新:
   alert(form.elements.login); // undefined
   alert(form.elements.username); // input
 
 *!*
-  // the direct access now can use both names: the new one and the old one
+  // 直アクセスは両方の名前が使用可能
   alert(form.username == form.login); // true
 */!*
 </script>
 ```
 
-That's usually not a problem, because we rarely change names of form elements.
+これは通常は問題ではありません。なぜならフォーム要素の名前を変えることは殆どないからです。
 
 ````
 
-## Backreference: element.form
+## 後方参照: element.form [#Backreference: element.form]
 
-For any element, the form is available as `element.form`. So a form references all elements, and elements
-reference the form.
+任意の要素に対して、フォームは `element.form` として利用可能です。そのため、フォームはすべての要素を参照し、要素はフォームを参照します。
 
-Here's the picture:
+これはその図です:
 
 ![](form-navigation.png)
 
-For instance:
+例:
 
 ```html run height=40
 <form id="form">
@@ -150,44 +149,44 @@ For instance:
 </script>
 ```
 
-## Form elements
+## フォーム要素 [#Form elements]
 
-Let's talk about form controls, pay attention to their specific features.
+それぞれの機能に注意を払いながら、フォームコントロールについて話しましょう。
 
-### input and textarea
+### input と textarea
 
-Normally, we can access the value as `input.value` or `input.checked` for checkboxes.
+通常、チェックボックスに対しては `input.value` または `input.checked` で値にアクセスできます。
 
-Like this:
+このように:
 
 ```js
 input.value = "New value";
 textarea.value = "New text";
 
-input.checked = true; // for a checkbox or radio button
+input.checked = true; // チェックボックスやラジオボタンの場合
 ```
 
-```warn header="Use `textarea.value`, not `textarea.innerHTML`"
-Please note that we should never use `textarea.innerHTML`: it stores only the HTML that was initially on the page, not the current value.
+```warn header="`textarea.innerHTML` ではなく `textarea.value` を使います"
+決して `textarea.innerHTML` は使わないよう注意してください。それは現在の値ではなく、ページの初期時点の HTML のみを保持しています。
 ```
 
-### select and option
+### select と option
 
-A `<select>` element has 3 important properties:
+`<select>` 要素は3つの重要なプロパティを持っています:
 
-1. `select.options` -- the collection of `<option>` elements,
-2. `select.value` -- the value of the chosen option,
-3. `select.selectedIndex` -- the number of the selected option.
+1. `select.options` -- `<option>` 要素の集合です,
+2. `select.value` -- 選ばれた選択肢の値です,
+3. `select.selectedIndex` -- 選ばれた選択肢の番号です.
 
-So we have three ways to set the value of a `<select>`:
+従って、 `<select>` の値を設定するのに 3つの方法があります。:
 
-1. Find the needed `<option>` and set `option.selected` to `true`.
-2. Set `select.value` to the value.
-3. Set `select.selectedIndex` to the number of the option.
+1. 必要な `<option>` を見つけて、`option.selected` を `true` に設定する.
+2. `select.value` に値を設定する。
+3. `select.selectedIndex` に option の番号を設定する。
 
-The first way is the most obvious, but `(2)` and `(3)` are usually more convenient.
+最初の方法が最も明白ですが、`(2)` と `(3)` は通常はより便利です。
 
-Here is an example:
+例:
 
 ```html run
 <select id="select">
@@ -197,16 +196,16 @@ Here is an example:
 </select>
 
 <script>
-  // all three lines do the same thing
+  // この３行はすべて同じことをしています
   select.options[2].selected = true;
   select.selectedIndex = 2;
   select.value = 'banana';
 </script>
 ```
 
-Unlike most other controls, `<select multiple>` allows multiple choice. In that case we need to walk over `select.options` to get all selected values.
+他のコントロールとは違い、`<select multiple>` は複数の選択を許可します。この場合、すべての選択された値を取得するには、`select.options` を参照する必要があります。
 
-Like this:
+次のようになります:
 
 ```html run
 <select id="select" *!*multiple*/!*>
@@ -225,64 +224,64 @@ Like this:
 </script>
 ```
 
-The full specification of the `<select>` element is available at <https://html.spec.whatwg.org/multipage/forms.html#the-select-element>.
+`<select>` 要素の完全な仕様は <https://html.spec.whatwg.org/multipage/forms.html#the-select-element> にあります。
 
 ### new Option
 
-In the specification of [the option element](https://html.spec.whatwg.org/multipage/forms.html#the-option-element) there's a nice short syntax to create `<option>` elements:
+[option 要素](https://html.spec.whatwg.org/multipage/forms.html#the-option-element)には、`<option>` 要素を作成するための簡単でナイスな構文があります。:
 
 ```js
 option = new Option(text, value, defaultSelected, selected);
 ```
 
-Parameters:
+パラメータ:
 
-- `text` -- the text inside the option,
-- `value` -- the option value,
-- `defaultSelected` -- if `true`, then `selected` attribute is created,
-- `selected` -- if `true`, then the option is selected.
+- `text` -- option 内のテキスト,
+- `value` -- option の値,
+- `defaultSelected` -- `true` の場合、`selected` 属性が作られます,
+- `selected` -- `true` の場合、 option が選択されます.
 
-For instance:
+例:
 
 ```js
 let option = new Option("Text", "value");
 // creates <option value="value">Text</option>
 ```
 
-The same element selected:
+選択された同じ要素です:
 
 ```js
 let option = new Option("Text", "value", true, true);
 ```
 
-```smart header="Additional properties of `<option>`"
-Option elements have additional properties:
+```smart header="`<option>` の追加のプロパティ"
+Option 要素は追加のプロパティを持っています:
 
 `selected`
-: Is the option selected.
+: 選択されているか.
 
 `index`
-: The number of the option among the others in its `<select>`.
+: その `<select>` の中で何番目の option であるか
 
 `text`
-: Text content of the option (seen by what the visitor).
+: option のテキストコンテンツ
 ```
 
-## Summary
+## サマリ [#Summary]
 
-Form navigation:
+フォームのナビゲーション:
 
 `document.forms`
-: A form is available as `document.forms[name/index]`.
+: フォームは `document.forms[name/index]` で利用可能です。
 
 `form.elements`  
-: Form elements are available as `form.elements[name/index]`, or can use just `form[name/index]`. The `elements` property also works for `<fieldset>`.
+: フォーム要素は `form.elements[name/index]` または単に `form[name/index]` で利用可能です。`elements` プロパティは `<fieldset>` に対しても機能します。
 
 `element.form`
-: Elements reference their form in the `form` property.
+: 要素は `form` プロパティでフォームを参照します。
 
-Value is available as `input.value`, `textarea.value`, `select.value` etc, or `input.checked` for checkboxes and radio buttons.
+値は `input.value`, `textarea.value`, `select.value` など、もしくはチェックボックスやラジオボタンに対しては `input.checked` として利用可能です。
 
-For `<select>` we can also get the value by the index `select.selectedIndex` or through the options collection `select.options`. The full specification of this and other elements is at <https://html.spec.whatwg.org/multipage/forms.html>.
+`<select>` の場合、インデックス `select.selectedIndex` や、選択肢の集合 `select.options` を通じて値を取得することもできます。これや他の要素の完全な仕様は <https://html.spec.whatwg.org/multipage/forms.html> にあります。
 
-These are the basics to start working with forms. In the next chapter we'll cover `focus` and `blur` events that may occur on any element, but are mostly handled on forms.
+これらはフォームを使って作業を始めるための基本です。 次のチャプターでは、どの要素でも発生する可能性のある `focus` イベントと `blur` イベントについて説明しますが、ほとんどはフォームで処理されます。
