@@ -1,4 +1,4 @@
-The solution, step by step:
+解決策:
 
 ```html run
 <select id="genres">
@@ -8,12 +8,12 @@ The solution, step by step:
 
 <script>
   // 1)
-  let selectedOption = genres.options[select.selectedIndex];
+  let selectedOption = genres.options[genres.selectedIndex];
   alert( selectedOption.value );
 
   // 2)
   let newOption = new Option("classic", "Classic");
-  select.append(newOption);
+  genres.append(newOption);
 
   // 3)
   newOption.selected = true;

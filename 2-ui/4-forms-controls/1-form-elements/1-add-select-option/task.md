@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Add an option to select
+# select に option を追加する
 
-There's a `<select>`:
+`<select>` があります:
 
 ```html
 <select id="genres">
@@ -13,8 +13,8 @@ There's a `<select>`:
 </select>
 ```
 
-Use JavaScript to:
+次をするために JavaScript を使います:
 
-1. Show the value and the text of the selected option.
-2. Add an option: `<option value="classic">Classic</option>`.
-3. Make it selected.
+1. 選択された option の値とテキストを表示します。
+2. option `<option value="classic">Classic</option>` を追加します。
+3. 選択状態にします.
