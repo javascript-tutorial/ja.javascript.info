@@ -1,27 +1,27 @@
-# Events: change, input, cut, copy, paste
+# イベント: change, input, cut, copy, paste
 
-Let's discuss various events that accompany data updates.
+データ更新に伴うさまざまなイベントについて説明しましょう。
 
-## Event: change
+## イベント: change [#Event: change]
 
-The [change](http://www.w3.org/TR/html5/forms.html#event-input-change) event triggers when the element has finished changing.
+[change](http://www.w3.org/TR/html5/forms.html#event-input-change) イベントは要素の変更が終わったときにトリガされます。
 
-For text inputs that means that the event occurs when it looses focus.
+テキストインプットの場合、それはフォーカスを失った時にイベントが発生することを意味します。
 
-For instance, while we are typing in the text field below -- there's no event. But when we move the focus somewhere else, for instance, click on a button -- there will be a `change` event:
+例えば、以下のテキストフィールドでタイプしている間 -- イベントは起こりません。しかし、例えばボタンのクリックなど、他のなにかにフォーカスを移動させたとき、 -- `change` イベントが発生します:
 
 ```html autorun height=40 run
 <input type="text" onchange="alert(this.value)">
 <input type="button" value="Button">
 ```
 
-For other elements: `select`, `input type=checkbox/radio` it triggers right after the selection changes.
+他の要素 `select`, `input type=checkbox/radio` の場合、選択が変わった直後にトリガされます。
 
-## Event: input
+## イベント: input [#Event: input]
 
-The `input` event triggers every time a value is modified.
+`input` イベント値が変更されるたびにトリガされます。
 
-For instance:
+例:
 
 ```html autorun height=40 run
 <input type="text" id="input"> oninput: <span id="result"></span>
@@ -32,25 +32,25 @@ For instance:
 </script>
 ```
 
-If we want to handle every modification of an `<input>` then this event is the best choice.
+`<input>` 上でのすべての変更を処理したい場合、このイベントがベストな選択になります。
 
-Unlike keyboard events it works on any value change, even those that does not involve keyboard actions: pasting with a mouse or using speech recognition to dictate the text.
+キーボードイベントとは違い、キーボード操作を伴わないものであっても(マウスを使用してペーストするか、テキストを指示するために音声認識を使用する)、あらゆる値の変更にも対応します。
 
-```smart header="Can't prevent anything in `oninput`"
-The `input` event occurs after the value is modified.
+```smart header="`oninput` で何かを防ぐことはできません"
+`input` イベントは値が変更された後に起こります。
 
-So we can't use `event.preventDefault()` there -- it's just too late, there would be no effect.
+そのため、ここでは `event.preventDefault()` は使えません。おそすぎるため、影響を与えません。
 ```
 
-## Events: cut, copy, paste
+## イベント: cut, copy, paste [#Events: cut, copy, paste]
 
-These events occur on cutting/copying/pasting a value.
+これらのイベントは値の カット/コピー/ペースト 時に起こります。
 
-They belong to [ClipboardEvent](https://www.w3.org/TR/clipboard-apis/#clipboard-event-interfaces) class and provide access to the data that is copied/pasted.
+これらは [ClipboardEvent](https://www.w3.org/TR/clipboard-apis/#clipboard-event-interfaces) クラスに属しており、コピー/ペーストされるデータへのアクセスを提供します。
 
-We also can use `event.preventDefault()` to abort the action.
+`event.preventDefault（）`を使ってアクションを中止することもできます。
 
-For instance, the code below prevents all such events and shows what we are trying to cut/copy/paste:
+例えば、下のコードはこのようなすべてのイベントを防ぎ、我々が何をカット/コピー/ペーストしようとしているかを表示します。:
 
 ```html autorun height=40 run
 <input type="text" id="input">
@@ -62,18 +62,18 @@ For instance, the code below prevents all such events and shows what we are tryi
 </script>
 ```
 
-Technically, we can copy/paste everything. For instance, we can copy and file in the OS file manager, and paste it.
+技術的には、なんでもコピー/ペーストすることが出来ます。例えば、OSのファイルマネージャでコピーや保管ができ、それを貼り付けることができます。
 
-There's a list of methods [in the specification](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer) to work with different data types, read/write to the clipboard.
+[仕様](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer)に、さまざまなデータ型で動作し、クリップボードへの読み書きを行うためのメソッドの一覧があります。
 
-But please note that clipboard is a "global" OS-level thing. Most browsers allow read/write access to the clipboard only in the scope of certain user actions for the safety. Also it is forbidden to create "custom" clipboard events in all browsers except Firefox.
+しかし、クリップボードは OS レベルの "グローバル" なものです。ほとんどのブラウザでは、安全のために特定のユーザ操作の範囲でのみクリップボードへの読み書きをすることができます。また、Firefoxを除いてすべてのブラウザで "カスタム" のクリップボードイベントを作成することは禁じられています。
 
-## Summary
+## サマリ [#Summary]
 
-Data change events:
+データ変更のイベント:
 
-| Event | Description | Specials |
+| イベント | 説明 | 補足 |
 |---------|----------|-------------|
-| `change`| A value was changed. | For text inputs triggers on focus loss. |
-| `input` | For text inputs on every change. | Triggers immediately unlike `change`. |
-| `cut/copy/paste` | Cut/copy/paste actions. | The action can be prevented. The `event.clipbordData` property gives read/write access to the clipboard. |
+| `change`| 値が変更されたとき. | テキストインプットの場合はフォーカスが外れたときに発生します. |
+| `input` | テキスト入力のすべての変更. | `change` とは違い即座に発生します. |
+| `cut/copy/paste` | カット/コピー/ペースト操作. | 操作は防ぐ事が可能です。`event.clipbordData` プロパティでクリップボードへの読み書きのアクセスが可能です. |

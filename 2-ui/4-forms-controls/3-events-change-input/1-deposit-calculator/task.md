@@ -2,20 +2,20 @@ importance: 5
 
 ---
 
-# Deposit calculator
+# 預金計算機 Deposit calculator
 
-Create an interface that allows to enter a sum of bank deposit and percentage, then calculates how much it will be after given periods of time.
+銀行預金の合計とパーセンテージが入力でき、指定期間後にどれだけの金額になるか計算するインタフェースを作成してください。
 
-Here's the demo:
+これがデモです:
 
 [iframe src="solution" height="350" border="1"]
 
-Any input change should be processed immediately.
+どの入力の変更も即座に処理される必要があります。
 
-The formula is:
+数式は次の通りです:
 ```js
-// initial: the initial money sum
-// interest: e.g. 0.05 means 5% per year
-// years: how many years to wait
+// initial: 初期の合計金額
+// interest: e.g. 0.05 は年間 5% を意味します
+// years: 待つ年月
 let result = Math.round(initial * (1 + interest * years));
 ```
