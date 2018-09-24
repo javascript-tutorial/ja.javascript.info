@@ -1,27 +1,27 @@
-# Form submission: event and method submit
+# フォームの送信: submit のイベントとメソッド
 
-The `submit` event triggers when the form is submitted, it is usually used to validate the form before sending it to the server or to abort the submission and process it in JavaScript.
+`submit` イベントはフォームが送信されたときにトリガされます。通常、フォームをサーバーに送信する前に検証したり、送信を中止したり、JavaScriptで処理したりするために使用されます。
 
-The method `form.submit()` allows to initiate form sending from JavaScript. We can use it to dynamically create and send our own forms to server.
+メソッド `form.submit()` で JavaScript からのフォーム送信を開始することができます。独自のフォームを動的に作成してサーバーに送信するために使用できます。
 
-Let's see more details of them.
+それらの詳細を見てみましょう。
 
 [cut]
 
-## Event: submit
+## イベント: submit
 
-There are two main ways to submit a form:
+フォームを送信する方法として、主に2つあります。:
 
-1. The first -- to click `<input type="submit">` or `<input type="image">`.
-2. The second -- press `key:Enter` on an input field.
+1. 1つ目 -- `<input type="submit">` または `<input type="image">` をクリックします。
+2. 2つ目 -- input フィールドで `key:Enter` を押します。
 
-Both actions lead to `submit` event on the form. The handler can check the data, and if there are errors, show them and call `event.preventDefault()`, then the form won't be sent to the server.
+両方のアクションは、フォーム上で `submit` イベントにつながります。ハンドラはデータのチェックができ、もしエラーがあればそれらを表示し `event.preventDefault()` を呼び出すと、フォームはサーバには送られません。
 
-In the form below:
-1. Go into the text field and press `key:Enter`.
-2. Click `<input type="submit">`.
+以下のフォームで:
+1. テキストフィールドで `key:Enter` を押します。
+2. `<input type="submit">`
 
-Both actions show `alert` and the form is not sent anywhere due to `return false`:
+両方のアクションは `alert` を表示し、`return false` としているためフォームはどこにも送られません。:
 
 ```html autorun height=60 no-beautify
 <form onsubmit="alert('submit!');return false">
@@ -30,12 +30,12 @@ Both actions show `alert` and the form is not sent anywhere due to `return false
 </form>
 ```
 
-````smart header="Relation between `submit` and `click`"
-When a form is sent using `key:Enter` on an input field, a `click` event triggers on the `<input type="submit">`.
+````smart header="`submit` と `click` の関係"
+input フィールド上で `key:Enter` を使ってフォームが送信されるとき、`<input type="submit">` で `click` イベントがトリガされます。
 
-That's rather funny, because there was no click at all.
+まったくクリックしていないにもかかわらず起きるので、面白いです。
 
-Here's the demo:
+デモです:
 ```html autorun height=60
 <form onsubmit="return false">
  <input type="text" size="30" value="Focus here and press enter">
@@ -45,13 +45,13 @@ Here's the demo:
 
 ````
 
-## Method: submit
+## メソッド: submit
 
-To submit a form to the server manually, we can call `form.submit()`.
+`form.submit()` を呼びだすことで、手動でサーバにフォームを送信することができます。
 
-Then the `submit` event is not generated. It is assumed that if the programmer calls `form.submit()`, then the script already did all related processing.
+その後、`submit` イベントは生成されません。プログラマが `form.submit()` を呼び出す場合、スクリプトはすでにすべての関連する処理は行われたものとみなされます。
 
-Sometimes that's used to manually create and send a form, like this:
+手動でフォームを作成して送信するために使われることがあります。このようになります:
 
 ```js run
 let form = document.createElement('form');
@@ -60,7 +60,7 @@ form.method = 'GET';
 
 form.innerHTML = '<input name="q" value="test">';
 
-// the form must be in the document to submit it
+// submit するためにフォームはドキュメント内になければなりません
 document.body.append(form);
 
 form.submit();

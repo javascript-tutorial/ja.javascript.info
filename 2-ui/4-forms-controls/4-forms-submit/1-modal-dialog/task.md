@@ -2,23 +2,23 @@ importance: 5
 
 ---
 
-# Modal form
+# モーダルフォーム
 
-Create a function `showPrompt(html, callback)` that shows a form with the message `html`, an input field and buttons `OK/CANCEL`.
+メッセージ `html` 入力フィールドとボタン `OK/CANCEL` を持つフォームを表示する関数 `showPrompt(html, callback)` を作成してください。
 
-- A user should type something into a text field and press `key:Enter` or the OK button, then `callback(value)` is called with the value he entered.
-- Otherwise if the user presses `key:Esc` or CANCEL, then `callback(null)` is called.
+- ユーザテキストフィールドに何か入力し、`key:Enter` または OK ボタンをクリックする必要があります。その後、入力された値を一緒に `callback(value)` が呼ばれます。
+- そうではなく、ユーザが `key:Esc` や CANCEL を押した場合、`callback(null)` が呼ばれます。
 
-In both cases that ends the input process and removes the form.
+どちらの場合も、入力プロセスが終了したらフォームが削除されます。
 
-Requirements:
+要件:
 
-- The form should be in the center of the window.
-- The form is *modal*. In other words, no interaction with the rest of the page is possible until the user closes it.
-- When the form is shown, the focus should be inside the `<input>` for the user.
-- Keys `key:Tab`/`key:Shift+Tab` should shift the focus between form fields, don't allow it to leave for other page elements.
+- フォームはウィンドウの中央です。
+- フォームは *モーダル* です。つまり、ユーザがそれを閉じるまではページの残り部分とのやりとりはできません。
+- フォームが表示されたとき、ユーザのためにフォーカスは `<input>` の中であるべきです。
+- キー `key:Tab`/`key:Shift+Tab` はフォームフィールド間でフォーカス移動し、他のページの要素へ移らないようにします。
 
-Usage example:
+使用例:
 
 ```js
 showPrompt("Enter something<br>...smart :)", function(value) {
@@ -26,8 +26,8 @@ showPrompt("Enter something<br>...smart :)", function(value) {
 });
 ```
 
-A demo in the iframe:
+iframe でのデモ:
 
 [iframe src="solution" height=160 border=1]
 
-P.S. The source document has HTML/CSS for the form with fixed positioning, but it's up to you to make it modal.
+P.S. ソースドキュメントは固定された位置付けのフォーム用のHTML / CSSがありますが、それをモーダルにするのはあなた次第です。

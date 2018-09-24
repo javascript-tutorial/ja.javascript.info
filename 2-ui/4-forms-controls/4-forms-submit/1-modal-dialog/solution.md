@@ -1,4 +1,4 @@
-A modal window can be implemented using a half-transparent `<div id="cover-div">` that covers the whole window, like this:
+モーダルウィンドウは、次のようにウィンドウ全体をカバーする半透明の `<div id="cover-div">` を使って実装できます。:
 
 ```css
 #cover-div {
@@ -13,8 +13,8 @@ A modal window can be implemented using a half-transparent `<div id="cover-div">
 }
 ```
 
-Because the `<div>` covers everything, it gets all clicks, not the page below it.
+`<div>` がすべてをカバーするので、すべてのクリックを取得します。
 
-Also we can prevent page scroll by setting `body.style.overflowY='hidden'`.
+また、`body.style.overflowY='hidden'` の設定により、ページスクロールを防ぐこともできます。
 
-The form should be not in the `<div>`, but next to it, because we don't want it to have `opacity`.
+フォームは `<div>` の中ではなく、その隣です。なぜならそれには `opacity` をもたせたくはないからです。
