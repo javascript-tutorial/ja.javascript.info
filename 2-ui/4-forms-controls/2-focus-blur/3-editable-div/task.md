@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Editable div
+# 編集可能な div
 
-Create a `<div>` that turns into `<textarea>` when clicked.
+クリックしたときに `<textarea>` に切り替わる `<div>` を作成してください。
 
-The textarea allows to edit the HTML in the `<div>`.
+テキストエリアは `<div>` の HTML を編集することができます。
 
-When the user presses `key:Enter` or it looses focus, the `<textarea>` turns back into `<div>`, and its content becomes HTML in `<div>`.
+ユーザが `key:Enter` を押すかフォーカスを失ったとき、`<textarea>` は `<div>` に戻り、その中身は `<div>` の HTML になります。
 
 [demo src="solution"]

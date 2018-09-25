@@ -1,27 +1,27 @@
-# Focusing: focus/blur
+# フォーカス: focus/blur
 
-An element receives a focus when the user either clicks on it or uses the `key:Tab` key on the keyboard. There's also an `autofocus` HTML attribute that puts the focus into an element by default when a page loads and other means of getting a focus.
+ユーザがクリックするか、キーボードで `key:Tab` キーを使うとき、要素はフォーカスを受け取ります。また、ページが読み込まれたとき、デフォルトで要素にフォーカスを与える `autofocus` HTML属性もあり、フォーカスを取得するための別の手段です。
 
-Focusing generally means: "prepare to accept the data here", so that's the moment when we can run the code to initialize or load something.
+フォーカスは、たいてい "ここでデータを受け入れる準備をする" ことを意味します。つまり、コードを実行して初期化したり何かをロードすることができる瞬間です。
 
-The moment of losing the focus ("blur") can be even more important. That's when a user clicks somewhere else or presses `key:Tab` to go to the next form field, or there are other means as well.
+フォーカスを失う瞬間("blur")はより重要になります。それは、ユーザが他の場所をクリックしたり、`key:Tab` を押して次のフォームフィールドに移動したり、同様に他の手段もあります。
 
-Losing the focus generally means: "the data has been entered", so we can run the code to check it or even to save it to the server and so on.
+フォーカスを失うということは、通常 "データが入力された" ことを意味します。そのため、それをチェックしたり、サーバに保存したりするコードを実行することができます。
 
-There are important peculiarities when working with focus events. We'll do the best to cover them here.
+フォーカスイベントを扱う際には重要な特性があります。ここではそれを説明するためにベストを尽くします。
 
 [cut]
 
-## Events focus/blur
+## イベント focus/blur [#Events focus/blur]
 
-The `focus` event is called on focusing, and `blur` -- when the element loses the focus.
+`focus` イベントはフォーカス時に呼ばれ、`blue` は要素がフォーカスを失ったときに呼ばれます。
 
-Let's use them for validation of an input field.
+インプットフィールドのバリデーションでそれらを使ってみましょう。
 
-In the example below:
+以下の例では:
 
-- The `blur` handler checks if the field the email is entered, and if not -- shows an error.
-- The `focus` handler hides the error message (on `blur` it will be checked again):
+- `blue` ハンドラは email が入力されたかどうかをチェックし、もしそうでなければエラーを表示します。
+- `focus` ハンドラはエラーメッセージを隠します(`blue` 時にサイドチェックされます)。:
 
 ```html run autorun height=60
 <style>
@@ -43,7 +43,7 @@ Your email please: <input type="email" id="input">
 
 *!*input.onfocus*/!* = function() {
   if (this.classList.contains('invalid')) {
-    // remove the "error" indication, because the user wants to re-enter something
+    // ユーザは何かを再入力したいので "エラー" 表示を削除します
     this.classList.remove('invalid');
     error.innerHTML = "";
   }
@@ -51,14 +51,13 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
-Modern HTML allows to do many validations using input attributes: `required`, `pattern` and so on. And sometimes they are just what we need. JavaScript can be used when we want more flexibility. Also we could automatically send the changed value on the server if it's correct.
+現代の HTML では input の属性を使って多くのバリデーションを行うことができます: `required`, `pattern` などです。そして、時にはそれらが丁度私たちが必要なことである場合もあります。JavaScriptは、より柔軟性が必要な場合に使用できます。 その値が正しい場合、変更された値をサーバ上に自動的に送信することもできます。
 
+## メソッド focus/blur [#Methods focus/blur]
 
-## Methods focus/blur
+メソッド `elem.focus()` と `elem.blur()` は要素のフォーカスを設定/解除します。
 
-Methods `elem.focus()` and `elem.blur()` set/unset the focus on the element.
-
-For instance, let's make the visitor unable to leave the input if the value is invalid:
+例えば、値が有効でない場合には訪問者が input から離れられないようにしてみましょう。:
 
 ```html run autorun height=80
 <style>
@@ -73,10 +72,10 @@ Your email please: <input type="email" id="input">
 <script>
   input.onblur = function() {
     if (!this.value.includes('@')) { // not email
-      // show the error
+      // エラーを表示
       this.classList.add("error");
 *!*
-      // ...and put the focus back
+      // ...その後、フォーカスを戻します
       input.focus();
 */!*
     } else {
@@ -86,49 +85,50 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
-It works in all browsers except Firefox ([bug](https://bugzilla.mozilla.org/show_bug.cgi?id=53579)).
+これは、Firefox ([bug](https://bugzilla.mozilla.org/show_bug.cgi?id=53579)) を除いたすべてのブラウザで動作します。
 
-If we enter something into the input and then try to use `key:Tab` or click away from the `<input>`, then `onblur` returns the focus back.
+入力域に何かを入力した後、`key:Tab` や クリックで `<input>` から離れようとすると、`onblue` はフォーカスを戻します。
 
-Please note that we can't "prevent losing focus" by calling `event.preventDefault()` in `onblur`, because `onblur` works *after* the element lost the focus.
+`onblur` の中で `event.preventDefault()` を呼び出すことで "フォーカスを失うことを防ぐ" ことはできない点に注意してください。なえなら、`onblur` は要素がフォーカスを失った *後* に動作するためです。
 
-```warn header="JavaScript-initiated focus loss"
-A focus loss can occur for many reasons.
+```warn header="JavaScriptにより行われるフォーカス解除"
+フォーカス解除は多くの理由により起こります。
 
-One of them is when the visitor clicks somewhere else. But also JavaScript itself may cause it, for instance:
+その１つは、訪問者がどこか他の場所をクリックした時です。しかし JavaScript 自体もそれを引き起こす可能性があります。例えば:
 
-- An `alert` moves focus to itself, so it causes the focus loss at the element (`blur` event), and when the `alert` is dismissed, the focus comes back (`focus` event).
-- If an element is removed from DOM, then it also causes the focus loss. If it is reinserted later, then the focus doesn't return.
+- `alert` はフォーカスを自身へ移動させるため、フォーカス解除(`blue`)が要素で起きます。また `alert` が消えたとき、フォーカスが戻ります(`focus` イベント)。
+- もしも要素が DOM から削除された場合も、フォーカス解除が起こります。後で再挿入したとしても、フォーカスは戻りません。
 
-These features sometimes cause `focus/blur` handlers to misbehave -- to trigger when they are not needed.
+これらの特徴により、`focus/blur` ハンドラが必要ないときにトリガすることがあります。
 
-The best recipe is to be careful when using these events. If we want to track user-initiated focus-loss, then we should evade causing it by ourselves.
+最善の策は、それらのイベントを使うとき注意を払うことです。ユーザが開始したフォーカス解除を追跡したい場合は、自分自身でフォーカス解除を回避する必要があります。
 ```
-## Allow focusing on any element: tabindex
+## 任意の要素にフォーカスを当てる: tabindex [#Allow focusing on any element: tabindex]
 
-By default many elements do not support focusing.
+デフォルトでは、多くの要素はフォーカスをサポートしていません。
 
-The list varies between browsers, but one thing is always correct: `focus/blur` support is guaranteed for elements that a visitor can interact with: `<button>`, `<input>`, `<select>`, `<a>` and so on.
+この一覧はブラウザによって異なりますが、正しいことが1つあります: `focus/blur` のサポートは、`<button>`, `<input>`, `<select>`, `<a>` など、訪問者が対話できる要素に対して保証されています。
 
-From the other hand, elements that exist to format something like `<div>`, `<span>`, `<table>` -- are unfocusable by default. The method `elem.focus()` doesn't work on them, and `focus/blur` events are never triggered.
+一方、`<div>`, `<span>`, `<table>` のような体裁のために存在する要素は、デフォルトではフォーカス不可です。メソッド `elem.focus()` はそれらに対しては機能せず、`focus/blur` イベントがトリガされることはありません。
 
-This can be changed using HTML-attribute `tabindex`.
+HTML 属性 `tabindex` を使用することでこれを変更することが可能です。
 
-The purpose of this attribute is to specify the order number of the element when `key:Tab` is used to switch between them.
+この属性の目的は、`key:Tab` を使って要素間を切り替える際に、要素の順番を指定することです。
 
-That is: if we have two elements, the first has `tabindex="1"`, and the second has `tabindex="2"`, then pressing `key:Tab` while in the first element -- moves us to the second one.
+つまり: 2つの要素があり、1つ目は `tabindex="1"` 、2つ目は `tabindex="2"` を持っている場合、最初の要素で `key:Tab` を押すと2つ目に移動します。
 
-There are two special values:
+2つの特別な値があります:
 
-- `tabindex="0"` makes the element the last one.
-- `tabindex="-1"` means that `key:Tab` should ignore that element.
+- `tabindex="0"` は要素を最後にします。
+- `tabindex="-1"` は `key:Tab` がその要素を無視することを意味します。
 
-**Any element supports focusing if it has `tabindex`.**
+**どの要素も `tabindex` を持っていればフォーカスをサポートします。**
 
-For instance, here's a list. Click the first item and press `key:Tab`:
+例えばここにリストがあります。最初の項目をクリックして `key:Tab` を押してください:
 
 ```html autorun no-beautify
-Click the first item and press Tab. Keep track of the order. Please note that many subsequent Tabs can move the focus out of the iframe with the example.
+最初の項目をクリックしてタブを押してください。指定順に移動します。多くの後続のタブはフォーカスを例の iframe から移動できることに留意してください。
+
 <ul>
   <li tabindex="1">One</li>
   <li tabindex="0">Zero</li>
@@ -142,17 +142,17 @@ Click the first item and press Tab. Keep track of the order. Please note that ma
 </style>
 ```
 
-The order is like this: `1 - 2 - 0` (zero is always the last). Normally, `<li>` does not support focusing, but `tabindex` full enables it, along with events and styling with `:focus`.
+順序は `1 - 2 - 0` (ゼロは常に最後) です。通常、`<li>` はフォーカスをサポートしませんが、`tabindex` はイベントや `:focus` のスタイリングと合わせてフォーカスを有効にします。
 
-```smart header="`elem.tabIndex` works too"
-We can add `tabindex` from JavaScript by using the `elem.tabIndex` property. That has the same effect.
+```smart header="`elem.tabIndex` も機能します"
+`elem.tabIndex` プロパティを使用することで、JavaScript から `tabindex` を追加することができます。これは同じ効果があります。
 ```
 
-## Delegation: focusin/focusout
+## 移譲: focuin/focusout [#Delegation: focusin/focusout]
 
-Events `focus` and `blur` do not bubble.
+イベント `focus` と `blur` はバブルしません。
 
-For instance, we can't put `onfocus` on the `<form>` to highlight it, like this:
+例えば、次のように `onfocus` を `<form>` に置いて強調表示させる、ということはできません:
 
 ```html autorun height=80
 <!-- on focusing in the form -- add the class -->
@@ -164,13 +164,13 @@ For instance, we can't put `onfocus` on the `<form>` to highlight it, like this:
 <style> .focused { outline: 1px solid red; } </style>
 ```
 
-The example above doesn't work, because when user focuses on an `<input>`, the `focus` event triggers on that input only. It doesn't bubble up. So `form.onfocus` never triggers.
+上の例は機能しません。なぜなら、ユーザが `<input>` にフォーカスしたとき、`focus` イベントはその input でのみトリガされるためです。バブルしないので、`form.onfocus` がトリガされることはありません。
 
-There are two solutions.
+ここには2つの解決策があります。
 
-First, there's a funny historical feature: `focus/blur` do not bubble up, but propagate down on the capturing phase.
+1つ目は、面白い歴史的な機能です: `focus/blur` はバブルしませんが、キャプチャリングフェーズで伝搬します。
 
-This will work:
+これは機能します:
 
 ```html autorun height=80
 <form id="form">
@@ -182,18 +182,18 @@ This will work:
 
 <script>
 *!*
-  // put the handler on capturing phase (last argument true)
+  // キャプチャリングフェーズにハンドラを設定します(最後の引数を true)
   form.addEventListener("focus", () => form.classList.add('focused'), true);
   form.addEventListener("blur", () => form.classList.remove('focused'), true);
 */!*
 </script>
 ```
 
-Second, there are `focusin` and `focusout` events -- exactly the same as `focus/blur`, but they bubble.
+2つ目は、`focusin` と `focusout` イベントです -- `focus/blur` とまったく同じですが、バブルします。
 
-Note that they must be assigned using `elem.addEventListener`, not `on<event>`.
+それらは `on<event>` ではなく、`elem.addEventListener` で割り当てなければならないことに注意してください。
 
-So here's another working variant:
+従って、ここに別の動作するバリエーションがあります。:
 
 ```html autorun height=80
 <form id="form">
@@ -205,19 +205,18 @@ So here's another working variant:
 
 <script>
 *!*
-  // put the handler on capturing phase (last argument true)
   form.addEventListener("focusin", () => form.classList.add('focused'));
   form.addEventListener("focusout", () => form.classList.remove('focused'));
 */!*
 </script>
 ```
 
-## Summary
+## サマリ [#Summary]
 
-Events `focus` and `blur` trigger on focusing/losing focus on the element.
+イベント `focus` と `blur` は要素にフォーカスが当たる/外れるときにトリガされます。
 
-Their specials are:
-- They do not bubble. Can use capturing state instead or `focusin/focusout`.
-- Most elements do not support focus by default. Use `tabindex` to make anything focusable.
+それらの特別なこと:
+- それらはバブルしません。代わりにキャプチャリングフェーズや `focusin/focusout` を使うことができます。
+- ほとんどの要素はデフォルトではフォーカスをサポートしません。何かをフォーカス可能にするには `tabindex` を使います。
 
-The current focused element is available as `document.activeElement`.
+現在フォーカスされている要素は `document.activeElement` として利用できます。
