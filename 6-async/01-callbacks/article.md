@@ -1,10 +1,10 @@
 
 
-# Introduction: callbacks
+# 導入: callbacks
 
-Many actions in Javascript are *asynchronous*.
+JavaScript の多くのアクションは *非同期* です。
 
-For instance, take a look at the function `loadScript(src)`:
+例えば、次の `loadScript(src)` を見てください:
 
 ```js
 function loadScript(src) {
@@ -14,40 +14,40 @@ function loadScript(src) {
 }
 ```
 
-The purpose of the function is to load a new script. When it adds the `<script src="…">` to the document, the browser loads and executes it.
+この関数の目的は新しいスクリプトを読み込むことです。ドキュメントに `<script src="…">` を追加したとき、ブラウザはそれを読み込み、実行します。
 
-We can use it like this:
+このように使うことができます:
 
 ```js
-// loads and executes the script
+// スクリプトを読み込み、実行する
 loadScript('/my/script.js');
 ```
 
-The function is called "asynchronous", because the action (script loading) finishes not now, but later.
+そのアクション(スクリプトの読み込み)は、今ではなく後で終わるため、関数は "非同期" と呼ばれます。
 
-The call initiates the script loading, then the execution continues. While the script is loading, the code below may finish executing, and if the loading takes time, other scripts may run meanwhile too.
+`loadScript` の呼び出しにより、スクリプトの読み込みを開始し、その後実行を続けます。スクリプトが読み込まれている間、それ以降のコードは実行が終わり、もし読み込みに時間がかかる場合は、他のスクリプトも実行される可能性があります。
 
 ```js
 loadScript('/my/script.js');
-// the code below loadScript doesn't wait for the script loading to finish
+// loadScript の下のコードはスクリプトの読み込みが終わるのを待ちません
 // ...
 ```
 
-Now let's say we want to use the new script when it loads. It probably declares new functions, so we'd like to run them.
+今、新しいスクリプトがロードされたときにそれを使いたいとします。恐らく新しい関数を宣言しているので、それらを実行したいとします。
 
-...But if we do that immediately after the `loadScript(…)` call, that wouldn't work:
+...しかし、`loadScript(…)` 呼び出しの直後にそれをしても上手く動作しません:
 
 ```js
-loadScript('/my/script.js'); // the script has "function newFunction() {…}"
+loadScript('/my/script.js'); // このスクリプトは "function newFunction() {…}" を持っています
 
 *!*
-newFunction(); // no such function!
+newFunction(); // そのような関数はありません!
 */!*
 ```
 
-Naturally, the browser probably didn't have time to load the script. So the immediate call to the new function fails. As of now, `loadScript` function doesn't provide a way to track the load completion. The script loads and eventually runs, that's all. But we'd like to know when happens, to use new functions and variables from that script.
+もちろん、恐らくブラウザにはスクリプトを読み込む時間がありませんでした。そのため、新しい関数の即時呼び出しは失敗します。今のところ、`loadScript` 関数は読み込みの完了を追跡する方法を提供していません。スクリプトは読み込まれ、最終的に実行されますが、そのスクリプトの新しい関数や変数を使用するために、それらがいつ起きるのかを知りたいです。
 
-Let's add a `callback` function as a second argument to `loadScript` that should execute when the script loads:
+`loadScript` に2つ目の引数に、スクリプトが読み込まれたときに実行する `callback` 関数を追加しましょう:
 
 ```js
 function loadScript(src, *!*callback*/!*) {
@@ -62,19 +62,19 @@ function loadScript(src, *!*callback*/!*) {
 }
 ```
 
-Now if we want to call new functions from the script, we should write that in the callback:
+ロードしたスクリプトにある新しい関数を呼びたい場合は callback に書きます。:
 
 ```js
 loadScript('/my/script.js', function() {
-  // the callback runs after the script is loaded
-  newFunction(); // so now it works
+  // コールバックはスクリプトがロード後に実行されます
+  newFunction(); // なので、これは動作します
   ...
 });
 ```
 
-That's the idea: the second argument is a function (usually anonymous) that runs when the action is completed.
+That's the idea: 第2引数は、アクションが完了したときに実行される関数（通常は無名）です。
 
-Here's a runnable example with a real script:
+ここで、実際のスクリプトを使った実行可能な例を示します:
 
 ```js run
 function loadScript(src, callback) {
@@ -87,20 +87,20 @@ function loadScript(src, callback) {
 *!*
 loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
   alert(`Cool, the ${script.src} is loaded`);
-  alert( _ ); // function declared in the loaded script
+  alert( _ ); // ロードされたスクリプトで宣言されている関数
 });
 */!*
 ```
 
-That's called a "callback-based" style of asynchronous programming. A function that does something asynchronously should provide a `callback` argument where we put the function to run after it's complete.
+これは "コールバックベース" と呼ばれる非同期プログラミングのスタイルです。非同期の処理をする関数は、関数が完了した後に実行するための `callback` を提供します。
 
-Here we did it in `loadScript`, but of course it's a general approach.
+ここでは `loadScript` でそれを行いましたが、もちろん一般的なアプローチです。
 
-## Callback in callback
+## Callback の中の callback
 
-How to load two scripts sequentially: the first one, and then the second one after it?
+２つのスクリプトを順次読み込む方法: 最初の１つを読み込み、2つ目はその後に読み込む？
 
-The natural solution would be to put the second `loadScript` call inside the callback, like this:
+自然な解決策は、2つ目の `loadScript` 呼び出しを callback の中に置くことです。次のようになります:
 
 ```js
 loadScript('/my/script.js', function(script) {
@@ -116,9 +116,9 @@ loadScript('/my/script.js', function(script) {
 });
 ```
 
-After the outer `loadScript` is complete, the callback initiates the inner one.
+外側の `loadScript` の完了後、そのコールバックは内側の `loadScript` を開始します。
 
-...What if we want one more script?
+...仮にもっとスクリプトを読み込みたい場合はどうなりますか？
 
 ```js
 loadScript('/my/script.js', function(script) {
@@ -127,7 +127,7 @@ loadScript('/my/script.js', function(script) {
 
 *!*
     loadScript('/my/script3.js', function(script) {
-      // ...continue after all scripts are loaded
+      // ...すべてのスクリプトが読み込まれるまで続きます
     });
 */!*
 
@@ -136,13 +136,13 @@ loadScript('/my/script.js', function(script) {
 });
 ```
 
-So, every new action is inside a callback. That's fine for few actions, but not good for many, so we'll see other variants soon.
+したがって、すべての新しいアクションはコールバックの中です。少ないアクションの場合は問題ありませんが、多い場合には問題です。そのため、この後別の方法を見ていきます。
 
-## Handling errors
+## エラー処理 [#Handling errors]
 
-In examples above we didn't consider errors. What if the script loading fails? Our callback should be able to react on that.
+上の例ではエラーを考慮していませんでした。もしスクリプト読み込みが失敗した場合どうしますか？コールバックはそれに対応する必要があります。
 
-Here's an improved version of `loadScript` that tracks loading errors:
+これは、読み込みエラーを追跡する `loadScript` の改良版です:
 
 ```js run
 function loadScript(src, callback) {
@@ -158,32 +158,32 @@ function loadScript(src, callback) {
 }
 ```
 
-It calls `callback(null, script)` for successful load and `callback(error)` otherwise.
+これは成功時に `callback(null, script)` を呼び、それ以外の場合には `callback(error)` を呼びます。 
 
-The usage:
+使用方法:
 ```js
 loadScript('/my/script.js', function(error, script) {
   if (error) {
-    // handle error
+    // エラー処理
   } else {
-    // script loaded successfully
+    // スクリプトの読み込みが成功
   }
 });
 ```
 
-Once again, the recipe that we used for `loadScript` is actually quite common. It's called the "error-first callback" style.
+もう一度言いますが、`loadScript` で使った方法は、実際に非常に一般的なものです。これは "エラーファーストなコールバック" スタイルと呼ばれます。
 
-The convention is:
-1. The first argument of `callback` is reserved for an error if it occurs. Then `callback(err)` is called.
-2. The second argument (and the next ones if needed) are for the successful result. Then `callback(null, result1, result2…)` is called.
+慣例は次の通りです:
+1. `callback` の最初の引数は、エラーが発生した場合のために予約されています。そして `callback(err)` が呼ばれます。
+2. 2つ目の引数(と必要に応じて以降の引数)は正常な結果を得るためのもので、`callback(null, result1, result2…)` が呼ばれます。
 
-So the single `callback` function is used both for reporting errors and passing back results.
+なので、単一の `callback` 関数は、エラー報告と結果渡し両方のために使われます。
 
-## Pyramid of doom
+## 破滅のピラミッド [#Pyramid of doom]
 
-From the first look it's a viable way of asynchronous coding. And indeed it is. For one or maybe two nested calls it looks fine.
+初見では、これは非同期コーディングの実行可能な方法です。確かにその通りです。1つまたは2つ程度のネストされた呼び出しの場合には問題なく見えます。
 
-But for multiple asynchronous actions that follow one after another we'll have a code like this:
+しかし、次々に続く複数の非同期アクションの場合、次のようなコードを持つことになります:
 
 ```js
 loadScript('1.js', function(error, script) {
@@ -202,7 +202,7 @@ loadScript('1.js', function(error, script) {
             handleError(error);
           } else {
   *!*
-            // ...continue after all scripts are loaded (*)
+            // ...すべてのスクリプトが読み込まれるまで続く (*)
   */!*
           }
         });
@@ -213,22 +213,22 @@ loadScript('1.js', function(error, script) {
 });
 ```
 
-In the code above:
-1. We load `1.js`, then if there's no error.
-2. We load `2.js`, then if there's no error.
-3. We load `3.js`, then if there's no error -- do something else `(*)`.
+上記のコードでは:
+1. `1.js` をロードし、エラーがなければ
+2. `2.js` をロードします。エラーがなければ
+3. `3.js` をロードします。エラーがなければ -- 他の何か `(*)` を行います。
 
-As calls become more nested, the code becomes deeper and increasingly more difficult to manage, especially if we have a real code instead of `...`, that may include more loops, conditional statements and so on.
+呼び出しがよりネストされるにつれて、特に `...` ではなく、実際により多くのループや条件式などを含むコードがある場合、コードはより深くなり、益々管理が難しくなります。
 
-That's sometimes called "callback hell" or "pyramid of doom".
+これは "コールバック地獄" や "破滅のピラミッド" と呼ばれる場合があります。
 
 ![](callback-hell.png)
 
-The "pyramid" of nested calls grows to the right with every asynchronous action. Soon it spirals out of control.
+ネストされた呼び出しの "ピラミッド" はすべての非同期アクションで右に成長していきます。まもなく、それは制御不能になります。
 
-So this way of coding isn't very good.
+したがって、このコーディング方法はあまり良くありません。
 
-We can try to alleviate the problem by making every action a standalone function, like this:
+私たちは、次のようにすべてのアクションをスタンドアロンの関数にすることで、この問題を軽減することができます。:
 
 ```js
 loadScript('1.js', step1);
@@ -255,17 +255,17 @@ function step3(error, script) {
   if (error) {
     handleError(error);
   } else {
-    // ...continue after all scripts are loaded (*)
+    // ...すべてのスクリプトが読み込まれた後に続く (*)
   }
 };
 ```
 
-See? It does the same, and there's no deep nesting now, because we made every action a separate top-level function.
+どうでしょう？ 同じことをしますが、今や深いネストはありません。なぜならすべてのアクションをトップレベルの関数に分離したからです。
 
-It works, but the code looks like a torn apart spreadsheet. It's difficult to read, you probably noticed that. One needs to eye-jump between pieces while reading it. That's inconvenient, especially the reader is not familiar with the code and doesn't know where to eye-jump.
+これは機能しますが、コードはばらばらになったスプレッドシートのように見えます。これは読みにくく、あなたも気づいたでしょう。1つは、読んでいる間に関数間で視点のジャンプが必要になります。これは不便で、読者がコードに精通しておらず、どこに視点を移動させたらよいか分からない場合は特に困ります。
 
-Also the functions named `step*` are all of a single use, they are created only to evade the "pyramid of doom". No one is going to reuse them outside of the action chain. So there's a bit of a namespace cluttering here.
+また、`step*` という名前の関数はすべて1度の使用であり、"破滅のピラミッド" を避けるためだけに作られています。だれもこのアクションの外でそれらを再利用するつもりはありません。そのため、ここには少し散らかっている名前空間があります。
 
-We'd like to have a something better.
+私たちは何かより良いものを望んでいます。
 
-Luckily, there are other ways to evade such pyramids. One of the best ways is to use "promises", described in the next chapter.
+幸いにも、このようなピラミッドを回避するための他のう方法があります。ベストな方法の1つは次のチャプターで説明する "promises" を使うことです。
