@@ -1,20 +1,20 @@
 # Promise
 
-Imagine that you're a top singer, and fans ask for your next upcoming single day and night.
+あなたはトップシンガーで、ファンはあなたの次の歌をずっと待ち望んでいると想像してください。
 
-To get a relief, you promise to send it to them when it's published. You give your fans a list. They can fill in their coordinates, so that when the song becomes available, all subscribed parties instantly get it. And if something goes very wrong, so that the song won't be published ever, then they are also to be notified.
+安心させるため、あなたはファンに公開時にそれを送ることを約束し、リストを渡します。彼らは自身の座標をリストに記入することができ、新しい歌が利用可能になると購読者はすぐに取得できます。また、もし何か間違いがありその歌が公開されなくなった場合も彼らに通知されます。
 
-Everyone is happy: you, because the people don't crowd you any more, and fans, because they won't miss the single.
+みんなハッピーです: 人々はこれ以上あなたの元へ押し寄せることはしません。また、ファンはその歌を見逃すことはありません。
 
-That was a real-life analogy for things we often have in programming:
+これはプログラミングにおいて私たちがしばしば抱くことへの現実的なアナロジーでした。:
 
-1. A "producing code" that does something and needs time. For instance, it loads a remote script. That's a "singer".
-2. A "consuming code" wants the result when it's ready. Many functions may need that result. These are  "fans".
-3. A *promise* is a special JavaScript object that links them together. That's a "list". The producing code creates it and gives to everyone, so that they can subscribe for the result.
+1. 何かを行い、時間を必要とする "生産コード"。例えば、リモートスクリプトをロードします。それは "シンガー" です。
+2. "消費コード" は準備ができたときに結果を望みます。多くの関数がその結果を必要とする場合もあります。それらは "ファン" です。
+3. *promise* はそれらをリンクする特別な JavaScript オブジェクトです。それは "リスト" です。生産コードはそれを作成して全員に渡すので結果を購読することができます。
 
-The analogy isn't very accurate, because JavaScript promises are more complex than a simple list: they have additional features and limitations. But still they are alike.
+JavaScript の promise は追加の特徴や制限があり単純なリストよりも複雑であるため、このアナロジーはあまり正確ではありません。しかし、それでもこれらは似ています。
 
-The constructor syntax for a promise object is:
+promise オブジェクトのコンストラクタ構文は次の通りです:
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -22,152 +22,151 @@ let promise = new Promise(function(resolve, reject) {
 });
 ```
 
-The function passed to `new Promise` is called *executor*. When the promise is created, it's called automatically. It contains the producing code, that should eventually finish with a result. In terms of the analogy above, the executor is a "singer".
+`new Promise` へ渡される関数は *executor(執行者)* と呼ばれます。primise が作成されると、自動的に呼ばれます。それは最終的に結果と一緒に終了する生産コードを含んでいます。上記のアナロジーの言葉では、executor は "シンガー" です。
 
-The resulting `promise` object has internal properties:
+生成された `promise` オブジェクトは内部プロパティを持っています:
 
-- `state` -- initially is "pending", then changes to "fulfilled" or "rejected",
-- `result` -- an arbitrary value, initially `undefined`.
+- `state` -- 最初は "pending(保留中)" であり、その後 "fultilled(完了)" もしくは "rejected(拒否)" に変更されます。
+- `result` -- 任意の値です。初期値は `undefined` です。
 
-When the executor finishes the job, it should call one of:
+executor がジョブを終了した時、次の中のいずれか1つを呼びます:
 
-- `resolve(value)` -- to indicate that the job finished successfully:
-    - sets `state` to `"fulfilled"`,
-    - sets `result` to `value`.
-- `reject(error)` -- to indicate that an error occurred:
-    - sets `state` to `"rejected"`,
-    - sets `result` to `error`.
+- `resolve(value)` -- ジョブが正常に終了したことを示します。:
+    - `state` を `"fulfilled"` に設定します,
+    - `result` を `value` に設定します.
+- `reject(error)` -- エラーが発生したことを示します:
+    - `state` を `"rejected"` に設定します,
+    - `result` を `error` に設定します.
 
 ![](promise-resolve-reject.png)
 
-Here's a simple executor, to gather that all together:
+ここには、シンプルな executor があります。:
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
-  // the function is executed automatically when the promise is constructed
+  // promise が作られたとき、関数は自動的に実行されます
 
   alert(resolve); // function () { [native code] }
   alert(reject);  // function () { [native code] }
 
-  // after 1 second signal that the job is done with the result "done!"
+  // 1秒後、ジョブが "done!" という結果と一緒に完了したことを合図します
   setTimeout(() => *!*resolve("done!")*/!*, 1000);
 });
 ```
 
-We can see two things by running the code above:
+上のコードを実行すると2つの事が見えます:
 
-1. The executor is called automatically and immediately (by `new Promise`).
-2. The executor receives two arguments: `resolve` and `reject` -- these functions come from JavaScript engine. We don't need to create them. Instead the executor should call them when ready.
+1. executor は自動的かつ即座に呼ばれます(`new Promise` によって)。
+2. executor は2つの引数を受け取ります: `resolve` と `reject` です -- これらの関数は JavaScript エンジンから来ており、これらを作る必要はありません。代わりに、executor は準備ができた際にそれらを呼ぶ必要があります。
 
-After one second of thinking the executor calls `resolve("done")` to produce the result:
+1秒後、executor は結果を生成するために `resolve("done")` を呼び出します。:
 
 ![](promise-resolve-1.png)
 
-That was an example of the "successful job completion".
+これは、 "ジョブが正常に完了した" 例でした。
 
-And now an example where the executor rejects promise with an error:
+そして、次はエラーで executor が promise を拒否する例です。:
 
 ```js
 let promise = new Promise(function(resolve, reject) {
-  // after 1 second signal that the job is finished with an error
+  // 1秒後、ジョブがエラーで終わったことを合図します
   setTimeout(() => *!*reject(new Error("Whoops!"))*/!*, 1000);
 });
 ```
 
 ![](promise-reject-1.png)
 
-To summarize, the executor should do a job (something that takes time usually) and then call `resolve` or `reject` to change the state of the corresponding promise object.
+要約すると、executor はジョブ(通常は時間のかかる何か)を行い、その後、対応する promise オブジェクトの状態を変更するために、`resolve` または `reject` を呼び出します。
 
-The promise that is either resolved or rejected is called "settled", as opposed to a "pending" promise.
+解決または拒否されている promise は、 "pending" の promise とは対象的に "settled" と呼ばれます。
 
-````smart header="There can be only one result or an error"
-The executor should call only one `resolve` or `reject`. The promise state change is final.
+````smart header="1つの結果またはエラーのみです"
+executor は1つの `resolve` または `reject` だけを呼びだす必要があります。promise の状態の変化は最後のものです。
 
-All further calls of `resolve` and `reject` are ignored:
+さらなるすべての `resolve` や `reject` は無視されます:
 
 ```js
 let promise = new Promise(function(resolve, reject) {
   resolve("done");
 
-  reject(new Error("…")); // ignored
-  setTimeout(() => resolve("…")); // ignored
+  reject(new Error("…")); // 無視されます
+  setTimeout(() => resolve("…")); // 無視されます
 });
 ```
 
-The idea is that a job done by the executor may have only one result or an error. In programming, there exist other data structures that allow many "flowing" results, for instance streams and queues. They have their own advantages and disadvantages versus promises. They are not supported by JavaScript core and lack certain language features that promises provide, we don't cover them here to concentrate on promises.
+この考えは、executor により行われたジョブは1つの結果またはエラーのみを持つということです。プログラミングでは、ストリームやキューなど、多くの "フロー" の結果を許容する他のデータ構造が存在します。それらには promise と比較したときに長所と短所があります。それらは JavaScript のコアではサポートされておらず、promsise が提供する幾つかの言語機能が不足していますが、ここでは promise に集中するためにそれらは説明しません。
 
-Also if we call `resolve/reject` with more then one argument -- only the first argument is used, the next ones are ignored.
+また、1つ以上の引数で `resolve/reject` を呼び出した場合、最初の引数が使われ、次の引数は無視されます。
 ````
 
-```smart header="Reject with `Error` objects"
-Technically we can call `reject` (just like `resolve`) with any type of argument. But it's recommended to use `Error` objects in `reject` (or inherit from them). The reasoning for that will become obvious soon.
+```smart header="`Error` オブジェクトで reject する"
+技術的には、任意の型の引数で `reject` を呼び出すことが可能です(`resolve` のように)。しかし、`reject` (またはそれを継承したもの)では、`Error` オブジェクトを利用することを推奨します。その理由は後ほど明らかになります。
 ```
 
 ````smart header="Resolve/reject can be immediate"
-In practice an executor usually does something asynchronously and calls `resolve/reject` after some time, but it doesn't have to. We can call `resolve` or `reject` immediately, like this:
+実際には、executor は通常非同期で何かを行い、暫く経過した後に `resolve/reject` を呼び出しますが、それは必須ではありません。次のように、すぐに `resolve` や `reject` を呼び出すことが可能です。:
 
 ```js
 let promise = new Promise(function(resolve, reject) {
-  resolve(123); // immediately give the result: 123
+  resolve(123); // 即座に結果を返します: 123
 });
 ```
 
-For instance, it happens when we start to do a job and then see that everything has already been done. Technically that's fine: we have a resolved promise right now.
+例えば、ジョブの開始後、すでに完了していることが分かったとき等です。技術的には即座に promise を解決することは問題ありません。
 ````
 
-```smart header="The `state` and `result` are internal"
-Properties `state` and `result` of a promise object are internal. We can't directly access them from our code, but we can use methods `.then/catch` for that, they are described below.
+```smart header="`state` と `result` は内部のプロパティです"
+promise オブジェクトのプロパティ `state` と `result` は内部的なものです。我々のコードから直接アクセスすることはできません。代わりに `.then/catch` メソッドを利用します。それらについては下で説明します。
 ```
 
-## Consumers: ".then" and ".catch"
+## 消費者: ".then" and ".catch" [# Consumers: ".then" and ".catch"]
 
-A promise object serves as a link between the producing code (executor) and the consuming functions -- those that want to receive the result/error. Consuming functions can be registered using methods `promise.then` and `promise.catch`.
+promise オブジェクトは生産コード(executor)と消費関数(結果/エラーを受け取りたいもの)の間のリンクとして機能します。消費関数は `promise.then` と `promise.catch` メソッドを使用して登録することができます。
 
-
-The syntax of `.then` is:
+`.then` の構文は次の通りです:
 
 ```js
 promise.then(
-  function(result) { /* handle a successful result */ },
-  function(error) { /* handle an error */ }
+  function(result) { /* 成功した結果を扱う */ },
+  function(error) { /* エラーを扱う */ }
 );
 ```
 
-The first function argument runs when the promise is resolved and gets the result, and the second one -- when it's rejected and gets the error.
+最初の関数の引数は、promise が解決され結果を得たときに実行されます。そして2つ目は -- 拒否され、エラーを取得したときに実行されます。
 
-For instance:
+例:
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
   setTimeout(() => resolve("done!"), 1000);
 });
 
-// resolve runs the first function in .then
+// resolve は .then の最初の関数を実行する
 promise.then(
 *!*
-  result => alert(result), // shows "done!" after 1 second
+  result => alert(result), // 1秒後に "done!" を表示
 */!*
-  error => alert(error) // doesn't run
+  error => alert(error) // 実行されない
 );
 ```
 
-In case of a rejection:
+拒否の場合:
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
   setTimeout(() => reject(new Error("Whoops!")), 1000);
 });
 
-// reject runs the second function in .then
+// reject は .then の2つ目の関数を実行する
 promise.then(
-  result => alert(result), // doesn't run
+  result => alert(result), // 実行されない
 *!*
-  error => alert(error) // shows "Error: Whoops!" after 1 second
+  error => alert(error) // 1秒後に "Error: Whoops!" を表示
 */!*
 );
 ```
 
-If we're interested only in successful completions, then we can provide only one argument to `.then`:
+もし、正常完了の場合だけを扱いたい場合は、`.then` に1つの引数だけを指定することもできます。:
 
 ```js run
 let promise = new Promise(resolve => {
@@ -175,11 +174,11 @@ let promise = new Promise(resolve => {
 });
 
 *!*
-promise.then(alert); // shows "done!" after 1 second
+promise.then(alert); // 1秒後に "done!" を表示
 */!*
 ```
 
-If we're interested only in errors, then we can use `.then(null, function)` or an "alias" to it: `.catch(function)`
+エラーの場合だけ興味があれば、`.then(null, function)` またはその "エイリアス" である `.catch(function)` を使います。
 
 
 ```js run
@@ -188,52 +187,52 @@ let promise = new Promise((resolve, reject) => {
 });
 
 *!*
-// .catch(f) is the same as promise.then(null, f)
-promise.catch(alert); // shows "Error: Whoops!" after 1 second
+// .catch(f) は promise.then(null, f) と同じです
+promise.catch(alert); // 1秒後に "Error: Whoops!" を表示
 */!*
 ```
 
-The call `.catch(f)` is a complete analog of `.then(null, f)`, it's just a shorthand.
+`.catch(f)` の呼び出しは、`.then(null, f)` の完全な類似物であり、単に簡略化したものです。
 
 ````smart header="On settled promises `then` runs immediately"
-If a promise is pending, `.then/catch` handlers wait for the result. Otherwise, if a promise has already settled, they execute immediately:
+promise が pending の場合、`.then/catch` ハンドラは結果を待ちます。そうではなく、promise がすでに settled である場合、直ちに実行されます。:
 
 ```js run
-// an immediately resolved promise
+// 即座に promise が解決されます
 let promise = new Promise(resolve => resolve("done!"));
 
-promise.then(alert); // done! (shows up right now)
+promise.then(alert); // done! (すぐに表示されます)
 ```
 
-That's handy for jobs that may sometimes require time and sometimes finish immediately. The handler is guaranteed to run in both cases.
+それは、時間がかかることもあり、すぐに終わることもあるジョブにとっては便利です。ハンドラは両方の場合に実行されることが保証されています。
 ````
 
-````smart header="Handlers of `.then/catch` are always asynchronous"
-To be even more precise, when `.then/catch` handler should execute, it first gets into an internal queue. The JavaScript engine takes handlers from the queue and executes when the current code finishes, similar to `setTimeout(..., 0)`.
+````smart header="`.then/catch` のハンドラは常に非同期です"
+さらに正確に言うと、`.then/catch` ハンドラが実行されるとき、それは最初に内部キューに入ります。JavaScript エンジンはキューからハンドラを取り出し、`setTimeout(..., 0)` と同じように現在のコードが終了した際に実行します。
 
-In other words, when `.then(handler)` is going to trigger, it does something like `setTimeout(handler, 0)` instead.
+言い換えると、`.then(handler)` がトリガするとき、それは `setTimeout(handler, 0)` のようなことをします。
 
-In the example below the promise is immediately resolved, so `.then(alert)` triggers right now: the `alert` call is queued and runs immediately after the code finishes.
+下の例では、promise は直ちに解決されます。なので、`.then(alert)` はすぐにトリガします: `alert` 呼び出しはキューに格納され、コードが終了した後即座に実行します。
 
 ```js run
-// an immediately resolved promise
+// 即座に解決された promise
 let promise = new Promise(resolve => resolve("done!"));
 
-promise.then(alert); // done! (right after the current code finishes)
+promise.then(alert); // done! (現在のコード終了直後)
 
-alert("code finished"); // this alert shows first
+alert("code finished"); // このアラートが最初に表示されます
 ```
 
-So the code after `.then` always executes before the handler (even in the case of a pre-resolved promise). Usually that's unimportant, in some scenarios may matter.
+したがって、`.then` の後にあるコードは常にハンドラの前に実行されます(たとえ事前に解決された promise だとしても)。通常それは重要ではありませんが、場面によっては重要な場合があります。
 ````
 
-Now let's see more practical examples how promises can help us in writing asynchronous code.
+さて、非同期コードを書くにあたり、promise がどのように役立つか、より実践的な例を見てみましょう。
 
-## Example: loadScript
+## 例: loadScript [#Example: loadScript]
 
-We've got the `loadScript` function for loading a script from the previous chapter.
+以前のチャプターで、スクリプトを読み込むための関数 `loadScript` がありました。
 
-Here's the callback-based variant, just to remind it:
+思い出すために、ここにコールバックベースのパターンを示します。:
 
 ```js
 function loadScript(src, callback) {
@@ -247,9 +246,9 @@ function loadScript(src, callback) {
 }
 ```
 
-Let's rewrite it using promises.
+promise を使って再実装してみましょう。
 
-The new function `loadScript` will not require a callback. Instead it will create and return a promise object that settles when the loading is complete. The outer code can add handlers to it using `.then`:
+新しい関数 `loadScript` はコールバックを必要としません。代わりに、読み込みが完了したときに解決する promise オブジェクトを生成し返します。外部コードは `.then` を使用してそれにハンドラを追加することができます。:
 
 ```js run
 function loadScript(src) {  
@@ -265,7 +264,7 @@ function loadScript(src) {
 }
 ```
 
-Usage:
+使用方法:
 
 ```js run
 let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js");
@@ -278,13 +277,13 @@ promise.then(
 promise.then(script => alert('One more handler to do something else!'));
 ```
 
-We can immediately see few benefits over the callback-based syntax:
+コールバックベースの構文に比べて、すぐには利益はほとんどありません。:
 
 ```compare minus="Callbacks" plus="Promises"
-- We must have a ready `callback` function when calling `loadScript`. In other words, we must know what to do with the result *before* `loadScript` is called.
-- There can be only one callback.
-+ Promises allow us to code things in the natural order. First we run `loadScript`, and `.then` write what to do with the result.
-+ We can call `.then` on a promise as many times as we want, at any time later.
+- `loadScript` を呼び出す際、`callback` 関数を準備する必要があります。つまり、`loadScript` が呼ばれる *前* に、その結果で何をするのか知っておかなければなりません。
+- コールバックは1つだけです。
++ Promise を使うと自然な順番で物事をコード化することができます。最初に `loadScript` を走らせ、`.then` はその結果をどうするかを記述します。
++ いつでも、必要なだけ promise に対する `.then` を呼び出すことが可能です。
 ```
 
-So promises already give us better code flow and flexibility. But there's more. We'll see that in the next chapters.
+そのため、promise は既により良いコードフローと柔軟性をもたらします。しかしもっと多くのことがあります。それらについては次のチャプターで見ていきましょう。
