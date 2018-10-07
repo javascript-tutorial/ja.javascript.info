@@ -1,8 +1,8 @@
 
-# Re-resolve a promise?
+# promise の再 resolve ?
 
 
-What's the output of the code below? 
+以下のコードの出力は何でしょう？
 
 ```js
 let promise = new Promise(function(resolve, reject) {
