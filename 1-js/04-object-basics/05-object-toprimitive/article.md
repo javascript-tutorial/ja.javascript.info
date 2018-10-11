@@ -9,9 +9,9 @@
 
 [cut]
 
-オブジェクトの場合、全てのオブジェクトは真偽値コンテキストでは `true` なので、真偽値への変換はありません。従って、文字列と数値変換だけです。
+オブジェクトの場合、すべてのオブジェクトは真偽値コンテキストでは `true` なので、真偽値への変換はありません。従って、文字列と数値変換だけです。
 
-数値変換は、オブジェクトを減算する、もしくは数学的な関数を適用する時に起こります。例えば `Date` オブジェクト(チャプター <info:date> で説明されます)は減算することができ、 `date1 - date2` の結果は2つの日付間の時間差になります。
+数値変換は、オブジェクトを減算する、もしくは数学的な関数を適用する時に起こります。例えば `Date` オブジェクト(チャプター <info:date> で説明されています)は減算することができ、 `date1 - date2` の結果は2つの日付間の時間差になります。
 
 文字列変換はどうかというと -- 通常、`alert(obj)` のようにオブジェクトを出力したり、似たようなコンテキストのときに起こります。
 
@@ -21,7 +21,7 @@
 
 そのアルゴリズムによって、特別なオブジェクトメソッドを使って変換をカスタマイズすることができます。
 
-コンテキストに応じて、変換にはいわゆる "hint" があります。
+コンテキストに応じて、変換にはいわゆる "ヒント" があります。
 
 3つのバリアントがあります:
 
@@ -29,10 +29,10 @@
 : 操作が `alert` のように文字列を期待するとき -- オブジェクトから文字列への変換:
 
     ```js
-    // output
+    // 出力
     alert(obj);
 
-    // using object as a property key
+    // プロパティキーとしてオブジェクトを使う
     anotherObj[obj] = 123;
     ```
 
@@ -40,14 +40,14 @@
 : 操作が数学のように数値を期待するとき -- オブジェクトから数値への変換:
 
     ```js
-    // explicit conversion
+    // 明示的な変換
     let num = Number(obj);
 
-    // maths (except binary plus)
+    // 算術 (バイナリプラスを除く)
     let n = +obj; // unary plus
     let delta = date1 - date2;
 
-    // less/greater comparison
+    // 大なり小なり比較
     let greater = user1 > user2;
     ```
 
@@ -57,7 +57,7 @@
     例えば、バイナリプラス `+` は文字列(それらを連結します)と数値(それらを足します)両方で動作するので、文字列と数値の両方が有りえます。または、オブジェクトが `==` を使用して、文字列、数値またはシンボルと比較されるときです。
 
     ```js
-    // binary plus
+    // バリナリプラス
     let total = car1 + car2;
 
     // obj == string/number/symbol
@@ -66,9 +66,9 @@
 
     より大きい/小さい演算子 `<>` もまた文字列と数字両方を扱うことができますが、これは "default" ではなく "number" を使います。これは歴史的な理由によるものです。
 
-    実際には、１つのケース(`Date` オブジェクトです。後ほど学びます)を除く全ての組み込みオブジェクトは `"number"` と同じ方法で `"default"` 変換を実装しています。そして、恐らく私たちは同じようにするべきです。
+    実際には、１つのケース(`Date` オブジェクトです。後ほど学びます)を除くすべての組み込みオブジェクトは `"number"` と同じ方法で `"default"` 変換を実装しています。そして、恐らく私たちは同じようにするべきです。
 
-留意してください -- 3つだけ hint があります。それはシンプルです。 "真偽値" の hint はありません(真偽値のコンテキストにおいては、全てのオブジェクトは `true` です)。そして、ほとんどの組み込みのように、もし `"default"` と `"number"` を同じように扱うと、２つの変換しかありません。
+留意してください -- 3つだけ ヒント があります。それはシンプルです。 "真偽値" の ヒント はありません(真偽値のコンテキストにおいては、すべてのオブジェクトは `true` です)。そして、ほとんどの組み込みのように、もし `"default"` と `"number"` を同じように扱うと、２つの変換しかありません。
 
 **変換をするために、JavaScriptは3つのオブジェクトのメソッドを見つけ呼び出そうとします。**
 
@@ -84,8 +84,8 @@
 
 ```js
 obj[Symbol.toPrimitive] = function(hint) {
-  // return a primitive value
-  // hint = one of "string", "number", "default"
+  // プリミティブな値を返却
+  // hint = "string", "number", "default" のどれか
 }
 ```
 
@@ -102,13 +102,13 @@ let user = {
   }
 };
 
-// conversions demo:
+// 変換デモo:
 alert(user); // hint: string -> {name: "John"}
 alert(+user); // hint: number -> 1000
 alert(user + 500); // hint: default -> 1500
 ```
 
-コードから分かるように、`user` は変換に応じて、自己記述的な文字列、または金額になります。１つのメソッド `user[Symbol.toPrimitive]` が全ての変換ケースを扱います。
+コードから分かるように、`user` は変換に応じて、自己記述的な文字列、または金額になります。１つのメソッド `user[Symbol.toPrimitive]` がすべての変換ケースを扱います。
 
 
 ## toString/valueOf
@@ -144,7 +144,7 @@ alert(+user); // valueOf -> 1000
 alert(user + 500); // valueOf -> 1500
 ```
 
-多くの場合、すべてのプリミティブ変換を処理する単一の "キャッチオール" が必要です。 この場合、次のように `toString`だけを実装することで実現できます:
+多くの場合、すべてのプリミティブ変換を処理する単一の "すべてのキャッチ" が必要です。 この場合、次のように `toString`だけを実装することで実現できます:
 
 ```js run
 let user = {
@@ -159,12 +159,12 @@ alert(user); // toString -> John
 alert(user + 500); // toString -> John500
 ```
 
-`Symbol.toPrimitive`と` valueOf` がなければ、 `toString` は全てのプリミティブ変換を扱います。
+`Symbol.toPrimitive`と` valueOf` がなければ、 `toString` はすべてのプリミティブ変換を扱います。
 
 
 ## ToPrimitive と ToString/ToNumber
 
-全てのプリミティブ変換メソッドを知るのに重要なことは、それらは必ずしも "ほのめかされた" プリミティブを返さないことです。
+すべてのプリミティブ変換メソッドを知るのに重要なことは、それらは必ずしも "ほのめかされた" プリミティブを返さないことです。
 
 `toString()` が正しく文字列を返すか、もしくは `Symbol.toPrimitive` メソッドが "number" のヒントで数値を返すかはコントロール出来ません。
 
@@ -178,12 +178,12 @@ alert(user + 500); // toString -> John500
 
     ```js run
     let obj = {
-      toString() { // toString handles all conversions in the absence of other methods
+      toString() { // toString は他のメソッドがない場合にすべての変換を処理します。
         return "2";
       }
     };
 
-    alert(obj * 2); // 4, ToPrimitive gives "2", then it becomes 2
+    alert(obj * 2); // 4, ToPrimitive は "2" を与えるので, 2 になります
     ```
 
 - バイナリプラスはプリミティブをチェックします -- もし文字列なら連結し、そうでなければ `ToNumber` を行い、数値で処理をします。
@@ -196,7 +196,7 @@ alert(user + 500); // toString -> John500
       }
     };
 
-    alert(obj + 2); // 22 (ToPrimitive returned string => concatenation)
+    alert(obj + 2); // 22 (ToPrimitive は文字列を返します => 連結)
     ```
 
     数値の例:
@@ -207,11 +207,11 @@ alert(user + 500); // toString -> John500
       }
     };
 
-    alert(obj + 2); // 3 (ToPrimitive returned boolean, not string => ToNumber)
+    alert(obj + 2); // 3 (ToPrimitive は boolean を返します, 文字列ではありません => ToNumber)
     ```
 
 ```smart header="歴史的な注釈"
-歴史的な理由で、メソッド `toString` または `valueOf` はプリミティブを *返すべきです*: もしそれらがオブジェクトを返した場合、エラーにはなりませんが、そのオブジェクトは無視されます(メソッドが存在しなかったかのように)。
+歴史的な理由で、メソッド `toString` または `valueOf` はプリミティブを *返すべきです*: もしそれらがオブジェクトを返した場合、エラーにはなりませんがそのオブジェクトは無視されます(メソッドが存在しなかったかのように)。
 
 対象的に、`Symbol.toPrimitive` はプリミティブを *返さなければいけません*、そうでなければエラーになります。
 ```
@@ -236,4 +236,4 @@ alert(user + 500); // toString -> John500
 3. そうでない場合、hint が `"number"` であれば
     - `obj.valueOf()` と `obj.toString()` を試します。
 
-実際に、ロギングやデバッグ目的で、"人間が読める" オブジェクトの表現を返す全ての変換のための "キャッチオール" メソッドとしては、 `obj.toString()` だけの実装で十分なことがしばしばです。
+実際に、ロギングやデバッグ目的で、"人間が読める" オブジェクトの表現を返すすべての変換のための "キャッチオール" メソッドとしては、 `obj.toString()` だけの実装で十分なことがしばしばです。

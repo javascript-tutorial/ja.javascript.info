@@ -14,18 +14,18 @@
 このタイプの値は、`Symbol()` を使うことで作ることができます:
 
 ```js
-// id is a new symbol
+// id は新しい symbol です
 let id = Symbol();
 ```
 
 また、シンボルに説明を与えることもでき(シンボル名と呼びます)、デバッグ目的で便利です。
 
 ```js
-// id is a symbol with the description "id"
+// id は "id" という説明を持つ symbol です
 let id = Symbol("id");
 ```
 
-シンボルはユニークであることが保証されます。たとえ同じ説明で複数のシンボルを作ったとしても、それらは異なる値です。説明は何にも影響を与えない単なるラベルです。
+シンボルはユニークであることが保証されます。たとえ同じ説明で複数のシンボルを作ったとしても、れらは異なる値です。説明は何にも影響を与えない単なるラベルです。
 
 例えば、ここでは同じ説明をもつ2つのシンボルがあります -- それらは等しくありません:
 
@@ -56,7 +56,7 @@ alert(id); // TypeError: Cannot convert a Symbol value to a string
 ```js run
 let id = Symbol("id");
 *!*
-alert(id.toString()); // Symbol(id), now it works
+alert(id.toString()); // Symbol(id), これは動作します
 */!*
 ```
 
@@ -65,16 +65,16 @@ alert(id.toString()); // Symbol(id), now it works
 
 ## "隠れた" プロパティ [#hidden-properties]
 
-シンボルは、我々にオブジェクトの "隠れた" プロパティを作ることを許可します。コードの他の部分が時々アクセスしたり上書きしたりすることはありません。
+シンボルは、我々にオブジェクトの "隠れた" プロパティを作ることを許可します。コードの他の部分がアクセスしたり上書きしたりすることはありません。
 
-例えば、もしも、オブジェクト `user` に "識別子" を格納したい場合、そのキーとしてシンボルを使うことができます:
+例えば、もしもオブジェクト `user` に "識別子" を格納したい場合、そのキーとしてシンボルを使うことができます:
 
 ```js run
 let user = { name: "John" };
 let id = Symbol("id");
 
 user[id] = "ID Value";
-alert( user[id] ); // we can access the data using the symbol as the key
+alert( user[id] ); // キーとして symbol を使ってデータにアクセスできます
 ```
 
 文字列 `"id"`に対して `Symbol（"id"）` を使うことの利点は何ですか？
@@ -83,7 +83,7 @@ alert( user[id] ); // we can access the data using the symbol as the key
 
 別のスクリプトが独自の目的のために `user` の中に、それ自身の "id" プロパティを持ちたいとします。それは別のJavaScriptライブラリかもしれないので、スクリプトは完全お互いを認識していません。
 
-そして、そのスクリプトはそれ自身の `Symbol("id")` を作ります。:
+そして、そのスクリプトは自身の `Symbol("id")` を作ります。:
 
 ```js
 // ...
@@ -99,13 +99,13 @@ user[id] = "Their id value";
 ```js run
 let user = { name: "John" };
 
-// our script uses "id" property
+// 我々のスクリプトは　"id" プロパティを使います
 user.id = "ID Value";
 
-// ...if later another script the uses "id" for its purposes...
+// ...もし後で別のスクリプトが別の目的で "id" を使ったら...
 
 user.id = "Their id value"
-// boom! overwritten! it did not mean to harm the colleague, but did it!
+// boom! 上書きされます! 同僚に危害を加えるつもりはありませんでしたが、してしまいました!
 ```
 
 ### リテラルのシンボル
@@ -143,7 +143,7 @@ let user = {
 for (let key in user) alert(key); // name, age (no symbols)
 */!*
 
-// the direct access by the symbol works
+// symbol による直アクセスは動作します
 alert( "Direct: " + user[id] );
 ```
 
@@ -174,15 +174,15 @@ let obj = {
   0: "test" // same as "0": "test"
 };
 
-// both alerts access the same property (the number 0 is converted to string "0")
+// 両方のアラートは同じプロパティにアクセスします(数値 0 は文字列 "0" に変換されます)
 alert( obj["0"] ); // test
-alert( obj[0] ); // test (same property)
+alert( obj[0] ); // test (同じプロパティ)
 ```
 ````
 
 ## グローバルシンボル [#global-symbols]
 
-見てきたように、通常、たとえ同じ名前であったとしても、全てのシンボルは異なります。しかし、時には同じ名前のシンボルを同じエンティティにしたいときがあります。
+見てきたように、通常、たとえ同じ名前であったとしてもすべてのシンボルは異なります。しかし、時には同じ名前のシンボルを同じエンティティにしたいときがあります。
 
 例えば、我々のアプリケーションの異なる部分が、正確に同じプロパテイを意味するシンボル `"id"` にアクセスしたいとします。
 
@@ -195,22 +195,22 @@ alert( obj[0] ); // test (same property)
 例:
 
 ```js run
-// read from the global registry
-let id = Symbol.for("id"); // if the symbol did not exist, it is created
+// グローバルレジストリから読む
+let id = Symbol.for("id"); // symbol が存在しない場合、作られます
 
-// read it again
+// 再度読み込み
 let idAgain = Symbol.for("id");
 
-// the same symbol
+// 同じシンボル
 alert( id === idAgain ); // true
 ```
 
 レジストリ内のシンボルは *グローバルシンボル* と呼ばれます。コード内のどこにでもアクセス可能なアプリケーション全体のシンボルが必要な場合、それがそのためのものです。
 
-```smart header="That sounds like Ruby"
+```smart header="それは Ruby のようです"
 Rubyのようないくつかのプログラミング言語では、名前毎に1つのシンボルがあります。
 
-JavaScriptでは、見てきたように、それはグローバルシンボルのことです。
+JavaScriptでは、見てきたようにそれはグローバルシンボルのことです。
 ```
 
 ### Symbol.keyFor
@@ -224,7 +224,7 @@ JavaScriptでは、見てきたように、それはグローバルシンボル�
 let sym = Symbol.for("name");
 let sym2 = Symbol.for("id");
 
-// get name from symbol
+// symbol から name を取得
 alert( Symbol.keyFor(sym) ); // name
 alert( Symbol.keyFor(sym2) ); // id
 ```
@@ -236,7 +236,7 @@ alert( Symbol.keyFor(sym2) ); // id
 ```js run
 alert( Symbol.keyFor(Symbol.for("name")) ); // name, global symbol
 
-alert( Symbol.keyFor(Symbol("name2")) ); // undefined, the argument isn't a global symbol
+alert( Symbol.keyFor(Symbol("name2")) ); // undefined, 引数はグローバルシンボルではありません
 ```
 
 ## システムシンボル [#system-symbols]

@@ -35,20 +35,20 @@ alert(user.isAdmin); // false
 2. 関数本体を実行します。通常は `this` を変更し、それに新しいプロパティを追加します。
 3. `this` の値が返却されます。
 
-言い換えると、`new User(...)` は次のようなことをします:
+つまり、`new User(...)` は次のようなことをします:
 
 ```js
 function User(name) {
 *!*
-  // this = {};  (implicitly)
+  // this = {};  (暗黙)
 */!*
 
-  // add properties to this
+  // this へプロパティを追加
   this.name = name;
   this.isAdmin = false;
 
 *!*
-  // return this;  (implicitly)
+  // return this;  (暗黙)
 */!*
 }
 ```
@@ -62,7 +62,7 @@ let user = {
 };
 ```
 
-さて、もしも我々が他のユーザを作りたい場合、`new User("Ann")`, `new User("Alice")` と言ったように呼ぶことができます。毎回リテラルを使うよりはるかに短く、また簡単で読みやすいです。
+さて、もし他のユーザを作りたい場合、`new User("Ann")`, `new User("Alice")` と言ったように呼ぶことができます。毎回リテラルを使うよりはるかに短く、また簡単で読みやすいです。
 
 それがコンストラクタの主な目的です -- 再利用可能なオブジェクト作成のコードを実装すること。
 
@@ -76,9 +76,8 @@ let user = new function() {
   this.name = "John";
   this.isAdmin = false;
 
-  // ...other code for user creation
-  // maybe complex logic and statements
-  // local variables etc
+  // ...ユーザ作成のための他のコードは複雑なロジック、
+  // 文やローカル変数などを持つかもしれません。
 };
 ```
 
@@ -96,10 +95,10 @@ function User() {
   alert(new.target);
 }
 
-// without new:
+// new なし:
 User(); // undefined
 
-// with new:
+// new あり:
 new User(); // function User { ... }
 ```
 
@@ -107,14 +106,14 @@ new User(); // function User { ... }
 
 ```js run
 function User(name) {
-  if (!new.target) { // if you run me without new
-    return new User(name); // ...I will add new for you
+  if (!new.target) { // new なしで実行した場合
+    return new User(name); // ...new を追加します
   }
 
   this.name = name;
 }
 
-let john = User("John"); // redirects call to new User
+let john = User("John"); // new User へのリダイレクト
 alert(john.name); // John
 ```
 
@@ -138,10 +137,10 @@ function BigUser() {
 
   this.name = "John";
 
-  return { name: "Godzilla" };  // <-- returns an object
+  return { name: "Godzilla" };  // <-- オブジェクトを返す
 }
 
-alert( new BigUser().name );  // Godzilla, got that object ^^
+alert( new BigUser().name );  // Godzilla, オブジェクトを取得 ^^
 ```
 
 また、これは空の `retruen` (もしくはプリミティブをこの後に置くことができます)の例です
@@ -151,7 +150,7 @@ function SmallUser() {
 
   this.name = "John";
 
-  return; // finishes the execution, returns this
+  return; // 実行が終了し, this を返す
 
   // ...
 
@@ -166,8 +165,8 @@ alert( new SmallUser().name );  // John
 ところで、もし引数を取らない場合は、`new` の後の丸括弧を省略することもできます。
 
 ```js
-let user = new User; // <-- no parentheses
-// same as
+let user = new User; // <-- 括弧なし
+// これと同じ
 let user = new User();
 ```
 
@@ -210,12 +209,12 @@ john = {
 - コンストラクタ関数、もしくは簡潔にコンストラクタは通常の関数ですが、大文字から始まる名前を持つ、と言う共通の合意があります。
 - コンストラクタ関数は `new` を使ってのみ呼び出されるべきです。このような呼び出しは、最初に空の `this` を作成し、最後に追加された `this` を返すことを意味します。
 
-複数に似たようなオブジェクトを作るときにコンストラクタ関数を使うことができます。
+複数の似たようなオブジェクトを作るときにコンストラクタ関数を使うことができます。
 
 JavaScript は多くの組み込み言語オブジェクトのコンストラクタを提供しています: 日付のための `Date`, セットのための `Set`、そしてその他私たちが学ぶ予定のものがあります。
 
 ```smart header="オブジェクト, 我々は戻ってきます!"
 このチャプターでは、オブジェクトとコンストラクタについての基礎のみをカバーしています。これらは、次のチャプターでデータ型と関数についてより深く学ぶために不可欠です。
 
-それを学んだ後、チャプター　<info:object-oriented-programming> では、オブジェクトに戻り、継承やクラスを含めそれらを詳細にカバーします。
+それを学んだ後、チャプター　<info:object-oriented-programming> では、オブジェクトに戻り、継承やクラスを含めそれらを詳細に説明します。
 ```

@@ -9,9 +9,9 @@ let user = {
 };
 ```
 
-そして、実世界では、ユーザは *行動* することができます: ショッピングカードから何かを選んだり、ログイン、ログアウトなど。
+そして、実世界ではユーザは *行動* することができます: ショッピングカードから何かを選んだり、ログイン、ログアウトなど。
 
-アクションは、JavaScriptではプロパティの中で関数によって表現されます。
+アクションは、JavaScriptではプロパティの中で関数で表現されます。
 
 [cut]
 
@@ -36,7 +36,7 @@ user.sayHi(); // Hello!
 
 ここで、関数を作るために関数式を使い、それをオブジェクトの `user.sayHi` プロパティに代入しました。
 
-その後、それを呼ぶことが出来ます。ユーザは今話すことが出来ます!
+その後、呼ぶことが出来ます。ユーザは今話すことが出来ます!
 
 オブジェクトのプロパティの関数は、*メソッド* と呼ばれます。
 
@@ -50,12 +50,12 @@ let user = {
 };
 
 *!*
-// first, declare
+// 最初、宣言
 function sayHi() {
   alert("Hello!");
 };
 
-// then add as a method
+// その後、メソッドを追加
 user.sayHi = sayHi;
 */!*
 
@@ -72,7 +72,7 @@ OOPは大きなものであり、それ自体の興味深い科学です。 正�
 オブジェクトリテラルにおいて、メソッドのための短縮構文があります:
 
 ```js
-// these objects do the same
+// これらのオブジェクトは同じことをします
 
 let user = {
   sayHi: function() {
@@ -80,10 +80,10 @@ let user = {
   }
 };
 
-// method shorthand looks better, right?
+// メソッド簡略化はよく見えますね
 let user = {
 *!*
-  sayHi() { // same as "sayHi: function()"
+  sayHi() { // "sayHi: function()" と同じです
 */!*
     alert("Hello");
   }
@@ -92,7 +92,7 @@ let user = {
 
 デモしたように、`"function"` を除き、単に `sayHi()` と書くことが出来ます。
 
-実を言うと、この表記は完全に同一ではありません。オブジェクトの継承(後で説明します)に関して微妙な違いがありますが、今のところは問題ありません。ほぼ全てのケースで、この短縮構文は好まれます。
+実を言うと、この表記は完全に同一ではありません。オブジェクトの継承(後で説明します)に関して微妙な違いがありますが、今のところは問題ありません。ほぼ全てのケースでこの短縮構文は好まれます。
 
 ## メソッド中の "this" [#this-in-methods]
 
@@ -133,7 +133,7 @@ let user = {
 
   sayHi() {
 *!*
-    alert(user.name); // "user" instead of "this"
+    alert(user.name); // "this" の代わりに "user"
 */!*
   }
 
@@ -151,7 +151,7 @@ let user = {
 
   sayHi() {
 *!*
-    alert( user.name ); // leads to an error
+    alert( user.name ); // エラーにつながる
 */!*
   }
 
@@ -159,9 +159,9 @@ let user = {
 
 
 let admin = user;
-user = null; // overwrite to make things obvious
+user = null; // 明らかにするために上書きします
 
-admin.sayHi(); // Whoops! inside sayHi(), the old name is used! error!
+admin.sayHi(); // Whoops! sayHi() の中で古い名前が使われました! エラーです!
 ```
 
 もし `alert` の内側で、`user.name` の代わりに `this.name` を使ったら、コードは動作します。
@@ -191,20 +191,20 @@ function sayHi() {
 }
 
 *!*
-// use the same functions in two objects
+// 2つのオブエジェクトで同じ関数を使う
 user.f = sayHi;
 admin.f = sayHi;
 */!*
 
-// these calls have different this
-// "this" inside the function is the object "before the dot"
+// これらの呼び出しは異なる this を持ちます
+// 関数の中の "this" は "ドット" の前のオブジェクトです
 user.f(); // John  (this == user)
 admin.f(); // Admin  (this == admin)
 
-admin['f'](); // Admin (dot or square brackets access the method – doesn't matter)
+admin['f'](); // Admin (ドットまたは角括弧でのメソッドアクセス -- は関係ありません)
 ```
 
-実際、オブジェクト全くなしで関数を呼び出すこともできます:
+実際、オブジェクトまったくなしで関数を呼び出すこともできます:
 
 ```js run
 function sayHi() {
@@ -247,10 +247,10 @@ let user = {
   bye() { alert("Bye"); }
 };
 
-user.hi(); // John (the simple call works)
+user.hi(); // John (シンプルな呼び出しは動作します)
 
 *!*
-// now let's call user.hi or user.bye depending on the name
+// 今、name に応じて user.hi または user.bye を読んでみましょう
 (user.name == "John" ? user.hi : user.bye)(); // Error!
 */!*
 ```
@@ -261,12 +261,12 @@ user.hi(); // John (the simple call works)
 
 呼び出しはエラーになります、なぜなら、呼び出しの内側の `"this"` の値は `undefined` になるからです。
 
-これは動きます (object dot method):
+これは動きます (オブジェクトドットメソッド):
 ```js
 user.hi();
 ```
 
-これはダメです (evaluated method):
+これはダメです (評価されたメソッド):
 ```js
 (user.name == "John" ? user.hi : user.bye)(); // Error!
 ```
@@ -289,15 +289,15 @@ let user = {
 }
 
 *!*
-// split getting and calling the method in two lines
+// メソッドの取得呼び出しを2行に分けます
 let hi = user.hi;
-hi(); // Error, because this is undefined
+hi(); // Error, this は undefined なので
 */!*
 ```
 
 ここで `hi = user.hi` は関数を変数の中においています。そして最後の行は完全にスタンドアロンです。なので、`this` がありません。
 
-**`user.hi()` 呼び出しを動作させるために、JavaScriptはトリックを使います -- ドット `'.'` は関数ではなく、特別な[参照型 ](https://tc39.github.io/ecma262/#sec-reference-specification-type)を返します。**
+**`user.hi()` 呼び出しを動作させるために、JavaScriptはトリックを使います -- ドット `'.'` は関数ではなく、特別な[参照型](https://tc39.github.io/ecma262/#sec-reference-specification-type)を返します。**
 
 参照型は "使用型" です。私たちは明示的にそれを使うことはできませんが、言語の中で内部的に使われています。
 
@@ -307,14 +307,14 @@ hi(); // Error, because this is undefined
 - `name` はプロパティです。
 - `strict` は `use strict` が効いている場合は true です。
 
-`user.hi` へのプロパティアクセスの結果は、関数ではなく参照型です。strict mode での  `user.hi` はこうなります:
+`user.hi` へのプロパティアクセスの結果は、関数ではなく参照型です。strict mode での `user.hi` はこうなります:
 
 ```js
 // Reference Type value
 (user, "hi", true)
 ```
 
-参照型で丸括弧 `()` が呼ばれたとき、それらはオブジェクトとそのメソッドについての完全な情報を受取、正しい `this` (このケースでは `user`)をセットできます。
+参照型で丸括弧 `()` が呼ばれたとき、それらはオブジェクトとそのメソッドについての完全な情報を受け取り、正しい `this` (このケースでは `user`)をセットできます。
 
 代入 `hi = user.hi` のような他の操作は、総じて参照型を破棄し、`user.hi`(関数)の値を渡します。従って、それ以降の操作は全て `this` を "失います"。
 
