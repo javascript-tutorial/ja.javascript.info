@@ -38,7 +38,7 @@ let guestList = `Guests:
  * Mary
 `;
 
-alert(guestList); // a list of guests, multiple lines
+alert(guestList); // 複数行でのゲストのリスト
 ```
 
 同じ方法でシングル、またはダブルクォートを使おうとすると、エラーになります:
@@ -47,7 +47,7 @@ let guestList = "Guests:  // Error: Unexpected token ILLEGAL
   * John";
 ```
 
-シングルクォートとダブルクォートは、複数行の文字列の必要性が考慮されていないときに、言語作成の古代から来ています。 バッククォートは後で登場し、より汎用性があります。
+シングルクォートとダブルクォートは、複数行の文字列の必要性が考慮されていないときの言語策定から来ています。 バッククォートは後で登場し、より汎用性があります。
 
 バッククォートはまた、最初のバッククォートの前に "テンプレート関数" を指定することができます。構文は次のようになります:
  <code>func&#96;string&#96;</code>. 関数 `func` は自動的に呼ばれ、文字列と埋め込まれた式を受け取り、それらを処理することが出来ます。[docs](mdn:/JavaScript/Reference/Template_literals#Tagged_template_literals) で、これに関してより知ることができます。これは "タグ付きテンプレートリテラル" と呼ばれます。この機能により、文字列をカスタムテンプレートやその他の機能に簡単にラップできますが、ほとんど使用されません。
@@ -59,15 +59,15 @@ let guestList = "Guests:  // Error: Unexpected token ILLEGAL
 ```js run
 let guestList = "Guests:\n * John\n * Pete\n * Mary";
 
-alert(guestList); // a multiline list of guests
+alert(guestList); // 複数行のゲストのリスト
 ```
 
 例えば、これら2つの行は同じように表現されます:
 
 ```js run
-alert( "Hello\nWorld" ); // two lines using a "newline symbol"
+alert( "Hello\nWorld" ); // "改行記号" を使った 2行表示
 
-// two lines using a normal newline and backticks
+// 通常の改行とバッククォートを使った 2行表示
 alert( `Hello
 World` );
 ```
@@ -94,7 +94,7 @@ alert( "\u{1F60D}" ); // 😍, a smiling face symbol (another long unicode)
 
 すべての特殊文字はバックスラッシュ `\` で始まります。それは "エスケープ文字" とも呼ばれます。
 
-私たちはまた、文字列の中に引用符を挿入したいときにそれを使います。
+また、文字列の中に引用符を挿入したいときにも使います。
 
 例:
 
@@ -180,7 +180,7 @@ JavaScriptでは文字列は変更できません。文字を変えることは�
 let str = 'Hi';
 
 str[0] = 'h'; // error
-alert( str[0] ); // doesn't work
+alert( str[0] ); // 動きません
 ```
 
 通常の回避策は、全体の新しい文字列を作り、古いものの代わりにそれを `str` に代入する方法です。
@@ -190,7 +190,7 @@ alert( str[0] ); // doesn't work
 ```js run
 let str = 'Hi';
 
-str = 'h' + str[1];  // replace the string
+str = 'h' + str[1];  // 文字列を置換
 
 alert( str ); // hi
 ```
@@ -227,10 +227,10 @@ alert( 'Interface'[0].toLowerCase() ); // 'i'
 ```js run
 let str = 'Widget with id';
 
-alert( str.indexOf('Widget') ); // 0, because 'Widget' is found at the beginning
-alert( str.indexOf('widget') ); // -1, not found, the search is case-sensitive
+alert( str.indexOf('Widget') ); // 0, 'Widget' が先頭で見つかったので
+alert( str.indexOf('widget') ); // -1, 見つかりませんでした。検索は文字大小を区別します
 
-alert( str.indexOf("id") ); // 1, "id" is found at the position 1 (..idget with id)
+alert( str.indexOf("id") ); // 1, "id" は位置 1 で見つかりました(..idget with id)
 ```
 
 任意の2つ目のパラメータは、与えられた位置から検索を始めます。
@@ -243,13 +243,13 @@ let str = 'Widget with id';
 alert( str.indexOf('id', 2) ) // 12
 ```
 
-もし全ての出現に興味があれば、ループの中で `indexOf` を使います。前回マッチした後のポジションで新しい呼び出しが行われます:
+もし全ての出現箇所に興味があれば、ループの中で `indexOf` を使います。前回マッチした後のポジションで新しい呼び出しが行われます:
 
 
 ```js run
 let str = 'As sly as a fox, as strong as an ox';
 
-let target = 'as'; // let's look for it
+let target = 'as'; // 探しましょう
 
 let pos = 0;
 while (true) {
@@ -257,11 +257,11 @@ while (true) {
   if (foundPos == -1) break;
 
   alert( `Found at ${foundPos}` );
-  pos = foundPos + 1; // continue the search from the next position
+  pos = foundPos + 1; // 次の位置から検索を続けます
 }
 ```
 
-The same algorithm can be layed out shorter:
+同じアルゴリズムをより短くすることができます:
 
 ```js run
 let str = "As sly as a fox, as strong as an ox";
@@ -278,7 +278,7 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 ```smart header="`str.lastIndexOf(pos)`"
 文字列の最後から最初に向かって探す類似のメソッド str.lastIndexOf(pos)](mdn:js/String/lastIndexOf) もあります。
 
-それは逆の順序で出現を列挙します。
+それは逆の順序でマッチする対象を列挙します。
 ```
 
 `if` テストの中では `indexOf` は少し不便です。このように `if` の中にそれを置くことは出来ません:
@@ -287,7 +287,7 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 let str = "Widget with id";
 
 if (str.indexOf("Widget")) {
-    alert("We found it"); // doesn't work!
+    alert("We found it"); // 動作しません
 }
 ```
 
@@ -301,23 +301,23 @@ let str = "Widget with id";
 *!*
 if (str.indexOf("Widget") != -1) {
 */!*
-    alert("We found it"); // works now!
+    alert("We found it"); // これで動きます!
 }
 ```
 
 ````smart header="ビットの NOT トリック"
-ここで使われている古いトリックの1つは `~` 演算子の [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) です。それは、数値を 32bit 整数に変換し(もし存在すれば少数部分を除いて)、そのバリナリ表現のすべてのビットを反転反転します。
+ここで使われている古いトリックの1つは `~` 演算子の [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) です。それは、数値を 32bit 整数に変換し(もし存在すれば少数部分を除いて)、その2進数表現のすべてのビットを反転反転します。
 
 32ビット整数の場合、 `〜n` は（IEEE-754形式のため） `-(n+1)` と全く同じ意味です。
 
 例:
 
 ```js run
-alert( ~2 ); // -3, the same as -(2+1)
-alert( ~1 ); // -2, the same as -(1+1)
-alert( ~0 ); // -1, the same as -(0+1)
+alert( ~2 ); // -3, -(2+1) と同じです
+alert( ~1 ); // -2, -(1+1) と同じです
+alert( ~0 ); // -1, -(0+1) と同じです
 *!*
-alert( ~-1 ); // 0, the same as -(-1+1)
+alert( ~-1 ); // 0, -(-1+1) と同じです
 */!*
 ```
 
@@ -335,7 +335,7 @@ if (~str.indexOf("Widget")) {
 }
 ```
 
-通常、言語機能を明白でない方法で使用することは推奨されませんが、この特定のトリックは昔のコードでは広く使われています。なので、これは理解しておきましょう。
+通常、言語機能を明白でない方法で使用することは推奨されませんが、このトリックは昔のコードでは広く使われています。なので、これは理解しておきましょう。
 
 覚えておきましょう: `if (~str.indexOf(...))` は "もし見つかったら" と読みます。
 ````
@@ -344,7 +344,7 @@ if (~str.indexOf("Widget")) {
 
 より現代のメソッド [str.includes(substr, pos)](mdn:js/String/includes) は `str` が `substr` 含むかどうかで `true/false` を返します。
 
-マッチのための確認は必要だが、その位置は不要な場合には正しい選択です。
+マッチしているかの確認は必要ですが、その位置までは不要な場合には正しい選択です。
 
 ```js run
 alert( "Widget with id".includes("Widget") ); // true
@@ -356,14 +356,14 @@ alert( "Hello".includes("Bye") ); // false
 
 ```js run
 alert( "Midget".includes("id") ); // true
-alert( "Midget".includes("id", 3) ); // false, from position 3 there is no "id"
+alert( "Midget".includes("id", 3) ); // false, 位置 3 から見ると、"id" はありません
 ```
 
-メソッド [str.startsWith](mdn:js/String/startsWith) と [str.endsWith](mdn:js/String/endsWith)  は、それらが言うことを性格に行います:
+メソッド [str.startsWith](mdn:js/String/startsWith) と [str.endsWith](mdn:js/String/endsWith)  は、それらの名前が指すことを正確に行います:
 
 ```js run
-alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
-alert( "Widget".endsWith("get") );   // true, "Widget" ends with "get"
+alert( "Widget".startsWith("Wid") ); // true, "Widget" は "Wid" で始まります
+alert( "Widget".endsWith("get") );   // true, "Widget" は "get" で終わります
 ```
 
 ## 部分文字列を取得する [#getting-a-substring]
@@ -377,23 +377,23 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
 
     ```js run
     let str = "stringify";
-    alert( str.slice(0, 5) ); // 'strin', the substring from 0 to 5 (not including 5)
-    alert( str.slice(0, 1) ); // 's', from 0 to 1, but not including 1, so only character at 0
+    alert( str.slice(0, 5) ); // 'strin', 0 から 5 までの部分文字列 (5は含まない)
+    alert( str.slice(0, 1) ); // 's', 0 から 1, ただ 1 は含まないので 0 位置の文字だけです
     ```
 
     2つ目の引数がない場合、`slice` は文字列の最後まで行きます:
 
     ```js run
     let str = "st*!*ringify*/!*";
-    alert( str.slice(2) ); // ringify, from the 2nd position till the end
+    alert( str.slice(2) ); // ringify, 2つ目のいちから最後まで
     ```
 
-    `start/end` は負の値も指定可能です。それらは、位置が文字列の末尾からカウントされることを意味します:
+    `start/end` は負の値も指定可能です。それらは位置が文字列の末尾からカウントされることを意味します:
 
     ```js run
     let str = "strin*!*gif*/!*y";
 
-    // start at the 4th position from the right, end at the 1st from the right
+    // 右から4番目から始まり、右から1つ目まで
     alert( str.slice(-4, -1) ); // gif
     ```
 
@@ -401,7 +401,7 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
 `str.substring(start [, end])`
 : `start` と `end` の *間* の文字列の一部を返します。
 
-    これはほとんど `slice` と同じですが、`start` が `end` より大きくても良いです。
+    これはほぼ `slice` と同じですが、`start` が `end` より大きくても良いです。
 
     例:
 
@@ -409,34 +409,34 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
     ```js run
     let str = "st*!*ring*/!*ify";
 
-    // these are same for substring
+    // これらは同じ文字列です
     alert( str.substring(2, 6) ); // "ring"
     alert( str.substring(6, 2) ); // "ring"
 
-    // ...but not for slice:
-    alert( str.slice(2, 6) ); // "ring" (the same)
-    alert( str.slice(6, 2) ); // "" (an empty string)
+    // ...が、slice は違います:
+    alert( str.slice(2, 6) ); // "ring" (同じ)
+    alert( str.slice(6, 2) ); // "" (空文字)
 
     ```
 
-    負の値は slice とは違いサポートされていません。それらは `0` として扱われます。
+    slice とは違い負の値はサポートされていません。それらは `0` として扱われます。
 
 
 `str.substr(start [, length])`
 : `start` から与えられた `length` 分の、文字列の一部を返します。
 
-    これまでのメソッドと対象的に、これは終わり位置の代わりに、`length` を指定することができます。:
+    これまでのメソッドとは対象的に、終わり位置の代わりに `length` を指定することができます。:
 
     ```js run
     let str = "st*!*ring*/!*ify";
-    alert( str.substr(2, 4) ); // ring, from the 2nd position get 4 characters
+    alert( str.substr(2, 4) ); // ring, 2の位置から 4文字取得します
     ```
 
     最初の引数は、末尾からカウントするために負の値にもできます:
 
     ```js run
     let str = "strin*!*gi*/!*fy";
-    alert( str.substr(-4, 2) ); // gi, from the 4th position get 2 characters
+    alert( str.substr(-4, 2) ); // gi, 4の位置から 2文字取得します
     ```
 
 混乱しないよう、これらのメソッドについておさらいしましょう:
@@ -449,14 +449,14 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
 
 
 ```smart header="どれを選ぶ?"
-これらすべて仕事ができます。正確には、`substr` は小さな欠点があります: それは コアなJavaScriptの仕様ではなく、主に歴史的な理由から存在するブラウザ専用の機能を扱う Annex B で説明されています。なので、非ブラウザ環境ではサポートされていない可能性があります。ただ、実際にはほぼどこでも動作しています。
+これらすべて使えます。正確には、`substr` は小さな欠点があります: それは コアなJavaScriptの仕様ではなく、主に歴史的な理由から存在するブラウザ専用の機能を扱う Annex B で説明されています。なので、非ブラウザ環境ではサポートされていない可能性があります。ただ、実際にはほぼどこでも動作しています。
 
 著者はほとんどのケースで `slice` を使っています。
 ```
 
 ## 文字列比較 [#comparing-strings]
 
-チャプター <info:comparison> で知ったように、文字列はアルファベット順に文字ごとに比較されます。
+チャプター <info:comparison> で学んだように、文字列はアルファベット順に文字ごとに比較されます。
 
 しかし、いくつかの奇妙なところがあります。
 
@@ -482,7 +482,7 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
 : 位置 `pos` の文字コードを返します:
 
     ```js run
-    // different case letters have different codes
+    // 大小異なる文字は文字コードも別です
     alert( "z".codePointAt(0) ); // 122
     alert( "Z".codePointAt(0) ); // 90
     ```
@@ -497,7 +497,7 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
     また、`\` とそれに続く16進数のコードを使って、ユニコード文字を追加することもできます:
 
     ```js run
-    // 90 is 5a in hexadecimal system
+    // 90 は 16進数で 5a です
     alert( '\u005a' ); // Z
     ```
 
@@ -557,9 +557,9 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 
 ### サロゲートペア
 
-ほとんどの記号は2バイトのコードを持っています。 ほとんどのヨーロッパ言語、数字、さらにはほとんどの象形文字の文字は、2バイト表現です。
+ほとんどの記号は2バイトのコードを持っています。 ほとんどのヨーロッパ言語、数字、さらには象形文字の多くの文字は、2バイト表現です。
 
-しかし、2バイトの組み合わせは 65536 通りしか許されず、全ての記号のには十分ではありません。なので、珍しい記号は 2バイト文字でエンコードされ、それは "サロゲートペア" と呼ばれます。
+しかし、2バイトの組み合わせは 65536 通りしか許されず、全ての記号には十分ではありません。なので、珍しい記号は 2バイト文字でエンコードされ、それは "サロゲートペア" と呼ばれます。
 
 このような記号の長さは `2` です:
 
@@ -582,14 +582,14 @@ alert( '𝒳'[0] ); // strange symbols...
 alert( '𝒳'[1] ); // ...pieces of the surrogate pair
 ```
 
-サロゲートペアの一部はお互いなしでは意味を持たないことに注意してください。なので、上の例の警告は実際にはゴミが表示されます。
+サロゲートペアの一部はお互いなしでは意味を持たないことに注意してください。そのため、上の例の警告は実際にはゴミが表示されます。
 
 技術的には、サロゲートペアもまたそれらのコードにより検出されます: もし文字が `0xd800..0xdbff` の中のコードである場合、それはサロゲートペアの最初のパートです。次の文字(2つ目のパート)は `0xdc00..0xdfff` の中のコードである必要があります。それらの範囲は、標準によってサロゲートペア専用に予約されています。
 
 上のケース:
 
 ```js run
-// charCodeAt is not surrogate-pair aware, so it gives codes for parts
+// charCodeAt はサロゲートペアを認識しません、そのため一部分のコードを返します
 
 alert( '𝒳'.charCodeAt(0).toString(16) ); // d835, between 0xd800 and 0xdbff
 alert( '𝒳'.charCodeAt(1).toString(16) ); // dcb3, between 0xdc00 and 0xdfff
@@ -601,7 +601,7 @@ alert( '𝒳'.charCodeAt(1).toString(16) ); // dcb3, between 0xdc00 and 0xdfff
 
 多くの言語では、上/下にマークを持つ基本文字で構成される記号があります。
 
-例えば、文字 `a` は `àáâäãåā` のベースの文字です。最も一般的な "複合" 文字は、UTF-16テーブルに独自のコードを持っています。 しかし、可能な組み合わせが多すぎるため、それらのすべてではありません。
+例えば、文字 `a` は `àáâäãåā` のベースの文字です。最も一般的な "複合" 文字は、UTF-16テーブルに独自のコードを持っています。 しかし、可能な組み合わせが多すぎるため、これがすべてではありません。
 
 任意の複合をサポートするため、UTF-16 はいくつかのユニコード文字を使うことが出来ます。ベース文字とそれを "装飾" する1つまたは複数の "マーク" 文字です。
 
@@ -626,8 +626,8 @@ alert( 'S\u0307\u0323' ); // Ṩ
 例:
 
 ```js run
-alert( 'S\u0307\u0323' ); // Ṩ, S + dot above + dot below
-alert( 'S\u0323\u0307' ); // Ṩ, S + dot below + dot above
+alert( 'S\u0307\u0323' ); // Ṩ, S + 上のドット + 下のドット
+alert( 'S\u0323\u0307' ); // Ṩ, S + 下のドット + 上のドット
 
 alert( 'S\u0307\u0323' == 'S\u0323\u0307' ); // false
 ```
