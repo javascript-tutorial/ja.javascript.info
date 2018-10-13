@@ -24,7 +24,7 @@
 ```js run
 let arr = ["I", "go", "home"];
 
-delete arr[1]; // remove "go"
+delete arr[1]; // "go" を削除
 
 alert( arr[1] ); // undefined
 
@@ -56,7 +56,7 @@ arr.splice(index[, deleteCount, elem1, ..., elemN])
 let arr = ["I", "study", "JavaScript"];
 
 *!*
-arr.splice(1, 1); // from index 1 remove 1 element
+arr.splice(1, 1); // インデックス 1 から 1 要素を削除
 */!*
 
 alert( arr ); // ["I", "JavaScript"]
@@ -69,7 +69,7 @@ alert( arr ); // ["I", "JavaScript"]
 ```js run
 let arr = [*!*"I", "study", "JavaScript",*/!* "right", "now"];
 
-// remove 3 first elements and replace them with another
+// 最初の 3 要素を削除し、別のものに置換
 arr.splice(0, 3, "Let's", "dance");
 
 alert( arr ) // now [*!*"Let's", "dance"*/!*, "right", "now"]
@@ -80,10 +80,10 @@ alert( arr ) // now [*!*"Let's", "dance"*/!*, "right", "now"]
 ```js run
 let arr = [*!*"I", "study",*/!* "JavaScript", "right", "now"];
 
-// remove 2 first elements
+// 最初の 2 要素を削除
 let removed = arr.splice(0, 2);
 
-alert( removed ); // "I", "study" <-- array of removed elements
+alert( removed ); // "I", "study" <-- 削除された要素の配列
 ```
 
 `splice` メソッドは削除せずに挿入することも可能です。そのために、`deleteCount` に `0` をセットする必要があります:
@@ -91,9 +91,9 @@ alert( removed ); // "I", "study" <-- array of removed elements
 ```js run
 let arr = ["I", "study", "JavaScript"];
 
-// from index 2
-// delete 0
-// then insert "complex" and "language"
+// インデックス 2 から
+// 削除 0
+// その後 "complex" と "language" を挿入
 arr.splice(2, 0, "complex", "language");
 
 alert( arr ); // "I", "study", "complex", "language", "JavaScript"
@@ -105,9 +105,9 @@ alert( arr ); // "I", "study", "complex", "language", "JavaScript"
 ```js run
 let arr = [1, 2, 5];
 
-// from index -1 (one step from the end)
-// delete 0 elements,
-// then insert 3 and 4
+// インデックス -1 (末尾から1つ前) から
+// 削除 0 要素,
+// その後 3 と 4 を挿入
 arr.splice(-1, 0, 3, 4);
 
 alert( arr ); // 1,2,3,4,5
@@ -162,13 +162,13 @@ arr.concat(arg1, arg2...)
 ```js run
 let arr = [1, 2];
 
-// merge arr with [3,4]
+// arr と [3,4] をマージ
 alert( arr.concat([3, 4])); // 1,2,3,4
 
-// merge arr with [3,4] and [5,6]
+// arr と [3,4] と [5,6] をマージ
 alert( arr.concat([3, 4], [5, 6])); // 1,2,3,4,5,6
 
-// merge arr with [3,4], then add values 5 and 6
+// arr と [3,4] をマージ後, 5 と 6 を追加
 alert( arr.concat([3, 4], 5, 6)); // 1,2,3,4,5,6
 ```
 
@@ -235,8 +235,8 @@ alert( arr.includes(1) ); // true
 
 ```js run
 const arr = [NaN];
-alert( arr.indexOf(NaN) ); // -1 (should be 0, but === equality doesn't work for NaN)
-alert( arr.includes(NaN) );// true (correct)
+alert( arr.indexOf(NaN) ); // -1 (0 になるべきですが, === 等値は NaN では機能しません)
+alert( arr.includes(NaN) );// true (正しい)
 ```
 
 ### find と findIndex
@@ -248,7 +248,7 @@ alert( arr.includes(NaN) );// true (correct)
 構文はこうです:
 ```js
 let result = arr.find(function(item, index, array) {
-  // should return true if the item is what we are looking for
+  // item が探しているものであれば true を返すようにします
 });
 ```
 
@@ -289,7 +289,7 @@ alert(user.name); // John
 
 ```js
 let results = arr.filter(function(item, index, array) {
-  // should return true if the item passes the filter
+  // item がフィルタを通過する場合はtrueを返します
 });
 ```
 
@@ -302,7 +302,7 @@ let users = [
   {id: 3, name: "Mary"}
 ];
 
-// returns array of the first two users
+// 最初の2人のユーザの配列を返します
 let someUsers = users.filter(item => item.id < 3);
 
 alert(someUsers.length); // 2
@@ -320,7 +320,7 @@ alert(someUsers.length); // 2
 
 ```js
 let result = arr.map(function(item, index, array) {
-  // returns the new value instead of item
+  // item の代わりに新しい値を返します
 })
 ```
 
@@ -342,7 +342,7 @@ alert(lengths); // 5,7,6
 ```js run
 let arr = [ 1, 2, 15 ];
 
-// the method reorders the content of arr (and returns it)
+// このメソッドは arr の内容を並べ替え（てそれを返します）
 arr.sort();
 
 alert( arr );  // *!*1, 15, 2*/!*
@@ -454,7 +454,7 @@ let names = 'Bilbo, Gandalf, Nazgul';
 let arr = names.split(', ');
 
 for (let name of arr) {
-  alert( `A message to ${name}.` ); // A message to Bilbo  (and other names)
+  alert( `A message to ${name}.` ); // A message to Bilbo  (と他の名前)
 }
 ```
 
@@ -556,13 +556,13 @@ alert(result); // 15
 ```js run
 let arr = [1, 2, 3, 4, 5];
 
-// removed initial value from reduce (no 0)
+// reduce からの初期値を削除する(0なし)
 let result = arr.reduce((sum, current) => sum + current);
 
 alert( result ); // 15
 ```
 
-結果は同じです。なぜなら、初期値が指定されていない場合、`reduce` は配列の最初の要素を初期値とみなし、２つ目の要素から繰り返し処理を始めるためです。
+結果は同じです。なぜなら、初期値が指定されていない場合、`reduce` は配列の最初の要素を初期値とみなし、2つ目の要素から繰り返し処理を始めるためです。
 
 計算テーブルは、上と同じで、最初の行を引いたものです。
 
@@ -573,8 +573,8 @@ alert( result ); // 15
 ```js run
 let arr = [];
 
-// Error: Reduce of empty array with no initial value
-// if the initial value existed, reduce would return it for the empty arr.
+// Error: 初期値なしの空配列の Reduce はエラーです
+// 初期値が存在する場合、reduce は空の arr に対しそれを返します。
 arr.reduce((sum, current) => sum + current);
 ```
 
@@ -591,14 +591,14 @@ arr.reduce((sum, current) => sum + current);
 
 ```js
 arr.forEach(function(item, index, array) {
-  // ... do something with item
+  // ... item に対して何か処理をする
 });
 ```
 
 例えば、これは配列の各要素を表示します:
 
 ```js run
-// for each element call alert
+// 各要素は alert を呼び出す
 ["Bilbo", "Gandalf", "Nazgul"].forEach(alert);
 ```
 
@@ -644,7 +644,7 @@ arr.find(func, thisArg);
 arr.filter(func, thisArg);
 arr.map(func, thisArg);
 // ...
-// thisArg is the optional last argument
+// thisArg はオプションの最後の引数です
 ```
 
 `thisArg` パラメータの値は `func` での `this` になります。
@@ -666,7 +666,7 @@ let users = [
 ];
 
 *!*
-// find all users younger than user
+// user より若いすべてのユーザを見つけます
 let youngerUsers = users.filter(user.younger, user);
 */!*
 

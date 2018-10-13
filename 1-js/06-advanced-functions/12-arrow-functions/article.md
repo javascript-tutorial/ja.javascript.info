@@ -18,11 +18,11 @@ JavaScriptは、小さな関数を書く必要がある状況に満ちており�
 
 そして、このような関数では、私たちは通常現在のコンテキストから離れたくありません。
 
-## アロー関数は "this" を持っていません
+## アロー関数は "this" を持っていません [#arrow-functions-have-no-this]
 
 チャプター <info:object-methods> で覚えているように、アロー関数は `this` を持っていません。もし `this` がアクセスされた場合、それは外側から取られます。
 
-例えば、私たちはそれを使ってオブジェクトメソッドの内側を反復することができます。:
+例えば、それを使ってオブジェクトメソッドの内側を反復することができます。:
 
 ```js run
 let group = {
@@ -78,7 +78,7 @@ group.showList();
 - アロー `=>` はバインディングを作成しません。関数には単に `this` がありません。`this` の検索は通常の変数検索とまったく同じ方法で行われます: 外部のレキシカル環境です。
 ```
 
-## アロー関数は "arguments" を持ちません
+## アロー関数は "arguments" を持ちません [#arrows-have-no-arguments]
 
 アロー関数は `arguments` 変数も持っていません。
 
@@ -98,7 +98,7 @@ function sayHi(who) {
 }
 
 let sayHiDeferred = defer(sayHi, 2000);
-sayHiDeferred("John"); // Hello, John after 2 seconds
+sayHiDeferred("John"); // Hello, John 2秒後に
 ```
 
 アロー関数を使わない場合は次のようになります:

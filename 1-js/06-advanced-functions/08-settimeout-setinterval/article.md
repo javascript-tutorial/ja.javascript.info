@@ -1,6 +1,6 @@
 # スケジューリング: setTimeout と setInterval
 
-私たちは、関数をすぐには実行させず、ある時点で実行するようにしたいことがあります。それは "呼び出しのスケジューリング" と呼ばれます。
+関数をすぐには実行させず、ある時点で実行するようにしたいことがあります。それは "呼び出しのスケジューリング" と呼ばれます。
 
 そのための2つのメソッドがあります。:
 
@@ -94,10 +94,10 @@ clearTimeout(timerId);
 
 ```js run no-beautify
 let timerId = setTimeout(() => alert("never happens"), 1000);
-alert(timerId); // timer identifier
+alert(timerId); // timer 識別子
 
 clearTimeout(timerId);
-alert(timerId); // same identifier (doesn't become null after canceling)
+alert(timerId); // 同じ 識別子 (キャンセル後 null にはなりません)
 ```
 
 `alert` の出力から分かるように、ブラウザではタイマー識別子は数値です。他の環境では、それは他の何かの場合があります。例えば、Node.JS だと、追加メソッドを持つタイマーオブジェクトを返します。
@@ -121,10 +121,10 @@ let timerId = setInterval(func|code, delay[, arg1, arg2...])
 次の例は、2秒毎にメッセージを表示し、5秒後に表示は停止されます。:
 
 ```js run
-// repeat with the interval of 2 seconds
+// 2秒のインターバルで繰り返し
 let timerId = setInterval(() => alert('tick'), 2000);
 
-// after 5 seconds stop
+// 5秒後に停止
 setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
 ```
 
@@ -141,7 +141,7 @@ IEとFirefoxでは、内部タイマーは `alert/confirm/prompt` を表示し�
 1つは、`setInterval` です。もう1つは、再帰的な `setTimeout` で、このようになります:
 
 ```js
-/** instead of:
+/** 次の代わり:
 let timerId = setInterval(() => alert('tick'), 2000);
 */
 
@@ -167,7 +167,7 @@ let timerId = setTimeout(function request() {
   ...send request...
 
   if (request failed due to server overload) {
-    // increase the interval to the next run
+    // 次の実行のためにインターバルを増加させる
     delay *= 2;
   }
 
@@ -228,7 +228,7 @@ setTimeout(function run() {
 関数が `setInterval/setTimeout` に渡されたとき、内部参照がそこに作られスケジューラに保存されます。この場合、たとえその関数への参照が他にない場合でも、関数はガベージコレクションの対象にはなりません。
 
 ```js
-// the function stays in memory until the scheduler calls it
+// 関数はスケジューラが呼び出すまでメモリ内に留まります
 setTimeout(function() {...}, 100);
 ```
 
@@ -274,7 +274,7 @@ let start = Date.now();
 
 function count() {
 
-  // do a heavy job
+  // 重い処理を実行
   for (let j = 0; j < 1e9; j++) {
     i++;
   }
@@ -296,7 +296,7 @@ let start = Date.now();
 
 function count() {
 
-  // do a piece of the heavy job (*)
+  // 重い処理の一部を実行 (*)
   do {
     i++;
   } while (i % 1e6 != 0);
@@ -304,7 +304,7 @@ function count() {
   if (i == 1e9) {
     alert("Done in " + (Date.now() - start) + 'ms');
   } else {
-    setTimeout(count, 0); // schedule the new call (**)
+    setTimeout(count, 0); // 新しい呼び出しをスケジュール (**)
   }
 
 }
@@ -338,9 +338,9 @@ let start = Date.now();
 
 function count() {
 
-  // move the scheduling at the beginning
+  // 開始時にスケジューリングを移動する
   if (i < 1e9 - 1e6) {
-    setTimeout(count, 0); // schedule the new call
+    setTimeout(count, 0); // 新しい呼び出しをスケジュール
   }
 
   do {
@@ -370,13 +370,13 @@ let start = Date.now();
 let times = [];
 
 setTimeout(function run() {
-  times.push(Date.now() - start); // remember delay from the previous call
+  times.push(Date.now() - start); // 前の呼び出しからの遅延を覚える
 
-  if (start + 100 < Date.now()) alert(times); // show the delays after 100ms
-  else setTimeout(run, 0); // else re-schedule
+  if (start + 100 < Date.now()) alert(times); // 100ms 後に遅延を表示
+  else setTimeout(run, 0); // もしくは再スケジュール
 }, 0);
 
-// an example of the output:
+// 出力例:
 // 1,1,1,1,9,15,20,24,30,35,40,45,50,55,59,64,70,75,80,85,90,95,100
 ```
 
@@ -403,8 +403,8 @@ setTimeout(function run() {
   function count() {
     for (let j = 0; j < 1e6; j++) {
       i++;
-      // put the current i into the <div>
-      // (we'll talk more about innerHTML in the specific chapter, should be obvious here)
+      // 現在の i を <div> に表示
+      // (innerHTML については別のチャプターで説明します)
       progress.innerHTML = i;
     }
   }
@@ -425,7 +425,7 @@ setTimeout(function run() {
 
   function count() {
 
-    // do a piece of the heavy job (*)
+    // 重い処理の一部を実行 (*)
     do {
       i++;
       progress.innerHTML = i;

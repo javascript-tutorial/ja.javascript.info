@@ -11,7 +11,7 @@ libs:
 
 [cut]
 
-## "this" を失う
+## "this" を失う [#losing-this]
 
 私たちはすでに、JavaScriptでは `this` を失うことが容易であることを知っています。 あるメソッドがオブジェクトから別の場所に渡されると、`this` は失われます。
 
@@ -36,14 +36,14 @@ setTimeout(user.sayHi, 1000); // Hello, undefined!
 
 ```js
 let f = user.sayHi;
-setTimeout(f, 1000); // lost user context
+setTimeout(f, 1000); // user コンテキストを失います
 ```
 
 ブラウザにおいて、メソッド `setTimeout` は少し特別です: 関数呼び出しでは `this=window` を設定します(Node.JS では、`this` はタイマーオブジェクトになりますが、ここではほとんど関係ありません)。従って、`this.firstName` は、存在しない `window.firstName` を取得しようとします。他の同様のケースでは、通常 `this` は `undefined` になります。
 
 このタスクは非常に典型的です -- オブジェクトメソッドをどこか別の場所（ここではスケジューラに渡して）から呼び出したい場合です。それが適切なコンテキストで呼び出されることはどのように確認すればよいでしょう？
 
-## 解決策 1: 囲む
+## 解決策 1: 囲む [#solution-1-a-wrapper]
 
 最もシンプルな解決策はラップされた関数を使うことです:
 
@@ -85,7 +85,7 @@ let user = {
 
 setTimeout(() => user.sayHi(), 1000);
 
-// ...within 1 second
+// ...1秒以内に次が行われると
 user = { sayHi() { alert("Another user in setTimeout!"); } };
 
 // Another user in setTimeout?!?
@@ -93,14 +93,14 @@ user = { sayHi() { alert("Another user in setTimeout!"); } };
 
 次の解決策はこのようなことが起きないことを保証します。
 
-## 解決策 2: bind
+## 解決策 2: bind [#solution-2-bind]
 
 関数は、`this` を固定できる組み込みメソッド [bind](mdn:js/Function/bind) を提供します。
 
 基本の構文は次の通りです:
 
 ```js
-// more complex syntax will be little later
+// より複雑な構文はもう少し後で
 let boundFunc = func.bind(context);
 ````
 
@@ -138,11 +138,11 @@ function func(phrase) {
   alert(phrase + ', ' + this.firstName);
 }
 
-// bind this to user
+// this を user にバインドする
 let funcUser = func.bind(user);
 
 *!*
-funcUser("Hello"); // Hello, John (argument "Hello" is passed, and this=user)
+funcUser("Hello"); // Hello, John (引数 "Hello" が渡され, this=user)
 */!*
 ```
 
@@ -180,8 +180,8 @@ let user = {
 
 let say = user.say.bind(user);
 
-say("Hello"); // Hello, John ("Hello" argument is passed to say)
-say("Bye"); // Bye, John ("Bye" is passed to say)
+say("Hello"); // Hello, John ("Hello" 引数は say に渡されます)
+say("Bye"); // Bye, John ("Bye" は say に渡されます)
 ```
 
 ````smart header="便利なメソッド: `bindAll`"

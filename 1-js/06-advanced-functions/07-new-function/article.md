@@ -40,7 +40,7 @@ sayHi(); // Hello
 しかし、`new Function` は任意の文字列を関数にすることができます。例えば、サーバから新しい関数を受け取りそれを実行することができます:
 
 ```js
-let str = ... receive the code from the server dynamically ...
+let str = ... サーバから動的にコードを受け取る ...
 
 let func = new Function(str);
 func();
@@ -66,7 +66,7 @@ function getFunc() {
   return func;
 }
 
-getFunc()(); // error: value is not defined
+getFunc()(); // error: value は未定義
 ```
 
 通常の振る舞いとの比較です:
@@ -82,7 +82,7 @@ function getFunc() {
   return func;
 }
 
-getFunc()(); // *!*"test"*/!*, from the Lexical Environment of getFunc
+getFunc()(); // *!*"test"*/!*, getFunc のレキシカル環境から
 ```
 
 この `new Function` の特殊な機能は奇妙に見えますが、実践では非常に役立ちます。
@@ -115,7 +115,7 @@ let sum = new Function('a', 'b', ' return a + b; ');
 let a = 1, b = 2;
 
 *!*
-// outer values are passed as arguments
+// 引数として外部変数が渡される
 alert( sum(a, b) ); // 3
 */!*
 ```
@@ -133,9 +133,9 @@ let func = new Function(arg1, arg2, ..., body);
 これらの3つの意味は同じです:
 
 ```js
-new Function('a', 'b', ' return a + b; '); // basic syntax
-new Function('a,b', ' return a + b; '); // comma-separated
-new Function('a , b', ' return a + b; '); // comma-separated with spaces
+new Function('a', 'b', ' return a + b; '); // 基本構文
+new Function('a,b', ' return a + b; '); // カンマ区切り
+new Function('a , b', ' return a + b; '); // スペースありのカンマ区切り
 ```
 
 `new Function` で作られた関数は グローバルレキシカル環境を参照する `[[Environment]]` を持っており、外部のレキシカル環境ではありません。従って、それらは外部の変数を使うことができません。しかし、それは実際に良いことです。なぜなら、それは我々をエラーから守るからです。明示的なパラメータ渡しは構造的にははるかに優れており、minifierには問題ありません。

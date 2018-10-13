@@ -8,7 +8,7 @@ JavaScript が作られたとき、すべてのグローバル変数と関数を
 
 しかし、グローバルオブジェクトはまだ仕様に残っています。
 
-ブラウザでは、"window" 、Node.JS では "global"、 その他の環境では別の名前を持つ場合がありますです。
+ブラウザでは、"window" 、Node.JS では "global"、 その他の環境では別の名前を持つ場合があります。
 
 それは2つのことをします:
 
@@ -17,7 +17,7 @@ JavaScript が作られたとき、すべてのグローバル変数と関数を
     ```js run
     alert("Hello");
 
-    // the same as
+    // 同じ
     window.alert("Hello");
     ```
 
@@ -33,11 +33,11 @@ JavaScript が作られたとき、すべてのグローバル変数と関数を
       alert(phrase);
     }
 
-    // can read from window
-    alert( window.phrase ); // Hello (global var)
-    alert( window.sayHi ); // function (global function declaration)
+    // windows から読める
+    alert( window.phrase ); // Hello (グローバル var)
+    alert( window.sayHi ); // function (グローバル関数宣言)
 
-    // can write to window (creates a new global variable)
+    // windows へ書き込める (新しいグローバル変数作成)
     window.test = 5;
 
     alert(test); // 5
@@ -53,7 +53,7 @@ alert(window.user); // undefined, don't have let
 alert("user" in window); // false
 ```
 
-```smart header="The global object is not a global Environment Record"
+```smart header="グローバルオブジェクトはグローバル環境レコードではありません"
 ES-2015 より以前の ECMAScript のバージョンでは、 `let/const` 変数はなく `var` だけでした。また、グローバルオブジェクトはグローバル環境レコードとして使われていました(言葉は少し違っていましたが)。
 
 しかし、ES-2015からは、これらのエンティティが分割されています。 環境レコードを持つグローバルなレキシカル環境があります。 そして、グローバル変数のいくつかを提供するグローバルオブジェクトがあります。
@@ -63,7 +63,7 @@ ES-2015 より以前の ECMAScript のバージョンでは、 `let/const` 変�
 当然ながら、それは古代からある "すべてのグローバルなもの" へアクセスする方法としてのグローバルオブジェクトがあると言う考え方のためです。現代ではそれは良いことだとは考えられていません。`let/const` のような現代の言語機能はそれと親和性はありませんが、古いものはまだ互換があります。
 ```
 
-## "window" の利用
+## "window" の利用 [#Uses of “window”]
 
 Node.JSのようなサーバサイド環境では、`global` オブジェクトは非常に稀にしか使われません。
 
@@ -89,7 +89,7 @@ Node.JSのようなサーバサイド環境では、`global` オブジェクト�
 
     このような利用は回避策です。 変数に異なる名前を付ける方が良いでしょう。このようなコードを書くために使用する必要はありません。そして `user` の前の `"var"` に注意してください。このトリックは `let` 変数では機能しません。
 
-2. 特定のグローバル変数またはビルトインが存在するかどうかを確認する場合
+2. 特定のグローバル変数または組み込みが存在するかどうかを確認する場合
 
     例えば、グローバル関数 `XMLHttpRequest` が存在するかどうか確認したいとします。
 
@@ -105,7 +105,7 @@ Node.JSのようなサーバサイド環境では、`global` オブジェクト�
 
     もしそのようなグローバル関数がなければ、`window.XMLHttpRequest` は単に存在しないオブジェクトプロパティです。それは `undefined` であり、エラーにはならず動作します。
 
-    また、我々は `window` なしで検査することも出来ます:
+    また、`window` なしで検査することも出来ます:
 
     ```js
     if (typeof XMLHttpRequest == 'function') {
@@ -125,16 +125,16 @@ Node.JSのようなサーバサイド環境では、`global` オブジェクト�
     <iframe src="/" id="iframe"></iframe>
 
     <script>
-      alert( innerWidth ); // get innerWidth property of the current window (browser only)
-      alert( Array ); // get Array of the current window (javascript core builtin)
+      alert( innerWidth ); // 現在のウィンドウの innerWidth プロパティを取得します(ブラウザのみ)
+      alert( Array ); // 現在のウィンドウの配列を取得します(JavaScriptコアの組み込み)
 
-      // when the iframe loads...
+      // iframe が読み込まれたとき...
       iframe.onload = function() {
-        // get width of the iframe window
+        // iframe ウィンドウの幅を取得
       *!*
         alert( iframe.contentWindow.innerWidth );
       */!*
-        // get the builtin Array from the iframe window
+        // iframe ウィンドウから組み込みの配列を取得
       *!*
         alert( iframe.contentWindow.Array );
       */!*
@@ -144,14 +144,14 @@ Node.JSのようなサーバサイド環境では、`global` オブジェクト�
 
     ここで、最初の2つの alert は現在のウィンドウを使い、後の2つは、`iframe` ウィンドウからの変数を取ります。`iframe` が同じプロトコル/ホスト/ポートから発信されている場合、任意の変数にすることができます。
 
-## "this" とグローバルオブジェクト
+## "this" とグローバルオブジェクト [#“this” and global object]
 
 時々、`this` の値はまさにグローバルオブジェクトです。それはめったに使われませんが、いくつかのスクリプトはそれに依存しています。
 
 1. ブラウザにおいて、グローバル領域の `this` の値は `window` です:
 
     ```js run
-    // outside of functions
+    // 関数の外側
     alert( this === window ); // true
     ```
 
@@ -165,7 +165,7 @@ Node.JSのようなサーバサイド環境では、`global` オブジェクト�
       alert(this); // [object Window]
     }
 
-    f(); // called without an object
+    f(); // オブジェクトなしでの呼び出し
     ```
 
     仕様によると、Node.JS のような非ブラウザも含め、このケースでの `this` はグローバルオブジェクトである必要があります。それは古いスクリプトのための互換性です。strict モードでは、`this` は `undefined` になります。

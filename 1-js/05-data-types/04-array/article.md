@@ -70,13 +70,13 @@ alert( fruits ); // Apple,Orange,Plum
 例:
 
 ```js run no-beautify
-// mix of values
+// 値の混在
 let arr = [ 'Apple', { name: 'John' }, true, function() { alert('hello'); } ];
 
-// get the object at index 1 and then show its name
+// インデックス 1 のオブジェクトを取得し、その名前を表示
 alert( arr[1].name ); // John
 
-// get the function at index 3 and run it
+// インデックス 3 の関数を取得し、実行
 arr[3](); // hello
 ```
 
@@ -135,7 +135,7 @@ JavaScriptの配列キュー、スタックどちらとしても動作します�
     ```js run
     let fruits = ["Apple", "Orange", "Pear"];
 
-    alert( fruits.pop() ); // remove "Pear" and alert it
+    alert( fruits.pop() ); // "Pear" を削除し alert する
 
     alert( fruits ); // Apple, Orange
     ```
@@ -161,7 +161,7 @@ JavaScriptの配列キュー、スタックどちらとしても動作します�
     ```js
     let fruits = ["Apple", "Orange", "Pear"];
 
-    alert( fruits.shift() ); // remove Apple and alert it
+    alert( fruits.shift() ); // Apple を削除し alert する
 
     alert( fruits ); // Orange, Pear
     ```
@@ -202,13 +202,13 @@ JavaScriptには7つの基本タイプしかないことに注意してくださ
 ```js run
 let fruits = ["Banana"]
 
-let arr = fruits; // copy by reference (two variables reference the same array)
+let arr = fruits; // 参照によるコピー (2つの変数は同じ配列を参照する)
 
 alert( arr === fruits ); // true
 
-arr.push("Pear"); // modify the array by reference
+arr.push("Pear"); // 参照から配列を変更する
 
-alert( fruits ); // Banana, Pear - 2 items now
+alert( fruits ); // Banana, Pear - 2 つの項目になっています
 ```
 
 ...しかし配列を本当に特別にするのは、その内部表現です。エンジンは、このチャプターの図に示されているように、連続したメモリ領域に要素を格納しようとします。そして配列を非常に高速にするために、他の最適化も行われます。
@@ -218,11 +218,11 @@ alert( fruits ); // Banana, Pear - 2 items now
 例えば、技術的にはこうすることもできます:
 
 ```js
-let fruits = []; // make an array
+let fruits = []; // 配列を作ります
 
-fruits[99999] = 5; // assign a property with the index far greater than its length
+fruits[99999] = 5; // その length よりも非常に大きなインデックスでプロパティを割り当てます
 
-fruits.age = 25; // create a property with an arbitrary name
+fruits.age = 25; // 任意の名前でプロパティを作成します
 ```
 
 配列のベースはオブジェクトなので、これは可能です。それらに任意のプロパティを追加することができます。
@@ -246,7 +246,7 @@ fruits.age = 25; // create a property with an arbitrary name
 なぜ、配列の最初よりも最後を処理する方が速いのでしょうか？実行中起こっている事を見てみましょう:
 
 ```js
-fruits.shift(); // take 1 element from the start
+fruits.shift(); // 先頭から1要素を取る
 ```
 
 数値 `0` の要素を取得して削除するだけでは不十分です。他の要素も同様に番号をつけ直す必要があります。
@@ -268,7 +268,7 @@ fruits.shift(); // take 1 element from the start
 `pop` 操作のアクション:
 
 ```js
-fruits.pop(); // take 1 element from the end
+fruits.pop(); // 末尾から1要素取る
 ```
 
 ![](array-pop.png)
@@ -296,7 +296,7 @@ for (let i = 0; i < arr.length; i++) {
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
 
-// iterates over array elements
+// 配列要素の反復処理
 for (let fruit of fruits) {
   alert( fruit );
 }
@@ -349,11 +349,11 @@ alert( fruits.length ); // 124
 ```js run
 let arr = [1, 2, 3, 4, 5];
 
-arr.length = 2; // truncate to 2 elements
+arr.length = 2; // 2つの要素に切り捨てる
 alert( arr ); // [1, 2]
 
-arr.length = 5; // return length back
-alert( arr[3] ); // undefined: the values do not return
+arr.length = 5; // length を戻す
+alert( arr[3] ); // undefined: 値は返ってきません
 ```
 
 なので、配列をクリアする最もシンプルな方法は `arr.length = 0;` です。
@@ -374,11 +374,11 @@ let arr = *!*new Array*/!*("Apple", "Pear", "etc");
 それが、どのように墓穴を掘るか見てみましょう:
 
 ```js run
-let arr = new Array(2); // will it create an array of [2] ?
+let arr = new Array(2); // [2] の配列を作成しますか？
 
-alert( arr[0] ); // undefined! no elements.
+alert( arr[0] ); // undefined! 要素がありません.
 
-alert( arr.length ); // length 2
+alert( arr.length ); // length は 2 です
 ```
 
 上のコードでは、`new Array(number)` は全て要素 `undefined` を持ちます。
@@ -396,7 +396,7 @@ let matrix = [
   [7, 8, 9]
 ];
 
-alert( matrix[1][1] ); // the central element
+alert( matrix[1][1] ); // 中央の要素
 ```
 
 ## toString
@@ -437,10 +437,10 @@ alert( "1,2" + 1 ); // "1,21"
 - 宣言:
 
     ```js
-    // square brackets (usual)
+    // 角括弧 (通常)
     let arr = [item1, item2...];
 
-    // new Array (exceptionally rare)
+    // new Array (例外的、ほとんど使われません)
     let arr = new Array(item1, item2...);
     ```
 

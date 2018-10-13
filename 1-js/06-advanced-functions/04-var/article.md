@@ -19,19 +19,19 @@
 
 ```js run
 function sayHi() {
-  var phrase = "Hello"; // local variable, "var" instead of "let"
+  var phrase = "Hello"; // ローカル変数, "var", "let" の代わり
 
   alert(phrase); // Hello
 }
 
 sayHi();
 
-alert(phrase); // Error, phrase is not defined
+alert(phrase); // Error, phrase は未定義です
 ```
 
 ...しかし、ここには違いがあります。
 
-## "var" はブロックスコープを持ちません
+## "var" はブロックスコープを持ちません [#“var” has no block scope]
 
 `var` 変数は関数全体かグローバルかのいずれかであり、ブロックを通して見ることができます。
 
@@ -39,11 +39,11 @@ alert(phrase); // Error, phrase is not defined
 
 ```js
 if (true) {
-  var test = true; // use "var" instead of "let"
+  var test = true; // "let" の代わりに "var" を使う
 }
 
 *!*
-alert(test); // true, the variable lives after if
+alert(test); // true, if の後も変数は生きています
 */!*
 ```
 
@@ -57,7 +57,7 @@ for (var i = 0; i < 10; i++) {
 }
 
 *!*
-alert(i); // 10, "i" is visible after loop, it's a global variable
+alert(i); // 10, "i" ループ後も見え、それはグローバル変数です
 */!*
 ```
 
@@ -73,12 +73,12 @@ function sayHi() {
 }
 
 sayHi();
-alert(phrase); // Error: phrase is not defined
+alert(phrase); // Error: phrase は未定義
 ```
 
 上の通り、`var` は `if`, `for` もしくは他のコードブロックを貫通します。それは、長い間JavaScriptでは、ブロックがレキシカル環境を持っていなかったためです。そして、 `var` はそれを想起させます。
 
-## "var" は関数の開始で処理されます
+## "var" は関数の開始で処理されます [#“var” are processed at the function start]
 
 `var` 宣言は、関数の開始時(またはグローバルのスクリプト開始時)に処理されます。
 
@@ -158,13 +158,13 @@ sayHi();
 ```js run
 function sayHi() {
 *!*
-  var phrase; // declaration works at the start...
+  var phrase; // 宣言は最初にされます...
 */!*
 
   alert(phrase); // undefined
 
 *!*
-  phrase = "Hello"; // ...assignment - when the execution reaches it.
+  phrase = "Hello"; // ...代入 - 実行がここに来た時にされます.
 */!*
 }
 

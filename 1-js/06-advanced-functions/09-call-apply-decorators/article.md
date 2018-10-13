@@ -1,11 +1,11 @@
 # デコレータと転送, call/apply
 
-JavaScriptでは関数を扱うとき非常に柔軟性があります。それらは渡され、オブジェクトとして使われます。また、私たちはこれらの間の呼び出しを *転送* したり、それらを *装飾(デコレータ)* する方法を見ていきましょう。
+JavaScriptでは関数を扱う際、非常に柔軟性があります。関数は渡され、オブジェクトとして使われます。また、これらの間の呼び出しを *転送* したり、それらを *装飾(デコレータ)* することもできます。ここではそれらの方法を見ていきましょう。
 
 
 [cut]
 
-## Transparent caching
+## 透過キャッシュ(Transparent caching) [#Transparent caching]
 
 CPU負荷は高いが、その結果が不変である関数 `slow(x)` を持っているとします。言い換えると、同じ `x` の場合、常に同じ結果が返ってきます。
 
@@ -17,7 +17,7 @@ CPU負荷は高いが、その結果が不変である関数 `slow(x)` を持っ
 
 ```js run
 function slow(x) {
-  // there can be a heavy CPU-intensive job here
+  // CPUを大量に消費するジョブがここにある可能性があります
   alert(`Called with ${x}`);
   return x;
 }
@@ -26,24 +26,24 @@ function cachingDecorator(func) {
   let cache = new Map();
 
   return function(x) {
-    if (cache.has(x)) { // if the result is in the map
-      return cache.get(x); // return it
+    if (cache.has(x)) { // 結果が map にあれば
+      return cache.get(x); // それを返します
     }
 
-    let result = func(x); // otherwise call func
+    let result = func(x); // なければ func を呼び
 
-    cache.set(x, result); // and cache (remember) the result
+    cache.set(x, result); // 結果をキャッシュ(覚える)します
     return result;
   };
 }
 
 slow = cachingDecorator(slow);
 
-alert( slow(1) ); // slow(1) is cached
-alert( "Again: " + slow(1) ); // the same
+alert( slow(1) ); // slow(1) はキャッシュされました
+alert( "Again: " + slow(1) ); // 同じ
 
-alert( slow(2) ); // slow(2) is cached
-alert( "Again: " + slow(2) ); // the same as the previous line
+alert( slow(2) ); // slow(2) はキャッシュされました
+alert( "Again: " + slow(2) ); // 前の行と同じ
 ```
 
 上のコード中の `cachingDecorator` は *デコレータ* です: 別の関数を取り、その振る舞いを変更する特別な関数です。
@@ -63,7 +63,7 @@ alert( "Again: " + slow(2) ); // the same as the previous line
 要約すると、`slow` 自身のコードを修正する代わりに、分離した `cachingDecorator` を利用することは、いくつかのメリットがあります。:
 
 - `cachingDecorator` は再利用可能です。私たちは、別の関数に適用することもできます。
-- キャッシュロジックは分離されているので、`slow` 自身の複雑性は増加しません
+- キャッシュロジックは分離されているので、`slow` 自身の複雑性は増加しません。
 - 必要に応じて、複数のデコレータを組み合わせることができます（他のデコレータについては次に続きます）。
 
 
@@ -74,20 +74,20 @@ alert( "Again: " + slow(2) ); // the same as the previous line
 例えば、下のコードでは、デコレーションの後、`worker.slow()` は動作を停止します:
 
 ```js run
-// we'll make worker.slow caching
+// worker.slow のキャッシングを作成する
 let worker = {
   someMethod() {
     return 1;
   },
 
   slow(x) {
-    // actually, there can be a scary CPU-heavy task here  
+    // 実際には、CPUの重いタスクがここにあるとします
     alert("Called with " + x);
     return x * this.someMethod(); // (*)
   }
 };
 
-// same code as before
+// 前と同じコード
 function cachingDecorator(func) {
   let cache = new Map();
   return function(x) {
@@ -102,9 +102,9 @@ function cachingDecorator(func) {
   };
 }
 
-alert( worker.slow(1) ); // the original method works
+alert( worker.slow(1) ); // オリジナルメソッドは動きます
 
-worker.slow = cachingDecorator(worker.slow); // now make it caching
+worker.slow = cachingDecorator(worker.slow); // キャッシングする
 
 *!*
 alert( worker.slow(2) ); // Whoops! Error: Cannot read property 'someMethod' of undefined
@@ -155,7 +155,7 @@ function sayHi() {
 let user = { name: "John" };
 let admin = { name: "Admin" };
 
-// use call to pass different objects as "this"
+// 別のオブジェクトを "this" として渡すために call を使用する
 sayHi.call( user ); // this = John
 sayHi.call( admin ); // this = Admin
 ```
@@ -170,7 +170,7 @@ function say(phrase) {
 
 let user = { name: "John" };
 
-// user becomes this, and "Hello" becomes the first argument
+// user は this になり, "Hello" は最初の引数になります
 say.call( user, "Hello" ); // John: Hello
 ```
 
@@ -196,17 +196,17 @@ function cachingDecorator(func) {
       return cache.get(x);
     }
 *!*
-    let result = func.call(this, x); // "this" is passed correctly now
+    let result = func.call(this, x); // "this" は正しいものが渡されます
 */!*
     cache.set(x, result);
     return result;
   };
 }
 
-worker.slow = cachingDecorator(worker.slow); // now make it caching
+worker.slow = cachingDecorator(worker.slow); // キャッシングします
 
-alert( worker.slow(2) ); // works
-alert( worker.slow(2) ); // works, doesn't call the original (cached)
+alert( worker.slow(2) ); // 動作します
+alert( worker.slow(2) ); // 動作します（キャッシュが使われます）
 ```
 
 これで全てうまく行きます。
@@ -227,11 +227,11 @@ alert( worker.slow(2) ); // works, doesn't call the original (cached)
 ```js
 let worker = {
   slow(min, max) {
-    return min + max; // scary CPU-hogger is assumed
+    return min + max; // 恐ろしいCPU負荷が想定される
   }
 };
 
-// should remember same-argument calls
+// 同じ引数呼び出しを覚える必要があります
 worker.slow = cachingDecorator(worker.slow);
 ```
 
@@ -257,7 +257,7 @@ worker.slow = cachingDecorator(worker.slow);
 func.apply(context, args)
 ```
 
-これは、`this=context` として設定し、引数のリストとしてarray-likeなオブジェクト `args` を使って `func` を実行します。
+これは、`this=context` として設定し、引数のリストとして配列ライクなオブジェクト `args` を使って `func` を実行します。
 
 例えば、これら2つの呼び出しはほぼ同じです:
 
@@ -277,15 +277,15 @@ function say(time, phrase) {
 
 let user = { name: "John" };
 
-let messageData = ['10:00', 'Hello']; // become time and phrase
+let messageData = ['10:00', 'Hello']; // time と phrase になります
 
 *!*
-// user becomes this, messageData is passed as a list of arguments (time, phrase)
+// user は this　になり, messageData は引数のリストとして渡されます (time, phrase)
 say.apply(user, messageData); // [10:00] John: Hello (this=user)
 */!*
 ```
 
-`call` と `apply` の構文の唯一の違いは、`call` は引数のリストを期待し、`apply` はそれらのarray-likeなオブジェクトを期待している点です。
+`call` と `apply` の構文の唯一の違いは、`call` は引数のリストを期待し、`apply` はそれらの配列ライクなオブジェクトを期待している点です。
 
 私たちは既に、チャプター　<info:rest-parameters-spread-operator> で、引数のリストとして配列 (もしくは任意の頒布可能(iterable)) を渡すことのできるスプレッド演算子 `...` を知っています。`call` でそれを使う場合、`apply` とほぼ同じ結果になります。
 
@@ -295,8 +295,8 @@ say.apply(user, messageData); // [10:00] John: Hello (this=user)
 let args = [1, 2, 3];
 
 *!*
-func.call(context, ...args); // pass an array as list with spread operator
-func.apply(context, args);   // is same as using apply
+func.call(context, ...args); // スプレッド演算子として配列を渡すことは
+func.apply(context, args);   // apply を使うのと同じです
 */!*
 ```
 
@@ -378,7 +378,7 @@ function hash(args) {
 }
 ```
 
-今のところ、2つの引数にのみ依存しています。任意の数の `args` を接着できるほうがよいでしょう。
+今のところ、2つの引数にのみ依存しています。任意の数の `args` を指定できるほうがよいでしょう。
 
 自然な対応策は、[arr.join](mdn:js/Array/join) メソッドを使うことです。:
 
@@ -422,7 +422,7 @@ hash(1, 2);
 
 これは、ネイティブメソッド `arr.join(glue)` の内部アルゴリズムが非常に単純なためです。
 
-Taken from the specification almost "as-is":
+仕様からほとんど "そのまま" です:
 
 1. `glue` を最初の引数にし、引数がない場合はカンマ `","` にします。
 2. `result` は空の文字列にします。
@@ -457,4 +457,4 @@ let wrapper = function() {
 
 また、私たちはオブジェクトからメソッドを取得し、別のオブジェクトのコンテキストでそのメソッドを `呼び出す` と言う、 *メソッドの借用* の例も見ました。配列のメソッドを取り、それらを引数に適用するのはよくあることです。代替としては、本当の配列である残りのパラメータオブジェクトを使うこと、があります。
 
-多くのデコレータが世の中に出回っています。このチャプターのタスクを解決することで、いかに良いかを確認してください。
+多くのデコレータが世の中に出回っています。このチャプターのタスクを解決することで、いかにデコレータが良いものかを確認してください。

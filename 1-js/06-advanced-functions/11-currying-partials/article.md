@@ -5,7 +5,7 @@ libs:
 
 # カリー化と部分適用
 
-今まで、私たちは `this` をバインドすることについて話していました。 さあ、もう一歩を進めましょう。
+今まで、`this` をバインドすることについて話していました。 さあ、もう一歩を進めましょう。
 
 私たちは、`this` だけでなく、引数もバインドすることができます。それはめったにされませんが、便利なときがあります。
 
@@ -85,7 +85,7 @@ function partial(func, ...argsBound) {
 }
 */!*
 
-// Usage:
+// 使い方:
 let user = {
   firstName: "John",
   say(time, phrase) {
@@ -93,11 +93,11 @@ let user = {
   }
 };
 
-// add a partial method that says something now by fixing the first argument
+// 最初の引数を固定して何かを表示する部分的なメソッドを追加する
 user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
 
 user.sayNow("Hello");
-// Something like:
+// このようになります:
 // [10:00] Hello, John!
 ```
 
@@ -110,14 +110,13 @@ user.sayNow("Hello");
 
 また、lodashライブラリの [_.partial](https://lodash.com/docs#partial) 実装も用意されています。
 
-## カリー化(Currying)
+## カリー化(Currying) [#currying]
 
-"カリー化" と呼ばれる別のものと、上で言及された関数の部分適用を混同する人もときどきいます。それはここで言及しておかなければならない関数を扱う別の興味深いテクニックです。
+"カリー化" と呼ばれる別のものと、上で言及された関数の部分適用を混同する人もいます。それらはここで言及しておくべき関数を扱う別の興味深いテクニックです。
 
 [Currying](https://en.wikipedia.org/wiki/Currying) は `f(a, b, c)` と呼び出し可能なものを `f(a)(b)(c)` として呼び出しできるように変換します。
 
-２変数関数に対するカリー化を行う関数 `curry` を作ってみましょう。言い換えると、それは `f(a, b)` を `f(a)(b)` に変換します
-。:
+２変数関数に対するカリー化を行う関数 `curry` を作ってみましょう。つまり、`f(a, b)` を `f(a)(b)` に変換します。:
 
 ```js run
 *!*
@@ -130,7 +129,7 @@ function curry(func) {
 }
 */!*
 
-// usage
+// 使い方
 function sum(a, b) {
   return a + b;
 }
@@ -151,9 +150,9 @@ lodash の [_.curry](https://lodash.com/docs#curry) のようなカリー化の�
 ```js
 function curry(f) {
   return function(..args) {
-    // if args.length == f.length (as many arguments as f has),
-    //   then pass the call to f
-    // otherwise return a partial function that fixes args as first arguments
+    // もし args.length == f.length の場合(f と同じ引数がある場合),
+    //   呼び出しを f へ渡す
+    // それ以外は argsを最初の引数として固定する部分関数を返す
   };
 }
 ```
@@ -191,10 +190,10 @@ log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
 今日のログのための便利な関数を取得してみましょう:
 
 ```js
-// todayLog will be the partial of log with fixed first argument
+// todayLog は最初の引数が固定された log の一部になります
 let todayLog = log(new Date());
 
-// use it
+// 使ってみます
 todayLog("INFO", "message"); // [HH:mm] INFO message
 ```
 
@@ -207,13 +206,13 @@ todayDebug("message"); // [HH:mm] DEBUG message
 ```
 
 なので:
-1. カリー化をしても何も失いませんでした。: `log` は以前元のように呼び出し可能です。
+1. カリー化をしても何も失いませんでした。: `log` は以前のように呼び出し可能です。
 2. 色んなケースに応じて便利な部分適用した関数を生成する事ができました。
 
 
 ## 高度なカリー実装 [#advanced-curry-implementation]
 
-ここでは、上で使用できる "高度な" カリー実装を示します。
+ここでは、上記で使用できる "高度な" カリー実装を示します。
 
 ```js run
 function curry(func) {
@@ -236,13 +235,13 @@ function sum(a, b, c) {
 
 let curriedSum = curry(sum);
 
-// still callable normally
+// 通常通り呼ぶことも出来ます
 alert( curriedSum(1, 2, 3) ); // 6
 
-// get the partial with curried(1) and call it with 2 other arguments
+// curried(1)で部分を取得し、他の2つの引数で呼び出す
 alert( curriedSum(1)(2,3) ); // 6
 
-// full curried form
+// 完全にカリー化された呼び出し
 alert( curriedSum(1)(2)(3) ); // 6
 ```
 
@@ -265,7 +264,7 @@ function curried(...args) {
 
 これを実行すると、2つの分岐があります。:
 
-1. 渡された `args` の数が元の関数が定義に持っている数と同じ (`func.length`) かより多い場合、単にそれを呼び出し `func` に渡します。
+1. 渡された `args` の数と、元の関数で定義されている引数の数が同じ (`func.length`) かより多い場合、単にそれを呼び出し `func` に渡します。
 2. 部分適用を得る: そうでない場合は、`func` はまだ呼ばれません。代わりに別のラッパー `pass` が返却されます。これは `curried` を再度適用して新しい引数と一緒に前の引数を提供します。その後、新しい呼び出しでは、新しい部分適用（引数が不十分な場合）か、最終的に結果が得られます。
 
 例えば、`sum(a, b, c)` のケースで何が起きるのかを見てみましょう。3つの引数があるので、`sum.length = 3` です。

@@ -70,11 +70,11 @@ alert(user.sayBye.name); // sayBye
 その時、このように空になります。:
 
 ```js
-// function created inside array
+// 配列の中で作られた関数
 let arr = [function() {}];
 
 alert( arr[0].name ); // <empty string>
-// the engine has no way to set up the right name, so there is none
+// エンジンには正しい名前を設定する術がないので名前はありません
 ```
 
 実際には、ほとんどの関数は名前を持っています。
@@ -97,7 +97,7 @@ alert(many.length); // 2
 
 `length` プロパティは、他の関数上で動作する関数で内省のために使われることがあります。
 
-例えば、下のコードでは、`ask` 関数は、質問するための `question` と、呼び出すための任意の数の `handler` 関数を受けます。
+例えば、下のコードでは、`ask` 関数は質問するための `question` と、呼び出すための任意の数の `handler` 関数を受けます。
 
 ユーザが答えたとき、handler を呼びます。私たちは2つの種類の handler を渡すことができます:
 
@@ -122,8 +122,8 @@ function ask(question, ...handlers) {
 
 }
 
-// for positive answer, both handlers are called
-// for negative answer, only the second one
+// 肯定的な解答では、両方のハンドラが呼ばれます
+// 否定的な解答では、2つ目だけが呼ばれます
 ask("Question?", () => alert('You said yes'), result => alert(result));
 ```
 
@@ -140,16 +140,16 @@ function sayHi() {
   alert("Hi");
 
   *!*
-  // let's count how many times we run
+  // 何度実行したかカウントしましょう
   sayHi.counter++;
   */!*
 }
-sayHi.counter = 0; // initial value
+sayHi.counter = 0; // 初期値
 
 sayHi(); // Hi
 sayHi(); // Hi
 
-alert( `Called ${sayHi.counter} times` ); // Called 2 times
+alert( `Called ${sayHi.counter} times` ); // 2度呼ばれました
 ```
 
 ```warn header="プロパティは変数ではありません"
@@ -162,7 +162,7 @@ alert( `Called ${sayHi.counter} times` ); // Called 2 times
 
 ```js run
 function makeCounter() {
-  // instead of:
+  // 次の代わり:
   // let count = 0
 
   function counter() {
@@ -256,21 +256,21 @@ let sayHi = function *!*func*/!*(who) {
     alert(`Hello, ${who}`);
   } else {
 *!*
-    func("Guest"); // use func to re-call itself
+    func("Guest"); // 自身を再度呼ぶために func を使用
 */!*
   }
 };
 
 sayHi(); // Hello, Guest
 
-// But this won't work:
-func(); // Error, func is not defined (not visible outside of the function)
+// しかしこれは動作しません:
+func(); // Error, func は未定義(関数の外からは見えません)
 ```
 
 なぜ `func` を使うのでしょう？単に `sayHi` ではダメなのでしょうか？
 
 
-実際には、ほとんどのケースでは我々は次のようにできます:
+実際には、多くのケースでは次のようにできます:
 
 ```js
 let sayHi = function(who) {
@@ -300,7 +300,7 @@ let sayHi = function(who) {
 let welcome = sayHi;
 sayHi = null;
 
-welcome(); // Error, the nested sayHi call doesn't work any more!
+welcome(); // Error, 入れ子の sayHi 呼び出しはこれ以上動作しません！
 ```
 
 関数が外部のレキシカル環境から `sayHi` を取得するために起こります。ローカルの `sayHi` がないので、外部変数が使われます。そして 呼び出しの瞬間、`sayHi` は `null` です。
@@ -315,7 +315,7 @@ let sayHi = function *!*func*/!*(who) {
     alert(`Hello, ${who}`);
   } else {
 *!*
-    func("Guest"); // Now all fine
+    func("Guest"); // 今はすべて問題ありません
 */!*
   }
 };
@@ -323,7 +323,7 @@ let sayHi = function *!*func*/!*(who) {
 let welcome = sayHi;
 sayHi = null;
 
-welcome(); // Hello, Guest (nested call works)
+welcome(); // Hello, Guest (ネスト呼び出しは機能します)
 ```
 
 これでうまく動作します。なぜなら名前 `"func"` は関数ローカルだからです。それは外部のものではありません(また、外部からは見えません)。

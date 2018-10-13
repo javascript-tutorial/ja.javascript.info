@@ -12,7 +12,7 @@
 
 [cut]
 
-## 残りのパラメータ `...`
+## 残りのパラメータ '...' [#rest parameter] 
 
 関数は、どのように定義されたかに関係なく、任意の数の引数で呼ぶことができます。
 
@@ -32,7 +32,7 @@ alert( sum(1, 2, 3, 4, 5) );
 例えば、すべての引数を配列 `args` に集める場合は次のようになります:
 
 ```js run
-function sumAll(...args) { // args is the name for the array
+function sumAll(...args) { // args は配列の名前です
   let sum = 0;
 
   for (let arg of args) sum += arg;
@@ -53,7 +53,7 @@ alert( sumAll(1, 2, 3) ); // 6
 function showName(firstName, lastName, ...titles) {
   alert( firstName + ' ' + lastName ); // Julius Caesar
 
-  // the rest go into titles array
+  // 残りは titles 配列に入ります
   // i.e. titles = ["Consul", "Imperator"]
   alert( titles[0] ); // Consul
   alert( titles[1] ); // Imperator
@@ -87,14 +87,14 @@ function showName() {
   alert( arguments[0] );
   alert( arguments[1] );
 
-  // it's iterable
+  // iterable です。
   // for(let arg of arguments) alert(arg);
 }
 
-// shows: 2, Julius, Caesar
+// 表示: 2, Julius, Caesar
 showName("Julius", "Caesar");
 
-// shows: 1, Ilya, undefined (no second argument)
+// 表示: 1, Ilya, undefined (2つ目の引数がないので)
 showName("Ilya");
 ```
 
@@ -106,7 +106,7 @@ showName("Ilya");
 
 また、すべての引数が常に含まれているため、残りのパラメータと同様に部分的に取り込むことはできません。
 
-したがって、これらの機能が必要な場合は、残りのパラメータが好ましいです。
+したがって、これらの機能が必要な場合は、"残りのパラメータ" が好ましいです。
 
 ````smart header="アロー関数は `\"arguments\"` を持ちません"
 もしもアロー関数から `arguments` オブジェクトにアクセスすると、外部の "通常の" 関数からそれらを取得します。
@@ -127,7 +127,7 @@ f(1); // 1
 
 ## スプレッド 演算子 [#spread-operator]
 
-先ほど、私たちはパラメータのリストから配列を取得する方法をみました。
+先ほど、パラメータのリストから配列を取得する方法をみました。
 
 一方、我々はその逆を正確にする必要がある場合があります。
 
@@ -137,7 +137,7 @@ f(1); // 1
 alert( Math.max(3, 5, 1) ); // 5
 ```
 
-今、我々は配列 `[3 ,5, 1]` を持っているとします。それを使って `Math.max` を呼び出す方法はどうやるでしょう？
+今、配列 `[3 ,5, 1]` を持っているとします。それを使って `Math.max` を呼び出す方法はどうやるでしょう？
 
 それを "そのまま" 渡すと上手く動きません。なぜなら `Math.max` は数値引数のリストを期待しており、1つの配列がくることは期待していません。:
 
@@ -149,7 +149,7 @@ alert( Math.max(arr) ); // NaN
 */!*
 ```
 
-...そして、きっとコードの中で手動で項目をリストすることも出来ません(`Math.max(arg[0], arg[1], arg[2])`)。なぜなら私たちはそれがどれだけあるか分からないからです。我々のスクリプトが動くとき、もっと多くの数があるかもしれないし、全くないかもしれません。また、その書き方は格好悪いです。
+...そして、きっとコードの中で手動で項目をリストすることも出来ません(`Math.max(arg[0], arg[1], arg[2])`)。なぜならそれがどれだけあるか分からないからです。スクリプトが動くとき、もっと多いかもしれないし、全くないかもしれません。また、その書き方は格好悪いです。
 
 *スプレッド演算子 (Spread operator)* はそれを助けます。残りのパラメータと似ており、`...` を使いますが、全く反対のことをします。
 
@@ -160,7 +160,7 @@ alert( Math.max(arr) ); // NaN
 ```js run
 let arr = [3, 5, 1];
 
-alert( Math.max(...arr) ); // 5 (spread turns array into a list of arguments)
+alert( Math.max(...arr) ); // 5 (配列を引数のリストに変換する)
 ```
 
 また、この方法で複数の iterables を渡すこともできます:
@@ -213,7 +213,7 @@ alert( [...str] ); // H,e,l,l,o
 ```js run
 let str = "Hello";
 
-// Array.from converts an iterable into an array
+// Array.from は iterable を配列に変換します
 alert( Array.from(str) ); // H,e,l,l,o
 ```
 
