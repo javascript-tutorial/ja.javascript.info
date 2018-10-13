@@ -1,7 +1,7 @@
 
 # クラス
 
-"class" 構造は、クリーンで見やすい構文でプロトタイプベースのクラスを定義することができます。
+"class" 構造は、綺麗で見やすい構文でプロトタイプベースのクラスを定義することができます。
 
 [cut]
 
@@ -45,7 +45,7 @@ user.sayHi();
 
 2つの例が似ていることは容易に分かると思います。クラス内のメソッドはそれらの間にカンマを持たないことに注意してください。新米の開発者はときどきそれを忘れて、クラスメソッドの間にカンマをおいてしまい動作しなくなります。これはリテラルオブジェクトではなく、クラス構文です。
 
-では、`class` は正確になにをするでしょう？ 私たちはそれが新しい言語レベルの実態を定義していると思うかもしれませんが、それは間違っています。
+では、`class` は正確になにをするでしょう？ それが新しい言語レベルの実態を定義していると思うかもしれませんが、それは間違っています。
 
 ここで `class User {...}` は実際には2つのことをしています。:
 
@@ -61,12 +61,12 @@ class User {
 }
 
 *!*
-// proof: User is the "constructor" function
+// 証明: User は "constructor" 関数である
 */!*
 alert(User == User.prototype.constructor); // true
 
 *!*
-// proof: there are two methods in its "prototype"
+// 証明: その "prototype" には 2つのメソッドがある
 */!*
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 ```
@@ -89,7 +89,7 @@ class User {
 }
 
 alert(typeof User); // function
-User(); // Error: Class constructor User cannot be invoked without 'new'
+User(); // Error: Class コンストラクタ User は `new` なしで呼べません
 ```
 
 異なる文字列出力
@@ -114,7 +114,7 @@ User(); // Error: Class constructor User cannot be invoked without 'new'
 class User {
 
   constructor(name) {
-    // invokes the setter
+    // setter を呼び出す
     this.name = name;
   }
 
@@ -187,7 +187,7 @@ alert( new User().test ); // 5
 
 外部コードからの使い方は同じですが、getter バリアントは少し遅いです。
 
-## クラス表現
+## クラス表現 [#class-expression]
 
 関数と同様に、クラスは別の式の中で定義され、渡され、返されます。
 
@@ -196,7 +196,7 @@ alert( new User().test ); // 5
 ```js run
 function makeClass(phrase) {
 *!*
-  // declare a class and return it
+  // class を宣言しそれを返します
   return class {
     sayHi() {
       alert(phrase);
@@ -215,16 +215,16 @@ new User().sayHi(); // Hello
 また、名前付けされた関数表現のように、このようなクラスもまた名前を保つ場合があります。それはクラスの中でのみ見えます。:
 
 ```js run
-// "Named Class Expression" (alas, no such term, but that's what's going on)
+// "名前付けされたクラス式" (そのような言葉はありませんが)
 let User = class *!*MyClass*/!* {
   sayHi() {
-    alert(MyClass); // MyClass is visible only inside the class
+    alert(MyClass); // MyClass は class の内側でだけ見えます
   }
 };
 
-new User().sayHi(); // works, shows MyClass definition
+new User().sayHi(); // 動作します, MyClass の定義を表示します
 
-alert(MyClass); // error, MyClass not visible outside of the class
+alert(MyClass); // error, MyClass は class の外からは見えません
 ```
 
 ## 静的メソッド(Static method)
@@ -275,7 +275,7 @@ class Article {
 */!*
 }
 
-// usage
+// 使い方
 let articles = [
   new Article("Mind", new Date(2016, 1, 1)),
   new Article("Body", new Date(2016, 0, 1)),
@@ -291,7 +291,7 @@ alert( articles[0].title ); // Body
 
 ここで、`Article.compare` は記事を比較するための手段として記事の "上に" 立っています。それは記事のメソッドではなく、クラス全体のメソッドです。
 
-別の例は、いわゆる "ファクトリー" メソッドです。イメージしてください、私たちは記事を作成する方法はほとんどありません。:
+別の例は、いわゆる "ファクトリー" メソッドです。イメージしてください、記事を作成する方法はほとんどありません。:
 
 1. 与えられたパラメータ(`title`, `date` など)による作成
 2. 今日の日付の空の記事の作成
@@ -310,7 +310,7 @@ class Article {
 
 *!*
   static createTodays() {
-    // remember, this = Article
+    // 思い出してください, this = Article
     return new this("Todays digest", new Date());
   }
 */!*
@@ -318,16 +318,16 @@ class Article {
 
 let article = Article.createTodays();
 
-alert( article.title ); // Todays digest
+alert( article.title ); // 今日のダイジェスト
 ```
 
-現在、今日のダイジェストを作成する必要があるたびに、`Article.createTodays()` を呼ぶことができます。もう一度、これは記事のメソッドではなく、クラス全体のメソッドです。
+これで今日のダイジェストを作成する必要があるたびに、`Article.createTodays()` を呼ぶことができます。もう一度、これは記事のメソッドではなく、クラス全体のメソッドです。
 
 静的メソッドは、次のように、データベース関連のクラスでデータベースの検索/保存/削除のためにも使用されます。:
 
 ```js
-// assuming Article is a special class for managing articles
-// static method to remove the article:
+// Article は記事を管理するための特別なクラスと仮定します
+// 記事を削除するための static メソッド:
 Article.remove({id: 12345});
 ```
 

@@ -7,16 +7,15 @@
 
 [cut]
 
-## プロパティフラグ
+## プロパティフラグ [#property-flags]
 
-オブジェクトプロパティは **`value`** に加えて、3つの特別な属性を持っています(所謂 "フラグ" と呼ばれています)。
-Object properties, besides a **`value`**, have three special attributes (so-called "flags"):
+オブジェクトプロパティは **`value`** に加えて、3つの特別な属性を持っています(いわゆる "フラグ" と呼ばれています)。
 
 - **`writable`** -- `true` の場合は変更可能です。それ以外の場合は読み取り専用です。
-- **`enumerable`** -- `true` だとループでリストされます。それ以外の場合はリストされません。
+- **`enumerable`** -- `true` だとループで列挙されます。それ以外の場合は列挙されません。
 - **`configurable`** -- `true` の場合、プロパティを削除したり、これらの属性を変更することができます。
 
-私たちは、まだこれらを見ていませんでした。なぜなら、一般的にはこれらは表示されないからです。私たちが "通常の方法" でプロパティを作成するとき、それらはすべて `true` です。が、私たちはいつでもそれを変更することができます。
+私たちは、まだこれらを見ていませんでした。なぜなら、一般的にはこれらは表示されないからです。"通常の方法" でプロパティを作成するとき、これらはすべて `true` です。が、いつでもそれを変更することができます。
 
 まず、それらのフラグを取得する方法を見てみましょう。
 
@@ -45,7 +44,7 @@ let user = {
 let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
 
 alert( JSON.stringify(descriptor, null, 2 ) );
-/* property descriptor:
+/* プロパティディスクリプタ:
 {
   "value": "John",
   "writable": true,
@@ -69,7 +68,7 @@ Object.defineProperty(obj, propertyName, descriptor)
 `descriptor`
 : 適用するプロパティディスクリプタです。
 
-もし、プロパティが存在する場合、`defineProperty` はそのフラグを更新します。そうでなければ、与えられた値とフラグでプロパティを作りsます。その場合に、もしフラグが指定されていなければ `false` とみなされます。
+もし、プロパティが存在する場合、`defineProperty` はそのフラグを更新します。そうでなければ、与えられた値とフラグでプロパティを作ります。その場合に、もしフラグが指定されていなければ `false` とみなされます。
 
 例えば、ここではプロパティ `name` はすべて偽のフラグで作られます。:
 
@@ -101,7 +100,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 
 では、例を使ってフラグの影響を見てみましょう。
 
-## 読み取り専用(Read-only)
+## 読み取り専用(Read-only) [#read-only]
 
 `writable` フラグを変更して `user.name` を読み取り専用にしてみましょう:
 
@@ -131,7 +130,7 @@ let user = { };
 Object.defineProperty(user, "name", {
 *!*
   value: "Pete",
-  // for new properties need to explicitly list what's true
+  // 新しいプロパティに対して、true のものは明示的に列挙する必要があります
   enumerable: true,
   configurable: true
 */!*
@@ -142,7 +141,7 @@ user.name = "Alice"; // Error
 ```
 
 
-## 列挙可能でない(Non-enumerable)
+## 列挙可能でない(Non-enumerable) [#non-enumerable]
 
 今、カスタムの `toString` を `user` に追加しましょう。
 
@@ -156,7 +155,7 @@ let user = {
   }
 };
 
-// By default, both our properties are listed:
+// デフォルトでは、両方のプロパティは列挙されます:
 for (let key in user) alert(key); // name, toString
 ```
 
@@ -177,7 +176,7 @@ Object.defineProperty(user, "toString", {
 });
 
 *!*
-// Now our toString disappears:
+// これで toString は消えました:
 */!*
 for (let key in user) alert(key); // name
 ```
@@ -214,7 +213,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 ```js run
 Math.PI = 3; // Error
 
-// delete Math.PI won't work either
+// delete Math.PI もまた動作しません
 ```
 
 変更不能なプロパティを作ることは一方通行です。それを戻すことはできません。なぜなら `defineProperty` は変更不能なプロパティでは動作しないためです。
@@ -231,8 +230,8 @@ Object.defineProperty(user, "name", {
 });
 
 *!*
-// won't be able to change user.name or its flags
-// all this won't work:
+// user.name またはそのフラグを変更することはできません
+// これらすべて動作しません:
 //   user.name = "Pete"
 //   delete user.name
 //   defineProperty(user, "name", ...)
@@ -241,7 +240,7 @@ Object.defineProperty(user, "name", {writable: true}); // Error
 ```
 
 ```smart header="use strict の場合にのみエラーとなります"
-非 strict mode では、読み取り専用プロパティなどに書き込むときにエラーは発生しません。 しかし、操作はまだ成功しません。フラグ違反の操作は、非 strict では無視されます。
+非 strict mode では、読み取り専用プロパティなどに書き込むときにエラーは発生しません。 しかし、操作は成功しません。フラグ違反の操作は、非 strict では無視されます。
 ```
 
 ## Object.defineProperties
@@ -268,7 +267,7 @@ Object.defineProperties(user, {
 });
 ```
 
-なので、私たちは一度に多くのプロパティをセットできます。
+なので、一度に多くのプロパティをセットできます。
 
 ## Object.getOwnPropertyDescriptors
 

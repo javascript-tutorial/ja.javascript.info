@@ -30,7 +30,7 @@ class Animal {
 }
 
 *!*
-// Inherit from Animal
+// Animal から継承
 class Rabbit extends Animal {
   hide() {
     alert(`${this.name} hides!`);
@@ -82,7 +82,7 @@ new User().sayHi(); // Hello
 ```js
 class Rabbit extends Animal {
   stop() {
-    // ...this will be used for rabbit.stop()
+    // ...これは rabbit.stop() のために使われる
   }
 }
 ```
@@ -124,8 +124,8 @@ class Rabbit extends Animal {
 
 *!*
   stop() {
-    super.stop(); // call parent stop
-    this.hide(); // and then hide
+    super.stop(); // 親の stop 呼び出し
+    this.hide(); // その後隠す
   }
 */!*
 }
@@ -145,7 +145,7 @@ rabbit.stop(); // White Rabbit stopped. White rabbit hides!
 ```js
 class Rabbit extends Animal {
   stop() {
-    setTimeout(() => super.stop(), 1000); // call parent stop after 1sec
+    setTimeout(() => super.stop(), 1000); // 1秒後親の stop 実行
   }
 }
 ```
@@ -166,11 +166,11 @@ setTimeout(function() { super.stop() }, 1000);
 今まで、`Rabbit` は自身の `constructor` を持っていませんでした。
 
 
-[仕様(specification)](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation)によると、クラスが別のクラスを拡張し、`constructor` を持たない場合、次のような `constructor` がせいせされます。
+[仕様(specification)](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation)によると、クラスが別のクラスを拡張し、`constructor` を持たない場合、次のような `constructor` が生成されます。
 
 ```js
 class Rabbit extends Animal {
-  // generated for extending classes without own constructors
+  // 独自のコンストラクタを持たないクラスを拡張するために生成されます
 *!*
   constructor(...args) {
     super(...args);
@@ -205,8 +205,8 @@ class Rabbit extends Animal {
 }
 
 *!*
-// Doesn't work!
-let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
+// 動作しません!
+let rabbit = new Rabbit("White Rabbit", 10); // Error: this は定義されていません
 */!*
 ```
 
@@ -223,9 +223,9 @@ JavaScriptでは、"継承しているクラスのコンストラクタ関数" �
 違いは:
 
 - 通常のコンストラクタを実行するとき、`this` として空のオブジェクトを作り、それを続けます。
-- しかし、派生したコンストラクタが実行されると、そうは実行されません。それは親のコンストラクタがこのジョブを実行することを期待しています。
+- しかし、派生したコンストラクタが実行されると、そうは実行されません。親のコンストラクタがこのジョブを実行することを期待しています。
 
-なので、もし独自のコンスタクタを作っている場合には、`super` を呼ばないといけません。なぜなら、そうしないとそれを参照する `this` を持つオブジェクトは生成されないからです。 そして、エラーになるでしょう。
+なので、もし独自のコンスタクタを作っている場合には、`super` を呼ばないといけません。なぜなら、そうしないとそれを参照する `this` を持つオブジェクトは生成されないからです。 結果、エラーになるでしょう。
 
 `Rabbit` を動作させるために、`this` を使う前に `super()` を呼ぶ必要があります。:
 
@@ -253,7 +253,7 @@ class Rabbit extends Animal {
 }
 
 *!*
-// now fine
+// 今は問題ありませんｎ
 let rabbit = new Rabbit("White Rabbit", 10);
 alert(rabbit.name); // White Rabbit
 alert(rabbit.earLength); // 10
@@ -267,9 +267,9 @@ alert(rabbit.earLength); // 10
 
 まず最初に、今まで私たちが学んだすべてのことだけでは、 `super` が動作するのは不可能です。
 
-ええ、たしかに技術的にどのように動くのでしょうか？オブジェクトメソッドを実行されるとき、`this` として現在のオブジェクトを取ります。もし `super.method()` を呼び出す場合、どうやって `method` を取得するでしょう？当然ながら、我々は現在のオブジェクトのプロトタイプから `method` を取る必要があります。技術的に我々(またはJavaScriptエンジンは)どうやってそれをするのでしょうか？
+たしかに技術的にどのように動くのでしょうか？オブジェクトメソッドが実行されるとき、`this` として現在のオブジェクトを取ります。もし `super.method()` を呼び出す場合、どうやって `method` を取得するでしょう？当然ながら、我々は現在のオブジェクトのプロトタイプから `method` を取る必要があります。技術的に我々(またはJavaScriptエンジンは)どうやってそれをするのでしょうか？
 
-恐らく、私たちは `this.__proto__.method` とすることで `this` の `[[Prototype]]` からメソッドを取得できる？残念ながらそれは動作しません。
+恐らく、`this.__proto__.method` とすることで `this` の `[[Prototype]]` からメソッドを取得できる？残念ながらそれは動作しません。
 
 それにトライしてみましょう。簡単にするために、クラスなしで単純なオブジェクトを使用します。
 
@@ -288,7 +288,7 @@ let rabbit = {
   name: "Rabbit",
   eat() {
 *!*
-    // that's how super.eat() could presumably work
+    // これがおそらく super.eat() が動作する方法です
     this.__proto__.eat.call(this); // (*)
 */!*
   }
@@ -315,7 +315,8 @@ let animal = {
 let rabbit = {
   __proto__: animal,
   eat() {
-    // ...bounce around rabbit-style and call parent (animal) method
+    // ...bounce around rabbit-style 
+    // 親 (animal) メソッドを呼び出す
     this.__proto__.eat.call(this); // (*)
   }
 };
@@ -323,13 +324,14 @@ let rabbit = {
 let longEar = {
   __proto__: rabbit,
   eat() {
-    // ...do something with long ears and call parent (rabbit) method
+    // ...do something with long ears
+    // 親 (rabbit) メソッドを呼び出す
     this.__proto__.eat.call(this); // (**)
   }
 };
 
 *!*
-longEar.eat(); // Error: Maximum call stack size exceeded
+longEar.eat(); // Error: 最大呼び出しスタックサイズを超えました
 */!*
 ```
 
@@ -337,7 +339,7 @@ longEar.eat(); // Error: Maximum call stack size exceeded
 
 これは明白ではないかもしれませんが、もし `longEar.eat()` 呼び出しのトレースをすると、それがなぜかがわかります。行 `(*)` と `(**)` は共に、`this` の値は現在のオブジェクト (`longEar`) です。それが肝心です: すべてのオブジェクトメソッドはプロトタイプなどではなく、現在のオブジェクトを `this` として取得します。
 
-従って、行 `(*)` と `(**)` は共に、`this.__proto__` の値は全く同じで、`rabbit` です。それらは両方とも、無限ループで `rabbit.eat` を呼んでいます。
+したがって、行 `(*)` と `(**)` は共に、`this.__proto__` の値は全く同じで、`rabbit` です。それらは両方とも、無限ループで `rabbit.eat` を呼んでいます。
 
 これは何が起きているかを示す図です。:
 
@@ -345,24 +347,24 @@ longEar.eat(); // Error: Maximum call stack size exceeded
 
 1. `longEar.eat()` の中で、行 `(**)` は `this=longEar` となる `rabbit.eat` を呼び出します。
     ```js
-    // inside longEar.eat() we have this = longEar
+    // longEar.eat() の中では this = longEar です
     this.__proto__.eat.call(this) // (**)
-    // becomes
+    // なので次のようになります
     longEar.__proto__.eat.call(this)
-    // that is
+    // つまり呼ばれるのは
     rabbit.eat.call(this);
     ```
 2. 次に `rabbit.eat` の 行 `(*)` で、チェーンの中でより高次へ呼び出しを渡したいですが、`this=longEar` なので、 `this=__prto__.eat` は再び `rabbit.eat` です!
     ```js
-    // inside rabbit.eat() we also have this = longEar
+    // rabbit.eat() の中でも this = longEar です
     this.__proto__.eat.call(this) // (*)
-    // becomes
+    // なので次のようになります
     longEar.__proto__.eat.call(this)
-    // or (again)
+    // なので (再び)
     rabbit.eat.call(this);
     ```
 
-3. ...従って、それ以上高次へ登ることができないので、`rabbit.eat` はエンドレスで自身を呼び出します。
+3. ...したがって、それ以上高次へ登ることができないので、`rabbit.eat` はエンドレスで自身を呼び出します。
 
 `this` だけを使ってこの問題を解くことはできません。
 
@@ -407,7 +409,7 @@ longEar.eat();  // Long Ear eats.
 */!*
 ```
 
-すべてのメソッドは内部の `[[HomeObject]]` プロパティで、そのオブジェクトを覚えています。そして `super` は親のプロトタイプの解決のためにそれを使います。
+すべてのメソッドは内部の `[[HomeObject]]` プロパティで、そのオブジェクトを覚えています。そして `super` は親のプロトタイプの解決のために `[[HomeObject]]` を使います。
 
 `[[HomeObject]]` はクラスと単純なオブジェクト両方で定義されたメソッドのために定義されています。しかし、オブジェクトの場合、メソッドは指定された方法で正確に指定されなければなりません。: `"method: function()"` ではなく `method()` として指定する必要があります。
 
@@ -415,7 +417,7 @@ longEar.eat();  // Long Ear eats.
 
 ```js run
 let animal = {
-  eat: function() { // should be the short syntax: eat() {...}
+  eat: function() { // 短縮構文: eat() {...} にする必要があります
     // ...
   }
 };
@@ -428,7 +430,7 @@ let rabbit = {
 };
 
 *!*
-rabbit.eat();  // Error calling super (because there's no [[HomeObject]])
+rabbit.eat();  // super 呼び出しエラー([[HomeObject]] が無いため)
 */!*
 ```
 
@@ -457,7 +459,7 @@ class Animal {
 
 }
 
-// Inherit from Animal
+// Animal から継承
 class Rabbit extends Animal {
   hide() {
     alert(`${this.name} hides!`);
@@ -488,14 +490,14 @@ rabbits[0].run(); // Black Rabbit runs with speed 5.
 class Animal {}
 class Rabbit extends Animal {}
 
-// for static propertites and methods
+// 静的プロパティとメソッドの場合
 alert(Rabbit.__proto__ == Animal); // true
 
-// and the next step is Function.prototype
+// 次のステップは Function.prototype です
 alert(Animal.__proto__ == Function.prototype); // true
 
-// that's in addition to the "normal" prototype chain for object methods
-alert(Rabbit.prototype.__proto__ === Animal.prototype);
+// オブジェクトメソッドの "通常の" プロトタイプチェーンに加えて
+alert(Rabbit.prototype.__proto__ === Animal.prototype); // true
 ```
 
 このように `Rabbit` は `Animal` のすべての静的メソッドへアクセスです。
@@ -519,7 +521,7 @@ Array, Map やその他のような組み込みのクラスもまた拡張可能
 例えば、ここでは `PowerArray` はネイティブの `Array` から継承しています。:
 
 ```js run
-// add one more method to it (can do more)
+// メソッドを追加する(もっと追加することもできます)
 class PowerArray extends Array {
   isEmpty() {
     return this.length == 0;
@@ -541,9 +543,9 @@ alert(filteredArr.isEmpty()); // false
 arr.constructor === PowerArray
 ```
 
-なので、`arr.filter()` が呼ばれた時、それは内部で `new PowerArray` と同じ結果の新しい配列が作成されます。 そして、私たちはその方法をチェーンの下でさらに使い続けることができます。
+なので、`arr.filter()` が呼ばれた時、それは内部で `new PowerArray` と同じ結果の新しい配列が作成されます。 そして、呼び出しのチェーンの下でさらに使い続けることができます。
 
-さらに、我々はその振る舞いをカスタマイズすることもできます。静的な getter `Symbol.species` が存在する場合、そのようなケースで使うためにコンストラクタを返します。
+さらにその振る舞いをカスタマイズすることもできます。静的な getter `Symbol.species` が存在する場合、そのようなケースで使うためにコンストラクタを返します。
 
 例えば、ここでは `Symbol.species` によって、`map`, `filter` のような組み込みメソッドは "通常の" 配列を返します。:
 
@@ -554,7 +556,7 @@ class PowerArray extends Array {
   }
 
 *!*
-  // built-in methods will use this as the constructor
+  // 組み込みのメソッドはこれをコンストラクタとして使います
   static get [Symbol.species]() {
     return Array;
   }
@@ -564,13 +566,13 @@ class PowerArray extends Array {
 let arr = new PowerArray(1, 2, 5, 10, 50);
 alert(arr.isEmpty()); // false
 
-// filter creates new array using arr.constructor[Symbol.species] as constructor
+// fileter はコンストラクタとして arr.constructor[Symbol.species] を使って新しい配列を作ります。
 let filteredArr = arr.filter(item => item >= 10);
 
 *!*
-// filteredArr is not PowerArray, but Array
+// filteredArr は PowerArray ではなく Array です
 */!*
-alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
+alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty は関数ではありません
 ```
 
-より高度な手段としてそれを使用して、必要でない場合には結果の値から拡張機能を取り除くことができます。 あるいは、それをさらに拡張することもできます。
+より高度な手段として使用し、不要な場合には結果の値から拡張機能を取り除くことができます。 あるいは、さらに拡張することもできます。

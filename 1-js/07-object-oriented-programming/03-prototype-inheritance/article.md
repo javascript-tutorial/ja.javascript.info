@@ -2,7 +2,7 @@
 
 プログラミングでは、何かを取ってそれを拡張することがしばしばあります。
 
-例えば、プロパティとメソッドをもつ `user` オブジェクトを持っているとします。そして、そのいくつかを僅かに変更した `admin` や `guest` を作りたいとします。私たちは、コピーや再実装ではなく、単にその上に新しいオブジェクトを作成することで、`user` が持っているものを再利用したいです。
+例えば、プロパティとメソッドをもつ `user` オブジェクトを持っているとします。そして、そのいくつかを僅かに変更した `admin` や `guest` を作りたいとします。コピーや再実装ではなく、単にその上に新しいオブジェクトを作成することで、`user` が持っているものを再利用したいです。
 
 *プロトタイプ継承* はそれを助ける言語の機能です。
 
@@ -51,7 +51,7 @@ let rabbit = {
 rabbit.__proto__ = animal; // (*)
 */!*
 
-// we can find both properties in rabbit now:
+// 今、rabbit で両方のプロパティを見つけることができます:
 *!*
 alert( rabbit.eats ); // true (**)
 */!*
@@ -60,14 +60,13 @@ alert( rabbit.jumps ); // true
 
 ここで、行 `(*)` は `rabbit` のプロトタイプに `animal` をセットしています。
 
-次に、`alert` がプロパティ `rabbit.eats` `(*)` を読もうとしたとき、それは `rabbit` にはないので、JavaScriptは `[[Prototype]]` 参照に従って、`animal` の中でそれを見つけます()。
-Then, when `alert` tries to read property `rabbit.eats` `(**)`, it's not in `rabbit`, so JavaScript follows the `[[Prototype]]` reference and finds it in `animal` (下から上に向かいます):
+次に、`alert` がプロパティ `rabbit.eats` `(**)` を読もうとしたとき、それは `rabbit` にはないので、JavaScriptは `[[Prototype]]` 参照に従って、`animal` の中でそれを見つけます(下から上に向かいます)。
 
 ![](proto-animal-rabbit.png)
 
 ここでは、私たちは "`animal` は `rabbit` のプロトタイプ" または "`rabbit` がプロトタイプ的に `animal` を継承している" という事ができます。"
 
-したがって、もし `animal` 多くの役立つプロパティやメソッドを持っている場合、それらは自動的に `rabbit` でも利用可能になります。
+したがって、もし `animal` が多くの役立つプロパティやメソッドを持っている場合、それらは自動的に `rabbit` でも利用可能になります。
 このようなプロパティは "継承" と呼ばれます。
 
 もし `animal` がメソッドを持っている場合、`rabbit` でもそれを呼ぶことができます:
@@ -87,7 +86,7 @@ let rabbit = {
   __proto__: animal
 };
 
-// walk is taken from the prototype
+// walk は prototype から取られました
 *!*
 rabbit.walk(); // Animal walk
 */!*
@@ -118,9 +117,9 @@ let longEar = {
   __proto__: rabbit
 }
 
-// walk is taken from the prototype chain
+// walk は prototype チェーンから取られました
 longEar.walk(); // Animal walk
-alert(longEar.jumps); // true (from rabbit)
+alert(longEar.jumps); // true (rabbit から)
 ```
 
 ![](proto-animal-rabbit-chain.png)
@@ -144,7 +143,7 @@ alert(longEar.jumps); // true (from rabbit)
 let animal = {
   eats: true,
   walk() {
-    /* this method won't be used by rabbit */  
+    /* このメソッドは rabbit では使われません */  
   }
 };
 
@@ -190,13 +189,13 @@ let admin = {
 
 alert(admin.fullName); // John Smith (*)
 
-// setter triggers!
+// setter がトリガします!
 admin.fullName = "Alice Cooper"; // (**)
 ```
 
-ここで、行 `(*)` では、プロパティ `admin.fullName` はプロトタイプ `user` で getter を持っていますので、それが呼ばれます。また、行 `(**)` では、プロパティはプロトタイプに setter を持っているので、それが呼ばれます。
+ここで、行 `(*)` では、プロパティ `admin.fullName` はプロトタイプ `user` が getter を持っているので、それが呼ばれます。また、行 `(**)` では、プロパティはプロトタイプに setter を持っているので、それが呼ばれます。
 
-## "this" の値
+## "this" の値 [#the-value-of-this]
 
 上の例で、興味深い質問が起きるかもしれません。: `set fullName(value)` の内側での `this` の値はなんでしょうか？
 プロパティ `this.name` と `this.surname` が書かれているのはどこでしょうか？ `user` または `admin` ?
@@ -207,14 +206,14 @@ admin.fullName = "Alice Cooper"; // (**)
 
 したがって、setter は実際に `this` として `admin` を使い、`user` ではありません。
 
-それは、実際には非常に重要なことです。なぜなら、私たちは多くのメソッドを持つ大きなオブジェクトを持ち、それを継承する可能性があるからです。次に、継承されたオブジェクトの上でそれらのメソッドを実行し、大きなオブジェクトではなく、これらのオブジェクトの状態を変更します。
+それは、実際には非常に重要なことです。なぜなら、多くのメソッドを持つ大きなオブジェクトを持ち、それを継承する可能性があるからです。次に、継承されたオブジェクトの上でそれらのメソッドを実行し、大きなオブジェクトではなく、継承したオブジェクトの状態を変更します。
 
 例えば、ここでは `animal` は "メソッド格納域" を表現しており、`rabbit` はそれを使います。
 
 呼び出し `rabbit.sleep()` は `rabbit` オブジェクトに `this.isSleeping` をセットします。:
 
 ```js run
-// animal has methods
+// animal がメソッドを持っています
 let animal = {
   walk() {
     if (!this.isSleeping) {
@@ -231,11 +230,11 @@ let rabbit = {
   __proto__: animal
 };
 
-// modifies rabbit.isSleeping
+// rabbit.isSleeping を変更する
 rabbit.sleep();
 
 alert(rabbit.isSleeping); // true
-alert(animal.isSleeping); // undefined (no such property in the prototype)
+alert(animal.isSleeping); // undefined (prototype にそのようなプロパティはありません)
 ```
 
 結果の図は次のようになります:
@@ -249,7 +248,7 @@ alert(animal.isSleeping); // undefined (no such property in the prototype)
 ## サマリ [#summary]
 
 - JavaScriptでは、すべてのオブジェクトは隠れた `[[Prototype]]` プロパティを持っており、それは別のオブジェクトまたは `null` です。
-- 私たちはそれにアクセスするために `obj.__proto__` を使うことができます(他の方法もあります。それらは後ほど学びます)。
+- それにアクセスするために `obj.__proto__` を使うことができます(他の方法もあります。それらは後ほど学びます)。
 - `[[Prototype]]` によるオブジェクトの参照は "プロトタイプ" と呼ばれます。
-- もしも `obj` のプロパティを読みたい、またはメソッドを呼び出したいが存在しない場合、JavaScriptはそれをプロトタイプの中で見つけようとします。書き込み/削除操作はオブジェクトに対して直接動作し、それらはプロトタイプを使いません(プロパティが setter でない限り)。
-- もしも私たちが `obj.method()` を呼び出し、`method` がプロトタイプから取られた場合、`this` は依然として `obj` を参照します。したがって、メソッドはたとえ継承されていたとしても、常に現在のオブジェクトで動作します。
+- もしも `obj` のプロパティを読みたい、またはメソッドを呼び出したいが存在しない場合、JavaScriptはそれをプロトタイプの中で見つけようとします。書き込み/削除操作はオブジェクトに対して直接動作し、プロトタイプを使いません(プロパティが setter でない限り)。
+- もしも `obj.method()` を呼び出し、`method` がプロトタイプから取られた場合も、`this` は依然として `obj` を参照します。したがって、メソッドはたとえ継承されていたとしても、常に現在のオブジェクトで動作します。

@@ -18,18 +18,18 @@ let animal = {
   eats: true
 };
 
-// create a new object with animal as a prototype
+// animal をプロトタイプとして新しいオブジェクトを作成する
 *!*
 let rabbit = Object.create(animal);
 */!*
 
 alert(rabbit.eats); // true
 *!*
-alert(Object.getPrototypeOf(rabbit) === animal); // get the prototype of rabbit
+alert(Object.getPrototypeOf(rabbit) === animal); // rabbit のプロトタイプを取得
 */!*
 
 *!*
-Object.setPrototypeOf(rabbit, {}); // change the prototype of rabbit to {}
+Object.setPrototypeOf(rabbit, {}); // rabbit のプロトタイプを {} に変更
 */!*
 ```
 
@@ -55,11 +55,11 @@ alert(rabbit.jumps); // true
 
 
 ```js
-// fully identical shallow clone of obj
+// 完全に同一の obj の浅いクローン
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 ```
 
-この呼出はすべてのプロパティを含む `obj` の本当の正確なコピーを作ります。: 列挙型、非列挙型、データプロパティ、setter/getter -- すべてと、正確な `[[Prototype]]` です。
+この呼び出しはすべてのプロパティを含む `obj` の本当の正確なコピーを作ります。: 列挙型、非列挙型、データプロパティ、setter/getter -- すべてと、正確な `[[Prototype]]` です。
 
 ## 略史 [#brief-history]
 
@@ -92,22 +92,22 @@ let obj = {};
 let key = prompt("What's the key?", "__proto__");
 obj[key] = "some value";
 
-alert(obj[key]); // [object Object], not "some value"!
+alert(obj[key]); // [object Object], "some value" ではありません!
 ```
 
 もしユーザが `__proto__` を入力した場合、その代入は無視されます!
 
 それは驚くことではありません。`__proto__` プロパティは特別です: それはオブジェクトまたは `null` であり、文字列はプロトタイプにはなれません。
 
-しかし、私たちはこのような振る舞いを実装するつもりはありませんでした。私たちはキー/値ペアを格納したいですが、キー名が `"__proto__"` の場合は正しく保存されませんでした。なので、これはバグです。ここでの結果はひどくはありませんが、他のケースでは、プロトタイプは実際に変更される可能性があるため、処理が予期しない方向で間違ってしまう可能性があります。
+しかし、このような振る舞いを実装するつもりはありませんでした。私たちはキー/値ペアを格納したいですが、キー名が `"__proto__"` の場合は正しく保存されませんでした。なので、これはバグです。ここでの結果はひどくはありませんが、他のケースでは、プロトタイプは実際に変更される可能性があるため、処理が予期しない方向で間違ってしまう可能性があります。
 
-最悪なのは -- 通常開発者はこのような可能性について全く考えません。これにより、このようなバグが気付きにくくなり、特にJavaScriptがサーバー側で使用されている場合には、それらを脆弱性に変えることさえあります。
+最悪なのは -- 通常開発者はこのような可能性について全く考えません。これにより、このようなバグに気付きにくくなり、特にJavaScriptがサーバー側で使用されている場合には、それらを脆弱性に変えることさえあります。
 
 このようなことは `__proto__` の場合にのみ起こります。すべての他のプロパティは通常 "代入可能" です。
 
 どうやってこの問題を回避しましょう？
 
-最初に、私たちは `Map` を使うよう切り替えることができます。それですべて問題ありません。
+最初に、`Map` を使うよう切り替えることができます。それですべて問題ありません。
 
 しかし、 言語の作成者がその問題をずっと前から考えていたため、`Object` もまたここでは上手くいきます。
 
@@ -138,7 +138,7 @@ alert(obj[key]); // "some value"
 
 したがって、`__proto__` のための継承された getter/setter はありません。今や通常のデータプロパティとして処理されますので、上の例は正しく動作します。
 
-私たちはこのようなオブジェクトを "非常にシンプルな" または "純粋な辞書オブジェクト" と呼びます。なぜなら、それらは通常のオブジェクト `{...}` よりもシンプルなためです。
+このようなオブジェクトを "非常にシンプルな" または "純粋な辞書オブジェクト" と呼びます。なぜなら、それらは通常のオブジェクト `{...}` よりもシンプルなためです。
 
 欠点は、そのようなオブジェクトには組み込みのオブジェクトメソッドがないことです。 `toString`:
 
@@ -201,13 +201,13 @@ let rabbit = {
 };
 
 *!*
-// only own keys
+// 自身のキーのみ
 alert(Object.keys(rabbit)); // jumps
 */!*
 
 *!*
-// inherited keys too
-for(let prop in rabbit) alert(prop); // jumps, then eats
+// 継承されたキーも
+for(let prop in rabbit) alert(prop); // jumps, eats
 */!*
 ```
 

@@ -45,7 +45,7 @@ user.sayHi(); // John
 function User(name, birthday) {
 
 *!*
-  // only visible from other methods inside User
+  // User 内の他のメソッドからのみ見えます
   function calcAge() {
     return new Date().getFullYear() - birthday.getFullYear();
   }
@@ -74,7 +74,7 @@ user.sayHi(); // John
 
 ```js run
 function User(name, birthday) {
-  // only visible from other methods inside User
+  // User 内の他のメソッドからのみ見えます
   function calcAge() {
     return new Date().getFullYear() - birthday.getFullYear();
   }
@@ -195,17 +195,17 @@ let animal = new Animal("My animal");
 それを実装するコードは次の通りです:
 
 ```js run
-// Same Animal as before
+// 以前と同じ Animal 
 function Animal(name) {
   this.name = name;
 }
 
-// All animals can eat, right?
+// すべての animals 食べることができますよね?
 Animal.prototype.eat = function() {
   alert(this.name + ' eats.');
 };
 
-// Same Rabbit as before
+// 以前と同じ Rabbit
 function Rabbit(name) {
   this.name = name;
 }
@@ -215,13 +215,13 @@ Rabbit.prototype.jump = function() {
 };
 
 *!*
-// setup the inheritance chain
+// 継承チェーンを設定します
 Rabbit.prototype.__proto__ = Animal.prototype; // (*)
 */!*
 
 let rabbit = new Rabbit("White Rabbit");
 *!*
-rabbit.eat(); // rabbits can eat too
+rabbit.eat(); // rabbits も食べることができる
 */!*
 rabbit.jump();
 ```

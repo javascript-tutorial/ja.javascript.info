@@ -21,7 +21,7 @@ obj instanceof Class
 class Rabbit {}
 let rabbit = new Rabbit();
 
-// is it an object of Rabbit class?
+// Rabbit クラスのオブジェクト？
 *!*
 alert( rabbit instanceof Rabbit ); // true
 */!*
@@ -31,7 +31,7 @@ alert( rabbit instanceof Rabbit ); // true
 
 ```js run
 *!*
-// instead of class
+// class の代わり
 function Rabbit() {}
 */!*
 
@@ -55,7 +55,7 @@ alert( arr instanceof Object ); // true
 1. もし静的メソッド `Symbol.hasInstance` があれば、それを使います。このようになります。:
 
     ```js run
-    // assume anything that canEat is an animal
+    // canEat は animal と仮定
     class Animal {
       static [Symbol.hasInstance](obj) {
         if (obj.canEat) return true;
@@ -63,7 +63,7 @@ alert( arr instanceof Object ); // true
     }
 
     let obj = { canEat: true };
-    alert(obj instanceof Animal); // true: Animal[Symbol.hasInstance](obj) is called
+    alert(obj instanceof Animal); // true: Animal[Symbol.hasInstance](obj)が呼ばれます
     ```
 
 2. ほとんどのクラスは `Symbol.hasInstance` を持っていません。このケースでは、`Class.prototype` が `obj` のプロトタイプチェーンうちの1つと等しいかをチェックします。
@@ -108,10 +108,10 @@ alert( arr instanceof Object ); // true
 function Rabbit() {}
 let rabbit = new Rabbit();
 
-// changed the prototype
+// prototype を変更します
 Rabbit.prototype = {};
 
-// ...not a rabbit any more!
+// ...もう rabbit ではありません
 *!*
 alert( rabbit instanceof Rabbit ); // false
 */!*
@@ -127,10 +127,10 @@ alert( rabbit instanceof Rabbit ); // false
 let obj = {};
 
 alert(obj); // [object Object]
-alert(obj.toString()); // the same
+alert(obj.toString()); // 同じ
 ```
 
-これが `toString` の実装です。しかし、実際にはそれよりもはるかに強力な `toString` を作る隠れた機能があります。私たちはそれを拡張された `typeof` または `instanceof` の代替として利用することができます。
+これが `toString` の実装です。しかし、実際にはそれよりもはるかに強力な `toString` を作る隠れた機能があります。それを拡張させて `typeof` または `instanceof` の代替として利用することができます。
 
 奇妙に聞こえますか？たしかに。分かりやすく説明しましょう。
 
@@ -146,10 +146,10 @@ alert(obj.toString()); // the same
 デモを見てみましょう:
 
 ```js run
-// copy toString method into a variable for convenience
+// 使いやすくするために toString メソッドを変数にコピー
 let objectToString = Object.prototype.toString;
 
-// what type is this?
+// これの型はなに?
 let arr = [];
 
 alert( objectToString.call(arr) ); // [object Array]
@@ -169,7 +169,7 @@ alert( s.call(alert) ); // [object Function]
 
 ### Symbol.toStringTag
 
-Object `toString` の振る舞いは特別なオブジェクトプロパティ `Symbol.toStringTag` を使ってカスタマイズすることができます。
+Object `toString` の振る舞いは特別なオブジェクトプロパテ `Symbol.toStringTag` を使ってカスタマイズすることができます。
 
 例:
 
@@ -184,7 +184,7 @@ alert( {}.toString.call(user) ); // [object User]
 ほとんどの環境固有のオブジェクトには、そのようなプロパティがあります。 ブラウザ固有の例はほとんどありません。:
 
 ```js run
-// toStringTag for the envinronment-specific object and class:
+// 環境固有のオブジェクトとクラスのtoStringTag:
 alert( window[Symbol.toStringTag]); // window
 alert( XMLHttpRequest.prototype[Symbol.toStringTag] ); // XMLHttpRequest
 

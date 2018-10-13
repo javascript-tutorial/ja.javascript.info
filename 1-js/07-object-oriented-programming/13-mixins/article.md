@@ -33,7 +33,7 @@ let sayHiMixin = {
 };
 
 *!*
-// usage:
+// 使い方:
 */!*
 class User {
   constructor(name) {
@@ -41,10 +41,10 @@ class User {
   }
 }
 
-// copy the methods
+// メソッドをコピー
 Object.assign(User.prototype, sayHiMixin);
 
-// now User can say hi
+// これで User は sayHi できます
 new User("Dude").sayHi(); // Hi Dude!
 ```
 
@@ -70,11 +70,11 @@ let sayMixin = {
 };
 
 let sayHiMixin = {
-  __proto__: sayMixin, // (or we could use Object.create to set the prototype here)
+  __proto__: sayMixin, // (またはここで prototype を設定するのに Object.create が使えます)
 
   sayHi() {
     *!*
-    // call parent method
+    // 親のメソッド呼び出し
     */!*
     super.say("Hello " + this.name);
   },
@@ -89,10 +89,10 @@ class User {
   }
 }
 
-// copy the methods
+// メソッドをコピー
 Object.assign(User.prototype, sayHiMixin);
 
-// now User can say hi
+// これで User は sayHi できます
 new User("Dude").sayHi(); // Hello Dude!
 ```
 
@@ -121,7 +121,7 @@ new User("Dude").sayHi(); // Hello Dude!
 ```js run
 let eventMixin = {
   /**
-   * Subscribe to event, usage:
+   * イベントの購読, 使い方:
    *  menu.on('select', function(item) { ... }
   */
   on(eventName, handler) {
@@ -133,7 +133,7 @@ let eventMixin = {
   },
 
   /**
-   * Cancel the subscription, usage:
+   * 購読のキャンセル 使い方:
    *  menu.off('select', handler)
    */
   off(eventName, handler) {
@@ -147,15 +147,15 @@ let eventMixin = {
   },
 
   /**
-   * Generate the event and attach the data to it
+   * イベントを生成してデータをアタッチ
    *  this.trigger('select', data1, data2);
    */
   trigger(eventName, ...args) {
     if (!this._eventHandlers || !this._eventHandlers[eventName]) {
-      return; // no handlers for that event name
+      return; // イベントに対応するハンドラがない場合
     }
 
-    // call the handlers
+    // ハンドラ呼び出し
     this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
   }
 };
@@ -170,24 +170,24 @@ let eventMixin = {
 使い方:
 
 ```js run
-// Make a class
+// クラスを作成
 class Menu {
   choose(value) {
     this.trigger("select", value);
   }
 }
-// Add the mixin
+// mixin を追加
 Object.assign(Menu.prototype, eventMixin);
 
 let menu = new Menu();
 
-// call the handler on selection:
+// 選択時にハンドラを呼び出し
 *!*
 menu.on("select", value => alert("Value selected: " + value));
 */!*
 
-// triggers the event => shows Value selected: 123
-menu.choose("123"); // value selected
+// イベントのトリガ => Value selected: 123 を表示
+menu.choose("123"); // 選択された値
 ```
 
 これで、もしユーザ選択に反応するためのコードがある場合、`menu.on(...)` でバインドすることができます。

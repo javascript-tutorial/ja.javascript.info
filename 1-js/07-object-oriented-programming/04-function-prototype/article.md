@@ -48,7 +48,7 @@ alert( rabbit.eats ); // true
 イメージ上で、`"prototype"` は水平矢印で、それは通常のプロパティです。`[[Prototype]]` は縦矢印で、`animal` から `rabbit` の継承を意味しています。
 
 
-## デフォルトの F.prototype, constructor プロパティ
+## デフォルトの F.prototype, constructor プロパティ [#default-f-prototype-constructor-property]
 
 すべての関数は、たとえ明示的に提供されていなくても `"prototype"` プロパティを持っています。
 
@@ -59,7 +59,7 @@ alert( rabbit.eats ); // true
 ```js
 function Rabbit() {}
 
-/* default prototype
+/* デフォルト prototype
 Rabbit.prototype = { constructor: Rabbit };
 */
 ```
@@ -70,7 +70,7 @@ Rabbit.prototype = { constructor: Rabbit };
 
 ```js run
 function Rabbit() {}
-// by default:
+// デフォルトでは:
 // Rabbit.prototype = { constructor: Rabbit }
 
 alert( Rabbit.prototype.constructor == Rabbit ); // true
@@ -80,12 +80,12 @@ alert( Rabbit.prototype.constructor == Rabbit ); // true
 
 ```js run
 function Rabbit() {}
-// by default:
+// デフォルトでは:
 // Rabbit.prototype = { constructor: Rabbit }
 
-let rabbit = new Rabbit(); // inherits from {constructor: Rabbit}
+let rabbit = new Rabbit(); // {constructor: Rabbit} の継承
 
-alert(rabbit.constructor == Rabbit); // true (from prototype)
+alert(rabbit.constructor == Rabbit); // true (prototype から)
 ```
 
 ![](rabbit-prototype-constructor.png)
@@ -107,7 +107,7 @@ let rabbit2 = new rabbit.constructor("Black Rabbit");
 */!*
 ```
 
-これは、オブジェクトを持っているけどどのコンストラクタが使われたか分からない場合(例えば3rdパーティライブラリが使われているなど)で、同じ種類のものを使って別のオブジェクトを作る必要がある場合に便利です。
+これは、オブジェクトを持っているが、どのコンストラクタが使われたか分からない場合(例えば3rdパーティライブラリが使われているなど)で、同じ種類のものを使って別のオブジェクトを作る必要がある場合に便利です。
 
 しかし、おそらく `"constructor"` に関する最も重要なことは...
 
@@ -136,10 +136,10 @@ alert(rabbit.constructor === Rabbit); // false
 ```js
 function Rabbit() {}
 
-// Not overwrite Rabbit.prototype totally
-// just add to it
+// 完全に Rabbit.prototype を上書きはしません
+// 単に追加するだけです
 Rabbit.prototype.jumps = true
-// the default Rabbit.prototype.constructor is preserved
+// デフォルト Rabbit.prototype.constructor は保持されます
 ```
 
 もしくは、代替として手動で `constructor` プロパティを再び作ります。:
@@ -152,7 +152,7 @@ Rabbit.prototype = {
 */!*
 };
 
-// now constructor is also correct, because we added it
+// 追加したので、これで constructor も正しいです
 ```
 
 ## サマリ [#summary]
@@ -163,7 +163,7 @@ Rabbit.prototype = {
 
 - `F.prototype` プロパティは `[[Prototype]]` と同じではありません。`F.prototype` がする唯一のことは: `new F()` が呼ばれたときに新しいオブジェクトの `[[Prototype]]` をセットすることです。
 - `F.prototype` の値はオブジェクトまたは null でなければなりません。: 他の値では動作しません。
-- `"prototype"` プロパティは、コンストラクタ関数に設定され、 `new`で呼び出されたときにのみ、特別な効果があります。
+- `"prototype"` プロパティはコンストラクタ関数に設定され、`new` で呼び出されたときにのみ、特別な効果があります。
 
 通常のオブジェクトでは、`prototype` は特別なものではありません。:
 ```js

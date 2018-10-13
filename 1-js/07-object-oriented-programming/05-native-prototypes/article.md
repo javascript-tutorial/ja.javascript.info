@@ -59,13 +59,13 @@ alert(Object.prototype.__proto__); // null
 ```js run
 let arr = [1, 2, 3];
 
-// it inherits from Array.prototype?
+// Array.prototype から継承している?
 alert( arr.__proto__ === Array.prototype ); // true
 
-// then from Object.prototype?
+// 次に Object.prototype からは継承している?
 alert( arr.__proto__.__proto__ === Object.prototype ); // true
 
-// and null on the top.
+// そしてトップの null
 alert( arr.__proto__.__proto__.__proto__ ); // null
 ```
 
@@ -73,7 +73,7 @@ alert( arr.__proto__.__proto__.__proto__ ); // null
 
 ```js run
 let arr = [1, 2, 3]
-alert(arr); // 1,2,3 <-- the result of Array.prototype.toString
+alert(arr); // 1,2,3 <-- Array.prototype.toString の結果
 ```
 
 以前見たように、`Object.prototype` も同様に `toString` を持っていますが、`Array.prototype` はチェーンでより近いので、配列のバリアントが使われます。
@@ -91,7 +91,7 @@ Chrome developer console のようなブラウザ内のツールでも継承を�
 function f() {}
 
 alert(f.__proto__ == Function.prototype); // true
-alert(f.__proto__.__proto__ == Object.prototype); // true, inherit from objects
+alert(f.__proto__.__proto__ == Object.prototype); // true, object からの継承
 ```
 
 ## プリミティブ(Primitives)
@@ -127,15 +127,15 @@ String.prototype.show = function() {
 例:
 
 ```js run
-if (!String.prototype.repeat) { // if there's no such method
-  // add it to the prototype
+if (!String.prototype.repeat) { // もしこのようなメソッドがない場合
+  // prototype に追加します
 
   String.prototype.repeat = function(n) {
-    // repeat the string n times
+    // 文字列を n 回繰り返す
 
-    // actually, the code should be more complex than that,
-    // throw errors for negative values of "n"
-    // the full algorithm is in the specification
+    // 実際、このコードはこれより複雑になります
+    // "n" の負の値に対するエラーのスロー
+    // 完全なアルゴリズムは仕様にあります
     return new Array(n + 1).join(this);
   };
 }
@@ -150,7 +150,7 @@ alert( "La".repeat(3) ); // LaLaLa
 ```js run
 function showArgs() {
 *!*
-  // borrow join from array and call in the context of arguments
+  // 配列から join を借り、引数コンテキストでそれを呼び出す
   alert( [].join.call(arguments, " - ") );
 */!*
 }

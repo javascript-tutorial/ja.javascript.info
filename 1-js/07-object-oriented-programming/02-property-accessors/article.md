@@ -5,7 +5,7 @@
 
 最初の種類は *データプロパティ* です。私たちはすでにそれがどうやって動作するのかを知っています。実際、これまで使ってきたすべてのプロパティはデータプロパティでした。
 
-2つ目のプロパティの種類は新しいものです。それは *アクセサプロパティ* です。それらは基本的には値の取得やセットをする関数ですが、外部コードへは通常のプロパティのように見えます。
+2つ目のプロパティの種類は新しいものです。それは *アクセサプロパティ* です。それらは基本的には値の取得やセットをする関数ですが、外部コードからは通常のプロパティのように見えます。
 
 [cut]
 
@@ -16,11 +16,11 @@
 ```js
 let obj = {
   *!*get propName()*/!* {
-    // getter, the code executed on getting obj.propName
+    // getter, obj.propName を取得するときにコードが実行されます
   },
 
   *!*set propName(value)*/!* {
-    // setter, the code executed on setting obj.propName = value
+    // setter, obj.propName = value 時にコードが実行されます
   }
 };
 ```
@@ -77,14 +77,14 @@ let user = {
 */!*
 };
 
-// set fullName is executed with the given value.
+// set fullName は指定された値で実行されます
 user.fullName = "Alice Cooper";
 
 alert(user.name); // Alice
 alert(user.surname); // Cooper
 ```
 
-今私たちは "仮想" プロパティを持っています。 読み書き可能ですが、実際には存在しません。
+今 "仮想" プロパティを持っています。 読み書き可能ですが、実際には存在しません。
 
 ```smart header="アクセサプロパティは get/set でのみアクセス可能です"
 プロパティは、 "データプロパティ" か "アクセサプロパティ" のいずれかになりますが、両方にはなりません。
@@ -98,7 +98,7 @@ setter または getter だけがある場合もあります。この場合は�
 
 ## アクセサディスクリプタ [#accessor-descriptors]
 
-アクセサプロパティのためのディスクリプタは、データプロパティを比べて異なります。
+アクセサプロパティのためのディスクリプタは、データプロパティと比べて異なります。
 
 アクセサプロパティでは、`value` と `writable` がありませんが、代わりに、`get` と `set` 関数があります。
 
@@ -151,7 +151,7 @@ Object.defineProperty({}, 'prop', {
 });
 ```
 
-## スマートな getters/setters
+## スマートな getters/setters [#smarter-getters-setters]
 
 Getter/setter は、実際のプロパティ値をラッパーとして使用して、より多くのコントロールを得ることができます。
 
@@ -178,7 +178,7 @@ alert(user.name); // Pete
 user.name = ""; // Name is too short...
 ```
 
-技術的には、外部コードは `user_name` を使うことで、直接 name にアクセスできるかもしれません。しかし、アンダースコア `"_"` で始まるプロパティは内部のもので、外部のオブジェクトから触るべきではないということは広く知られています。
+技術的には、外部コードは `user._name` を使うことで、直接 name にアクセスできるかもしれません。しかし、アンダースコア `"_"` で始まるプロパティは内部のもので、外部のオブジェクトから触るべきではないということは広く知られています。
 
 
 ## 互換性のために使用する [#using-for-compatibility]
@@ -221,7 +221,7 @@ function User(name, birthday) {
   this.birthday = birthday;
 
 *!*
-  // age is calculated from the current date and birthday
+  // age は現在の日付と誕生日から計算されます
   Object.defineProperty(this, "age", {
     get() {
       let todayYear = new Date().getFullYear();
@@ -233,8 +233,8 @@ function User(name, birthday) {
 
 let john = new User("John", new Date(1992, 6, 1));
 
-alert( john.birthday ); // birthday is available
-alert( john.age );      // ...as well as the age
+alert( john.birthday ); // birthday は利用可能です
+alert( john.age );      // ...age も同様です
 ```
 
 これで古いコードも機能します。
