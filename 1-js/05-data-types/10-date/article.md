@@ -15,25 +15,25 @@
 
     ```js run
     let now = new Date();
-    alert( now ); // shows current date/time
+    alert( now ); // 現在の日時を表示します
     ```
 
 `new Date(milliseconds)`
 : Jan 1st of 1970 UTC+0 (1970年 1月1日 UTC+0) からの経過したミリ秒(秒の1/1000)に等しい時間をもつ `Date` オブジェクトを作ります。
 
     ```js run
-    // 0 means 01.01.1970 UTC+0
+    // 0 は 01.01.1970 UTC+0 を意味します
     let Jan01_1970 = new Date(0);
     alert( Jan01_1970 );
 
-    // now add 24 hours, get 02.01.1970 UTC+0
+    // 今 24 時間を追加しました, 02.01.1970 UTC+0 になります
     let Jan02_1970 = new Date(24 * 3600 * 1000);
     alert( Jan02_1970 );
     ```
 
     1970年初めから経過したミリ秒の数値は *タイムスタンプ* と呼ばれます。
 
-    これは日付の軽量な数値表現です。私たちはいつも `new Date(timestamp)` を使ってタイムスタンプから日付を作成し、存在する `Date` オブジェクトを `date.getTime()` メソッド(後述) を使ってタイムスタンプに変換します。
+    これは日付の軽量な数値表現です。常に `new Date(timestamp)` を使ってタイムスタンプから日付を作成し、存在する `Date` オブジェクトを `date.getTime()` メソッド(後述) を使ってタイムスタンプに変換します。
 
 `new Date(datestring)`
 : 1つの引数でそれが文字列の場合、`Date.parse` アルゴリズム(後述)でパースされます。
@@ -57,7 +57,7 @@
 
     ```js
     new Date(2011, 0, 1, 0, 0, 0, 0); // // 1 Jan 2011, 00:00:00
-    new Date(2011, 0, 1); // the same, hours etc are 0 by default
+    new Date(2011, 0, 1); // 同じです。時などはデフォルトで 0 です
     ```
 
     最小の精度は 1ms (1/1000秒)です:
@@ -67,7 +67,7 @@
     alert( date ); // 1.01.2011, 02:03:04.567
     ```
 
-## date コンポーネントへのアクセス
+## date コンポーネントへのアクセス [#Access date components]
 
 `Date` オブジェクトから 年、月などへアクセスする多くのメソッドがあります。しかし、カテゴライズすることで簡単に覚えることができます。
 
@@ -87,10 +87,10 @@
 多くのJavaScriptエンジンは 標準ではないメソッド `getYear()` を実装しています。このメソッドは非推奨です。これは2桁の年を返す時がありますので、決して使わないでください。年のためには `getFullYear()` がります。
 ```
 
-加えて、週の日を取得することもできます:
+加えて、週の曜日を取得することもできます:
 
 [getDay()](mdn:js/Date/getDay)
-: 週の日を取得し、値は `0` (日曜) から `6` (土曜) です。最初の日は常に日曜です。いくつかの国ではそうではありませんが、変えることはできません。
+: 週の曜日を取得し、値は `0` (日曜) から `6` (土曜) です。最初の日は常に日曜です。いくつかの国ではそうではありませんが、変えることはできません。
 
 **上のすべてのメソッドはローカルタイムゾーンを基準に構成要素を返します。**
 
@@ -99,13 +99,13 @@
 もしもあなたのタイムゾーンが UTC から相対的にシフトしている場合、下のコードは異なる時間を表示します:
 
 ```js run
-// current date
+// 現在の date
 let date = new Date();
 
-// the hour in your current time zone
+// あなたの現在のタイムゾーンでの時間
 alert( date.getHours() );
 
-// the hour in UTC+0 time zone (London time without daylight savings)
+// UTC+0 のタイムゾーンでの時間 (サマータイムのないロンドン時間)
 alert( date.getUTCHours() );
 ```
 
@@ -118,8 +118,8 @@ alert( date.getUTCHours() );
 : ローカルタイムゾーンとUTCの差を、分で返します:
 
     ```js run
-    // if you are in timezone UTC-1, outputs 60
-    // if you are in timezone UTC+3, outputs -180
+    // タイムゾーン UTC-1 にいる場合、60 を出力
+    // タイムゾーン UTC+3 にいる場合、-180 を出力
     alert( new Date().getTimezoneOffset() );
 
     ```
@@ -147,10 +147,10 @@ alert( date.getUTCHours() );
 let today = new Date();
 
 today.setHours(0);
-alert(today); // still today, but the hour is changed to 0
+alert(today); // 依然として今日ですが、時間は 0 に変更されます
 
 today.setHours(0, 0, 0, 0);
-alert(today); // still today, now 00:00:00 sharp.
+alert(today); // 依然として今日で, 今は 00:00:00 です
 ```
 
 ## 自動補正 [#autocorrection]
@@ -161,10 +161,10 @@ alert(today); // still today, now 00:00:00 sharp.
 
 ```js run
 let date = new Date(2013, 0, *!*32*/!*); // 32 Jan 2013 ?!?
-alert(date); // ...is 1st Feb 2013!
+alert(date); // ...iは 2013/2/1 です!
 ```
 
-範囲外の日付の構成要素は自動的に配布されます。
+範囲外の日付の構成要素は自動的に補正されます。
 
 "2016年2月28日" の日付を2日増やす必要があるとします。 うるう年の場合は "2月" または "1月" になることがあります。 それについて考える必要はありません。 単に2日を追加してください。 `Date` オブジェクトは残りの作業を行います:
 
@@ -183,7 +183,7 @@ alert( date ); // 1 Mar 2016
 let date = new Date();
 date.setSeconds(date.getSeconds() + 70);
 
-alert( date ); // shows the correct date
+alert( date ); // 正しい日時を表示します
 ```
 
 また、ゼロ、または負値をセットすることも出来ます。例えば:
@@ -191,10 +191,10 @@ alert( date ); // shows the correct date
 ```js run
 let date = new Date(2016, 0, 2); // 2 Jan 2016
 
-date.setDate(1); // set day 1 of month
+date.setDate(1); // 月の1日を設定します
 alert( date );
 
-date.setDate(0); // min day is 1, so the last day of the previous month is assumed
+date.setDate(0); // 最小日は1なので、先月の最後の日になります
 alert( date ); // 31 Dec 2015
 ```
 
@@ -204,7 +204,7 @@ alert( date ); // 31 Dec 2015
 
 ```js run
 let date = new Date();
-alert(+date); // the number of milliseconds, same as date.getTime()
+alert(+date); // ミリ秒の数値です, date.getTime() と同じです
 ```
 
 重要な副作用は、日付を差し引くことができますが、結果はその差分(ミリ秒)になります。
@@ -212,14 +212,14 @@ alert(+date); // the number of milliseconds, same as date.getTime()
 これは時間の計測で使うことができます:
 
 ```js run
-let start = new Date(); // start counting
+let start = new Date(); // 計測開始
 
-// do the job
+// なにかする
 for (let i = 0; i < 100000; i++) {
   let doSomething = i * i * i;
 }
 
-let end = new Date(); // done
+let end = new Date(); // 終了
 
 alert( `The loop took ${end - start} ms` );
 ```
@@ -238,19 +238,19 @@ alert( `The loop took ${end - start} ms` );
 
 ```js run
 *!*
-let start = Date.now(); // milliseconds count from 1 Jan 1970
+let start = Date.now(); // 1 Jan 1970 からのミリ秒
 */!*
 
-// do the job
+// なにかする
 for (let i = 0; i < 100000; i++) {
   let doSomething = i * i * i;
 }
 
 *!*
-let end = Date.now(); // done
+let end = Date.now(); // 終了
 */!*
 
-alert( `The loop took ${end - start} ms` ); // subtract numbers, not dates
+alert( `The loop took ${end - start} ms` ); // 日付ではなく、数値を減算する
 ```
 
 ## ベンチマーク [#benchmarking]
@@ -260,7 +260,7 @@ CPUを必要とする機能の信頼できるベンチマークが必要な場�
 例えば、2つの日付の差を計算する2つの関数を測定してみましょう。どちらがより速いでしょうか？
 
 ```js
-// we have date1 and date2, which function faster returns their difference in ms?
+// date1 と date2 を持っており、これらの差をmsで返すのはどちらの関数が速いでしょう？
 function diffSubtract(date1, date2) {
   return date2 - date1;
 }
@@ -337,7 +337,7 @@ let time1 = 0;
 let time2 = 0;
 
 *!*
-// run bench(upperSlice) and bench(upperLoop) each 10 times alternating
+// bench(upperSlice) と bench(upperLoop) を交互に10回実行する
 for (let i = 0; i < 10; i++) {
   time1 += bench(diffSubtract);
   time2 += bench(diffGetTime);
@@ -351,7 +351,7 @@ alert( 'Total time for diffGetTime: ' + time2 );
 現代のJavaScriptエンジンは、何度も実行される「ホットコード」に対してのみ高度な最適化を適用し始めます（ほとんど実行されないものを最適化する必要はないためです）。したがって、上記の例では、最初の実行は最適化されていません。 ヒートアップ(メインの実行の前の助走)を追加することもできます:
 
 ```js
-// added for "heating up" prior to the main loop
+// メインループの前に "ヒートアップ" のために追加された
 bench(diffSubtract);
 bench(diffGetTime);
 
@@ -363,12 +363,12 @@ for (let i = 0; i < 10; i++) {
 ```
 
 ```warn header="マイクロベンチマークをするのは気をつけてください"
-現代のJavaScriptエンジンは多くの最適化を行います。それらは "人工的なテスト" の結果を "通常の使用" と比較して調整するかもしれません。 非常に小さいものをベンチマークするときは特にそうです。従って、あなたが真面目にパフォーマンスを理解したいのであれば、JavaScriptエンジンの仕組みを学んでください。そして、マイクロベンチマークは全く必要ないでしょう。
+現代のJavaScriptエンジンは多くの最適化を行います。それらは "人工的なテスト" の結果を "通常の使用" と比較して調整するかもしれません。 非常に小さいものをベンチマークするときは特にそうです。従って、真面目にパフォーマンスを理解したいのであれば、JavaScriptエンジンの仕組みを学んでください。そして、マイクロベンチマークは全く必要ないでしょう。
 
 V8 についての素晴らしい記事は <http://mrale.ph> にあります。
 ```
 
-## 文字列からの Date.parse
+## 文字列からの Date.parse [#Date.parse from a string]
 
 メソッド [Date.parse(str)](mdn:js/Date/parse) は文字列から日付を読むことができます。
 
@@ -403,7 +403,7 @@ alert(date);
 
 - JavaScript での日付と時刻は[Date](mdn:js/Date) オブジェクトで表現されます。"日付だけ"、"時刻だけ" を作ることはできません。`Date` オブジェクトは常に両方を持ちます。
 - 月はゼロからカウントされます(なので、1月は ゼロです)。
-- `getDay()` の週の日もゼロからカウントされます(ゼロは日曜です)
+- `getDay()` の週の曜日もゼロからカウントされます(ゼロは日曜です)
 - 範囲外の構成要素がセットされたとき、`Date` は自身を自動補正します。日/月/時の加減算の場合に良いです。
 - 日付はミリ秒で与えられた差分で引き算することができます。これは、数値に変換されるとき、`Date` はタイムスタンプになるためです。
 - 素早く現在のタイムスタンプを取得するためには `Date.now()` を使いましょう。
@@ -414,9 +414,9 @@ alert(date);
 
 ```js run
 alert(`Loading started ${performance.now()}ms ago`);
-// Something like: "Loading started 34731.26000000001ms ago"
-// .26 is microseconds (260 microseconds)
-// more than 3 digits after the decimal point are precision errors, but only the first 3 are correct
+// このようになります: "Loading started 34731.26000000001ms ago"
+// .26 はマイクロ秒 (260 マイクロ秒)
+// 少数点3桁以上は精度エラーで、最初の3桁だけが正しいです
 ```
 
-Node.JS は `microtime` モジュールや他の方法を持っています。技術的には、どのデバイスや環境で精度をあげることができます。単に `Date` にはないだけです。
+Node.JS は `microtime` モジュールや他の方法を持っています。技術的には、どのデバイスや環境でも精度をあげることができます。単に `Date` にはないだけです。

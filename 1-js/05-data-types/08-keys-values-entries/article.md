@@ -1,20 +1,19 @@
 
 # Object.keys, values, entries
 
-個々のデータ構造から離れて、それらの繰り返し処理について話しましょう。
+個別のデータ構造から離れて、それらの繰り返し処理について話しましょう。
 
 前のチャプターで、`map.keys()`, `map.values()`, `map.entries()` と言うメソッドを見ました。
 
-これらのメソッドは一般的なものであり、データ構造に対してそれを使うことは共通の合意です。もしこれまでに我々自身のデータ構造を作った
-These methods are generic, there is a common agreement to use them for data structures. 私たちが独自のデータ構造を作成した場合、それらも実装するべきです。
+これらのメソッドは一般的なものであり、データ構造に対してそれを使うことは一般的な意見の一致です。独自のデータ構造を作成するときはそれらも実装しておく方がよいです。
 
-それらは以下でサポートされています:
+これらは以下でサポートされています:
 
 - `Map`
 - `Set`
 - `Array` (`arr.values()` を除く)
 
-普通のオブジェクトもまた同様のメソッドをサポートします。しかし、その構文は少し異なります。
+普通のオブジェクトもまた同様のメソッドをサポートします。しかし構文は少し異なります。
 
 ## Object.keys, values, entries
 
@@ -33,7 +32,7 @@ These methods are generic, there is a common agreement to use them for data stru
 
 最初の違いは、`Object.keys(obj)` と呼ばないといけないことです。`obj.keys()` ではありません。
 
-なぜそうなっているのでしょう？主な理由は柔軟性です。JavaScript では、オブジェクトは全ての複雑な構造のベースであることを覚えておいてください。従って、独自の `order.values()` メソッドを実装した `order` のような独自のオブジェクトを持つかもしれません。そして、その上でもまだ `Object.values(order)` を呼ぶことができます。
+なぜそうなっているのでしょう？主な理由は柔軟性です。JavaScript ではオブジェクトは全ての複雑な構造のベースであることを覚えておいてください。従って、独自の `order.values()` メソッドを実装した `order` のような独自のオブジェクトを持つかもしれません。そして、その上でもまだ `Object.values(order)` を呼ぶことができます。
 
 2つ目の違いは、`Object.*` メソッドが "本当の" 配列オブジェクトを返すことです、単なる iterable ではなく。これは主に歴史的な理由です。
 
@@ -58,9 +57,9 @@ let user = {
   age: 30
 };
 
-// loop over values
+// 値のループ
 for (let value of Object.values(user)) {
-  alert(value); // John, then 30
+  alert(value); // John, そして 30
 }
 ```
 

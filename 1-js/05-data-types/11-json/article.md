@@ -50,7 +50,7 @@ let student = {
 let json = JSON.stringify(student);
 */!*
 
-alert(typeof json); // we've got a string!
+alert(typeof json); // string です!
 
 alert(json);
 *!*
@@ -91,10 +91,10 @@ JSONエンコードされたオブジェクトは、オブジェクトリテラ�
 例:
 
 ```js run
-// a number in JSON is just a number
+// JSON 内の数値はまさに数値です
 alert( JSON.stringify(1) ) // 1
 
-// a string in JSON is still a string, but double-quoted
+// JSON 内の文字列は依然として文字列ですが、ダブルクォートです
 alert( JSON.stringify('test') ) // "test"
 
 alert( JSON.stringify(true) ); // true
@@ -102,7 +102,7 @@ alert( JSON.stringify(true) ); // true
 alert( JSON.stringify([1, 2, 3]) ); // [1,2,3]
 ```
 
-JSONはデータのみのクロスランゲージ仕様なので、JavaScript固有のオブジェクトプロパティの一部は `JSON.stringify` によってスキップされます。
+JSONはデータのみのマルチ言語仕様なので、JavaScript固有のオブジェクトプロパティの一部は `JSON.stringify` によってスキップされます。
 
 つまり:
 
@@ -112,17 +112,17 @@ JSONはデータのみのクロスランゲージ仕様なので、JavaScript固
 
 ```js run
 let user = {
-  sayHi() { // ignored
+  sayHi() { // 無視される
     alert("Hello");
   },
-  [Symbol("id")]: 123, // ignored
-  something: undefined // ignored
+  [Symbol("id")]: 123, // 無視される
+  something: undefined // 無視される
 };
 
-alert( JSON.stringify(user) ); // {} (empty object)
+alert( JSON.stringify(user) ); // {} (空オブジェクト)
 ```
 
-通常、それは問題ありません。もしそうしたくない場合、私たちはそのプロセスをカスタマイズすることができます(方法は後ほど)。
+通常、それは問題ありません。もしそうしたくない場合、そのプロセスをカスタマイズすることができます(方法は後ほど)。
 
 このメソッドの素晴らしい点は、入れ子のオブジェクトもサポートされており自動的に変換されることです。
 
@@ -140,7 +140,7 @@ let meetup = {
 };
 
 alert( JSON.stringify(meetup) );
-/* The whole structure is stringified:
+/* 構造全体が文字列化されました:
 {
   "title":"Conference",
   "room":{"number":23,"participants":["john","ann"]},
@@ -162,8 +162,8 @@ let meetup = {
   participants: ["john", "ann"]
 };
 
-meetup.place = room;       // meetup references room
-room.occupiedBy = meetup; // room references meetup
+meetup.place = room;       // meetup は room を参照
+room.occupiedBy = meetup; // room は meetup を参照
 
 *!*
 JSON.stringify(meetup); // Error: Converting circular structure to JSON
@@ -175,7 +175,7 @@ JSON.stringify(meetup); // Error: Converting circular structure to JSON
 ![](json-meetup.png)
 
 
-## 除外(Excluding)と変形(transforming): replacer
+## 除外(Excluding)と変形(transforming): replacer [#Excluding and transforming: replacer]
 
 `JSON.stringify` の完全な構文は次の通りです:
 
@@ -206,16 +206,16 @@ let room = {
 let meetup = {
   title: "Conference",
   participants: [{name: "John"}, {name: "Alice"}],
-  place: room // meetup references room
+  place: room // meetup は room を参照
 };
 
-room.occupiedBy = meetup; // room references meetup
+room.occupiedBy = meetup; // room は meetup を参照
 
 alert( JSON.stringify(meetup, *!*['title', 'participants']*/!*) );
 // {"title":"Conference","participants":[{},{}]}
 ```
 
-ここでは、私たちはあまりにも厳しいかもしれません。プロパティリストは、オブジェクト構造全体に適用されます。 したがって、`name` はリストにないので、participants は空です。
+これはあまりにも厳しいかもしれません。プロパティリストは、オブジェクト構造全体に適用されます。 したがって、`name` はリストにないので、participants は空です。
 
 循環参照を引き起こす `room.occupiedBy` を除いた各プロパティを含めましょう:
 
@@ -227,10 +227,10 @@ let room = {
 let meetup = {
   title: "Conference",
   participants: [{name: "John"}, {name: "Alice"}],
-  place: room // meetup references room
+  place: room // meetup は room を参照
 };
 
-room.occupiedBy = meetup; // room references meetup
+room.occupiedBy = meetup; // room は meetup を参照
 
 alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'number']*/!*) );
 /*
@@ -242,7 +242,7 @@ alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'num
 */
 ```
 
-これで、 `occupiedBy` を除くすべてがシリアライズされました。しかし、プロパティのリストがとても長いです。
+これで、`occupiedBy` を除くすべてがシリアライズされました。しかし、プロパティのリストがとても長いです。
 
 幸いなことに、配列の代わりに `replacer` 関数を使うことができます。
 
@@ -288,7 +288,7 @@ number:       23
 このアイデアは、できるだけ多くの力を `replace` を提供することです。必要に応じてオブジェクト全体を分析したり、置換/スキップすることができます。
 
 
-## 書式設定: spacer
+## 書式設定: spacer [#Formatting: spacer]
 
 `JSON.stringify(value, replacer, spaces)` の第3引数は、行儀の良いフォーマットのために使うスペースの数です。
 
@@ -307,7 +307,7 @@ let user = {
 };
 
 alert(JSON.stringify(user, null, 2));
-/* two-space indents:
+/* 2つのスペースインデント:
 {
   "name": "John",
   "age": 25,
@@ -318,7 +318,7 @@ alert(JSON.stringify(user, null, 2));
 }
 */
 
-/* for JSON.stringify(user, null, 4) the result would be more indented:
+/* JSON.stringify(user, null, 4) の場合、結果はよりインデントされたものです:
 {
     "name": "John",
     "age": 25,
@@ -332,7 +332,7 @@ alert(JSON.stringify(user, null, 2));
 
 `spaces` パラメータは単にロギングや見やすい出力のためだけに使われます。
 
-## "toJSON" のカスタム
+## "toJSON" のカスタム [#Custom “toJSON”]
 
 文字列変換のための `toString` のように、オブジェクトはJSONへの変換のためのメソッド `toJSON` を提供しています。`JSON.stringify` は利用可能であればそれを自動で呼び出します。
 
@@ -415,7 +415,7 @@ reviver
 例:
 
 ```js run
-// stringified array
+// 文字列化された配列
 let numbers = "[0, 1, 2, 3]";
 
 numbers = JSON.parse(numbers);
@@ -453,7 +453,7 @@ let json = `{
 
 正規のJSONは、その開発者が怠惰ではなく、簡単で信頼性があり、非常に高速なパースアルゴリズムの実装を可能にするため厳格なものです。
 
-## リバイバーを使う #revivier
+## リバイバーを使う [#Using reviver]
 
 想像してください -- 私たちはサーバから JSONエンコードされた `meetup` オブジェクトを取得しました。
 
@@ -494,7 +494,7 @@ let meetup = JSON.parse(str, function(key, value) {
 });
 */!*
 
-alert( meetup.date.getDate() ); // now works!
+alert( meetup.date.getDate() ); // 動きません!
 ```
 
 ところで、これはネストされたオブジェクトでも同様に動作します:
@@ -516,7 +516,6 @@ schedule = JSON.parse(schedule, function(key, value) {
 alert( schedule.meetups[1].date.getDate() ); // works!
 */!*
 ```
-
 
 
 ## サマリ [#summary]

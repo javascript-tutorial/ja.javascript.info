@@ -4,20 +4,20 @@ JavaScriptで最も使われる2つのデータ構造は `Object` と `Array` �
 
 オブジェクトは多くの情報を1つのエンティティにまとめることができ、配列は順序付けされたコレクションを格納することが出来ます。従って、私たちはオブジェクトまたは配列を作りそれを1つのエンティティとして扱うことができます。もしくはそれを関数呼出しに渡すこともできます。
 
-*Destructuring assignment (分割代入)* は配列またはオブジェクトの中身を複数の変数に代入できる特別な構文で、便利な場合があります。デストラクタリング(構造の分解)は、多くのパラメータとデフォルト値を持つ複雑な関数でもうまく機能し、我々はすぐにこれらがどのように処理されているかわかるでしょう。
+*Destructuring assignment (分割代入)* は配列またはオブジェクトの中身を複数の変数に代入できる特別な構文で、便利な場合があります。デストラクタリング(構造の分解)は、多くのパラメータとデフォルト値を持つ複雑な関数でもうまく機能し、このチャプターですぐにこれらがどのように処理されているかわかるでしょう。
 
 [cut]
 
-## Array のデストラクタリング
+## Array のデストラクタリング [#Array destructuring]
 
 配列がどのように変数に分解されるかの例です:
 
 ```js
-// we have an array with the name and surname
+// 名前と姓の配列を持っています
 let arr = ["Ilya", "Kantor"]
 
 *!*
-// destructuring assignment
+// 分割代入
 let [firstName, surname] = arr;
 */!*
 
@@ -49,7 +49,7 @@ let surname = arr[1];
 
 ```js run
 *!*
-// first and second elements are not needed
+// 1番目、2番めの要素は不要です
 let [, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
 */!*
 
@@ -59,7 +59,7 @@ alert( title ); // Consul
 上のコードでは、最初と2つ目の配列の要素がスキップされていますが、3つ目は `title` に代入され、残りもまたスキップされています。
 ````
 
-````smart header="右側の任意の反復可能なもの(iterable)で動作します"
+````smart header="右辺の任意の反復可能なもの(iterable)に対して動作します"
 
 ...実際には、配列だけでなく任意の反復可能なもの(iterable)で使うことができます:
 
@@ -71,9 +71,9 @@ let [one, two, three] = new Set([1, 2, 3]);
 ````
 
 
-````smart header="左側の任意のものに代入する"
+````smart header="左辺の任意のものに代入する"
 
-左側には任意の "割り当て可能なもの" を使用できます。
+左辺には任意の "割り当て可能なもの" を使用できます。
 
 例えば、オブジェクトのプロパティも指定できます:
 ```js run
@@ -97,7 +97,7 @@ let user = {
   age: 30
 };
 
-// loop over keys-and-values
+// key-value のループ
 *!*
 for (let [key, value] of Object.entries(user)) {
 */!*
@@ -142,7 +142,7 @@ alert(rest.length); // 2
 
 ### デフォルト値
 
-もしも代入変数よりも配列の値のほうが少ない場合、エラーにはなりません。欠けている値は undefined とみなされます:
+もしも代入変数よりも配列の値のほうが少ない場合、エラーにはなりません。不足している値は undefined とみなされます:
 
 ```js run
 *!*
@@ -156,12 +156,12 @@ alert(firstName); // undefined
 
 ```js run
 *!*
-// default values
+// デフォルト値
 let [name = "Guest", surname = "Anonymous"] = ["Julius"];
 */!*
 
-alert(name);    // Julius (from array)
-alert(surname); // Anonymous (default used)
+alert(name);    // Julius (配列から)
+alert(surname); // Anonymous (デフォルtが使用された)
 ```
 
 デフォルト値はより複雑な式や関数呼び出しにすることもできます。それらは値が提供されなかったときのみ評価されます。
@@ -169,16 +169,15 @@ alert(surname); // Anonymous (default used)
 例えば、ここでは、2つのデフォルトのために `prompt` 関数を使っていますが、それは値がなかったものの場合にだけ実行されます:
 
 ```js run
-// runs only prompt for surname
+// 姓のプロンプトのみを実行する
 let [name = prompt('name?'), surname = prompt('surname?')] = ["Julius"];
 
-alert(name);    // Julius (from array)
-alert(surname); // whatever prompt gets
+alert(name);    // Julius (配列から)
+alert(surname); // プロンプトが得たもの
 ```
 
 
-
-## オブジェクトのデストラクタリング
+## オブジェクトのデストラクタリング [#Object destructuring]
 
 分割代入はオブジェクトでも動作します。
 
@@ -211,13 +210,13 @@ alert(height); // 200
 プロパティ `options.title`, `options.width` と `options.height` は、該当する変数に代入されます。順序は関係ありません。これも動作します。:
 
 ```js
-// changed the order of properties in let {...}
+// let {...} 内のプロパティ順を変えた場合
 let {height, width, title} = { title: "Menu", height: 200, width: 100 }
 ```
 
-左側のパターンはより複雑で、プロパティと変数の間のマッピングを指定することができます。
+左辺のパターンはより複雑で、プロパティと変数の間のマッピングを指定することができます。
 
-もしプロパティを別の名前の変数に代入したい場合、例えば、 `options.width` を変数名 `w` にしたい場合、コロンを使うことでセットすることができます:
+もしプロパティを別の名前の変数に代入したい場合、例えば、`options.width` を変数名 `w` にしたい場合、コロンを使うことでセットすることができます:
 
 ```js run
 let options = {
@@ -260,7 +259,7 @@ alert(height); // 200
 
 ちょうど配列や関数のパラメータのように、デフォルト値は任意の式または関数呼び出しにすることができます。それらは値がない場合に評価されます。
 
-下のコードは、 width は聞かれますが、 title は聞かれません。
+下のコードは、 width はプロンプトで尋ねられますが、 title は聞かれません。
 
 ```js run
 let options = {
@@ -272,7 +271,7 @@ let {width = prompt("width?"), title = prompt("title?")} = options;
 */!*
 
 alert(title);  // Menu
-alert(width);  // (whatever you the result of prompt is)
+alert(width);  // (プロンプトの結果)
 ```
 
 コロンと等号の両方を組み合わせることも出来ます。:
@@ -324,7 +323,7 @@ alert(rest.width);   // 100
 ```js run
 let title, width, height;
 
-// error in this line
+// この行はエラーです
 {title, width, height} = {title: "Menu", width: 200, height: 100};
 ```
 
@@ -344,7 +343,7 @@ let title, width, height;
 ```js run
 let title, width, height;
 
-// okay now
+// これでOKです
 *!*(*/!*{title, width, height} = {title: "Menu", width: 200, height: 100}*!*)*/!*;
 
 alert( title ); // Menu
@@ -352,9 +351,9 @@ alert( title ); // Menu
 
 ````
 
-## 入れ子構造のデストラクタリング
+## 入れ子構造のデストラクタリング [#Nested destructuring]
 
-オブジェクトまたは配列に他のオブジェクトや配列が含まれている場合、より複雑な左側のパターンを使用してより深い部分を抽出することができます。
+オブジェクトまたは配列に他のオブジェクトや配列が含まれている場合、より複雑な左辺のパターンを使用してより深い部分を抽出することができます。
 
 下のコードでは、`options` はプロパティ `size` の中に別のオブジェクトを持っており、プロパティ `items` に配列を持っています。代入の左辺のパターンは同じ構造を持ちます。:
 
@@ -365,17 +364,17 @@ let options = {
     height: 200
   },
   items: ["Cake", "Donut"],
-  extra: true    // something extra that we will not destruct
+  extra: true    // 分割されない何か追加のデータ
 };
 
-// destructuring assignment on multiple lines for clarity
+// わかりやすくするために、複数の行での分割代入
 let {
   size: { // put size here
     width,
     height
   },
-  items: [item1, item2], // assign items here
-  title = "Menu" // not present in the object (default value is used)
+  items: [item1, item2], // ここで items を割り当て
+  title = "Menu" // オブジェクトには存在しない (デフォルト値が使われます)
 } = options;
 
 alert(title);  // Menu
@@ -395,13 +394,13 @@ alert(item2);  // Donut
 
 このようなことも頻繁にあります。:
 ```js
-// take size as a whole into a variable, ignore the rest
+// 変数全体から size を取り、残りは無視します
 let { size } = options;
 ```
 
-## スマートな関数パラメータ
+## スマートな関数パラメータ [#Smart function parameters]
 
-ある関数が多くのパラメータを持っており、それのほどんどがオプションであることがあります。それは特にユーザインタフェースのときに当てはまります。メニューを作る関数を想像してみてください。それは幅と高さ、タイトル、アイテムのリストなどを持っています。
+ある関数が多くのパラメータを持っており、ほどんどがオプションであることがあります。特にユーザインタフェースのときに当てはまります。メニューを作る関数を想像してみてください。幅と高さ、タイトル、アイテムのリストなどを持っています。
 
 ここに、このような関数の悪い書き方があります:
 
@@ -411,7 +410,7 @@ function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
 }
 ```
 
-現実において、問題はどうやって引数の順番を覚えるか、です。通常は IDE が助けてくれます、特にコードが良くドキュメント化されていれば。しかし、他にも…別の問題は、殆どのパタメータがデフォルトでOKの場合の関数の呼び方です。
+現実において、問題はどうやって引数の順番を覚えるか、です。通常は IDE が助けてくれます、特にコードが良くドキュメント化されていれば。しかし、他にも…別の問題はほとんどのパタメータがデフォルトでOKの場合の関数の呼び方です。
 
 こうなりますか?
 
@@ -421,21 +420,21 @@ showMenu("My Menu", undefined, undefined, ["Item1", "Item2"])
 
 これは酷く、より多くのパラメータを扱うときに読みにくくなります。
 
-このようなケースで。デストラクタリングが助けに来てくれます!
+このようなケースでデストラクタリングが助けに来てくれます!
 
-私たちは、オブエジェクトとしてパラメータを渡し、関数はすぐにそれらを変数に分解することができます:
+オブエジェクトとしてパラメータを渡し、関数はそれらを変数に分解することができます:
 
 ```js run
-// we pass object to function
+// オブジェクトを関数に渡す
 let options = {
   title: "My menu",
   items: ["Item1", "Item2"]
 };
 
-// ...and it immediately expands it to variables
+// ...そしてすぐに変数に展開されます
 function showMenu(*!*{title = "Untitled", width = 200, height = 100, items = []}*/!*) {
-  // title, items – taken from options,
-  // width, height – defaults used
+  // title, items – options から取得,
+  // width, height – デフォルト値を利用
   alert( `${title} ${width} ${height}` ); // My Menu 200 100
   alert( items ); // Item1, Item2
 }
@@ -443,7 +442,7 @@ function showMenu(*!*{title = "Untitled", width = 200, height = 100, items = []}
 showMenu(options);
 ```
 
-また、我々は入れ子のオブジェクトやコロンのマッピング使った複雑なデストラクタリングを使うこともできます:
+また、入れ子のオブジェクトやコロンのマッピング使った複雑なデストラクタリングを使うこともできます:
 
 ```js run
 let options = {
@@ -456,7 +455,7 @@ function showMenu({
   title = "Untitled",
   width: w = 100,  // width goes to w
   height: h = 200, // height goes to h
-  items: [item1, item2] // items first element goes to item1, second to item2
+  items: [item1, item2] // items の最初の要素は item1 へ、次は item2 へ
 }) {
 */!*
   alert( `${title} ${w} ${h}` ); // My Menu 100 200
@@ -480,7 +479,7 @@ function({
 ```js
 showMenu({});
 
-// that would give an error
+// これはエラーになります
 showMenu();
 ```
 
@@ -488,7 +487,7 @@ showMenu();
 
 
 ```js run
-// simplified parameters a bit for clarity
+// 明快にするためのちょっとしたパラメータの簡略化
 function showMenu(*!*{ title = "Menu", width = 100, height = 200 } = {}*/!*) {
   alert( `${title} ${width} ${height}` );
 }
@@ -496,7 +495,7 @@ function showMenu(*!*{ title = "Menu", width = 100, height = 200 } = {}*/!*) {
 showMenu(); // Menu 100 200
 ```
 
-上のコードでは、全体の引数オブジェクトがデフォルトで `{}` なので、常に分解されて何かがあります。
+上のコードでは、全体の引数オブジェクトがデフォルトで `{}` なので常に分解する何かがあります。
 
 ## サマリ [#summary]
 

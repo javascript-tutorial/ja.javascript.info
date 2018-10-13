@@ -303,11 +303,11 @@ func.apply(context, args);   // is same as using apply
 より詳しく見ると、 `call` と `apply` の使い方には若干の違いがあります。
 
 - スプレッド演算子 `...` は `call` へのリストとして *反復可能(iterable)* な `args` を渡すことができます。
-- `apply` は *配列型(array-like)* な `args` のみを許可します。
+- `apply` は *配列ライク(array-like)* な `args` のみを許可します。
 
-したがって、これらの呼び出しはお互いを補完します。 反復可能(iterable) が期待されるところでは、 `call` が動作します。配列型(array-like)が期待される場合は `apply` が動作します。
+したがって、これらの呼び出しはお互いを補完します。 反復可能(iterable) が期待されるところでは、 `call` が動作します。配列ライク(array-like)が期待される場合は `apply` が動作します。
 
-また、`args` が 反復可能であり配列型である場合は、本当の配列のように、技術的にはどちらを使うことも可能ですが、`apply` は恐らくより高速です。なぜなら、1つの操作だからです。ほとんどのJavaScriptエンジンの内部の最適化は、 `call + spread` のペアよりも良いものです。
+また、`args` が 反復可能であり配列ライクである場合は、本当の配列のように、技術的にはどちらを使うことも可能ですが、`apply` は恐らくより高速です。なぜなら、1つの操作だからです。ほとんどのJavaScriptエンジンの内部の最適化は、 `call + spread` のペアよりも良いものです。
 
 `apply` の最も重要な用途の1つは、次のように別の関数へ呼び出しを渡すことです。:
 
@@ -388,7 +388,7 @@ function hash(args) {
 }
 ```
 
-...残念なことに、これは動作しません。なぜなら私たちが呼んでいる `hash(arguments)` と `arguments` オブジェクトは両方とも 反復可能であり配列型ではありますが、本当の配列ではありません。
+...残念なことに、これは動作しません。なぜなら私たちが呼んでいる `hash(arguments)` と `arguments` オブジェクトは両方とも 反復可能であり配列ライクではありますが、本当の配列ではありません。
 
 なので下の通り、 `join` の呼び出しは失敗します:
 
@@ -432,7 +432,7 @@ Taken from the specification almost "as-is":
 6. `this.length` の項目が処理されるまで続けます。
 7. `result` を返します。
 
-従って、技術的には `this` を取り、`this[0]`, `this[1]` ... などを一緒に結合します。これは意図的に任意の配列型(array-like) の `this` を許容する方法で書かれています(多くのメソッドがこの慣習に従っています)。そういうわけで `this=arguments` でも動きます。
+従って、技術的には `this` を取り、`this[0]`, `this[1]` ... などを一緒に結合します。これは意図的に任意の配列ライク(array-like) の `this` を許容する方法で書かれています(多くのメソッドがこの慣習に従っています)。そういうわけで `this=arguments` でも動きます。
 
 ## サマリ [#summary]
 
@@ -445,7 +445,7 @@ Taken from the specification almost "as-is":
 `cachingDecorator` を実装するために、次のメソッドを学びました:
 
 - [func.call(context, arg1, arg2...)](mdn:js/Function/call) -- `func` を与えられたコンテキストと引数で呼び出します。
-- [func.apply(context, args)](mdn:js/Function/apply) -- `context` を `this` とし、配列型 `args` を引数のリストとして `func` を呼び出します。
+- [func.apply(context, args)](mdn:js/Function/apply) -- `context` を `this` とし、配列ライク `args` を引数のリストとして `func` を呼び出します。
 
 一般的な *呼び出し転送(call forwarding)* は通常 `apply` で行われます。:
 

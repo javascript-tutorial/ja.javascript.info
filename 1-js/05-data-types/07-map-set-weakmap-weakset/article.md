@@ -1,7 +1,7 @@
 
 # Map, Set, WeakMap と WeakSet
 
-今や、私たちは次の複雑なデータ構造について知っています:
+今や、私たちは次のような複雑なデータ構造を知っています:
 
 - キー付けされたコレクションを格納するオブジェクト
 - 順序付けされたコレクションを格納する配列
@@ -27,12 +27,12 @@
 ```js run
 let map = new Map();
 
-map.set('1', 'str1');   // a string key
-map.set(1, 'num1');     // a numeric key
-map.set(true, 'bool1'); // a boolean key
+map.set('1', 'str1');   // 文字列キー
+map.set(1, 'num1');     // 数値キー
+map.set(true, 'bool1'); // 真偽値キー
 
-// remember the regular Object? it would convert keys to string
-// Map keeps the type, so these two are different:
+// 通常のオブジェクトを覚えていますか？キーを文字列に変換していました。
+// Map は型を維持します。なので、これらは別ものです:
 alert( map.get(1)   ); // 'num1'
 alert( map.get('1') ); // 'str1'
 
@@ -48,10 +48,10 @@ alert( map.size ); // 3
 ```js run
 let john = { name: "John" };
 
-// for every user, let's store his visits count
+// 各ユーザに対し、訪問回数を保持しましょう
 let visitsCountMap = new Map();
 
-// john is the key for the map
+// john は map のキーです
 visitsCountMap.set(john, 123);
 
 alert( visitsCountMap.get(john) ); // 123
@@ -62,12 +62,12 @@ alert( visitsCountMap.get(john) ); // 123
 以前、`Map` が存在する前は、ユニークな識別子をオブジェクトに追加していました:
 
 ```js run
-// we add the id field
+// id フィールドを追加します
 let john = { name: "John", *!*id: 1*/!* };
 
 let visitsCounts = {};
 
-// now store the value by id
+// id をキーに値を保持します
 visitsCounts[john.id] = 123;
 
 alert( visitsCounts[john.id] ); // 123
@@ -96,10 +96,10 @@ map.set('1', 'str1')
 
 ## オブジェクトからの Map
 
-`Map` が作られるとき、key-value ペアをもつ配列(または別の iterable) を渡すことができます:
+`Map` を生成する時、key-value ペアをもつ配列(または別の iterable) を渡すことができます:
 
 ```js
-// array of [key, value] pairs
+// [key, value] ペアの配列
 let map = new Map([
   ['1',  'str1'],
   [1,    'num1'],
@@ -120,12 +120,12 @@ let map = new Map(Object.entries({
 
 ここで、`Object.entries` はキー/値のペアの配列を返します: `[ ["name","John"], ["age", 30] ]`。これは `Map` が必要とするものです。
 
-## Map での繰り返し
+## Map での繰り返し [#Iteration over Map]
 
 `map` でループするためには３つのメソッドがあります:
 
-- `map.keys()` -- キーのための iterable を返します。
-- `map.values()` -- 値のための iterable を返します。
+- `map.keys()` -- キーに対する iterable を返します。
+- `map.values()` -- 値に対する iterable を返します。
 - `map.entries()` -- エントリ `[key, value]`　の iterable を返します。これは `for..of` でデフォルトで使われます。
 
 例:
@@ -137,19 +137,19 @@ let recipeMap = new Map([
   ['onion',    50]
 ]);
 
-// iterate over keys (vegetables)
+// キー(野菜)の反復
 for (let vegetable of recipeMap.keys()) {
   alert(vegetable); // cucumber, tomateos, onion
 }
 
-// iterate over values (amounts)
+// 値(量)の反復 
 for (let amount of recipeMap.values()) {
   alert(amount); // 500, 350, 50
 }
 
-// iterate over [key, value] entries
-for (let entry of recipeMap) { // the same as of recipeMap.entries()
-  alert(entry); // cucumber,500 (and so on)
+// [key, value] エントリーの反復
+for (let entry of recipeMap) { // recipeMap.entries() と同じ
+  alert(entry); // cucumber,500 (など)
 }
 ```
 
@@ -179,7 +179,7 @@ recipeMap.forEach( (value, key, map) => {
 - `set.clear()` -- set から全てを削除します。
 - `set.size` -- set の要素数です。
 
-例えば、私たちには訪問者がいて、全員を覚えておきたいです。が、繰り返しの訪問で重複につながるべきではありません。訪問者は一度だけ "カウント" されなければいけません。
+例えば、訪問者全員を覚えておきたいです。が、繰り返しの訪問で重複しないようにしたいです。訪問者は一度だけ "カウント" される必要があります。
 
 `Set` はそれに相応しいものです:
 
@@ -190,24 +190,24 @@ let john = { name: "John" };
 let pete = { name: "Pete" };
 let mary = { name: "Mary" };
 
-// visits, some users come multiple times
+// 訪問、何度も来るユーザもいます
 set.add(john);
 set.add(pete);
 set.add(mary);
 set.add(john);
 set.add(mary);
 
-// set keeps only unique values
+// set はユニークな値のみをキープします
 alert( set.size ); // 3
 
 for (let user of set) {
-  alert(user.name); // John (then Pete and Mary)
+  alert(user.name); // John (そして Pete と Mary)
 }
 ```
 
-`Set` の代替は、ユーザの配列と全ての挿入時に [arr.find](mdn:js/Array/find) を使って重複をチェックするためのコードです。しかし、このメソッドは全ての要素をチェックするために配列全体を見るので、パフォーマンスははるかに悪いです。`Set` は一意性チェックのために、内部最適化がされています。
+`Set` の代替は、ユーザの配列と全ての挿入時に [arr.find](mdn:js/Array/find) を使って重複をチェックするためのコードです。しかし、このメソッドは全ての要素をチェックするために配列全体を見るので、パフォーマンスははるかに悪いです。`Set` は一意性チェックのために、内部最適化されています。
 
-## Set での繰り返し
+## Set での繰り返し [#Iteration over Set]
 
 `for..of` または `forEach` を使うことで set をループすることができます:
 
@@ -216,7 +216,7 @@ let set = new Set(["oranges", "apples", "bananas"]);
 
 for (let value of set) alert(value);
 
-// the same with forEach:
+// forEach と同じ:
 set.forEach((value, valueAgain, set) => {
   alert(value);
 });
@@ -230,7 +230,7 @@ set.forEach((value, valueAgain, set) => {
 - `set.values()` -- `set.keys` と同じで、`Map` との互換性のためです。
 - `set.entries()` -- `[value, value]` のエントリのための iterable なオブジェクトを返します。`Map` の互換性のために存在します。
 
-## WeakMap と WeakSet
+## WeakMap と WeakSet [#WeakMap and WeakSet]
 
 `WeakSet` はJavaScriptがメモリからそのアイテムを削除するのを妨げない、`Set` の特別な種類です。`WeakMap` は `Map` と同じものです。
 
@@ -240,13 +240,13 @@ set.forEach((value, valueAgain, set) => {
 ```js
 let john = { name: "John" };
 
-// the object can be accessed, john is the reference to it
+// オブジェクトへはアクセス可能です。john がその参照を持っています
 
-// overwrite the reference
+// 参照を上書きします
 john = null;
 
 *!*
-// the object will be removed from memory
+// オブジェクトはメモリから削除されるでしょう
 */!*
 ```
 
@@ -261,17 +261,17 @@ let john = { name: "John" };
 let map = new Map();
 map.set(john, "...");
 
-john = null; // overwrite the reference
+john = null; // 参照を上書きします
 
 *!*
-// john is stored inside the map
-// we can get it by using map.keys()
+// john は map の中に保持されています
+// map.keys() で取得することができます
 */!*
 ```
 
 `WeakMap/WeakSet` を除いては。
 
-**`WeakMap/WeakSet` メモリからオブジェクトを削除することを妨げません**
+**`WeakMap/WeakSet` はメモリからオブジェクトを削除することを妨げません**
 
 `WeakMap` で進めてみましょう。
 
@@ -282,10 +282,10 @@ let weakMap = new WeakMap();
 
 let obj = {};
 
-weakMap.set(obj, "ok"); // works fine (object key)
+weakMap.set(obj, "ok"); // 正常に動作します (オブジェクトのキー)
 
 *!*
-weakMap.set("test", "Whoops"); // Error, because "test" is a primitive
+weakMap.set("test", "Whoops"); // エラー, "test" はプリミティブだからです
 */!*
 ```
 
@@ -297,12 +297,12 @@ let john = { name: "John" };
 let weakMap = new WeakMap();
 weakMap.set(john, "...");
 
-john = null; // overwrite the reference
+john = null; // 参照を上書きします
 
-// john is removed from memory!
+// john はメモリから削除されます!
 ```
 
-上の例の通常の `Map` の場合と比べて見てください。もしも `WeakMap` のキーとしてのみ `john` が存在する場合 -- それは自動的に削除されます。
+上の例を通常の `Map` の場合と比べて見てください。`WeakMap` のキーとしてのみ `john` が存在する場合 -- それは自動的に削除されます。
 
 ...そして、`WeakMap` は `keys()`, `values()`, `entries()` のメソッドをサポートしません。それを繰り返すことはできないので、全てのキーまたは値を受け取る方法はありません。
 
@@ -315,42 +315,42 @@ john = null; // overwrite the reference
 
 なぜこのような制限があるのでしょうか？これは技術的な理由です。もしオブジェクトが全ての他の参照を失った場合(上のコードの `john` のように)、次に自動的に削除されます。しかし、技術的には *いつクリーンアップが発生するか* は正確には指定されていません。
 
-JavaScriptエンジンはそれを決定します。すぐにメモリのクリーンアップを実行するか、待ってより多くの削除が発生した後にクリーンアップするかを選択できます。従って、技術的には`WeakMap` の現在の要素数はわかりません。エンジンがクリーンアップしている/していない、または部分的にそれをしているかもしれません。このような理由から、`WeakMap` 全体にアクセスするメソッドはサポートされていません。
+JavaScriptエンジンがそれを決定します。すぐにメモリのクリーンアップを実行するか、待ってより多くの削除が発生した後にクリーンアップするかを選択できます。従って、技術的には`WeakMap` の現在の要素数はわかりません。エンジンがクリーンアップしている/していない、または部分的にそれをしているかもしれません。このような理由から、`WeakMap` 全体にアクセスするメソッドはサポートされていません。
 
-さて、我々はどこでこのようなものが必要でしょうか？
+さて、どこでこのようなものが必要なのでしょう？
 
-`WeakMap` の考えは、オブジェクトが存在している間だけ、存在するオブジェクトに対して何かを格納することができます。しかし、私たちはそれに何かを格納しているという事実だけでオブジェクトを強制的に生存させるわけではありません。
+`WeakMap` の考えは、オブジェクトが存在している間だけ、存在するオブジェクトに対して何かを格納することができます。しかし、それに何かを格納しているという事実だけで、オブジェクトを強制的に生存させるわけではありません。
 
 ```js
 weakMap.put(john, "secret documents");
-// if john dies, secret documents will be destroyed
+// もし john が亡くなった場合、秘密のドキュメントは破壊されるでしょう
 ```
 
-我々がどこかにオブジェクトを格納するメインの場所を持ち、オブジェクトが存続している間だけ関連する追加情報を保持する必要がある場合に便利です。
+どこかにオブジェクトを格納するメインの場所を持ち、オブジェクトが存続している間だけ関連する追加情報を保持する必要がある、といった場合に便利です。
 
 例を見てみましょう。
 
-例えば、ユーザ毎の訪問カウントを持つコードを持っています。情報は map に格納されています。: ユーザがキーで、訪問カウントが値です。ユーザが離れたとき、もう彼の訪問カウントを格納したくはありません。
+例えば、ユーザ毎の訪問カウントを持つコードを持っています。情報は map に格納されています。: ユーザがキーで、訪問カウントが値です。ユーザが去ったとき、もう訪問カウントを格納したくはありません。
 
-1つの方法は離れたユーザを記録を保持し、手動で記憶域から削除します。:
+1つの方法は去ったユーザを記録を保持し、手動で記憶域から削除します。:
 
 ```js run
 let john = { name: "John" };
 
-// map: user => visits count
+// map: user => 訪問数
 let visitsCountMap = new Map();
 
-// john is the key for the map
+// john は map のキー
 visitsCountMap.set(john, 123);
 
-// now john leaves us, we don't need him anymore
+// 今 john は去りました。これ以上彼の情報は不要です
 john = null;
 
 *!*
-// but it's still in the map, we need to clean it!
+// map の場合依然として残り続けるので、クリーンが必要です!
 */!*
 alert( visitsCountMap.size ); // 1
-// it's also in the memory, because Map uses it as the key
+// Mapはそれをキーとして使用するため、メモリ内にもあります
 ```
 
 別の方法は `WeakMap` を使うことです:
@@ -362,16 +362,16 @@ let visitsCountMap = new WeakMap();
 
 visitsCountMap.set(john, 123);
 
-// now john leaves us, we don't need him anymore
+// 今 john は去りました。これ以上彼の情報は不要です
 john = null;
 
-// there are no references except WeakMap,
-// so the object is removed both from the memory and from visitsCountMap automatically
+// WeakMap 以外の参照がなくなりました
+// オブジェクトはメモリと visitsCountMap 両方から自動的に削除されます
 ```
 
 通常の `Map` では、ユーザが離れた後のクリーンアップはうんざりするタスクです: メインの格納域(変数または配列)から削除するだけでなく、`visitsCountMap` のような追加の格納域のクリーンアップも必要になります。また、より複雑なケースでは、ユーザがコードの一箇所で管理され、追加の構造構造が別の場所にあり、削除に関する情報が得られないときには面倒になる可能性があります。
 
-`WeakMap` は、自動的にクリーンアップするので、物事をよりシンプルにすることができます。その中にある、上の例の訪問カウントのような情報はキーオブジェクトが存在する間だけ生きています。
+`WeakMap` は自動的にクリーンアップするので、物事をよりシンプルにすることができます。その中にある、上の例の訪問カウントのような情報はキーオブジェクトが存在する間だけ生きています。
 
 `WeakSet` も同じように振る舞います。:
 
@@ -388,18 +388,18 @@ let messages = [
     {text: "See you soon", from: "Alice"}
 ];
 
-// fill it with array elements (3 items)
+// 配列要素(3項目)で埋めます
 let unreadSet = new WeakSet(messages);
 
-// we can use unreadSet to see whether a message is unread
+// message が未読かは unreadSet を見ることで確認できます
 alert(unreadSet.has(messages[1])); // true
-// remove it from the set after reading
+// 読んだ後にセットから取り除く
 unreadSet.delete(messages[1]); // true
 
-// and when we shift our messages history, the set is cleaned up automatically
+// そして、メッセージ履歴を shift すると、set は自動でクリーンアップされます
 messages.shift();
-// no need to clean unreadSet, it now has 2 items
-// unfortunately, there's no method to get the exact count of items, so can't show it
+// unreadSet をクリーンする必要はありません。今は2つの要素になっています。
+// 残念ながら、項目の正確な数をカウントするメソッドがないためここでお見せすることはできませんが
 ```
 
 `WeakMap` と `WeakSet` の最も注目に値する制限は反復処理がないこと、また現在のすべての中身を取得することができないことです。それらは不便に見えるかもしれませんが、実際には、`WeakMap/WeakSet` の主な仕事(別の場所で格納/管理されているオブジェクトのための "追加" のデータ記憶域になる)を妨げることはありません。
