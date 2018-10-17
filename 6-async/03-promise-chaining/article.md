@@ -265,20 +265,20 @@ fetch('/article/promise-chaining/user.json')
   .then(user => alert(user.name)); // iliakan
 ```
 
-Now let's do something with the loaded user.
+次に、ロードしたユーザで何かしてみましょう。
 
-For instance, we can make one more request to github, load the user profile and show the avatar:
+例えば、github へもう1つリクエストを行い、ユーザプロフィールを読み込みアバターを表示させてみます。:
 
 ```js run
-// Make a request for user.json
+// user.json へのリクエスト
 fetch('/article/promise-chaining/user.json')
-  // Load it as json
+  // json としてロード
   .then(response => response.json())
-  // Make a request to github
+  // github へのリクエスト
   .then(user => fetch(`https://api.github.com/users/${user.name}`))
-  // Load the response as json
+  // json としてロード
   .then(response => response.json())
-  // Show the avatar image (githubUser.avatar_url) for 3 seconds (maybe animate it)
+  // ３秒間アバター画像を表示 (githubUser.avatar_url) 
   .then(githubUser => {
     let img = document.createElement('img');
     img.src = githubUser.avatar_url;
@@ -289,13 +289,13 @@ fetch('/article/promise-chaining/user.json')
   });
 ```
 
-The code works, see comments about the details, but it should be quite self-descriptive. Although, there's a potential problem in it, a typical error of those who begin to use promises.
+このコードは動作します(コードの詳細についてはコメントをみてください)が、完全に自己記述的であるべきです。ここには promise を使い始める人が行う典型的な問題があります。
 
-Look at the line `(*)`: how can we do something *after* the avatar has finished showing and gets removed? For instance, we'd like to show a form for editing that user or something else. As of now, there's no way.
+行 `(*)` を見てください: アバターの表示が終了して削除された *後* に何かをするにはどうすればいいでしょうか？例えば、ユーザ情報を編集するためのフォームを表示したいとします。今のところ、方法はありません。
 
-To make the chain extendable, we need to return a promise that resolves when the avatar finishes showing.
+チェーンを拡張可能にするには、アバターの表示が終了したときに resolve を行う promise を返す必要があります。
 
-Like this:
+次のようになります:
 
 ```js run
 fetch('/article/promise-chaining/user.json')
@@ -317,17 +317,17 @@ fetch('/article/promise-chaining/user.json')
 */!*
     }, 3000);
   }))
-  // triggers after 3 seconds
+  // 3秒後にトリガされます
   .then(githubUser => alert(`Finished showing ${githubUser.name}`));
 ```
 
-Now right after `setTimeout` runs `img.remove()`, it calls `resolve(githubUser)`, thus passing the control to the next `.then` in the chain and passing forward the user data.
+今、`setTimeout` は `img.resolve()` を実行した直後に `resolve(githubUser)` を呼び出します。なので、チェーン内の次の `.then` に制御を渡し、ユーザデータを転送します。
 
-As a rule, an asynchronous action should always return a promise.
+ルールとして、非同期アクションは常に promise を返すべきです。
 
-That makes possible to plan actions after it. Even if we don't plan to extend the chain now, we may need it later.
+これは、あるアクションの後に別のアクションを実行させることができます。たとえ現時点ではチェーンの拡張予定はなくても、後で必要になるかもしれません。
 
-Finally, we can split the code into reusable functions:
+最後に、先程のコードは再利用可能な関数に分割できます:
 
 ```js run
 function loadJson(url) {
@@ -354,7 +354,7 @@ function showAvatar(githubUser) {
   });
 }
 
-// Use them:
+// 上記を使う:
 loadJson('/article/promise-chaining/user.json')
   .then(user => loadGithubUser(user.name))
   .then(showAvatar)
@@ -362,34 +362,33 @@ loadJson('/article/promise-chaining/user.json')
   // ...
 ```
 
-## Error handling
+## エラーハンドリング [#Error handling]
 
-Asynchronous actions may sometimes fail: in case of an error the corresponding promise becomes rejected. For instance, `fetch` fails if the remote server is not available. We can use `.catch` to handle errors (rejections).
+非同期アクションは失敗する可能性があります: エラーの場合、対応する promise は reject されます。例えば、リモートサーバが利用不可で `fetch` が失敗する場合です。エラー(拒否/reject)を扱うには `.catch` を使います。
 
-Promise chaining is great at that aspect. When a promise rejects, the control jumps to the closest rejection handler down the chain. That's very convenient in practice.
+promise のチェーンはその点で優れています。promise が reject されると、コントロールはチェーンに沿って最も近い reject ハンドラにジャンプします。それは実際に非常に便利です。
 
-For instance, in the code below the URL is wrong (no such server) and `.catch` handles the error:
+例えば、下のコードでは URL が誤っており(存在しないサーバ)、`.catch` がエラーをハンドリングします:
 
 ```js run
 *!*
 fetch('https://no-such-server.blabla') // rejects
 */!*
   .then(response => response.json())
-  .catch(err => alert(err)) // TypeError: failed to fetch (the text may vary)
+  .catch(err => alert(err)) // TypeError: failed to fetch (エラーメッセージ内容は異なる場合があります)
 ```
 
-Or, maybe, everything is all right with the server, but the response is not a valid JSON:
+または、おそらくサーバはすべて正しく動作したが、応答が有効な JSON でない場合:
 
 ```js run
-fetch('/') // fetch works fine now, the server responds successfully
+fetch('/') // fetch はうまく動作し、サーバは成功を応答します
 *!*
-  .then(response => response.json()) // rejects: the page is HTML, not a valid json
+  .then(response => response.json()) // rejects: ページが HTML で有効な json ではなかった場合
 */!*
   .catch(err => alert(err)) // SyntaxError: Unexpected token < in JSON at position 0
 ```
 
-
-In the example below we append `.catch` to handle all errors in the avatar-loading-and-showing chain:
+下の例では、アバターの読み込みと表示のチェーンでのすべてのエラーを処理する `.catch` を追加しています:
 
 ```js run
 fetch('/article/promise-chaining/user.json')
@@ -410,13 +409,13 @@ fetch('/article/promise-chaining/user.json')
   .catch(error => alert(error.message));
 ```
 
-Here `.catch` doesn't trigger at all, because there are no errors. But if any of the promises above rejects, then it would execute.
+ここでは、`.catch` はまったく呼ばれません。なぜならエラーが起きていないからです。しかし、上の prmise のいずれかが reject となった場合、catch は実行されます。
 
-## Implicit try..catch
+## 暗黙の try..catch [#Implicit try..catch]
 
-The code of the executor and promise handlers has an "invisible `try..catch`" around it. If an error happens, it gets caught and treated as a rejection.
+executor と promise ハンドラのコードは "見えない `try..catch`" を持っています。エラーが起きた場合、キャッチして reject として扱います。
 
-For instance, this code:
+例えば、このコードを見てください:
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -426,7 +425,7 @@ new Promise(function(resolve, reject) {
 }).catch(alert); // Error: Whoops!
 ```
 
-...Works the same way as this:
+...これは次のと同じように動作します:
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -436,45 +435,46 @@ new Promise(function(resolve, reject) {
 }).catch(alert); // Error: Whoops!
 ```
 
-The "invisible `try..catch`" around the executor automatically catches the error and treats it as a rejection.
+executor にある "見えない `try..catch` はエラーを自動的にキャッチし reject として扱っています。
 
-That's so not only in the executor, but in handlers as well. If we `throw` inside `.then` handler, that means a rejected promise, so the control jumps to the nearest error handler.
+これは executor だけでなくハンドラの中でも同様です。`.then` ハンドラの中で `throw` した場合、promise の reject を意味するので、コントロールは最も近いエラーハンドラにジャンプします。
 
-Here's an example:
+ここにその例があります:
 
 ```js run
 new Promise(function(resolve, reject) {
   resolve("ok");
 }).then(function(result) {
 *!*
-  throw new Error("Whoops!"); // rejects the promise
+  throw new Error("Whoops!"); // promise を rejects
 */!*
 }).catch(alert); // Error: Whoops!
 ```
 
-That's so not only for `throw`, but for any errors, including programming errors as well:
+また、これは `throw` だけでなく同様にプログラムエラーを含む任意のエラーに対してです:
 
 ```js run
 new Promise(function(resolve, reject) {
   resolve("ok");
 }).then(function(result) {
 *!*
-  blabla(); // no such function
+  blabla(); // このような関数はありません
 */!*
 }).catch(alert); // ReferenceError: blabla is not defined
 ```
 
-As a side effect, the final `.catch` not only catches explicit rejections, but also occasional errors in the handlers above.
+副作用として、最後の `.catch` は明示的な reject だけでなく、上記のハンドラのような偶発的なエラーもキャッチします。
 
-## Rethrowing
+## 再スロー [#Rethrowing]
 
-As we already noticed, `.catch` behaves like `try..catch`. We may have as many `.then` as we want, and then use a single `.catch` at the end to handle errors in all of them.
+すでにお気づきのように、`.catch` は　`try..catch` のように振る舞います。私たちは必要な数の `.then` を持ち、最後に単一の `.catch` を使用してすべてのエラーを処理します。
 
-In a regular `try..catch` we can analyze the error and maybe rethrow it if can't handle. The same thing is possible for promises. If we `throw` inside `.catch`, then the control goes to the next closest error handler. And if we handle the error and finish normally, then it continues to the closest successful `.then` handler.
+通常の `try..catch` では、エラーを解析し、処理できない場合は再スローする場合があります。promise でも同じことが可能です。`.catch`　の中で `throw` する場合、コントロールは次の最も近いエラーハンドラにジャンプします。そして、エラーを処理して正常に終了すると、次に最も近い成功した `.then` ハンドラに続きます。
 
-In the example below the `.catch` successfully handles the error:
+下の例では、`.catch` がエラーを正常に処理しています:
+
 ```js run
-// the execution: catch -> then
+// 実行: catch -> then
 new Promise(function(resolve, reject) {
 
   throw new Error("Whoops!");
@@ -486,12 +486,12 @@ new Promise(function(resolve, reject) {
 }).then(() => alert("Next successful handler runs"));
 ```
 
-Here the `.catch` block finishes normally. So the next successful handler is called. Or it could return something, that would be the same.
+ここでは、`.catch` ブロックが正常に終了しています。なので、次の成功ハンドラが呼ばれます。また何かを返すこともでき、その場合も同じです(値が渡されます)。
 
-...And here the `.catch` block analyzes the error and throws it again:
+...そしてここでは `.catch` ブロックはエラーを解析し、再度スローしています:
 
 ```js run
-// the execution: catch -> catch -> then
+// 実行: catch -> catch -> then
 new Promise(function(resolve, reject) {
 
   throw new Error("Whoops!");
@@ -499,36 +499,36 @@ new Promise(function(resolve, reject) {
 }).catch(function(error) { // (*)
 
   if (error instanceof URIError) {
-    // handle it
+    // エラー処理
   } else {
     alert("Can't handle such error");
 
 *!*
-    throw error; // throwing this or another error jumps to the next catch
+    throw error; // ここで投げられたエラーは次の catch へジャンプします
 */!*
   }
 
 }).then(function() {
-  /* never runs here */
+  /* 実行されません */
 }).catch(error => { // (**)
 
   alert(`The unknown error has occurred: ${error}`);
-  // don't return anything => execution goes the normal way
+  // 何も返しません => 実行は通常通りに進みます
 
 });
 ```
 
-The handler `(*)` catches the error and just can't handle it, because it's not `URIError`, so it throws it again. Then the execution jumps to the next `.catch` down the chain `(**)`.
+ハンドラ `(*)` はエラーをキャッチしましたが処理していません。なぜなら、`URIError` ではないからです。なので、再びスローします。その後、実行は次の `.catch` へ移ります。
 
-In the section below we'll see a practical example of rethrowing.
+下のセクションでは、再スローの実際的な例を見ていきます。
 
-## Fetch error handling example
+## Fetch エラー処理の例 [#Fetch error handling example]
 
-Let's improve error handling for the user-loading example.
+ユーザ読み込みの例のエラー処理を改善しましょう。
 
-The promise returned by [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) rejects when it's impossible to make a request. For instance, a remote server is not available, or the URL is malformed. But if the remote server responds with error 404, or even error 500, then it's considered a valid response.
+[fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) により返却された promise は、要求を行うことができない場合に reject します。例えば、リモートサーバが利用不可の場合、または URL が不正な場合です。しかし、リモートサーバが 404 や 500 エラーといったの応答の場合、有効な応答とみなします。
 
-What if the server returns a non-JSON page with error 500 in the line `(*)`? What if there's no such user, and github returns a page with error 404 at `(**)`?
+仮にサーバが行 `(*)` で 500 エラーの非JSONページを返したらどうなるでしょう？そのようなユーザはおらず、github が `(**)` で 404 エラーを返すとどうなるでしょう？
 
 ```js run
 fetch('no-such-user.json') // (*)
@@ -539,12 +539,11 @@ fetch('no-such-user.json') // (*)
   // ...
 ```
 
+現時点では、コードは何が起きても応答を JSON として読み込もうとし、構文エラーで死にます。`no-such-user.json` は存在しないので、上の例を実行することでそれを見ることができます。
 
-As of now, the code tries to load the response as JSON no matter what and dies with a syntax error. You can see that by running the example above, as the file `no-such-user.json` doesn't exist.
+このエラーはチェーンを通じて失敗したものであり、詳細(何が失敗したのか、どこで失敗したのか)を含まないため良くありません。
 
-That's not good, because the error just falls through the chain, without details: what failed and where.
-
-So let's add one more step: we should check the `response.status` property that has HTTP status, and if it's not 200, then throw an error.
+したがって、もう1ステップ追加しましょう: HTTP ステータスが持っている `response.status` をチェックします。それが 200 でなければエラーをスローします。
 
 ```js run
 class HttpError extends Error { // (1)
@@ -570,15 +569,16 @@ loadJson('no-such-user.json') // (3)
   .catch(alert); // HttpError: 404 for .../no-such-user.json
 ```
 
-1. We make a custom class for HTTP Errors to distinguish them from other types of errors. Besides, the new class has a constructor that accepts the `response` object and saves it in the error. So error-handling code will be able to access it.
-2. Then we put together the requesting and error-handling code into a function that fetches the `url` *and* treats any non-200 status as an error. That's convenient, because we often need such logic.
-3. Now `alert` shows better message.
+1. 他のエラータイプと区別するために HTTP エラーのためのカスタムクラスを作ります。さらに、新しいクラスは `response` オブジェクトを受け取り、エラーに保存するコンストラクタを持ちます。これにより、エラー処理のコードがアクセスできるようになります。
+2. 次に、リクエストとエラー処理のコードを `url` へ fetch する関数に置き、 *加えて* 任意の非 200 ステータスをエラーとして扱います。
+3. これで `alert` はより良いメッセージが表示されます。
 
-The great thing about having our own class for errors is that we can easily check for it in error-handling code.
+エラーに対する独自のクラスを持つことの素晴らしい点は、エラー処理コードで簡単にチェックできることです。
 
-For instance, we can make a request, and then if we get 404 -- ask the user to modify the information.
+例えば、リクエストを行い 404 となった場合 -- ユーザに情報を変更するよう依頼します。
 
-The code below loads a user with the given name from github. If there's no such user, then it asks for the correct name:
+
+下のコードは github から指定された名前のユーザを読み込みます。もし存在しないユーザであれば、正しい名前を訪ねます。:
 
 ```js run
 function demoGithubUser() {
@@ -604,82 +604,82 @@ function demoGithubUser() {
 demoGithubUser();
 ```
 
-Here:
+ここでは:
 
-1. If `loadJson` returns a valid user object, then the name is shown `(1)`, and the user is returned, so that we can add more user-related actions to the chain. In that case the `.catch` below is ignored, everything's very simple and fine.
-2. Otherwise, in case of an error, we check it in the line `(2)`. Only if it's indeed the HTTP error, and the status is 404 (Not found), we ask the user to reenter. For other errors -- we don't know how to handle, so we just rethrow them.
+1. `loadJson` が有効なユーザオブジェクトを返した場合、名前は `(1)` で表示されユーザが返されます。これによりユーザ関連のアクションをチェーンに追加できます。その場合、以下の `.catch`は無視され、すべてが非常にシンプルで問題ありません。
+2. それ以外の場合は、エラーの場合は行 `(2)` でチェックします。確かに HTTP エラーでステータスが 404(見つからない) の場合、ユーザに再入力を依頼します。他のエラーの場合は、処理の仕方を知らないため再スローします。 
 
-## Unhandled rejections
+## 未処理の reject [#Unhandled rejections]
 
-What happens when an error is not handled? For instance, after the rethrow as in the example above. Or if we forget to append an error handler to the end of the chain, like here:
+エラーが処理されない場合何がおきるでしょう？例えば、上の例のように再スローした後。もしくは次のようにチェーンの終わりにエラーハンドラを追加し忘れている場合です。:
 
 ```js untrusted run refresh
 new Promise(function() {
-  noSuchFunction(); // Error here (no such function)
-}); // no .catch attached
+  noSuchFunction(); // ここでエラー(このような関数はない)
+}); // .catch は未アタッチ
 ```
 
-Or here:
+もしくは:
 
 ```js untrusted run refresh
-// a chain of promises without .catch at the end
+// 末尾に .catch のない promise のチェーン
 new Promise(function() {
   throw new Error("Whoops!");
 }).then(function() {
-  // ...something...
+  // ...何か...
 }).then(function() {
-  // ...something else...
+  // ...何か...
 }).then(function() {
-  // ...but no catch after it!
+  // ...が、この後に catch はありません!
 });
 ```
 
-In case of an error, the promise state becomes "rejected", and the execution should jump to the closest rejection handler. But there is no such handler in the examples above. So the error gets "stuck".
+エラーの場合、promise のステータスは "rejected" になり、実行は最も近い reject ハンドラにジャンプするはずです。しかし上の例ではそのようなハンドラはありません。そのため、エラーは "スタック" します(行き詰まります)。
 
-In practice, that's usually because of the bad code. Indeed, how come that there's no error handling?
+実際には、それは通常悪いコードによるものです。 確かになぜエラー処理がないのでしょうか？
 
-Most JavaScript engines track such situations and generate a global error in that case. We can see it in the console.
+多くの JavaScript エンジンはこのような状況を追跡し、その場合にはグローバルエラーを生成します。コンソールで見ることができます。
 
-In the browser we can catch it using the event `unhandledrejection`:
+ブラウザでは、イベント `unhandledrejection` を使ってキャッチできます。:
 
 ```js run
 *!*
 window.addEventListener('unhandledrejection', function(event) {
-  // the event object has two special properties:
-  alert(event.promise); // [object Promise] - the promise that generated the error
-  alert(event.reason); // Error: Whoops! - the unhandled error object
+  // イベントオブジェクトは2つの特別なプロパティを持っています:
+  alert(event.promise); // [object Promise] - エラーを生成した promise 
+  alert(event.reason); // Error: Whoops! - 未処理のエラーオブジェクト
 });
 */!*
 
 new Promise(function() {
   throw new Error("Whoops!");
-}); // no catch to handle the error
+}); // エラーを処理する catch がない
 ```
 
-The event is the part of the [HTML standard](https://html.spec.whatwg.org/multipage/webappapis.html#unhandled-promise-rejections). Now if an error occurs, and there's no `.catch`, the `unhandledrejection` handler triggers: the `event` object has the information about the error, so we can do something with it.
+そのイベントは [HTML 標準](https://html.spec.whatwg.org/multipage/webappapis.html#unhandled-promise-rejections) の一部です。今、エラーが発生し `.catch` がない場合、`unhandledrejection` ハンドラがトリガします: `event` オブジェクトはエラーに関する情報を持っているので、何かをすることができます。
 
-Usually such errors are unrecoverable, so our best way out is to inform the user about the problem and probably report about the incident to the server.
+通常、このようなエラーはリカバリ不可なので、最善の方法はユーザにその問題を知らせ、サーバへそのインシデントについて報告することです。
 
-In non-browser environments like Node.JS there are other similar ways to track unhandled errors.
+Node.JSのようなブラウザ以外の環境では、未処理のエラーを追跡する他の同様の方法があります。
 
-## Summary
+## サマリ [#Summary]
 
-To summarize, `.then/catch(handler)` returns a new promise that changes depending on what handler does:
+要約すると、`.then/catch(handler)` はハンドラが何をするかによって変化する新しい promise を返します:
 
-1. If it returns a value or finishes without a `return` (same as `return undefined`), then the new promise becomes resolved, and the closest resolve handler (the first argument of `.then`) is called with that value.
-2. If it throws an error, then the new promise becomes rejected, and the closest rejection handler (second argument of `.then` or `.catch`) is called with it.
-3. If it returns a promise, then JavaScript waits until it settles and then acts on its outcome the same way.
+1. もし値を返したり、`return` (`return undefined` と同じ) なしで終了した場合、新しい promise が resolve になり、最も近い resolve ハンドラ(`.then` の最初の引数)がその値で呼ばれます。
+2. もしエラーをスローした場合、新しい promise は reject になり、最も近い reject ハンドラ(`.then` または `.catch` の2つ目の引数)がそれと一緒に呼ばれます。
+3. もし promise を返す場合、JavaScript はそれが完了するまで待機し、同じ方法で結果に作用します。
 
-The picture of how the promise returned by `.then/catch` changes:
+`.then/catch` によって返される promise がどのように変化するかの図です:
 
 ![](promise-handler-variants.png)
 
-The smaller picture of how handlers are called:
+どのようなハンドラが呼ばれるかの小さな図です:
 
 ![](promise-handler-variants-2.png)
 
-In the examples of error handling above the `.catch` was always the last in the chain. In practice though, not every promise chain has a `.catch`. Just like regular code is not always wrapped in `try..catch`.
+上のエラー処理の例では、`.catch` は常にチェーンの最後でした。実際には、すべての promise チェーンが `.catch` を持っている訳ではありません。通常のコードと同じように、常に `try..catch` でラップされている訳ではありません。
 
-We should place `.catch` exactly in the places where we want to handle errors and know how to handle them. Using custom error classes can help to analyze errors and rethrow those that we can't handle.
+エラーを処理したい/エラーを処理する方法を知りたい場所に `.catch` を置くべきです。カスタムエラークラスを使用すると、エラーを分析し、処理できないエラー再スローすることができます。
 
-For errors that fall outside of our scope we should have the `unhandledrejection` event handler (for browsers, and analogs for other environments). Such unknown errors are usually unrecoverable, so all we should do is to inform the user and probably report to our server about the incident.
+範囲外のエラーについては、 `unhandledrejection` イベントハンドラ（ブラウザ用、および他の環境用の類似物）を用意する必要があります。 このような不明なエラーは通常は回復不可能なので、ユーザーに知らせて、おそらくサーバーにそのインシデントについて報告するだけです。
