@@ -1,4 +1,4 @@
-# フォールトトレラント JSON でフェッチする
+# フォールトトレラント JSON をフェッチする
 
 前のタスク <info:task/promise-errors-as-results> の解答を改良しましょう。今 `fetch` を呼び出すだけでなく、指定されたURLからJSONオブジェクトを読み込む必要があります。
 
