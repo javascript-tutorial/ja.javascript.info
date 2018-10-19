@@ -1,26 +1,26 @@
 # Promise API
 
-There are 4 static methods in the `Promise` class. We'll quickly cover their use cases here.
+`Promise` クラスには 4 つの静的メソッドがあります。ここではそのユースケースについて簡単に説明します。
 
 ## Promise.resolve
 
-The syntax:
+構文:
 
 ```js
 let promise = Promise.resolve(value);
 ```
 
-Returns a resolved promise with the given `value`.
+指定された `value` で解決(resolve)された promise を返します。
 
-Same as:
+次と同じです:
 
 ```js
 let promise = new Promise(resolve => resolve(value));
 ```
 
-The method is used when we already have a value, but would like to have it "wrapped" into a promise.
+このメソッドはすでに値を持っているが、promise で "ラップ" したい場合に使われます。
 
-For instance, the `loadCached` function below fetches the `url` and remembers the result, so that future calls on the same URL return it immediately:
+例えば、下の `loadCached` 関数は `url` をフェッチし、将来の同じ URL 呼び出しですぐに結果を返すために、それを覚えます。:
 
 ```js
 function loadCached(url) {
@@ -41,53 +41,53 @@ function loadCached(url) {
 }
 ```
 
-We can use `loadCached(url).then(…)`, because the function is guaranteed to return a promise. That's the purpose `Promise.resolve` in the line `(*)`: it makes sure the interface unified. We can always use `.then` after `loadCached`.
+`loadCached(url).then(…)` を使うことができます。なぜなら、この関数は promise を返すことを保証しているからです。それが、行 `(*)` の `Promise.resolve` の目的です: インタフェースを統一します。これにより、`loadCached` の後で常に `.then` が使えます。
 
 ## Promise.reject
 
-The syntax:
+構文:
 
 ```js
 let promise = Promise.reject(error);
 ```
 
-Create a rejected promise with the `error`.
+`error` で拒否(reject)された promise を生成します。 
 
-Same as:
+次と同じです:
 
 ```js
 let promise = new Promise((resolve, reject) => reject(error));
 ```
 
-We cover it here for completeness, rarely used in real code.
+ここでは完全性のために説明しますが、実際のコードではほとんど使われません。
 
 ## Promise.all
 
-The method to run many promises in parallel and wait till all of them are ready.
+並列に複数の promise を実行し、すべてが準備できるまで待つためのメソッドです。
 
-The syntax is:
+構文は次の通りです:
 
 ```js
 let promise = Promise.all(iterable);
 ```
 
-It takes an `iterable` object with promises, technically it can be any iterable, but usually it's an array, and returns a new promise. The new promise resolves with when all of them are settled and has an array of their results.
+これは promise を持つ `iterable(反復可能な)` なオブジェクトを取ります。技術的には任意の iterable が可能ですが、通常は配列であり、新しい promise を返します。新しい promise はそれらのすべてが解決され、結果を配列に持ったときに解決されます。
 
-For instance, the `Promise.all` below settles after 3 seconds, and then its result is an array `[1, 2, 3]`:
+例えば、下の `Promise.all` は 3 秒後に解決され、その後結果は配列 `[1, 2, 3]` です。:
 
 ```js run
 Promise.all([
   new Promise((resolve, reject) => setTimeout(() => resolve(1), 3000)), // 1
   new Promise((resolve, reject) => setTimeout(() => resolve(2), 2000)), // 2
   new Promise((resolve, reject) => setTimeout(() => resolve(3), 1000))  // 3
-]).then(alert); // 1,2,3 when promises are ready: each promise contributes an array member
+]).then(alert); // 1,2,3 promise が準備できた時: 各 promise は配列の中身に寄与します
 ```
 
-Please note that the relative order is the same. Even though the first promise takes the longest time to resolve, it is still first in the array of results.
+相対的な順序は同じであることに注意してください。たとえ1つ目の promise が解決まで最も時間がかかったとしても、結果の配列の中では依然として先頭です。
 
-A common trick is to map an array of job data into an array of promises, and then wrap that into `Promise.all`.
+一般的なやり方は、ジョブデータの配列を promise の配列にマップし、それを `Promise.all` にラップすることです。
 
-For instance, if we have an array of URLs, we can fetch them all like this:
+例えば、URL の配列を持っている場合、次のようにしてフェッチできます:
 
 ```js run
 let urls = [
@@ -96,17 +96,17 @@ let urls = [
   'https://api.github.com/users/jeresig'
 ];
 
-// map every url to the promise fetch(github url)
+// 各 url を promise の fetch(github url) へマップする
 let requests = urls.map(url => fetch(url));
 
-// Promise.all waits until all jobs are resolved
+// Promise.all はすべてのジョブが解決されるまで待ちます
 Promise.all(requests)
   .then(responses => responses.forEach(
     response => alert(`${response.url}: ${response.status}`)
   ));
 ```
 
-A more real-life example with fetching user information for an array of github users by their names (or we could fetch an array of goods by their ids, the logic is same):
+github ユーザ名の配列に対して(または id の配列でも可能です。ロジックは同じです)、ユーザ情報を取得するより実践的な例です。:
 
 ```js run
 let names = ['iliakan', 'remy', 'jeresig'];
@@ -115,22 +115,22 @@ let requests = names.map(name => fetch(`https://api.github.com/users/${name}`));
 
 Promise.all(requests)
   .then(responses => {
-    // all responses are ready, we can show HTTP status codes
+    // すべてのレスポンスが用意できたら HTTP ステータスコードが見れます
     for(let response of responses) {
-      alert(`${response.url}: ${response.status}`); // shows 200 for every url
+      alert(`${response.url}: ${response.status}`); // 各 url で 200 が表示されます
     }
 
     return responses;
   })
-  // map array of responses into array of response.json() to read their content
+  // それぞれの中身を読むために、レスポンスの配列を response.json() の配列にマッピングします
   .then(responses => Promise.all(responses.map(r => r.json())))
-  // all JSON answers are parsed: "users" is the array of them
+  // すべての JSON応答が解析され、"user" はそれらの配列です。
   .then(users => users.forEach(user => alert(user.name)));
 ```
 
-If any of the promises is rejected, `Promise.all` immediately rejects with that error.
+いずれかの promise が reject された場合、`Promise.all` は即座にエラーと一緒に reject します。
 
-For instance:
+例:
 
 
 ```js run
@@ -143,42 +143,42 @@ Promise.all([
 ]).catch(alert); // Error: Whoops!
 ```
 
-Here the second promise rejects in two seconds. That leads to immediate rejection of `Promise.all`, so `.catch` executes: the rejection error becomes the outcome of the whole `Promise.all`.
+ここでは、2つ目の promise が2秒後に reject されます。それは即座に `Promise.all` の reject に繋がるため、`catch` が実行されます。: reject されたエラーは `Promise.all` 全体の結果になります。
 
-The important detail is that promises provide no way to "cancel" or "abort" their execution. So other promises continue to execute, and the eventually settle, but all their results are ignored.
+重要な点は、promise は実行を "キャンセル" したり "廃止" する方法は提供していないということです。したがって、他の promise は実行を続け、最終的に解決されますが、それらの結果は無視されます。
 
-There are ways to avoid this: we can either write additional code to `clearTimeout` (or otherwise cancel) the promises in case of an error, or we can make errors show up as members in the resulting array (see the task below this chapter about it).
+これを回避する方法があります: エラーが発生した場合、 promise を `clearTimeout` (またはキャンセル)するために追加のコード書く、またはエラーを結果の配列の中のメンバとして表示させる、です(これについてはこのチャプターの下にタスクを見てください)。
 
-````smart header="`Promise.all(iterable)` allows non-promise items in `iterable`"
-Normally, `Promise.all(iterable)` accepts an iterable (in most cases an array) of promises. But if any of those objects is not a promise, it's wrapped in `Promise.resolve`.
+````smart header="`Promise.all(iterable)` は `iterable` の中で非 promise の項目を許可します"
+通常、`Promise.all(iterable)` は promise の iterable (ほとんどの場合は配列)を受け付けます。しかし、もしそれらのオブジェクトが promise ではない場合、`Promise.resolve` でラップします。
 
-For instance, here the results are `[1, 2, 3]`:
+例えば、ここでは結果は `[1, 2, 3]` になります:
 
 ```js run
 Promise.all([
   new Promise((resolve, reject) => {
     setTimeout(() => resolve(1), 1000)
   }),
-  2, // treated as Promise.resolve(2)
-  3  // treated as Promise.resolve(3)
+  2, // Promise.resolve(2) と扱われる
+  3  // Promise.resolve(3) と扱われる
 ]).then(alert); // 1, 2, 3
 ```
 
-So we are able to pass non-promise values to `Promise.all` where convenient.
+したがって、私たちは便宜的な場合に、非 promise の値を `Promise.all` に渡すことができます。
 
 ````
 
 ## Promise.race
 
-Similar to `Promise.all` takes an iterable of promises, but instead of waiting for all of them to finish -- waits for the first result (or error), and goes on with it.
+これは `Promise.all` と同様に promise の iterable を取りますが、すべてが完了するのを待つ代わりに -- 最初の結果(またはエラー)を待ち、続けます。
 
-The syntax is:
+構文です:
 
 ```js
 let promise = Promise.race(iterable);
 ```
 
-For instance, here the result will be `1`:
+例えば、ここでは結果は `1` になります:
 
 ```js run
 Promise.race([
@@ -188,15 +188,15 @@ Promise.race([
 ]).then(alert); // 1
 ```
 
-So, the first result/error becomes the result of the whole `Promise.race`. After the first settled promise "wins the race", all further results/errors are ignored.
+なので、最初の結果/エラーが `Promise.race` 全体の結果になります。最初の確定した promise が "競争に勝った" 後、それ以外の結果/エラーは無視されます。
 
-## Summary
+## サマリ [#Summary]
 
-There are 4 static methods of `Promise` class:
+`Promise` クラスには 4 つの静的なメソッドがあります。:
 
-1. `Promise.resolve(value)` -- makes a resolved promise with the given value,
-2. `Promise.reject(error)` -- makes a rejected promise with the given error,
-3. `Promise.all(promises)` -- waits for all promises to resolve and returns an array of their results. If any of the given promises rejects, then it becomes the error of `Promise.all`, and all other results are ignored.
-4. `Promise.race(promises)` -- waits for the first promise to settle, and its result/error becomes the outcome.
+1. `Promise.resolve(value)` -- 与えられた値で promise を解決(resolve)します
+2. `Promise.reject(error)` -- 与えられたエラーで promise を拒否(reject)します
+3. `Promise.all(promises)` -- すべての promise が解決するのを待って、結果の配列を返します。 与えられた promise が拒否されると、それは `Promise.all` のエラーになり、他のすべての結果は無視されます。
+4. `Promise.race(promises)` -- 最初の promise の解決を待ち、その結果/エラーが結果になります。
 
-Of these four, `Promise.all` is the most common in practice.
+これら4つのうち、`Promise.all` が実際には最も一般的です。
