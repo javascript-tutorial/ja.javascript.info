@@ -1,8 +1,8 @@
-# Fault-tolerant fetch with JSON
+# フォールトトレラント JSON でフェッチする
 
-Improve the solution of the previous task <info:task/promise-errors-as-results>. Now we need not just to call `fetch`, but to load the JSON objects from given URLs.
+前のタスク <info:task/promise-errors-as-results> の解答を改良しましょう。今 `fetch` を呼び出すだけでなく、指定されたURLからJSONオブジェクトを読み込む必要があります。
 
-Here's the example code to do that:
+ここにそれを行うサンプルコードがあります:
 
 ```js run
 let urls = [
@@ -11,13 +11,13 @@ let urls = [
   'https://api.github.com/users/jeresig'
 ];
 
-// make fetch requests
+// フェッチリクエストを作成
 Promise.all(urls.map(url => fetch(url)))
-  // map each response to response.json()
+  // 各レスポンスを response.json() にマップする
   .then(responses => Promise.all(
     responses.map(r => r.json())
   ))
-  // show name of each user
+  // 各ユーザ名を表示
   .then(users => {  // (*)
     for(let user of users) {
       alert(user.name);
@@ -25,10 +25,10 @@ Promise.all(urls.map(url => fetch(url)))
   });
 ```
 
-The problem is that if any of requests fails, then `Promise.all` rejects with the error, and we loose results of all the other requests. So the code above is not fault-tolerant, just like the one in the previous task.
+問題は、任意のリクエストが失敗した場合、`Promise.all` はエラーで reject し、他のすべてのリクエストの結果を失うことです。したがって、前のタスクのように上のコードはフォールトトレラントではありません。
 
-Modify the code so that the array in the line `(*)` would include parsed JSON for successful requests and error for errored ones.
+行 `(*)` で、配列には成功したリクエストに対してはパースされた JSONを、エラーとなったものに対してはエラーを含むようにコードを修正してください。
 
-Please note that the error may occur both in `fetch` (if the network request fails) and in `response.json()` (if the response is invalid JSON). In both cases the error should become a member of the results object.
+エラーは `fetch` (ネットワークリクエストが失敗する場合)と `response.json()` (レスポンスが有効なJSONでない場合)の両方で発生する可能性があることに注意してください。どちらの場合も、エラーは結果オブジェクトのメンバになります。
 
-The sandbox has both of these cases.
+サンドボックスには、これらの両方のケースがあります。

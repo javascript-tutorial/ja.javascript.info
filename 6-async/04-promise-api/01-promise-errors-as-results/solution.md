@@ -1,6 +1,6 @@
-The solution is actually pretty simple.
+解法は実際には非常に単純です。
 
-Take a look at this:
+これを見てください:
 
 ```js
 Promise.all(
@@ -10,11 +10,11 @@ Promise.all(
 )
 ```
 
-Here we have an array of `fetch(...)` promises that goes to `Promise.all`.
+ここには `Promise.all` に行く `fetch(...)` promise の配列があります。
 
-We can't change the way `Promise.all` works: if it detects an error, then it rejects with it. So we need to prevent any error from occuring. Instead, if a `fetch` error happens, we need to treat it as a "normal" result.
+`Promise.all` が動作する方法を変えることはできません: もしエラーを検出した場合、それを reject します。したがって、エラーが発生しないようにする必要があります。代わりに、 `fetch` エラーが発生した場合、それを "通常の" 結果として扱う必要があります。
 
-Here's how:
+これはその方法です:
 
 ```js
 Promise.all(
@@ -24,18 +24,18 @@ Promise.all(
 )
 ```
 
-In other words, the `.catch` takes an error for all of the promises and returns it normally. By the rules of how promises work, if a `.then/catch` handler returns a value (doesn't matter if it's an error object or something else), then the execution continues the "normal" flow.
+つまり、`.catch` はすべての promise のエラーを取り、それを正常に返します。promise の動作ルールにより、`.then/catch` ハンドラが値(エラーオブジェクトか他のなにかなのかは関係ありません)を返した場合、実行は "正常の" フローを続けます。
 
-So the `.catch` returns the error as a "normal" result into the outer `Promise.all`.
+したがって、`.catch` は、エラーを "正常の" 結果として外側の `Promise.all` に返します。
 
-This code:
+このコード:
 ```js
 Promise.all(
   urls.map(url => fetch(url))
 )
 ```
 
-Can be rewritten as:
+は次のように書き直すことができます:
 
 ```js
 Promise.all(

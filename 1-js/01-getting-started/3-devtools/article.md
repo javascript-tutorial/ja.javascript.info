@@ -45,7 +45,7 @@ Consoleタブがデフォルトの状態で開発者ツールが起動するで�
 
 ## Safari
 
-Safari (Mac browser, not supported by Windows/Linux)はここでは少しだけ特別です。最初に、 "開発者メニュー" を有効にする必要があります。
+Safari (Mac ブラウザ, Windows/Linux ではサポートされていません)はここでは少しだけ特別です。最初に、 "開発者メニュー" を有効にする必要があります。
 
 Preferencesを開き、"Advanced" ペインに行きます。一番下にチェックボックスがあります。
 

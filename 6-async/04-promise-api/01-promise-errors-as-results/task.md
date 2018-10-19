@@ -1,8 +1,8 @@
-# Fault-tolerant Promise.all
+# フォールトトレラント Promise.all
 
-We'd like to fetch multiple URLs in parallel.
+並列に複数の URL を取得したいです。
 
-Here's the code to do that:
+これはそのためのコードです:
 
 ```js run
 let urls = [
@@ -12,7 +12,7 @@ let urls = [
 ];
 
 Promise.all(urls.map(url => fetch(url)))
-  // for each response show its status
+  // 各レスポンスに対し、そのステータスを表示
   .then(responses => { // (*)
     for(let response of responses) {
       alert(`${response.url}: ${response.status}`);
@@ -20,13 +20,13 @@ Promise.all(urls.map(url => fetch(url)))
   ));
 ```
 
-The problem is that if any of requests fails, then `Promise.all` rejects with the error, and we loose results of all the other requests.
+問題は、任意のリクエストが失敗した場合、`Promise.all` はエラーで reject し、他のすべてのリクエストの結果を失うことです。
 
-That's not good.
+これは良くありません。
 
-Modify the code so that the array `responses` in the line `(*)` would include the response objects for successful fetches and error objects for failed ones.
+行 `(*)` で配列 `responses` がフェッチに成功したレスポンスオブジェクトと、失敗したエラーオブジェクトを含むようにコードを修正してください。
 
-For instance, if one of URLs is bad, then it should be like:
+例えば、URL の１つが悪い場合、次のようになるべきです:
 
 ```js
 let urls = [
@@ -35,14 +35,15 @@ let urls = [
   'http://no-such-url'
 ];
 
-Promise.all(...) // your code to fetch URLs...
-  // ...and pass fetch errors as members of the resulting array...
+Promise.all(...) // URL を取得するあなたのコード...
+  // ...そして結果の配列のメンバとして取得エラーを渡します...
   .then(responses => {  
-    // 3 urls => 3 array members
+    // 3 つの url => 3 つの配列要素
     alert(responses[0].status); // 200
     alert(responses[1].status); // 200
-    alert(responses[2]); // TypeError: failed to fetch (text may vary)
+    alert(responses[2]); // TypeError: failed to fetch (内容は異なるかもしれません)
   });
 ```
 
-P.S. In this task you don't have to load the full response using `response.text()` or `response.json()`. Just handle fetch errors the right way.
+P.S. このタスクでは、`response.text()` や `response.json()` を使った完全なレスポンスをロードする必要はありません。適切な方法で取得エラーを処理してください。
+
