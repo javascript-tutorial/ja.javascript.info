@@ -1,131 +1,130 @@
-# Patterns and flags
+# パターンとフラグ
 
-Regular expressions is a powerful way of searching and replacing inside a string.
+正規表現(Regular expressions)は文字列内を検索したり置換するための強力な方法です。
 
-In JavaScript regular expressions are implemented using objects of a built-in `RegExp` class and integrated with strings.
+JavaScriptでは、正規表現は組み込みの `RegExp` クラスのオブジェクトを使用して実装され、文字列と統合されています。
 
-Please note that regular expressions vary between programming languages. In this tutorial we concentrate on JavaScript. Of course there's a lot in common, but they are a somewhat different in Perl, Ruby, PHP etc.
+正規表現はプログラミング言語によって異なることに留意してください。このチュートリアルでは、JavaScript に焦点を当てます。もちろん共通点は多いですが、Perl, Ruby, PHP などとは多少異なります。
 
 [cut]
 
-## Regular expressions
+## 正規表現
 
-A regular expression (also "regexp", or just "reg") consists of a *pattern* and optional *flags*.
+正規表現(もしくは "regexp", または単に "reg") は *パターン* とオプションの *フラグ* で構成されています。
 
-There are two syntaxes to create a regular expression object.
+正規表現オブジェクトを生成するための2つの構文があります。
 
-The long syntax:
+長い構文:
 
 ```js
 regexp = new RegExp("pattern", "flags");
 ```
 
-...And the short one, using slashes `"/"`:
+...そして短い構文です。スラッシュ `"/"` を使います:
 
 ```js
-regexp = /pattern/; // no flags
-regexp = /pattern/gmi; // with flags g,m and i (to be covered soon)
+regexp = /pattern/; // フラグなし
+regexp = /pattern/gmi; // g, m と i のフラグあり(詳細は後ほど説明します)
 ```
 
-Slashes `"/"` tell JavaScript that we are creating a regular expression. They play the same role as quotes for strings.
+スラッシュ `"/"` は正規表現を作成していることを JavaScript に伝えます。文字列の引用符と同じ役割を果たします。
 
-## Usage
+## 使用方法
 
-To search inside a string, we can use method [search](mdn:js/String/search).
+文字列内を検索するためには、メソッド [search](mdn:js/String/search) を使うことができます。
 
-Here's an example:
+例:
 
 ```js run
-let str = "I love JavaScript!"; // will search here
+let str = "I love JavaScript!"; // ここを検索します
 
 let regexp = /love/;
 alert( str.search(regexp) ); // 2
 ```
 
-The `str.search` method looks for the pattern `pattern:/love/` and returns the position inside the string. As we might guess, `pattern:/love/` is the simplest possible pattern. What it does is a simple substring search.
+`str.search` メソッドはパターン `pattern:/love/` を探し、文字列内での位置を返します。ご推測の通り、 `pattern:/love/` は最もシンプルなパターンです。それは簡単な部分文字列検索です。
 
-The code above is the same as:
+上のコードは次と同じです:
 
 ```js run
-let str = "I love JavaScript!"; // will search here
+let str = "I love JavaScript!"; // ここを検索します
 
 let substr = 'love';
 alert( str.search(substr) ); // 2
 ```
 
-So searching for `pattern:/love/` is the same as searching for `"love"`.
+したがって、`pattern:/love/` の検索は `"love"` の検索と同じです。
 
-But that's only for now. Soon we'll create more complex regular expressions with much searching more power.
+しかし、それは今だけです。すぐにより強力な検索機能を備えた、より複雑な正規表現作成していきます。
 
-```smart header="Colors"
-From here on the color scheme is:
+```smart header="色"
+ここからの配色は次の通りです:
 
-- regexp -- `pattern:red`
-- string (where we search) -- `subject:blue`
-- result -- `match:green`
+- 正規表現 -- `pattern:red`
+- 文字列 (検索する場所) -- `subject:blue`
+- 結果 -- `match:green`
 ```
 
 
-````smart header="When to use `new RegExp`?"
-Normally we use the short syntax `/.../`. But it does not allow any variables insertions, so we must know the exact regexp at the time of writing the code.
+````smart header="いつ `new RegExp` を使いますか?"
+通常は短い構文である `/.../` を使います。しかし、これは変数の挿入を許可していないため、コードを書く時点で正確な正規表現を知っていなければなりません。
 
-From the other hand, `new RegExp` allows to construct a pattern dynamically from a string.
+一方、`new RegExp` は文字列から動的にパターンを構築することができます。
 
-So we can figure out what we need to search and create `new RegExp` from it:
+したがって、検索するために必要なことを理解し、そこから `new RegExp` を作ることができます。:
 
 ```js run
 let search = prompt("What you want to search?", "love");
 let regexp = new RegExp(search);
 
-// find whatever the user wants
+// ユーザが望むものを見つける
 alert( "I love JavaScript".search(regexp));
 ```
 ````
 
 
-## Flags
+## フラグ
 
-Regular expressions may have flags that affect the search.
+正規表現には検索に影響を与えるフラグを含んでいる場合があります。
 
-There are only 5 of them in JavaScript:
+JavaScript には 5 つしかありません:
 
 `i`
-: With this flag the search is case-insensitive: no difference between `A` and `a` (see the example below).
+: このフラグを指定すると、検索は大文字小文字を区別しません: `A` と `a` に違いはありません(下の例をみてください)。
 
 `g`
-: With this flag the search looks for all matches, without it -- only the first one (we'll see uses in the next chapter).
+: このフラグを指定すると、検索はすべての一致を探します。指定がない場合は -- 最初の1つのみを探します(次のチャプターで使い方を見ていきます)。
 
 `m`
-: Multiline mode (covered in the chapter <info:regexp-multiline>).
+: 複数行モードです(チャプター <info:regexp-multiline> で説明します)。
 
 `u`
-: Enables full unicode support. The flag enables correct processing of surrogate pairs. More about that in the chapter <info:regexp-unicode>.
+: 完全なユニコードサポートを有効にします。このフラグはサロゲートペアの正しい処理を可能にします。より詳細についてはチャプター <info:regexp-unicode> を参照してください。
 
 `y`
-: Sticky mode (covered in the [next chapter](info:regexp-methods#y-flag))
+: スティッキーモード([次のチャプター](info:regexp-methods#y-flag) で説明します)。
 
+## "i" フラグ
 
-## The "i" flag
+最も簡単なフラグは `i` です。
 
-The simplest flag is `i`.
-
-An example with it:
+その例です:
 
 ```js run
 let str = "I love JavaScript!";
 
-alert( str.search(/LOVE/) ); // -1 (not found)
+alert( str.search(/LOVE/) ); // -1 (見つからない)
 alert( str.search(/LOVE/i) ); // 2
 ```
 
-1. The first search returns `-1` (not found), because the search is case-sensitive by default.
-2. With the flag `pattern:/LOVE/i` the search found `match:love` at position 2.
+1. 最初の検索は `-1` (見つからない) を返します。なぜなら、デフォルトでは検索は大文字小文字を区別するためです。
+2. フラグ `pattern:/LOVE/i` を指定すると、検索は位置 2　に `match:love` を見つけます。
 
-So the `i` flag already makes regular expressions more powerful than a simple substring search. But there's so much more. We'll cover other flags and features in the next chapters.
+したがって、`i` フラグはすでに単純な部分文字列検索よりも強力な正規表現を作成します。しかし、まだまだはるかに多くのことがあります。次のチャプターでは、他のフラグと機能についても説明します。
 
 
-## Summary
+## サマリ
 
-- A regular expression consists of a pattern and optional flags: `g`, `i`, `m`, `u`, `y`.
-- Without flags and special symbols that we'll study later, the search by a regexp is the same as a  substring search.
-- The method `str.search(regexp)` returns the index where the match is found or `-1` if there's no match.
+- 正規表現はパターンとオプションのフラグ `g`, `i`, `m`, `u`, `y` で構成されます。
+- フラグと後で学ぶ特別な記号がなければ、正規表現による検索は部分文字列検索と同じです。
+- メソッド `str.search(regexp)` は一致するものが見つかった場所はそのインデックスを返します。見つからなかった場合は `-1` を返します。
