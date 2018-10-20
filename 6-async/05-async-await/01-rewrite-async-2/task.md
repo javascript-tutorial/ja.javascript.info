@@ -1,9 +1,9 @@
 
-# Rewrite "rethrow" async/await
+# "再スロー" を書き直す async/await
 
-Below you can find the "rethrow" example from the chapter <info:promise-chaining>. Rewrite it using `async/await` instead of `.then/catch`.
+下にチャプター <info:promise-chaining> にある "再スロー" の例があります。`.then/catch` の代わりに `async/await` を使って書き直してください。
 
-And get rid of the recursion in favour of a loop in `demoGithubUser`: with `async/await` that becomes easy to do.
+また、`demoGithubUser` のループのために(`async/await` が簡単になるよう)再帰を取り除きます。
 
 ```js run
 class HttpError extends Error {
@@ -25,7 +25,7 @@ function loadJson(url) {
     })
 }
 
-// Ask for a user name until github returns a valid user
+// gitub が有効なユーザを返すまでユーザ名を訪ねる
 function demoGithubUser() {
   let name = prompt("Enter a name?", "iliakan");
 

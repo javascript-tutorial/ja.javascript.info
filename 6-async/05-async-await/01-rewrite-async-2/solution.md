@@ -1,5 +1,5 @@
 
-There are no tricks here. Just replace `.catch` with `try...catch` inside `demoGithubUser` and add `async/await` where needed:
+ここには細工はありません。単に `demoGithubUser` の中の `.catch` を `try...catch` に置き換え、必要な場所に  `async/await` を追加しています:
 
 ```js run
 class HttpError extends Error {
@@ -19,7 +19,7 @@ async function loadJson(url) {
   }
 }
 
-// Ask for a user name until github returns a valid user
+// gitub が有効なユーザを返すまでユーザ名を訪ねる
 async function demoGithubUser() {
 
   let user;
@@ -28,13 +28,13 @@ async function demoGithubUser() {
 
     try {
       user = await loadJson(`https://api.github.com/users/${name}`);
-      break; // no error, exit loop
+      break; // エラーがない場合、ループを抜ける
     } catch(err) {
       if (err instanceof HttpError && err.response.status == 404) {
-        // loop continues after the alert
+        // alert の後ループを続ける
         alert("No such user, please reenter.");
       } else {
-        // unknown error, rethrow
+        // 未知のエラー、再スロー
         throw err;
       }
     }      
