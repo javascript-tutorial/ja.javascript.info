@@ -38,7 +38,7 @@
 我々のコードで `event.relatedTarget` を使うときは，その可能性を心に留めておく必要があります。もし `event.relatedTarget.tagName` へアクセスすると、エラーになるでしょう。
 ```
 
-## イベントの頻度 [#Events frequency]
+## イベントの頻度 
 
 `mousemove` イベントはマウスの移動時にトリガされます。しかし、すべてのピクセル単位の移動でイベントが発生する訳ではありません。
 
@@ -72,7 +72,7 @@ HTMLは2つのネストされた `<div>` 要素です。もしマウスをすば
 [codetabs height=360 src="mouseoverout-fast"]
 ```
 
-## 子へ向けて移動するときの "余分な" mouseout [#"Extra" mouseout when leaving for a child]
+## 子へ向けて移動するときの "余分な" mouseout 
 
 想像してください -- マウスポインタが要素に入りました。`mouserover` がトリガされました。その後、カーソルが子要素へ行きます。興味深いことは `mouseout` がその場合にトリガすることです。カーソルは依然として要素の中にありますが、`mouserout` が起きます!
 
@@ -102,7 +102,7 @@ HTMLは2つのネストされた `<div>` 要素です。もしマウスをすば
 
 私たちは、代わりに `mouseenter/mouseleave` イベントを使用して修正できます。
 
-## イベント mouseenter と mouseleave [#Events mouseenter and mouseleave]
+## イベント mouseenter と mouseleave 
 
 イベント `mouseenter/mouseleave` は `mouseover/mouseout` のようなものです。それらもマウスポインタが要素を出入りするときにトリガされます。
 
@@ -175,7 +175,7 @@ The details are in the [full example](sandbox:mouseenter-mouseleave-delegation-2
 ```
 
 
-## サマリ [#Summary]
+## サマリ 
 
 私たちはイベント `mouseover`, `mouseout`, `mousemove`, `mouseenter` と `mouseleave` を説明しました。
 

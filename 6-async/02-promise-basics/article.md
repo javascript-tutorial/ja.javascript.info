@@ -119,7 +119,7 @@ let promise = new Promise(function(resolve, reject) {
 promise オブジェクトのプロパティ `state` と `result` は内部的なものです。我々のコードから直接アクセスすることはできません。代わりに `.then/catch` メソッドを利用します。それらについては下で説明します。
 ```
 
-## 消費者: ".then" and ".catch" [# Consumers: ".then" and ".catch"]
+## 消費者: ".then" and ".catch" 
 
 promise オブジェクトは生成コード(executor)と消費関数(結果/エラーを受け取りたいもの)の間のリンクとして機能します。消費関数は `promise.then` と `promise.catch` メソッドを使用して登録することができます。
 
@@ -228,7 +228,7 @@ alert("code finished"); // このアラートが最初に表示されます
 
 さて、非同期コードを書くにあたり、promise がどのように役立つか、より実践的な例を見てみましょう。
 
-## 例: loadScript [#Example: loadScript]
+## 例: loadScript 
 
 以前のチャプターで、スクリプトを読み込むための関数 `loadScript` がありました。
 

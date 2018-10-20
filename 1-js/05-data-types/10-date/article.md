@@ -6,7 +6,7 @@
 
 [cut]
 
-## 作成 [#creation]
+## 作成 
 
 新しい `Date` オブジェクトを作るために、 次の引数のいずれかで `new Date()` を呼びます:
 
@@ -67,7 +67,7 @@
     alert( date ); // 1.01.2011, 02:03:04.567
     ```
 
-## date コンポーネントへのアクセス [#Access date components]
+## date コンポーネントへのアクセス 
 
 `Date` オブジェクトから 年、月などへアクセスする多くのメソッドがあります。しかし、カテゴライズすることで簡単に覚えることができます。
 
@@ -124,7 +124,7 @@ alert( date.getUTCHours() );
 
     ```
 
-## 日付の構成要素を設定する [#setting-date-components]
+## 日付の構成要素を設定する 
 
 次のメソッドで、日付/時刻の構成要素をセットすることができます:
 
@@ -153,7 +153,7 @@ today.setHours(0, 0, 0, 0);
 alert(today); // 依然として今日で, 今は 00:00:00 です
 ```
 
-## 自動補正 [#autocorrection]
+## 自動補正 
 
 *自動補正* は `Date` オブジェクトのとても便利な機能です。私たちが範囲外の値を指定することができますが、それは自動的に調節されます。
 
@@ -198,7 +198,7 @@ date.setDate(0); // 最小日は1なので、先月の最後の日になりま�
 alert( date ); // 31 Dec 2015
 ```
 
-## 日付から数値へ、日付の差分 [#date-to-number-date-diff]
+## 日付から数値へ、日付の差分 
 
 `Date` オブジェクトが数値へ変換されるとき、`date.getTime()` と同じようにタイムスタンプになります:
 
@@ -224,7 +224,7 @@ let end = new Date(); // 終了
 alert( `The loop took ${end - start} ms` );
 ```
 
-## Date.now() [#date-now]
+## Date.now() 
 
 もしも差分だけ測定したい場合、`Date` オブジェクトを使う必要はありません。
 
@@ -253,7 +253,7 @@ let end = Date.now(); // 終了
 alert( `The loop took ${end - start} ms` ); // 日付ではなく、数値を減算する
 ```
 
-## ベンチマーク [#benchmarking]
+## ベンチマーク 
 
 CPUを必要とする機能の信頼できるベンチマークが必要な場合は、注意が必要です。
 
@@ -368,7 +368,7 @@ for (let i = 0; i < 10; i++) {
 V8 についての素晴らしい記事は <http://mrale.ph> にあります。
 ```
 
-## 文字列からの Date.parse [#Date.parse from a string]
+## 文字列からの Date.parse 
 
 メソッド [Date.parse(str)](mdn:js/Date/parse) は文字列から日付を読むことができます。
 
@@ -399,7 +399,7 @@ let date = new Date( Date.parse('2012-01-26T13:51:50.417-07:00') );
 alert(date);  
 ```
 
-## サマリ [#summary]
+## サマリ 
 
 - JavaScript での日付と時刻は[Date](mdn:js/Date) オブジェクトで表現されます。"日付だけ"、"時刻だけ" を作ることはできません。`Date` オブジェクトは常に両方を持ちます。
 - 月はゼロからカウントされます(なので、1月は ゼロです)。

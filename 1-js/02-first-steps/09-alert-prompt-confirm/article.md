@@ -88,7 +88,7 @@ let isBoss = confirm("Are you the boss?");
 alert( isBoss ); // true OKが押された場合
 ```
 
-## サマリ [#summary]
+## サマリ 
 
 私たちは、訪問者とやり取りをするための3つのブラウザ固有の関数を説明しました。
 

@@ -166,7 +166,7 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
-## querySelectorAll [#querySelectorAll]
+## querySelectorAll 
 
 今度は重い大砲に進みます。
 
@@ -201,7 +201,7 @@ document.getElementsByTagName('input')[0].value = 5;
 ```
 
 
-## querySelector [#querySelector]
+## querySelector 
 
 `elem.querySelector(css)` への呼び出しは指定された CSS セレクタの最初の要素を返します。
 
@@ -316,7 +316,7 @@ document.getElementsByTagName('input')[0].value = 5;
 
 ここでは要素の追加がコレクションにどう影響するかを示すために別々のスクリプトを使いましたが、任意の DOM 操作がそれらに影響します。すぐ後にそれらについてより見ていきます。
 
-## サマリ [#summary]
+## サマリ 
 
 DOM でノードを検索するための6つの主なメソッドがあります:
 

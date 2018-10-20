@@ -8,7 +8,7 @@ DOMの変更は "ライブ" ページを作成するための鍵です。
 
 [cut]
 
-## 例: メッセージを表示 [#Example:-show-a-message]
+## 例: メッセージを表示 
 
 はじめに、`alert` よりも見栄えの良いメッセージをページに追加する方法を見てみましょう。
 
@@ -34,7 +34,7 @@ DOMの変更は "ライブ" ページを作成するための鍵です。
 
 これは HTML の例でした。では JavaScript で同じ `div` を作ってみましょう(スタイルは依然として HTML の中、もしくは外部CSSにあると想定します)。
 
-## 要素の作成 [#Creating-an-element]
+## 要素の作成 
 
 DOM ノードを作成するためのメソッドが2つあります。:
 
@@ -52,7 +52,7 @@ DOM ノードを作成するためのメソッドが2つあります。:
     let textNode = document.createTextNode('Here I am');
     ```
 
-### メッセージの作成 [#Creating-the-message]
+### メッセージの作成 
 
 我々のケースでは、与えられたクラスとメッセージをその中にもつ `div` を作りたいです。:
 
@@ -64,7 +64,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 これで、準備ができたDOM要素があります。 今は変数に入っていますが、まだページには挿入されていないため見えません。
 
-## 挿入メソッド [#Insertion-methods]
+## 挿入メソッド 
 
 `div` を表示するためには、`document` のどこかに挿入する必要があります。例えば、`document.body` です。
 
@@ -300,7 +300,7 @@ after
 </script>
 ```
 
-## ノードのクローン:cloneNode [#Cloning-nodes:-cloneNode]
+## ノードのクローン:cloneNode 
 
 似たようなメッセージを複数挿入するにはどうすればよいでしょう？
 
@@ -337,7 +337,7 @@ after
 </script>
 ```
 
-## 削除メソッド [#Removal-methods]
+## 削除メソッド 
 
 ノードを削除するために、次のメソッドがあります:
 
@@ -393,7 +393,7 @@ after
 </script>
 ```
 
-## "document.write" について [#A-word-about-"document.write"]
+## "document.write" について 
 
 もう1つ、webページに何かを追加する非常に古代の方法があります: `document.write` です。
 
@@ -442,7 +442,7 @@ after
 
 なので、HTMLの動的に多くのテキストを追加する必要があり、またページをロードするフェーズであること、速度を考慮する必要がある場合にはそれは役立ちます。しかし実際にはこれらの要件が一緒に来ることは殆どありません。通常、このメソッドを見るときは、単に古いスクリプトだからと言う理由です。
 
-## サマリ [#Summary]
+## サマリ 
 
 新しいノードを生成するメソッド:
 

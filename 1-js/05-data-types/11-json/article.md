@@ -175,7 +175,7 @@ JSON.stringify(meetup); // Error: Converting circular structure to JSON
 ![](json-meetup.png)
 
 
-## 除外(Excluding)と変形(transforming): replacer [#Excluding and transforming: replacer]
+## 除外(Excluding)と変形(transforming): replacer 
 
 `JSON.stringify` の完全な構文は次の通りです:
 
@@ -288,7 +288,7 @@ number:       23
 このアイデアは、できるだけ多くの力を `replace` を提供することです。必要に応じてオブジェクト全体を分析したり、置換/スキップすることができます。
 
 
-## 書式設定: spacer [#Formatting: spacer]
+## 書式設定: spacer 
 
 `JSON.stringify(value, replacer, spaces)` の第3引数は、行儀の良いフォーマットのために使うスペースの数です。
 
@@ -332,7 +332,7 @@ alert(JSON.stringify(user, null, 2));
 
 `spaces` パラメータは単にロギングや見やすい出力のためだけに使われます。
 
-## "toJSON" のカスタム [#Custom “toJSON”]
+## "toJSON" のカスタム 
 
 文字列変換のための `toString` のように、オブジェクトはJSONへの変換のためのメソッド `toJSON` を提供しています。`JSON.stringify` は利用可能であればそれを自動で呼び出します。
 
@@ -453,7 +453,7 @@ let json = `{
 
 正規のJSONは、その開発者が怠惰ではなく、簡単で信頼性があり、非常に高速なパースアルゴリズムの実装を可能にするため厳格なものです。
 
-## リバイバーを使う [#Using reviver]
+## リバイバーを使う 
 
 想像してください -- 私たちはサーバから JSONエンコードされた `meetup` オブジェクトを取得しました。
 
@@ -518,7 +518,7 @@ alert( schedule.meetups[1].date.getDate() ); // works!
 ```
 
 
-## サマリ [#summary]
+## サマリ 
 
 - JSON はほとんどのプログラミング言語に、独自の標準とライブラリを持つデータ形式です。
 - JSON はプレーンなオブジェクト、配列、文字列、数値、真偽値、`null` をサポートします。

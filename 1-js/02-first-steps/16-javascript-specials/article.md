@@ -4,7 +4,7 @@
 
 [cut]
 
-## コード構造 [#code-structure]
+## コード構造 
 
 文はセミコロンで区切られます:
 
@@ -45,7 +45,7 @@ for(;;) {
 
 より詳細はこちら: <info:structure>.
 
-## Strict モード [#strict-mode]
+## Strict モード 
 
 現在のJavaScriptのすべての機能を完全に有効にするには、`"use strict"` でスクリプトを始める必要があります。
 
@@ -61,7 +61,7 @@ for(;;) {
 
 より詳細はこちら: <info:strict-mode>.
 
-## 変数 [#variables]
+## 変数 
 
 これらを使って定義できます:
 
@@ -98,7 +98,7 @@ typeof function(){} == "function" // 関数は特別に扱われます
 
 より詳細はこちらです: <info:variables> and <info:types>.
 
-## インタラクション [#interaction]
+## インタラクション 
 
 私たちは動作環境としてブラウザを使っているので、基本のUI関数は次の通りです:
 
@@ -125,7 +125,7 @@ alert( "Tea wanted: " + isTeaWanted ); // true
 
 より詳細はこちらです: <info:alert-prompt-confirm>.
 
-## 演算子 [#operators]
+## 演算子 
 
 JavaScriptは次のような演算子をサポートします:
 
@@ -172,7 +172,7 @@ JavaScriptは次のような演算子をサポートします:
 
 より詳細はこちらです: <info:operators>, <info:comparison>, <info:logical-operators>.
 
-## ループ [#loops]
+## ループ 
 
 - 私たちは3つのタイプのループを説明しました:
 
@@ -200,7 +200,7 @@ JavaScriptは次のような演算子をサポートします:
 
 今後、オブジェクトを扱うためのより多くのループのタイプを学びます。
 
-## "switch" 構造 [#the-switch-construct]
+## "switch" 構造 
 
 "switch" 構造は複数の `if` チェックを置換できます。それは比較に `===` を使います。
 
@@ -224,7 +224,7 @@ switch (age) {
 
 詳細はこちらです: <info:switch>.
 
-## 関数 [#functions]
+## 関数 
 
 私たちは、JavaScriptで関数を作る3つの方法をカバーしました。:
 
@@ -282,6 +282,6 @@ switch (age) {
 
 詳細はこちら: <info:function-basics>, <info:function-expressions-arrows>.
 
-## これからが本番です [#more-to-come]
+## これからが本番です 
 
 ここまではJavaScriptの機能の簡単な一覧でした。今のところ、私たちは基本だけを学びました。このチュートリアルではさらに、JavaScriptのより特別で高度な機能についても説明していきます。

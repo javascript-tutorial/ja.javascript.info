@@ -4,7 +4,7 @@
 
 [cut]
 
-## アイテムの追加/削除 [#add-remove-items]
+## アイテムの追加/削除 
 
 私たちは既に先頭または末尾にアイテムを追加/削除するメソッドを知っています:
 
@@ -203,7 +203,7 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,something,else
 ```
 
-## 配列での検索 [#searching-in-array]
+## 配列での検索 
 
 これらは、配列で何かを探すためのメソッドです。
 
@@ -308,7 +308,7 @@ let someUsers = users.filter(item => item.id < 3);
 alert(someUsers.length); // 2
 ```
 
-## 配列を変換する [#transform-an-array]
+## 配列を変換する 
 
 このセクションでは、配列を変換または並び替える方法について説明します。
 
@@ -583,7 +583,7 @@ arr.reduce((sum, current) => sum + current);
 [arr.reduceRight](mdn:js/Array/reduceRight) メソッドも同じをことを行いますが、右から左に実行します。
 
 
-## 反復: forEach [#iterate-foreach]
+## 反復: forEach 
 
 [arr.forEach](mdn:js/Array/forEach) メソッドは配列の全要素に対して関数を実行することができます。
 
@@ -612,7 +612,7 @@ arr.forEach(function(item, index, array) {
 
 関数の結果(もし何かを返す場合)は捨てられ、無視されます。
 
-## Array.isArray [#array-isarray]
+## Array.isArray 
 
 配列は別の言語タイプを形成しません。 それらはオブジェクトに基づいています。
 
@@ -631,7 +631,7 @@ alert(Array.isArray({})); // false
 alert(Array.isArray([])); // true
 ```
 
-## ほとんどのメソッドは "thisArg" をサポートします [#most-methods-support-thisarg]
+## ほとんどのメソッドは "thisArg" をサポートします 
 
 `find`、`filter`、`map`　のような関数を呼び出すほとんどの配列メソッドは、`sort` の例外を除いて、オプションの追加パラメータ `thisArg` を受け取ります。
 
@@ -675,7 +675,7 @@ alert(youngerUsers.length); // 2
 
 上の呼び出しでは、フィルタとして `user.younger` を使い、そのコンテキストとして `user` を提供しています。もしもコンテキストを提供しなかった場合、`users.filter(user.younger)` はスタンドアロン関数として `this=undefined` で `user.younger` を呼び出します。それは即時エラーを意味します。
 
-## サマリ [#summary]
+## サマリ 
 
 配列メソッドの チートシート です:
 

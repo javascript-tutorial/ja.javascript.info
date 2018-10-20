@@ -5,7 +5,7 @@ JavaScriptでは関数を扱う際、非常に柔軟性があります。関数�
 
 [cut]
 
-## 透過キャッシュ(Transparent caching) [#Transparent caching]
+## 透過キャッシュ(Transparent caching) 
 
 CPU負荷は高いが、その結果が不変である関数 `slow(x)` を持っているとします。言い換えると、同じ `x` の場合、常に同じ結果が返ってきます。
 
@@ -368,7 +368,7 @@ alert( "Again " + worker.slow(3, 5) ); // same (cached)
 - 次に `(**)` でラッパーが取得したコンテキストとすべての引数(どれだけ多くても問題ありません)を元の関数に渡すために `func.apply` を使っています。
 
 
-## メソッドの借用(Borrowing a method) [#method-borrowing]
+## メソッドの借用(Borrowing a method) 
 
 ハッシュ関数に小さな改善をしてみましょう:
 
@@ -434,7 +434,7 @@ hash(1, 2);
 
 従って、技術的には `this` を取り、`this[0]`, `this[1]` ... などを一緒に結合します。これは意図的に任意の配列ライク(array-like) の `this` を許容する方法で書かれています(多くのメソッドがこの慣習に従っています)。そういうわけで `this=arguments` でも動きます。
 
-## サマリ [#summary]
+## サマリ 
 
 *デコレータ* は関数の振る舞いを変更するラッパーです。メインの仕事は引き続き元の関数により行われます。
 

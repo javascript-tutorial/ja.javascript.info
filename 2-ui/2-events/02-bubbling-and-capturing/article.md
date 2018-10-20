@@ -12,7 +12,7 @@
 
 少し奇妙に見えますよね？ なぜ実際のクリックが `<em>` だった場合に `<div>` 上のハンドラが実行されるでしょう？
 
-## バブリング(Bubbling) [#Bubbling]
+## バブリング(Bubbling) 
 
 バブリングの原理はシンプルです。
 
@@ -77,7 +77,7 @@
 
 It's possible that `event.target` equals `this` -- when the click is made directly on the `<form>` element.
 
-## バブリングを止める [#Stopping bubbling]
+## バブリングを止める 
 
 バブリングイベントはターゲット要素からまっすぐ上がってきます。通常、それは `<html>` まで到達し、次に `document` オブジェクトに移動し、いくつかのイベントは `window` にも到達し、そのパス上のすべてのハンドラを呼び出します。
 
@@ -116,7 +116,7 @@ It's possible that `event.target` equals `this` -- when the click is made direct
 ```
 
 
-## キャプチャリング(Capturing) [#Capturing]
+## キャプチャリング(Capturing) 
 
 "キャプチャリング" と呼ばれるイベント処理の別のフェーズがあります。実際のコードではほとんど使われませんが、役立つときがあります。
 
@@ -182,7 +182,7 @@ It's possible that `event.target` equals `this` -- when the click is made direct
 
 イベントが捕捉されたフェーズの番号を示すプロパティ `event.eventPhase` があります。 しかし、私たちは通常ハンドラでそれを知っているので、めったに使用されません。
 
-## サマリ [#Summary]
+## サマリ 
 
 イベントハンドラプロセスです:
 

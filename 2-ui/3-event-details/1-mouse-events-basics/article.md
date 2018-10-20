@@ -6,11 +6,11 @@
 
 [cut]
 
-## マウスイベントタイプ [#Mouse event types]
+## マウスイベントタイプ 
 
 マウスイベントは2つのカテゴリに分けることができます: "シンプル" と "複雑" です。
 
-### シンプルなイベント [#Simple events]
+### シンプルなイベント 
 
 最も使用されるシンプルなイベントは:
 
@@ -38,7 +38,7 @@
 
 複雑なイベントはシンプルなイベントから作られます。なので、論理的にはそれ無しでもやっていけます。しかしそれらはとても便利なので存在しています。
 
-### イベント順 [#Events order]
+### イベント順 
 
 アクションは複数のイベントをトリガする場合があります。
 
@@ -56,7 +56,7 @@
 <input onmousedown="return logMouse(event)" onmouseup="return logMouse(event)" onclick="return logMouse(event)" oncontextmenu="return logMouse(event)" ondblclick="return logMouse(event)" value="Click me with the right or the left mouse button" type="button"> <input onclick="logClear('test')" value="Clear" type="button"> <form id="testform" name="testform"> <textarea style="font-size:12px;height:150px;width:360px;"></textarea></form>
 ```
 
-## ボタンを取得する: which [#Getting the button: which]
+## ボタンを取得する: which 
 
 クリック関連のイベントは常にボタンが取得できる `which` プロパティを持っています。
 
@@ -72,7 +72,7 @@
 
 中央のボタンは今のところいくらかエキゾチックで、ほとんど使われていません。
 
-## 修飾子: shift, alt, ctrl と meta [#Modifiers: shift, alt, ctrl and meta]
+## 修飾子: shift, alt, ctrl と meta 
 
 すべてのマウスイベントは押された修飾子のキーに関する情報も含みます。
 
@@ -118,7 +118,7 @@ JS-codeの場合、`if (event.ctrlKey || event.metaKey)` というチェック�
 キーボードの組み合わせは便利です。訪問者がキーボードを持っていれば、それは機能します。 あなたのデバイスがそれを持っていない場合でも、同じことをする別の方法があります。
 ```
 
-## 座標: clientX/Y, pageX/Y [#Coordinates: clientX/Y, pageX/Y]
+## 座標: clientX/Y, pageX/Y 
 
 すべてのマウスイベントは2種類の座標を持っています:
 
@@ -140,7 +140,7 @@ JS-codeの場合、`if (event.ctrlKey || event.metaKey)` というチェック�
 
 チャプター <info:coordinates> で座標についてより知ることができます。
 
-## マウスダウンで選択をしない [#No selection on mousedown]
+## マウスダウンで選択をしない 
 
 マウスクリックは邪魔になる副作用があります。ダブルクリックするとテキストを選択します。
 
@@ -227,7 +227,7 @@ Before...
 確かに、ユーザーがHTMLソースを開くことを止めることはできませんが、誰もがHTMLソースを開く方法を知っているわけではありません。
 ````
 
-## サマリ [#Summary]
+## サマリ 
 
 マウスイベントは次のプロパティを持っています:
 

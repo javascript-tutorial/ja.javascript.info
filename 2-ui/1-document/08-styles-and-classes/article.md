@@ -84,7 +84,7 @@ elem.style.top = top; // e.g '456px'
 </body>
 ```
 
-## 要素のスタイル [#Element-style]
+## 要素のスタイル 
 
 プロパティ `elem.style` は `"style"` 属性に書かれたものに対応するオブジェクトです。`elem.style.width="100px"` の設定は、属性 `style="width:100px"` を持っているかのように機能します。
 
@@ -113,7 +113,7 @@ button.style.WebkitBorderRadius = '5px';
 つまり: ダッシュ `"-"` は大文字になります。
 ````
 
-## スタイルプロパティのリセット [#Resetting the style property]
+## スタイルプロパティのリセット 
 
 時々、スタイルプロパティを割り当て、後ほどそれを削除したい場合があります。
 
@@ -155,7 +155,7 @@ setTimeout(() => document.body.style.display = "", 1000); // 通常に戻りま�
 属性を設定することで同じことを達成することが出来ます。: `div.setAttribute('style', 'color: red...')`.
 ````
 
-## 単位を気にする [#Mind the units]
+## 単位を気にする 
 
 CSS の単位はスタイルの値の中で指定する必要があります。
 
@@ -182,7 +182,7 @@ CSS の単位はスタイルの値の中で指定する必要があります。
 
 ブラウザが最後の行で `style.margin` を "アンパック" し、`style.marginLeft`と `style.marginTop`（および他の部分的なマージン）をどのように推測するか注意してください。
 
-## 算出スタイル: getComputedStyle [#Computed styles: getComputedStyle]
+## 算出スタイル: getComputedStyle 
 
 スタイルを変更するのは簡単です。しかしどうやってそれを *読み* ますか？
 
@@ -288,7 +288,7 @@ pseudo
 JavaScriptでは、 `:visited` によって適用されたスタイルは見えません。また、`:visited` にジオメトリの変更スタイルを適用することを禁止するという制限が CSS にはあります。それは、リンクが訪問された場合に悪意のあるページがテストしてプライバシを破る方法がないことを保証するためです。
 ```
 
-## サマリ [#Summary]
+## サマリ 
 
 クラスを管理するために、2つのDOMプロパティがあります:
 

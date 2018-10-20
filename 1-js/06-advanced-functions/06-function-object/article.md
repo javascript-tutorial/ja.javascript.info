@@ -129,7 +129,7 @@ ask("Question?", () => alert('You said yes'), result => alert(result));
 
 これは、いわゆる [ポリモーフィズム(polymorphism)](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) と呼ばれる特定のケースです -- 引数を型に応じて、または私たちの場合は `length` に応じた扱いをします。このアイデアはJavaScriptライブラリで使用されています。
 
-## カスタムプロパティ [#custom-properties]
+## カスタムプロパティ 
 
 我々は、独自のプロパティを追加することもできます。
 
@@ -337,7 +337,7 @@ welcome(); // Hello, Guest (ネスト呼び出しは機能します)
 信頼できる内部名が必要なときには、それは関数宣言を名前付けされた関数式の形に書き換える理由になります。
 ```
 
-## サマリ [#summary]
+## サマリ 
 
 関数はオブジェクトです。
 

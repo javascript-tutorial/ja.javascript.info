@@ -120,7 +120,7 @@ let map = new Map(Object.entries({
 
 ここで、`Object.entries` はキー/値のペアの配列を返します: `[ ["name","John"], ["age", 30] ]`。これは `Map` が必要とするものです。
 
-## Map での繰り返し [#Iteration over Map]
+## Map での繰り返し 
 
 `map` でループするためには３つのメソッドがあります:
 
@@ -207,7 +207,7 @@ for (let user of set) {
 
 `Set` の代替は、ユーザの配列と全ての挿入時に [arr.find](mdn:js/Array/find) を使って重複をチェックするためのコードです。しかし、このメソッドは全ての要素をチェックするために配列全体を見るので、パフォーマンスははるかに悪いです。`Set` は一意性チェックのために、内部最適化されています。
 
-## Set での繰り返し [#Iteration over Set]
+## Set での繰り返し 
 
 `for..of` または `forEach` を使うことで set をループすることができます:
 
@@ -230,7 +230,7 @@ set.forEach((value, valueAgain, set) => {
 - `set.values()` -- `set.keys` と同じで、`Map` との互換性のためです。
 - `set.entries()` -- `[value, value]` のエントリのための iterable なオブジェクトを返します。`Map` の互換性のために存在します。
 
-## WeakMap と WeakSet [#WeakMap and WeakSet]
+## WeakMap と WeakSet 
 
 `WeakSet` はJavaScriptがメモリからそのアイテムを削除するのを妨げない、`Set` の特別な種類です。`WeakMap` は `Map` と同じものです。
 
@@ -404,7 +404,7 @@ messages.shift();
 
 `WeakMap` と `WeakSet` の最も注目に値する制限は反復処理がないこと、また現在のすべての中身を取得することができないことです。それらは不便に見えるかもしれませんが、実際には、`WeakMap/WeakSet` の主な仕事(別の場所で格納/管理されているオブジェクトのための "追加" のデータ記憶域になる)を妨げることはありません。
 
-## サマリ [#summary]
+## サマリ 
 
 - `Map` -- はキー付けされた値のコレクションです。
 

@@ -42,7 +42,7 @@ alert(obj.__proto__ === Object.prototype); // true
 alert(Object.prototype.__proto__); // null
 ```
 
-## 他の組み込みのプロトタイプ [#other-built-in-prototypes]
+## 他の組み込みのプロトタイプ 
 
 `Array`, `Date`, `Function` のような、他の組み込みのプロトタイプもまたプロトタイプにメソッドを保持しています。
 
@@ -106,7 +106,7 @@ alert(f.__proto__.__proto__ == Object.prototype); // true, object からの継�
 特別な値 `null` や `undefined` は別です。それらはオブジェクトラッパーを持ちません。そのため、利用可能なメソッドやプロパティはありません。また、それらに対応するプロトタイプもありません。
 ```
 
-## ネイティブプロトタイプの変更 [#native-prototype-change]
+## ネイティブプロトタイプの変更 
 
 ネイティブプロトタイプは変更することができます。例えば、もしあるメソッドを `String.prototype` に追加した場合、それはすべての文字列で利用可能になります。:
 
@@ -143,7 +143,7 @@ if (!String.prototype.repeat) { // もしこのようなメソッドがない場
 alert( "La".repeat(3) ); // LaLaLa
 ```
 
-## プロトタイプからの借用 [#borrowing-from-prototypes]
+## プロトタイプからの借用 
 
 チャプター <info:call-apply-decorators#method-borrowing> で私たちはメソッドの借用について話しました。:
 
@@ -170,7 +170,7 @@ function showArgs() {
 
 これは、余分な配列オブジェクト `[]` の作成を避けることができるので、より効率的です。一方で記述は長いですが。
 
-## サマリ [#summary]
+## サマリ 
 
 - すべての組み込みオブジェクトは同じパターンに従います。:
     - メソッドはプロトタイプに保持されています(`Array.prototype`, `Object.prototype`, `Date.prototype` など)。

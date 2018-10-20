@@ -11,7 +11,7 @@ libs:
 
 [cut]
 
-## "this" を失う [#losing-this]
+## "this" を失う 
 
 私たちはすでに、JavaScriptでは `this` を失うことが容易であることを知っています。 あるメソッドがオブジェクトから別の場所に渡されると、`this` は失われます。
 
@@ -43,7 +43,7 @@ setTimeout(f, 1000); // user コンテキストを失います
 
 このタスクは非常に典型的です -- オブジェクトメソッドをどこか別の場所（ここではスケジューラに渡して）から呼び出したい場合です。それが適切なコンテキストで呼び出されることはどのように確認すればよいでしょう？
 
-## 解決策 1: 囲む [#solution-1-a-wrapper]
+## 解決策 1: 囲む 
 
 最もシンプルな解決策はラップされた関数を使うことです:
 
@@ -93,7 +93,7 @@ user = { sayHi() { alert("Another user in setTimeout!"); } };
 
 次の解決策はこのようなことが起きないことを保証します。
 
-## 解決策 2: bind [#solution-2-bind]
+## 解決策 2: bind 
 
 関数は、`this` を固定できる組み込みメソッド [bind](mdn:js/Function/bind) を提供します。
 
@@ -198,7 +198,7 @@ for (let key in user) {
 JavaScriptライブラリはまた、便利な大量バインディングのための機能も提供しています。e.g. [_.bindAll(obj)](http://lodash.com/docs#bindAll) in lodash.
 ````
 
-## サマリ [#summary]
+## サマリ 
 
 メソッド `func.bind(context, ...args)` はコンテキスト `this` を固定した関数 `func` の "束縛されたバリアント" を返します。
 

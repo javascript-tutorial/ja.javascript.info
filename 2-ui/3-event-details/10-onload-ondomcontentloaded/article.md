@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", ready);
 
 `DOMContentLoaded` がスクリプトを待つので、その前のスタイルも同様に待つことになります。
 
-### 組み込みのブラウザの自動入力 [#Built-in browser autofill]
+### 組み込みのブラウザの自動入力 
 
 Firefox, Chrome や Opera の自動入力は `DOMContentLoaded` で起こります。
 
@@ -101,7 +101,7 @@ Firefox, Chrome や Opera の自動入力は `DOMContentLoaded` で起こりま�
 
 外部スクリプトに対して `async` や `defer` を使う小さなメリットの１つは -- `DOMContentLoaded` をブロックせず、ブラウザの自動入力に遅延がないことです。
 
-## window.onload [#window-onload]
+## window.onload 
 
 `window` オブジェクトの `load` イベントはスタイルや画像、その他リソースを含めページ全体が読み込まれたときにトリガされます。
 
@@ -126,7 +126,7 @@ Firefox, Chrome や Opera の自動入力は `DOMContentLoaded` で起こりま�
 
 そのためには、別のイベント `onbeforeunload` を使う必要があります。
 
-## window.onbeforeunload [#window.onbeforeunload]
+## window.onbeforeunload 
 
 訪問者がページを離れ始めたり、ウィンドウを閉じようとした場合、`beforeunload` ハンドラで追加の確認を尋ねることができます。
 
@@ -229,7 +229,7 @@ document.addEventListener('readystatechange', () => console.log(document.readySt
 - `document.readyState` は `DOMContentLoaded` の直前に `interactive` になります。これら２つのイベントは実際には同じことを意味します。
 - `document.readyState` は、すべてのリソース(`iframe` や `img`)がロードされたときに `complete` になります。ここでは、`img.onload` (`img` は最後のリソース) と `window.onload` がほぼ同じ時間に発生していることが分かります。`complete` 状態にスイッチすることは、`window.onload` と同じことを意味します。違いは、`window.onload` は常に他のすべての `load` ハンドラの後で動作するということです。
 
-## サマリ [#Summary]
+## サマリ 
 
 ページのライフサイクルイベント:
 

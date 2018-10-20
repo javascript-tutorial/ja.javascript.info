@@ -6,7 +6,7 @@
 
 [cut]
 
-## ナビゲーション: フォームと要素 [#Navigation: form and elements]
+## ナビゲーション: フォームと要素 
 
 ドキュメントフォームは特別な集合 `document.forms` のメンバです。
 
@@ -123,7 +123,7 @@ alert(ageElems[0].value); // 10, 1つ目の input の値
 
 ````
 
-## 後方参照: element.form [#Backreference: element.form]
+## 後方参照: element.form 
 
 任意の要素に対して、フォームは `element.form` として利用可能です。そのため、フォームはすべての要素を参照し、要素はフォームを参照します。
 
@@ -149,7 +149,7 @@ alert(ageElems[0].value); // 10, 1つ目の input の値
 </script>
 ```
 
-## フォーム要素 [#Form elements]
+## フォーム要素 
 
 それぞれの機能に注意を払いながら、フォームコントロールについて話しましょう。
 
@@ -267,7 +267,7 @@ Option 要素は追加のプロパティを持っています:
 : option のテキストコンテンツ
 ```
 
-## サマリ [#Summary]
+## サマリ 
 
 フォームのナビゲーション:
 

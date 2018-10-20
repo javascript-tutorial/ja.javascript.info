@@ -12,7 +12,7 @@
 
 [cut]
 
-## イベント focus/blur [#Events focus/blur]
+## イベント focus/blur 
 
 `focus` イベントはフォーカス時に呼ばれ、`blue` は要素がフォーカスを失ったときに呼ばれます。
 
@@ -53,7 +53,7 @@ Your email please: <input type="email" id="input">
 
 現代の HTML では input の属性を使って多くのバリデーションを行うことができます: `required`, `pattern` などです。そして、時にはそれらが丁度私たちが必要なことである場合もあります。JavaScriptは、より柔軟性が必要な場合に使用できます。 その値が正しい場合、変更された値をサーバ上に自動的に送信することもできます。
 
-## メソッド focus/blur [#Methods focus/blur]
+## メソッド focus/blur 
 
 メソッド `elem.focus()` と `elem.blur()` は要素のフォーカスを設定/解除します。
 
@@ -103,7 +103,7 @@ Your email please: <input type="email" id="input">
 
 最善の策は、それらのイベントを使うとき注意を払うことです。ユーザが開始したフォーカス解除を追跡したい場合は、自分自身でフォーカス解除を回避する必要があります。
 ```
-## 任意の要素にフォーカスを当てる: tabindex [#Allow focusing on any element: tabindex]
+## 任意の要素にフォーカスを当てる: tabindex 
 
 デフォルトでは、多くの要素はフォーカスをサポートしていません。
 
@@ -148,7 +148,7 @@ HTML 属性 `tabindex` を使用することでこれを変更することが可
 `elem.tabIndex` プロパティを使用することで、JavaScript から `tabindex` を追加することができます。これは同じ効果があります。
 ```
 
-## 移譲: focuin/focusout [#Delegation: focusin/focusout]
+## 移譲: focuin/focusout 
 
 イベント `focus` と `blur` はバブルしません。
 
@@ -211,7 +211,7 @@ HTML 属性 `tabindex` を使用することでこれを変更することが可
 </script>
 ```
 
-## サマリ [#Summary]
+## サマリ 
 
 イベント `focus` と `blur` は要素にフォーカスが当たる/外れるときにトリガされます。
 

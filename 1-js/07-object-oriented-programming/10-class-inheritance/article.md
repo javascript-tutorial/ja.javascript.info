@@ -73,7 +73,7 @@ new User().sayHi(); // Hello
 多くの条件に依存したクラスを生成するための関数を使用し、それらから継承できるような高度なプログラミングパターンに対して、これは役立つ場合があります。
 ````
 
-## メソッドのオーバーライド [#overriding-a-method]
+## メソッドのオーバーライド 
 
 では、前に進めてメソッドをオーバライドをしてみましょう。今のところ、`Rabbit` は `Animal` から `this.speed = 0` をセットする `stop` メソッドを継承しています。
 
@@ -159,7 +159,7 @@ setTimeout(function() { super.stop() }, 1000);
 ````
 
 
-## コンストラクタのオーバライド [#overriding-constructor]
+## コンストラクタのオーバライド 
 
 コンストラクタに対しては、少し用心が必要です。
 
@@ -434,7 +434,7 @@ rabbit.eat();  // super 呼び出しエラー([[HomeObject]] が無いため)
 */!*
 ```
 
-## 静的メソッドと継承 [#static-methods-and-inheritance]
+## 静的メソッドと継承 
 
 `class` 構文は静的なプロパティに対しても継承をサポートしています。
 
@@ -514,7 +514,7 @@ alert(Rabbit.prototype.__proto__ === Animal.prototype); // true
 
 このような差異は歴史的な理由で存在します。: JavaScript言語の幕開けにクラス構文と静的メソッドを継承することは考えられませんでした。
 
-## ネイティブは拡張可能です [#natives-are-extendable]
+## ネイティブは拡張可能です 
 
 Array, Map やその他のような組み込みのクラスもまた拡張可能です。
 

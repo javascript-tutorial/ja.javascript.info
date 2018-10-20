@@ -131,7 +131,7 @@ alert(longEar.jumps); // true (rabbit から)
 
 また、それは明らかかもしれませんが、1つの `[[Prototype]]` しか存在しません。 オブジェクトは2つの他のものから継承することはできません。
 
-## 読み書きのルール [#read-write-rules]
+## 読み書きのルール 
 
 プロトタイプは、プロパティを読むためだけに使われます。
 
@@ -195,7 +195,7 @@ admin.fullName = "Alice Cooper"; // (**)
 
 ここで、行 `(*)` では、プロパティ `admin.fullName` はプロトタイプ `user` が getter を持っているので、それが呼ばれます。また、行 `(**)` では、プロパティはプロトタイプに setter を持っているので、それが呼ばれます。
 
-## "this" の値 [#the-value-of-this]
+## "this" の値 
 
 上の例で、興味深い質問が起きるかもしれません。: `set fullName(value)` の内側での `this` の値はなんでしょうか？
 プロパティ `this.name` と `this.surname` が書かれているのはどこでしょうか？ `user` または `admin` ?
@@ -245,7 +245,7 @@ alert(animal.isSleeping); // undefined (prototype にそのようなプロパテ
 
 結果として、メソッドは共有されますが、オブジェクトの状態は共有されません。
 
-## サマリ [#summary]
+## サマリ 
 
 - JavaScriptでは、すべてのオブジェクトは隠れた `[[Prototype]]` プロパティを持っており、それは別のオブジェクトまたは `null` です。
 - それにアクセスするために `obj.__proto__` を使うことができます(他の方法もあります。それらは後ほど学びます)。

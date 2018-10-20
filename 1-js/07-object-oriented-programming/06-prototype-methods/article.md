@@ -61,7 +61,7 @@ let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescr
 
 この呼び出しはすべてのプロパティを含む `obj` の本当の正確なコピーを作ります。: 列挙型、非列挙型、データプロパティ、setter/getter -- すべてと、正確な `[[Prototype]]` です。
 
-## 略史 [#brief-history]
+## 略史 
 
 もし `[[Prototype]]` を管理するすべての方法を数えると、たくさんあります! 同じことをするたくさんの方法があります!
 
@@ -78,7 +78,7 @@ let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescr
 技術的には、いつでも `[[Prototype]]` の取得/設定が可能です。しかし、通常はオブジェクト作成時に一度だけ設定を行い、変更はしません。: `rabbit` は `animal` から継承しており、それは変更しません。また、JavaScriptエンジンは高度に最適化されています。`Object.setPrototypeOf` または `obj.__proto__=` で "その場で" プロトタイプを変更することは、可能ですがとても遅い操作になります。
 
 
-## "非常にシンプルな" オブジェクト [#very-plain-objects]
+## "非常にシンプルな" オブジェクト 
 
 ご存知の通り、オブジェクトはキー/値ペアを格納するための連想配列として使うことができます。
 
@@ -163,7 +163,7 @@ chineseDictionary.bye = "zai jian";
 alert(Object.keys(chineseDictionary)); // hello,bye
 ```
 
-## すべてのプロパティを取得する [#getting-all-properties]
+## すべてのプロパティを取得する 
 
 オブジェクトから キー/値 を取得する多くの方法があります。
 
@@ -239,7 +239,7 @@ for(let prop in rabbit) {
 
 ...しかしなぜ `hasOwnProperty` は `for..in` ループで現れないのでしょうか？答えはシンプルです。それは列挙可能ではありません。 `Object.prototype`の他のすべてのプロパティと同様です。だからこそそれらはリストに載っていません。
 
-## サマリ [#summary]
+## サマリ 
 
 このチャプターで説明したメソッドの簡単なリストを要約として示します。:
 

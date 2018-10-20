@@ -48,7 +48,7 @@ alert( rabbit.eats ); // true
 イメージ上で、`"prototype"` は水平矢印で、それは通常のプロパティです。`[[Prototype]]` は縦矢印で、`animal` から `rabbit` の継承を意味しています。
 
 
-## デフォルトの F.prototype, constructor プロパティ [#default-f-prototype-constructor-property]
+## デフォルトの F.prototype, constructor プロパティ 
 
 すべての関数は、たとえ明示的に提供されていなくても `"prototype"` プロパティを持っています。
 
@@ -155,7 +155,7 @@ Rabbit.prototype = {
 // 追加したので、これで constructor も正しいです
 ```
 
-## サマリ [#summary]
+## サマリ 
 
 このチャプターでは、constructor 関数を通して作成されたオブジェクトのための `[[Prototype]]` を設定方法について簡単に説明しました。後で、それに依存するより高度なプログラミングパターンを見ていきます。
 

@@ -9,7 +9,7 @@
 
 [cut]
 
-## Symbol.iterator [#symbol-iterator]
+## Symbol.iterator 
 
 私たち自身で実際に作ってみることで、iterables の概念を簡単に掴む事ができます。
 
@@ -114,7 +114,7 @@ for (let num of range) {
 ```
 
 
-## 文字列は反復可能です [#string-is-iterable]
+## 文字列は反復可能です 
 
 配列と文字列は、最も広く組み込みの iterables で使われています。
 
@@ -135,7 +135,7 @@ for (let char of str) {
 }
 ```
 
-## iterator を明示的に呼び出す [#calling-an-iterator-explicitly]
+## iterator を明示的に呼び出す 
 
 通常、iterables の内部は外部のコードからは隠れています。`for..of` ループがあり、それが動作します。それだけを知っておけば問題ありません。
 
@@ -160,7 +160,7 @@ while (true) {
 
 これはほとんど必要とされませんが、`for..of` よりも処理をよりコントロールできます。例えば、繰り返し処理を分割したい場合: 少し反復してから停止し、別のことをしてから、後で再開するような場合役に立ちます。
 
-## 反復可能(Iterables) と 配列ライク(array-like)s [#array-like]
+## 反復可能(Iterables) と 配列ライク(array-like)s 
 
 同じように見える2つの正式な用語がありますが、大きく異なるものです。 混乱を避けるためにそれらをよく理解してください。
 
@@ -283,7 +283,7 @@ alert( str.slice(1, 3) ); // ゴミ (異なるサロゲートペアの片割れ�
 ```
 
 
-## サマリ [#summary]
+## サマリ 
 
 `for..of` が使えるオブジェクトは *反復可能(iterable)* と呼ばれます。
 

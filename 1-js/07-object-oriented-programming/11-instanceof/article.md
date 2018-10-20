@@ -6,7 +6,7 @@
 
 [cut]
 
-## instanceof 演算子 [#ref-instanceof]
+## instanceof 演算子 
 
 構文は次の通りです:
 ```js
@@ -198,7 +198,7 @@ alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
 
 これは、型を文字列として取得するだけでなく、チェックするために、組み込みオブジェクトに対して `instanceof` の代わりに使用できます。
 
-## サマリ [#summary]
+## サマリ 
 
 私たちが知っている型チェックメソッドについて再確認しましょう:
 

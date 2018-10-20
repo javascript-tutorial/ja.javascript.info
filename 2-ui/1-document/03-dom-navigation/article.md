@@ -19,7 +19,7 @@ DOM 上のすべての操作は `document` オブジェクトから始まりま�
 
 それらについてより深く議論しましょう。
 
-## トップ: documentElement と body [#documentelement-and-body]
+## トップ: documentElement と body 
 
 一番上のツリーノードは `documet` のプロパティとして直接利用可能です:
 
@@ -65,7 +65,7 @@ DOM 上のすべての操作は `document` オブジェクトから始まりま�
 DOM では、`null` 値は "存在しない" もしくは "このようなノードはない" を意味します。
 ```
 
-## 子: childNodes, firstChild, lastChild [#children]
+## 子: childNodes, firstChild, lastChild 
 
 我々がこれから使う2つの用語があります。:
 
@@ -129,7 +129,7 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 
 子ノードがあるかどうかをチェックするための特別な関数 `elem.hasChildNodes()` もあります。
 
-### DOM コレクション [#dom-collections]
+### DOM コレクション 
 
 ご覧の通り、`childNodes` は配列のように見えます。しかし実際には配列ではなくむしろ *コレクション* -- 特別な配列ライクで反復可能なオブジェクトです。
 
@@ -183,7 +183,7 @@ Collections are iterable using `for..of`. Sometimes people try to use `for..in` 
 </body>
 ````
 
-## 兄弟と親 [#siblings-and-the-parent]
+## 兄弟と親 
 
 *兄弟(Siblings)* は同じ親(parent)の子ノードです。例えば、`<head>` と `<body>` は兄弟です:
 
@@ -267,7 +267,7 @@ alert( document.documentElement.parentElement ); // null
 </html>
 ```
 
-## 他のリンク: tables [#dom-navigation-tables]
+## 他のリンク: tables 
 
 今まで、基本的なナビゲーションプロパティを説明しました。
 
@@ -313,7 +313,7 @@ alert( document.documentElement.parentElement ); // null
 
 HTMLフォームのための追加のナビゲーションプロパティもあります。 フォームを使って作業を開始するときにそれらを見ていきます。
 
-# サマリ [#summary]
+# サマリ 
 
 与えられた DOM ノードで、ナビゲーションプロパティを使用することで直接隣接ノードに移動できます。
 

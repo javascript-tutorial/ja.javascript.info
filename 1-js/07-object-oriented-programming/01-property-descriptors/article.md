@@ -7,7 +7,7 @@
 
 [cut]
 
-## プロパティフラグ [#property-flags]
+## プロパティフラグ 
 
 オブジェクトプロパティは **`value`** に加えて、3つの特別な属性を持っています(いわゆる "フラグ" と呼ばれています)。
 
@@ -100,7 +100,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 
 では、例を使ってフラグの影響を見てみましょう。
 
-## 読み取り専用(Read-only) [#read-only]
+## 読み取り専用(Read-only) 
 
 `writable` フラグを変更して `user.name` を読み取り専用にしてみましょう:
 
@@ -141,7 +141,7 @@ user.name = "Alice"; // Error
 ```
 
 
-## 列挙可能でない(Non-enumerable) [#non-enumerable]
+## 列挙可能でない(Non-enumerable) 
 
 今、カスタムの `toString` を `user` に追加しましょう。
 

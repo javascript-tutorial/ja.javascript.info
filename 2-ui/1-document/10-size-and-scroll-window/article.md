@@ -6,7 +6,7 @@ DOM の観点からは、ルートドキュメント要素は `document.document
 
 [cut]
 
-## ウィンドウの幅/高さ [#Width/height of the window]
+## ウィンドウの幅/高さ 
 
 `document.documentElement` のプロパティ `clientWidth/clientHeight` はまさに私たちがここで欲しいものです:
 
@@ -41,7 +41,7 @@ alert( document.documentElement.clientWidth ); // ウィンドウ幅 - スクロ
 現代の HTML では、常に `DOCTYPE` を書くべきです。一般的にそれは JavaScript の問題ではありませんが、ここでは JavaScript へも影響します。
 ```
 
-## ドキュメントの幅/高さ [#Width/height of the document]
+## ドキュメントの幅/高さ 
 
 理論上は、ルートドキュメント要素は　`documentElement.clientWidth/Height` であり、すべてのコンテンツを囲むので、フルサイズを `documentElement.scrollWidth/scrollHeight` で測定できます。
 
@@ -61,7 +61,7 @@ alert('Full document height, with scrolled out part: ' + scrollHeight);
 
 なぜそうなのでしょう？が、聞かない方が良いです。これらの不一致は古くからのものであり、 "スマート" なロジックではありません。
 
-## 現在のスクロールを取得する [#page-scroll]
+## 現在のスクロールを取得する 
 
 通常の要素は `elem.scrollLeft/scrollTop` に現在のスクロール状態を持っています。
 
@@ -76,7 +76,7 @@ alert('Current scroll from the left: ' + window.pageXOffset);
 
 これらのプロパティは読み取り専用です。
 
-## スクローリング: scrollTo, scrollBy, scrollIntoView [#window-scroll]
+## スクローリング: scrollTo, scrollBy, scrollIntoView 
 
 ```warn
 JavaScript からページをスクロールするには、その DOM を完全に構築する必要があります。
@@ -128,7 +128,7 @@ JavaScript からページをスクロールするには、その DOM を完全�
 <button onclick="this.scrollIntoView(false)">this.scrollIntoView(false)</button>
 ```
 
-## スクロールを禁止する [#Forbid the scrolling]
+## スクロールを禁止する 
 
 私たちはドキュメントを "スクロール不可" にする必要がある場合があります。例えば、すぐに注意を必要とするようなサイズの大きなメッセージを伝える必要があるとき、訪問者にはドキュメントではなく、そのメッセージとやりとりすることを望みます。
 
@@ -150,7 +150,7 @@ JavaScript からページをスクロールするには、その DOM を完全�
 
 それは少し変に見えますが、フリーズする前後で `clientWidth` を比較し、スペースが増えた場合(スクロールバーが消えたら)、コンテンツ幅を同じに維持するためにスクロールバーの代わりに `document.body` に `padding` を追加することで回避できます。
 
-## サマリ [#Summary]
+## サマリ 
 
 ジオメトリ:
 

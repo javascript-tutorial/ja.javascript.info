@@ -345,7 +345,7 @@ alert( regexp.exec(str).index ); // 34, the search starts from the 30th position
 ```
 ````
 
-## The "y" flag [#y-flag]
+## The "y" flag 
 
 The `y` flag means that the search should find a match exactly at the position specified by the property `regexp.lastIndex` and only there.
 

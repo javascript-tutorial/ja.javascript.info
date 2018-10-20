@@ -6,7 +6,7 @@ The idea is that if we have two windows open: one from `john-smith.com`, and ano
 
 [cut]
 
-## Same Origin [#same-origin]
+## Same Origin 
 
 Two URLs are said to have the "same origin" if they have the same protocol, domain and port.
 

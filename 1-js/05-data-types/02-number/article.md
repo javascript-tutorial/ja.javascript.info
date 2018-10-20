@@ -4,7 +4,7 @@ JavaScript では、全ての数値は "倍精度" として知られる64ビッ
 
 私たちが現在知っていることを総括して説明しましょう。
 
-## 数値を書く多くの方法 [#more-ways-to-write-a-number]
+## 数値を書く多くの方法 
 
 1億を書かないといけないと想像してください。明白な方法は次の通りです:
 
@@ -76,7 +76,7 @@ alert( a == b ); // true, 両方とも同じ数値(255)
 
 このようなサポートを持つ数字体系は3つしかありません。他の数値体系では、`parseInt` 関数を使う必要があります(このチャプターで後ほど学びます)。
 
-## toString(base) [#tostring-base]
+## toString(base) 
 
 メソッド `num.toString(base)` は与えられた `base` の記数法で `num` の文字列表現を返します。
 
@@ -109,7 +109,7 @@ alert( num.toString(2) );   // 11111111
 またこのようにも書けます `(123456).toString(36)`.
 ```
 
-## 丸め [#rounding]
+## 丸め 
 
 数値処理で最も使う操作の1つが丸めです。
 
@@ -176,7 +176,7 @@ alert( num.toString(2) );   // 11111111
 
     単項プラス、または `Number()` 呼び出しを使うことで、数値に変換することができます: `+num.toFixed(5)`
 
-## 精密でない計算 [#imprecise-calculations]
+## 精密でない計算 
 
 内部的には、数値は 64bit フォーマット[IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985)で表現されるため、正確に 64bit で数値を格納できます。: そのうち 52bit が数字の格納のために使われ、11bit が 小数点の位置で(整数値のときゼロです。)、 1bit は符号です。
 
@@ -279,7 +279,7 @@ Javascriptはこのようなイベントではエラーをトリガーしませ�
 ```
 
 
-## テスト: isFinite と isNaN [#tests-isfinite-and-isnan]
+## テスト: isFinite と isNaN 
 
 2つの特別な数値を覚えていますか？
 
@@ -334,7 +334,7 @@ alert( isFinite(num) );
 ```
 
 
-## parseInt と parseFloat [#parseint-and-parsefloat]
+## parseInt と parseFloat 
 
 プラス `+` または `Number()` を使った数値変換は厳密です。もし値が厳密数値出ない場合、それは失敗します:
 
@@ -376,7 +376,7 @@ alert( parseInt('2n9c', 36) ); // 123456
 ```
 ````
 
-## 他の数学的関数 [#other-math-functions]
+## 他の数学的関数 
 
 JavaScript は数学関数と定数の小さなライブラリを含む組み込みの[Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) オブジェクトを持っています。
 
@@ -408,7 +408,7 @@ JavaScript は数学関数と定数の小さなライブラリを含む組み込
 
 [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) にある三角法など、`Math` オブジェクトには、より多くの関数や定数があります。
 
-## サマリ [#summary]
+## サマリ 
 
 大きな数値を書くために:
 

@@ -6,7 +6,7 @@ JavaScript can be used to control CSS animation and make them even better with a
 
 [cut]
 
-## CSS transitions [#css-transition]
+## CSS transitions 
 
 The idea of CSS transitions is simple. We describe a property and how its changes should be animated. When the property changes, the browser paints the animation.
 

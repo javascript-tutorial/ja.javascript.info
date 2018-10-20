@@ -25,7 +25,7 @@ window.addEventListener('scroll', function() {
 `scroll` イベントは `window` とスクロール可能な要素両方で動作します。
 
 
-## スクロールを防止する [#Prevent scrolling]
+## スクロールを防止する 
 
 どうやってスクロールをできなくするのでしょう？ `onscroll` リスナの中で、`event.preventDefault()` によってスクロールを防止することはできません。なぜなら、それはスクロールがすでに行われた *後* にトリガされるからです。
 

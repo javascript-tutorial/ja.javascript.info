@@ -102,7 +102,7 @@ promise.then(function(result) {
 
 実際には、単一の promise に対し複数のハンドラが必要なケースはほとんどありません。チェーンの方がはるかに多く利用されます。
 
-## promise の返却　[#Returning promises]
+## promise の返却　
 
 通常、`.then` ハンドラにより返却された値は、直ちに次のハンドラに渡されます。しかし例外もあります。
 
@@ -146,7 +146,7 @@ new Promise(function(resolve, reject) {
 
 promise を返却することで、非同期アクションのチェーンを組み立てることができます。
 
-## 例: loadScript [#Example: loadScript]
+## 例: loadScript 
 
 `loadScript` でこの機能を使って、スクリプトを1つずつ順番にロードしてみましょう。:
 
@@ -224,7 +224,7 @@ JavaScript は行 `(*)` で `.then` ハンドラによって返却されたオ�
 ````
 
 
-## より大きな例: fetch [#Bigger example: fetch]
+## より大きな例: fetch 
 
 フロントエンドのプログラミングでは、promise はネットワークリクエストの場合にしばしば使われます。なので、その拡張された例を見てみましょう。
 
@@ -362,7 +362,7 @@ loadJson('/article/promise-chaining/user.json')
   // ...
 ```
 
-## エラーハンドリング [#Error handling]
+## エラーハンドリング 
 
 非同期アクションは失敗する可能性があります: エラーの場合、対応する promise は reject されます。例えば、リモートサーバが利用不可で `fetch` が失敗する場合です。エラー(拒否/reject)を扱うには `.catch` を使います。
 
@@ -411,7 +411,7 @@ fetch('/article/promise-chaining/user.json')
 
 ここでは、`.catch` はまったく呼ばれません。なぜならエラーが起きていないからです。しかし、上の prmise のいずれかが reject となった場合、catch は実行されます。
 
-## 暗黙の try..catch [#Implicit try..catch]
+## 暗黙の try..catch 
 
 executor と promise ハンドラのコードは "見えない `try..catch`" を持っています。エラーが起きた場合、キャッチして reject として扱います。
 
@@ -465,7 +465,7 @@ new Promise(function(resolve, reject) {
 
 副作用として、最後の `.catch` は明示的な reject だけでなく、上記のハンドラのような偶発的なエラーもキャッチします。
 
-## 再スロー [#Rethrowing]
+## 再スロー 
 
 すでにお気づきのように、`.catch` は　`try..catch` のように振る舞います。私たちは必要な数の `.then` を持ち、最後に単一の `.catch` を使用してすべてのエラーを処理します。
 
@@ -522,7 +522,7 @@ new Promise(function(resolve, reject) {
 
 下のセクションでは、再スローの実際的な例を見ていきます。
 
-## Fetch エラー処理の例 [#Fetch error handling example]
+## Fetch エラー処理の例 
 
 ユーザ読み込みの例のエラー処理を改善しましょう。
 
@@ -609,7 +609,7 @@ demoGithubUser();
 1. `loadJson` が有効なユーザオブジェクトを返した場合、名前は `(1)` で表示されユーザが返されます。これによりユーザ関連のアクションをチェーンに追加できます。その場合、以下の `.catch`は無視され、すべてが非常にシンプルで問題ありません。
 2. それ以外の場合は、エラーの場合は行 `(2)` でチェックします。確かに HTTP エラーでステータスが 404(見つからない) の場合、ユーザに再入力を依頼します。他のエラーの場合は、処理の仕方を知らないため再スローします。 
 
-## 未処理の reject [#Unhandled rejections]
+## 未処理の reject 
 
 エラーが処理されない場合何がおきるでしょう？例えば、上の例のように再スローした後。もしくは次のようにチェーンの終わりにエラーハンドラを追加し忘れている場合です。:
 
@@ -662,7 +662,7 @@ new Promise(function() {
 
 Node.JSのようなブラウザ以外の環境では、未処理のエラーを追跡する他の同様の方法があります。
 
-## サマリ [#Summary]
+## サマリ 
 
 要約すると、`.then/catch(handler)` はハンドラが何をするかによって変化する新しい promise を返します:
 

@@ -11,7 +11,7 @@
 
 [cut]
 
-## ウィンドウ座標: getBoundingClientRect [#Window coordinates]
+## ウィンドウ座標: getBoundingClientRect 
 
 ウィンドウ座標はウィンドウの左上端から始まります。
 
@@ -61,7 +61,7 @@ function showRect(elem) {
 上の図を見た時、JavaScriptではそうでないことが分かります。すべてのウィンドウ座標は左上隅から数えられます。
 ```
 
-## elementFromPoint(x, y) [#elementFromPoint]
+## elementFromPoint(x, y) 
 
 `document.elementFromPoint(x, y)` の呼び出しは、ウィンドウ座標 `(x, y)` で最もネストされた要素を返します。
 
@@ -103,7 +103,7 @@ elem.style.background = ''; // エラー!
 ```
 ````
 
-## position:fixed を用いる [#Using for position:fixed]
+## position:fixed を用いる 
 
 多くの場合、何かを配置するために座標を必要とします。CSS ではビューポートを基準として要素を配置するために、`left/top` (または `right/bottom`) と一緒に `position:fixed` を使います。
 
@@ -154,7 +154,7 @@ setTimeout(() => message.remove(), 5000);
 
 変更するためには、ドキュメントベースの座標を使い、`position:absolute` をを使う必要があります。
 
-## ドキュメント座標 [#Document coordinates]
+## ドキュメント座標 
 
 ドキュメント相対座標は、ウィンドウではなくドキュメントの左上端から始めます。
 
@@ -178,7 +178,7 @@ CSS では、ウィンドウ座標は `position:fixed` に対応する一方、�
 - 水平スクロールをしなかったため、`clientX` は変わりませんでした。
 - 要素の `pageX` と `pageY` 座標は依然として同じです。なぜなら、それらはドキュメントに相対的だからです。
 
-## ドキュメント座標の取得 [#getCoords]
+## ドキュメント座標の取得 
 
 要素のドキュメント座標を取得するための標準メソッドはありません。しかし、簡単に書けます。
 
@@ -200,7 +200,7 @@ function getCoords(elem) {
 }
 ```
 
-## サマリ [#Summary]
+## サマリ 
 
 ページ上に任意の点は座標を持っています:
 

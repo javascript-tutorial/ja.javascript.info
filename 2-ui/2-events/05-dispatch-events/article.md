@@ -8,7 +8,7 @@
 
 [cut]
 
-## イベントコンストラクタ [#Event constructor]
+## イベントコンストラクタ 
 
 イベントはDOM 要素クラスと同様、階層を形成します。ルートは組み込みの [Event](http://www.w3.org/TR/dom/#event) クラスです。
 
@@ -50,7 +50,7 @@ let event = new Event(event type[, options]);
 本当のユーザアクションから来たイベントの場合、プロパティ `event.isTrusted` は `true` になります。スクリプトで生成されたイベントは `false` です。
 ```
 
-## バブリング例 [#Bubbling example]
+## バブリング例 
 
 `"hello"` という名前のバブリングイベントを作成し、`document` でキャッチすることができます。
 
@@ -129,7 +129,7 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 
 異なるUIイベントの、プロパティの完全なリストは仕様にあります。例えば、[MouseEvent](https://www.w3.org/TR/uievents/#mouseevent) など。
 
-## カスタムイベント [#Custom events]
+## カスタムイベント 
 
 `"hello"` のような独自のカスタムイベントに対しては、`new CustomEvent` を使うべきです。技術的には [CustomEvent](https://dom.spec.whatwg.org/#customevent) は1つの例を除いて `Event` と同じです。
 
@@ -209,7 +209,7 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 ```
 
 
-## イベント中のイベントは同期的です [#Events-in-events are synchronous]
+## イベント中のイベントは同期的です 
 
 通常、イベントは非同期に処理されます。つまり: ブラウザが `onclick` を処理しており、そのプロセスの中で新しいイベントが起きた場合、`onclick` が終わるまでそれは待ちます。
 
@@ -265,7 +265,7 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 </script>
 ```    
 
-## サマリ [#Summary]
+## サマリ 
 
 イベントを生成するためには、最初にイベントオブジェクトを作成する必要があります。
 
