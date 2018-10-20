@@ -1,10 +1,10 @@
 # Async/await
 
-There's a special syntax to work with promises in a more comfort fashion, called "async/await". It's surprisingly easy to understand and use.
+"async/await" と呼ばれる、より快適に promise を利用する特別な構文があります。驚くほど簡単に理解し、使用することができます。
 
-## Async functions
+## Async 関数
 
-Let's start with the `async` keyword. It can be placed before function, like this:
+`async` キーワードから始めましょう。次のように関数の前に置くことができます:
 
 ```js
 async function f() {
@@ -12,9 +12,9 @@ async function f() {
 }
 ```
 
-The word "async" before a function means one simple thing: a function always returns a promise. If the code has `return <non-promise>` in it, then JavaScript automatically wraps it into a resolved promise with that value.
+関数の前の用語 "async" は1つの単純なことを意味します: 関数は常に promise を返します。コード中に `return <非 promise>` がある場合、JavaScript は自動的にその値を持つ 解決された promise にラップします。
 
-For instance, the code above returns a resolved promise with the result of `1`, let's test it:
+例えば、上のコードは 結果 `1` を持つ解決された promise を返します。テストしてみましょう: t it:
 
 ```js run
 async function f() {
@@ -24,7 +24,7 @@ async function f() {
 f().then(alert); // 1
 ```
 
-...We could explicitly return a promise, that would be the same:
+...明示的に promise を返すこともでき、それは同じです:
 
 ```js run
 async function f() {
@@ -34,20 +34,20 @@ async function f() {
 f().then(alert); // 1
 ```
 
-So, `async` ensures that the function returns a promise, wraps non-promises in it. Simple enough, right? But not only that. There's another keyword `await` that works only inside `async` functions, and it's pretty cool.
+したがって、`async` は関数が promise を返すことを保証し、非promise をその中にラップします。シンプルですよね？しかし、それだけではありません。`async` 関数の中でのみ動作する別のキーワード `await` があります。これはとてもクールです。
 
 ## Await
 
-The syntax:
+構文:
 
 ```js
-// works only inside async functions
+// async 関数の中でのみ動作します
 let value = await promise;
 ```
 
-The keyword `await` makes JavaScript wait until that promise settles and returns its result.
+キーワード `await` は promise が確定しその結果を返すまで、JavaScript を待機させます。 ult.
 
-Here's example with a promise that resolves in 1 second:
+これは1秒で解決する promise の例です:
 ```js run
 async function f() {
 
@@ -56,7 +56,7 @@ async function f() {
   });
 
 *!*
-  let result = await promise; // wait till the promise resolves (*)
+  let result = await promise; // promise が解決するまで待ちます (*)
 */!*
 
   alert(result); // "done!"
@@ -65,14 +65,14 @@ async function f() {
 f();
 ```
 
-The function execution "pauses" at the line `(*)` and resumes when the promise settles, with `result` becoming its result. So the code above shows "done!" in one second.
+関数の実行は行 `(*)` で "一時停止" し、promise が確定したときに再開し、`result` がその結果になります。 そのため、上のコードは1秒後に "done!" を表示します。
 
-Let's emphasize: `await` literally makes JavaScript wait until the promise settles, and then go on with the result. That doesn't cost any CPU resources, because the engine can do other jobs meanwhile: execute other scripts, handle events etc.
+`await` は文字通り promise が確定するまで JavaScript を待ってから、その結果で続くことに注目しましょう。その間、エンジンは他のジョブ(他のスクリプトを実行し、イベントを処理するなど)を実行することができるため、CPUリソースを必要としません。
 
-It's just a more elegant syntax of getting the promise result than `promise.then`, easier to read and write.
+これは、`promise.then` よりも promise の結果を得るためのより洗練された構文です。読みやすく、書くのが簡単です。
 
-````warn header="Can't use `await` in regular functions"
-If we try to use `await` in non-async function, that would be a syntax error:
+````warn header="通常の関数で `await` を使うことはできません"
+非async関数で `await` を使おうとした場合、構文エラーになります。:
 
 ```js run
 function f() {
@@ -83,32 +83,32 @@ function f() {
 }
 ```
 
-We can get such error in case if we forget to put `async` before a function. As said, `await` only works inside `async function`.
+関数の前に `async` を置き忘れた場合にこのエラーが発生します。先程言ったように、`await` は `async function` の中でのみ動作します。
 ````
 
-Let's take `showAvatar()` example from the chapter <info:promise-chaining> and rewrite it using `async/await`:
+チャプター <info:promise-chaining> から例 `showAvatar()` を取り、`async/await` を使って書き直してみましょう:
 
-1. We'll need to replace `.then` calls by `await`.
-2. Also we should make the function `async` for them to work.
+1. `.then` 呼び出しを `await` に置き換える必要があります。
+2. また、機能させるために関数を `async` にする必要があります。
 
 ```js run
 async function showAvatar() {
 
-  // read our JSON
+  // JSON を読み込む
   let response = await fetch('/article/promise-chaining/user.json');
   let user = await response.json();
 
-  // read github user
+  // github ユーザを読み込む
   let githubResponse = await fetch(`https://api.github.com/users/${user.name}`);
   let githubUser = await githubResponse.json();
 
-  // show the avatar
+  // アバターを表示する
   let img = document.createElement('img');
   img.src = githubUser.avatar_url;
   img.className = "promise-avatar-example";
   document.body.append(img);
 
-  // wait 3 seconds
+  // 3秒待つ
   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
 
   img.remove();
@@ -119,23 +119,23 @@ async function showAvatar() {
 showAvatar();
 ```
 
-Pretty clean and easy to read, right? Much better than before.
+非常にスッキリし、読みやすいですよね？前よりもはるかに良いです。
 
-````smart header="`await` won't work in the top-level code"
-People who are just starting to use `await` tend to forget that, but we can't write `await` in the top-level code. That wouldn't work:
+````smart header="`await` はトップレベルのコードでは動作しません"
+`await` を使い始めたばかりの人は忘れる傾向がありますが、トップレベルのコードで `await` を書くことはできません。それはうまく行きません:
 
 ```js run
-// syntax error in top-level code
+// トップレベルのコードでは構文エラー
 let response = await fetch('/article/promise-chaining/user.json');
 let user = await response.json();
 ```
 
-So we need to have a wrapping async function for the code that awaits. Just as in the example above.
+なので、await をするコードに対しては async 関数をラップする必要があります。ちょうど上の例で示しているように。
 ````
-````smart header="`await` accepts thenables"
-Like `promise.then`, `await` allows to use thenable objects (those with a callable `then` method). Again, the idea is that a 3rd-party object may be not a promise, but promise-compatible: if it supports `.then`, that's enough to use with `await`.
+````smart header="`await` は thenable を許容します"
+`promise.then` のように、`await` は thenable オブジェクト(`then` メソッドを呼ぶことができるもの)を使うことができます。繰り返しになりますが、このアイデアは、サードパーティオブジェクトは promise ではなく、promise 互換である場合があるということです(`.then` をサポートしている場合、`await` で使えます)。
 
-For instance, here `await` accepts `new Thenable(1)`:
+例えば、ここで `await` は `new Thenable(1)` を許容します:
 ```js run
 class Thenable {
   constructor(num) {
@@ -143,13 +143,13 @@ class Thenable {
   }
   then(resolve, reject) {
     alert(resolve); // function() { native code }
-    // resolve with this.num*2 after 1000ms
+    // 1000ms 後に this.num*2 で解決する
     setTimeout(() => resolve(this.num * 2), 1000); // (*)
   }
 };
 
 async function f() {
-  // waits for 1 second, then result becomes 2
+  // 1秒待って、結果は 2　になる
   let result = await new Thenable(1);
   alert(result);
 }
@@ -157,11 +157,12 @@ async function f() {
 f();
 ```
 
-If `await` gets a non-promise object with `.then`, it calls that method providing native functions `resolve`, `reject` as arguments. Then `await` waits until one of them is called (in the example above it happens in the line `(*)`) and then proceeds with the result.
+もし `await` が `.then` で非promise オブジェクトを得た場合、引数としてネイティブ関数 `resolve`, `reject` を提供しているメソッドを呼び出します。次に `await` はいずれかが呼ばれるまで待ち(上の例では、行 `(*)` です)、その結果で進みます。
+
 ````
 
-````smart header="Async methods"
-A class method can also be async, just put `async` before it.
+````smart header="Async メソッド"
+クラスメソッドもまた asyne になれます。ただ前に `async` を置くだけです。
 
 Like here:
 
@@ -178,14 +179,14 @@ new Waiter()
   .wait()
   .then(alert); // 1
 ```
-The meaning is the same: it ensures that the returned value is a promise and enables `await`.
+意味は同じです: 返却される値が promise であることを保証し、`await` を有効にします。
 
 ````
-## Error handling
+## エラー処理
 
-If a promise resolves normally, then `await promise` returns the result. But in case of a rejection it throws the error, just if there were a `throw` statement at that line.
+もし promise が正常に解決すると、`await promise` は結果を返します。しかし拒否(reject) の場合はエラーをスローします。それはちょうどその行に `throw` 文があるように振る舞います。
 
-This code:
+このコードは:
 
 ```js
 async function f() {
@@ -195,7 +196,7 @@ async function f() {
 }
 ```
 
-...Is the same as this:
+...これと同じです:
 
 ```js
 async function f() {
@@ -205,9 +206,9 @@ async function f() {
 }
 ```
 
-In real situations the promise may take some time before it rejects. So `await` will wait, and then throw an error.
+実際には、promise を拒否するまでに時間がかかる場合があります。なので、`await` は待ち、その後エラーをスローします。
 
-We can catch that error using `try..catch`, the same way as a regular `throw`:
+エラーは `try..catch` でキャッチすることができ、それは通常の `throw` と同じ方法です:
 
 ```js run
 async function f() {
@@ -224,7 +225,7 @@ async function f() {
 f();
 ```
 
-In case of an error, the control jumps to the `catch` block. We can also wrap multiple lines:
+エラーの場合、コントロールは `catch` ブロックにジャンプします。複数行をラップすることも可能です:
 
 ```js run
 async function f() {
@@ -233,7 +234,7 @@ async function f() {
     let response = await fetch('/no-user-here');
     let user = await response.json();
   } catch(err) {
-    // catches errors both in fetch and response.json
+    // fetch と response.json 両方のエラーをキャッチ
     alert(err);
   }
 }
@@ -241,35 +242,35 @@ async function f() {
 f();
 ```
 
-If we don't have `try..catch`, then the promise generated by the call of the async function `f()` becomes rejected. We can append `.catch` to handle it:
+もし `try..catch` がない場合、async 関数 `f()` の呼び出しによって生成された promise は拒否されます。それを処理にするには `.catch` を追加します。:
 
 ```js run
 async function f() {
   let response = await fetch('http://no-such-url');
 }
 
-// f() becomes a rejected promise
+// f() は拒否された promise になる
 *!*
 f().catch(alert); // TypeError: failed to fetch // (*)
 */!*
 ```
 
-If we forget to add `.catch` there, then we get an unhandled promise error (and can see it in the console). We can catch such errors using a global event handler as described in the chapter <info:promise-chaining>.
+そこに `.catch` を追加し忘れると、未処理の promise エラーを得ます(それはコンソールで見えます)。チャプター <info:promise-chaining> で説明した通り、グローバルイベントハンドラを使用することでこのようなエラーをキャッチすることができます。
 
 
-```smart header="`async/await` and `promise.then/catch`"
-When we use `async/await`, we rarely need `.then`, because `await` handles the waiting for us. And we can use a regular `try..catch` instead of `.catch`. That's usually (not always) more convenient.
+```smart header="`async/await` と `promise.then/catch`"
+`async/await` を使用するとき、`.then` はほとんど必要がありません。なぜなら `await` は私たちを待っているからです。そして `.catch` の代わりに通常の `try..catch` を使うことができます。それは通常（常にではないですが）より便利です。
 
-But at the top level of the code, when we're outside of any `async` function, we're syntactically unable to use `await`, so it's a normal practice to add `.then/catch` to handle the final result or falling-through errors.
+しかし、コードの最上位のレベルでは、`async` 関数の外にいるときは構文的に `await` を使うことができないため、最終的な結果または落ちるようなエラーを処理するために `.then/catch` を追加するのが普通です。
 
-Like in the line `(*)` of the example above.
+上の例の行 `(*)` のように。
 ```
 
-````smart header="`async/await` works well with `Promise.all`"
-When we need to wait for multiple promises, we can wrap them in `Promise.all` and then `await`:
+````smart header="`async/await` は `Promise.all` とうまく動作します"
+複数の promise を待つ必要があるとき、`Promise.all` でラップしてから `await` できます。 
 
 ```js
-// wait for the array of results
+// 結果の配列をまつ
 let results = await Promise.all([
   fetch(url1),
   fetch(url2),
@@ -277,22 +278,22 @@ let results = await Promise.all([
 ]);
 ```
 
-In case of an error, it propagates as usual: from the failed promise to `Promise.all`, and then becomes an exception that we can catch using `try..catch` around the call.
+エラーが発生した場合、それは通常通り伝搬します: 失敗した promise から `Promise.all` に伝播し、呼び出しのまわりで `try..catch` を使ってキャッチができる例外になります。
 
 ````
 
-## Summary
+## サマリ
 
-The `async` keyword before a function has two effects:
+関数の前の `async` キーワードは2つの効果があります:
 
-1. Makes it always return a promise.
-2. Allows to use `await` in it.
+1. 常に promise を返します
+2. その中で `await` を使えるようにします
 
-The `await` keyword before a promise makes JavaScript wait until that promise settles, and then:
+promise の前の `await` キーワードは、 promise が確定するまで JavaScript を待たせ、次のことをします: 
 
-1. If it's an error, the exception is generated, same as if `throw error` were called at that very place.
-2. Otherwise, it returns the result, so we can assign it to a value.
+1. それがエラーであれば、まさにその場所で `throw error` が呼び出されたのと同じ例外が生成されます。
+2. それ以外の場合は、結果を返すので、値に割り当てることができます。
 
-Together they provide a great framework to write asynchronous code that is easy both to read and write.
+共に、読み書きするのが簡単な非同期コードを書くことができる素晴らしいフレームワークを提供します。
 
-With `async/await` we rarely need to write `promise.then/catch`, but we still shouldn't forget that they are based on promises, because sometimes (e.g. in the outermost scope) we have to use these methods. Also `Promise.all` is a nice thing to wait for many tasks simultaneously.
+`async/await` と一緒に `promise.then/catch` を書く必要はほとんどありませんが、時には（例えば最も外側のスコープで）これらのメソッドを使わなければならないことがあるので、これらが promise に基づいていることを忘れてはいけません。 また、`Promise.all` は同時に多くのタスクを待つ良い方法です。
