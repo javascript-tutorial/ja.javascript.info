@@ -1,5 +1,5 @@
 
-# "再スロー" を書き直す async/await
+# "再スロー" を async/await で書き直す
 
 下にチャプター <info:promise-chaining> にある "再スロー" の例があります。`.then/catch` の代わりに `async/await` を使って書き直してください。
 
