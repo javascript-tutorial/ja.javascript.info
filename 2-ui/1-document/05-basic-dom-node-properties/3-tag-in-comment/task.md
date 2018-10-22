@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# Tag in comment
+# コメントの中のタグ
 
-What this code shows?
+このコードは何を表示するでしょう？
 
 ```html
 <script>
@@ -12,6 +12,6 @@ What this code shows?
 
   body.innerHTML = "<!--" + body.tagName + "-->";
 
-  alert( body.firstChild.data ); // what's here?
+  alert( body.firstChild.data ); // これは何?
 </script>
 ```

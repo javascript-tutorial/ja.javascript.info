@@ -1,8 +1,8 @@
-There's a catch here.
+落とし穴があります。
 
-At the time of `<script>` execution the last DOM node is exactly `<script>`, because the browser did not process the rest of the page yet.
+`<script>` 実行時、最後の DOM ノードはまさに `<script>` です。なぜなら、ブラウザはページの残り部分をまだ処理していないからです。
 
-So the result is `1` (element node).
+したがって、結果は `1` です(要素ノード)。
 
 ```html run height=60
 <html>

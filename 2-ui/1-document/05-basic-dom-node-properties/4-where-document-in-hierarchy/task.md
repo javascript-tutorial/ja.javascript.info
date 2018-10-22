@@ -2,10 +2,11 @@ importance: 4
 
 ---
 
-# Where's the "document" in the hierarchy?
+# "document" は階層の中でどんなところでしょう？
 
-Which class the `document` belongs to?
+`document` が属しているのはどのクラスでしょうか？
 
+DOM 階層内でのその場所は何でしょう？
 What's its place in the DOM hierarchy?
 
-Does it inherit from `Node` or `Element`, or maybe `HTMLElement`?
+`Node` や `Element`、あるいは `HTMLElement` から継承していますか？

@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# What's in the nodeType?
+# nodeType には何がありますか？
 
-What the script shows?
+スクリプトは何を表示するでしょう？
 
 ```html
 <html>
