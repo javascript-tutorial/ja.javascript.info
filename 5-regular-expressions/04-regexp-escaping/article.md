@@ -1,49 +1,49 @@
 
-# Escaping, special characters
+# エスケープ, 特殊文字
 
-As we've seen, a backslash `"\"` is used to denote character classes. So it's a special character.
+これまで見てきたように、バックスラッシュ `"\"` は文字クラスを表すのに使われます。なので、それは特別な文字です。
 
-There are other special characters as well, that have special meaning in a regexp. They are used to do more powerful searches.
+同様に他にも特殊文字があり、正規表現の中で特別な意味を持ちます。それらはよりパワフルな検索をするために使われます。
 
-Here's a full list of them: `pattern:[ \ ^ $ . | ? * + ( )`.
+これがその完全なリストです: `pattern:[ \ ^ $ . | ? * + ( )`.
 
-Don't try to remember it -- when we deal with each of them separately, you'll know it by heart automatically.
+覚えようとはしないでください -- それぞれを個別に見ていく際に、自然と覚えていくでしょう。
 
-## Escaping
+## エスケープ
 
-To use a special character as a regular one, prepend it with a backslash.
+特殊文字を通常の文字として使用するには、バックスラッシュを付加します。
 
-That's also called "escaping a character".
+それは "文字をエスケープする" とも言われます。
 
-For instance, we need to find a dot `pattern:'.'`. In a regular expression a dot means "any character except a newline", so if we really mean "a dot", let's put a backslash before it: `pattern:\.`.
+例えば、ドット `pattern:'.'` を探す必要があるとします。正規表現でドットは "改行以外の任意の文字" を意味します。そのため、本当に "ドット" を意味する場合、前にバックスラッシュ `pattern:\.` を置きましょう。
 
 ```js run
 alert( "Chapter 5.1".match(/\d\.\d/) ); // 5.1
 ```
 
-Parentheses are also special characters, so if we want them, we should use `pattern:\(`. The example below looks for a string `"g()"`:
+括弧も特殊文字なので、それらを探したい場合は `pattern:\(` を使う必要があります。下の例は文字列 `"g()"` を探します:
 
 ```js run
 alert( "function g()".match(/g\(\)/) ); // "g()"
 ```
 
-If we're looking for a backslash `\`, then we should double it:
+バックスラッシュを探している場合は2つにします:
 
 ```js run
 alert( "1\\2".match(/\\/) ); // '\'
 ```
 
-## A slash
+## スラッシュ
 
-The slash symbol `'/'` is not a special character, but in JavaScript it is used to open and close the regexp: `pattern:/...pattern.../`, so we should escape it too.
+スラッシュ記号 `'/'` は特殊文字ではありませんが、JavaScript では正規表現の開始と終了で使われる(`pattern:/...pattern.../`)ので、これもエスケープが必要です。
 
-Here's what a search for a slash `'/'` looks like:
+スラッシュ `'/'` の検索は次のようになります:
 
 ```js run
 alert( "/".match(/\//) ); // '/'
 ```
 
-From the other hand, the alternative `new RegExp` syntaxes does not require escaping it:
+一方、別の `new RegExp` 構文ではエスケープする必要はありません:
 
 ```js run
 alert( "/".match(new RegExp("/")) ); // '/'
@@ -51,9 +51,9 @@ alert( "/".match(new RegExp("/")) ); // '/'
 
 ## new RegExp
 
-If we are creating a regular expression with `new RegExp`, then we need to do some more escaping.
+`new RegExp` で正規表現を作成している場合は、他にもエスケープが必要なものがいくつかあります。
 
-For instance, consider this:
+例えばこれを見てください:
 
 ```js run
 let reg = new RegExp("\d\.\d");
@@ -61,29 +61,29 @@ let reg = new RegExp("\d\.\d");
 alert( "Chapter 5.1".match(reg) ); // null
 ```
 
-It doesn't work, but why?
+これは機能しません。なぜでしょう？
 
-The reason is string escaping rules. Look here:
+理由は、文字列のエスケープルールによるものです。これを見てください:
 
 ```js run
 alert("\d\.\d"); // d.d
 ```
 
-Backslashes are used for escaping inside a string and string-specific special characters like `\n`. The quotes "consume" and interpret them, for instance:
+バックスラッシュは、文字列の中でエスケープしたり、`\n` のような文字列固有の特殊文字のために使われます。引用符はそれらを "消費" して解釈します。例えば:
 
-- `\n` -- becomes a newline character,
-- `\u1234` -- becomes the Unicode character with such code,
-- ...And when there's no special meaning: like `\d` or `\z`, then the backslash is simply removed.
+- `\n` -- は改行文字になります
+- `\u1234` -- はそのようなコードをもつユニコード文字になります
+- ...そして特殊な意味を持たないもの、`\d` や `\z` のようなものの場合には、バックスラッシュは単に除去されます。
 
-So the call to `new RegExp` gets a string without backslashes.
+したがって、`new RegExp` の呼び出しは、バックスラッシュのない文字列を取得します。
 
-To fix it, we need to double backslashes, because quotes turn `\\` into `\`:
+これを直すには、引用符で `\\` を `\` にするためにバックスラッシュを二重にする必要があります。:
 
 ```js run
 *!*
 let regStr = "\\d\\.\\d";
 */!*
-alert(regStr); // \d\.\d (correct now)
+alert(regStr); // \d\.\d (正しい)
 
 let reg = new RegExp(regStr);
 
