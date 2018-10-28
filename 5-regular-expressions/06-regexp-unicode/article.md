@@ -1,15 +1,15 @@
 
-# The unicode flag
+# ユニコードフラグ
 
-The unicode flag `/.../u` enables the correct support of surrogate pairs.
+ユニコードフラグ `/.../u` はサロゲートペアの正しいサポートができるようになります。
 
-Surrogate pairs are explained in the chapter <info:string>.
+サロゲートペアについては、チャプター <info:string> で説明されています。
 
-Let's briefly remind them here. In short, normally characters are encoded with 2 bytes. That gives us 65536 characters maximum. But there are more characters in the world.
+簡単に思い出してみましょう。手短に言えば、通常の文字は2バイトでエンコードされています。それは最大で 65536 文字になります。しかし世界にはもっと多くの文字があります。
 
-So certain rare characters are encoded with 4 bytes, like `𝒳` (mathematical X) or `😄` (a smile).
+そのため、`𝒳` (数学的な X)や `😄` (スマイル)のような特定の希少な文字は4バイトでエンコードされています。
 
-Here are the unicode values to compare:
+これは比較のためのユニコード値です:
 
 | Character  | Unicode | Bytes  |
 |------------|---------|--------|
@@ -19,51 +19,51 @@ Here are the unicode values to compare:
 |`𝒴`| 0x1d4b4 | 4 |
 |`😄`| 0x1f604 | 4 |
 
-So characters like `a` and `≈` occupy 2 bytes, and those rare ones take 4.
+したがって、`a` や `≈` と言った文字は 2バイトを占め、珍しいものは4バイトになります。
 
-The unicode is made in such a way that the 4-byte characters only have a meaning as a whole.
+ユニコードは、4バイト文字がそれ全体でのみ意味を持つように作られています。
 
-In the past JavaScript did not know about that, and many string methods still have problems. For instance, `length` thinks that here are two characters:
+昔は JavaScript はそのことを知らなかったので、多くの文字列メソッドにはまだ問題があります。例えば、`length` はそれらを2つの文字であると考えます:
 
 ```js run
 alert('😄'.length); // 2
 alert('𝒳'.length); // 2
 ```
 
-...But we can see that there's only one, right? The point is that `length` treats 4 bytes as two 2-byte characters. That's incorrect, because they must be considered only together (so-called "surrogate pair").
+...ですが、1文字にしか見えませんよね? ポイントは `length` は4バイトを2つの2バイト文字として扱うということです。それらは併せてでしか考えられない(いわゆる "サロゲートペア")ため、正しくありません。
 
-Normally, regular expressions also treat "long characters" as two 2-byte ones.
+通常、正規表現も2つの2バイト文字として "長い文字" を扱います。
 
-That leads to odd results, for instance let's try to find `pattern:[𝒳𝒴]` in the string `subject:𝒳`:
+これはおかしな結果に繋がります。例えば `subject:𝒳` という文字列で `pattern:[𝒳𝒴]` を見つけようとしてみましょう。:
 
 ```js run
-alert( '𝒳'.match(/[𝒳𝒴]/) ); // odd result
+alert( '𝒳'.match(/[𝒳𝒴]/) ); // おかしな結果
 ```
 
-The result would be wrong, because by default the regexp engine does not understand surrogate pairs. It thinks that `[𝒳𝒴]` are not two, but four characters: the left half of `𝒳` `(1)`, the right half of `𝒳` `(2)`, the left half of `𝒴` `(3)`, the right half of `𝒴` `(4)`.
+デフォルトでは正規表現のエンジンはサロゲートペアを理解しないため、結果は間違っています。`[𝒳𝒴]` は2つではなく、4つの文字(`𝒳` の左半分 `(1)`, `𝒳` の右半分 `(2)`, `𝒴` の左半分 `(3)`, `𝒴` の右半分 `(4)`) と考えます。
 
-So it finds the left half of `𝒳` in the string `𝒳`, not the whole symbol.
+なので、全体ではなく文字列 `𝒳` で `𝒳` の左半分を見つけます。
 
-In other words, the search works like `'12'.match(/[1234]/)` -- the `1` is returned (left half of `𝒳`).
+つまり、検索は `'12'.match(/[1234]/)` のように動作します -- `1` が返ります(`𝒳` の左半分)。
 
-The `/.../u` flag fixes that. It enables surrogate pairs in the regexp engine, so the result is correct:
+`/.../u` フラグはそれを直します。正規表現エンジンでサロゲートペアを利用可能にするので結果は正しくなります:
 
 ```js run
 alert( '𝒳'.match(/[𝒳𝒴]/u) ); // 𝒳
 ```
 
-There's an error that may happen if we forget the flag:
+フラグを忘れた場合、エラーが起きる場合があります:
 
 ```js run
 '𝒳'.match(/[𝒳-𝒴]/); // SyntaxError: invalid range in character class
 ```
 
-Here the regexp `[𝒳-𝒴]` is treated as `[12-34]` (where `2` is the right part of `𝒳` and `3` is the left part of `𝒴`), and the range between two halves `2` and `3` is unacceptable.
+ここでは、正規表現 `[𝒳-𝒴]` は `[12-34]` と扱われます(`2` は `𝒳` の右部分、`3` は `𝒴` の左部分)。そしてその2つの半分 `2` と `3` の間の範囲は認められません。
 
-Using the flag would make it work right:
+フラグを使うと正しく動作します:
 
 ```js run
 alert( '𝒴'.match(/[𝒳-𝒵]/u) ); // 𝒴
 ```
 
-To finalize, let's note that if we do not deal with surrogate pairs, then the flag does nothing for us. But in the modern world we often meet them.
+最後に、サロゲートペアを扱わなければフラグは何もしないことに留意しましょう。しかし、現在の世界では、しばしばそれらに出くわします。
