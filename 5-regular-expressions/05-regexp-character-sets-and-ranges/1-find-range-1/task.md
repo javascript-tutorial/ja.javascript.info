@@ -1,5 +1,5 @@
 # Java[^script]
 
-We have a regexp `pattern:/Java[^script]/`.
+正規表現 `pattern:/Java[^script]/` があります。
 
-Does it match anything in the string `subject:Java`? In the string `subject:JavaScript`?
+文字列 `subject:Java` はマッチするでしょうか？ `subject:JavaScript` だとどうでしょう？
