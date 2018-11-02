@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-#  How to find an ellipsis "..." ?
+#  省略記号 "..." の見つけ方は？
 
-Create a regexp to find ellipsis: 3 (or more?) dots in a row.
+省略記号(連続した3つ(以上?)のドット)を見つける正規表現を作成してください。
 
-Check it:
+これでチェックします:
 
 ```js
 let reg = /your regexp/g;
