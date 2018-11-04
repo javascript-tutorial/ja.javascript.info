@@ -1,12 +1,12 @@
-# String start ^ and finish $
+# 文字列の先頭 ^ と末尾 $
 
-The caret `pattern:'^'` and dollar `pattern:'$'` characters have special meaning in a regexp. They are called "anchors".
+キャレット `pattern:'^'` とドル `pattern:'$'` 文字は正規表現で特別な意味を持っており、"アンカー" と呼ばれます。
 
 [cut]
 
-The caret `pattern:^` matches at the beginning of the text, and the dollar `pattern:$` -- in the end.
+キャレット `pattern:^` はテキストの先頭にマッチし、ドル `pattern:$` は -- 末尾にマッチします。
 
-For instance, let's test if the text starts with `Mary`:
+例えば、テキストが `Mary` から始まっているかをテストしてみましょう:
 
 ```js run
 let str1 = "Mary had a little lamb, it's fleece was white as snow";
@@ -16,13 +16,13 @@ alert( /^Mary/.test(str1) ); // true
 alert( /^Mary/.test(str2) ); // false
 ```
 
-The pattern `pattern:^Mary` means: "the string start and then Mary".
+パターン `pattern:^Mary` は、"文字列が Mary で開始する" を意味します。
 
-Now let's test whether the text ends with an email.
+次は、テキストがメールアドレスで終わっているかをテストしましょう。
 
-To match an email, we can use a regexp `pattern:[-.\w]+@([\w-]+\.)+[\w-]{2,20}`. It's not perfect, but mostly works.
+メールアドレスにマッチするには、正規表現 `pattern:[-.\w]+@([\w-]+\.)+[\w-]{2,20}` を使います。これは完全ではありませんが、多くの場合は問題ありません。
 
-To test whether the string ends with the email, let's add `pattern:$` to the pattern:
+文字列がメールアドレスで終わっているかどうかをテストするために、`pattern:$` をパターンに追加しましょう。:
 
 ```js run
 let reg = /[-.\w]+@([\w-]+\.)+[\w-]{2,20}$/g;
@@ -34,11 +34,11 @@ alert( reg.test(str1) ); // true
 alert( reg.test(str2) ); // false
 ```
 
-We can use both anchors together to check whether the string exactly follows the pattern. That's often used for validation.
+文字列が正確にパターンに従っているかをチェックするのに、両方のアンカーを一緒に使うことも可能です。それはバリデーションでよく使われます。
 
-For instance we want to check that `str` is exactly a color in the form `#` plus 6 hex digits. The pattern for the color is `pattern:#[0-9a-f]{6}`.
+例えば、`str` が正確に色(`#` と 6桁の16進数の形式)であることを確認したいとします。その色のパターンは `pattern:#[0-9a-f]{6}` です。
 
-To check that the *whole string* exactly matches it, we add `pattern:^...$`:
+*文字列全体* が正確にマッチするかをチェックするには、`pattern:^...$` を追加します。:
 
 ```js run
 let str = "#abcdef";
@@ -46,12 +46,12 @@ let str = "#abcdef";
 alert( /^#[0-9a-f]{6}$/i.test(str) ); // true
 ```
 
-The regexp engine looks for the text start, then the color, and then immediately the text end. Just what we need.
+正規表現のエンジンはテキストの開始を探し、次に色、その後すぐにテキストが終わるかを見ます。まさに私たちが必要なものです。
 
-```smart header="Anchors have zero length"
-Anchors just like `\b` are tests. They have zero-width.
+```smart header="アンカーの長さはゼロです"
+`\b` のようなアンカーはテストです。それらの幅はゼロです。
 
-In other words, they do not match a character, but rather force the regexp engine to check the condition (text start/end).
+つまり、それらは文字にマッチするのではなく、正規表現エンジンに条件チェック(テキストの開始/終了)を強制させるものです。
 ```
 
-The behavior of anchors changes if there's a flag `pattern:m` (multiline mode). We'll explore it in the next chapter.
+アンカーの振る舞いはフラグ `pattern:m` (複数行モード) の有無で変わります。それらについては次のチャプターで見ていきましょう。
