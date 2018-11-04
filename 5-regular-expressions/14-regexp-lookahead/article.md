@@ -1,3 +1,3 @@
-# Lookahead (in progress)
+# 先読み (進行中)
 
-The article is under development, will be here when it's ready.
+この記事は作業中です。準備ができ次第公開予定です。
