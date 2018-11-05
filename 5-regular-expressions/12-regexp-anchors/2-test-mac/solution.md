@@ -1,21 +1,21 @@
-A two-digit hex number is `pattern:[0-9a-f]{2}` (assuming the `pattern:i` flag is enabled).
+2桁の16進数は `pattern:[0-9a-f]{2}` (`pattern:i` フラグが有効である想定)です。
 
-We need that number `NN`, and then `:NN` repeated 5 times (more numbers);
+数値 `NN`, そして続いて `:NN` が5回繰り返される必要があります。:
 
-The regexp is: `pattern:[0-9a-f]{2}(:[0-9a-f]{2}){5}`
+正規表現は: `pattern:[0-9a-f]{2}(:[0-9a-f]{2}){5}` です。
 
-Now let's show that the match should capture all the text: start at the beginning and end at the end. That's done by wrapping the pattern in `pattern:^...$`.
+次に、マッチはテキスト全体を捉える必要があります。: 先頭から始まり、末尾で終わりです。これは `pattern:^...$` でパターンをラップすることで実現できます。
 
-Finally:
+最終的に:
 
 ```js run
 let reg = /^[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}$/i;
 
 alert( reg.test('01:32:54:67:89:AB') ); // true
 
-alert( reg.test('0132546789AB') ); // false (no colons)
+alert( reg.test('0132546789AB') ); // false (コロンなし)
 
-alert( reg.test('01:32:54:67:89') ); // false (5 numbers, need 6)
+alert( reg.test('01:32:54:67:89') ); // false (5 個, 6 個である必要があります)
 
-alert( reg.test('01:32:54:67:89:ZZ') ) // false (ZZ in the end)
+alert( reg.test('01:32:54:67:89:ZZ') ) // false (末尾が ZZ)
 ```

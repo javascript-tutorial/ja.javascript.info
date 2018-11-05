@@ -1,3 +1,3 @@
-# Regexp ^$
+# 正規表現 ^$
 
-Which string matches the pattern `pattern:^$`?
+パターン `pattern:^$` にはどの文字列がマッチするでしょう？

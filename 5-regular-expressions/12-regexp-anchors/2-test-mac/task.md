@@ -1,20 +1,20 @@
-# Check MAC-address
+# MAC アドレスをチェックする
 
-[MAC-address](https://en.wikipedia.org/wiki/MAC_address) of a network interface consists of 6 two-digit hex numbers separated by a colon.
+ネットワークインターフェースの [MAC アドレス](https://en.wikipedia.org/wiki/MAC_address) はコロンで区切られた6つの2桁の16進数で構成されています。
 
-For instance: `subject:'01:32:54:67:89:AB'`.
+例: `subject:'01:32:54:67:89:AB'`.
 
-Write a regexp that checks whether a string is MAC-address.
+文字列が MAC アドレスかどうかをチェックする正規表現を書いてください。
 
-Usage:
+使用方法:
 ```js
 let reg = /your regexp/;
 
 alert( reg.test('01:32:54:67:89:AB') ); // true
 
-alert( reg.test('0132546789AB') ); // false (no colons)
+alert( reg.test('0132546789AB') ); // false (コロンなし)
 
-alert( reg.test('01:32:54:67:89') ); // false (5 numbers, must be 6)
+alert( reg.test('01:32:54:67:89') ); // false (5 個, 6 個である必要があります)
 
-alert( reg.test('01:32:54:67:89:ZZ') ) // false (ZZ ad the end)
+alert( reg.test('01:32:54:67:89:ZZ') ) // false (末尾が ZZ)
 ```
