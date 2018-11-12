@@ -1,10 +1,10 @@
-We need to find the beginning of the comment `match:<!--`, then everything till the end of `match:-->`.
+コメントの先頭 `match:<!--` を見つけ、その後、 `match:-->` で終わるまでのすべてを見つける必要があります。
 
-The first idea could be `pattern:<!--.*?-->` -- the lazy quantifier makes the dot stop right before  `match:-->`.
+最初のアイデアは `pattern:<!--.*?-->` です -- 怠惰な量指定子は `match:-->` の直前でドットを停止させます。
 
-But a dot in Javascript means "any symbol except the newline". So multiline comments won't be found.
+しかし、JavaScriptのドットは "改行以外の任意の文字" を意味するので、複数行のコメントは見つかりません。
 
-We can use `pattern:[\s\S]` instead of the dot to match "anything":
+"なんでも" マッチさせるために、ドットの代わりに `pattern:[\s\S]` を使います。:
 
 ```js run
 let reg = /<!--[\s\S]*?-->/g;

@@ -1,8 +1,8 @@
-# Find HTML tags
+# HTML タグを見つける
 
-Create a regular expression to find all (opening and closing) HTML tags with their attributes.
+属性を持つすべての (開始/終了の)HTML タグを見つける正規表現を作成してください。
 
-An example of use:
+利用例:
 
 ```js run
 let reg = /your regexp/g;
@@ -12,4 +12,4 @@ let str = '<> <a href="/"> <input type="radio" checked> <b>';
 alert( str.match(reg) ); // '<a href="/">', '<input type="radio" checked>', '<b>'
 ```
 
-Let's assume that may not contain `<` and `>` inside (in quotes too), that simplifies things a bit. 
+内側に `<` と `>` が含まれていないとしましょう（引用符でも）。それは物事を少し単純化します。

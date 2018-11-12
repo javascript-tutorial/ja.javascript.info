@@ -1,5 +1,5 @@
 
-The solution is `pattern:<[^<>]+>`.
+解答は `pattern:<[^<>]+>` です。
 
 ```js run
 let reg = /<[^<>]+>/g;

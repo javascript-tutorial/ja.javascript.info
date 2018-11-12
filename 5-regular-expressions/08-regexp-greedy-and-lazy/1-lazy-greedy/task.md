@@ -1,6 +1,6 @@
-# A match for /d+? d+?/
+# /d+? d+?/ に対するマッチ
 
-What's the match here?
+ここでは何がマッチするでしょう？
 
 ```js
 "123 456".match(/\d+? \d+?/g) ); // ?
