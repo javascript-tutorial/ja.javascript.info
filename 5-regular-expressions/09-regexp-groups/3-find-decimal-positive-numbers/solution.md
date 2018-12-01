@@ -1,11 +1,11 @@
 
-An integer number is `pattern:\d+`.
+整数値は `pattern:\d+`.
 
-A decimal part is: `pattern:\.\d+`.
+小数点は: `pattern:\.\d+`.
 
-Because the decimal part is optional, let's put it in parentheses with quantifier `pattern:'?'`.
+小数点は任意なので、量指定子 `pattern:'?'` をもつ括弧の中に置きましょう。
 
-Finally we have the regexp: `pattern:\d+(\.\d+)?`:
+これで完成です: `pattern:\d+(\.\d+)?`:
 
 ```js run
 let reg = /\d+(\.\d+)?/g;

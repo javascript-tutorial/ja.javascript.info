@@ -1,6 +1,6 @@
-A positive number with an optional decimal part is (per previous task): `pattern:\d+(\.\d+)?`.
+任意で少数部分をもつ正の数は(前のタスクより): `pattern:\d+(\.\d+)?`.
 
-Let's add an optional `-` in the beginning:
+先頭に任意の `-` を追加しましょう。:
 
 ```js run
 let reg = /-?\d+(\.\d+)?/g;

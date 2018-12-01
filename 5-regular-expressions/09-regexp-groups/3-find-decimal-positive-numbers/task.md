@@ -1,8 +1,8 @@
-# Find positive numbers
+# 正数を見つける
 
-Create a regexp that looks for positive numbers, including those without a decimal point.
+小数点のないものも含め正数を探す正規表現を作成してください。
 
-An example of use:
+使用した例:
 ```js
 let reg = /your regexp/g;
 

@@ -1,16 +1,16 @@
-A regexp for a number is: `pattern:-?\d+(\.\d+)?`. We created it in previous tasks.
+数値の正規表現は: `pattern:-?\d+(\.\d+)?` です。前のタスクで作ったものです。
 
-An operator is `pattern:[-+*/]`. We put a dash `pattern:-` the first, because in the middle it would mean a character range, we don't need that.
+演算子は、`pattern:[-+*/]` です。ダッシュ `pattern:-` を先頭に置きます。中央にある場合、ダッシュは文字の範囲を意味しますが、それは必要ないからです。
 
-Note that a slash should be escaped inside a JavaScript regexp `pattern:/.../`.
+JavaScript の正規表現 `pattern:/.../` の中ではスラッシュをエスケープする必要があることに注意してください。
 
-We need a number, an operator, and then another number. And optional spaces between them.
+私たちは、数値、演算子、そして別の数値が必要です。そしてそれらの間にスペースがある場合があります。
 
-The full regular expression: `pattern:-?\d+(\.\d+)?\s*[-+*/]\s*-?\d+(\.\d+)?`.
+完全な正規表現は次のようになります: `pattern:-?\d+(\.\d+)?\s*[-+*/]\s*-?\d+(\.\d+)?`.
 
-To get a result as an array let's put parentheses around the data that we need: numbers and the operator: `pattern:(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)`.
+配列として結果を取得するため、必要なデータの周りに括弧を置きましょう: 数値と演算子です: `pattern:(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)`.
 
-In action:
+動作:
 
 ```js run
 let reg = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
@@ -18,20 +18,20 @@ let reg = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
 alert( "1.2 + 12".match(reg) );
 ```
 
-The result includes:
+結果は次の内容を含みます:
 
-- `result[0] == "1.2 + 12"` (full match)
-- `result[1] == "1"` (first parentheses)
-- `result[2] == "2"` (second parentheses -- the decimal part `(\.\d+)?`)
+- `result[0] == "1.2 + 12"` (完全なマッチ)
+- `result[1] == "1"` (最初の括弧)
+- `result[2] == "2"` (2番目の括弧 -- 小数部 `(\.\d+)?`)
 - `result[3] == "+"` (...)
 - `result[4] == "12"` (...)
-- `result[5] == undefined` (the last decimal part is absent, so it's undefined)
+- `result[5] == undefined` (最後は小数部がないので undefined です)
 
-We need only numbers and the operator. We don't need decimal parts.
+必要なのは数値と演算子だけです。小数部だけは不要です。
 
-So let's remove extra groups from capturing by added `pattern:?:`, for instance: `pattern:(?:\.\d+)?`.
+なので、`pattern:(?:\.\d+)?` のように、`pattern:?:` を追加することで、キャプチャグループから余分なグループを取り除きましょう。
 
-The final solution:
+最終的な解法は次の通りです:
 
 ```js run
 function parse(expr) {
