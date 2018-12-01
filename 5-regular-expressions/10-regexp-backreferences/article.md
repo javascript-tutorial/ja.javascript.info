@@ -1,14 +1,14 @@
-# Backreferences: \n and $n
+# 後方参照: \n と $n
 
-Capturing groups may be accessed not only in the result, but in the replacement string, and in the pattern too.
+キャプチャグループは結果だけでなく、置換文字列やパターンの中でもアクセスすることができます。
 
 [cut]
 
-## Group in replacement: $n
+## 置換でのグループ: $n
 
-When we are using `replace` method, we can access n-th group in the replacement string using `$n`.
+`replace` メソッドを使用しているとき、`$n` を使って置換文字列中の n 番目のグループにアクセスすることができます。
 
-For instance:
+例:
 
 ```js run
 let name = "John Smith";
@@ -17,32 +17,32 @@ name = name.replace(/(\w+) (\w+)/i, *!*"$2, $1"*/!*);
 alert( name ); // Smith, John
 ```
 
-Here `pattern:$1` in the replacement string means "substitute the content of the first group here", and `pattern:$2` means "substitute the second group here".
+ここで置換文字列中の `pattern:$1` は "ここに最初のグループの内容を置き換える" を意味し、`pattern:$2` は "ここは2番目のグループに置き換える" を意味します。
 
-Referencing a group in the replacement string allows us to reuse the existing text during the replacement.
+置換文字列内のグループを参照することで、置換の中で既存のテキストを再利用することが可能です。
 
-## Group in pattern: \n
+## パターンでのグループ: \n
 
-A group can be referenced in the pattern using `\n`.
+グループは `\n` を使うことでｍパターンの中で参照することができます。
 
-To make things clear let's consider a task. We need to find a quoted string: either a single-quoted  `subject:'...'` or a double-quoted `subject:"..."` -- both variants need to match.
+より明白にするために、次のことを考えてみましょう。私たちは引用符で囲まれた文字列を見つける必要があります: シングルクォート `subject:'...'` またはダブルクォート `subject:"..."` -- 両方のバリアントがマッチする必要があります。
 
-How to look for them?
+どうやってそれらを探しますか？
 
-We can put two kinds of quotes in the pattern: `pattern:['"](.*?)['"]`. That finds strings like  `match:"..."` and `match:'...'`, but it gives incorrect matches when one quote appears inside another one, like the string `subject:"She's the one!"`:
+パターン中に2種類の引用符をおきます: `pattern:['"](.*?)['"]`。これは `match:"..."` and `match:'...'` のような文字列を見つけますが、`subject:"She's the one!"` の文字列のように、ある引用符が別の引用符の中に登場した時、正しくないマッチになります。:
 
 ```js run
 let str = "He said: \"She's the one!\".";
 
 let reg = /['"](.*?)['"]/g;
 
-// The result is not what we expect
+// 結果は期待したものではありません
 alert( str.match(reg) ); // "She'
 ```
 
-As we can see, the pattern found an opening quote `match:"`, then the text is consumed lazily till the other quote `match:'`, that closes the match.
+ご覧の通り、パターンは開始の引用符 `match:"` を見つけ、その後テキストは他の引用符 `match: '` まで怠惰で消費され、マッチを閉じます。
 
-To make sure that the pattern looks for the closing quote exactly the same as the opening one, let's make a group of it and use the backreference:
+パターンが開始引用符と同じ閉じ引用符を探すようにするために、それをグループ化して後方参照を使用しましょう:
 
 ```js run
 let str = "He said: \"She's the one!\".";
@@ -52,11 +52,11 @@ let reg = /(['"])(.*?)\1/g;
 alert( str.match(reg) ); // "She's the one!"
 ```
 
-Now everything's correct! The regular expression engine finds the first quote `pattern:(['"])` and remembers the content of `pattern:(...)`, that's the first capturing group.
+これですべて正しいです! 正規表現エンジンは最初の引用符 `pattern:(['"])` を見つけ、`pattern:(...)` の中身を覚えます。それは最初のキャプチャグループです。
 
-Further in the pattern `pattern:\1` means "find the same text as in the first group".
+さらにパターン `pattern:\1` は "最初のグループと同じテキストを見つける" ことを意味します。
 
-Please note:
+注意してください:
 
-- To reference a group inside a replacement string -- we use `$1`, while in the pattern -- a backslash `\1`.
-- If we use `?:` in the group, then we can't reference it. Groups that are excluded from capturing `(?:...)` are not remembered by the engine.
+- 置換文字列の中でグループを参照するには -- `$1` を使います。一方、パターンは -- バックスラッシュ `\1` です。
+- グループの中で `?:` を使用すると、それを参照することはできません。キャプチャ `(?:...)` により除外されたグループはエンジンによって記憶されません。
