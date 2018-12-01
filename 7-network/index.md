@@ -2,4 +2,4 @@ development: true
 
 ---
 
-# Network requests: AJAX and COMET
+# ネットワークリクエスト: AJAX と COMET
