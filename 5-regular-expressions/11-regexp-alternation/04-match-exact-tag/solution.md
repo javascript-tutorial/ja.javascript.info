@@ -1,13 +1,13 @@
 
-The pattern start is obvious: `pattern:<style`.
+パターンの開始は明らかです: `pattern:<style`.
 
-...But then we can't simply write `pattern:<style.*?>`, because `match:<styler>` would match it.
+...しかし次に単純に `<style.*?>` と書くことはできません。なぜなら `match:<styler>` がマッチするからです。
 
-We need either a space after `match:<style` and then optionally something else or the ending `match:>`.
+`match:<style` の後にスペースがあり、その後必要に応じてなにかが続く、もしくは終了である `match:>` が必要です。
 
-In the regexp language: `pattern:<style(>|\s.*?>)`.
+正規表現はこのようになります: `pattern:<style(>|\s.*?>)`.
 
-In action:
+動作:
 
 ```js run
 let reg = /<style(>|\s.*?>)/g;

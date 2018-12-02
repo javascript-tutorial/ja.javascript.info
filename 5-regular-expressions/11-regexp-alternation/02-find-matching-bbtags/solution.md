@@ -1,11 +1,11 @@
 
-Opening tag is `pattern:\[(b|url|quote)\]`.
+開始タグは `pattern:\[(b|url|quote)\]` です.
 
-Then to find everything till the closing tag -- let's the pattern `pattern:[\s\S]*?` to match any character including the newline and then a backreference to the closing tag.
+次に、閉じタグまでの内容を見つけるため -- 改行を含む任意の文字にマッチするパターン `pattern:[\s\S]*?` を追加し、その後閉じタグへの後方参照を追加しましょう。
 
-The full pattern: `pattern:\[(b|url|quote)\][\s\S]*?\[/\1\]`.
+完全なパターンは: `pattern:\[(b|url|quote)\][\s\S]*?\[/\1\]`.
 
-In action:
+動作:
 
 ```js run
 let reg = /\[(b|url|quote)\][\s\S]*?\[\/\1\]/g;
@@ -20,4 +20,4 @@ let str = `
 alert( str.match(reg) ); // [b]hello![/b],[quote][url]http://google.com[/url][/quote]
 ```
 
-Please note that we had to escape a slash for the closing tag `pattern:[/\1]`, because normally the slash closes the pattern.
+閉じタグ `pattern:[/\1]` ではスラッシュをエスケープしなければならないことに注意してください。通常、スラッシュはパターンの終了を意味するためです。

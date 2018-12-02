@@ -1,8 +1,8 @@
-# Find programming languages
+# プログラミング言語を見つける
 
-There are many programming languages, for instance Java, JavaScript, PHP, C, C++.
+多くのプログラミング言語があります。例えば Java, JavaScript, PHP, C, C++。
 
-Create a regexp that finds them in the string `subject:Java JavaScript PHP C++ C`:
+文字列 `subject:Java JavaScript PHP C++ C` からそれらを見つける正規表現を作成してください:
 
 ```js
 let reg = /your regexp/g;

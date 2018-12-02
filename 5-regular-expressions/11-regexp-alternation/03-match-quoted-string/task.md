@@ -1,32 +1,32 @@
-# Find quoted strings
+# 引用符で囲まれた文字列を見つける
 
-Create a regexp to find strings in double quotes `subject:"..."`.
+ダブルクォート `subject:"..."` 内の文字列を見つける正規表現を作成してください。
 
-The important part is that strings should support escaping, in the same way as JavaScript strings do. For instance, quotes can be inserted as `subject:\"` a newline as `subject:\n`, and the slash itself as `subject:\\`.
+重要なことは、文字列は JavaScript の文字列がするのと同じ方法でエスケープをサポートする必要があるということです。例えば、引用符は `subject:\"` として挿入でき、改行は `subject:\n` 、スラッシュ自身は `subject:\\` です。
 
 ```js
 let str = "Just like \"here\".";
 ```
 
-For us it's important that an escaped quote `subject:\"` does not end a string.
+エスケープされた引用符 `subject:\"` は文字列を終了しないことが重要です。
 
-So we should look from one quote to the other ignoring escaped quotes on the way.
+そのため、途中でエスケープされた引用符は無視して、ある引用符から他の引用符に目を向ける必要があります。
 
-That's the essential part of the task, otherwise it would be trivial.
+これがこのタスクの肝心な部分です。そうでなければ答えは明らかです。
 
-Examples of strings to match:
+マッチさせる文字列の例です:
 ```js
 .. *!*"test me"*/!* ..  
-.. *!*"Say \"Hello\"!"*/!* ... (escaped quotes inside)
-.. *!*"\\"*/!* ..  (double slash inside)
-.. *!*"\\ \""*/!* ..  (double slash and an escaped quote inside)
+.. *!*"Say \"Hello\"!"*/!* ... (内側にエスケープされた引用符がある)
+.. *!*"\\"*/!* ..  (内側にダブルスラッシュがある)
+.. *!*"\\ \""*/!* ..  (内側にダブルスラッシュとエスケープされた引用符がある)
 ```
 
-In JavaScript we need to double the slashes to pass them right into the string, like this:
+JavaScript では、次のように、そのまま文字列として渡すにはスラッシュを2重にする必要があります:
 
 ```js run
 let str = ' .. "test me" .. "Say \\"Hello\\"!" .. "\\\\ \\"" .. ';
 
-// the in-memory string
+// メモリ内部の文字列
 alert(str); //  .. "test me" .. "Say \"Hello\"!" .. "\\ \"" ..
 ```
