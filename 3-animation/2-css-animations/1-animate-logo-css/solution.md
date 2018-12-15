@@ -1,17 +1,17 @@
 
-CSS to animate both `width` and `height`:
+`width` と `height` 両方をアニメーションする CSS です:
 ```css
-/* original class */
+/* 元の class */
 
 #flyjet {
   transition: all 3s;
 }
 
-/* JS adds .growing */
+/* JS で .growing を追加*/
 #flyjet.growing {
   width: 400px;
   height: 240px;
 }
 ```
 
-Please note that `transitionend` triggers two times -- once for every property. So if we don't perform an additional check then the message would show up 2 times.
+`transitionend` は 2回トリガすることに注意してください -- すべてのプロパティに対して1度トリガします。したがって、追加のチェックをしない場合、メッセージは2度表示されます。
