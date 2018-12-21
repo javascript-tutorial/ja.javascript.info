@@ -53,7 +53,7 @@ alert(`You are ${age} years old!`); // You are 100 years old!
 ```
 
 ````warn header="IE: 常に `デフォルト` を提供してください"
-2つ目のパラメータは任意です。しかし、それを供給しない場合、Internet Explorer はプロントにテキスト `"undefined"` を挿入します。
+2つ目のパラメータは任意です。しかし、それを供給しない場合、Internet Explorer はプロンプトにテキスト `"undefined"` を挿入します。
 
 それを見るには Internet Explorer でこのコードを実行しましょう:
 
