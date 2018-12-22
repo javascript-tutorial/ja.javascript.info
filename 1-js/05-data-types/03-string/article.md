@@ -573,7 +573,7 @@ JavaScriptが作られたとき、サロゲートペアは存在しなかった�
 
 私たちは、実際上の各文字列で1つの記号を持っていますが、`length` の結果は `2` です。
 
-`String.fromCodePoint` と `str.codePointAt` はサロゲートペアを正しく扱う稀なメソッドです。それらは最近言語に登場しまｓた。それまでは、 [String.fromCharCode](mdn:js/String/fromCharCode) と [str.charCodeAt](mdn:js/String/charCodeAt) だけでした。それらのメソッドは実際には `fromCodePoint/codePointAt` と同じですが、サロゲートペアでは上手く動きません。
+`String.fromCodePoint` と `str.codePointAt` はサロゲートペアを正しく扱う稀なメソッドです。それらは最近言語に登場しました。それまでは、 [String.fromCharCode](mdn:js/String/fromCharCode) と [str.charCodeAt](mdn:js/String/charCodeAt) だけでした。それらのメソッドは実際には `fromCodePoint/codePointAt` と同じですが、サロゲートペアでは上手く動きません。
 
 しかし、サロゲートペアは2つの文字として扱われるため、記号を取得するのは難しい場合があります:
 
