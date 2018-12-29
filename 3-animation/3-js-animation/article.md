@@ -1,68 +1,68 @@
-# JavaScript animations
+# JavaScript アニメーション
 
-JavaScript animations can handle things that CSS can't.
+JavaScript アニメーションは CSS ではできないことを扱うことができます。
 
-For instance, moving along a complex path, with a timing function different from Bezier curves, or an animation on a canvas.
+例えば、ベジェ曲線とは異なるタイミング関数を用いて複雑な経路に沿って移動したり、canvas 上でのアニメーションです。
 
 [cut]
 
 ## setInterval
 
-From the HTML/CSS point of view, an animation is a gradual change of the style property. For instance, changing `style.left` from `0px` to `100px` moves the element.
+HTML/CSS の観点からは、アニメーションはスタイルプロパティの段階的な変更です。例えば、`style.left` を `0px` から `100px` に変更すると、要素が移動します。
 
-And if we increase it in `setInterval`, by making 50 small changes per second, then it looks smooth. That's the same principle as in the cinema: 24 or more frames per second is enough to make it look smooth.
+そして、もしそれを `setInterval` の中で増加させるとき、毎秒 50 回の小さな変更を加えることによって、その変化はなめらかに見えます。これは映画館と同じ原理です。: 毎秒 24 以上のフレームがあれば十分に滑らかに見えます。
 
-The pseudo-code can look like this:
+疑似コードは次のようになります:
 
 ```js
-let delay = 1000 / 50; // in 1 second 50 frames
+let delay = 1000 / 50; // 1 秒で 50 フレーム
 let timer = setInterval(function() {
   if (animation complete) clearInterval(timer);
   else increase style.left
 }, delay)
 ```
 
-More complete example of the animation:
+より複雑なアニメーションの例:
 
 ```js
-let start = Date.now(); // remember start time
+let start = Date.now(); // 開始時間を覚える
 
 let timer = setInterval(function() {
-  // how much time passed from the start?
+  // 開始からの経過時間は？
   let timePassed = Date.now() - start;
 
   if (timePassed >= 2000) {
-    clearInterval(timer); // finish the animation after 2 seconds
+    clearInterval(timer); // 2秒後にアニメーションが終了
     return;
   }
 
-  // draw the animation at the moment timePassed
+  // timePassed 時点のアニメーションを描画
   draw(timePassed);
 
 }, 20);
 
-// as timePassed goes from 0 to 2000
-// left gets values from 0px to 400px
+// timePassed は 0 から 2000 まで進む
+// なので、left は 0px から 400px になります
 function draw(timePassed) {
   train.style.left = timePassed / 5 + 'px';
 }
 ```
 
-Click for the demo:
+デモです。電車をクリックしてみてください:
 
 [codetabs height=200 src="move"]
 
 ## requestAnimationFrame
 
-Let's imagine we have several animations running simultaneously.
+複数のアニメーションが同時に実行されているとしましょう。
 
-If we run them separately, each one with its own `setInterval(..., 20)`, then the browser would have to repaint much more often than every `20ms`.
+もしそれらを別々に実行し、それぞれが個別に `setInterval(..., 20)` を持っていると、ブラウザは `20ms` 間隔よりもっと頻繁に再描画をする必要があります。
 
-Each `setInterval` triggers once per `20ms`, but they are independent, so we have several independent runs within `20ms`.
+各 `setInterval` は `20ms` 毎に一回トリガしますが、独立しているので `20ms` の中に複数の独立した実行があることになります。
 
-These several independent redraws should be grouped together, to make it easier for the browser.
+これらの複数の独立した再描画は、ブラウザを簡単にするためにグループ化すべきです。
 
-In other words, this:
+言い換えると、これ:
 
 ```js
 setInterval(function() {
@@ -72,7 +72,7 @@ setInterval(function() {
 }, 20)
 ```
 
-...Is lighter than this:
+...は以下よりも軽量です:
 
 ```js
 setInterval(animate1, 20);
@@ -80,32 +80,33 @@ setInterval(animate2, 20);
 setInterval(animate3, 20);
 ```
 
-There's one more thing to keep in mind. Sometimes when CPU is overloaded, or there are other reasons to  redraw less often. For instance, if the browser tab is hidden, then there's totally no point in drawing.
+考慮すべきことがもう1つあります。CPUが過負荷であったり、その他あまり頻繁に再描画しなくてよい場合があります。例えば、ブラウザのタブが非表示の場合、描画には全く意味がありません。
 
-There's a standard [Animation timing](http://www.w3.org/TR/animation-timing/) that provides the function `requestAnimationFrame`.
+関数 `requestAnimationFrame` を提供する標準の [アニメーションタイミング](http://www.w3.org/TR/animation-timing/) があります。
 
-It addresses all these issues and even more.
+この関数は、これらすべての問題及び、その他多くのことに対応しています。
 
-The syntax:
+構文:
 ```js
 let requestId = requestAnimationFrame(callback)
 ```
 
-That schedules the `callback` function to run in the closest time when the browser wants to do animation.
+これは、ブラウザがアニメーションをしたい最も近い時間に `callback` 関数を実行するようスケジューリングします。
 
-If we do changes in elements in `callback` then they will be grouped together with other `requestAnimationFrame` callbacks and with CSS animations. So there will be one geometry recalculation and repaint instead of many.
+もし `callback` の中で要素を変更すると、他の `requestAnimationFrame` コールバックや CSS アニメーションと一緒にグループ化されます。これにより、配置の再計算と再描画がそれぞれではなく1回でまとめて行われます。
 
-The returned value `requestId` can be used to cancel the call:
+返却値 `requestId` は呼び出しをキャンセルするのに使うことができます:
 ```js
-// cancel the scheduled execution of callback
+// スケジューリングされたコールバックの実行をキャンセルする
 cancelAnimationFrame(requestId);
 ```
 
-The `callback` gets one argument -- the time passed from the beginning of the page load in microseconds. This time can also be obtained by calling [performance.now()](mdn:api/Performance/now).
+`callback` は1つの引数を取ります -- ページロードの開始からの経過時間のマイクロ秒です。
+この時間は [performance.now()](mdn:api/Performance/now) を呼び出すことでも得ることができます。
 
-Usually `callback` runs very soon, unless the CPU is overloaded or the laptop battery is almost discharged, or there's another reason.
+通常 `callback` は CPU が過負荷状態になったり、ノートパソコンのバッテリーがほとんどなかったり、その他別の理由がある場合を除きすぐに実行されます。
 
-The code below shows the time between first 20 runs for `requestAnimationFrame`. Usually it's 10-20ms:
+下のコードは `requestAnimationFrame` での最初の10回の実行時間を表示します。通常は 10-20ms です。
 
 ```html run height=40 refresh
 <script>
