@@ -7,6 +7,7 @@
 構文:
 
 ```js
+// create new "resolved" promise
 let promise = Promise.resolve(value);
 ```
 
