@@ -7,6 +7,7 @@
 構文:
 
 ```js
+// without new
 let promise = Promise.resolve(value);
 ```
 
