@@ -1,5 +1,7 @@
 # Promise API
 
+<!-- test223344 -->
+
 `Promise` クラスには 4 つの静的メソッドがあります。ここではそのユースケースについて簡単に説明します。
 
 ## Promise.resolve
@@ -200,3 +202,4 @@ Promise.race([
 4. `Promise.race(promises)` -- 最初の promise の解決を待ち、その結果/エラーが結果になります。
 
 これら4つのうち、`Promise.all` が実際には最も一般的です。
+
