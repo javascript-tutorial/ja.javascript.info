@@ -1,6 +1,6 @@
 # Promise API
 
-<div style="display:none">test336600</div>
+<div style="display:none">TUTEST1</div>
 
 `Promise` クラスには 4 つの静的メソッドがあります。ここではそのユースケースについて簡単に説明します。
 
