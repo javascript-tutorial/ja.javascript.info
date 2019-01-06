@@ -1,5 +1,7 @@
 # Promise API
 
+<!-- test336622 -->
+
 `Promise` クラスには 4 つの静的メソッドがあります。ここではそのユースケースについて簡単に説明します。
 
 ## Promise.resolve
