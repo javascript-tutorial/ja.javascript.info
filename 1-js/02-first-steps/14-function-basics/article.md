@@ -208,7 +208,7 @@ function showMessage(from, text = anotherFunction()) {
 
 ````smart header="デフォルト値の評価"
 
-JavaScriptでは、デフォルト値は個別のパラメータに関係なく、関数が呼び出されるたびに評価されます。上の例だと `anotherFunction()` は、 `text` のパラメータに関係なく、 `showMessage()` が呼び出されるたびに実行されます。これはパイソンのような他の言語と対照的で、パイソンはどんなデフォルト値も初期解釈のときに一度だけ評価されます。
+JavaScriptでは、デフォルト値はそれぞれのパラメータが与えられずに関数が呼び出されるたびに評価されます。上の例だと `anotherFunction()` は、 `text` のパラメータが与えられずに `showMessage()` が呼び出されるたびに実行されます。これはPythonのような他の言語と対照的で、Pythonはどんなデフォルト値も初期解釈のときに一度だけ評価されます。
 
 ````
 
