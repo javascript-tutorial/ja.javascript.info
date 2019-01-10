@@ -33,7 +33,7 @@ alert( false || false ); // false
 
 もしもオペランドが Boolean でない場合、評価のために Boolean に変換されます。
 
-例えば、数値 `1`  は `true` として扱われ、数値 `0` は -- `false` となります:
+例えば、数値 `1`  は `true` として扱われ、数値 `0` は `false` となります:
 
 ```js run
 if (1 || 0) { // if( true || false ) のように動作します
