@@ -5,8 +5,6 @@ importance: 4
 # 関数 pow(x,n)
 
 
-Write a function `pow(x,n)` that returns `x` in power `n`. Or, in other words, multiplies `x` by itself `n` times and returns the result.
-
 `x` の累乗 `n` を返す関数 `pow(x,n)` を書いてください。 つまり、 `x` をそれ自身で `n` 回掛け、その結果を返します。
 
 ```js
