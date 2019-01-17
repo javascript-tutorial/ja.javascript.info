@@ -201,7 +201,7 @@ admin.f = sayHi;
 user.f(); // John  (this == user)
 admin.f(); // Admin  (this == admin)
 
-admin['f'](); // Admin (ドットまたは角括弧でのメソッドアクセス -- は関係ありません)
+admin['f'](); // Admin (ドットでも角括弧でも問題なくメソッドにアクセスできます)
 ```
 
 実際、オブジェクトまったくなしで関数を呼び出すこともできます:
