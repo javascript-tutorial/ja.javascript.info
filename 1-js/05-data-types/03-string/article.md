@@ -276,7 +276,7 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 ```
 
 ```smart header="`str.lastIndexOf(pos)`"
-文字列の最後から最初に向かって探す類似のメソッド str.lastIndexOf(pos)](mdn:js/String/lastIndexOf) もあります。
+文字列の最後から最初に向かって探す類似のメソッド [str.lastIndexOf(pos)](mdn:js/String/lastIndexOf) もあります。
 
 それは逆の順序でマッチする対象を列挙します。
 ```
