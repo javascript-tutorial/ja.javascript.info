@@ -258,9 +258,9 @@ alert( arr.includes(1) ); // true
 
 メソッドは `===` 比較を使うことに留意してください。そのため、もしも `false` を探す場合、ゼロではなく、正確な `false` を見つけようとします。
 
-もしも含んでいるかをチェックしたいが、正確なインデックスは不要なときは、`arr.include` が好ましいです。
+もしも含んでいるかをチェックしたいが、正確なインデックスは不要なときは、`arr.includes` が好ましいです。
 
-また、`include` の非常に小さな違いは、`indexOf/lastIndexOf` と違い、`NaN` を正しく処理することができます:
+また、`includes` の非常に小さな違いは、`indexOf/lastIndexOf` と違い、`NaN` を正しく処理することができます:
 
 ```js run
 const arr = [NaN];
