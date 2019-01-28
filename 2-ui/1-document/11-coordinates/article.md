@@ -49,7 +49,7 @@ function showRect(elem) {
 
 また:
 
-- 座標は少数の場合があります。それは正常で、内部的にはブラウザは計算のためにそれを使用します。私たちは `style.position.left/top` へ設定するときにそれらを丸める必要はありません。ブラウザで少数は問題ありません。
+- 座標は小数の場合があります。それは正常で、内部的にはブラウザは計算のためにそれを使用します。私たちは `style.position.left/top` へ設定するときにそれらを丸める必要はありません。ブラウザで小数は問題ありません。
 - 座標は負の値になる場合があります。例えば、ページが下にスクロールされ、`elem` の上端がウィンドウの上にある場合、`elem.getBoundingClientRect().top` は負の値になります。
 - Chromeような一部のブラウザでは、結果 `getBoundingClientRect` にプロパティ `width` と `height` も追加します。減算することでもそれらを取得することは可能です: `height=bottom-top`, `width=right-left`。
 
