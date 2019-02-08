@@ -695,7 +695,7 @@ let clone = Object.assign({}, user);
 
 alert( user.sizes === clone.sizes ); // true, 同じオブジェクト
 
-// user と clone はサイズを共有します
+// user と clone は sizes を共有します
 user.sizes.width++;       // 一方からプロパティを変更します
 alert(clone.sizes.width); // 51, 他方から変更した結果が見えます
 ```
