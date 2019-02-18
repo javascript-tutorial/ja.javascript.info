@@ -19,7 +19,7 @@ let double = "double-quoted";
 let backticks = `backticks`;
 ```
 
-シングルとダブルクォートは本質的に同じです。しかしならが、バッククォートは文字列の中に関数呼び出しを含む任意の式を埋め込むことができます。
+シングルとダブルクォートは本質的に同じです。しかしながら、バッククォートは文字列の中に関数呼び出しを含む任意の式を埋め込むことができます。
 
 ```js run
 function sum(a, b) {
@@ -47,7 +47,7 @@ let guestList = "Guests:  // Error: Unexpected token ILLEGAL
   * John";
 ```
 
-シングルクォートとダブルクォートは、複数行の文字列の必要性が考慮されていないときの言語仕様策定によるものです。 バッククォートは後で登場したもので、より汎用性があります。
+シングルクォートとダブルクォートは、複数行の文字列の必要性が考慮されていないときの言語仕様策定によるものです。 バッククォートは後で登場したもので、より汎用性があります。
 
 また、バッククォートは最初のバッククォートの前に "テンプレート関数" を指定することができます。構文は次のようになります:
  <code>func&#96;string&#96;</code>。 関数 `func` は自動的に呼ばれ、文字列と埋め込まれた式を受け取り、それらを処理することができます。[docs](mdn:/JavaScript/Reference/Template_literals#Tagged_template_literals) で、これに関してより知ることができます。これは "タグ付きテンプレートリテラル" と呼ばれます。この機能により、文字列をカスタムテンプレートやその他の機能に簡単にラップできますが、ほとんど使用されません。
@@ -306,7 +306,7 @@ if (str.indexOf("Widget") != -1) {
 ```
 
 ````smart header="ビットの NOT トリック"
-ここで使われている古いトリックの1つは `~` 演算子の [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) です。それは、数値を 32bit 整数に変換し(もし存在すれば少数部分を除いて)、その2進数表現のすべてのビットを反転します。
+ここで使われている古いトリックの1つは `~` 演算子の [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) です。それは、数値を 32bit 整数に変換し(もし存在すれば小数部分を除いて)、その2進数表現のすべてのビットを反転します。
 
 32ビット整数の場合、 `〜n` は（IEEE-754形式のため） `-(n+1)` と全く同じ意味です。
 
