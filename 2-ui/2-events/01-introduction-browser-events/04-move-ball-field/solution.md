@@ -47,6 +47,6 @@ let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
 let left = event.clientX - fieldInnerCoords.left - field.clientLeft - ball.offsetWidth/2;
 ```
 
-縦の座標はは同じロジックを使って計算します。
+縦の座標は同じロジックを使って計算します。
 
 ボールの幅/高さは、`ball.offsetWidth` にアクセスしたときに知っていなければならないことに注意してください。HTMLまたはCSSで指定する必要があります。

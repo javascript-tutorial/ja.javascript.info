@@ -188,7 +188,7 @@ It's possible that `event.target` equals `this` -- when the click is made direct
 
 - イベントが発生したとき -- それが起きた最もネストされた要素は "ターゲット要素" (`event.target`) としてラベル付けされます。
 - 次にイベントは `addEventListener(...., true)` で割り当てられたハンドラを呼び出しながらドキュメントルートから `event.target` へ下りていきます。
-- その後、イベントは `on<event>` と3つ目の引数ががないもしくは `false` の `addEventListener` を使って割り当てられたハンドラを実行しながら `event.target` からルートまで上がっていきます。
+- その後、イベントは `on<event>` と3つ目の引数がないもしくは `false` の `addEventListener` を使って割り当てられたハンドラを実行しながら `event.target` からルートまで上がっていきます。
 
 それぞれのハンドラは `event` オブジェクトのプロパティにアクセスできます:
 
