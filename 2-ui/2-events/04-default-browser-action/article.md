@@ -108,7 +108,7 @@ menu.onclick = function(event) {
 
 バブリングの停止が必要に見える実践的な例を見てみましょう。しかし、実際にはバブリングを止めることなく上手く行うことができます。
 
-デフォルトでは、`contextmen` イベント時(マウスの右クリック)のブラウザは、標準オプション付きのコンテキストメニューを表示します。私たちはそれを防いで、独自のメニューを表示することができます:
+デフォルトでは、`contextmenu` イベント時(マウスの右クリック)のブラウザは、標準オプション付きのコンテキストメニューを表示します。私たちはそれを防いで、独自のメニューを表示することができます:
 
 ```html autorun height=50 no-beautify run
 <button>Right-click for browser context menu</button>
@@ -187,7 +187,7 @@ menu.onclick = function(event) {
 </script>
 ```
 
-これで、すべて正しく動作します。ネストされた要素を持っており、それらが独自のコンテキストメニューを持っている場合も動作します。ただ、各 `contextmen` ハンドラの中で `event.defaultPrevented` を確認してください。
+これで、すべて正しく動作します。ネストされた要素を持っており、それらが独自のコンテキストメニューを持っている場合も動作します。ただ、各 `contextmenu` ハンドラの中で `event.defaultPrevented` を確認してください。
 
 ```smart header="event.stopPropagation() と event.preventDefault()"
 明らかに分かるように、`event.stopPropagation()` と `event.preventDefault()` (`return false` としても知られている)は2つの異なるものです。それらはお互い関係ありません。
