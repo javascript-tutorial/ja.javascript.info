@@ -1,39 +1,39 @@
 
-# Dynamic imports
+# Dynamic imports(ダイナミックインポート)
 
-Export and import statements that we covered in previous chaters are called "static".
+前のチャプターで説明したエクスポートとインポート文は "static(静的)" と呼ばれます。
 
-What's because they are indeed static. The syntax is very strict.
+それらは確かに静的であり、構文は非常に厳密です。
 
-First, we can't dynamicaly generate any parameters of `import`.
+静的な場合、まず `import` の任意のパラメータを動的に生成することはできません。
 
-The module path must be a primitive string, can't be a function call. This won't work:
+モジュールパスはプリミティブな文字列でなければならず、関数呼び出しもできません。これは動作しません。:
 
 ```js
-import ... from *!*getModuleName()*/!*; // Error, only from "string" is allowed
+import ... from *!*getModuleName()*/!*; // Error, string だけが許可されています
 ```
 
-Second, we can't import conditionally or at run-time:
+次に、条件に応じたインポートや、実行時にインポートすることはできません。:
 
 ```js
 if(...) {
-  import ...; // Error, not allowed!
+  import ...; // Error, 許可されていません!
 }
 
 {
-  import ...; // Error, we can't put import in any block
+  import ...; // Error, 任意のブロックに import を置くことはできません
 }
 ```
 
-That's because, import/export aim to provide a backbone for the code structure. That's a good thing, as code structure can be analyzed, modules can be gathered and bundled together, unused exports can be removed (tree-shaken). That's possible only because everything is fixed.
+これは、インポート/エクスポートはコード構造のバックボーンを提供することを目的としているためです。コード構造は分析することができ、モジュールを集め一緒にまとめることができ、未使用のエクスポートを除去する(tree-shaken)ことができるので、これは素晴らしいことです。これはすべてが固定されているがゆえに可能なことです。
 
-But how do we import a module dynamically, on-demand?
+しかし、どのようにしてモジュールを動的にオンデマンドでインポートするのでしょう？
 
-## The import() function
+## import() 関数
 
-The `import(module)` function can be called from anywhere. It returns a promise that resolves into a module object.
+`import(module)` 関数はどこからでも呼び出すことができます。これはモジュールオブジェクトになる promise を返します。
 
-The usage pattern looks like this:
+使用パターンは次のようになります:
 
 ```js run
 let modulePath = prompt("Module path?");
@@ -43,12 +43,12 @@ import(modulePath)
   .catch(err => <loading error, no such module?>)
 ```
 
-Or, we could use `let module = await import(modulePath)` if inside an async function.
+あるいは、async function 内であれば `let module = await import(modulePath)` とすることができます。
 
-Like this:
+このようになります:
 
 [codetabs src="say" current="index.html"]
 
-So, dynamic imports are very simple to use.
+したがって、ダイナミックインポートは非常に簡単に使用できます。
 
-Also, dynamic imports work in regular scripts, they don't require `script type="module"`.
+また、ダイナミックインポートは通常のスクリプトで動作するので、`script type="module"` は必要ありません。
