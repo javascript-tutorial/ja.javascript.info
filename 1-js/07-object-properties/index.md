@@ -1,3 +1,4 @@
-# Object properties configuration
+# オブジェクトプロパティの設定
 
-In this section we return to objects and study their properties even more in-depth.
+このセクションでは、オブジェクトに戻り、そのプロパティについて、より深く学んでいきます。
+

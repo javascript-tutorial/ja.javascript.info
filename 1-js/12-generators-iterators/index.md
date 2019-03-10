@@ -1,2 +1,2 @@
 
-# Generators, advanced iteration
+# ジェネレータ, 高度なイテレーション
