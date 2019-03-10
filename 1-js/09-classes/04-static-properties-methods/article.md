@@ -1,9 +1,9 @@
 
-# Static properties and methods
+# 静的プロパティとメソッド
 
-We can also assign a methods to the class function, not to its `"prototype"`. Such methods are called *static*.
+`"prototype"` ではなく、クラス関数にメソッドを代入することもできます。このようなメソッドは *static(静的)* と呼ばれます。
 
-An example:
+例:
 
 ```js run
 class User {
@@ -17,7 +17,7 @@ class User {
 User.staticMethod(); // true
 ```
 
-That actually does the same as assigning it as a function property:
+これは実際には、関数プロパティとして割り当てるのと同じことをします。:
 
 ```js
 function User() { }
@@ -27,11 +27,11 @@ User.staticMethod = function() {
 };
 ```
 
-The value of `this` inside `User.staticMethod()` is the class constructor `User` itself (the "object before dot" rule).
+`User.staticMethod()` 内の `this` の値はクラスコンストラクタ `User` 自身("ドットの前のオブジェクト" ルール)です。
 
-Usually, static methods are used to implement functions that belong to the class, but not to any particular object of it.
+通常 static メソッドは、クラスには属するが、特定のオブジェクトには属さない関数を実装するのに使用されます。
 
-For instance, we have `Article` objects and need a function to compare them. The natural choice would be `Article.compare`, like this:
+例えば、`Article` オブジェクトを持っており、それらを比較するための関数が必要です。自然な選択は、次のような `Article.compare` です。:
 
 ```js run
 class Article {
@@ -61,17 +61,17 @@ articles.sort(Article.compare);
 alert( articles[0].title ); // Body
 ```
 
-Here `Article.compare` stands "over" the articles, as a means to compare them. It's not a method of an article, but rather of the whole class.
+ここでは、`Article.compare` は記事を比較する手段として記事の “上に” 立っています。それは記事のメソッドではなく、むしろクラス全体のメソッドです。
 
-Another example would be a so-called "factory" method. Imagine, we need few ways to create an article:
+別の例は、いわゆる “ファクトリー” メソッドです。想像してください、記事を作成する方法はいくつか必要です。:
 
-1. Create by given parameters (`title`, `date` etc).
-2. Create an empty article with today's date.
+1. 与えられたパラメータ(title, date など)による作成
+2. 今日の日付の空の記事の作成
 3. ...
 
-The first way can be implemented by the constructor. And for the second one we can make a static method of the class.
+最初の方法はコンストラクタで実装することができます。また2つ目の方法としてクラスの静的メソッドを作ることができます。
 
-Like `Article.createTodays()` here:
+ここでの `Article.createTodays()` のように:
 
 ```js run
 class Article {
@@ -82,7 +82,7 @@ class Article {
 
 *!*
   static createTodays() {
-    // remember, this = Article
+    // 思い出してください, this = Article
     return new this("Today's digest", new Date());
   }
 */!*
@@ -93,21 +93,21 @@ let article = Article.createTodays();
 alert( article.title ); // Todays digest
 ```
 
-Now every time we need to create a today's digest, we can call `Article.createTodays()`. Once again, that's not a method of an article, but a method of the whole class.
+これで今日のダイジェストを作成する必要があるたびに、`Article.createTodays()` を呼ぶことができます。改めて言いますが、これは記事のメソッドではなく、クラス全体のメソッドです。
 
-Static methods are also used in database-related classes to search/save/remove entries from the database, like this:
+静的メソッドは、次のように、データベース関連のクラスでデータベースの検索/保存/削除のためにも使用されます。:
 
 ```js
-// assuming Article is a special class for managing articles
-// static method to remove the article:
+// Article は記事を管理するための特別なクラスと仮定します
+// 記事を削除するための static メソッド:
 Article.remove({id: 12345});
 ```
 
-## Static properties
+## 静的プロパティ
 
 [recent browser=Chrome]
 
-Static properties are also possible, just like regular class properties:
+通常のクラスプロパティと同じように、静的プロパティも可能です。
 
 ```js run
 class Article {
@@ -117,17 +117,17 @@ class Article {
 alert( Article.publisher ); // Ilya Kantor
 ```
 
-That is the same as a direct assignment to `Article`:
+これは直接 `Article` に代入するのと同じです。:
 
 ```js
 Article.publisher = "Ilya Kantor";
 ```
 
-## Statics and inheritance
+## 静的(Statics)と継承
 
-Statics are inhereted, we can access `Parent.method` as `Child.method`.
+静的なものは継承され、`Child.method` として `Parent.method` にアクセスできます。
 
-For instance, `Animal.compare` in the code below is inhereted and accessible as `Rabbit.compare`:
+例えば、以下のコードの `Animal.compare` は継承され、`Rabbit.compare` としてアクセス可能です。
 
 ```js run
 class Animal {
@@ -150,7 +150,7 @@ class Animal {
 
 }
 
-// Inherit from Animal
+// Animal から継承
 class Rabbit extends Animal {
   hide() {
     alert(`${this.name} hides!`);
@@ -169,40 +169,39 @@ rabbits.sort(Rabbit.compare);
 rabbits[0].run(); // Black Rabbit runs with speed 5.
 ```
 
-Now we can call `Rabbit.compare` assuming that the inherited `Animal.compare` will be called.
+いま、継承された `Animal.compare` が呼び出されると想定して `Rabbit.compare` を呼ぶことができます。
 
-How does it work? Again, using prototypes. As you might have already guessed, extends also gives `Rabbit` the `[[Prototype]]` reference to `Animal`.
-
+これはどのように機能しているでしょう？改めて言いますが、プロトタイプを使用して、です。すでに推測したかもしれませんが、extends もまた `Rabbit` に `Animal` への参照を持つ `[[Prototype]]` を与えます。
 
 ![](animal-rabbit-static.png)
 
-So, `Rabbit` function now inherits from `Animal` function. And `Animal` function normally has `[[Prototype]]` referencing `Function.prototype`, because it doesn't `extend` anything.
+したがって、`Rabbit` 関数は `Animal` 関数を継承しています。そして `Animal` 関数は通常 `Function.prototype` を参照する `[[Prototype]]` を持ちます。なぜなら、何も  `extend` していないからです。
 
-Here, let's check that:
+ここで、それを確認しましょう:
 
 ```js run
 class Animal {}
 class Rabbit extends Animal {}
 
-// for static properties and methods
+// 静的プロパティとメソッド用
 alert(Rabbit.__proto__ === Animal); // true
 
-// and the next step is Function.prototype
+// そして、次のステップは Function.prototype です。
 alert(Animal.__proto__ === Function.prototype); // true
 
 // that's in addition to the "normal" prototype chain for object methods
 alert(Rabbit.prototype.__proto__ === Animal.prototype);
 ```
 
-This way `Rabbit` has access to all static methods of `Animal`.
+このようにして、`Rabbit` は `Animal` のすべての静的メソッドにアクセスすることができます。
 
-## Summary
+## サマリ
 
-Static methods are used for the functionality that doesn't relate to a concrete class instance, doesn't require an instance to exist, but rather belongs to the class as a whole, like `Article.compare` -- a generic method to compare two articles.
+静的メソッドは、具体的なクラスインスタンスに関連する機能やインスタンスが存在することを必要する機能ではなく、むしろクラス全体に属している機能のために使用されます。例えば、`Article.compare` のような、2つの記事を比較する汎用メソッド。
 
-Static properties are used when we'd like to store class-level data, also not bound to an instance.
+静的プロパティは、クラスレベルのデータを格納するときに使用されます。これもインスタンスにバインドされません。
 
-The syntax is:
+構文は次の通りです:
 
 ```js
 class MyClass {
@@ -214,13 +213,13 @@ class MyClass {
 }
 ```
 
-That's technically the same as assigning to the class itself:
+これは技術的には、クラス自身への代入と同じです:
 
 ```js
 MyClass.property = ...
 MyClass.method = ...
 ```
 
-Static properties are inherited.
+静的プロパティは継承されます。
 
-Technically, for `class B extends A` the prototype of the class `B` itself points to `A`: `B.[[Prototype]] = A`. So if a field is not found in `B`, the search continues in `A`.
+技術的には、`class B extends A` の場合、クラス `B` 自体のプロトタイプは `A` を指します、: `B.[[Prototype]] = A`。したがって、`B` の中にフィールドが見つからない場合は、検索は `A` の中で続行されます。
