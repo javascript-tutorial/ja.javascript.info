@@ -1,81 +1,78 @@
-# Cookies, document.cookie
+# Cookies(クッキー), document.cookie
 
-Cookies are small strings of data that are stored directly in the browser. They are not a part of Javascript, but rather a part of HTTP protocol, defined by [RFC 6265](https://tools.ietf.org/html/rfc6265) specification.
+Cookie はブラウザに直接格納される小さな文字列データです。これらは JavaScript の一部ではなく、[RFC 6265](https://tools.ietf.org/html/rfc6265)  仕様で定義されている HTML プロトコル の一部です。
 
-Most of the time, cookies are set by a web server.
+多くの場合、Cookieは Web サーバによって設定されます。
 
-One of the most widespread use of cookies is authentication:
+Cookie の最も広く使われている用途の1つは認証です:
 
-1. Upon sign in, the server uses `Set-Cookie` HTTP-header in a response to set a cookie with "session identifier".
-2. The browser stores the cookie.
-3. Next time when the request is set to the same domain, the browser sends the over the net using `Cookie` HTTP-header.
-4. So the server knows who made the request.
+1. サインインすると、サーバは Cookie に "セッションID" をセットするために、応答に `Set-Cookie` HTTP ヘッダを使用します。 
+2. ブラウザは Cookie を格納します。
+3. 次回、同じドメインへのリクエストが行われるとき、ブラウザは `Cookie` HTTPヘッダを使用してネット上に送信します。
+4. そのため、サーバは誰がリクエストを行ったのかを知ることができます。
 
-The browser provides a special accessor `document.cookie` for cookies.
+ブラウザは Cookie のための特別なアクセサ `document.cookie` を提供します。
 
-There are many tricky things about cookies and their options. In this chapter we'll cover them in detail.
+Cookie とそのオプションについては、多くの注意点があります。このチャプターでは、それらの詳細を説明してきます。
 
-## Reading from document.cookie
+## document.cookie からの読み込み
 
 ```online
-Do you have any cookies on this site? Let's see:
+このサイトに Cookie はあるでしょうか？見てみましょう:
 ```
 
 ```offline
-Assuming you're on a website, it's possible to see the cookies, like this:
+今Webサイトにいると仮定すると、次のようにすることで Cookie を見ることができます:
 ```
 
 ```js run
-// At javascript.info, we use Google Analytics for statistics,
-// so there should be some cookies
+// javascript.info では統計のために Google Analytics を使用しています,
+// そのため、いくつかの Cookie があるはずです
 alert( document.cookie ); // cookie1=value1; cookie2=value2;...
 ```
 
+文字列は `name=value` のペアからなり、 `;` により区切られます。それぞれが別の Cookie です。
 
-The string consist of `name=value` pairs, delimited by `; `. Each one is a separate cookie.
+特定の Cookie を見つけるには、`;` で `document.cookie` を分割し、正しい名前を見つけます。それをするのに、正規表現あるいは配列関数が使えます。
 
-To find a particular cookie, we can split `document.cookie` by `; `, and then find the right name. We can use either a regular expression or array functions to do that.
+## document.cookie への書き込み
 
-To make things simple, at the end of the chapter you'll find a few functions to manipulate cookies.
+`document.cookie` へ書き込む事ができます。しかし、データプロパティではなくアクセサを利用します。
 
-## Writing to document.cookie
+**`document.cookie` への書き込み操作はブラウザを通して行われ、そこに記載されている Cookie を更新しますが、他の Cookie には触れません。**
 
-We can write to `document.cookie`. But it's not a data property, it's an accessor.
-
-**A write operation to `document.cookie` passes through the browser that updates cookies mentioned in it, but doesn't touch other cookies.**
-
-For instance, this call sets a cookie with the name `user` and value `John`:
+例えば、この呼び出しは名前が `user` で値が `John` の Cookie をセットします。:
 
 ```js run
-document.cookie = "user=John"; // update only cookie named 'user'
-alert(document.cookie); // show all cookies
+document.cookie = "user=John"; // 名前が `user` の Cookie だけを更新します
+alert(document.cookie); // すべての Cookie を表示します
 ```
 
-If you run it, then probably you'll see multiple cookies. That's because `document.cookie=` operation does not overwrite all cookies, but only `user`.
+実行すると、おそらく複数の Cookie が見えるでしょう。なぜなら、`document.cookie=` 操作はすべてのクッキーを上書きするのではなく、`user` だけを上書きするからです。
 
-Technically, name and value can have any characters, but to keep the formatting valid they should be escaped using a built-in `encodeURIComponent` function:
+技術的には、名前と値は任意の文字が可能ですが、フォーマットを有効に保つためには、組み込みの `encodeURIComponent` 関数を使ってエスケープする必要があります。:
 
 ```js run
-// special values, need encoding
+// 特別な値, エンコードが必要です
 let name = "<>";
 let value = "="
 
-// encodes the cookie as %3C%3E=%3D
+// Cookie を %3C%3E=%3D とエンコード
 document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
 alert(document.cookie); // ...; %3C%3E=%3D
 ```
 
 
-```warn header="Limitations"
-There are few limitations:
-- The `name=value` pair, after `encodeURIComponent`, should not exceed 4kb. So we can't store anything huge in a cookie.
-- The total number of cookies per domain is limited to 20+, depending on a browser.
+```warn header="制限"
+いくつかの制限があります:
+- `encodeURIComponent` 後の `name=value` ペアは 4KB を超えてはいけません。なので、 Cookie に大きなデータを格納することはできません。
+- ドメイン毎の Cookie の総数は 20+ で制限されています(正確な数字はブラウザに依存します)。
 ```
 
-Cookies have several options, many of them are important and should be set.
+Cookie はいくつかのオプションを持っており、その多くは重要で設定するべきものです。
 
-The options are listed after `key=value`, delimited by `;`, like this:
+オプションは `key=value` の後にリストされ、`;` で区切られます。次のようになります。:
 
 ```js run
 document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
@@ -85,21 +82,21 @@ document.cookie = "user=John; path=/; expires=Tue, 19 Jan 2038 03:14:07 GMT"
 
 - **`path=/mypath`**
 
-The url path prefix, where the cookie is accessible. Must be absolute. By default, it's the current path.
+Cookie へアクセス可能な URL パスプレフィックスです。絶対値でなければなりません。デフォルトでは現在のパスになります。
 
-If a cookie is set with `path=/mypath`, it's visible at `/mypath` and `/mypath/*`, but not at `/page` or `/mypathpage`.
+Cookie が `path=/mypath` で設定された場合、それは `/mypath` と `/mypath/*` で見えますが、`/page` や `/mypathpage` では見えません。
 
-Usually, we set `path=/` to make the cookie accessible from all website pages.
+通常は、すべての Webサイトのページから Cookie へアクセスできるよう、`path=/` を設定します。
 
 ## domain
 
 - **`domain=site.com`**
 
-Domain where the cookie is accessible.
+Cookie へアクセス可能なドメインです。
 
-By default, a cookie is accessible only at the domain that set it. So, if the cookie was set by `site.com`, we won't get it `other.com`.
+デフォルトでは、Cookie はそれを設定したドメインでのみアクセス可能です。そのため、Cookie が `site.com` で設定されている場合、 `other.com` では取得できません。
 
-...But what's more tricky, we also won't get the cookie at a subdomain `forum.site.com`:
+...しかし、より注意が必要なことに、サブドメイン `forum.site.com` でも Cookie は取得できません:
 
 ```js
 // at site.com
@@ -109,54 +106,54 @@ document.cookie = "user=John"
 alert(document.cookie); // no user
 ```
 
-**There's no way to let a cookie be accessible from another 2nd-level domain, so `other.com` will never receive a cookie set at `site.com`.**
+**別の第2レベルのドメインから Cookie にアクセスさせる方法はありません。そのため、`other.com` が `site.com` で設定された Cookie を受け取ることはありません。**
 
-It's a safety restriction, to allow us to store sensitive data in cookies.
+これは機密データを Cookie に保持することができるようにするための、安全上の制限です。
 
-...But if we'd like to grant access to subdomains like `forum.site.com`, that's possible. We  should explicitly set `domain` option to the root domain: `domain=site.com`:
+...ですが、`forum.site.com` などのサブドメインへのアクセスを許可したい場合、それは可能です。その場合には、明示的に `domain` オプションをルートドメインに設定します: `domain=site.com`:
 
 ```js
-// at site.com, make the cookie accessible on any subdomain:
+// site.com で任意のサブドメインで Cookie にアクセスできるようにします
 document.cookie = "user=John; domain=site.com"
 
-// at forum.site.com
+// forum.site.com
 alert(document.cookie); // with user
 ```
 
-For historical reasons, `domain=.site.com` (a dot at the start) also works this way, it might better to add the dot to support very old browsers.
+歴史的な理由から、`domain=.site.com` (ドット開始)もこのように機能します。非常に古いブラウザをサポートするにはドットを追加しておくのがよいでしょう。
 
 ## expires, max-age
 
-By default, if a cookie doesn't have one of these options, it disappears when the browser is closed. Such cookies are called "session cookies"
+デフォルトでは、Cookie がこれらのどのオプションを持っていない場合、ブラウザが閉じられたときに消えます。このような Cookie は "セッションクッキー" と呼ばれます。
 
-To let cookies survive browser close, we can set either `expires` or `max-age` option.
+ブラウザを閉じても Cookie を生存させるには、`expires` あるいは `max-age` オプションを設定します。
 
 - **`expires=Tue, 19 Jan 2038 03:14:07 GMT`**
 
-Cookie expiration date, when the browser will delete it automatically.
+ブラウザが自動的に Cookie を削除する、Cookie の有効期限です。
 
-The date must be exactly in this format, in GMT timezone. We can use `date.toUTCString` to get it. For instance, we can set the cookie to expire in 1 day:
+日付は GMT タイムゾーンの正確な形式でなければなりません。それは `date.toUTCString` で取得できます。例えば、Cookie の有効期限を1日に設定する場合は次のようになります。:
 
 ```js
-// +1 day from now
+// いまから +1 日
 let date = new Date(Date.now() + 86400e3);
 date = date.toUTCString();
 document.cookie = "user=John; expires=" + date;
 ```
 
-If we set `expires` to the past, the cookie will be deleted.
+もし `expires` を過去に設定すると、Cookie は削除されます。
 
 -  **`max-age=3600`**
 
-An alternative to `expires`, specifies the cookie expiration in seconds.
+`expires` の代替として、Cookie の有効期限を秒で指定します。
 
-Can be either a number of seconds from the current moment, or zero/negative for immediate expiration (to remove the cookie):
+現時点からの秒数、または即時有効期限切れの場合(Cookie を削除するために)はゼロ/負の値を指定できます。:
 
 ```js
-// cookie will die +1 hour from now
+// cookie は今から1時間後に消えます
 document.cookie = "user=John; max-age=3600";
 
-// delete cookie (let it expire right now)
+// cookie 削除(すぐに有効期限切れにする)
 document.cookie = "user=John; max-age=0";
 ```  
 
@@ -164,46 +161,46 @@ document.cookie = "user=John; max-age=0";
 
 - **`secure`**
 
-The cookie should be transferred only over HTTPS.
+Cookie は HTTPS 経由でのみ転送するべきです。
 
-**By default if we set a cookie at `http://site.com`, then it also appears at `https://site.com` and vise versa.**
+**デフォルトでは、Cookie を `http://site.com` にセットした場合、それは `https://site.com` にも現れます。そしてその逆もしかりです。**
 
-That is, cookies only check the domain, they do not distinguish between the protocols.
+つまり、Cookie はドメインのみをチェックしており、プロトコルを区別しません。
 
-With this option, if a cookie is set by `https://site.com`, then it doesn't appear when the same site is accessed by HTTP, as `http://site.com`. So if a cookie has sensitive content that should never be sent over unencrypted HTTP, then the flag can prevent this.
+このオプションでは、Cookie が `https://site.com` でセットされた場合、その後 `http://site.com` のように HTTP で同じサイトにアクセスしても Cookie は現れません。そのため、Cookie に暗号化されていない HTTP 経由で送信されるべきではない機密コンテンツが含まれている場合、このフラグで防ぐ事ができます。
 
 ```js
-// set the cookie secure (only accessible if over HTTPS)
+// Cookie をセキュアに設定 (HTTPS 経由でのみアクセス可能)
 document.cookie = "user=John; secure";
 ```  
 
 ## samesite
 
-That's another security option, to protect from so-called XSRF (cross-site request forgery) attacks.
+これは、いわゆる XSRF (クロスサイトリクエストフォージェリ)攻撃から保護するための、もう1つのセキュリティオプションです。
 
-To understand when it's useful, let's introduce the following attack scenario.
+いつ役立つのかを理解するために、次の攻撃シナリをを紹介しましょう。
 
-### XSRF attack
+### XSRF 攻撃
 
-Imagine, you are logged into the site `bank.com`. That is: you have an authentication cookie from that site. Your browser sends it to `bank.com` on every request, so that it recognizes you and performs all sensitive financial operations.
+想像してください、あなたはサイト `bank.com` にログインしました。つまり:あなたはそのサイトからの認証 Cookie を持っています。ブラウザは、あなたを認識して、すべての慎重に扱うべき金融操作を実行するために、リクエスト毎に Cookie を `bank.com` に送信します。 
 
-Now, while browsing the web in another window, you occasionally come to another site `evil.com`, that has a `<form action="https://bank.com/pay">` with hacker's account and JavaScript code that submits it automatically.
+いま、別のウィンドウで Web をブラウジングしていると、別のサイト `evil.com` にやってきました。そして、それはハッカーのアカウントを持つ `<form action="https://bank.com/pay">` と、自動的にサブミットする JavaScript コードを持っています。
 
-The form is submitted from `evil.com` directly to the bank site, and your cookie is also sent, just because it's sent every time you visit `bank.com`. So the bank recognizes you and actually performs the payment.
+そのフォームは `evil.com` から直接銀行のサイトに送信され、あなたの Cookie も送信されます。なぜなら、あなたが `bank.com` に訪れるたびに送信されるからです。そのため、銀行はあなたを認識し、実際に支払いを実行します。
 
 ![](cookie-xsrf.png)
 
-That's called a cross-site request forgery (or XSRF) attack.
+これはクロスサイトリクエストフォージェリ(または XSRF)攻撃と呼ばれます。
 
-Real banks are protected from it of course. All forms generated by `bank.com` have a special field, so called "xsrf protection token", that an evil page can't neither generate, nor somehow extract from a remote page (it can submit a form there, but can't get the data back).
+もちろん、実際の銀行はそれから保護されています。`bank.com` によって生成されたすべてのフォームは、"xsrf 保護トークン" と呼ばれる特別なフィールドを持っており、悪意のあるページはそれを生成することも、リモートページから何らかの形で抽出することもできません(そこにフォームを送信することはできますが、データを戻すことはできません)。
 
-### Enter cookie samesite option
+### Cookie samesite オプションを入力する
 
-Now, cookie `samesite` option provides another way to protect from such attacks, that (in theory) should not require "xsrf protection tokens".
+いま、Cookie `samesite` オプションはこのような攻撃から保護するためのもう1つの方法を提供します。それは(理論的には)、"xsrf 保護トークン" を必要としません。
 
-It has two possible values:
+2つのとり得る値があります:
 
-- **`samesite=strict`, same as `samesite` without value**
+- **`samesite=strict`, 値なしの `samesite` と同じです**
 
 A cookie with `samesite=strict` is never sent if the user comes from outside the site.
 
