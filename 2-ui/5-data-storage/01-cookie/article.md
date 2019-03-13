@@ -202,77 +202,77 @@ document.cookie = "user=John; secure";
 
 - **`samesite=strict`, 値なしの `samesite` と同じです**
 
-A cookie with `samesite=strict` is never sent if the user comes from outside the site.
+ユーザがサイトの外からきた場合、`samesite=strict` を持つ Cookie は決して送信されません。
 
-In other words, whether a user follows a link from the mail or submits a form from `evil.com`, or does any operation with the site that originates from another domain, the cookie is not sent. Then the XSRF attack will fail, as `bank.com` will not recognize the user without the cookie, and will not proceed with the payment.
+言い換えると、ユーザがメールにあるリンクを辿った場合や、`evil.com` からのフォームを送信した場合、あるいは他のドメインから生じたサイトに関する任意の操作をした場合、Cookie は送信されません。
+そして、XSRF 攻撃は失敗します。なぜなら、`bank.com` は Cookie がないのでユーザを認識せず、支払いには進めないでしょう。
 
-The protection is quite reliable. Only operations that come from `bank.com` will send the samesite cookie.
+この保護はとても信頼できます。`bank.com` からの操作のみ samesite の Cookie を送信します。
 
-Although, there's a small inconvenience.
+しかしながら、多少の不便があります。
 
-When a user follows a legitimate link to `bank.com`, like from their own notes, they'll be surprised that `bank.com` does not recognize them. Indeed, `samesite=strict` cookies are not sent in that case.
+ユーザが、自身のメモなどから `bank.com` への正当なリンクを辿った際、`bank.com` がそれらを認識しないことに驚くでしょう。確かに、`samesite=strict` Cookie はこのケースでは送信されません。
 
-We could work around that by using two cookies: one for "general recognition", only for the purposes of saying: "Hello, John", and the other one for data-changing operations with `samesite=strict`.
+2つのCookieを使って回避することができます: 1つは "一般的な認識" 用で、"Hello, John" というためだけのものです。もう1つは `samesite=strict` を持つデータ変更用のものです。
 
-Then a person coming from outside of the site will see a welcome, but payments must be initiated from the bank website.
+すると、サイトの外から来た人は歓迎("Hello, John")を受けますが、支払いは銀行のWebサイトから始められなければなりません。
 
 - **`samesite=lax`**
 
-Another approach to keep user experience is to use `samesite=lax`, a more relaxed value.
+ユーザ体験を維持するためのもう1つのアプローチは、より寛容な値である `samesite=lax` を使うことです。
 
-Lax mode, just like `strict`, forbids the browser to send cookies when coming from outside the site, but adds an exception.
+Lax モードでは、`strict` のように、サイトの外から来たときにブラウザが Cookie を送信するのを禁止しますが、例外があります。
 
-A `samesite=lax` cookie is sent if both of these conditions are true:
-1. The HTTP method is "safe" (e.g. GET, but not POST).
+`samesite=lax` の Cookie は、これらの条件が両方とも true の場合に送信されます。:
+1. HTTP メソッドが "安全" である(e.g. POST ではなく GET)。
 
-    The full list safe of HTTP methods is in the [RFC7231 specification](https://tools.ietf.org/html/rfc7231). Basically, these are the methods that should be used for reading, but not writing the data. They must not perform any data-changing operations. Following a link is always GET, the safe method.
+    安全なHTTP メソッドの完全なリストは [RFC7231 specification](https://tools.ietf.org/html/rfc7231) にあります。基本的に、これらはデータの読み取りのために使用され、データ書き込みには使用するべきでないメソッドです。データ変更操作を実行してはいけません。リンクをたどることは、常にGET(安全なメソッド)です。
 
-2. The operation performs top-level navigation (changes URL in the browser address bar).
+2. 操作は最上位のナビゲーションで実行される(ブラウザのアドレスバーの URL を変更する)
 
-    That's usually true, but if the navigation is performed in an `<iframe>`, then it's not top-level. Also, AJAX requests do not perform any navigation, hence they don't fit.
+    これは通常 true ですが、ナビゲーションが `<iframe>` で実行された場合、これは最上位ではありません。また、AJAX リクエストはどのナビゲーションも行わないため、この条件にはマッチしません。
 
-So, what `samesite=lax` does is basically allows a most common "open URL" operation to bring cookies. Something more complicated, like AJAX request from another site or a form submittion loses cookies.
+したがって、`samesite=lax` が行うことは、基本的に最も一般的な "URL を開く" という操作で Cookie を利用できるようにすることです。他のサイトからのAJAXリクエストやフォーム送信など、より複雑なことをするときには Cookie を失います。
 
-If that's fine for you, then adding `samesite=lax` will probably not break the user experience and add protection.
+それで問題ないのであれば、`samesite=lax` を追加してもおそらくユーザー体験を損なうことはなく、保護を追加できるでしょう。
 
-Overall, `samesite` is great, but it has an important drawback:
-- `samesite` is not supported, ignored by old browsers (like year 2017).
+全体的に見て、`samesite` は素晴らしいですが、重要な欠点があります。:
+- 古いブラウザ(2017年あたり) では `samesite` はサポートされておらず、無視されます。
 
-**So if we solely rely on `samesite` to provide protection, then old browsers will be totally vulnerable.**
+**そのため、保護を提供するために `samesite` だけに頼った場合、古いブラウザは完全に脆弱になるでしょう。**
 
-But we surely can use `samesite` together with other protection measures, like xsrf tokens, to add an additional layer of defence.
+しかし、xsrf トークンなど他の保護手段と合わせて `samesite` を使用し、追加の防御層を追加することができます。
 
 ## httpOnly
 
-This option has nothing to do with Javascript, but we have to mention it for completeness.
+このオプションは JavaScritp とは関係ありませんが、ここでは完全性のために言及する必要があります。
 
-Only the server, when it uses `Set-Cookie` to set a cookie, may set the `httpOnly` option.
+サーバが Cookie を設定するために `Set-Cookie` を使うとき、`httpOnly` オプションを設定することができます。
 
-This option forbids any JavaScript access to the cookie. We can't see such cookie or manipulate it using `document.cookie`.
+このオプションは、任意のJavaScript が Cookie へアクセスすることを禁止します。我々は、`document.cookie` を使ってこのような Cookie を見たり操作することはできません。
 
-That's used as a precaution measure, to protect from certain attacks when a hacker injects his own Javascript code into a page and waits for a user to visit that page. That shouldn't be possible at all, a hacker should not be able to inject their code into our site, but there may be bugs that let hackers do it.
+これは、ハッカーが自分の JavaScript コードをページに挿入し、ユーザがそのページに訪問するのを待つといった特定の攻撃から保護するための予防策として使われます。ハッカーが我々のサイトにコードを挿入することができるべきではありませんが、ハッカーにそれをさせてしまうバグがあるかもしれません。
 
+通常、そのようなことが起き、ユーザがハッカーのコードが含まれた Web ページを訪れると、そのコードは実行され、認証情報を含むユーザの Cookie を持つ `document.cookie` へのアクセスを得ます。それは良くありません。
 
-Normally, if such thing happens, and a user visits a web-page with hacker's code, then that code executes and gains access to `document.cookie` with user cookies containing authentication information. That's bad.
+しかし、Cookie が `httpOnly` であれば、`document.cookie` にそれは見えないため、守られます。
 
-But if a cookie is `httpOnly`, then `document.cookie` doesn't see it, so it is protected.
+## 付録: Cookie 関数
 
-## Appendix: Cookie functions
+ここにあるのは、Cookie を扱うための関数の小さなセットです。手動で `docment.cookie` を変更するよりもはるかに便利です。
 
-Here's a small set of functions to work with cookies, more conveinent than a manual modification of `document.cookie`.
-
-There exist many cookie libraries for that, so these are for demo purposes. Fully working though:
+そのための Cookie ライブラリは数多くありますので、これらは完全に動作しますが、デモ用です。:
 
 
 ### getCookie(name)
 
-The shortest way to access cookie is to use a [regular expression](info:regular-expressions).
+Cookie にアクセスする最も早い方法は [正規表現](info:regular-expressions) を使うことです。
 
-The function `getCookie(name)` returns the cookie with the given `name`:
+関数 `getCookie(name)` は指定された `name` の Cookie を返します。:
 
 ```js
-// returns the cookie with the given name,
-// or undefined if not found
+// 指定された name を持つ Cookie を返します
+// なければ undefined を返します
 function getCookie(name) {
   let matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -281,22 +281,22 @@ function getCookie(name) {
 }
 ```
 
-Here the regexp is generated dynamically, to match `; name=<value>`.
+ここでは、この正規表現は `; name=<value>` にマッチするよう動的に生成されます。
 
-Please note that a cookie value can be an arbitrary string. If it contains characters that break the formatting, for instance spaces or `;`, such characters are encoded.
+Cookie の値は任意の文字列にすることができることに留意してください。もしフォーマットを破る文字が含まれている場合(例えばスペースや `;` です)、このような文字はエンコードされます。
 
-To decode them, we need to use a built-in `decodeURIComponent` function, the function does it also.
+デコードするには、組み込みの `decodeURIComponent` 関数を使う必要があります。
 
 ### setCookie(name, value, options)
 
-Sets the cookie `name` to the given `value` with `path=/` by default (can be modified to add other defaults):
+デフォルトでは、Cookie `name` を `path=/` を持つ指定された `value` に設定します(他のデフォルトを追加するよう変更することができます)。
 
 ```js run
 function setCookie(name, value, options = {}) {
 
   options = {
     path: '/',
-    // add other defaults here if necessary
+    // 必要でれば他のデフォルトを追加する
     ...options
   };
 
@@ -317,13 +317,13 @@ function setCookie(name, value, options = {}) {
   document.cookie = updatedCookie;
 }
 
-// Example of use:
+// 使用例:
 setCookie('user', 'John', {secure: true, 'max-age': 3600});
 ```
 
 ### deleteCookie(name)
 
-To delete a cookie, we can call it with a negative expiration date:
+Cookie を削除するためには、負の有効期限でそれを呼びます。:
 
 ```js
 function deleteCookie(name) {
@@ -333,87 +333,86 @@ function deleteCookie(name) {
 }
 ```
 
-```warn header="Updating or deleting must use same path and domain"
-Please note: when we update or delete a cookie, we should use exactly the same path and domain options as when we set it.
+```warn header="更新または削除は同じパスとドメインを使用する必要があります"
+注意: Cookie の更新/削除をするとき、セットしたときと正確に同じパスとドメインオプションを使用する必要があります。
 ```
 
-Together: [cookie.js](cookie.js).
+一つにまとめたものです: [cookie.js](cookie.js).
 
 
-## Appendix: Third-party cookies
+## 付録: サードパーティ Cookie 
 
-A cookie is called "third-party" if it's placed by domain other than the user is visiting.
+ユーザが訪れているドメイン以外のドメインに置かれた Cookie は "サードパーティ" と呼ばれます。
 
-For instance:
-1. A page at `site.com` loads an banner from another site: `<img src="https://ads.com/banner.png">`.
-2. Along with the banner, the remote server at `ads.com` may set `Set-Cookie` header with cookie like `id=1234`. Such cookie originates from `ads.com` domain, and will only be visible at `ads.com`:
+例:
+1. `site.com` のページは別のサイトからバナーをロードします。: `<img src="https://ads.com/banner.png">`
+2. バナーと一緒に、`ads.com` のリモートサーバは `id=1234` のような Cookie を持つ `Set-Cookie` ヘッダをセットするかもしれません。このような Cookie は `ads.com` ドメインから発生し、`ads.com` でのみ見えます。:
 
     ![](cookie-third-party.png)
 
-3. Next time when `ads.com` is accessed, the remote server gets the `id` cookie and recognizes the user:
+3. 次回 `ads.com` にアクセスがあったとき、リモートサーバは `id` Cookie を取得し、ユーザを認識します。:
 
     ![](cookie-third-party-2.png)
 
-4. What's even more important, when the users moves from `site.com` to another site `other.com` that also has a banners, then `ads.com` gets the cookie, as it belongs to `ads.com`, thus recognizing the visitor and tracking him as he moves between sites:
+4. さらに重要なことは、ユーザ `site.com` から同じくバナーをもつ別のサイト `other.coom` に移動するとき、`ads.coom` に属しているので、`ads.com` は Cookie を受け取ります。このように、訪問者を認識し、彼らがサイト間を移動するのを追跡します。:
 
     ![](cookie-third-party-3.png)
 
 
-Third-party cookies are traditionally used for tracking and ads services, due to their nature. They are bound to the originating domain, so `ads.com` can track the same user between different sites, if they all access it.
+サードパーティ Cookie はその性質上、昔からトラッキングや広告サービスに使われています。それらはオリジナルのドメインにバインドされているので、`ads.com` は異なるサイト間で同一ユーザを追跡することができます。
 
-Naturally, some people don't like being tracked, so browsers allow to disable such cookies.
+当然、追跡されることを好まない人もいるので、ブラウザはこのような Cookie を無効にすることが可能です。
 
-Also, some modern browsers employ special policies for such cookies:
-- Safari does not allow third-party cookies at all.
-- Firefox comes with a "black list" of third-party domains where it blocks third-party cookies.
+また、いくつかのモダンブラウザはこのような Cookie 用に特別なポリシーを採用しています。:
+- Safari はサードパーティ Cookie を一切許可しません。
+- Firefox はサードパーティ Cookie をブロックするサードパーティドメインの "ブラックリスト" を付属しています。
 
 
 ```smart
-If we load a script from a third-party domain, like `<script src="https://google-analytics.com/analytics.js">`, and that script uses `document.cookie` to set a cookie, then such cookie is not third-party.
+もし、`<script src="https://google-analytics.com/analytics.js">` のようなサードパーティドメインからスクリプトを読み込み、そのスクリプトが Cookie をセットするために `document.cookie` を使った場合、そのような Cookie はサードパーティ Cookie ではありません。
 
-If a script sets a cookie, then no matter where the script came from -- ito belongs to the domain of the current webpage.
+スクリプトが Cookie を設定した場合、そのスクリプトがどこから来たかは関係ありません。それは現在の Web ページのドメインに属します。
 ```
 
-## Appendix: GDPR
+## 付録: GDPR
 
-This topic is not related to JavaScript at all, just something to keep in mind when setting cookies.
+このトピックは JavaScript とはまったく関係ありません。単に Cookie を設定するときに心に留めておくことです。
 
-There's a legislation in Europe called GDPR, that enforces a set of rules for websites to respect users' privacy. And one of such rules is to require an explicit permission for tracking cookies from a user.
+ヨーロッパには GDPR と呼ばれる法律があり、それは、ユーザのプライバシーを尊重するために Web サイトに対してあるルールを強制しています。そして、このような規則の1つに、追跡をする Cookie に対してはユーザから明示的な許可を要求する、という内容があります。
 
-Please note, that's only about tracking/identifying cookies.
+注意してください。これは、追跡/識別 Cookie についてのみです。
 
-So, if we set a cookie that just saves some information, but neither tracks nor identifies the user, then we are free to do it.
+なので、単に情報を保持するだけで、ユーザの追跡も識別もしない Cookie の設定は自由に行う事ができます。 
 
-But if we are going to set a cookie with an authentication session or a tracking id, then a user must allow that.
+しかし、認証セッションや追跡id といった情報を Cookie に設定する場合には、ユーザはそれを許可する必要があります。
 
-Websites generally have two variants of following GDPR. You must have seen them both already in the web:
+Web サイトは一般的に GDPR に沿った2つのバリアントを持っています。あなたは web 上でそれら両方を見たことがあるに違いません。:
 
-1. If a website wants to set tracking cookies only for authenticated users.
+1. もし web サイトが認証されたユーザに対してのみ追跡 Cookie を設定したい場合。
 
-    To do so, the registration form should have a checkbox like "accept the privacy policy", the user must check it, and then the website is free to set auth cookies.
+    そうするためには、登録フォームに "プライバシーポリシーに同意する" のようなチェックボックスをもたせ、ユーザはそれをチェックする必要があります。それ以降、web サイトは認証 Cookie を自由にセットできます。
 
-2. If a website wants to set tracking cookies for everyone.
+2. もし web サイトが全員に対して追跡 Cookie を設定したい場合
 
-    To do so legally, a website shows a modal "splash screen" for newcomers, and require them to agree for cookies. Then the website can set them and let people see the content. That can be disturbing for new visitors though. No one likes to see "must-click" modal splash screens instead of the content. But GDPR requires an explicit agreement.
+    合法的にそうするためには、web サイトは新しく来た訪問者のためのモーダル "スプラッシュスクリーン" を表示し、彼らに Cookie に関して同意することを要求します。その後、web サイトは Cookie をセットすることができ、訪問者にコンテンツを見せます。これは新規の訪問者にとっては面倒なことです。コンテンツの代わりに "必ずクリック" モーダルを見たい人はいません。ですが、GDPR は明確な同意を要求します。
+
+GDPR は Cookie だけでなく、他のプライバシーに関連する問題についても同様です。が、それは我々のスコープ外です。
 
 
-GDPR is not only about cookies, it's about other privacy-related issues too, but that's too much beyond our scope.
+## サマリ
 
+`document.cookie` は Cookie へのアクセスを提供します
+- 書き込み操作は、言及された Cookie のみを変更します。
+- name/value はエンコードが必要です。
+- 1つのCookie は 4KB までで、サイト毎に Cookie は 20+ です(ブラウザによって異なります)
 
-## Summary
+Cookie オプション:
+- `path=/`, デフォルトでは、現在のパスです。パス配下でのみ Cookie が見えるようにします。
+- `domain=site.com`, デフォルトでは Cookie は現在のドメインでのみ見えます。ドメインが明示的に設定されている場合、サブドメイン上でも Cookie が見えます。
+- `expires/max-age`, Cookie の有効期限を設定します。ない場合、Cookie はブラウザが閉じられたときに消えます。
+- `secure`, Cookie を HTTPS のみにします。
+- `samesite`, ブラウザがサイトの外から来たリクエストで Cookie を送るのを禁止します。XSRF 攻撃を防ぐのに役立ちます。
 
-`document.cookie` provides access to cookies
-- write operations modify only cookies mentioned in it.
-- name/value must be encoded.
-- one cookie up to 4kb, 20+ cookies per site (depends on a browser).
-
-Cookie options:
-- `path=/`, by default current path, makes the cookie visible only under that path.
-- `domain=site.com`, by default a cookie is visible on current domain only, if set explicitly to the domain, makes the cookie visible on subdomains.
-- `expires/max-age` set cookie expiration time, without them the cookie dies when the browser is closed.
-- `secure` makes the cookie HTTPS-only.
-- `samesite` forbids browser to send the cookie with requests coming from outside the site, helps to prevent XSRF attacks.
-
-Additionally:
-- Third-party cookies may be forbidden by the browser, e.g. Safari does that by default.
-- When setting a tracking cookie for EU citizens, GDPR requires to ask for permission.
+加えて:
+- サードパーティ Cookie はブラウザによっては禁止されている場合があります。e.g. Safari はデフォルトではそうです。
+- EU 市民に対して追跡 Cookie を設定する際、GDPR は許可を求めることを要求します。
