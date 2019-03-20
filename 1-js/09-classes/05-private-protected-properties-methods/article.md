@@ -1,71 +1,72 @@
 
-# Private and protected properties and methods
+# Private / protected プロパティとメソッド
 
-One of the most important principles of object oriented programming -- delimiting internal interface from the external one.
+オブジェクト指向プログラミングの最も重要な原則の1つは、内部インタフェースを外部インタフェースから切り離すことです。
 
-That is "a must" practice in developing anything more complex than a "hello world" app.
+これは、"hellow world" アプリケーションよりも複雑なものを作るすべての開発において "必須" です。
 
-To understand this, let's break away from development and turn our eyes into the real world.
+これを理解するために、開発から離れて、現実の正解に目を向けましょう。
 
-Usually, devices that we're using are quite complex. But delimiting the internal interface from the external one allows to use them without problems.
+通常、私たちが使っているデバイスは非常に複雑です。しかし、内部インタフェースを外部インタフェースから切り離すことで、問題なく使うことができます。
 
-## A real-life example
+## 実世界の例
 
-For instance, a coffee machine. Simple from outside: a button, a display, a few holes...And, surely, the result -- great coffee! :)
+例えばコーヒーメーカーです。外側はシンプルです: ボタン、ディスプレイやいくつかの穴があるだけです。そして、もちろん結果はおいしいコーヒーです :)
 
 ![](coffee.jpg)
 
-But inside... (a picture from the repair manual)
+しかし内側は...(修理マニュアルにある図です)
 
 ![](coffee-inside.jpg)
 
-A lot of details. But we can use it without knowing anything.
+多くの構成要素があります。しかし、何も知らなくても私たちは使うことができます。
 
-Coffee machines are quite reliable, aren't they? We can use one for years, and only if something goes wrong -- bring it for repairs.
 
-The secret of reliability and simplicity of a coffee machine -- all details are well-tuned and *hidden* inside.
+コーヒーメーカーはとても信頼性が高いですね。何年も使え、調子が悪い場合にだけ修正に持っていきます。
 
-If we remove the protective cover from the coffee machine, then using it will be much more complex (where to press?), and dangerous (it can electrocute).
+コーヒーメーカーの信頼性とシンプルさの秘密は、すべての構成要素がよく調整され、内部に *隠れている* ことです。
 
-As we'll see, in programming objects are like coffee machines.
+もしコーヒーメーカーの保護カバーを外すと、使うのが非常に複雑になり(どこを押せばよい？)、危険です(感電するかもしれません)。
 
-But in order to hide inner details, we'll use not a protective cover, but rather special syntax of the language and conventions.
+これから見ていきますが、プログラミングにおいてオブジェクトはコーヒーメーカーのようなものです。
 
-## Internal and external interface
+しかし、内部の詳細を隠すには、保護カバーではなく言語や規則の特別な構文を使っていきます。
 
-In object-oriented programming, properties and methods are split into two groups:
+## 内部 / 外部インタフェース
 
-- *Internal interface* -- methods and properties, accessible from other methods of the class, but not from the outside.
-- *External interface* -- methods and properties, accessible also from outside the class.
+オブジェクト指向プログラミングでは、プロパティとメソッドは2つのグループに分けられます:
 
-If we continue the analogy with the coffee machine -- what's hidden inside: a boiler tube, heating element, and so on -- is its internal interface.
+- *内部インタフェース*: クラスの他のメソッドからアクセス可能だが、外側からはアクセスできないメソッドやプロパティ。
+- *外部インタフェース*: 外部のクラスからもアクセス可能なメソッドやプロパティ。
 
-An internal interface is used for the object to work, its details use each other. For instance, a boiler tube is attached to the heating element.
+コーヒーメーカーで例えるなら、内部に隠されているもの: ボイラーチューブや発熱体など、は内部インタフェースです。
 
-But from the outside a coffee machine is closed by the protective cover, so that no one can reach those. Details are hidden and inaccessible. We can use its features via the external interface.
+内部インタフェースはオブジェクトが機能するために使われ、その構成要素はお互いに使用されます。例えば、ボイラーチューブは発熱体に取り付けられます。
 
-So, all we need to use an object is to know its external interface. We may be completely unaware how it works inside, and that's great.
+しかし、コーヒーメーカーの外側からは、誰もそこに届かないよう保護カバーで閉ざされています。内部の詳細は隠されており、アクセスできません。私たちは、外部インタフェースを介してのみその機能を利用できます。
 
-That was a general introduction.
+したがって、オブジェクトを使用するのに必要なことは、その外部インタフェースを知ることです。内部でどのように動いているか完全に分からないかもしれませんが、問題ありません。
 
-In JavaScript, there are three types of properties and members:
+ここまでは一般的な前置きでした。
 
-- Public: accessible from anywhere. They comprise the external interface. Till now we were only using public properties and methods.
-- Private: accessible only from inside the class. These are for the internal interface.
+JavaScript には、3種類のプロパティとメンバがあります。
 
-In many other languages there also exist "protected" fields: accessible only from inside the class and those extending it. They are also useful for the internal interface. They are in a sense more widespread than private ones, because we usually want inheriting classes to gain access to properly do the extension.
+- パブリック(public): どこからでもアクセス可能です。これらは外部インタフェースになります。今まで、私たちはパブリックなプロパティとメソッドのみを使用していました。
+- プライベート(private): クラス内部からのみアクセスできます。これらは内部インタフェース用です。
 
-Protected fields are not implemented in Javascript on the language level, but in practice they are very convenient, so they are emulated.
+他の多くの言語には、"プロテクト(protected)" フィールドも存在します。: これは、クラス及び、そのクラスを継承したサブクラスの内部からのみアクセス可能であることを意味します。これも内部インタフェースには役立ちます。通常は、継承しているクラスを適切に拡張できるよう、それらにアクセスさせたいため、ある意味ではプライベートよりも広く知られています。
 
-In the next step we'll make a coffee machine in Javascript with all these types of properties. A coffee machine has a lot of details, we won't model them to stay simple (though we could).
+protected フィールドは言語レベルでは Javascript に実装されていません。が、実際には非常に便利であるため、エミュレートされています。
 
-## Protecting "waterAmount"
+次のステップでは、これらすべての種類のプロパティを使用した JavaScript でコーヒーメーカーを作ります。コーヒーメーカーには多くの構成要素がありますが、シンプルさを保つためにモデル化はしません（モデル化することも可能です）。
 
-Let's make a simple coffee machine class first:
+## "waterAmount" を保護(protect)する
+
+最初に、単純なコーヒーメーカークラスを作りましょう。:
 
 ```js run
 class CoffeeMachine {
-  waterAmount = 0; // the amount of water inside
+  waterAmount = 0; // 内部の水の量
 
   constructor(power) {
     this.power = power;
@@ -74,22 +75,22 @@ class CoffeeMachine {
 
 }
 
-// create the coffee machine
+// コーヒーメーカーを生成
 let coffeeMachine = new CoffeeMachine(100);
 
-// add water
+// 水を追加
 coffeeMachine.waterAmount = 200;
 ```
 
-Right now the properties `waterAmount` and `power` are public. We can easily get/set them from the outside to any value.
+今のところ、プロパティ `waterAmount` と `power` は public です。外側から簡単に値を取得したり、任意の値に設定できます。
 
-Let's change `waterAmount` property to protected to have more control over it. For instance, we don't want anyone to set it below zero.
+より細かく制御できるように、`waterAmount` プロパティを protected に変更しましょう。例えば、誰もゼロより小さくは設定できないようにしたいです。
 
-**Protected properties are usually prefixed with an underscore `_`.**
+**protected プロパティは、通常アンダースコア `_` で始まります。**
 
-That is not enforced on the language level, but there's a convention that such properties and methods should not be accessed from the outside. Most programmers follow it.
+これは言語レベルでは強制されていませんが、このようなプロパティやメソッドは外側からアクセスするべきではない、という慣習があります。ほとんどのプログラマはそれに従っています。
 
-So our property will be called `_waterAmount`:
+なので、プロパティは `_waterAmount` になります:
 
 ```js run
 class CoffeeMachine {
@@ -101,7 +102,7 @@ class CoffeeMachine {
   }
 
   get waterAmount() {
-    return this.waterAmount;
+    return this._waterAmount;
   }
 
   constructor(power) {
@@ -110,22 +111,22 @@ class CoffeeMachine {
 
 }
 
-// create the coffee machine
+// コーヒーメーカーを生成
 let coffeeMachine = new CoffeeMachine(100);
 
-// add water
+// 水を追加
 coffeeMachine.waterAmount = -10; // Error: Negative water
 ```
 
-Now the access is under control, so setting the water below zero fails.
+これでアクセスが制御されたので、ゼロより小さい値へ設定しようとしても失敗します。
 
-## Read-only "power"
+## 読み取り専用(Read-only)の "power"
 
-For `power` property, let's make it read-only. It sometimes happens that a property must be set at creation time only, and then never modified.
+`power` プロパティは、読み取り専用にしましょう。作成時にのみ設定し、それ以降変更しないプロパティも時にあります。
 
-That's exactly the case for a coffee machine: power never changes.
+これはまさにコーヒーメーカーの電力(power)のケースです。この値は決して変わりません。
 
-To do so, we only need to make getter, but not the setter:
+そうするためには、getter のみを作成する必要があります。setter は不要です。:
 
 ```js run
 class CoffeeMachine {
@@ -141,18 +142,18 @@ class CoffeeMachine {
 
 }
 
-// create the coffee machine
+// コーヒーメーカーを作成
 let coffeeMachine = new CoffeeMachine(100);
 
 alert(`Power is: ${coffeeMachine.power}W`); // Power is: 100W
 
-coffeeMachine.power = 25; // Error (no setter)
+coffeeMachine.power = 25; // Error (setter はないので)
 ```
 
-````smart header="Getter/setter functions"
-Here we used getter/setter syntax.
+````smart header="Getter/setter 関数"
+ここでは、getter/setter 構文を使いました。
 
-But most of the time `get.../set...` functions are preferred, like this:
+しかし、多くの場合は次のような `get.../set...` 関数が好まれます。:
 
 ```js
 class CoffeeMachine {
@@ -171,26 +172,26 @@ class CoffeeMachine {
 new CoffeeMachine().setWaterAmount(100);
 ```
 
-That looks a bit longer, but functions are more flexible. They can accept multiple arguments (even if we don't need them right now). So, for the future, just in case we need to refactor something, functions are a safer choise.
+これは少し長く見えますが、関数はより柔軟です。たとえいま時点では必要ないとしても、この方法の場合、複数の引数を受け取ることができます。そのため、将来なにかをリファクタする必要がある場合に備えるなら、関数はより安全な選択肢です。
 
-Surely, there's a tradeoff. On the other hand, get/set syntax is shorter, so ultimately there's no strict rule, it's up to you to decide.
+もちろん、これはトレードオフです。一方で get/set 構文はより短くかけます。ここに厳密なルールはないので、決めるのはあなた次第です。
 ````
 
-```smart header="Protected fields are inherited"
-If we inherit `class MegaMachine extends CoffeeMachine`, then nothing prevents us from accessing `this._waterAmount` or `this._power` from the methods of the new class.
+```smart header="Protected フィールドは継承されます"
+`class MegaMachine extends CoffeeMachine` と継承した場合、新しいクラスのメソッドから `this._waterAmount` や `this._power` にアクセスするのを妨げるものは何もありません。
 
-So protected fields are naturally inheritable. Unlike private ones that we'll see below.
+つまり、protected フィールは当然のことながら継承可能です。下で見ていく private なものとは異なります。
 ```
 
 ## Private "#waterLimit"
 
 [recent browser=none]
 
-There's a finished Javascript proposal, almost in the standard, that provides language-level support for private properties and methods.
+プライベートなプロパティやメソッドに対する言語レベルのサポートを提供する、ほぼ標準的な完成したJavascriptの提案があります。
 
-Privates should start with `#`. They are only accessible from inside the class.
+プライベートは `#` から始める必要があります。それらはクラス内部からのみアクセス可能です。
 
-For instance, here we add a private `#waterLimit` property and extract the water-checking logic into a separate method:
+例えば、ここではプライベートな `#waterLimit` プロパティを追加し、水量をチェックするロジックを別のメソッドに抜き出しています:
 
 ```js
 class CoffeeMachine {
@@ -230,11 +231,11 @@ coffeeMachine.#waterLimit = 1000; // Error
 coffeeMachine.waterAmount = 100; // Works
 ```
 
-On the language level, `#` is a special sign that the field is private. We can't access it from outside or from inhereting classes.
+言語レベルで、`#` はフィールドがプライベートであることを示す特別な記号です。その外側や継承したクラスからアクセスすることはできません。
 
-Private fields do not conflict with public ones. We can have both private `#waterAmount` and public `waterAmount` fields at the same time.
+プライベートフィールドはパブリックなものと衝突しません。プライベートな `#waterAmount` とパブリックな `waterAmount` フィールド両方を同時にもつことができます。
 
-For instance, let's make `waterAmount` an accessor for `#waterAmount`:
+例えば、`#waterAmount` のアクセサとなる `waterAmount` を作りましょう。:
 
 ```js run
 class CoffeeMachine {
@@ -257,15 +258,16 @@ machine.waterAmount = 100;
 alert(machine.#waterAmount); // Error
 ```
 
-Unlike protected ones, private fields are enforced by the language itselfs. That's a good thing.
+protected なものとは異なり、private フィールドは言語レベルで強制されます。これは良いことです。
 
-But if we inherit from `CoffeeMachine`, then we'll have no direct access to `#waterAmount`. We'll need to rely on `waterAmount` getter/setter:
+しかし、`CoffeeMachine` を継承した場合、`#waterAmount` へアクセスはできません。`waterAmount` の getter/setter に頼る必要があります。
+:
 
 ```js
 class CoffeeMachine extends CoffeeMachine() {
   method() {
 *!*
-    alert( this.#waterAmount ); // Error: can only access from CoffeeMachine
+    alert( this.#waterAmount ); // Error: CoffeeMachine からのみアクセス可能
 */!*
   }
 }
