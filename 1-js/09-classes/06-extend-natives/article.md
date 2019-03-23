@@ -1,5 +1,5 @@
 
-# Extending build-in classes
+# 組み込みのクラスを拡張する
 
 Built-in classes like Array, Map and others are extendable also.
 
