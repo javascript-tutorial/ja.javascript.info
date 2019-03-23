@@ -258,9 +258,9 @@ machine.waterAmount = 100;
 alert(machine.#waterAmount); // Error
 ```
 
-protected なものとは異なり、private フィールドは言語レベルで強制されます。これは良いことです。
+protected なものとは異なり、private フィールドは言語レベルで強制されます。
 
-しかし、`CoffeeMachine` を継承した場合、`#waterAmount` へアクセスはできません。`waterAmount` の getter/setter に頼る必要があります。
+なお、`CoffeeMachine` を継承した場合、`#waterAmount` へアクセスはできません。アクセスするには、`waterAmount` の getter/setter を経由する必要があります。
 :
 
 ```js
@@ -273,12 +273,12 @@ class CoffeeMachine extends CoffeeMachine() {
 }
 ```
 
-In many scenarios such limitation is too severe. If we extend a `CoffeeMachine`, we may have legitimate reason to access its internals. That's why protected fields are used most of the time, even though they are not supported by the language syntax.
+多くのシナリオにおいて、このような制限は厳しすぎます。`CoffeeMachine` を拡張する際には、その内部にアクセスすべき正当な理由があるかもしれません。そのため、protected フィールドは言語レベルの構文ではサポートされていませんが、多くの場合 protected フィールドが使われています。
 
 ````warn
-Private fields are special.
+Private フィールドは特別です。
 
-Remember, usually we can access fields by this[name]:
+通常だと this[name] でフィールドにアクセスできます。:
 
 ```js
 class User {
@@ -290,43 +290,43 @@ class User {
 }
 ```
 
-With private fields that's impossible: `this['#name']` doesn't work. That's a syntax limitation to ensure privacy.
+しかし、private フィールドだとそれはできません。: `this['#name']` は期待通り動作しません。これは private であることを維持するための、構文上の制限になります。
 ````
 
-## Summary
+## サマリ
 
-In terms of OOP, delimiting of the internal interface from the external one is called [encapsulation]("https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)").
+OOP の用語では、外部インタフェースと内部インタフェースを切り離すことを、[カプセル化]("https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)") と呼びます。
 
-It gives the following benefits:
+これには次のような利点があります:
 
-Protection for users, so that they don't shoot themselves in the feet
-: Imagine, there's a team of developers using a coffee machine. It was made by the "Best CoffeeMachine" company, and works fine, but a protective cover was removed. So the internal interface is exposed.
+ユーザが自ら墓穴を掘らないようにするための保護
+: 想像してください、コーヒーメーカーを使用している開発者のチームがあるとしましょう。それは "最も優れたコーヒーメーカー" の会社で作られたもので、上手く動作します。が、ある時保護カバーが外され、内部インタフェースが公開された状態になっています。
 
-    All developers are civilized -- they use the coffee machine as intended. But one of them, John, decided that he's the smartest one, and made some tweaks in the coffee machine internals. So the coffee machine failed two days later.
+    開発者はみな、意図したとおりにコーヒーメーカーを使用していますが、その中の一人である John がコーヒーメーカーの内部にいくらかの調整を行いました。それにより、2日後、コーヒーメーカーは失敗するようになりました。
 
-    That's surely not John's fault, but rather the person who removed the protective cover and let John do his manipulations.
+    これはもちろん John のせいではなく、むしろ保護カバーを外し、John に操作をさせた人の責任です。
 
-    The same in programming. If a user of a class will change things not intended to be changed from the outside -- the consequences are unpredictable.
+    プログラミングでも同じです。外部からの変更を意図していないものが勝手に変更された場合、結果は予測不可能です。
 
 Supportable
-: The situation in programming is more complex than with a real-life coffee machine, because we don't just buy it once. The code constantly undergoes development and improvement.
+: プログラミングにおける状況は、実際のコーヒーメーカーでの場合よりも複雑です。なぜなら一度購入するだけではないからです。コードは絶えず開発と改良されます。
 
-    **If we strictly delimit the internal interface, then the developer of the class can freely change its internal properties and methods, even without informing the users..**
+    **もし内部インタフェースを厳密に区切ると、クラスの開発者は利用者へ通知しなくても内部のプロパティとメソッドを自由に変更することができます。**
 
-    It's much easier to develop, if you know that certain methods can be renamed, their parameters can be changed, and even removed, because no external code depends on them.
+    特定のメソッド名を変更したり、パラメータを変更したり、あるいは削除したりすることができることが明らか(外部のコードはそれらに依存していないため)だと、開発は遥かに容易になります。
 
-    For users, when a new version comes out, it may be a total overhaul, but still simple to upgrade if the external interface is the same.
+    利用者は、新しいバージョンが登場した際、全体的な見直しになる可能性はありますが、それでも外部インタフェースが同じであればアップグレードは簡単です。
 
-Hiding complexity
-: People adore to use things that are simple. At least from outside. What's inside is a different thing.
+複雑さを隠す
+: 人々はシンプルなものを使うのを好みます。中身はそうでないかもしれませんが、少なくとも外から見たときは。
 
-    Programmers are not an exception.
+    プログラマも例外ではありませｎ。
 
-    **It's always convenient when implementation details are hidden, and a simple, well-documented external interface is available.**
+    **実装の詳細が隠されていて、シンプルかつ良くドキュメント化された外部インタフェースが利用可能であることは常に便利です。**
 
-To hide internal interface we use either protected or public properties:
+内部インタフェースを隠すために、proctected または public プロパティを使用します。]
 
-- Protected fields start with `_`. That's a well-known convention, not enforced at the language level. Programmers should only access a field starting with `_` from its class and classes inheriting from it.
-- Private fields start with `#`. Javascript makes sure we only can access those from inside the class.
+- protected フィールドは `_` で始まります。これはよく知られた慣習であり、言語レベルで強制されているものではありません。プログラマはそのクラスと、それを継承したクラスからのみ `_` で始まるフィールドにアクセスするべきです。
+- private フィールドは `#` で始まります。JavaScript では、クラス内からのみアクセスできます。
 
-Right now, private fields are not well-supported among browsers, but can be polyfilled.
+現時点では、private フィールドはブラウザ間では十分にはサポートされていませんが、polyfill することができます。
