@@ -1,84 +1,82 @@
-# Popups and window methods
+# ポップアップとウィンドウメソッド
 
-A popup window is one of the oldest methods to show additional document to user.
+ポップアップウィンドウは、利用者に追加のコンテンツを見せるための最も古い方法の1つです。
 
-Basically, you just run:
+基本的には次のように実行するだけです:
 ```js
 window.open('http://javascript.info/')
 ```
 
-... And it will open a new window with given URL. Most modern browsers are configured to open new tabs instead of separate windows.
+... すると、指定された URL で新しいウィンドウが開きます。ほとんどのモダンブラウザは、別ウィンドウではなく新しいタブとして開くよう設定されています。
 
-[cut]
+## ポップアップブロック
 
-## Popup blocking
+ポップアップはとても古くから存在します。当初の考えは、メインのウィンドウを閉じることなく別のコンテンツを表示することでした。現時点では、それをするための他の方法があります: JavaScript はサーバへリクエストを送ることができるので、ポップアップはめったに使われません。しかし、それでも依然として便利なときはあります。
 
-Popups exist from really ancient times. The initial idea was to show another content without closing the main window. As of now, there are other ways to do that: JavaScript is able to send requests for server, so popups are rarely used. But sometimes they are still handy.
+過去、悪意のあるサイトはポップアップを大いに乱用しました。悪意のあるページは広告を含むウィンドウを何度も開く事ができました。そのため、現在多くのブラウザはポップアップをブロックし、ユーザを守ろうとしています。
 
-In the past evil sites abused popups a lot. A bad page could open tons of popup windows with ads. So now most browsers try to block popups and protect the user.
+**ほとんどのブラウザは、`onclick` などユーザがトリガーしたイベントハンドラ外から呼ばれた場合には、ポップアップをブロックします。**
 
-**Most browsers block popups if they are called outside of user-triggered event handlers like `onclick`.**
+これについて考える場合、少し注意が必要です。もしコードが直接 `onclick` 内にあればそれは簡単です。しかし、ポップアップは `setTimeout` で開くでしょうか？
 
-If you think about it, that's a bit tricky. If the code is directly in an `onclick` handler, then that's easy. But what is the popup opens in `setTimeout`?
-
-Try this code:
+このコードを試してみましょう:
 
 ```js run
-// open after 3 seconds
+// 3秒後に開く
 setTimeout(() => window.open('http://google.com'), 3000);
 ```
 
-The popup opens in Chrome, but gets blocked in Firefox.
+Chrome ではポップアップは開きますが、Firefox ではブロックされます。
 
-...And this works in Firefox too:
+...そして、これは Firefox でも機能します。:
 
 ```js run
-// open after 1 seconds
+// 1秒後に開く
 setTimeout(() => window.open('http://google.com'), 1000);
 ```
 
-The difference is that Firefox treats a timeout of 2000ms or less are acceptable, but after it -- removes the "trust", assuming that now it's "outside of the user action". So the first one is blocked, and the second one is not.
+違いは、Firefox は 2000ms 以下のタイムアウトは許容することです。しかし、その後は "信頼" がなくなり、"ユーザ操作の範囲外" であると想定します。そのため、最初のはブロックされ、2つ目は開きました。
 
-## Modern usage
+## モダンな使用方法
 
-As of now, we have many methods to load and show data on-page with JavaScript. But there are still situations when a popup works best.
+現在、JavaScriptを使用してデータをロードし、ページ上に表示する方法は数多くあります。しかし、ポップアップがベストな選択肢である状況はまだあります。
 
-For instance, many shops use online chats for consulting people. A visitor clicks on the button, it runs `window.open` and opens the popup with the chat.
+例えば、多くのお店は相談にのる方法としてオンラインチャットを使います。訪問者がボタンを押すと、`window.open` が実行され、チャットをするポップアップが開きます。
 
-Why a popup is good here, why not in-page?
+なぜ、ここではページ内ではなくポップアップが良いのでしょう？
 
-1. A popup is a separate window with its own independent JavaScript environment. So a chat service doesn't need to integrate with scripts of the main shop site.
-2. A popup is very simple to attach to a site, little to no overhead. It's only a small button, without additional scripts.
-3. A popup may persist even if the user left the page. For example, a consult advices the user to visit the page of a new "Super-Cooler" goodie. The user goes there in the main window without leaving the chat.
+1. ポップアップは独立した JavaScript 環境を持つ別ウィンドウです。なので、チャットサービスはメインの店舗サイトのスクリプトと統合する必要がありません。
+2. ポップアップはサイトに追加するのが非常に簡単で、オーバーヘッドがほとんどありません。スクリプトの追加は不要で小さいボタンだけです。
+3. ポップアップは利用者がページを離れても持続させることができます。例えば、相談で利用者に新しい "スーパークーラー" のページを訪れるようにアドバイスします。利用者はメインウィンドウでそのページへ行きますが、チャットは無くなりません。
 
 ## window.open
 
-The syntax to open a popup is: `window.open(url, name, params)`:
+ポップアップを開く構文は次の通りです: `window.open(url, name, params)`:
 
 url
-: An URL to load into the new window.
+: 新しいウィンドウでロードする URL
 
 name
-: A name of the new window. Each window has a `window.name`, and here we can specify which window to use for the popup. If there's already a window with such name -- the given URL opens in it, otherwise a new window is opened.
+: 新しいウィンドウの名前。各ウィンドウは `window.name` を持っており、ここでポップアップに使うウィンドウを指定することができます。すでに同じ名前のウィンドウがあった場合、そこで指定された URL が開きます。なければ新しいウィンドウが開きます。
 
 params
-: The configuration string for the new window. It contains settings, delimited by a comma. There must be no spaces in params, for instance: `width:200,height=100`.
+: 新しいウィンドウの設定文字列。カンマで区切られた設定を含みます。params の中にスペースを入れてはいけません。例: `width:200,height=100`.
 
-Settings for `params`:
+`params` の設定:
 
-- Position:
-  - `left/top` (numeric) -- coordinates of the window top-left corner on the screen. There is a limitation: a new window cannot be positioned offscreen.
-  - `width/height` (numeric) -- width and height of a new window. There is a limit on minimal width/height, so it's impossible to create an invisible window.
-- Window features:
-  - `menubar` (yes/no) -- shows or hides the browser menu on the new window.
-  - `toolbar` (yes/no) -- shows or hides the browser navigation bar (back, forward, reload etc) on the new window.
-  - `location` (yes/no) -- shows or hides the URL field in the new window. FF and IE don't allow to hide it by default.
-  - `status` (yes/no) -- shows or hides the status bar. Again, most browsers force it to show.
-  - `resizable` (yes/no) -- allows to disable the resize for the new window. Not recommended.
-  - `scrollbars` (yes/no) -- allows to disable the scrollbars for the new window. Not recommended.
+- ポジション:
+  - `left/top` (数値) -- 画面上のウィンドウの左上隅の座標。新しいウィンドウを画面外に配置することはできない、という制限があります。
+  - `width/height` (数値) -- 新しいウィンドウの width と height 。 最小の width/height の制限があるので、, 見えないウィンドウを作成することはできません。
+- ウィンドウの機能:
+  - `menubar` (yes/no) -- 新しいウィンドウで、ブラウザのメニューを表示します/非表示にします。
+  - `toolbar` (yes/no) -- 新しいウィンドウで、ブラウザナビゲーション(戻る/進む/更新など)を表示します/非表示にします。
+  - `location` (yes/no) -- 新しいウィンドウで、URL フィールドを表示します/非表示にします。FF と IE はデフォルトでは隠すことは許可されていません。
+  - `status` (yes/no) -- ステータスバーを表示します/非表示にします。ほとんどのブラウザは強制的に表示させます。
+  - `resizable` (yes/no) -- 新しいウィンドウのリサイズを無効にします。非推奨です。
+  - `scrollbars` (yes/no) -- 新しいウィンドウのスクロールバーを無効にします。非推奨です。
 
 
-There is also a number of less supported browser-specific features, which are usually not used. Check <a href="https://developer.mozilla.org/en/DOM/window.open">window.open in MDN</a> for examples.
+あまりサポートされていないブラウザ固有の機能も数多くありますが、通常は使用されていません。例については、<a href="https://developer.mozilla.org/en/DOM/window.open">window.open in MDN</a> を確認してみてください。
 
 ## Example: a minimalistic window   
 
@@ -178,7 +176,7 @@ Still, there are some things that can be done.
 For instance:
 
 - When we open a popup, it's might be a good idea to run a `newWindow.focus()` on it. Just in case, for some OS/browser combinations it ensures that the user is in the new window now.
-- If we want to track when a visitor actually uses our web-app, we can track `window.onfocus/onblur`. That allows us to suspend/resume in-page activities, animations etc. But please note that the `blur` event means that the visitor switched out from the window, but he still may observe it. The window is in the background, but still may be visible.
+- If we want to track when a visitor actually uses our web-app, we can track `window.onfocus/onblur`. That allows us to suspend/resume in-page activities, animations etc. But please note that the `blur` event means that the visitor switched out from the window, but they still may observe it. The window is in the background, but still may be visible.
 
 ## Summary   
 
