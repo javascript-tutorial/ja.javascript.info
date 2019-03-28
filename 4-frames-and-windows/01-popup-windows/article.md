@@ -78,9 +78,9 @@ params
 
 あまりサポートされていないブラウザ固有の機能も数多くありますが、通常は使用されていません。例については、<a href="https://developer.mozilla.org/en/DOM/window.open">window.open in MDN</a> を確認してみてください。
 
-## Example: a minimalistic window   
+## 例: a minimalistic window   
 
-Let's open a window with minimal set of features just to see which of them browser allows to disable:
+ブラウザがどの機能の無効化を許容するか、最小セットの機能でウィンドウを開いてみましょう。:
 
 ```js run
 let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
@@ -89,9 +89,9 @@ width=0,height=0,left=-1000,top=-1000`;
 open('/', 'test', params);
 ```
 
-Here most "window features" are disabled and window is positioned offscreen. Run it and see what really happens. Most browsers "fix" odd things like zero `width/height` and offscreen `left/top`. For instance, Chrome open such a window with full width/height, so that it occupies the full screen.
+ここでは、ほとんどの "ウィンドウの機能 は無効にされ、ウィンドウは画面外に配置されています。実行して実際に何が起きるのかを見てください。ほとんどのブラウザはゼロ値の `width/height` や画面外の `left/top` といったおかしなものを "直します"。例えば、Chrome はフルスクリーンになるよう、画面幅/高さでウィンドウを開きます。
 
-Let's add normal positioning options and reasonable `width`, `height`, `left`, `top` coordinates:
+通常の配置オプションで `width`, `height`, `left`, `top` 座標を追加追加しましょう。:
 
 ```js run
 let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
@@ -100,20 +100,20 @@ width=600,height=300,left=100,top=100`;
 open('/', 'test', params);
 ```
 
-Most browsers show the example above as required.
+ほとんどのブラウザは要求に従って上記の例を表示します。
 
-Rules for omitted settings:
+設定が省略された際のルール:
 
-- If there is no 3rd argument in the `open` call, or it is empty, then the default window parameters are used.
-- If there is a string of params, but some yes/no features are omitted, then the omitted features are disabled, if the browser allows that. So if you specify params, make sure you explicitly set all required features to yes.
-- If there is no `left/top` in params, then the browser tries to open a new window near the last opened window.
-- If there is no `width/height`, then the new window will be the same size as the last opened.
+- `open` 呼び出しで ３つ目の引数がない場合、もしくはそれが空の場合、デフォルトのウィンドウパラメータが使われます。
+- params の文字列はあるが、一部の機能の yes/no が省略されている場合、省略された機能はブラウザで許可されていれば無効になります。そのため、params を指定した場合には、明示的に必要なすべての機能に yes を設定してください。
+- params に `left/top` がない場合、ブラウザは最後に開いたウィンドウの近くに新しいウィンドウを開こうとします。
+- `width/height` がない場合、新しいウィンドウは最後に開いたウィンドウと同じサイズになります。
 
-## Accessing a popup
+## ポップアップにアクセスする
 
-The `open` call returns a reference to the new window. It can be used to manipulate it's properties, change location and even more.
+`open` 呼び出しは、新しいウィンドウへの参照を返します。それはプロパティを操作したり、位置を替えたりと言ったことをするのに利用できます。
 
-In the example below, the contents of the new window is modified after loading.
+下の例では、新しいウィンドウのコンテンツはロード後に変更されます。
 
 ```js run
 let newWindow = open('/', 'example', 'width=300,height=300')
@@ -127,25 +127,23 @@ newWindow.onload = function() {
 };
 ```
 
-Please note that external `document` content is only accessible for windows from the same origin (the same protocol://domain:port).
+外部の `document` コンテンツは、同じオリジン(同じ protocol://domain:port) からのウィンドウに対してのみアクセス可能であることに注意してください。
 
-For windows with URLs from another sites, we are able to change the location by assigning `newWindow.location=...`, but we can't read the location or access the content. That's for user safety, so that an evil page can't open a popup with `http://gmail.com` and read the data. We'll talk more about it later.
+別のサイトの URL を持つウィンドウの場合、`newWindow.location=...` による割り当てでロケーションを変更することができますが、そのロケーションやコンテンツにアクセスすることはできます。これはユーザの安全のためであり、悪意のあるページが `http://gmail.com` のポップアップを開いてもデータを読む事ができないようにするためです。後ほど詳しく話します。
 
-## Accessing the opener window   
+## 開いた元(opener)のウィンドウにアクセスする
 
-A popup may access the "opener" window as well. A JavaScript in it may use `window.opener` to access the window that opened it. It is `null` for all windows except popups.
+ポップアップは "opener" ウィンドウにもアクセスすることができます。その中で、それを開いたウィンドウにアクセスするには `window.opener` を使います。ポップアップ以外のすべてのウィンドウの場合、それは `null` です。
 
-So both the main window and the popup have a reference to each other. They may modify each other freely assuming that they come from the same origin. If that's not so, then there are still means to communicate, to be covered in the next chapter <info:cross-window-communication>.
+したがって、メインウィンドウとポップアップ両方とも、互いの参照を持っています。 それらは同じオリジンから来ていると想定して自由に互いを変更することができます。そうでない場合は、次のチャプター <info:cross-window-communication> で説明するように、ほかのコミュニケーションする手段があります。
 
-## Closing a popup
+## ポップアップを閉じる
 
-If we don't need a popup any more, we can call `newWindow.close()` on it.
+ポップアップがもう必要なくなった場合は `newWindow.close()` を呼びます。
 
-Technically, the `close()` method is available for any `window`, but `window.close()` is ignored by most browsers if `window` is not created with `window.open()`.
+技術的には、`close()` メソッドはどの `window` でも利用可能ですが、`window` が `window.open()` で生成されたものでない場合、`window.close()` はほとんどのブラウザで無視されます。
 
-The `newWindow.closed` is `true` if the window is closed. That's useful to check if the popup (or the main window) is still open or not. A user could close it, and our code should take that possibility into account.
-
-This code loads and then closes the window:
+このコードはウィンドウを開いた後、閉じます。:
 
 ```js run
 let newWindow = open('/', 'example', 'width=300,height=300')
@@ -155,37 +153,37 @@ newWindow.onload = function() {
 };
 ```
 
-## Focus/blur on a popup
+## ポップアップへの focus/blur
 
-Theoretically, there are `window.focus()` and `window.blur()` methods to focus/unfocus on a window.  Also there are `focus/blur` events that allow to focus a window and catch the moment when the visitor switches elsewhere.
+理論的には、ウィンドウにフォーカスを当てる/外す `window.focus()` と `window.blur()` メソッドがあります。また、ウィンドウにフォーカスしたり、訪問者が別の場所へ切り替えた瞬間を捉える `focus/blur` イベントもあります。
 
-In the past evil pages abused those. For instance, look at this code:
+過去、悪意のあるページはそれらを乱用しました。例えば、次のコードを見てください。:
 
 ```js run
 window.onblur = () => window.focus();
 ```
 
-When a user attempts to switch out of the window (`blur`), it brings it back to focus. The intention is to "lock" the user within the `window`.
+利用者がウィンドウから出ようとすると(`blur`)、このコードはフォーカスを戻します。この意図は、利用者を `window` 内に "ロック" することです。
 
-So, there are limitations that forbid the code like that. There are many limitations to protect the user from ads and evils pages. They depend on the browser.
+そのため、そのようなコードを禁止する制限があります。広告や悪意のあるページから利用者を守るための多くの制限があり、これらはブラウザによります。
 
-For instance, a mobile browser usually ignores that call completely. Also focusing doesn't work when a popup opens in a separate tab rather than a new window.
+例えば、モバイルブラウザは通常、そのような呼び出しを完全に無視します。また、ポップアップが新しいウィンドウではなく別のタブで開いた場合、フォーカスは動作しません。
 
-Still, there are some things that can be done.
+それでも、できることがいくつかあります。
 
-For instance:
+例:
 
-- When we open a popup, it's might be a good idea to run a `newWindow.focus()` on it. Just in case, for some OS/browser combinations it ensures that the user is in the new window now.
-- If we want to track when a visitor actually uses our web-app, we can track `window.onfocus/onblur`. That allows us to suspend/resume in-page activities, animations etc. But please note that the `blur` event means that the visitor switched out from the window, but they still may observe it. The window is in the background, but still may be visible.
+- ポップアップを開く際、`newWindow.focus()` を行うのは良いアイデアかもしれません。OS/ブラウザの組み合わせによっては、ユーザが新しいウィンドウにいることを保証します。
+- 訪問者が実際にいつ我々の web アプリを利用したかを追跡したい場合、`window.onfocus/onblur` が使えます。これにより、ページ内でのアクティビティやアニメーションなどを一時停止/再開することができます。しかし、`blur` イベントは訪問者がウィンドウを切り替えたことを意味しますが、それでも関しできる可能性があることに留意してください。ウィンドウはバックグラウンドにありますが、まだ表示されている可能性があります。
 
-## Summary   
+## サマリ
 
-- A popup can be opened by the `open(url, name, params)` call. It returns the reference to the newly opened window.
-- By default, browsers block `open` calls from the code outside of user actions. Usually a notification appears, so that a user may allow them.
-- The popup may access the opener window using the `window.opener` property, so the two are connected.
-- If the main window and the popup come from the same origin, they can freely read and modify each other. Otherwise, they can change location of each other and communicate using messages (to be covered).
-- To close the popup: use `close()` call. Also the user may close them (just like any other windows). The `window.closed` is `true` after that.
-- Methods `focus()` and `blur()` allow to focus/unfocus a window. Sometimes.
-- Events `focus` and `blur` allow to track switching in and out of the window. But please note that a  window may still be visible even in the background state, after `blur`.
+- ポップアップは　`open(url, name, params)` 呼び出しで開くことができます。これは新しく開かれたウィンドウへの参照を返します。
+- デフォルトでは、ブラウザはユーザアクション外からの `open` 呼び出しをブロックします。通常、通知が表示されるので、利用者はそれを許可することができます。
+- ポップアップは `window.opener` プロパティを利用して、開いた元のウィンドウにアクセスできます。
+- メインウィンドウとポップアップが同じオリジンから来たものである場合、お互いを自由に読み書きすることができます。そうでない場合、お互いの location を変更し、メッセージを使用してやり取りすることができます(この後説明があります)。
+- ポップアップを閉じるには、`close()` 呼び出しを使用します。また、ユーザも閉じることができ、その後は `window.closed` は `true` です。
+- メソッド `focus()` と `blur()` でウィンドウへフォーカスしたり外したりできます。
+- イベント `focus` と `blur` によりウィンドウの内外への切り替えを追跡することができます。しかし、ウィンドウは `blur` の後、バックグラウンド状態でも見えるかもしれないことに留意してください。
 
-Also if we open a popup, a good practice is to notify the user about it. An icon with the opening window can help the visitor to survive the focus shift and keep both windows in mind.
+また、ポップアップを開く場合は、利用者にそのことを伝えることをおすすめします。ウィンドウを開くことを意味するアイコンは、訪問者が両方のウィンドウを開いておくのに役立つことを心に留めておいてください。
