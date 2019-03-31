@@ -1,126 +1,123 @@
-# Cross-window communication
+# ウィンドウ間のやり取り
 
-The "Same Origin" (same site) policy limits access of windows and frame to each other.
+"同一オリジン" (同一サイト) ポリシーは、ウィンドウとフレームのアクセスを互いに制限します。
 
-The idea is that if we have two windows open: one from `john-smith.com`, and another one is `gmail.com`, then we wouldn't want a script from `john-smith.com` to read our mail.
+2つのウィンドウが開いているとします: 1つは `john-smith.com`、もう1つは `gmail.com` です。この場合、`john-smith.com` がメールを読むようなスクリプトは望まないでしょう。
 
 [cut]
 
-## Same Origin 
+## 同一オリジン(Same Origin)
 
-Two URLs are said to have the "same origin" if they have the same protocol, domain and port.
+同じプロトコル、ドメインとポートを持つ場合、2つの URL は "同一オリジン" 言われます。
 
-These URLs all share the same origin:
+これらの URL はすべて同じオリジンです:
 
 - `http://site.com`
 - `http://site.com/`
 - `http://site.com/my/page.html`
 
-These ones do not:
+これらは違います:
 
-- <code>http://<b>www.</b>site.com</code> (another domain: `www.` matters)
-- <code>http://<b>site.org</b></code> (another domain: `.org` matters)
-- <code><b>https://</b>site.com</code> (another protocol: `https`)
-- <code>http://site.com:<b>8080</b></code> (another port: `8080`)
+- <code>http://<b>www.</b>site.com</code> (別のドメイン: `www.` のため)
+- <code>http://<b>site.org</b></code> (別のドメイン: `.org` のため)
+- <code><b>https://</b>site.com</code> (別のプロトコル: `https`)
+- <code>http://site.com:<b>8080</b></code> (別のポート: `8080`)
 
-If we have a reference to another window (a popup or iframe), and that window comes from the same origin, then we can do everything with it.
+"同一オリジン" ポリシーは次のようになります:
 
-If it comes from another origin, then we can only change its location. Please note: not *read* the location, but *modify* it, redirect it to another place. That's safe, because the URL may contain sensitive parameters, so reading it from another origin is prohibited, but changing is not.
+- 別のウィンドウへの参照があり(e.g. `window.open` によって作られたポップアップ、あるいは `<iframe>` 内のウィンドウ)、そのウィンドウが同一オリジンから来ている場合は、そのウィンドウへのへのフルアクセスを持ちます。
+- そうではなく、別のオリジンから来たものである場合、そのウィンドウの内容にアクセスすることはできません。: 変数、ドキュメント、その他すべて。唯一の例外は `location` です: それは変えることができます(結果、ユーザをリダイレクトします)。しかし、location を *読む* ことはできません(したがって、ユーザが今どこにいるのかを知ることはできず、情報が漏れることはありません)。
 
-Also such windows may exchange messages. Soon about that later.
+それでは、いくつか例を見てみましょう。まず、同じオリジンから来て、"同一オリジン" ポリシーに衝突しないページを見ます。その後、"同一オリジン" ポリシーを回避することができる、ウィンドウ間のメッセージングについて説明します。
 
-````warn header="Exclusion: subdomains may be same-origin"
+````warn header="サブドメインは同一オリジンの場合があります"
+"同一オリジン" ポリシーには、小さな例外があります。
 
-There's an important exclusion in the same-origin policy.
+ウィンドウが同じ第2レベルのドメインを共有している場合、例えば `john.site.com`, `peter.site.com` と `site.com` (これらの共通の第２レベルのドメインは `site.com` です)、これらは "同一オリジン" から来ているものとして扱う事ができます。
 
-If windows share the same second-level domain, for instance `john.site.com`, `peter.site.com` and `site.com`, we can use JavaScript to assign to `document.domain` their common second-level domain `site.com`. Then these windows are treated as having the same origin.
-
-In other words, all such documents (including the one from `site.com`) should have the code:
+それを機能させるためには、このようなすべてのページ(`site.com` からのものも含む)は、次のコードを実行する必要があります:
 
 ```js
 document.domain = 'site.com';
 ```
 
-Then they can interact without limitations.
-
-That's only possible for pages with the same second-level domain.
+これだけです。これで制限なしにやり取りすることができます。繰り返しますが、これは同じ第2レベルのどマインをもつページでのみ可能です。
 ````
 
-## Accessing an iframe contents
+## iframe のコンテンツにアクセスする
 
-An `<iframe>` is a two-faced beast. From one side it's a tag, just like `<script>` or `<img>`. From the other side it's a window-in-window.
+最初の例では iframe を説明します。`<iframe>` は二面のある獣です。それは `<script>` あるいは `<img>` と同じような単なるタグである一方、ウィンドウ内のウィンドウです。
 
-The embedded window has a separate `document` and `window` objects.
+埋め込みのウィンドウは別の `document` と `window` オブジェクトを持ちます。
 
-We can access them like using the properties:
+プロパティを使って、それらにアクセスできます。:
 
-- `iframe.contentWindow` is a reference to the window inside the `<iframe>`.
-- `iframe.contentDocument` is a reference to the document inside the `<iframe>`.
+- `iframe.contentWindow` は `<iframe>` 内のウィンドウへの参照です。
+- `iframe.contentDocument` は `<iframe>` 内のドキュメントへの参照です。
 
-When we access an embedded window, the browser checks if the iframe has the same origin. If that's not so then the access is denied (with exclusions noted above).
+埋め込みのウィンドウへアクセスする際、ブラウザは iframe が同一オリジンかをチェックします。もし同一でない場合、アクセスは拒否されます(上で述べた例外を除く)。
 
-For instance, here's an `<iframe>` from another origin:
+例えば、これは別のオリジンの `<iframe>` です。:
 
 ```html run
 <iframe src="https://example.com" id="iframe"></iframe>
 
 <script>
   iframe.onload = function() {
-    // we can get the reference to the inner window
+    // 内部のウィンドウへの参照を取得できます
     let iframeWindow = iframe.contentWindow;
 
     try {
-      // ...but not to the document inside it
+      // ...が、その中のドキュメントは取得できません
       let doc = iframe.contentDocument;
     } catch(e) {
-      alert(e); // Security Error (another origin)
+      alert(e); // セキュリティエラー(別オリジン)
     }
 
-    // also we can't read the URL of the page in it
+    // その中のページの URL を見ることもできません
     try {
       alert(iframe.contentWindow.location);
     } catch(e) {
-      alert(e); // Security Error
+      alert(e); // セキュリティエラー
     }
 
-    // ...but we can change it (and thus load something else into the iframe)!
-    iframe.contentWindow.location = '/'; // works
+    // ...しかし、変更(し、iframe 内になにかをロード)することはできます!
+    iframe.contentWindow.location = '/'; // 動作します
 
-    iframe.onload = null; // clear the handler, to run this code only once
+    iframe.onload = null; // 一度だけ実行させるためにハンドラをクリア
   };
 </script>
 ```
 
-The code above shows errors for any operations except:
+上のコードは、以下を除く操作に対してエラーを表示します。:
 
-- Getting the reference to the inner window `iframe.contentWindow`
-- Changing its `location`.
+- 内部のウィンドウ `iframe.contentWindow` への参照を取得する
+- その `location` を変更する
 
 ```smart header="`iframe.onload` vs `iframe.contentWindow.onload`"
-The `iframe.onload` event is actually the same as `iframe.contentWindow.onload`. It triggers when the embedded window fully loads with all resources.
+`iframe.onload` イベントは実際には `iframe.contentWindow.onload` と同じです。これは埋め込みウィンドウがすべてのリソース含め完全に読み込まれた時にトリガーされます。
 
-...But `iframe.onload` is always available, while `iframe.contentWindow.onload` needs the same origin.
+...しかし、`iframe.onload` は常に利用可能な一方、`iframe.contentWindow.onload` は同一オリジンである必要があります。
 ```
 
-And now an example with the same origin. We can do anything with the embedded window:
+そして、これは同一オリジンの例です。埋め込みウィンドウでなんでもできます。:
 
 ```html run
 <iframe src="/" id="iframe"></iframe>
 
 <script>
   iframe.onload = function() {
-    // just do anything
+    // なんでもできます
     iframe.contentDocument.body.prepend("Hello, world!");
   };
 </script>
 ```
 
-### Please wait until the iframe loads
+### iframe がロードされるまで待ってください
 
-When an iframe is created, it immediately has a document. But that document is different from the one that finally loads into it!
+iframe が作成されると、すぐにドキュメントを持ちます。しかし、そのドキュメントは最終的にそこにロードされるものとは異なります!
 
-Here, look:
-
+ここで見てください:
 
 ```html run
 <iframe src="/" id="iframe"></iframe>
@@ -130,18 +127,18 @@ Here, look:
   iframe.onload = function() {
     let newDoc = iframe.contentDocument;
 *!*
-    // the loaded document is not the same as initial!
+    // ロードされたドキュメントは初期のものとは同じではありません!
     alert(oldDoc == newDoc); // false
 */!*
   };
 </script>
 ```
 
-That's actually a well-known pitfall for novice developers. We shouldn't work with the document immediately, because that's the *wrong document*. If we set any event handlers on it, they will be ignored.
+これは実際に、開発者の間でよく知られた落とし穴です。それは *間違ったドキュメント* なので、すぐにドキュメントを使った処理をするべきではありません。もしそこに任意のイベントハンドラを設定しても無視されます。
 
-...But the `onload` event triggers when the whole iframe with all resources is loaded. What if we want to act sooner, on `DOMContentLoaded` of the embedded document?
+...しかし、`onload` イベントはすべてのリソースを含む iframe 全体がロードされたときにトリガーされます。仮により早く、埋め込みドキュメントの `DOMContentLoaded` でなにかしたい場合どうすればよいでしょうか？
 
-That's not possible if the iframe comes from another origin. But for the same origin we can try to catch the moment when a new document appears, and then setup necessary handlers, like this:
+iframe が別のオリジンから来ている場合は不可能です。しかし、同一オリジンの場合は、次のように新しいドキュメントが現れる瞬間を捉えて、必要なハンドラの設定を試みることができます。:
 
 ```html run
 <iframe src="/" id="iframe"></iframe>
@@ -209,7 +206,7 @@ if (window == top) { // current window == window.top?
 
 ## The sandbox attribute
 
-The `sandbox` attribute allows to forbid certain actions inside an `<iframe>`, to run an untrusted code. It "sandboxes" the iframe by treating it as coming from another origin and/or applying other limitations.
+The `sandbox` attribute allows for the exclusion of certain actions inside an `<iframe>` in order to prevent it executing untrusted code. It "sandboxes" the iframe by treating it as coming from another origin and/or applying other limitations.
 
 By default, for `<iframe sandbox src="...">` the "default set" of restrictions is applied to the iframe. But we can provide a space-separated list of "excluded" limitations as a value of the attribute, like this: `<iframe sandbox="allow-forms allow-popups">`. The listed limitations are not applied.
 
@@ -249,7 +246,9 @@ The purpose of the `"sandbox"` attribute is only to *add more* restrictions. It 
 
 The `postMessage` interface allows windows to talk to each other no matter which origin they are from.
 
-It has two parts.
+So, it's a way around the "Same Origin" policy. It allows a window from `john-smith.com` to talk to `gmail.com` and exchange information, but only if they both agree and call corresponding Javascript functions. That makes it safe for users.
+
+The interface has two parts.
 
 ### postMessage
 
@@ -350,6 +349,7 @@ If windows share the same origin (host, port, protocol), then windows can do wha
 Otherwise, only possible actions are:
 - Change the location of another window (write-only access).
 - Post a message to it.
+
 
 Exclusions are:
 - Windows that share the same second-level domain: `a.site.com` and `b.site.com`. Then setting `document.domain='site.com'` in both of them puts them into the "same origin" state.
