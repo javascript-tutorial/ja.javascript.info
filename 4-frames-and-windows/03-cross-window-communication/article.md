@@ -1,4 +1,4 @@
-# ウィンドウ間のやり取り
+# ウィンドウを跨いだやり取り
 
 "同一オリジン" (同一サイト) ポリシーは、ウィンドウとフレームのアクセスを互いに制限します。
 
@@ -146,30 +146,30 @@ iframe が別のオリジンから来ている場合は不可能です。しか�
 <script>
   let oldDoc = iframe.contentDocument;
 
-  // every 100 ms check if the document is the new one
+  // ドキュメントが新しいものか 100ms 毎にチェック
   let timer = setInterval(() => {
     if (iframe.contentDocument == oldDoc) return;
 
-    // new document, let's set handlers
+    // 新しいドキュメントなので、ハンドラをセットします
     iframe.contentDocument.addEventListener('DOMContentLoaded', () => {
       iframe.contentDocument.body.prepend('Hello, world!');
     });
 
-    clearInterval(timer); // cancel setInterval, don't need it any more
+    clearInterval(timer); // もう必要ないので setInterval をクリアします
   }, 100);
 </script>
 ```
 
-Let me know in comments if you know a better solution here.
+より良い方法を知っていたらコメントで教えてください。
 
 ## window.frames
 
-An alternative way to get a window object for `<iframe>` -- is to get it from the named collection  `window.frames`:
+`<iframe>` のウィンドウオブジェクトを取得する別の方法は、名前付けされたコレクション `window.frames` から取得することです。
 
-- By number: `window.frames[0]` -- the window object for the first frame in the document.
-- By name: `window.frames.iframeName` -- the window object for the frame with  `name="iframeName"`.
+- 数値で: `window.frames[0]` -- ドキュメントの1つ目のフレームのウィンドウオブジェクトです。
+- 名前で: `window.frames.iframeName` -- `name="iframeName"` を持つフレームのウィンドウオブジェクトです。
 
-For instance:
+例:
 
 ```html run
 <iframe src="/" style="height:80px" name="win" id="iframe"></iframe>
@@ -180,21 +180,21 @@ For instance:
 </script>
 ```
 
-An iframe may have other iframes inside. The corresponding `window` objects form a hierarchy.
+iframe は内側に別の iframe を持つ場合があります。対応する `window` オブジェクトを階層を形成します。
 
-Navigation links are:
+ナビゲーションリンクは次のようになります:
 
-- `window.frames` -- the collection of "children" windows (for nested frames).
-- `window.parent` -- the reference to the "parent" (outer) window.
-- `window.top` -- the reference to the topmost parent window.
+- `window.frames` -- "子" のウィンドウのコレクション(ネストされたフレーム用)
+- `window.parent` -- "親" (外部の)ウィンドウへの参照
+- `window.top` -- 一番上ののウィンドウへの参照
 
-For instance:
+例:
 
 ```js run
 window.frames[0].parent === window; // true
 ```
 
-We can use the `top` property to check if the current document is open inside a frame or not:
+現在のドキュメントがフレームの中で開かれているかどうかを確認するのに、`top` プロパティが使えます。:
 
 ```js run
 if (window == top) { // current window == window.top?
@@ -206,67 +206,67 @@ if (window == top) { // current window == window.top?
 
 ## The sandbox attribute
 
-The `sandbox` attribute allows for the exclusion of certain actions inside an `<iframe>` in order to prevent it executing untrusted code. It "sandboxes" the iframe by treating it as coming from another origin and/or applying other limitations.
+`sandbox` 属性は、信頼できないコードが実行されるのを防ぐため、`<iframe>` 内の特定のアクションを除外することができます。それらを別のオリジンからくるものとして扱うことによって、または他の制限を適用することによって、iframeを "サンドボックス化" します。
 
-By default, for `<iframe sandbox src="...">` the "default set" of restrictions is applied to the iframe. But we can provide a space-separated list of "excluded" limitations as a value of the attribute, like this: `<iframe sandbox="allow-forms allow-popups">`. The listed limitations are not applied.
+デフォルトでは、`<iframe sandbox src="...">` に対しては、"デフォルトセット" の制限が iframe に適用されます。しかし、`<iframe sandbox="allow-forms allow-popups">` のように、属性の値に "除外された" 制限のリストをスペース区切りで指定することもできます。この場合、列挙されている制限は適用されません。
 
-In other words, an empty `"sandbox"` attribute puts the strictest limitations possible, but we can put a space-delimited list of those that we want to lift.
+つまり、空の `"sandbox"` 属性は最も厳しい制限にすることを意味し、そこから除外したいもののリストをスペース区切りで指定することができます。
 
-Here's a list of limitations:
+ここは制限の一覧です:
 
 `allow-same-origin`
-: By default `"sandbox"` forces the "different origin" policy for the iframe. In other words, it makes the browser to treat the `iframe` as coming from another origin, even if its `src` points to the same site. With all implied restrictions for scripts. This option removes that feature.
+: デフォルトでは、`"sandbox"` は iframe に対し、"異なるオリジン" ポリシーを矯正します。つまり、ブラウザはたとえ iframe の `src` が同じサイトを指していたとしても、`iframe` を別のオリジンから来たものとして扱います。スクリプトに対するすべての暗黙の制限を持ちます。このオプションはこの機能を削除します。
 
 `allow-top-navigation`
-: Allows the `iframe` to change `parent.location`.
+: `iframe` が `parent.location` を変更するのを許可します。
 
 `allow-forms`
-: Allows to submit forms from `iframe`.
+: `iframe` からフォームを送信するのを許可します。
 
 `allow-scripts`
-: Allows to run scripts from the `iframe`.
+: `iframe` からスクリプトを実行するのを許可します。
 
 `allow-popups`
-: Allows to `window.open` popups from the `iframe`
+: `iframe` から `window.open` するのを許可します。
 
-See [the manual](mdn:/HTML/Element/iframe) for more.
+その他については、[マニュアル](mdn:/HTML/Element/iframe) を参照してください。
 
-The example below demonstrates a sandboxed iframe with the default set of restrictions: `<iframe sandbox src="...">`. It has some JavaScript and a form.
+下の例は、制限のデフォルトセットが適用された、サンドボックス化された iframe のデモです: `<iframe sandbox src="...">`。そこんはいくつかの JavaScript とフォームがあります。
 
-Please note that nothing works. So the default set is really harsh:
+何も動作しないことに注目してください。デフォルトセットは本当に厳しいです。:
 
 [codetabs src="sandbox" height=140]
 
 
 ```smart
-The purpose of the `"sandbox"` attribute is only to *add more* restrictions. It cannot remove them. In particular, it can't relax same-origin restrictions if the iframe comes from another origin.
+`"sandbox"` 属性の目的は、制限を *追加* することだけです。それらを削除することはできません。特に、iframe が別オリジンから来たときに、同一オリジン制限を緩めることはできません。
 ```
 
-## Cross-window messaging
+## ウィンドウを跨いだメッセージング
 
-The `postMessage` interface allows windows to talk to each other no matter which origin they are from.
+`postMessage` インタフェースはどのオリジンから来ていたとしても、ウィンドウ同士がやり取りするのを可能にします。
 
-So, it's a way around the "Same Origin" policy. It allows a window from `john-smith.com` to talk to `gmail.com` and exchange information, but only if they both agree and call corresponding Javascript functions. That makes it safe for users.
+したがって、これは "同一オリジン" ポリシーの回避策です。これは `john-smith.com` からのウィンドウが `gmail.com` とやり取りし、情報を交換することを可能にしますが、両者が合意し、対応する JavaScript 関数を呼び出したときだけです。これは利用者にとっては安全です。
 
-The interface has two parts.
+インタフェースは２つのパートがあります:
 
 ### postMessage
 
-The window that wants to send a message calls [postMessage](mdn:api/Window.postMessage) method of the receiving window. In other words, if we want to send the message to `win`, we should call  `win.postMessage(data, targetOrigin)`.
+メッセージを送りたいウィンドウは、受け取るウィンドウの [postMessage](mdn:api/Window.postMessage)] メソッドを呼び出します。つまり、`win` にメッセージを送りたい場合、`win.postMessage(data, targetOrigin)` を呼び出す必要があります。
 
-Arguments:
+引数:
 
 `data`
-: The data to send. Can be any object, the data is cloned using the "structured cloning algorithm". IE supports only strings, so we should `JSON.stringify` complex objects to support that browser.
+: 送るデータ。任意のオブジェクトが指定可能で、データは "structured cloning algorithm" を利用して複製されます。IE は文字列のみをサポートしているので、IEをサポートする場合は、複雑なオブジェクトには `JSON.stringify` が必要です。
 
 `targetOrigin`
-: Specifies the origin for the target window, so that only a window from the given origin will get the message.
+: 指定されたオリジンのウィンドウだけがメッセージを受け取るように、ターゲットウィンドウのオリジンを指定します。
 
-The `targetOrigin` is a safety measure. Remember, if the target window comes from another origin, we can't read it's `location`. So we can't be sure which site is open in the intended window right now: the user could navigate away.
+`targetOrigin` は安全対策です。思い出してください、ターゲットウィンドウが別のオリジンから来た場合、その `location` を読むことはできません。そのため、今どのサイトが意図したウィンドウで開かれているかを判断することはできません。
 
-Specifying `targetOrigin` ensures that the window only receives the data if it's still at that site. Good when the data is sensitive.
+`targetOrigin` を指定すると、ウィンドウがまだそのサイトを表示している場合にのみウィンドウがデータを受け取るようになります。機密性が高いデータの場合に適しています。
 
-For instance, here `win` will only receive the message if it has a document from the origin `http://example.com`:
+例えば、ここでは `win` は、オリジン `http://example.com` からのドキュメントを持っている場合にのみ、メッセージを受け取ります。
 
 ```html no-beautify
 <iframe src="http://example.com" name="example">
@@ -278,7 +278,7 @@ For instance, here `win` will only receive the message if it has a document from
 </script>
 ```
 
-If we don't want that check, we can set `targetOrigin` to `*`.
+チェックしたくない場合は、`targetOrigin` に `*` を設定します。
 
 ```html no-beautify
 <iframe src="http://example.com" name="example">
@@ -295,27 +295,27 @@ If we don't want that check, we can set `targetOrigin` to `*`.
 
 ### onmessage
 
-To receive a message, the target window should have a handler on the `message` event. It triggers when `postMessage` is called (and `targetOrigin` check is successful).
+メッセージを受け取るためには、ターゲットウィンドウは `message` イベントのハンドラが必要です。これは `postMessage` が呼び出され(そして `targetOrigin` チェックが成功した)ときに実行されます。
 
-The event object has special properties:
+イベントオブジェクトは特別なプロパティを持っています:
 
 `data`
-: The data from `postMessage`.
+: `postMessage` からのデータ。
 
 `origin`
-: The origin of the sender, for instance `http://javascript.info`.
+: 送信側のオリジン。例えば `http://javascript.info`。
 
 `source`
-: The reference to the sender window. We can immediately `postMessage` back if we want.
+: 送信側のウィンドウへの参照。必要ならすぐに `postMessage` を返すことができます。
 
-To assign that handler, we should use `addEventListener`, a short syntax `window.onmessage` does not work.
+ハンドラを割り当てるには、`addEventListener` を使う必要があります。短縮構文 `window.onmessage` は動作しません。
 
-Here's an example:
+例です:
 
 ```js
 window.addEventListener("message", function(event) {
   if (event.origin != 'http://javascript.info') {
-    // something from an unknown domain, let's ignore it
+    // 未知のドメインからの場合は無視しましょう
     return;
   }
 
@@ -323,45 +323,44 @@ window.addEventListener("message", function(event) {
 });
 ```
 
-The full example:
+完全な例です:
 
 [codetabs src="postmessage" height=120]
 
-```smart header="There's no delay"
-There's totally no delay between `postMessage` and the `message` event. That happens synchronously, even faster than `setTimeout(...,0)`.
+```smart header="遅延はありません"
+`postMessage` と `message` イベントの間には遅延はまったくありません。それらは同期的に発生し、`setTimeout(...,0)` よりも高速です。
 ```
 
-## Summary
+## サマリ
 
-To call methods and access the content of another window, we should first have a reference to it.
+メソッドを呼びだし、別ウィンドウのコンテンツにアクセスするには、最初にその参照が必要です。
 
-For popups we have two properties:
-- `window.open` -- opens a new window and returns a reference to it,
-- `window.opener` -- a reference to the opener window from a popup
+ポップアップの場合、2つのプロパティがあります:
+- `window.open` -- 新しいウィンドウを開き、そこへの参照を返します。
+- `window.opener` -- ポップアップから見た、ポップアップを開いたウィンドウへの参照です。
 
-For iframes, we can access parent/children windows using:
-- `window.frames` -- a collection of nested window objects,
-- `window.parent`, `window.top` are the references to parent and top windows,
-- `iframe.contentWindow` is the window inside an `<iframe>` tag.
+iframe の場合、次のようにして親/子のウィンドウにアクセスできます:
+- `window.frames` -- ネストされたウィンドウオブジェクトの集合です。
+- `window.parent`, `window.top` や親や最上位のウィンドウへの参照です。
+- `iframe.contentWindow` は `<iframe>` タグ内のウィンドウです。
 
-If windows share the same origin (host, port, protocol), then windows can do whatever they want with each other.
+もしウィンドウが同一オリジンを共有している場合(ホスト、ポート、プロトコル)、ウィンドウは互いになんでもできます。
 
-Otherwise, only possible actions are:
-- Change the location of another window (write-only access).
-- Post a message to it.
+そうでない場合、できることは次のものだけです:
+- 別ウィンドウの location の変更(書き込みのみのアクセス)。
+- そこへのメッセージの送信。
 
+除外については、次の通りです:
+- 同じ第2階層のドメインを共有しているウィンドウ: `a.site.com` と `b.site.com`。そして、両方に `document.domain='site.com` を設定することで、それらを "同一オリジン" の状態にします。
+- iframe が `sandbox` 属性を持っている場合、属性値に `allow-same-origin` が指定されていない限り、強制的に "異なるオリジン" の状態に置かれます。これは同一サイトからの iframe 内で信頼されていないコードを実行するのに使われます。
 
-Exclusions are:
-- Windows that share the same second-level domain: `a.site.com` and `b.site.com`. Then setting `document.domain='site.com'` in both of them puts them into the "same origin" state.
-- If an iframe has a `sandbox` attribute, it is forcefully put into the "different origin" state, unless the `allow-same-origin` is specified in the attribute value. That can be used to run untrusted code in iframes from the same site.
+`postMessage` インタフェースで、2つのウィンドウ間でセキュリティチェックを含むやり取りが可能です。
 
-The `postMessage` interface allows two windows to talk with security checks:
+1. 送信側は `targetWin.postMessage(data, targetOrigin)` を呼び出します。
+2. `targetOrigin` が `'*'` でない場合、ブラウザはウィンドウ `targetWin` が `targetWin` サイトからの URL かどうかをチェックします。
+3. その場合、`targetWin` は特別なプロパティを持つ `message` イベントをトリガーします:
+    - `origin` -- 送信側のウィンドウのオリジン(`http://my.site.com` など)
+    - `source` -- 送信側のウィンドウへの参照
+    - `data` -- データ。任意のオブジェクト。IEだけは文字列のみをサポートします。
 
-1. The sender calls `targetWin.postMessage(data, targetOrigin)`.
-2. If `targetOrigin` is not `'*'`, then the browser checks if window `targetWin` has the URL from  `targetWin` site.
-3. If it is so, then `targetWin` triggers the `message` event with special properties:
-    - `origin` -- the origin of the sender window (like `http://my.site.com`)
-    - `source` -- the reference to the sender window.
-    - `data` -- the data, any object in everywhere except IE that supports only strings.
-
-    We should use `addEventListener` to set the handler for this event inside the target window.
+    ターゲットウィンドウ内でこのイベントのハンドラを設定するには、`addEventListener` を使用する必要があります。
