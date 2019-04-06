@@ -1,15 +1,15 @@
 
-# Generators
+# ジェネレータ
 
-Regular functions return only one, single value (or nothing).
+通常の関数は、単一の値だけを返します(もしくはなにも返しません)。
 
-Generators can return ("yield") multiple values, possibly an infinite number of values, one after another, on-demand. They work great with [iterables](info:iterable), allowing to create data streams with ease.
+ジェネレータは、要求に応じて次々に複数の値、場合によっては無限の数の値を返す("生み出す")ことができます。それらは [反復可能(iterables)](info:iterable) と上手く機能し、データストリームを簡単に作成することができます。
 
-## Generator functions
+## ジェネレータ関数
 
-To create a generator, we need a special syntax construct: `function*`, so-called "generator function".
+ジェネレータを作成するには、特別な構文構造: `function*`、いわゆる "ジェネレータ関数" を使用する必要があります。
 
-It looks like this:
+このようになります:
 
 ```js
 function* generateSequence() {
@@ -19,22 +19,22 @@ function* generateSequence() {
 }
 ```
 
-When `generateSequence()` is called, it does not execute the code. Instead, it returns a special object, called "generator".
+`generateSequence()` が呼ばれたとき、コードは実行されません。代わりに、"ジェネレータ" と呼ばれる特別なオブジェクトを返します。
 
 ```js
-// "generator function" creates "generator object"
+// "ジェネレータ関数" は "ジェネレータオブジェクト" を生成します。
 let generator = generateSequence();
 ```
 
-The `generator` object can be perceived as a "frozen function call":
+`generator` オブジェクトは "凍結された関数呼び出し" と捉えることができます。:
 
 ![](generateSequence-1.png)
 
-Upon creation, the code execution is paused at the very beginning.
+作成時に、コードの実行は最初の部分で一時停止されます。
 
-The main method of a generator is `next()`. When called, it resumes execution till the nearest `yield <value>` statement. Then the execution pauses, and the value is returned to the outer code.
+ジェネレータのメインのメソッドは `next()` です。呼ばれると、最も近い `yield <value>` 文まで実行を再開します。その後、実行は一時停止し、値は外部のコードに返却されます。
 
-For instance, here we create the generator and get its first yielded value:
+例えば、ここではジェネレータを作成し、最初に戻される値を取得しています:
 
 ```js run
 function* generateSequence() {
@@ -52,15 +52,15 @@ let one = generator.next();
 alert(JSON.stringify(one)); // {value: 1, done: false}
 ```
 
-The result of `next()` is always an object:
-- `value`: the yielded value.
-- `done`: `false` if the code is not finished yet, otherwise `true`.
+`next()` の結果は常にオブジェクトです:
+- `value`: 戻された値
+- `done`: コードがまだ終わっていない場合は `false`, そうでなければ `true`.
 
-As of now, we got the first value only:
+現時点では、最初の値だけ取得しました:
 
 ![](generateSequence-2.png)
 
-Let's call `generator.next()` again. It resumes the execution and returns the next `yield`:
+再び `generator.next()` を呼びましょう。実行が再開し、次の `yield` を貸します。:
 
 ```js
 let two = generator.next();
@@ -70,7 +70,7 @@ alert(JSON.stringify(two)); // {value: 2, done: false}
 
 ![](generateSequence-3.png)
 
-And, if we call it the third time, then the execution reaches `return` statement that finishes the function:
+そして、3回目を呼び出すと、実行は関数を終了する `return` 文に到達します。
 
 ```js
 let three = generator.next();
@@ -80,25 +80,25 @@ alert(JSON.stringify(three)); // {value: 3, *!*done: true*/!*}
 
 ![](generateSequence-4.png)
 
-Now the generator is done. We should see it from `done:true` and process `value:3` as the final result.
+これでジェネレータが済みました。`done:true` でそれが判断でき、`value:3` を最終結果として処理します。
 
-New calls `generator.next()` don't make sense any more. If we make them, they return the same object: `{done: true}`.
+新たな `generator.next()` 呼び出しはこれ以上意味をなしません。それを行っても、同じオブジェクト `{done: true}` が返却されます。
 
-There's no way to "roll back" a generator. But we can create another one by calling `generateSequence()`.
+ジェネレータを "ロールバック" する方法はありません。しかし、`generateSequence()` 呼び出しによって、別の物を作ることはできます。
 
-So far, the most important thing to understand is that generator functions, unlike regular function, do not run the code. They serve as "generator factories". Running `function*` returns a generator, and then we ask it for values.
+これまでのところ、理解すべき最も重要なことは、ジェネレータ関数は通常の関数とは異なり、コードを実行しないことです。それらは "ジェネレータ工場(ファクトリー)" として機能します。 `function*` の実行はジェネレータを返し、その後、ジェネレータに値を要求します。
 
-```smart header="`function* f(…)` or `function *f(…)`?"
-That's a minor religious question, both syntaxes are correct.
+```smart header="`function* f(…)` それとも `function *f(…)`?"
+これは軽い宗教的な質問で、両方の構文は正しいです。
 
-But usually the first syntax is preferred, as the star `*` denotes that it's a generator function, it describes the kind, not the name, so it should stick with the `function` keyword.
+しかし、アスタリスク `*`はジェネレータ関数であることを表し、名前ではなく種類を表すので、通常は最初の構文がより好まれます。したがって、`function` キーワードに付けてください。
 ```
 
-## Generators are iterable
+## ジェネレータは反復可能です
 
-As you probably already guessed looking at the `next()` method, generators are [iterable](info:iterable).
+おそらく `next()` メソッドを見て既に推測していると思いますが、ジェネレータは [反復可能(iterable)](info:iterable)です。
 
-We can get loop over values by `for..of`:
+`for..of` によって、値をループすることができます:
 
 ```js run
 function* generateSequence() {
@@ -110,15 +110,15 @@ function* generateSequence() {
 let generator = generateSequence();
 
 for(let value of generator) {
-  alert(value); // 1, then 2
+  alert(value); // 1, 次に 2
 }
 ```
 
-That's a much better-looking way to work with generators than calling `.next().value`, right?
+これは `.next().value` を呼び出すよりも、ジェネレータを操作するのにはるかに見栄えの良い方法ですね。
 
-...But please note: the example above shows `1`, then `2`, and that's all. It doesn't show `3`!
+...しかし、注意してください: 上の例では `1` が表示された後 `2` が表示され、それですべてです。`3` は表示されません!
 
-It's because for-of iteration ignores the last `value`, when `done: true`. So, if we want all results to be shown by `for..of`, we must return them with `yield`:
+これは、`done: true` のとき、for-of イテレーションは最後の `value` を無視するからです。なので、すべての結果を `for..of` で表示したい場合は、それらを `yield` で返さなければなりません:
 
 ```js run
 function* generateSequence() {
@@ -132,11 +132,11 @@ function* generateSequence() {
 let generator = generateSequence();
 
 for(let value of generator) {
-  alert(value); // 1, then 2, then 3
+  alert(value); // 1, 次に 2, 次に 3
 }
 ```
 
-Naturally, as generators are iterable, we can call all related functionality, e.g. the spread operator `...`:
+当然、ジェネレータは反復可能なので、スプレッド演算子`...` のような、関連するすべての機能を呼び出すことができます。:
 
 ```js run
 function* generateSequence() {
@@ -150,30 +150,30 @@ let sequence = [0, ...generateSequence()];
 alert(sequence); // 0, 1, 2, 3
 ```
 
-In the code above, `...generateSequence()` turns the iterable into array of items (read more about the spread operator in the chapter [](info:rest-parameters-spread-operator#spread-operator))
+上のコードでは、`...generateSequence()` は iterable をアイテムの配列に変換します(スプレッド演算子についてはチャプター [](info:rest-parameters-spread-operator#spread-operator)) を読んでください)。
 
-## Using generators instead of iterables
+## 反復可能(iterable)の代わりにジェネレータを使用する
 
-Some time ago, in the chapter [](info:iterable) we created an iterable `range` object that returns values `from..to`.
+少し前、チャプター [](info:iterable) で、値 `from..to` を返す反復可能な `range` オブジェクトを作りました。
 
-Here, let's remember the code:
+ここで、そのコードを思い出しましょう。:
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  // for..of calls this method once in the very beginning
+  // for..of は最初にこのメソッドを一度呼び出します
   [Symbol.iterator]() {
-    // ...it returns the iterator object:
-    // onward, for..of works only with that object, asking it for next values
+    // ...これは iterator オブジェクトを返します:
+    // 以降, for..of はそのオブジェクトでのみ機能し、次の値を要求します。
     return {
       current: this.from,
       last: this.to,
 
-      // next() is called on each iteration by the for..of loop
+      // next() は for..of ループの各イテレーションで呼ばれます
       next() {
-        // it should return the value as an object {done:.., value :...}
+        // 値をオブジェクトとして返す必要があります {done:.., value :...}
         if (this.current <= this.last) {
           return { done: false, value: this.current++ };
         } else {
@@ -187,7 +187,7 @@ let range = {
 alert([...range]); // 1,2,3,4,5
 ```
 
-Using a generator to make iterable sequences is so much more elegant:
+ジェネレータを使用して反復可能(iterable)のシーケンスを作るほうが、遥かにエレガントです:
 
 ```js run
 function* generateSequence(start, end) {
@@ -201,7 +201,7 @@ let sequence = [...generateSequence(1,5)];
 alert(sequence); // 1, 2, 3, 4, 5
 ```
 
-...But what if we'd like to keep a custom `range` object?
+...ですが、仮にカスタムの `range` オブジェクトを保持したいとしたらどうなるでしょうか？
 
 ## Converting Symbol.iterator to generator
 
