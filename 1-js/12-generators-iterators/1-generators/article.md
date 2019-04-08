@@ -203,16 +203,16 @@ alert(sequence); // 1, 2, 3, 4, 5
 
 ...ですが、仮にカスタムの `range` オブジェクトを保持したいとしたらどうなるでしょうか？
 
-## Converting Symbol.iterator to generator
+## Symbol.iterator からジェネレータへの変換
 
-We can get the best from both worlds by providing a generator as `Symbol.iterator`:
+ジェネレータを `Symbol.iterator` として提供することで、両方の世界からベストを得ることができます:
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  *[Symbol.iterator]() { // a shorthand for [Symbol.iterator]: function*()
+  *[Symbol.iterator]() { // [Symbol.iterator]: function*() の短縮記法
     for(let value = this.from; value <= this.to; value++) {
       yield value;
     }
@@ -222,39 +222,39 @@ let range = {
 alert( [...range] ); // 1,2,3,4,5
 ```
 
-The `range` object is now iterable.
+`range` オブジェクトはいま反復可能です。
 
-That works pretty well, because when `range[Symbol.iterator]` is called:
-- it returns an object (now a generator)
-- that has `.next()` method (yep, a generator has it)
-- that returns values in the form `{value: ..., done: true/false}` (check, exactly what generator does).
+これは非常に上手く機能します。なぜなら、`range[Symbol.iterator]` が呼ばれたとき、:
+- オブジェクトを返します(いまはジェネレータです)。
+- そのオブジェクトは `.next()` メソッドを持っています(そう、ジェネレータはそれを持っています)。
+- これは、`{value: ..., done: true/false}` の形式で値を返します。
 
-That's not a coincidence, of course. Generators aim to make iterables easier, so we can see that.
+もちろん、これは偶然ではありません。ジェネレータは iterable をより簡単にすることを目的としているので、そのようにすることができます。
 
-The last variant with a generator is much more concise than the original iterable code, and keeps the same functionality.
+ジェネレータを使用した最後のパターンは、元の iterable なコードよりも遥かに簡潔で、かつ同じ機能を提供します。
 
-```smart header="Generators may continue forever"
-In the examples above we generated finite sequences, but we can also make a generator that yields values forever. For instance, an unending sequence of pseudo-random numbers.
+```smart header="ジェネレータは永遠に続く可能性があります"
+上の例では、有限の数字列を生成しましたが、永遠に値を生成するジェネレータを作ることも可能です。例えば、終わりのない疑似乱数の列です。
 
-That surely would require a `break` in `for..of`, otherwise the loop would repeat forever and hang.
+それは必ず `for..of` の中で `break` を必要とします。そうでなければ、ループは永遠に繰り返され、ハングします。
 ```
 
-## Generator composition
+## ジェネレータの合成
 
-Generator composition is a special feature of generators that allows to transparently "embed" generators in each other.
+ジェネレータの合成は、ジェネレータ同士を透過的に "埋め込む" ことを可能にするジェネレータの特別な機能です。
+例えば、次のシーケンスを生成したいとします。
 
-For instance, we'd like to generate a sequence of:
-- digits `0..9` (character codes 48..57),
-- followed by alphabet letters `a..z` (character codes 65..90)
-- followed by uppercased letters `A..Z` (character codes 97..122)
+- 数字 `0..9` (文字コード 48..57)
+- 大文字の `A..Z` が続く(文字コード 65..90)
+- アルファベット文字 `a..z` が続く(文字コード 97..122)
 
-Then we plan to create passwords by selecting characters from it (could add syntax characters as well), but need to generate the sequence first.
+次に、そこから選択した文字でパスワードを作成することを考えます(同様にして構文文字を追加することも可能です)が、最初にシーケンスを生成する必要があります。
 
-We already have `function* generateSequence(start, end)`. Let's reuse it to deliver 3 sequences one after another, together they are exactly what we need.
+すでに `function* generateSequence(start, end)` があるので、3つのシーケンスを順に作りだすのに、これを再利用しましょう。
 
-In a regular function, to combine results from multiple other functions, we call them, store the results, and then join at the end.
+通常の関数では、複数の別々の関数からの結果をまとめるためには、それらを呼び出し、結果を格納し、最後に結合します。
 
-For generators, we can do better, like this:
+ジェネレータの場合は、次のようによりスマートに行うことができます:
 
 ```js run
 function* generateSequence(start, end) {
@@ -285,9 +285,9 @@ for(let code of generatePasswordCodes()) {
 alert(str); // 0..9A..Za..z
 ```
 
-The special `yield*` directive in the example is responsible for the composition. It *delegates* the execution to another generator. Or, to say it simple, it runs generators and transparently forwards their yields outside, as if they were done by the calling generator itself.
+この例にある特別な `yield*` ディレクティブは合成を担当します。これは、別のジェネレータに実行を *委譲(デリゲート)* します。あるいは、単純に言うと、ジェネレータを実行し、あたかもそれらが呼び出し元のジェネレータ自体によって行われたかのように、それらの yield を外部に透過的に転送します。
 
-The result is the same as if we inlined the code from nested generators:
+結果は、入れ子のジェネレータのコードがインライン展開された場合と同じです。:
 
 ```js run
 function* generateSequence(start, end) {
@@ -318,26 +318,26 @@ for(let code of generateAlphaNum()) {
 alert(str); // 0..9A..Za..z
 ```
 
-A generator composition is a natural way to insert a flow of one generator into another.
+ジェネレータの合成は、あるジェネレータのフローを別のジェネレータに挿入するための、自然な方法です。
 
-It works even if the flow of values from the nested generator is infinite. It's simple and doesn't use extra memory to store intermediate results.
+入れ子のジェネレータからの値のフローが無限の場合でも動作します。それはシンプルで中間結果を格納するための余分なメモリを必要としません。
 
-## "yield" is a two-way road
+## "yield" は双方向
 
-Till this moment, generators were like "iterators on steroids". And that's how they are often used.
+ここまで、ジェネレータは "強化されたイテレータ" のようでした。これはよく利用される方法です。
 
-But in fact they are much more powerful and flexible.
+しかし、実際にはジェネレータはより強力で柔軟です。
 
-That's because `yield` is a two-way road: it not only returns the result outside, but also can pass the value inside the generator.
+なぜなら、`yield` は双方向だからです: 結果を外部に返すだけでなく、ジェネレータ内部に値を渡す事もできます。
 
-To do so, we should call `generator.next(arg)`, with an argument. That argument becomes the result of `yield`.
+そうするためには、引数を持つ `generator.next(arg)` を呼び出す必要があります。この引数は `yield` の結果になります。
 
-Let's see an example:
+例を見てみましょう:
 
 ```js run
 function* gen() {
 *!*
-  // Pass a question to the outer code and wait for an answer
+  // 質問を外側のコードに渡して答えを待ちます
   let result = yield "2 + 2?"; // (*)
 */!*
 
@@ -346,27 +346,27 @@ function* gen() {
 
 let generator = gen();
 
-let question = generator.next().value; // <-- yield returns the value
+let question = generator.next().value; // <-- yield は値を返します
 
-generator.next(4); // --> pass the result into the generator  
+generator.next(4); // --> 結果をジェネレータに渡します
 ```
 
 ![](genYield2.png)
 
-1. The first call `generator.next()` is always without an argument. It starts the execution and returns the result of the first `yield` ("2+2?"). At this point the generator pauses the execution (still on that line).
-2. Then, as shown at the picture above, the result of `yield` gets into the `question` variable in the calling code.
-3. On `generator.next(4)`, the generator resumes, and `4` gets in as the result: `let result = 4`.
+1. 最初の呼び出し `generator.next()` は常に引数なしです。実行を開始し、最初の `yield` ("2+2?") の結果を返します。この時点で、ジェネレータは実行を一時停止します(依然としてその行にいます)。
+2. 次に、上の図にあるように、`yield` の結果は呼び出しコードの `question` 変数に入ります。
+3. `generator.next(4)` でジェネレータが再開し、結果として `4` が入ります: `let result = 4`
 
-Please note, the outer code does not have to immediately call`next(4)`. It may take time to calculate the value. This is also a valid code:
+外部のコードはすぐに `next(4)` を呼び出す必要はないことに注目してください。計算に時間がかかる場合があります。これも有効なコードです。:
 
 ```js
-// resume the generator after some time
+// ある時間経過後にジェネレータを再開する
 setTimeout(() => generator.next(4), 1000);
 ```
 
-The syntax may seem a bit odd. It's quite uncommon for a function and the calling code to pass values around to each other. But that's exactly what's going on.
+構文は少し変に見えるかもしれません。関数と呼び出しコードがお互いに値を渡し合うことはめったにありません。しかし、それがまさに起こっていることです。
 
-To make things more obvious, here's another example, with more calls:
+より明白にするために、これは別の例です:
 
 ```js run
 function* gen() {
@@ -388,27 +388,27 @@ alert( generator.next(4).value ); // "3 * 3?"
 alert( generator.next(9).done ); // true
 ```
 
-The execution picture:
+実行の図です:
 
 ![](genYield2-2.png)
 
-1. The first `.next()` starts the execution... It reaches the first `yield`.
-2. The result is returned to the outer code.
-3. The second `.next(4)` passes `4` back to the generator as the result of the first `yield`, and resumes the execution.
-4. ...It reaches the second `yield`, that becomes the result of the generator call.
-5. The third `next(9)` passes `9` into the generator as the result of the second `yield` and resumes the execution that reaches the end of the function, so `done: true`.
+1. まず、`.next()` は実行を開始します。そして最初の `yield` に到達します。
+2. 結果は外部のコードに返却されます。
+3. 2つ目の `.next(4)` は、`4` を最初の `yield` の結果としてジェネレータに戻し、実行を再開します。
+4. ...2つ目の `yield` に到達します。これはジェネレータ呼び出しの結果になります。
+5. 3つ目の `.next(9)` 2つ目の `yield` の結果として `9` をジェネレータに渡し実行を再開します。そして関数の終わりに到達するので、`done: true` です。
 
-It's like a "ping-pong" game. Each `next(value)` (excluding the first one) passes a value into the generator, that becomes the result of the current `yield`, and then gets back the result of the next `yield`.
+これは "ピンポン" ゲームのようです。各 `next(value)` (最初のものを除く) はジェネレータに値を渡し、それは現在の `yield` の結果になり、次の `yield` の結果を戻します。
 
 ## generator.throw
 
-As we observed in the examples above, the outer code may pass a value into the generator, as the result of `yield`.
+上の例で見たように、外部のコードは `yield` の結果として値をジェネレータに渡す可能性があります。
 
-...But it can also initiate (throw) an error there. That's natural, as an error is a kind of result.
+...しかし、そこでエラーを起こす(スローする)こともできます。エラーも結果の1つなので、これは自然なことです。
 
-To pass an error into a `yield`, we should call `generator.throw(err)`. In that case, the `err` is thrown in the line with that `yield`.
+エラーを `yield` に渡すには、`generator.throw(err)` を呼び出す必要があります。この場合、`err` は `yield` のある行に投げられます。
 
-For instance, here the yield of `"2 + 2?"` leads to an error:
+例えば、ここで `"2 + 2?"` の yield はエラーになります:
 
 ```js run
 function* gen() {
@@ -417,7 +417,7 @@ function* gen() {
 
     alert("The execution does not reach here, because the exception is thrown above");
   } catch(e) {
-    alert(e); // shows the error
+    alert(e); // エラーを表示します
   }
 }
 
@@ -430,15 +430,15 @@ generator.throw(new Error("The answer is not found in my database")); // (2)
 */!*
 ```
 
-The error, thrown into the generator at the line `(2)` leads to an exception in the line `(1)` with `yield`. In the example above, `try..catch` catches it and shows.
+エラーは、行 `(2)` でジェネレータにスローされ、`yield` のある行 `(1)` で例外となります。上の例では、`try..catch` がそれをキャッチし表示しています。
 
-If we don't catch it, then just like any exception, it "falls out" the generator into the calling code.
+キャッチしない場合、他の例外のように、ジェネレータは呼び出しコードで "落ちます"。
 
-The current line of the calling code is the line with `generator.throw`, labelled as `(2)`. So we can catch it here, like this:
+呼び出しコードの現在の行は、`(2)` とラベル付けされた `generator.throw` を持つ行です。なので、次のようにここでキャッチすることができます:
 
 ```js run
 function* generate() {
-  let result = yield "2 + 2?"; // Error in this line
+  let result = yield "2 + 2?"; // この行でエラー
 }
 
 let generator = generate();
@@ -449,21 +449,21 @@ let question = generator.next().value;
 try {
   generator.throw(new Error("The answer is not found in my database"));
 } catch(e) {
-  alert(e); // shows the error
+  alert(e); // エラーを表示します
 }
 */!*
 ```
 
-If we don't catch the error there, then, as usual, it falls through to the outer calling code (if any) and, if uncaught, kills the script.
+ここでエラーをキャッチしなければ、通常どおり、外部の呼び出しコード(あれば)へ渡され、キャッチされなければスクリプトが強制終了します。
 
-## Summary
+## サマリ
 
-- Generators are created by generator functions `function*(…) {…}`.
-- Inside generators (only) there exists a `yield` operator.
-- The outer code and the generator may exchange results via `next/yield` calls.
+- ジェネレータはジェネレータ関数 `function*(…) {…}` により生成されます。
+- ジェネレータ内部にのみ `yield` 演算子が存在します。
+- 外部のコードとジェネレータは `next/yield` 呼び出しを通して結果をやり取りすることができます。
 
-In modern Javascript, generators are rarely used. But sometimes they come in handy, because the ability of a function to exchange data with the calling code during the execution is quite unique.
+モダンな JavaScript では、ジェネレータはめったに使用されません。しかし、実行中に呼び出しコードとデータをやり取りする関数の機能は非常にユニークであるため、便利なときがあります。
 
-Also, in the next chapter we'll learn async generators, which are used to read streams of asynchronously generated data in `for` loop.
+また、次のチャプターでは、非同期のジェネレータについて学びます。それは `for` ループで非同期的に生成されたデータをのストリームを読むのに使われます。
 
-In web-programming we often work with streamed data, e.g. need to fetch paginated results, so that's a very important use case.
+web プログラミングでは、しばしばストリーミングデータを扱います。e.g. ページングされた結果を取得する必要があるため、これはとても重要なユースケースです。
