@@ -1,29 +1,29 @@
 
-# Pseudo-random generator
+# 疑似乱数ジェネレータ
 
-There are many areas where we need random data.
+ランダムデータが必要となる多くの場面があります。
 
-One of them is testing. We may need random data: text, numbers etc, to test things out well.
+その1つはテストです。テキスト、数値など、上手くテストを行うためにはランダムなデータが必要になります。
 
-In Javascript, we could use `Math.random()`. But if something goes wrong, we'd like to be able to repeat the test, using exactly the same data.
+JavaScript では `Math.random()` を使うことができます。しかし、何か問題が起きた場合、まったく同じデータを使用して繰り返しテストができればよいです。
 
-For that, so called "seeded pseudo-random generators" are used. They take a "seed", the first value, and then generate next ones using a formula. So that the same seed yields the same sequence, and hence the whole flow is easily reproducible. We only need to remember the seed to repeat it.
+そのために、"シード疑似乱数ジェネレータ" と呼ばれるものが使われます。それらは最初の値である "シード(種)" を取り、以降公式を使って次の値を生成します。同じシードは同じ一覧の数列を生成するので、フロー全体を簡単に再現することができます。繰り返すのに覚えておく必要があるのはシードだけです。
 
-An example of such formula, that generates somewhat uniformly distributed values:
+これは、このような公式の例で、幾分か一様に分布した値を生成します。:
 
 ```
 next = previous * 16807 % 2147483647
 ```
 
-If we use `1` as the seed, the values will be:
+シードに `1` を使うと、値は次のようになります:
 1. `16807`
 2. `282475249`
 3. `1622650073`
-4. ...and so on...
+4. ...など...
 
-The task is to create a generator function `pseudoRandom(seed)` that takes `seed` and creates the generator with this formula.
+このタスクは、`seed` を取り、この式でジェネレータを生成するジェネレータ関数 `pseudoRandom(seed)` を作成することです。
 
-Usage example:
+使用例:
 
 ```js
 let generator = pseudoRandom(1);
