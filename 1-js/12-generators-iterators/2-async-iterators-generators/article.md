@@ -1,35 +1,36 @@
 
-# Async iteration and generators
+# 非同期イテレーションとジェネレータ
 
-Asynchronous iterators allow to iterate over data that comes asynchronously, on-demand.
+非同期イテレーションを使用すると、要求に応じて非同期に来るデータに対して反復処理することができます。
 
-For instance, when we download something chunk-by-chunk, or just expect events to come asynchronously and would like to iterate over them -- async iterators and generators may come in handy. Let's see a simple example first, to grasp the syntax, and then review a real-life use case.
+例えば、チャンクごとに何かをダウンロードしたり、単に非同期的に発生するイベントを待ち受け、それらをイテレートしたい場合、非同期イテレーションとジェネレータが役に立つかもしれません。
+最初に単純な例を見て構文を把握し、次に実際のユースケースを見ていきましょう。
 
-## Async iterators
+## 非同期イテレータ
 
-Asynchronous iterators are totally similar to regular iterators, with a few syntactic differences.
+非同期イテレータは通常のイテレータと本当に似ていますが、いくつか構文的な違いがあります。
 
-"Regular" iterable object from the chapter <info:iterable> look like this:
+チャプター <info:iterable> での "通常の" 反復可能オブジェクトは、次のようなものです:
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  // for..of calls this method once in the very beginning
+  // for..of は最初に一度だけこのメソッドを呼び出します
 *!*
   [Symbol.iterator]() {
 */!*
-    // ...it returns the iterator object:
-    // onward, for..of works only with that object, asking it for next values
+    // ...イテレータオブジェクトを返します:
+    // 以降、for..of はそのオブジェクトとのみ動作し、次の値を要求します
     return {
       current: this.from,
       last: this.to,
 
-      // next() is called on each iteration by the for..of loop
+      // next() は for..of ループによる各イテレーションで呼ばれます
 *!*
       next() { // (2)
-        // it should return the value as an object {done:.., value :...}
+        // 値をオブジェクトとして返す必要があります {done:.., value :...}
 */!*
         if (this.current <= this.last) {
           return { done: false, value: this.current++ };
@@ -46,38 +47,38 @@ for(let value of range) {
 }
 ```
 
-If necessary, please refer to the [chapter about iterables](info:iterable) for details about regular iterators.
+必要であれば、通常のイテレータの詳細について [反復可能(iterable)に関するチャプター](info:iterable) を参照してください。
 
-To make the object iterable asynchronously:
-1. We need to use `Symbol.asyncIterator` instead of `Symbol.iterator`.
-2. `next()` should return a promise.
-3. To iterate over such an object, we should use `for await (let item of iterable)` loop.
+オブジェクトを非同期的に反復可能にするには、:
+1. `Symbol.iterator` の代わりに、`Symbol.asyncIterator` を使う必要があります。
+2. `next()` は promise を返す必要があります。
+3. このようなオブジェクトをイテレートするには、`for await (let item of iterable)` ループを使用します。
 
-Let's make an iterable `range` object, like the one before, but now it will return values asynchronously, one per second:
+以前のように、反復可能な `range` オブジェクトを作成しましょう。しかし、今度は1秒毎に値を非同期的に返します。:
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  // for await..of calls this method once in the very beginning
+  // for..of は最初に一度だけこのメソッドを呼び出します
 *!*
   [Symbol.asyncIterator]() { // (1)
 */!*
-    // ...it returns the iterator object:
-    // onward, for await..of works only with that object, asking it for next values
+    // ...イテレータオブジェクトを返します:
+    // 以降、for..of はそのオブジェクトとのみ動作し、次の値を要求します
     return {
       current: this.from,
       last: this.to,
 
-      // next() is called on each iteration by the for..of loop
+      // next() は for..of ループによる各イテレーションで呼ばれます
 *!*
       async next() { // (2)
-        // it should return the value as an object {done:.., value :...}
-        // (automatically wrapped into a promise by async)
+        // 値をオブジェクトとして返す必要があります {done:.., value :...}
+        // (async により、自動的に promise にラップされます)
 */!*
 
-        // can use await inside, do async stuff:
+        // 非同期のことをするのに、内部で await が使えます:
         await new Promise(resolve => setTimeout(resolve, 1000)); // (3)
 
         if (this.current <= this.last) {
@@ -101,31 +102,31 @@ let range = {
 })()
 ```
 
-As we can see, the components are similar to regular iterators:
+ご覧の通り、構成は通常のイテレータと似ています。:
 
-1. To make an object asynchronously iterable, it must have a method `Symbol.asyncIterator` `(1)`.
-2. It must return the object with `next()` method returning a promise `(2)`.
-3. The `next()` method doesn't have to be `async`, it may be a regular method returning a promise, but `async` allows to use `await` inside. Here we just delay for a second `(3)`.
-4. To iterate, we use `for await(let value of range)` `(4)`, namely add "await" after "for". It calls `range[Symbol.asyncIterator]()` once, and then its `next()` for values.
+1. オブジェクトを非同期的に反復可能にするために、`Symbol.asyncIterator` を持っていなければなりません。`(1)` 
+2. それは primsie を返す `next()` メソッドを持つオブジェクトを返す必要があります。`(2)`
+3. `next()` メソッドは `async` である必要はなく、promise を返す通常のメソッドかもしれませんが、`async` は中で `await` を使うことを可能にします。ここでは単に1秒だけ遅延させています。`(3)`
+4. イテレートするために、`for await(let value of range)` `(4)` を使います。すなわち、"for" の後に "await" を追加します。これは `range[Symbol.asyncIterator]()` を一度だけ呼び出し、値に対して `next()` を呼び出します。
 
-Here's a small cheatsheet:
+これは小さなチートシートです:
 
-|       | Iterators | Async iterators |
+|       | イテレータ | 非同期イテレータ |
 |-------|-----------|-----------------|
-| Object method to provide iteraterable | `Symbol.iterator` | `Symbol.asyncIterator` |
-| `next()` return value is              | any value         | `Promise`  |
-| to loop, use                          | `for..of`         | `for await..of` |
+| 反復可能を提供するオブジェクトメソッド | `Symbol.iterator` | `Symbol.asyncIterator` |
+| `next()` が返す値は              | 任意の値         | `Promise`  |
+| ループするのに使用するものは                          | `for..of`         | `for await..of` |
 
 
-````warn header="The spread operator doesn't work asynchronously"
-Features that require regular, synchronous iterators, don't work with asynchronous ones.
+````warn header="スプレッド演算子は非同期には動作しません"
+通常の、同期的なイテレータを要する機能は、非同期イテレータでは動作しません。
 
-For instance, a spread operator won't work:
+例えば、スプレッド演算子は動作しません:
 ```js
 alert( [...range] ); // Error, no Symbol.iterator
 ```
 
-That's natural, as it expects to find `Symbol.iterator`, same as `for..of` without `await`.
+`await` なしの `for..of` と同じで、`Symbol.iterator` を見つけることを期待しているので、これは当然の結果です。
 ````
 
 ## Async generators
