@@ -129,11 +129,11 @@ alert( [...range] ); // Error, no Symbol.iterator
 `await` なしの `for..of` と同じで、`Symbol.iterator` を見つけることを期待しているので、これは当然の結果です。
 ````
 
-## Async generators
+## 非同期ジェネレータ
 
-Javascript also provides generators, that are also iterable.
+JavaScript が提供するジェネレータも反復可能です。
 
-Let's recall a sequence generator from the chapter [](info:generators). It generates a sequence of values from `start` to `end` (could be anything else):
+チャプター [](info:generators) にあった、ジェネレータを思い出してください。これは `start` から `end` までの一連の値を生成します。:
 
 ```js run
 function* generateSequence(start, end) {
@@ -147,12 +147,11 @@ for(let value of generateSequence(1, 5)) {
 }
 ```
 
+通常、ジェネレータの中では `await` は使うことができません。すべての値は同期的にこなければなりません。
 
-Normally, we can't use `await` in generators. All values must come synchronously: there's no place for delay in `for..of`.
+しかし、仮にジェネレータ本体で `await` の利用が必要な場合はどうすればよいでしょうか？例えば、ネットワークリクエストの実行です。
 
-But what if we need to use `await` in the generator body? To perform network requests, for instance.
-
-No problem, just prepend it with `async`, like this:
+問題ありません、次のように `async` をその前に置くだけです。:
 
 ```js run
 *!*async*/!* function* generateSequence(start, end) {
@@ -160,7 +159,7 @@ No problem, just prepend it with `async`, like this:
   for (let i = start; i <= end; i++) {
 
 *!*
-    // yay, can use await!
+    // await が使えます!
     await new Promise(resolve => setTimeout(resolve, 1000));
 */!*
 
@@ -179,21 +178,21 @@ No problem, just prepend it with `async`, like this:
 })();
 ```
 
-Now we have an the async generator, iteratable with `for await...of`.
+これで `for await...of` で反復可能な非同期ジェネレータができました。
 
-It's indeed very simple. We add the `async` keyword, and the generator now can use `await` inside of it, rely on promises and other async functions.
+これはとてもシンプルです。`async` キーワードを追加すれは、ジェネレータは中で `await` が使えるようになり、promise や他の非同期関数と上手く機能します。
 
-Technically, another the difference of an async generator is that its `generator.next()` method is now asynchronous also, it returns promises.
+技術的には、非同期ジェネレータのもう1つの違いは、その `generator.next()` メソッドも非同期になり、promise を返すことです。
 
-Instead of `result = generator.next()` for a regular, non-async generator, values can be obtained like this:
+通常の非同期でないジェネレータでは、`result = generator.next()` の代わりに、次のようにして値を取得することができます。:
 
 ```js
 result = await generator.next(); // result = {value: ..., done: true/false}
 ```
 
-## Iterables via async generators
+## 非同期ジェネレータを介した反復可能(iterable)
 
-When we'd like to make an object iterable, we should add `Symbol.iterator` to it.
+反復可能なオブジェクトを作りたいときは、`Symbol.iterator` を追加します。
 
 ```js
 let range = {
@@ -205,16 +204,16 @@ let range = {
 }
 ```
 
-A common practice for `Symbol.iterator` is to return a generator, rather than a plain object with `next` as in the example before.
+`Symbol.iterator` の一般的なプラクティスは、以前の例にあるような `next` をもつ普通のオブジェクトよりも、ジェネレータを返すことです。
 
-Let's recall an example from the chapter [](info:generators):
+チャプター [](info:generators) の例を思い出しましょう。:
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  *[Symbol.iterator]() { // a shorthand for [Symbol.iterator]: function*()
+  *[Symbol.iterator]() { // [Symbol.iterator]: function*() の簡略記法
     for(let value = this.from; value <= this.to; value++) {
       yield value;
     }
@@ -226,9 +225,9 @@ for(let value of range) {
 }
 ```
 
-Here a custom object `range` is iterable, and the generator `*[Symbol.iterator]` implements the logic for listing values.
+ここで、カスタムオブジェクト `range` は反復可能で、ジェネレータ `*[Symbol.iterator]` は値をリストするロジックを実装します。
 
-If we'd like to add async actions into the generator, then we should replace `Symbol.iterator` with async `Symbol.asyncIterator`:
+もしジェネレータの中に非同期のアクションを追加したい場合、`Symbol.iterator` を非同期の `Symbol.asyncIterator` に置き換える必要があります。:
 
 ```js run
 let range = {
@@ -236,11 +235,11 @@ let range = {
   to: 5,
 
 *!*
-  async *[Symbol.asyncIterator]() { // same as [Symbol.asyncIterator]: async function*()
+  async *[Symbol.asyncIterator]() { // [Symbol.asyncIterator]: async function*() と同じ
 */!*
     for(let value = this.from; value <= this.to; value++) {
 
-      // make a pause between values, wait for something  
+      // 各値の間で一時停止を設ける
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       yield value;
@@ -257,33 +256,33 @@ let range = {
 })();
 ```
 
-Now values come with a delay of 1 second between them.
+これで、値は繰り返し毎に1秒の遅延で来ます。
 
-## Real-life example
+## 実例
 
-So far we've seen simple examples, to gain basic understanding. Now let's review a real-life use case.
+これまで、私たちは基本を理解するために簡単な例を見てきました。ここでは実際のユースケースを見ていきましょう。
 
-There are many online APIs that deliver paginated data. For instance, when we need a list of users, then we can fetch it page-by-page: a request returns a pre-defined count (e.g. 100 users), and provides an URL to the next page.
+ページング機能を持つデータを提供する多くのオンラインAPIがあります。例えば、ユーザの一覧が必要なとき、ページ毎に取得することができます。: リクエストは事前に定義されたカウント(e.g. 100 ユーザ)のユーザ情報を返し、次のページへの URL を提供します。
 
-The pattern is very common, it's not about users, but just about anything. For instance, Github allows to retrieve commits in the same, paginated fasion:
+このパターンは非常に一般的で、ユーザに限ったものではありません。例えば、Github で同じようにページングの形式でコミットを取得することができます。:
 
-- We should make a request to URL in the form `https://api.github.com/repos/<repo>/commits`.
-- It responds with a JSON of 30 commits, and also provides a link to the next page in the `Link` header.
-- Then we can use that link for the next request, to get more commits, and so on.
+- `https://api.github.com/repos/<repo>/commits` の形式でURLをリクエストします。
+- 30 コミット分の JSON が返却され、`Link` ヘッダに次のページへのリンクも提供します。
+- その後、そのリンクをより多くのコミットを取得するための次のリクエストとして使用したりすることができます。
 
-What we'd like to have is an iterable source of commits, so that we could use it like this:
+私たちがほしいのは、次のように使うことができる反復可能なコミットの情報源です。:
 
 ```js
-let repo = 'iliakan/javascript-tutorial-en'; // Github repository to get commits from
+let repo = 'iliakan/javascript-tutorial-en'; // コミットを取得する Github リポジトリ
 
 for await (let commit of fetchCommits(repo)) {
   // process commit
 }
 ```
 
-We'd like `fetchCommits` to get commits for us, making requests whenever needed. And let it care about all pagination stuff, for us it'll be a simple `for await..of`.
+必要に応じてリクエストを行い、`fetchCommits` がコミットを得るようにしたいです。そして、ページネーションのすべてのことを意識させてください。それはシンプルな `for await..of` になります。
 
-With async generators that's pretty easy to implement:
+非同期ジェネレータを使うと、実装はとても簡単です:
 
 ```js
 async function* fetchCommits(repo) {
@@ -291,30 +290,30 @@ async function* fetchCommits(repo) {
 
   while (url) {
     const response = await fetch(url, { // (1)
-      headers: {'User-Agent': 'Our script'}, // github requires user-agent header
+      headers: {'User-Agent': 'Our script'}, // github は user-agent ヘッダを要求します
     });
 
-    const body = await response.json(); // (2) parses response as JSON (array of commits)
+    const body = await response.json(); // (2) JSON として response をパース(コミットの配列)
 
-    // (3) the URL of the next page is in the headers, extract it
+    // (3) ヘッダにある次のページの URL を抽出
     let nextPage = response.headers.get('Link').match(/<(.*?)>; rel="next"/);
     nextPage = nextPage && nextPage[1];
 
     url = nextPage;
 
-    for(let commit of body) { // (4) yield commits one by one, until the page ends
+    for(let commit of body) { // (4) ページが終わるまで1つずつ yield commits
       yield commit;
     }
   }
 }
 ```
 
-1. We use the browser `fetch` method to download from a remote URL. It allows to supply authorization and other headers if needed, here Github requires `User-Agent`.
-2. The fetch result is parsed as JSON, that's again a `fetch`-specific method.
-3. We can get the next page URL from the `Link` header of the response. It has a special format, so we use a regexp for that. The next page URL may look like this: `https://api.github.com/repositories/93253246/commits?page=2`, it's generatd by Github itself.
-4. Then we yield all commits received, and when they finish -- the next `while(url)` iteration will trigger, making one more request.
+1. ブラウザの `fetch` メソッドを使ってリモートURLからダウンロードします。必要に応じて認証やその他のヘッダを提供することができます。ここでは Github は `User-Agent` を要求します。
+2. fetch の結果は JSON としてパースされます。これも `fetch` 固有のメソッドです。
+3. レスポンスの `Link` ヘッダから次のページの URL を取得することができます。それは特別なフォーマットを持っているので、そのための正規表現を使います。次のページの URL はこのようになります。: `https://api.github.com/repositories/93253246/commits?page=2`。これは Github 自身により生成されます。
+4. そして、受け取ったすべてのコミットを返し、それらが終了すると、次の `while(url)` イテレーションがトリガーされ、もう1つ要求を行います。
 
-An example of use (shows commit authors in console):
+使用例 (コンソールにコミット者を表示します):
 
 ```js run
 (async () => {
@@ -325,7 +324,7 @@ An example of use (shows commit authors in console):
 
     console.log(commit.author.login);
 
-    if (++count == 100) { // let's stop at 100 commits
+    if (++count == 100) { // 100 コミットで停止しましょう
       break;
     }
   }
@@ -333,30 +332,30 @@ An example of use (shows commit authors in console):
 })();
 ```
 
-That's just what we wanted. The internal pagination mechanics is invisible from the outside. For us it's just an async generator that returns commits.
+これは私たちが欲しかったものです。内部のページネーションの仕組みは外部からは見えません。我々にとって、それはコミットを返す非同期ジェネレータです。
 
-## Summary
+## サマリ
 
-Regular iterators and generators work fine with the data that doesn't take time to generate.
+通常のイテレータとジェネレータは生成に時間のかからないデータと上手く機能します。
 
-When we expect the data to come asynchronously, with delays, their async counterparts can be used, and `for await..of` instead of `for..of`.
+データが非同期に遅延ありでくることが想定される場合は、それらの非同期に対応したものを使用することができ、`for..of` の代わりに `for await..of` とします。
 
-Syntax differences between async and regular iterators:
+非同期と通常のイテレータの構文の違い:
 
-|       | Iterators | Async iterators |
+|       | イテレータ | 非同期イテレータ |
 |-------|-----------|-----------------|
-| Object method to provide iteraterable | `Symbol.iterator` | `Symbol.asyncIterator` |
-| `next()` return value is              | any value         | `Promise`  |
+| 反復可能を提供するオブジェクトメソッド | `Symbol.iterator` | `Symbol.asyncIterator` |
+| `next()` が返す値は              | 任意の値         | `Promise`  |
 
-Syntax differences between async and regular generators:
+非同期と通常のジェネレータの構文の違い:
 
-|       | Generators | Async generators |
+|       | ジェネレータ | 非同期ジェネレータ |
 |-------|-----------|-----------------|
-| Declaration | `function*` | `async function*` |
-| `generator.next()` returns              | `{value:…, done: true/false}`         | `Promise` that resolves to `{value:…, done: true/false}`  |
+| 宣言 | `function*` | `async function*` |
+| `generator.next()` が返却するもの              | `{value:…, done: true/false}`         | `{value:…, done: true/false}` に解決する `Promise` |
 
-In web-development we often meet streams of data, when it flows chunk-by-chunk. For instance, downloading or uploading a big file.
+Web 開発では、データがチャンクごとに流れるとき、データのストリームを扱うことがよくあります。例えば、大きなファイルのダウンロードやアップロードです。
 
-We could use async generators to process such data, but there's also another API called Streams, that may be more convenient, as it provides special interfaces to transform the data and to pass it from one stream to another (e.g. download from one place and immediately send elsewhere). But they are also more complex.
+非同期ジェネレータを使用して、このようなデータを処理することもできますが、Stream と呼ばれる別の API もあります。これは、データを変換してあるストリームから別のストリームに渡す特別なインターフェースを提供するため、より便利な場合があります(e.g ある場所からダウンロードして、すぐに別の場所に送信する場合)。しかし、これらはより複雑です。
 
-Streams API not a part of Javascript language standard. Streams and async generators complement each other, both are great ways to handle async data flows.
+Stream API は JavaScript 言語標準の一部ではありません。Stream と非同期ジェネレータは互いに補完しあい、どちらも非同期のデータフローを処理するのに優れた方法です。
