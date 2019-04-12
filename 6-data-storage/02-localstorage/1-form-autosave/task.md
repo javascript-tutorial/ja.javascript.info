@@ -1,10 +1,10 @@
 
-# Autosave a form field
+# フォームフィールドを自動保存する
 
-Create a `textarea` field that "autosaves" its value on every change.
+すべて変更毎に値を "自動保存" する `textarea` フィールドを作成してください。
 
-So, if the user occasionally closes the page, and opens it again, he'll find his unfinished input at place.
+これにより、利用者がページを閉じ、再度開いたときには、未完了の入力が表
 
-Like this:
+このようになります:
 
 [iframe src="solution" height=120]
