@@ -8,10 +8,12 @@ Please help us to make the translation better.
 - Choose an unchecked article you'd like to translate.
 - Create an issue to inform the maintainer that you're translating it.
 - Fork the repository, translate and send a PR when done.
-- Your name will appear in the contributors list at <https://ja.javascript.info/about#contributors> when PR is accepted.
 
+🎉 Thank you!
 
-Thank you!
+Your name and the contribution size will appear in the contributors list at <https://ja.javascript.info/about#contributors> when PR is accepted.
+
+P.S. The full list of languages can be found at <https://github.com/javascript-tutorial/translate>.
 
 ## Structure
 
