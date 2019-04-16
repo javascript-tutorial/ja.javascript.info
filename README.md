@@ -8,7 +8,6 @@ Please help us to make the translation better.
 - Choose an unchecked article you'd like to translate.
 - Create an issue to inform the maintainer that you're translating it.
 - Fork the repository, translate and send a PR when done.
-
 - Your name will appear in the contributors list at <https://ja.javascript.info/about#contributors> when PR is accepted.
 
 
