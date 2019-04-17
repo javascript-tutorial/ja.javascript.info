@@ -2,9 +2,15 @@
 # HTML/CSS
 最初に HTML/CSS を作成しましょう。
 
+<<<<<<< HEAD
 メニューはページ上のスタンドアロンのグラフィカルコンポーネントなので、単一の DOM 要素に配置するのが良いです。
 
 メニュー項目のリストは、リスト `ul/li` として配置することができます。
+=======
+A menu is a standalone graphical component on the page, so it's better to put it into a single DOM element.
+
+A list of menu items can be laid out as a list `ul/li`.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 これはその構造例です:
 

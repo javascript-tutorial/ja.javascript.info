@@ -9,9 +9,13 @@ libs:
 
 突然、`this` が正しく動作するのをやめます。この状況は初心者の開発者には典型的ですが、経験者でも同様に起こりえます。
 
+<<<<<<< HEAD
 [cut]
 
 ## "this" を失う 
+=======
+## Losing "this"
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 私たちはすでに、JavaScriptでは `this` を失うことが容易であることを知っています。 あるメソッドがオブジェクトから別の場所に渡されると、`this` は失われます。
 
@@ -45,7 +49,11 @@ setTimeout(f, 1000); // user コンテキストを失います
 
 ## 解決策 1: 囲む 
 
+<<<<<<< HEAD
 最もシンプルな解決策はラップされた関数を使うことです:
+=======
+The simplest solution is to use a wrapping function:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run
 let user = {
