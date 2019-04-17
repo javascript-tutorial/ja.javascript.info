@@ -1,49 +1,49 @@
-# The Modern JavaScript Tutorial in Japanese
+# 日本語版 Modern JavaScript Tutorial
 
-This repository hosts the translation of <https://javascript.info> in Japanese.
+このリポジトリは <https://javascript.info> の日本語翻訳版で、<https://ja.javascript.info> で公開されています。
 
-Please help us to make the translation better.
+翻訳をより良いものにするために、ご協力お願いします!
 
-- See the [issue](https://github.com/javascript-tutorial/ja.javascript.info/issues) named "Translate Progress".
-- Choose an unchecked article you'd like to translate.
-- Create an issue to inform the maintainer that you're translating it.
-- Fork the repository, translate and send a PR when done.
+- "Translate Progress" の [issue](https://github.com/javascript-tutorial/ja.javascript.info/issues) を見てください。
+- 未チェック(未翻訳を表します)のコンテンツの中で、翻訳したいコンテンツを選んでください。
+- 翻訳していることが分かるよう、issueを作成してください。
+- リポジトリを Fork し、翻訳を行い、できたら PR をしてください。
 
 🎉 Thank you!
 
-Your name and the contribution size will appear in the contributors list at <https://ja.javascript.info/about#contributors> when PR is accepted.
+コントリビューターの名前と翻訳した量は <https://ja.javascript.info/about#contributors> で見ることができます(PRがマージされると更新されます)。
 
-P.S. The full list of languages can be found at <https://github.com/javascript-tutorial/translate>.
+P.S. 翻訳されている他の言語の一覧は <https://github.com/javascript-tutorial/translate> にあります。
 
-## Structure
+## 構造
 
-Every chapter, an article or a task resides in its own folder.
+チャプター毎にフォルダが分かれており、その中に記事とタスクがあります。
 
-The folder is named `N-url`, where `N` – is the number for sorting (articles are ordered), and `url` is the URL-slug on the site.
+フォルダは `N-url` という名前になっており、`N` はソートのための番号です(記事はこの順番に並びます)。 `url` はサイト上の URL スラッグです。
 
-The folder has one of files:
+フォルダは次の1つ以上のファイルから成ります:
 
-- `index.md` for a section,
-- `article.md` for an article,
-- `task.md` for a task formulation (+`solution.md` with the solution text if any).
+- `index.md` セクション用
+- `article.md` 記事用
+- `task.md` タスク用(+ 他にあるとしたら解答用の `solution.md`)
 
-A file starts with the `# Title Header`, and then the text in Markdown-like format, editable in a simple text editor. 
+ファイルは `# Title Header` から始まり、Markdown のようなフォーマットでテキストが続きます。シンプルなテキストエディタで編集可能です。
 
-Additional resources and examples for the article or the task, are also in the same folder.
+記事やタスクで利用する追加のリソース(画像など)や例も同じフォルダにあります。
 
-## Translation Tips
+## 翻訳時の Tips
 
-The translation doesn't have to be word-by-word precise. It should be technically correct and explain well.
+翻訳は単語レベルで正確である必要はありません。技術的に正しく、分かりやすく説明されるべきです。
 
-If you see that the English version can be improved -- great, please send a PR to it.
+もし英語版の記事が改善できそうであれば、ぜひPRを送ってください。
 
-### Text in Code Blocks
+### コードブロック内のテキスト
 
-- Translate only comments.
-- Don't translate anything else -- strings, variables.
+- コメントだけを翻訳してください。
+- 文字列や変数など、コメント以外のものは翻訳しないでください。
 
 
-Example:
+例:
 
 ```js
 // Example
@@ -51,29 +51,28 @@ const text = "Hello, world";
 document.querySelector('.hello').innerHTML = text;
 ```
 
-✅ DO (translate comment):
+✅ DO (コメントを翻訳):
 
 ```js
-// Ejemplo
+// 例
 const text = 'Hello, world';
 document.querySelector('.hello').innerHTML = text;
 ```
 
-❌ DON'T (translate string or class):
+❌ DON'T (文字列やクラスの翻訳):
 
 ```js
-// Ejemplo
-const text = 'Hola mundo';
-// ".hello" is a class
-// DO NOT TRANSLATE
-document.querySelector('.hola').innerHTML = text;
+// 例
+const text = 'ハローワールド';
+// ".hello" は css クラスなので翻訳しません
+document.querySelector('.ハロー').innerHTML = text;
 ```
 
-### External Links
+### 外部リンク
 
-If an external link is to Wikipedia, e.g. `https://en.wikipedia.org/wiki/JavaScript`, and a version of that article exists in your language that is of decent quality, link to that version instead.
+外部リンクが Wikipedia (e.g. `https://en.wikipedia.org/wiki/JavaScript`)で、その記事の日本語版が存在し、かつそれなりの品質であれば、代わりにそのバージョンをリンクさせてください。
 
-Example:
+例:
 
 ```md
 [JavaScript](https://en.wikipedia.org/wiki/JavaScript) is a programming language.
@@ -85,13 +84,13 @@ Example:
 [JavaScript](https://es.wikipedia.org/wiki/JavaScript) es un lenguaje de programación.
 ```
 
-For links to MDN, that are only partially translated, also use the language-specific version.
+MDN へのリンクについては、部分的にしか翻訳されていない場合でも言語固有のバージョンを使用してください。
 
-If a linked article has no translated version, leave the link "as is".
+リンクされた記事に翻訳版がない場合は、「そのまま」リンクを残してください。
 
+## ローカルで動かす
 
-## Running locally
+このチュートリアルはローカルでも動かすことができ、その場ですぐに変更を確認することができます。
 
-You can run the tutorial locally, to immediately see the changes on-site.
+サーバは <https://github.com/javascript-tutorial/server> にあります。
 
-The server is at <https://github.com/javascript-tutorial/server>. 
