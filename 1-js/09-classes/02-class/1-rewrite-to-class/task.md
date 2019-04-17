@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# クラスで書き直す
+# Rewrite to class
 
-プロトタイプでの `Clock` クラスを、現代の "class" 構文で書き直してください。
+Rewrite the `Clock` class from prototypes to the modern "class" syntax.
 
-P.S. 時計はコンソールで動きます、開いて見てください。
+P.S. The clock ticks in the console, open it to see.

@@ -1,6 +1,10 @@
 # 配列
 
+<<<<<<< HEAD
 オブジェクトを使用すると、キー付きの値のコレクションを格納することができます。
+=======
+Objects allow you to store keyed collections of values. That's fine.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 しかし、実査には頻繁に *順序付されたコレクション* が必要であることがわかります。それは、1つ目、2つ目、3つ目... と言った要素であり、例えばユーザ、商品、HTML要素など何かのリストを格納します。
 
@@ -8,9 +12,13 @@
 
 順序付けされたコレクションを格納するために、`Array` と呼ばれる特別なデータ構造があります。
 
+<<<<<<< HEAD
 [cut]
 
 ## 宣言 
+=======
+## Declaration
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 空の配列を作る2つの構文があります:
 
@@ -106,7 +114,11 @@ let fruits = [
 
 配列は両方の操作をサポートします。
 
+<<<<<<< HEAD
 実践では、非常に頻繁にこれを見ます。例えば画面に表示が必要なメッセージのキューです。
+=======
+In practice we need it very often. For example, a queue of messages that need to be shown on-screen.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 配列の別のユースケースもあります -- [スタック(stack)](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) と呼ばれるデータ構造です。
 
@@ -123,7 +135,11 @@ let fruits = [
 
 スタックの場合、最新のプッシュされたアイテムが最初に受け取られます。これはLIFO（Last-In-First-Out）の原則とも呼ばれます。 キューの場合、FIFO（First-In-First-Out）があります。
 
+<<<<<<< HEAD
 JavaScriptの配列は、キューとスタックどちらとしても動作します。これらの要素を使用すると、要素を先頭または最後に追加/削除することができます。
+=======
+Arrays in JavaScript can work both as a queue and as a stack. They allow you to add/remove elements both to/from the beginning or the end. 
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 コンピュータサイエンスでは、それを許可するデータ構造を[両端キュー/デック(deque)](https://en.wikipedia.org/wiki/Double-ended_queue)と呼びます。
 
@@ -322,7 +338,11 @@ for (let key in arr) {
 
     ブラウザや他の環境では *配列のように見える* いわゆる "配列のような" オブジェクトがあります。つまり、それらは `length` とインデックスプロパティを持っています。しかし、それらは通常は必要のない他の非数値プロパティやメソッドも持っています。`for..in` ループはそれらもリストします。なので、もし配列のようなオブジェクトを処理する必要があるとき、それらの "余分な" プロパティが問題になる場合があります。
 
+<<<<<<< HEAD
 2. `for..in` ループは配列ではなく、汎用オブジェクトに対して最適化されているため、10から100倍遅くなります。もちろんそれでもとても速いです。高速化はボトルネックの場合にのみ問題なり、それ以外ではさほど重要でないこともあります。しかしそれでも私たちは違いに気をつけるべきです。
+=======
+2. The `for..in` loop is optimized for generic objects, not arrays, and thus is 10-100 times slower. Of course, it's still very fast. The speedup may only matter in bottlenecks or seem irrelevant. But still we should be aware of the difference.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 一般的に、配列に対しては `for..in` は使うべきではありません。
 
@@ -371,7 +391,11 @@ let arr = *!*new Array*/!*("Apple", "Pear", "etc");
 
 もし数値の１つの引数で `new Array` が呼ばれたとき、*アイテムはありませんが、与えられた長さを持った* 配列が作られます。
 
+<<<<<<< HEAD
 それがどのように墓穴を掘るか見てみましょう:
+=======
+Let's see how one can shoot themself in the foot:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run
 let arr = new Array(2); // [2] の配列を作成しますか？
@@ -432,7 +456,11 @@ alert( "1,2" + 1 ); // "1,21"
 
 ## サマリ 
 
+<<<<<<< HEAD
 配列はオブジェクトの特別な種類であり、順序付けされたデータ項目を格納するのに適しています。
+=======
+Array is a special kind of object, suited to storing and managing ordered data items.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 - 宣言:
 

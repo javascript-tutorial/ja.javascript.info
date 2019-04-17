@@ -7,9 +7,13 @@
 
 チャプター <info:type-conversions> では、プリミティブな数値、文字列や真偽値変換のルールを見てきました。しかしまだオブジェクトが残っています。ここまでのチュートリアルでメソッドとシンボルについて学んだので、今ならそれらを理解することができます。
 
+<<<<<<< HEAD
 [cut]
 
 オブジェクトの場合、すべてのオブジェクトは真偽値のコンテキストでは `true` になるため、真偽値への変換はありません。そのため、文字列と数値変換だけです。
+=======
+For objects, there's no to-boolean conversion, because all objects are `true` in a boolean context. So there are only string and numeric conversions.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 数値変換は、オブジェクトを減算したり数学的な関数を適用する時に発生します。例えば `Date` オブジェクト(チャプター <info:date> で説明されています)は減算することができ、 `date1 - date2` の結果は2つの日付間の時間差になります。
 

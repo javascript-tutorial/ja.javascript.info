@@ -4,9 +4,13 @@ JavaScriptでは、テキストデータは文字列として格納されます�
 
 文字列の内部のフォーマットは常に [UTF-16](https://en.wikipedia.org/wiki/UTF-16) であり、ページのエンコーディングとは関係ありません。
 
+<<<<<<< HEAD
 [cut]
 
 ## 引用符 
+=======
+## Quotes
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 引用符の種類を思い出してみましょう。
 
@@ -133,7 +137,11 @@ alert( `My\n`.length ); // 3
 ```warn header="`length` はプロパティです"
 いくつかの他の言語について知っている人は、単なる `str.length` の代わりに `str.length()` と呼び間違えることがありますが、それは動作しません。
 
+<<<<<<< HEAD
 `str.length` は数値プロパティであり、関数ではないことに注意してください。その後に括弧をつける必要はありません。
+=======
+Please note that `str.length` is a numeric property, not a function. There is no need to add parenthesis after it.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 ```
 
 ## 文字へのアクセス 
@@ -275,8 +283,13 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 */!*
 ```
 
+<<<<<<< HEAD
 ```smart header="`str.lastIndexOf(pos)`"
 文字列の最後から最初に向かって探す類似のメソッド [str.lastIndexOf(pos)](mdn:js/String/lastIndexOf) もあります。
+=======
+```smart header="`str.lastIndexOf(substr, position)`"
+There is also a similar method [str.lastIndexOf(substr, position)](mdn:js/String/lastIndexOf) that searches from the end of a string to its beginning.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 それは逆の順序でマッチする対象を列挙します。
 ```
@@ -443,15 +456,25 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
 
 | メソッド | 選択対象... | 負の値 |
 |--------|-----------|-----------|
+<<<<<<< HEAD
 | `slice(start, end)` | `start` から `end` まで | 負の値を許可します |
 | `substring(start, end)` | `start` と `end` の間 | 負の値は `0` 扱いです |
 | `substr(start, length)` | `start` から `length` 文字を取得 | 負の `start` を許可します |
+=======
+| `slice(start, end)` | from `start` to `end` (not including `end`) | allows negatives |
+| `substring(start, end)` | between `start` and `end` | negative values mean `0` |
+| `substr(start, length)` | from `start` get `length` characters | allows negative `start` |
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 
 ```smart header="どれを選ぶ?"
 これらすべて使えます。正確には、`substr` は小さな欠点があります: それは コアなJavaScriptの仕様ではなく、主に歴史的な理由から存在するブラウザ専用の機能を扱う Annex B で説明されています。なので、非ブラウザ環境ではサポートされていない可能性があります。ただ、実際にはほぼどこでも動作しています。
 
+<<<<<<< HEAD
 著者はほとんどのケースで `slice` を使っています。
+=======
+The author finds themself using `slice` almost all the time.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 ```
 
 ## 文字列比較 
@@ -549,8 +572,13 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 
 ## 内部, Unicode 
 
+<<<<<<< HEAD
 ```warn header="高度な知識"
 このセクションでは、文字列の内部構造について詳しく説明します。 この知識は、絵文字、珍しい数学的な象形文字やその他の珍しい記号を扱う予定の場合に便利です。
+=======
+```warn header="Advanced knowledge"
+The section goes deeper into string internals. This knowledge will be useful for you if you plan to deal with emoji, rare mathematical or hieroglyphic characters or other rare symbols.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 それらをサポートする予定がない場合には、このセクションはスキップしてもOKです。
 ```

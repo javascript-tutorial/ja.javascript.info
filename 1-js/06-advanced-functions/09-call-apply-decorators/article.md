@@ -3,9 +3,13 @@
 JavaScriptでは関数を扱う際、非常に柔軟性があります。関数は渡され、オブジェクトとして使われます。また、これらの間の呼び出しを *転送* したり、それらを *装飾(デコレータ)* することもできます。ここではそれらの方法を見ていきましょう。
 
 
+<<<<<<< HEAD
 [cut]
 
 ## 透過キャッシュ(Transparent caching) 
+=======
+## Transparent caching
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 CPU負荷は高いが、その結果が不変である関数 `slow(x)` を持っているとします。言い換えると、同じ `x` の場合、常に同じ結果が返ってきます。
 
@@ -71,7 +75,11 @@ alert( "Again: " + slow(2) ); // 前の行と同じ
 
 上で言及されたキャッシュデコレータはオブジェクトメソッドで動作するのには適していません。
 
+<<<<<<< HEAD
 例えば、下のコードでは、デコレーションの後、`worker.slow()` は動作を停止します:
+=======
+For instance, in the code below `worker.slow()` stops working after the decoration:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run
 // worker.slow のキャッシングを作成する
@@ -307,7 +315,11 @@ func.apply(context, args);   // apply を使うのと同じです
 
 したがって、これらの呼び出しはお互いを補完します。 反復可能(iterable) が期待されるところでは、 `call` が動作します。配列ライク(array-like)が期待される場合は `apply` が動作します。
 
+<<<<<<< HEAD
 また、`args` が 反復可能であり配列ライクである場合は、本当の配列のように、技術的にはどちらを使うことも可能ですが、`apply` は恐らくより高速です。なぜなら、1つの操作だからです。ほとんどのJavaScriptエンジンの内部の最適化は、 `call + spread` のペアよりも良いものです。
+=======
+And if `args` is both iterable and array-like, like a real array, then we technically could use any of them, but `apply` will probably be faster, because it's a single operation. Most JavaScript engines internally optimize it better than a pair `call + spread`.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 `apply` の最も重要な用途の1つは、次のように別の関数へ呼び出しを渡すことです。:
 

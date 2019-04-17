@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # 遅い解法
+=======
+# Slow solution
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 すべての可能性のあるサブ合計を計算することができます。
 
@@ -59,7 +63,11 @@ alert( getMaxSubSum([100, -9, 2, -3, 5]) ); // 100
 
 この解法は [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation) の時間の複雑さを持っています。言い換えると、もし配列のサイズが2倍に増加すると、アルゴリズムは4倍長くなります。
 
+<<<<<<< HEAD
 大きな配列(1000, 10000 またはより多くのアイテム)に対しては、このようなアルゴリズムは深刻なレベルで低速になる可能性があります。
+=======
+For big arrays (1000, 10000 or more items) such algorithms can lead to a serious sluggishness.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 # 早い解法
 
@@ -67,7 +75,7 @@ alert( getMaxSubSum([100, -9, 2, -3, 5]) ); // 100
 
 説明にあまりピンとこない場合は、コードを参照してください、それは十分短いです:
 
-```js run
+```js run demo
 function getMaxSubSum(arr) {
   let maxSum = 0;
   let partialSum = 0;
