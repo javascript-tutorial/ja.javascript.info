@@ -6,9 +6,13 @@
 
 ここでは、恐らくこの観点では最も機能が充実している Chrome を使います。
 
+<<<<<<< HEAD
 [cut]
 
 ## "sources" ペイン 
+=======
+## The "sources" pane
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 Chromeのバージョンによっては少し違って見えるかもしれませんが、そこが何かは明白でしょう。
 
@@ -27,9 +31,15 @@ Chromeのバージョンによっては少し違って見えるかもしれま�
 
 ここでは3つの領域が確認できます:
 
+<<<<<<< HEAD
 1. **リソース領域** html, JavaScript, css や、ページに紐付いているイメージなどを含むファイルがリストされます。
 2. **ソース領域** ソースコードを表示します。
 3. **情報と制御領域** これはデバッグのためで、この後見ていきます。
+=======
+1. The **Resources zone** lists HTML, JavaScript, CSS and other files, including images that are attached to the page. Chrome extensions may appear here too.
+2. The **Source zone** shows the source code.
+3. The **Information and control zone** is for debugging, we'll explore it soon.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 同じトグル <span class="devtools" style="background-position:-200px -76px"></span> を再びクリックすること、リソースの一覧やコードを隠すことができます。
 
@@ -45,7 +55,11 @@ Chromeのバージョンによっては少し違って見えるかもしれま�
 
 ## ブレイクポイント 
 
+<<<<<<< HEAD
 [example page](debugging/index.html) のコードの中で何が起こっているのか見てみましょう。`hello.js` で、行番号 `4` をクリックします。コードではなく、右にある `"4"` の数字です。
+=======
+Let's examine what's going on within the code of the [example page](debugging/index.html). In `hello.js`, click at line number `4`. Yes, right on the `4` digit, not on the code.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 これでブレイクポイントがセットできました。行 `8` の数字もクリックしましょう。
 
@@ -59,10 +73,18 @@ Chromeのバージョンによっては少し違って見えるかもしれま�
 
 右のペインでは、常にブレイクポイントの一覧を見ることができます。色々なファイルで多くのブレイクポイントを持っているときに役に立ちます。それらは次のようなことができます:
 
+<<<<<<< HEAD
 - コード中のブレイクポイントに素早く移動する(右ペインで移動したいブレイクポイントをクリック)
 - チェックを外すことで、一時的にブレイクポイントを無効にする
 - 右クリックから削除を選択することで、ブレイクポイントを削除する
 - ...など
+=======
+We can always find a list of breakpoints in the right pane. That's useful when we have many breakpoints in various files. It allows us to:
+- Quickly jump to the breakpoint in the code (by clicking on it in the right pane).
+- Temporarily disable the breakpoint by unchecking it.
+- Remove the breakpoint by right-clicking and selecting Remove.
+- ...And so on.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```smart header="条件付きのブレイクポイント"
 行番号の *右クリック* で *条件付きの* ブレイクポイントを作ることができます。与えられた式が真の場合にのみトリガします。
@@ -122,8 +144,13 @@ function hello(name) {
 
 右ペインの上部にそのボタンがあります。
 
+<<<<<<< HEAD
 <span class="devtools" style="background-position:-7px -76px"></span> -- 実行の継続, ホットキー `key:F8`.
 : 実行を再開します。もしも他にブレイクポイントがなければ、そのまま実行が継続され、デバッガの制御から外れます。
+=======
+<span class="devtools" style="background-position:-7px -76px"></span> -- continue the execution, hotkey `key:F8`.
+: Resumes the execution. If there are no additional breakpoints, then the execution just continues and the debugger loses control.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
     次の図は、それを行った後に見える画面です:
 
@@ -171,14 +198,25 @@ for (let i = 0; i < 5; i++) {
 
 ## サマリ 
 
+<<<<<<< HEAD
 これまで見てきた通り、スクリプトを一時停止するには主に3つの方法があります。
 1. ブレイクポイント
 2. `debugger` 構文
 3. エラー (開発者ツールを開き、ボタン <span class="devtools" style="background-position:-264px -4px"></span> を ON にしている場合)
+=======
+As we can see, there are three main ways to pause a script:
+1. A breakpoint.
+2. The `debugger` statements.
+3. An error (if dev tools are open and the button <span class="devtools" style="background-position:-264px -4px"></span> is "on").
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 これらにより変数を検査し実行が間違っている場所を確認することができます。
 
+<<<<<<< HEAD
 ここで説明した以上に、開発者ツールには多くのオプションがあります。完全なマニュアルは <https://developers.google.com/web/tools/chrome-devtools>です。
+=======
+There are many more options in developer tools than covered here. The full manual is at <https://developers.google.com/web/tools/chrome-devtools>.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 このチャプターの情報はデバッグを始めるには十分ですが、今後、特にブラウザの作業が多い場合は、上記のサイトを見て開発者ツールのより高度な機能を調べてください。
 

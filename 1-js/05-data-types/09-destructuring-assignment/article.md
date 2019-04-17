@@ -6,9 +6,13 @@ JavaScriptで最も使われる2つのデータ構造は `Object` と `Array` �
 
 *分割代入(Destructuring assignment)* は、配列またはオブジェクトの中身を複数の変数に代入できる特別な構文です。デストラクタリング(非構造化/構造の分解)は、多くのパラメータとデフォルト値を持つ複雑な関数でもうまく機能します。このチャプターでは、すぐにこれらがどのように処理されているかわかるでしょう。
 
+<<<<<<< HEAD
 [cut]
 
 ## Array の非構造化 
+=======
+## Array destructuring
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 配列を変数に分割する方法の例です:
 
@@ -33,8 +37,13 @@ alert(surname);  // Kantor
 let [firstName, surname] = "Ilya Kantor".split(' ');
 ```
 
+<<<<<<< HEAD
 ````smart header="\"分割\" は \"破壊的\" を意味しません"
 これは、項目を変数にコピーすることによって "非構造化(destructurizes)" するため、"分割代入(destructuring assignment)" と呼ばれています。 配列自体は変更されません。
+=======
+````smart header="\"Destructuring\" does not mean \"destructive\"."
+It's called "destructuring assignment," because it "destructurizes" by copying items into variables. But the array itself is not modified.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 これは、より短い書き方になります:
 ```js
@@ -44,6 +53,7 @@ let surname = arr[1];
 ```
 ````
 
+<<<<<<< HEAD
 ````smart header="最初の要素を無視する"
 配列の不要な要素は、余分なカンマをつけることで捨てることができます:
 
@@ -51,12 +61,25 @@ let surname = arr[1];
 *!*
 // 1番目、2番目の要素が不要の場合
 let [, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+=======
+````smart header="Ignore elements using commas"
+Unwanted elements of the array can also be thrown away via an extra comma:
+
+```js run
+*!*
+// second element is not needed
+let [firstName, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 */!*
 
 alert( title ); // Consul
 ```
 
+<<<<<<< HEAD
 上のコードでは、最初の2つの要素がスキップされ、3つ目は `title` に代入され、残りもスキップされています。
+=======
+In the code above, the second element of the array is skipped, the third one is assigned to `title`, and the rest of the array is also skipped.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 ````
 
 ````smart header="右辺は任意の反復可能(iterable)に対して動作します"
@@ -132,6 +155,7 @@ alert(name1); // Julius
 alert(name2); // Caesar
 
 *!*
+// Note that type of `rest` is Array.
 alert(rest[0]); // Consul
 alert(rest[1]); // of the Roman Republic
 alert(rest.length); // 2
@@ -150,6 +174,7 @@ let [firstName, surname] = [];
 */!*
 
 alert(firstName); // undefined
+alert(surname); // undefined
 ```
 
 値がなかった場合に "デフォルト" 値を使いたければ、`=` を使ってデフォルト値を指定することができます:
@@ -338,7 +363,11 @@ let title, width, height;
 }
 ```
 
+<<<<<<< HEAD
 コードブロックではないと JavaScript に示すためには、代入全体を括弧 `(...)` で囲む必要があります:
+=======
+To show JavaScript that it's not a code block, we can wrap the whole assignment in parentheses `(...)`:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run
 let title, width, height;
@@ -386,6 +415,8 @@ alert(item2);  // Donut
 
 左辺で言及されていなかった `extra` を除いた `options` オブジェクト全体が該当する変数に代入されます。
 
+Note that `size` and `items` itself is not destructured.
+
 ![](destructuring-complex.png)
 
 最終的には、`width`, `height`, `item1`, `item2` と、デフォルト値から `title` を得ます。
@@ -410,7 +441,11 @@ function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
 }
 ```
 
+<<<<<<< HEAD
 現実の問題の1つは、どうやって引数の順番を覚えるか、です。コードがしっかりドキュメント化されていれば、通常は IDE が助けてくれます。しかし、他にも問題があります。ほとんどのパタメータがデフォルトでOKの場合の関数の呼び方です。
+=======
+In real-life, the problem is how to remember the order of arguments. Usually IDEs try to help us, especially if the code is well-documented, but still... Another problem is how to call a function when most parameters are ok by default.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 こうなりますか?
 
@@ -480,8 +515,13 @@ function({
 ```js
 showMenu({});
 
+<<<<<<< HEAD
 // これはエラーになります
 showMenu();
+=======
+
+showMenu(); // this would give an error
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 ```
 
 これについては、非構造化対象全体のデフォルト値に `{}` を指定することで対応することができます:
@@ -506,7 +546,11 @@ showMenu(); // Menu 100 200
     let {prop : varName = default, ...} = object
     ```
 
+<<<<<<< HEAD
     これはプロパティ `prop` が変数 `varName` に代入され、もしこのようなプロパティが存在しない場合には `default` が使われることを意味します。
+=======
+    This means that property `prop` should go into the variable `varName` and, if no such property exists, then the `default` value should be used.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 - 配列構文:
 
@@ -514,6 +558,10 @@ showMenu(); // Menu 100 200
     let [item1 = default, item2, ...rest] = array
     ```
 
+<<<<<<< HEAD
     最初のアイテムは `item1` に行き、2つ目は `item2` に行きます。残りのすべてのアイテムは配列 `rest` になります。
+=======
+    The first item goes to `item1`; the second goes into `item2`, all the rest makes the array `rest`.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 - より複雑なケースでは、左辺は右辺と同じ構造を指定します。

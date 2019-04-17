@@ -9,14 +9,12 @@
 
 それらのメソッドは JavaScript の仕様の一部ではありません。しかしほとんどの環境は内部スケジューラをもち、それらのメソッドを提供します。特に、これらはすべてのブラウザと Node.JS でサポートされています。
 
-[cut]
-
 ## setTimeout
 
 構文:
 
 ```js
-let timerId = setTimeout(func|code, delay[, arg1, arg2...])
+let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...)
 ```
 
 パラメータ:
@@ -26,7 +24,11 @@ let timerId = setTimeout(func|code, delay[, arg1, arg2...])
 通常は関数です。歴史的な理由で、コードの文字列も渡すことができますが、推奨されません。
 
 `delay`
+<<<<<<< HEAD
 : 実行前の遅延時間で、ミリ秒単位です (1000 ms = 1 秒).
+=======
+: The delay before run, in milliseconds (1000 ms = 1 second), by default 0.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 `arg1`, `arg2`...
 : 関数の引数です(IE9-ではサポートされていません)
@@ -90,7 +92,11 @@ let timerId = setTimeout(...);
 clearTimeout(timerId);
 ```
 
+<<<<<<< HEAD
 下のコードでは、私たちは関数をスケジュールし、その後キャンセルしています。結果としては、何も起きません:
+=======
+In the code below, we schedule the function and then cancel it (changed our mind). As a result, nothing happens:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run no-beautify
 let timerId = setTimeout(() => alert("never happens"), 1000);
@@ -100,7 +106,11 @@ clearTimeout(timerId);
 alert(timerId); // 同じ 識別子 (キャンセル後 null にはなりません)
 ```
 
+<<<<<<< HEAD
 `alert` の出力から分かるように、ブラウザではタイマー識別子は数値です。他の環境では、それは他の何かの場合があります。例えば、Node.JS だと、追加メソッドを持つタイマーオブジェクトを返します。
+=======
+As we can see from `alert` output, in a browser the timer identifier is a number. In other environments, this can be something else. For instance, Node.JS returns a timer object with additional methods.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 改めて、それらのメソッドのための普遍的な仕様はありませんので問題ありません。
 
@@ -108,10 +118,14 @@ alert(timerId); // 同じ 識別子 (キャンセル後 null にはなりませ�
 
 ## setInterval
 
+<<<<<<< HEAD
 メソッド `setInterval` は `setTimeout` と同じ構文を持っています:
+=======
+The `setInterval` method has the same syntax as `setTimeout`:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js
-let timerId = setInterval(func|code, delay[, arg1, arg2...])
+let timerId = setInterval(func|code, [delay], [arg1], [arg2], ...)
 ```
 
 すべての引数が同じ意味です。しかし `setTimeout` とは異なり、関数を1回ではなく定期的に与えられた時間間隔で実行します。
@@ -153,11 +167,19 @@ let timerId = setTimeout(function tick() {
 }, 2000);
 ```
 
+<<<<<<< HEAD
 上の `setTimeout` は現在の実行の最後の `(*)` で次の呼び出しをスケジュールします。
 
 再帰的な `setTimeout` は `setInterval` よりも柔軟です。この方法は、現在の呼び出しの結果に応じて、次の呼び出しのスケジュールが異なる場合があります。
 
 例えば、5秒毎にデータを確認するためにサーバへリクエストを送るサービスを書く必要があるとします。しかし、サーバが高負荷である場合には、間隔を 10, 20, 40 秒... と言ったように増やす必用があります。
+=======
+The `setTimeout` above schedules the next call right at the end of the current one `(*)`.
+
+The recursive `setTimeout` is a more flexible method than `setInterval`. This way the next call may be scheduled differently, depending on the results of the current one.
+
+For instance, we need to write a service that sends a request to the server every 5 seconds asking for data, but in case the server is overloaded, it should increase the interval to 10, 20, 40 seconds...
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 これは、その疑似コードです:
 ```js
@@ -204,10 +226,15 @@ setTimeout(function run() {
 
 ![](setinterval-interval.png)
 
+<<<<<<< HEAD
 気づきましたか...？
+=======
+Did you notice?
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 **`setInterval` での `func` 呼び出し間の実際の遅延はコード内のそれよりも短いです!**
 
+<<<<<<< HEAD
 それは当然のことです、なぜなら `func` の実行にかかる時間はインターバルの一部を "消費" するためです。
 
 `func` の実行が予想していたよりも長くなり、100ms を超える可能性があります。
@@ -221,6 +248,21 @@ setTimeout(function run() {
 ![](settimeout-interval.png)
 
 **再帰的な `setInterval` は固定の遅延 (ここでは 100ms) を保証します。**
+=======
+That's normal, because the time taken by `func`'s execution "consumes" a part of the interval.
+
+It is possible that `func`'s execution turns out to be longer than we expected and takes more than 100ms.
+
+In this case the engine waits for `func` to complete, then checks the scheduler and if the time is up, runs it again *immediately*.
+
+In the edge case, if the function always executes longer than `delay` ms, then the calls will happen without a pause at all.
+
+And here is the picture for the recursive `setTimeout`:
+
+![](settimeout-interval.png)
+
+**The recursive `setTimeout` guarantees the fixed delay (here 100ms).**
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 新しい呼び出しは、以前の呼び出しの終わりに計画されるためです。
 
@@ -232,14 +274,22 @@ setTimeout(function run() {
 setTimeout(function() {...}, 100);
 ```
 
+<<<<<<< HEAD
 `setInterval` では `cancelInterval` が呼ばれるまで、関数はメモリ上に存在し続けます。
+=======
+For `setInterval` the function stays in memory until `clearInterval` is called.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 そこには副作用があります。関数は外部のレキシカル環境を参照するので、それが生きている間は外部の変数も生き続けます。それらは関数自身よりもはるかに多くのメモリを必要とする場合があります。従って、スケジュールされた機能がもう必要ないときは、たとえそれが非常に小さいとしても、それをキャンセルする方がいいです。
 ````
 
 ## setTimeout(...,0)
 
+<<<<<<< HEAD
 特別なユースケースがあります: `setTimeout(func, 0)` です。
+=======
+There's a special use case: `setTimeout(func, 0)`, or just `setTimeout(func)`.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 これは `func` をできるだけ速く実行するようスケジュールします。しかし、スケジューラは現在のコードが完了した後にそれを実行します。
 
@@ -248,7 +298,7 @@ setTimeout(function() {...}, 100);
 例えば、これは "Hello" を出力し、その後すぐに "World" を表示します。:
 
 ```js run
-setTimeout(() => alert("World"), 0);
+setTimeout(() => alert("World"));
 
 alert("Hello");
 ```
@@ -257,11 +307,19 @@ alert("Hello");
 
 ### CPUを必要とするタスクの分割
 
+<<<<<<< HEAD
 `setTimeout` を使ってCPUを必要とするタスクを分割するトリックがあります。
 
 たとえば、構文強調表示スクリプト（このページのコード例を色分けするために使用されます）はかなりCPUが重いです。 コードを強調表示するために、分析を実行し、多くの色の要素を作成し、文書に追加します。 ブラウザが "ハングアップ" することさえあり、それは容認できません。
 
 そこで、私たちは長いテキストを小さく分割することができます。`setTimeout(...,0)` を使って、最初の100行、次の100行を計画する、と言ったように。
+=======
+There's a trick to split CPU-hungry tasks using `setTimeout`.
+
+For instance, a syntax-highlighting script (used to colorize code examples on this page) is quite CPU-heavy. To highlight the code, it performs the analysis, creates many colored elements, adds them to the document -- for a big text that takes a lot. It may even cause the browser to "hang", which is unacceptable.
+
+So we can split the long text into pieces. First 100 lines, then plan another 100 lines using `setTimeout(..., 0)`, and so on.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 わかりやすくするために、より単純な例を考えてみましょう。 `1` から `1000000000` まで数える関数があります。
 
@@ -285,7 +343,11 @@ function count() {
 count();
 ```
 
+<<<<<<< HEAD
 ブラウザは "スクリプトが時間がかかりすぎている" 警告を出す場合があります。
+=======
+The browser may even show "the script takes too long" warning (but hopefully it won't, because the number is not very big).
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 入れ子の `setTimeout` を使ってジョブを分割しましょう:
 
@@ -304,7 +366,11 @@ function count() {
   if (i == 1e9) {
     alert("Done in " + (Date.now() - start) + 'ms');
   } else {
+<<<<<<< HEAD
     setTimeout(count, 0); // 新しい呼び出しをスケジュール (**)
+=======
+    setTimeout(count); // schedule the new call (**)
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
   }
 
 }
@@ -317,6 +383,7 @@ count();
 
 `(*)` でジョブの一部を行います:
 
+<<<<<<< HEAD
 1. 最初の実行: `i=1...1000000`.
 2. ２回めの実行: `i=1000001..2000000`.
 3. ...が続き、`while` は `i` が `100000` で均等に分割されているかどうかをチェックします。
@@ -328,6 +395,19 @@ count();
 注目すべき点は、両方のバリアントです: `setTimeout` によりジョブを分割してもしなくてもスピードは同等です。全体のカウント時間に大きな違いはありません。
 
 それらをもっと近づけるために改善しましょう。
+=======
+1. First run: `i=1...1000000`.
+2. Second run: `i=1000001..2000000`.
+3. ...and so on, the `while` checks if `i` is evenly divided by `1000000`.
+
+Then the next call is scheduled in `(**)` if we're not done yet.
+
+Pauses between `count` executions provide just enough "breath" for the JavaScript engine to do something else, to react to other user actions.
+
+The notable thing is that both variants -- with and without splitting the job by `setTimeout` -- are comparable in speed. There's no much difference in the overall counting time.
+
+To make them closer, let's make an improvement.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 `count()` の先頭にスケジューリングを移動させます:
 
@@ -340,7 +420,11 @@ function count() {
 
   // 開始時にスケジューリングを移動する
   if (i < 1e9 - 1e6) {
+<<<<<<< HEAD
     setTimeout(count, 0); // 新しい呼び出しをスケジュール
+=======
+    setTimeout(count); // schedule the new call
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
   }
 
   do {
@@ -356,6 +440,7 @@ function count() {
 count();
 ```
 
+<<<<<<< HEAD
 これで、`count()` を開始して `count()` をもっと呼ぶ必要があると知ったとき -- 私たちはジョブを実行する前に、すぐにそれをスケジュールします。
 
 それを実行すると、時間が大幅に短縮されることに簡単に気づきます。
@@ -364,6 +449,16 @@ count();
 ブラウザでは、ネストされたタイマーを実行できる頻度に制限があります。[HTML5 標準](https://www.w3.org/TR/html5/webappapis.html#timers) では次のように書かれています: "5つのネストされたタイマーの後には...間隔は少なくとも4ミリ秒に強制されます。"
 
 何を意味しているか、下の例でデモしてみましょう。例での `setTimeout` 呼び出しは、自身を `0ms` 後に実行するよう再スケジュールします。各呼び出しは `times` 配列に、直前のものからの実行時間を覚えています。実際の遅延はどのように見えるでしょう？見てみましょう:
+=======
+Now when we start to `count()` and know that we'll need to `count()` more, we schedule that immediately, before doing the job.
+
+If you run it, it's easy to notice that it takes significantly less time.
+
+````smart header="Minimal delay of nested timers in-browser"
+In the browser, there's a limitation of how often nested timers can run. The [HTML5 standard](https://www.w3.org/TR/html5/webappapis.html#timers) says: "after five nested timers, the interval is forced to be at least four milliseconds.".
+
+Let's demonstrate what it means with the example below. The `setTimeout` call in it re-schedules itself after `0ms`. Each call remembers the real time from the previous one in the `times` array. What do the real delays look like? Let's see:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js run
 let start = Date.now();
@@ -372,9 +467,15 @@ let times = [];
 setTimeout(function run() {
   times.push(Date.now() - start); // 前の呼び出しからの遅延を覚える
 
+<<<<<<< HEAD
   if (start + 100 < Date.now()) alert(times); // 100ms 後に遅延を表示
   else setTimeout(run, 0); // もしくは再スケジュール
 }, 0);
+=======
+  if (start + 100 < Date.now()) alert(times); // show the delays after 100ms
+  else setTimeout(run); // else re-schedule
+});
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 // 出力例:
 // 1,1,1,1,9,15,20,24,30,35,40,45,50,55,59,64,70,75,80,85,90,95,100
@@ -432,7 +533,7 @@ setTimeout(function run() {
     } while (i % 1e3 != 0);
 
     if (i < 1e9) {
-      setTimeout(count, 0);
+      setTimeout(count);
     }
 
   }

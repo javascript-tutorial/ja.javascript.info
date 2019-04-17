@@ -18,4 +18,8 @@ let currentUserName = "John";
 
 現代のエディタや自動補完により、長い変数名を簡単に書くことができます。節約は不要です。3単語の名前は良いです。
 
+<<<<<<< HEAD
 また、もしあなたのエディタが適切な自動補完を持っていない場合には、[新しいエディタ](/code-editors) を入手してください。
+=======
+And if your editor does not have proper autocompletion, get [a new one](/code-editors).
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613

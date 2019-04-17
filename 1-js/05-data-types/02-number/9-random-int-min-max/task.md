@@ -15,3 +15,8 @@ alert( random(1, 5) ); // 1
 alert( random(1, 5) ); // 3
 alert( random(1, 5) ); // 5
 ```
+<<<<<<< HEAD
+=======
+
+You can use the solution of the [previous task](info:task/random-min-max) as the base.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613

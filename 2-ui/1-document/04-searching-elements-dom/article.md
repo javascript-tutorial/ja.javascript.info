@@ -4,9 +4,14 @@
 
 そのための追加の検索メソッドがあります。
 
+<<<<<<< HEAD
 [cut]
 
 ## document.getElementById もしくは 単に id
+=======
+There are additional searching methods for that.
+## document.getElementById or just id
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 もし要素が `id` 属性を持っている場合、その `id` の名前のグローバル変数があります。
 
@@ -87,7 +92,11 @@ let divs = document.getElementsByTagName('div');
 
 このメソッドは任意の DOM 要素のコンテキストで呼び出し可能です。
 
+<<<<<<< HEAD
 テーブルの中のすべての `input` を見つけましょう:
+=======
+Let's find all `input` tags inside the table:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```html run height=50
 <table id="table">
@@ -125,17 +134,28 @@ let divs = document.getElementsByTagName('div');
 `"s"` 文字は `getElementById` にはありません。これは、単一の要素を返すためです。 しかし、`getElementsByTagName` は要素の集合を返します。したがって `"s"` がつきます。
 ```
 
+<<<<<<< HEAD
 ````warn header="要素ではなくコレクションを返します!"
 別に広く知られている初心者の間違いはこのように書くことです:
+=======
+````warn header="It returns a collection, not an element!"
+Another widespread novice mistake is to write:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js
 // 動作しません
 document.getElementsByTagName('input').value = 5;
 ```
 
+<<<<<<< HEAD
 これは動作しません。なぜならそれは入力のコレクションを取り、その中の要素ではなくコレクションに値を代入するためです。
 
 コレクションを反復するか、数値で要素を取得するかを行い、それから代入する必要があります。:
+=======
+That won't work, because it takes a *collection* of inputs and assigns the value to it rather than to elements inside it.
+
+We should either iterate over the collection or get an element by its index, and then assign, like this:
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```js
 // 動作します(input がある場合)
@@ -271,8 +291,13 @@ document.getElementsByTagName('input')[0].value = 5;
 
 下の例では、2つのスクリプトがあります。
 
+<<<<<<< HEAD
 1. 最初のスクリプトは `<div>` のコレクションへの参照を生成します。今のところ、その長さは `1` です。
 2. 2つ目のスクリプトはブラウザが1つ以上の `<div>` に会った後に実行するので、その長さは `2` です。
+=======
+1. The first one creates a reference to the collection of `<div>`. As of now, its length is `1`.
+2. The second scripts runs after the browser meets one more `<div>`, so its length is `2`.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 ```html run
 <div>First div</div>
@@ -375,8 +400,13 @@ DOM でノードを検索するための6つの主なメソッドがあります
 
 それ以外に:
 
+<<<<<<< HEAD
 - `elem` が指定された CSS セレクタに一致するかをチェックする `elem.matches(css)` があります。
 - 指定された CSS セレクタに一致する最も近い祖先を探すための `elem.closest(css)` があります。`elem` 自身もまたチェックされます。
+=======
+- There is `elem.matches(css)` to check if `elem` matches the given CSS selector.
+- There is `elem.closest(css)` to look for the nearest ancestor that matches the given CSS-selector. The `elem` itself is also checked.
+>>>>>>> 30f1dc4e4ed9e93b891abd73f27da0a47c5bf613
 
 また、親子の関係を調べるもう一つの方法をここで言及しましょう:
 -  `elemA.contains(elemB)` は `elemB` が `elemA` の中にある(`elemA` の子孫)または `elemA==elemB` の場合 true を返します。

@@ -34,7 +34,7 @@
 クリック時のフィールドに相対的な `left` 座標を取得するには、フィールドの左端とボーダーの幅を引きます。:
 
 ```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
+let left = event.clientX - fieldCoords.left - field.clientLeft;
 ```
 
 通常、 `ball.style.position.left` は "要素(ボール)の左端" を意味します。なので、その `left` を割り当てると、ボールの端がマウスカーソルの下に来ることになります。
@@ -44,7 +44,7 @@ let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
 なので、最終的な `left` は次のようになります:
 
 ```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft - ball.offsetWidth/2;
+let left = event.clientX - fieldCoords.left - field.clientLeft - ball.offsetWidth/2;
 ```
 
 縦の座標は同じロジックを使って計算します。
