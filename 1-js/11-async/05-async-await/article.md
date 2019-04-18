@@ -162,7 +162,7 @@ f();
 ````
 
 ````smart header="Async メソッド"
-クラスメソッドもまた asyne になれます。ただ前に `async` を置くだけです。
+クラスメソッドもまた async になれます。ただ前に `async` を置くだけです。
 
 Like here:
 

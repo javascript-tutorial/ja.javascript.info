@@ -153,7 +153,7 @@ import {admin} from './admin.js';
 alert(admin.name); // Pete
 
 *!*
-// 1.js と 2.js 葉のナジオブジェクトをインポートしました
+// 1.js と 2.js 同じオブジェクトをインポートしました
 // 1.js で行われた変更は 2.js でも見えます
 */!*
 ```

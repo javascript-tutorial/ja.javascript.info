@@ -48,7 +48,7 @@ alert( arr instanceof Object ); // true
 
 `arr` は `Object` クラスにも属していることに留意してください。`Array` はプロトタイプ的に `Object` を継承しているためです。
 
-`instanceof` 演算子は確認のためにプロトタイプチェーンを検査し、それは静的メソッド `Symbo.hasInstance` を使って微調整することが可能です。
+`instanceof` 演算子は確認のためにプロトタイプチェーンを検査し、それは静的メソッド `Symbol.hasInstance` を使って微調整することが可能です。
 
 `obj instanceof Class` のアルゴリズムはおおまかに次のように動作します。:
 
