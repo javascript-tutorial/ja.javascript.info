@@ -81,7 +81,7 @@ alert(arr); // 1,2,3 <-- Array.prototype.toString の結果
 ![](native-prototypes-array-tostring.png)
 
 
-Chrome developer console のようなブラウザ内のツールでも継承を表示できます(組み込みオブジェクトのために `console.fir` を使う必要があるかもしれません)。
+Chrome developer console のようなブラウザ内のツールでも継承を表示できます(組み込みオブジェクトのために `console.dir` を使う必要があるかもしれません)。
 
 ![](console_dir_array.png)
 
