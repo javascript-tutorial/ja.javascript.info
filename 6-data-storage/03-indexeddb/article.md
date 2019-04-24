@@ -5,149 +5,149 @@ libs:
 
 # IndexedDB
 
-IndexedDB is a built-in database, much more powerful than `localStorage`.
+InexedDB は組み込みのデータベースで、`localStorage` よりも遥かに強力です。
 
-- Key/value storage: value can be (almost) anything, multiple key types.
-- Supports transactions for reliability.
-- Supports key range queries, indexes.
-- Can store much more data than `localStorage`.
+- key/value ストレージ: 値は何でもよく、複数のキーの型があります。
+- 信頼性のためのトランザクションをサポートします。
+- キー範囲のクエリ、インデックスをサポートします。
+- `localStorage` よりもずっと多くのデータを格納することができます。
 
-That power is usually excessive for traditional client-server apps. IndexedDB is intended for offline apps, to be combined with ServiceWorkers and other technologies.
+通常、この機能は伝統的なクライアント-サーバアプリケーションには過大です。IndexedDB は、ServiceWorkers や他のテクノロジーと組み合わせるオフラインアプリケーションを想定しています。
 
-The native interface to IndexedDB, described in the specification <https://www.w3.org/TR/IndexedDB>, is event-based.
+[仕様](https://www.w3.org/TR/IndexedDB) に記載されている IndexedDB のネイティブインターフェースは、イベントベースです。
 
-We can also use `async/await` with the help of a promise-based wrapper, like <https://github.com/jakearchibald/idb>. That's pretty convenient, but the wrapper is not perfect, it can't replace events for all cases, so we'll start with events, and then use the wrapper.
+[idb](https://github.com/jakearchibald/idb) のように、promise ベースのラッパーを使って `async/await` を使うこともできます。これは非常に便利ですが、ラッパーは完璧ではありません。すべてのケースのイベントを置き換えることはできないので、イベントから始めて、その後ラッパーを使用しましょう。
 
-## Open database
+## データベースを開く
 
-To start working with IndexedDB, we need to open a database.
+IndexedDB を使い始めるには、データベースを open します。
 
-The syntax:
+構文:
 
 ```js
 let openRequest = indexedDB.open(name, version);
 ```
 
-- `name` -- a string, the database name.
-- `version` -- a positive integer version, by default `1` (explained below).
+- `name` -- 文字列。データベースの名前です。
+- `version` -- 正の整数で表現されるバージョン。デフォルトは `1` (後述).
 
-We can have many databases with different names, all within the current origin (domain/protocol/port). So different websites can't access databases of each other.
+私たちは、異なる名前で多くのデータベースを持つことができ、それらはすべて現在のオリジン (domain/protocol/port) の中にあります。そのため、別のWebサイトは互いのデータベースにアクセスすることはできません。
 
-After the call, we need to listen to events on `openRequest` object:
-- `success`: database is ready, use the database object `openRequest.result` for further work.
-- `error`: open failed.
-- `upgradeneeded`: database version is outdated (see below).
+呼び出し後、`openRequest` オブジェクトのイベントをリッスンする必要があります。:
+- `success`: データベースの準備ができました。以降の処理ではデータベースオブジェクト `openRequest.result` を使います。
+- `error`: 開くのに失敗しました。
+- `upgradeneeded`: データベースのバージョンが古くなっています(下を見てください)。
 
-**IndexedDB has a built-in mechanism of "schema versioning", absent in server-side databases.**
+**IndexedDB には、サーバサイドのデータベースにはない、組み込みの "スキーマバージョニング" の仕組みがあります。**
 
-Unlike server-side databases, IndexedDB is client-side, we don't have the data at hands. But when we publish a new version of our app, we may need to update the database.
+サーバサイドのデータベースとは異なり、IndexedDB はクライアントサイドでありデータは手元にはありません。しかし、新しいアプリを公開するとき、データベースの更新が必要なことがあります。
 
-If the local database version is less than specified in `open`, then a special event `upgradeneeded` is triggered, and we can compare versions and upgrade data structures as needed.
+ローカルデータベースバージョンが `open` で指定されたものより小さい場合、特別なイベント `upgradeneeded` がトリガーされ、必要に応じてバージョンを比較し、データ構造を更新する事ができます。
 
-The event also triggers when the database did not exist yet, so we can perform initialization.
+このイベントはデータベースがまだ存在しなかった場合にも起こるので、初期化の実行をすることもできます。
 
-For instance, when we first publish our app, we open it with version `1` and perform the initialization in `upgradeneeded` handler:
+例えば、最初にアプリを公開するときには、バージョン `1` で open し、`upgradeneeded` ハンドラで初期化を実行します。:
 
 ```js
 let openRequest = indexedDB.open("store", *!*1*/!*);
 
 openRequest.onupgradeneeded = function() {
-  // triggers if the client had no database
-  // ...perform initialization...
+  // クライアントがデータベースを持っていない場合にトリガーされます
+  // ...初期化を行います...
 };
 
 openRequest.onerror = function() {
   console.error("Error", openResult.error);
-};
+};”
 
 openRequest.onsuccess = function() {
   let db = openRequest.result;
-  // continue to work with database using db object
+  // db オブジェクトを仕様してデータベースを操作します
 };
 ```
 
-When we publish the 2nd version:
+次のバージョンをリリースした時:
 
 ```js
 let openRequest = indexedDB.open("store", *!*2*/!*);
 
-//  check the existing database version, do the updates if needed:
+// 既存のデータベースのバージョンをチェックし、必要なら更新する:
 openRequest.onupgradeneeded = function() {
   let db = openRequest.result;
-  switch(db.version) { // existing (old) db version
+  switch(db.version) { // 既存の (古い) db のバージョン
     case 0:
-      // version 0 means that the client had no database
-      // perform initialization
+      // バージョン 0 は、クライアントがデータベースを持っていないことを意味します
+      // 初期化を行います
     case 1:
-      // client had version 1
-      // update
+      // クライアントはバージョン 1
+      // 最新版に更新します
   }
 };
 ```
 
-After `openRequest.onsuccess` we have the database object in `openRequest.result`, that we'll use for further operations.
+`openRequest.onsuccess` の後、データベースオブジェクトは `openRequest.result` にあります。以降の操作でこれを使っていきます。
 
-To delete a database:
+データベースを削除するには:
 
 ```js
 let deleteRequest = indexedDB.deleteDatabase(name)
-// deleteRequest.onsuccess/onerror tracks the result
+// deleteRequest.onsuccess/onerror で結果を追跡します
 ```
 
 
-## Object store
+## オブジェクトストア
 
-An object store is a core concept of IndexedDB. Counterparts in other databases are called "tables" or "collections". It's where the data is stored. A database may have multiple stores: one for users, another one for goods, etc.
+オブジェクトストアは IndexedDB の中心となる概念です。他のテーブルでは "テーブル" や "コレクション" と呼ばれているものです。これはデータが格納される場所です。データベースは複数のストアを持つことがあります。: 1つはユーザ用、もう１つは商品用、などです。
 
-Despite being named an "object store", primitives can be stored too.
+"オブジェクトストア" という名前ではありますが、プリミティブを格納することも可能です。
 
-**We can store almost any value, including complex objects.**
+**複雑なオブジェクト含め、ほぼどんな値でも格納することができます。**
 
-IndexedDB uses the [standard serialization algorithm](https://www.w3.org/TR/html53/infrastructure.html#section-structuredserializeforstorage) to clone-and-store an object. It's like `JSON.stringify`, but more powerful, capable of storing much more datatypes.
+IndexedDB は [standard serialization algorithm](https://www.w3.org/TR/html53/infrastructure.html#section-structuredserializeforstorage) を使用してオブジェクトを複製し格納します。これは `JSON>stringify` に似ていますが、より強力で遥かに多くのデータタイプを格納することができます。
 
-An example of object that can't be stored: an object with circular references. Such objects are not serializable. `JSON.stringify` also fails for such objects.
+格納できないオブジェクトの例は、循環参照を持つオブジェクトです。このようなオブジェクトはシリアライズ可能ではありません。`JSON.stringify` も失敗します。
 
-**There must be an unique `key` for every value in the store.**     
+**ストア内のすべての値には一意となる `key` が必要です。**
 
-A key must have a type one of: number, date, string, binary, or array. It's a unique object identifier: we can search/remove/update values by the key.
+キーは次のいずれかのタイプでなければなりません: number, date, string, binary, または array。これは一意なオブジェクト識別子で、キーを使って値の検索/削除/更新をすることができます。
 
 ![](indexeddb-structure.png)
 
-We can provide a key when we add an value to the store, similar to `localStorage`. That's good for storing primitive values. But when we store objects, IndexedDB allows to setup an object property as the key, that's much more convenient. Or we can auto-generate keys.
+`localStorage` と同様、ストアに値を追加するときにキーを指定できます。これはプリミティブ値を格納するのに適しています。 しかし、オブジェクトを格納するとき、IndexedDB はオブジェクトプロパティをキーとして設定することを可能にし、それはとても便利です。もしくは、キーを自動生成することもできます。
 
-The syntax to create an object store:
+オブジェクトストアを作成する構文:
 ```js
 db.createObjectStore(name[, keyOptions]);
 ```
 
-Please note, the operation is synchronous, no `await` needed.
+操作は同期であり、`await` は必要ないことに留意してください。
 
-- `name` is the store name, e.g. `"books"` for books,
-- `keyOptions` is an optional object with one of two properties:
-  - `keyPath` -- a path to an object property that IndexedDB will use as the key, e.g. `id`.
-  - `autoIncrement` -- if `true`, then the key for a newly stored object is generated automatically, as an ever-incrementing number.
+- `name` はストア名です。e.g. 本用に `"books"` など
+- `keyOptions` は2つのプロパティのうち1つを持つオプションのオブジェクトです。
+  - `keyPath` -- IndexedDBがキーをして使用するオブジェクトプロパティのパスです。e.g. `id. 
+  - `autoIncrement` -- `true` の場合、新しく格納されたオブジェクトのキーは、インクリメントされる数値として、自動的に生成されます。
 
-If we don't supply any options, then we'll need to provide a key explicitly later, when storing an object.
+何もオプションを指定しない場合は、あとでオブジェクトを格納するときに明示的にキーを指定する必要があります。
 
-For instance, this object store uses `id` property as the key:
+例えば、このオブジェクトストアはキーとして `id` プロパティを使用します。:
 ```js
 db.createObjectStore('books', {keyPath: 'id'});
 ```
 
-**An object store can only be created/modified while updating the DB version, in `upgradeneeded` handler.**
+**オブジェクトストアは `upgradeneeded` ハンドラ内で DB バージョンを更新している間にだけ、生成/変更することができます。**
 
-That's a technical limitation. Outside of the handler we'll be able to add/remove/update the data, but object stores are changed only during version update.
+これは技術的な制限によるものです。ハンドラの外側ではデータの追加/削除/更新が可能ですが、オブジェクトストアの変更はバージョンの更新中だけです。
 
-To do an upgrade, there are two main ways:
-1. We can compare versions and run per-version operations.
-2. Or we can get a list of existing object stores as `db.objectStoreNames`. That object is a [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist), and it provides `contains(name)` method to check for the existance. And then we can do updates depending on what exists.
+アップグレードする方法は、主に2つあります:
+1. バージョンを比較し、バージョンごとの操作を行います。
+2. あるいは、`db.objectStoreNames` で既存のオブジェクトストアの一覧が取得できます。このオブジェクトは [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist) であり、存在チェックのためのメソッド `contains(name)` を提供します。そして存在するものに応じて更新を行います。
 
-Here's the demo of thee second approach:
+これは２つ目のアプローチの場合のデモです:
 
 ```js
 let openRequest = indexedDB.open("db", 1);
 
-// create an object store for books if not exists
+// 存在しない場合には books のためのオブジェクトストアを作成する
 openRequest.onupgradeneeded = function() {
   let db = openRequest.result;
   if (!db.objectStoreNames.contains('books')) {
@@ -156,54 +156,53 @@ openRequest.onupgradeneeded = function() {
 };
 ```
 
-
-To delete an object store:
+オブジェクトストアを削除するには:
 
 ```js
 db.deleteObjectStore('books')
 ```
 
-## Transactions
+## トランザクション
 
-The term "transaction" is generic, used in many kinds of databases.
+"トランザクション" という用語は一般的で、多くのデータベースで使われています。
 
-A transaction is a group operations, that should either all succeed or all fail.
+トランザクションはグループ操作であり、すべて成功したか/すべて失敗したかのいずれかになります。
 
-For instance, when a person buys something, we need:
-1. Subtract the money from their account.
-2. Add the item to their inventory.
+例えば、ある人が何かを購入するとき、次のことが必要です。:
+1. 口座からお金を引き落とします。
+2. 購入者の持ち物に購入した商品を追加します。
 
-It would be pretty bad if we complete the 1st operation, and then something goes wrong, e.g. lights out, and we fail to do the 2nd. Both should either succeed (purchase complete, good!) or both fail (at least the person kept their money, so they can retry).
+もしも最初の処理が完了し、その後、例えば停電などで上手く処理できず次の処理が失敗すると、非常にまずいでしょう。どちらも成功する(購入完了)もしくは失敗する(少なくとも購入者はお金は引かれておらず、リトリできる)べきです。
 
-Transactions can guarantee that.
+トランザクションはそれを保証します。
 
-**All data operations must be made within a transaction in IndexedDB.**
+**IndexedDB でのすべてのデータ操作はトランザクション内で行わなければなりません。**
 
-To start a transaction:
+トランザクションを開始するには:
 
 ```js run
 db.transaction(store[, type]);
 ```
 
-- `store` is a store name that the transaction is going to access, e.g. `"books"`. Can be an array of store names if we're going to access multiple stores.
-- `type` – a transaction type, one of:
-  - `readonly` -- can only read, the default.
-  - `readwrite` -- can only read and write, but not modify object stores.
+- `store` はトランザクションがアクセスするストア名です。e.g. `"books"`。複数のストアにアクセスする場合は、ストア名の配列を指定します。
+- `type` はトランザクションのタイプです。以下のいずれかです:
+  - `readonly`: 参照のみ。デフォルトです。
+  - `readwrite`: 読み書き可能ですが、オブジェクトストアの変更はできません。
 
-There'is also `versionchange` transaction type: such transactions can do everything, but we can't create them manually. IndexedDB automatically creates a `versionchange` transaction when opening the database, for `updateneeded` handler. That's why it's a single place where we can update the database structure, create/remove object stores.
+`versionchange` というトランザクションタイプもあります。: このようなトランザクションは何でもできますが、手動で作ることはできません。IndexedDBは、`updateneeded` ハンドラの場合、データベースを開くときに `versionchange` トランザクションを自動的に作成します。そのため、ここがデータベース構造の更新やオブジェクトストアの作成/削除が可能な唯一の場所になります。
 
-```smart header="What are transaction types for?"
-Performance is the reason why transactions need to be labeled either `readonly` and `readwrite`.
+```smart header="トランザクションタイプとは何のためのあるのでしょう？"
+トランザクションが `readonly` か `readwrite` のいずれかにラベル付けされる必要があるのは、パフォーマンスが理由です。
 
-Many `readonly` transactions can access concurrently the same store, but `readwrite` transactions can't. A `readwrite` transaction "locks" the store for writing. The next transaction must wait before the previous one finishes before accessing the same store.
+多くの `readonly` トランザクションは同じストアに同時にアクセス可能ですが、`readwrite` トランザクションはできません。`readwrite` トランザクションは書き込みのためにストアを "ロック" します。次のトランザクションは、同じストアにアクセスする前にまえのトランザクションが終了するまで待たなければなりません。
 ```
 
-After the transaction is created, we can add an item to the store, like this:
+トランザクションが作成されたら、次のようにしてストアにアイテムを追加することができます:
 
 ```js
 let transaction = db.transaction("books", "readwrite"); // (1)
 
-// get an object store to operate on it
+// 操作するためにオブジェクトストアを取得
 *!*
 let books = transaction.objectStore("books"); // (2)
 */!*
@@ -227,25 +226,25 @@ request.onerror = function() {
 };
 ```
 
-There are basically four steps:
+基本的に4つのステップがあります。:
 
-1. Create a transaction, mention all stores it's going to access, at `(1)`.
-2. Get the store object using `transaction.objectStore(name)`, at `(2)`.
-3. Perform the request to the object store `books.add(book)`, at `(3)`.
-4. ...Handle request success/error `(4)`, make other requests if needed, etc.
+1. トランザクションを作成し、`(1)` でアクセスしようとしているすべてのストアについて言及します。
+2. `(2)` で `transaction.objectStore（name）` を使ってストアオブジェクトを取得します。
+3. `(3)` でオブジェクトストアにリクエストを実行します: `books.add(book)`。
+4. ...`(4)` でリクエストの成功/エラー を処理し、必要に応じて他のリクエストをする、など。
 
-Object stores support two methods to store a value:
+オブジェクトストアは値を格納するための2つのメソッドをサポートしています。:
 
 - **put(value, [key])**
-    Add the `value` to the store. The `key` is supplied only if the object store did not have `keyPath` or `autoIncrement` option. If there's already a value with same key, it will be replaced.
+    ストアに `value` を追加します。`key` は、オブジェクトストアが `keyPath` や `autoIncrement` オプションを持っていなかった場合にのみ提供されます。もし同じキーをもつ値がすでに存在している場合には、値は置き換えられます。
 
 - **add(value, [key])**
-    Same as `put`, but if there's already a value with the same key, then the request fails, and an error with the name `"ConstraintError"` is generated.
+    `put` と同じですが、同じキーを持つ値がすでに存在する場合、リクエストは失敗し、`"ConstraintError"` という名前のエラーが生成されます。
 
-Just like when opening a database, we send a request: `books.add(book)`, and then wait for `success/error` events.
+データベースを開くときと同じように、リクエストを送信(`books.add(book)`)し、`success/error` イベントをまちます。
 
-- The `request.result` for `add` is the key of the new object.
-- The error is in `request.error` (if any).
+- `add` の場合の `request.result` は新しいオブジェクトのキーです。
+- エラーは `request.error` にあります(あれば)。
 
 ## Transactions autocommit
 
