@@ -6,7 +6,11 @@ importance: 5
 
 訪問者がマウスを *そこを通る* のではなく *その上* に移動させた場合、その上にツールチップを表示する関数を書いてください。
 
+<<<<<<< HEAD
 言い換えると、もし訪問者が要素上にマウス動かして止めた場合 -- ツールチップを表示します。そして、もし単にマウスをすばやく移動させた場合にはそれは必要ありません。誰が余分な点滅を必要とするでしょうか？
+=======
+In other words, if the visitor moves the mouse on the element and stopped -- show the tooltip. And if they just moved the mouse through fast, then no need, who wants extra blinking?
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 技術的には、要素上のマウス速度を測る事ができます。そしてもし速度が遅い場合、"要素上" にくると想定してツールチップを表示し、速度が早い場合には -- 無視します。
 

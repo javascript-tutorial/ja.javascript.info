@@ -1,7 +1,11 @@
 
 # イベント移譲(Event delegation)
 
+<<<<<<< HEAD
 キャプチャリングとバブリングにより、 *イベント移譲* と呼ばれる最も強力なイベントハンドリングのパターンの一つを実装することができます。
+=======
+Capturing and bubbling allow us to implement one of most powerful event handling patterns called *event delegation*.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 この考え方は、似たような方法で多くの要素を処理する場合に、それら一つ一つにハンドラを割り当てる代わりに、共通の祖先に１つハンドラを置きます。
 

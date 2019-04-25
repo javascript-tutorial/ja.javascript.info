@@ -1,15 +1,25 @@
 
 # オブジェクト
 
+<<<<<<< HEAD
 チャプター <info:types> でご存知の通り、JavaScriptには７つの言語の型があります。そのうち６つは "プリミティブ" と呼ばれています。なぜなら、それらの値は１つのものだけを含むためです(文字列、数値、もしくはどんな値にでもなります)。
+=======
+As we know from the chapter <info:types>, there are seven data types in JavaScript. Six of them are called "primitive", because their values contain only a single thing (be it a string or a number or whatever).
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 一方で、オブジェクトは様々なデータとより複雑なエンティティのキー付けされたコレクションを保持するために使われます。JavaScriptでは、オブジェクトは言語のほぼすべての側面に入り込みます。なので、どこに行くよりもまず最初にそれらを理解する必要があります。
 
+<<<<<<< HEAD
 [cut]
 
 オブジェクトは波括弧 `{…}`と任意の *プロパティ* のリストで作られます。プロパティは "key:value" のペアで、`key` は文字列(もしくは"プロパティ名"と呼ばれます)で、`value` は何でも構いません。
 
 オブジェクトは、署名されたファイルを持つキャビネットとしてイメージすることができます。すべてのデータは、キーによってそのファイルの中に格納されます。ファイルを名前で検索したり、ファイルの追加や削除は簡単です。
+=======
+An object can be created with figure brackets `{…}` with an optional list of *properties*. A property is a "key: value" pair, where `key` is a string (also called a "property name"), and `value` can be anything.
+
+We can imagine an object as a cabinet with signed files. Every piece of data is stored in its file by the key. It's easy to find a file by its name or add/remove a file.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ![](object.png)
 
@@ -85,16 +95,24 @@ let user = {
 ![](object-user-props.png)
 
 
+<<<<<<< HEAD
 ````smart header="末尾のカンマ"
 このリストの最後のプロパティはカンマで終わることがあります:
+=======
+The last property in the list may end with a comma:
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 ```js
 let user = {
   name: "John",
   age: 30*!*,*/!*
 }
 ```
+<<<<<<< HEAD
 これは、「末尾」または「ぶら下がり」のコンマと呼ばれます。 すべての行が同じ表記になるため、プロパティの追加/削除/移動が簡単になります。
 ````
+=======
+That is called a "trailing" or "hanging" comma. Makes it easier to add/remove/move around properties, because all lines become alike.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ## 角括弧 
 
@@ -207,7 +225,7 @@ let obj = {
   for: 1,
   let: 2,
   return: 3
-}
+};
 
 alert( obj.for + obj.let + obj.return );  // 6
 ```
@@ -222,12 +240,21 @@ alert(obj.__proto__); // [object Object], 期待通りには動作しません�
 
 コードから分かるように、プリミティブ `5` への代入は無視されます。
 
+<<<<<<< HEAD
 もし、オブジェクトに任意の key-value のペアを保持し、訪問者がキーを指定できるようにしたとき、それはバグや脆弱性の元になる可能性があります。
+=======
+That can become a source of bugs and even vulnerabilities if we intend to store arbitrary key-value pairs in an object, and allow a visitor to specify the keys.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 そのケースで訪問者は、キーとして "`__proto__`" を選ぶかもしれません。すると代入のロジックは崩壊するでしょう(上にあるように)。
 
+<<<<<<< HEAD
 オブジェクトが、`__proto__` を通常のプロパティとして扱うようにするための方法があります。それは後で説明しますが、まずはそれを理解するためにオブジェクトについてより知る必要があります。
 別のデータ構造 [Map](info:map-set-weakmap-weakset) があり、それはチャプター <info:map-set-weakmap-weakset> で学びます。それもまた任意のキーをサポートします。
+=======
+There is a way to make objects treat `__proto__` as a regular property, which we'll cover later, but first we need to know more about objects.
+There's also another data structure [Map](info:map-set-weakmap-weakset), that we'll learn in the chapter <info:map-set-weakmap-weakset>, which supports arbitrary keys.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 ````
 
 ## プロパティの短縮構文 
@@ -302,7 +329,11 @@ alert( "blabla" in user ); // false, user.blabla は存在しない
 
 `in` の左側は *プロパティ名* である必要があることに注意してください。それは通常引用符で囲まれた文字列です。
 
+<<<<<<< HEAD
 もし引用符を除いた場合、テストされる実際のプロパティ名を持つ変数であることを意味します。例えば:
+=======
+If we omit quotes, that would mean a variable containing the actual name will be tested. For instance:
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ```js run
 let user = { age: 30 };
@@ -340,8 +371,13 @@ alert( "test" in obj ); // true, プロパティは存在します!
 構文:
 
 ```js
+<<<<<<< HEAD
 for(key in object) {
   // オブジェクトプロパティの各キーに対して本体を実行
+=======
+for (key in object) {
+  // executes the body for each key among object properties
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 }
 ```
 
@@ -354,7 +390,7 @@ let user = {
   isAdmin: true
 };
 
-for(let key in user) {
+for (let key in user) {
   // keys
   alert( key );  // name, age, isAdmin
   // values for the keys
@@ -364,12 +400,20 @@ for(let key in user) {
 
 すべての "for" 構造は、ここでの `let key`  のように、ループ内でループする変数を宣言することに留意してください。
 
+<<<<<<< HEAD
 また、ここでの `key` の代わりに、別の変数名を使うこともできます。例えば、`"for(let prop in obj)"` もまた広く使われています。
+=======
+Also, we could use another variable name here instead of `key`. For instance, `"for (let prop in obj)"` is also widely used.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 
 ### オブジェクトの順序付け
 
+<<<<<<< HEAD
 オブジェクトは順序付けられますか？つまり、オブジェクトをループするとき、追加したのと同じ順序ですべてのプロパティを取得しますか？それを保証することができますか？
+=======
+Are objects ordered? In other words, if we loop over an object, do we get all properties in the same order they were added? Can we rely on this?
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 短い回答は: "特別な方法で順序付けられます": 整数値のプロパティはソートされます、それ以外は作成した順になります。以下、詳細です。
 
@@ -385,7 +429,7 @@ let codes = {
 };
 
 *!*
-for(let code in codes) {
+for (let code in codes) {
   alert(code); // 1, 41, 44, 49
 }
 */!*
@@ -406,10 +450,17 @@ for(let code in codes) {
 したがって、"49" は整数のプロパティ名です。なぜなら、整数の数に変換されて戻っても、それは変わらないからです。 しかし、 "+49"と "1.2"はそうではありません:
 
 ```js run
+<<<<<<< HEAD
 // Math.trunc は小数部を取り除く組み込み関数
 alert( String(Math.trunc(Number("49"))) ); // "49", 同じ, 整数プロパティ
 alert( String(Math.trunc(Number("+49"))) ); // "49", 同じではない ⇒ 非整数プロパティ
 alert( String(Math.trunc(Number("1.2"))) ); // "1", 同じではない ⇒ 非整数プロパティ
+=======
+// Math.trunc is a built-in function that removes the decimal part
+alert( String(Math.trunc(Number("49"))) ); // "49", same, integer property
+alert( String(Math.trunc(Number("+49"))) ); // "49", not same "+49" ⇒ not integer property
+alert( String(Math.trunc(Number("1.2"))) ); // "1", not same "1.2" ⇒ not integer property
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 ```
 ````
 
@@ -443,7 +494,7 @@ let codes = {
   "+1": "USA"
 };
 
-for(let code in codes) {
+for (let code in codes) {
   alert( +code ); // 49, 41, 44, 1
 }
 ```
@@ -469,7 +520,11 @@ let phrase = message;
 
 オブジェクトはそうではありません。
 
+<<<<<<< HEAD
 **変数はオブジェクト自体ではなく、その "メモリ内のアドレス"、つまりそれへの "参照" を格納します。**
+=======
+**A variable stores not the object itself, but its "address in memory", in other words "a reference" to it.**
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 オブジェクトの絵はこうなります:
 
@@ -513,7 +568,11 @@ admin.name = 'Pete'; // "admin" 参照によって変更される
 alert(*!*user.name*/!*); // 'Pete', 変更は "user" 参照から見えます
 ```
 
+<<<<<<< HEAD
 上の例は1つのオブジェクトしかないことのデモです。私たちがキャビネットと2つの鍵を持っていて、それらの1つ(`admin`)を使ってその中のものを取得し変更します。その後、別の鍵(`user`)を使ったときには、先ほど変更した結果が見えます。
+=======
+The example above demonstrates that there is only one object. As if we had a cabinet with two keys and used one of them (`admin`) to get into it. Then, if we later use the other key (`user`) we would see changes.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ### 参照による比較
 
@@ -540,7 +599,11 @@ let b = {}; // 2つの独立したオブジェクト
 alert( a == b ); // false
 ```
 
+<<<<<<< HEAD
 `obj1 > obj2` のような比較、もしくは反対にプリミティブ `obj == 5` のような比較では、オブジェクトはプリミティブに変換されます。私たちはオブジェクト変換がどのように動作するかこの後すぐに学ぶでしょう。しかし真実を言うと、このような比較はほとんど必要とされず、通常はコードの誤りです。
+=======
+For comparisons like `obj1 > obj2` or for a comparison against a primitive `obj == 5`, objects are converted to primitives. We'll study how object conversions work very soon, but to tell the truth, such comparisons are necessary very rarely and usually are a result of a coding mistake.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ### Const オブジェクト
 
@@ -606,8 +669,13 @@ for (let key in user) {
 }
 */!*
 
+<<<<<<< HEAD
 // 今、clone は完全に独立したクローンです
 clone.name = "Pete"; // その中のデータを変更
+=======
+// now clone is a fully independent clone
+clone.name = "Pete"; // changed the data in it
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 alert( user.name ); // 依然としてオリジナルのオブジェクトは John
 ```
@@ -617,7 +685,7 @@ alert( user.name ); // 依然としてオリジナルのオブジェクトは Jo
 構文はこうです:
 
 ```js
-Object.assign(dest[, src1, src2, src3...])
+Object.assign(dest, [src1, src2, src3...])
 ```
 
 - 引数 `dest`, そして `src1, ..., srcN` (必要なだけ) はオブジェクトです。
@@ -700,7 +768,13 @@ user.sizes.width++;       // 一方からプロパティを変更します
 alert(clone.sizes.width); // 51, 他方から変更した結果が見えます
 ```
 
+<<<<<<< HEAD
 これを修正するには、`user[key]` の各値を調べ、それがオブジェクトの場合はその構造も複製するクローンのループを使用する必要があります。 これは "ディープクローン(ディープコピー)" と呼ばれます。
+=======
+To fix that, we should use the cloning loop that examines each value of `user[key]` and, if it's an object, then replicate its structure as well. That is called a "deep cloning".
+
+There's a standard algorithm for deep cloning that handles the case above and more complex cases, called the [Structured cloning algorithm](http://w3c.github.io/html/infrastructure.html#safe-passing-of-structured-data). In order not to reinvent the wheel, we can use a working implementation of it from the JavaScript library [lodash](https://lodash.com), the method is called [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 上記のケースやより複雑なケースを処理するディープクローン作成のための標準的なアルゴリズムがあります、それは[Structured cloning algorithm](https://w3c.github.io/html/infrastructure.html#internal-structured-cloning-algorithm) と呼ばれています。
 車輪の再発明をしないために、JavaScript ライブラリ[lodash](https://lodash.com) にある処理を利用することができます。そのメソッドは [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) と呼ばれています。
@@ -718,10 +792,17 @@ alert(clone.sizes.width); // 51, 他方から変更した結果が見えます
 - ドット表記: `obj.property`
 - 角括弧表記: `obj["property"]`。角括弧は変数からキーを取ることもできます。`obj[varWithKey]` のように。
 
+<<<<<<< HEAD
 追加の演算子:
 - プロパティを削除: `delete obj.prop`
 - 与えられたキーを持つプロパティの存在チェック: `"key" in obj`
 - オブジェクトのイテレート: `for(let key in obj)` ループ
+=======
+Additional operators:
+- To delete a property: `delete obj.prop`.
+- To check if a property with the given key exists: `"key" in obj`.
+- To iterate over an object: `for (let key in obj)` loop.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 オブジェクトは参照によって代入やコピーされます。つまり、変数は "オブジェクトの値" ではなく、 値への "参照" (メモリ上のアドレス)を格納します。従って、このような変数をコピーしたり、それを関数の引数として渡すと、オブジェクトではなく参照がコピーされます。 コピーされた参照（プロパティの追加/削除など）によるすべての操作は、同じ単一のオブジェクトに対して実行されます。
 
@@ -738,4 +819,8 @@ JavaScriptには他にも多くの種類のオブジェクトがあります:
 
 後で勉強しますが、それらは特別な機能を持っています。また、それらは "Array型" もしくは "Data型" と言われることがありますが、形式的には自分の型ではなく、単一の「オブジェクト」データ型に属しています。 そして、それをさまざまな方法で拡張しています。
 
+<<<<<<< HEAD
 Javascript のオブジェクトはとても強力です。ここでは本当に巨大なトピックのほんの始まりを学びました。私たちは、この後に続くチャプターでオブジェクトをより深く見ていき、それらについてもっと学びます。
+=======
+Objects in JavaScript are very powerful. Here we've just scratched the surface of a topic that is really huge. We'll be closely working with objects and learning more about them in further parts of the tutorial.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb

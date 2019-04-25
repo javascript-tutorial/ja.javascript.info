@@ -1,12 +1,20 @@
 # ウィンドウサイズとスクローリング
 
+<<<<<<< HEAD
 ブラウザウィンドウの幅を知るためには？スクロールアウトされた部分を含め、ドキュメントの高さを取得するには？JavaScript を使用してページをスクロールするにはどうすればよいでしょうか？
+=======
+How to find out the width and height of the browser window? How to get the full width and height of the document, including the scrolled out part? How to scroll the page using JavaScript?
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 DOM の観点からは、ルートドキュメント要素は `document.documentElement` です。その要素は `<html>` に対応し、[前のチャプター](info:size-and-scroll) で説明したジオメトリプロパティを持っています。場合によってはそれを使うことができますが、考慮すべき重要な追加の方法や特性があります。
 
+<<<<<<< HEAD
 [cut]
 
 ## ウィンドウの幅/高さ 
+=======
+## Width/height of the window
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 `document.documentElement` のプロパティ `clientWidth/clientHeight` はまさに私たちがここで欲しいものです:
 
@@ -47,7 +55,11 @@ alert( document.documentElement.clientWidth ); // ウィンドウ幅 - スクロ
 
 これらのプロパティは通常の要素に対しては上手く動作します。しかしページ全体の場合、これらのプロパティは意図したとおりには動作しません。Chrome/Safari/Opera では、スクロールが無い場合、`documentElement.scrollHeight` は `documentElement.clientHeight` よりも小さいかもしれません! 通常の要素の場合、それはナンセンスです。
 
+<<<<<<< HEAD
 信頼できるウィンドウサイズを取得するために、それらのプロパティの最大を取る必要があります。:
+=======
+To have a reliable result on the full document height, we should take the maximum of these properties:
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ```js run
 let scrollHeight = Math.max(
@@ -99,7 +111,11 @@ JavaScript からページをスクロールするには、その DOM を完全�
 
     <button onclick="window.scrollBy(0,10)">window.scrollBy(0,10)</button>
     ```
+<<<<<<< HEAD
 - メソッド `scrollTo(pageX,pageY)` はドキュメントの左上の角を基準としてページをスクロールします。これは `scrollLeft/scrollTop` の設定に似ています。 
+=======
+- The method `scrollTo(pageX,pageY)` scrolls the page relative to the document's top-left corner. It's like setting `scrollLeft/scrollTop`.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
     一番先頭にスクロールするには、`scrollTo(0,0)` を使います。
 
@@ -132,7 +148,11 @@ JavaScript からページをスクロールするには、その DOM を完全�
 
 私たちはドキュメントを "スクロール不可" にする必要がある場合があります。例えば、すぐに注意を必要とするようなサイズの大きなメッセージを伝える必要があるとき、訪問者にはドキュメントではなく、そのメッセージとやりとりすることを望みます。
 
+<<<<<<< HEAD
 ドキュメントをスクロール不可にするためには、`document.body.style.overflow = "hidden"` を設定すれば十分です。ページは現在のスクロールで止まります。
+=======
+To make the document unscrollable, it's enough to set `document.body.style.overflow = "hidden"`. The page will freeze on its current scroll.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ```online
 やってみましょう:
@@ -148,7 +168,11 @@ JavaScript からページをスクロールするには、その DOM を完全�
 
 このメソッドの欠点は、スクロールバーが消えることです。もしスクロールバーがスペースを占めていたら、そのスペースは今や解放されているので、コンテンツはそれを埋めるために "ジャンプ" します。
 
+<<<<<<< HEAD
 それは少し変に見えますが、フリーズする前後で `clientWidth` を比較し、スペースが増えた場合(スクロールバーが消えたら)、コンテンツ幅を同じに維持するためにスクロールバーの代わりに `document.body` に `padding` を追加することで回避できます。
+=======
+That looks a bit odd, but can be worked around if we compare `clientWidth` before and after the freeze, and if it increased (the scrollbar disappeared) then add `padding` to `document.body` in place of the scrollbar, to keep the content width the same.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ## サマリ 
 

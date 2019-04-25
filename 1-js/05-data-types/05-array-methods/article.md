@@ -2,9 +2,13 @@
 
 配列は多くのメソッドを提供します。分かりやすくするために、このチャプターではグループに分けて説明します。
 
+<<<<<<< HEAD
 [cut]
 
 ## アイテムの追加/削除 
+=======
+## Add/remove items
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 私たちは既に先頭または末尾にアイテムを追加/削除するメソッドを知っています:
 
@@ -124,7 +128,11 @@ alert( arr ); // 1,2,3,4,5
 arr.slice(start, end)
 ```
 
+<<<<<<< HEAD
 開始インデックス `"start"` から `"end"` (`"end"` は含みません)のすべてのアイテムをコピーした新しい配列を返します。`start` と `end` はともに負値になることができます。そのときは、配列の末尾からの位置が想定されます。
+=======
+It returns a new array containing all items from index `"start"` to `"end"` (not including `"end"`). Both `start` and `end` can be negative, in that case position from array end is assumed.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 `str.slice` のように動作しますが、部分文字列の代わりに部分配列を作ります。
 
@@ -203,7 +211,40 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,something,else
 ```
 
+<<<<<<< HEAD
 ## イテレート/反復: forEach 
+=======
+## Iterate: forEach
+
+The [arr.forEach](mdn:js/Array/forEach) method allows to run a function for every element of the array.
+
+The syntax:
+```js
+arr.forEach(function(item, index, array) {
+  // ... do something with item
+});
+```
+
+For instance, this shows each element of the array:
+
+```js run
+// for each element call alert
+["Bilbo", "Gandalf", "Nazgul"].forEach(alert);
+```
+
+And this code is more elaborate about their positions in the target array:
+
+```js run
+["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
+  alert(`${item} is at index ${index} in ${array}`);
+});
+```
+
+The result of the function (if it returns any) is thrown away and ignored.
+
+
+## Searching in array
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 [arr.forEach](mdn:js/Array/forEach) メソッドは配列の全要素に対して関数を実行することができます。
 
@@ -260,7 +301,11 @@ alert( arr.includes(1) ); // true
 
 もしも含んでいるかをチェックしたいが、正確なインデックスは不要なときは、`arr.includes` が好ましいです。
 
+<<<<<<< HEAD
 また、`includes` の非常に小さな違いは、`indexOf/lastIndexOf` と違い、`NaN` を正しく処理することができます:
+=======
+Also, a very minor difference of `includes` is that it correctly handles `NaN`, unlike `indexOf/lastIndexOf`:
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ```js run
 const arr = [NaN];
@@ -277,7 +322,12 @@ alert( arr.includes(NaN) );// true (正しい)
 構文はこうです:
 ```js
 let result = arr.find(function(item, index, array) {
+<<<<<<< HEAD
   // item が探しているものであれば true を返すようにします
+=======
+  // if true is returned, item is returned and iteration is stopped
+  // for falsy scenario returns undefined
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 });
 ```
 
@@ -305,20 +355,37 @@ alert(user.name); // John
 
 現実の世界では、オブジェクトの配列は一般的なことです。なので、 `find` メソッドは非常に役立ちます。
 
+<<<<<<< HEAD
 例の中では１つの引数、関数 `item => item.id == 1` で `find` を行っている点に注意してください。`find` の他のパラメータは殆ど使われません。
 
 [arr.findIndex](mdn:js/Array/findIndex) メソッドは基本的に同じです。が、要素自体ではなく要素が見つかったインデックスを返します。
+=======
+Note that in the example we provide to `find` the function `item => item.id == 1` with one argument. Other arguments of this function are rarely used.
+
+The [arr.findIndex](mdn:js/Array/findIndex) method is essentially the same, but it returns the index where the element was found instead of the element itself and `-1` is returned when nothing is found.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ### filter
 
 `find` メソッドは、関数が `true` を返すようにする単一の（最初の）要素を探します。
 もしそれが多い場合、[arr.filter(fn)](mdn:js/Array/filter) を使います。
 
+<<<<<<< HEAD
 構文は大体 `find` と同じですが、マッチした要素の配列を返します:
 
 ```js
 let results = arr.filter(function(item, index, array) {
   // item がフィルタを通過する場合はtrueを返します
+=======
+If there may be many, we can use [arr.filter(fn)](mdn:js/Array/filter).
+
+The syntax is similar to `find`, but filter continues to iterate for all array elements even if `true` is already returned:
+
+```js
+let results = arr.filter(function(item, index, array) {
+  // if true item is pushed to results and iteration continues
+  // returns empty array for complete falsy scenario
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 });
 ```
 
@@ -358,7 +425,7 @@ let result = arr.map(function(item, index, array) {
 例えば、ここでは各要素をその長さに変換します:
 
 ```js run
-let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length)
+let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length);
 alert(lengths); // 5,7,6
 ```
 
@@ -444,8 +511,13 @@ alert(arr);  // *!*1, 2, 15*/!*
 ```
 ````
 
+<<<<<<< HEAD
 ````smart header="ベストなアロー関数"
 [アロー関数](info:function-expressions-arrows#arrow-functions) を覚えていますか? すっきりしたソートを書くために使えます。:
+=======
+````smart header="Arrow functions for the best"
+Remember [arrow functions](info:function-expressions-arrows#arrow-functions)? We can use them here for neater sorting:
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ```js
 arr.sort( (a, b) => a - b );
@@ -505,7 +577,11 @@ alert( str.split('') ); // t,e,s,t
 ```
 ````
 
+<<<<<<< HEAD
 [arr.join(str)](mdn:js/Array/join) は `split` と逆を行います。`arr` のアイテムを `str` で繋いだ文字列を作ります。
+=======
+The call [arr.join(separator)](mdn:js/Array/join) does the reverse to `split`. It creates a string of `arr` items glued by `separator` between them.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 例:
 
@@ -519,7 +595,11 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 
 ### reduce/reduceRight
 
+<<<<<<< HEAD
 配列に対して繰り返し処理が必要なときは、`forEach` を使うことができます。
+=======
+When we need to iterate over an array -- we can use `forEach`, `for` or `for..of`.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 各要素のデータを反復して返す必要があるときには、`map`を使うことができます。
 
@@ -528,16 +608,22 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 構文:
 
 ```js
-let value = arr.reduce(function(previousValue, item, index, arr) {
+let value = arr.reduce(function(previousValue, item, index, array) {
   // ...
 }, initial);
 ```
 
 関数は各要素に適用されます。あなたはよく知られている引数に気づくかもしれません。2つ目から始まる引数は次の通りです:
 
+<<<<<<< HEAD
 - `item` -- 現在の配列の項目です。
 - `index` -- その位置です。
 - `arr` -- 配列です。
+=======
+- `item` -- is the current array item.
+- `index` -- is its position.
+- `array` -- is the array.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 これまでのところ、`forEach/map` のようです。しかし、もう１つ引数があります:
 
@@ -568,7 +654,11 @@ alert(result); // 15
 
 ![](reduce.png)
 
+<<<<<<< HEAD
 また、次のテーブルでは、各行は次の配列要素の関数呼び出しを表しています。
+=======
+Or in the form of a table, where each row represents a function call on the next array element:
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 |   |`sum`|`current`|`result`|
 |---|-----|---------|---------|
@@ -609,9 +699,18 @@ arr.reduce((sum, current) => sum + current);
 
 従って、常に初期値を指定することをおすすめします。
 
+<<<<<<< HEAD
 [arr.reduceRight](mdn:js/Array/reduceRight) メソッドも同じをことを行いますが、右から左に実行します。
 
 ## Array.isArray 
+=======
+So it's advised to always specify the initial value.
+
+The method [arr.reduceRight](mdn:js/Array/reduceRight) does the same, but goes from right to left.
+
+
+## Array.isArray
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 配列は別の言語の型を形成しません。 それらはオブジェクトに基づいています。
 
@@ -687,11 +786,22 @@ alert(youngerUsers.length); // 2
   - `slice(start, end)` -- 新しい配列を作り、`start` から `end` まで(endは含まない) の要素をコピーします。
   - `concat(...items)` -- 新しい配列を返します: 現在のものすべてをコピーし、`items` を追加します。`items` のいずれかが配列の場合、その要素が取得されます。
 
+<<<<<<< HEAD
 - 要素を検索する場合:
   - `indexOf/lastIndexOf(item, pos)` -- 位置 `pos` から始めて `item` を探します。 インデックス、または見つからなかった場合は `-1` を返します。
   - `includes(value)` -- 配列が `value` を持っている場合 `true` を返します。そうでなければ `false` です。
   - `find/filter(func)` -- 関数を介して要素をフィルタリングし、`true` を返す最初の/すべての値を返します。
   - `findIndex` は `find` のようですが、値の代わりにインデックスを返します。
+=======
+- To search among elements:
+  - `indexOf/lastIndexOf(item, pos)` -- look for `item` starting from position `pos`, return the index or `-1` if not found.
+  - `includes(value)` -- returns `true` if the array has `value`, otherwise `false`.
+  - `find/filter(func)` -- filter elements through the function, return first/all values that make it return `true`.
+  - `findIndex` is like `find`, but returns the index instead of a value.
+  
+- To iterate over elements:
+  - `forEach(func)` -- calls `func` for every element, does not return anything.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 - 配列を変換するには:
   - `map(func)` -- すべての要素に対して `func` を呼び出した結果から新しい配列を作成します。
@@ -700,11 +810,16 @@ alert(youngerUsers.length); // 2
   - `split/join` -- 文字列を配列に変換したり、戻します。
   - `reduce(func, initial)` -- 各要素に対して `func`を呼び出し、呼び出しの間に中間結果を渡すことで配列全体の単一の値を計算します。
 
+<<<<<<< HEAD
 - 要素を反復処理するには:
   - `forEach(func)` -- すべての要素に対して `func`を呼び出し、何も返しません。
 
 - さらに:
   - `Array.isArray(arr)` は `arr` が配列かどうかをチェックします。
+=======
+- Additionally:
+  - `Array.isArray(arr)` checks `arr` for being an array.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 `sort`, `reverse` と `splice` メソッドは、配列自身を変更することに注意してください。
 

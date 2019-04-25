@@ -13,9 +13,13 @@ let user = {
 
 アクションは、JavaScriptではプロパティの中で関数で表現されます。
 
+<<<<<<< HEAD
 [cut]
 
 ## メソッド例 
+=======
+## Method examples
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 スタートとして、`user` が Hello と言うようにしましょう:
 
@@ -65,7 +69,11 @@ user.sayHi(); // Hello!
 ```smart header="オブジェクト指向プログラミング"
 エンティティを表現するためにオブジェクトを使ってコードを書くとき、それは、[object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming), 略すと "OOP" とばれます。
 
+<<<<<<< HEAD
 OOPは大きなものであり、それ自体の興味深い科学です。 正しいエンティティを選択するにはどうすればいいですか？ どのようにそれらの間の相互作用を整理しますか？それはアーキテクチャーであり、それらは E.Gamma, R.Helm, R.Johnson, J.Vissides による"Design Patterns: Elements of Reusable Object-Oriented Software" または G.Booch による "Object-Oriented Analysis and Design with Applications" などのような、そのトピックについての素晴らしい本があります。私たちは、チャプター <info:object-oriented-programming> の後半でそのトピックの表面について触れます。
+=======
+OOP is a big thing, an interesting science of its own. How to choose the right entities? How to organize the interaction between them? That's architecture, and there are great books on that topic, like "Design Patterns: Elements of Reusable Object-Oriented Software" by E.Gamma, R.Helm, R.Johnson, J.Vissides or "Object-Oriented Analysis and Design with Applications" by G.Booch, and more. 
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 ```
 ### メソッドの短縮表現
 
@@ -216,7 +224,11 @@ sayHi(); // undefined
 
 このケースでは、 strict モードでは `this` は `undefined` になります。もし `this.name` にアクセスしようとするとエラーになります。
 
+<<<<<<< HEAD
 非 strict モード(誰かが `use strict` を忘れた場合)では、このようなケースでは `this` の値は *グローバルオブジェクト* (ブラウザでは `window`, 後ほど学びます)になります。これは `"use strict"` が修正した歴史的な振る舞いです。
+=======
+In non-strict mode the value of `this` in such case will be the *global object* (`window` in a browser, we'll get to it later in the chapter [](info:global-object)). This is a historical behavior that `"use strict"` fixes.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 一般的に、オブジェクトなしで `this` を使う関数の呼び出しは、普通ではなくプログラム上の誤りであることに注意してください。もし関数が `this` を持っていたら、それは通常オブジェクトコンテキストで呼ばれることを意味しています。
 
@@ -259,7 +271,11 @@ user.hi(); // John (シンプルな呼び出しは動作します)
 
 メソッドは丸括弧 `()` ですぐに呼び出されます。しかし、それは正しく動きません!
 
+<<<<<<< HEAD
 呼び出しはエラーになります、なぜなら、呼び出しの内側の `"this"` の値は `undefined` になるからです。
+=======
+You can see that the call results in an error, because the value of `"this"` inside the call becomes `undefined`.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 これは動きます (オブジェクトドットメソッド):
 ```js
@@ -278,7 +294,11 @@ user.hi();
 1. まず、ドット `'.'` がプロパティ `obj.method` を抽出します。
 2. 次に、丸括弧 `()` でそれを実行します。
 
+<<<<<<< HEAD
 そして、`this` についての情報は最初の処理から２つ目の処理へどのように渡されるでしょう？
+=======
+So, how does the information about `this` get passed from the first part to the second one?
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 それらの操作を別々の行に書いた場合、`this` が失われるのは明らかでしょう:
 
@@ -314,11 +334,19 @@ hi(); // Error, this は undefined なので
 (user, "hi", true)
 ```
 
+<<<<<<< HEAD
 参照型に対して丸括弧 `()` 呼び出しがされると、それらはオブジェクトとそのメソッドについての完全な情報を受け取り、正しい `this` (このケースでは `user`)をセットできます。
+=======
+When parentheses `()` are called on the Reference Type, they receive the full information about the object and its method, and can set the right `this` (`=user` in this case).
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 代入 `hi = user.hi` のような他の操作は、参照型を破棄し、`user.hi`(関数)の値を渡します。従って、それ以降の操作は全て `this` を "失います"。
 
+<<<<<<< HEAD
 なので、結果として、`this` の値は、関数がドット `obj.method()`、もしくは角括弧 `obj[method]()`構文を使って直接呼び出された場合のみ正しく渡されます。このチュートリアルの後半では、func.bind() など、この問題を解決するためのさまざまな方法を学びます。
+=======
+So, as the result, the value of `this` is only passed the right way if the function is called directly using a dot `obj.method()` or square brackets `obj['method']()` syntax (they do the same here). Later in this tutorial, we will learn various ways to solve this problem such as [func.bind()](/bind#solution-2-bind).
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ## アロー関数は "this" を持ちません 
 

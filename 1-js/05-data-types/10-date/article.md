@@ -2,9 +2,13 @@
 
 新しい組み込みオブジェクトを見ていきましょう: [Date](mdn:js/Date)。日付や時刻を保存し、管理するためのメソッドを提供します。
 
+<<<<<<< HEAD
 例えば、作成/修正時刻を保存したり、時間を測定したり、単に現在の時刻を表示するために使うことができます。
 
 [cut]
+=======
+For instance, we can use it to store creation/modification times, to measure time, or just to print out the current date.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ## 作成 
 
@@ -40,7 +44,13 @@
 
     ```js run
     let date = new Date("2017-01-26");
-    alert(date); // Thu Jan 26 2017 ...
+    alert(date);
+    // The time portion of the date is assumed to be midnight GMT and 
+    // is adjusted according to the timezone the code is run in
+    // So the result could be
+    // Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)
+    // or
+    // Wed Jan 25 2017 16:00:00 GMT-0800 (Pacific Standard Time)
     ```
 
 `new Date(year, month, date, hours, minutes, seconds, ms)`
@@ -109,7 +119,11 @@ alert( date.getHours() );
 alert( date.getUTCHours() );
 ```
 
+<<<<<<< HEAD
 なお、UTCのパターンを持たない、2つの特別なメソッドがあります:
+=======
+Besides the given methods, there are two special ones that do not have a UTC-variant:
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 [getTime()](mdn:js/Date/getTime)
 : 日付のタイムスタンプを返します -- それは、1970年 UTC+0 の 1月1日からの経過ミリ秒です。
@@ -419,4 +433,8 @@ alert(`Loading started ${performance.now()}ms ago`);
 // 少数点3桁以上は精度エラーで、最初の3桁だけが正しいです
 ```
 
+<<<<<<< HEAD
 Node.JS は `microtime` モジュールや他の方法を持っています。技術的には、どのデバイスや環境でも精度をあげることができます。単に `Date` にはないだけです。
+=======
+Node.js has `microtime` module and other ways. Technically, any device and environment allows to get more precision, it's just not in `Date`.
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb

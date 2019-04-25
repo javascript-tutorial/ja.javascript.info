@@ -129,7 +129,11 @@ Async scripts are great when we integrate an independant third-party script into
 
 ## Dynamic scripts
 
+<<<<<<< HEAD
 We can also create a script dynamically using Javascript:
+=======
+We can also create a script dynamically using JavaScript:
+>>>>>>> 273e47b70a14ae7a8b882b8d2543e581b000eefb
 
 ```js run
 let script = document.createElement('script');
