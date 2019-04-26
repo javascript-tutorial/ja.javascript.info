@@ -20,7 +20,11 @@ JavaScriptエンジンのチームは何を最初に実装するかについて�
 
 実際には、Babelには２つのパートがあります:
 
+<<<<<<< HEAD
 1. １つ目はトランスパイラのプログラムで、コードを書き直します。開発者は自身のPC上でそれを実行します。するとコードが古い標準仕様のものに書き直されます。そして、コードはWebサイトにデリバリされます。[webpack](http://webpack.github.io/) や [brunch](http://brunch.io/) のような現代のプロジェクトのビルドシステムは、すべてのコード変更時に自動でトランスパイラを実行する手段を提供しています。そのため、私たち側で時間を取ることはありません。
+=======
+1. First, the transpiler program, which rewrites the code. The developer runs it on their own computer. It rewrites the code into the older standard. And then the code is delivered to the website for users. Modern project build system like [webpack](http://webpack.github.io/) or [brunch](http://brunch.io/) provide means to run transpiler automatically on every code change, so that doesn't involve any time loss from our side.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 2. ２つ目は polyfillです。
 

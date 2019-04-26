@@ -4,9 +4,13 @@
 
 それらを知っていると、フォームを使った作業がはるかに便利になります。
 
+<<<<<<< HEAD
 [cut]
 
 ## ナビゲーション: フォームと要素 
+=======
+## Navigation: form and elements
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ドキュメントフォームは特別な集合 `document.forms` のメンバです。
 
@@ -264,7 +268,11 @@ Option 要素は追加のプロパティを持っています:
 : その `<select>` の中で何番目の option であるか
 
 `text`
+<<<<<<< HEAD
 : option のテキストコンテンツ
+=======
+: Text content of the option (seen by the visitor).
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 ```
 
 ## サマリ 

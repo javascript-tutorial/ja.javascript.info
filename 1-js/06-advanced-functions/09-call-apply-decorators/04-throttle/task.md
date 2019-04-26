@@ -22,10 +22,17 @@ importance: 5
 
 視覚的に、次のようになります:
 
+<<<<<<< HEAD
 1. 最初のマウスの移動に対して、デコレートされたバリアントは `update` へ呼び出しを渡します。これは重要で、ユーザは自身の移動に対するリアクションがすぐに見えます。
 2. その後、マウスが移動するのに対し `100ms` まで何も起こりません。デコレータは呼び出しを無視します。
 3. `100ms` が経過すると -- 最後の座標でもう一度 `update` が発生します。
 4. そして最終的に、マウスはどこかで停止します。デコレートされたバリアントは `100ms` の期限まで待ち、その後最後の座標で `update` を実行します。従って、恐らく最も重要な最後のマウス座標は処理されます。
+=======
+1. For the first mouse movement the decorated variant passes the call to `update`. That's important, the user sees our reaction to their move immediately.
+2. Then as the mouse moves on, until `100ms` nothing happens. The decorated variant ignores calls.
+3. At the end of `100ms` -- one more `update` happens with the last coordinates. 
+4. Then, finally, the mouse stops somewhere. The decorated variant waits until `100ms` expire and then runs `update` with last coordinates. So, perhaps the most important, the final mouse coordinates are processed.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 コード例:
 

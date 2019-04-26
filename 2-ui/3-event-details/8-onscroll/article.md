@@ -6,9 +6,13 @@
 - ユーザーがドキュメント内のどこにあるかに応じて、追加のコントロールや情報を表示/非表示する。
 - ユーザがページの下までスクロールしたときに追加のデータを読み込む。
 
+<<<<<<< HEAD
 [cut]
 
 ここに現在のスクロールを表示する小さい関数がります:
+=======
+Here's a small function to show the current scroll:
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```js autorun
 window.addEventListener('scroll', function() {

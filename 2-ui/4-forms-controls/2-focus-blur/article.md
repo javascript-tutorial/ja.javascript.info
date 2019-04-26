@@ -10,9 +10,13 @@
 
 フォーカスイベントを扱う際には重要な特性があります。ここではそれを説明するためにベストを尽くします。
 
+<<<<<<< HEAD
 [cut]
 
 ## イベント focus/blur 
+=======
+## Events focus/blur
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 `focus` イベントはフォーカス時に呼ばれ、`blur` は要素がフォーカスを失ったときに呼ばれます。
 
@@ -51,7 +55,11 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
+<<<<<<< HEAD
 現代の HTML では input の属性を使って多くのバリデーションを行うことができます: `required`, `pattern` などです。そして、時にはそれらが丁度私たちが必要なことである場合もあります。JavaScriptは、より柔軟性が必要な場合に使用できます。 その値が正しい場合、変更された値をサーバ上に自動的に送信することもできます。
+=======
+Modern HTML allows to do many validations using input attributes: `required`, `pattern` and so on. And sometimes they are just what we need. JavaScript can be used when we want more flexibility. Also we could automatically send the changed value to the server if it's correct.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ## メソッド focus/blur 
 
@@ -101,7 +109,11 @@ Your email please: <input type="email" id="input">
 
 これらの特徴により、`focus/blur` ハンドラが必要ないときにトリガすることがあります。
 
+<<<<<<< HEAD
 最善の策は、それらのイベントを使うとき注意を払うことです。ユーザが開始したフォーカス解除を追跡したい場合は、自分自身でフォーカス解除を回避する必要があります。
+=======
+The best recipe is to be careful when using these events. If we want to track user-initiated focus-loss, then we should avoid causing it ourselves.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 ```
 ## 任意の要素にフォーカスを当てる: tabindex 
 

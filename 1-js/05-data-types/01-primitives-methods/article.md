@@ -1,5 +1,6 @@
 # プリミティブのメソッド
 
+<<<<<<< HEAD
 JavaScriptはプリミティブ(文字列、数値など)をオブジェクトのように扱うことができます。
 
 また、それらはメソッドも提供しています。この後すぐに学んでいきますが、最初にどのように動作するのか確認しましょう。なぜなら、プリミティブはオブジェクトではないからです(このチャプターでそれをさらに明確にしていきます)。
@@ -7,9 +8,17 @@ JavaScriptはプリミティブ(文字列、数値など)をオブジェクト�
 [cut]
 
 プリミティブとオブジェクトの主な違いを見ていきましょう。
+=======
+JavaScript allows us to work with primitives (strings, numbers, etc.) as if they were objects.
+
+They also provide methods to call as such. We will study those soon, but first we'll see how it works because, of course, primitives are not objects (and here we will make it even clearer).
+
+Let's look at the key distinctions between primitives and objects.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 プリミティブ
 
+<<<<<<< HEAD
 - プリミティブ型の値です。
 - プリミティブ型は6つあります: `string`, `number`, `boolean`, `symbol`, `null`, `undefined`
 
@@ -19,6 +28,17 @@ JavaScriptはプリミティブ(文字列、数値など)をオブジェクト�
 - `{}` で作ることができます。例えば: `{name: "John", age: 30}`。JavaScriptでは他の種類のオブジェクトもあります。関数もオブジェクトです。
 
 オブジェクトの最も良いところの1つは、そのプロパティの1つとして関数を保持することができることです:
+=======
+- Is a value of a primitive type.
+- There are 6 primitive types: `string`, `number`, `boolean`, `symbol`, `null` and `undefined`.
+
+An object
+
+- Is capable of storing multiple values as properties.
+- Can be created with `{}`, for instance: `{name: "John", age: 30}`. There are other kinds of objects in JavaScript; functions, for example, are objects.
+
+One of the best things about objects is that we can store a function as one of its properties.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```js run
 let john = {
@@ -33,7 +53,11 @@ john.sayHi(); // Hi buddy!
 
 上の例では、`sayHi` メソッドをもつ `john` オブジェクトを作りました。
 
+<<<<<<< HEAD
 日付、エラー、HTML要素などで動作するような、多くの組み込みのオブジェクトが既に存在し、それらは異なるプロパティとメソッドを持っています。
+=======
+Many built-in objects already exist, such as those that work with dates, errors, HTML elements, etc. They have different properties and methods.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 しかし、これらの機能にはコストがかかります!
 
@@ -48,9 +72,15 @@ JavaScriptの作成者が直面するパラドックスは次の通りです。:
 
 解決策は少々野暮ですが次の通りです:
 
+<<<<<<< HEAD
 1. プリミティブは依然としてプリミティブです。要望どおり、単一の値です。
 2. 言語は、文字列、数値、真偽値そしてシンボルのメソッドやプロパティにアクセスすることができます。
 3. 必要に応じて、追加の機能を提供する特別な "オブジェクトラッパー" が作られ、その後破棄されます。
+=======
+1. Primitives are still primitive. A single value, as desired.
+2. The language allows access to methods and properties of strings, numbers, booleans and symbols.
+3. When this happens, a special "object wrapper" that provides the extra functionality is created, and then is destroyed.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 "オブジェクトラッパー" はプリミティブ型毎に異なり、`String`, `Number`, `Boolean`, `Symbol` と呼ばれます。従って、それらは異なるメソッドのセットを提供します。
 

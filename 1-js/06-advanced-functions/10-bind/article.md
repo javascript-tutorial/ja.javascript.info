@@ -9,9 +9,13 @@ libs:
 
 突然、`this` が正しく動作するのをやめます。この状況は初心者の開発者には典型的ですが、経験者でも同様に起こりえます。
 
+<<<<<<< HEAD
 [cut]
 
 ## "this" を失う 
+=======
+## Losing "this"
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 私たちはすでに、JavaScriptでは `this` を失うことが容易であることを知っています。 あるメソッドがオブジェクトから別の場所に渡されると、`this` は失われます。
 
@@ -39,13 +43,21 @@ let f = user.sayHi;
 setTimeout(f, 1000); // user コンテキストを失います
 ```
 
+<<<<<<< HEAD
 ブラウザにおいて、メソッド `setTimeout` は少し特別です: 関数呼び出しでは `this=window` を設定します(Node.JS では、`this` はタイマーオブジェクトになりますが、ここではほとんど関係ありません)。従って、`this.firstName` は、存在しない `window.firstName` を取得しようとします。他の同様のケースでは、通常 `this` は `undefined` になります。
+=======
+The method `setTimeout` in-browser is a little special: it sets `this=window` for the function call (for Node.js, `this` becomes the timer object, but doesn't really matter here). So for `this.firstName` it tries to get `window.firstName`, which does not exist. In other similar cases as we'll see, usually `this` just becomes `undefined`.
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 このタスクは非常に典型的です -- オブジェクトメソッドをどこか別の場所（ここではスケジューラに渡して）から呼び出したい場合です。それが適切なコンテキストで呼び出されることはどのように確認すればよいでしょう？
 
 ## 解決策 1: 囲む 
 
+<<<<<<< HEAD
 最もシンプルな解決策はラップされた関数を使うことです:
+=======
+The simplest solution is to use a wrapping function:
+>>>>>>> 19223ae762f03cdff4e83f6f963f4f427af93847
 
 ```js run
 let user = {
