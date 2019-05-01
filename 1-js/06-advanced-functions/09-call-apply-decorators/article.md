@@ -287,7 +287,7 @@ say.apply(user, messageData); // [10:00] John: Hello (this=user)
 
 `call` と `apply` の構文の唯一の違いは、`call` は引数のリストを期待し、`apply` はそれらの配列ライクなオブジェクトを期待している点です。
 
-私たちは既に、チャプター　<info:rest-parameters-spread-operator> で、引数のリストとして配列 (もしくは任意の頒布可能(iterable)) を渡すことのできるスプレッド演算子 `...` を知っています。`call` でそれを使う場合、`apply` とほぼ同じ結果になります。
+私たちは既に、チャプター　<info:rest-parameters-spread-operator> で、引数のリストとして配列 (もしくは任意の反復可能(iterable)) を渡すことのできるスプレッド演算子 `...` を知っています。`call` でそれを使う場合、`apply` とほぼ同じ結果になります。
 
 これら2つの呼び出しはほぼほぼ同等です:
 
