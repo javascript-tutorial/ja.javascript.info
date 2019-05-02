@@ -409,7 +409,7 @@ fetch('/article/promise-chaining/user.json')
   .catch(error => alert(error.message));
 ```
 
-ここでは、`.catch` はまったく呼ばれません。なぜならエラーが起きていないからです。しかし、上の prmise のいずれかが reject となった場合、catch は実行されます。
+ここでは、`.catch` はまったく呼ばれません。なぜならエラーが起きていないからです。しかし、上の promise のいずれかが reject となった場合、catch は実行されます。
 
 ## 暗黙の try..catch 
 

@@ -27,7 +27,7 @@ let promise = new Promise(function(resolve, reject) {
 
 生成された `promise` オブジェクトは内部プロパティを持っています:
 
-- `state` -- 最初は "pending(保留中)" であり、その後 "fultilled(完了)" もしくは "rejected(拒否)" に変更されます。
+- `state` -- 最初は "pending(保留中)" であり、その後 "fulfilled(完了)" もしくは "rejected(拒否)" に変更されます。
 - `result` -- 任意の値です。初期値は `undefined` です。
 
 executor がジョブを終了した時、次の中のいずれか1つを呼びます:

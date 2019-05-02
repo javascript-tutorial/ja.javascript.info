@@ -1,4 +1,4 @@
-# Javascript 入門
+# JavaScript 入門
 
 JavaScript について、何が特別なのか、それを使ってできることや他のどの技術と上手くやるのか見てみましょう。
 
