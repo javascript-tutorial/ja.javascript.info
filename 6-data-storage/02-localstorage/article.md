@@ -185,7 +185,7 @@ alert( sessionStorage.getItem('test') ); // リフレッシュ後: 1
 - `url` – 更新が行われた document の URL 
 - `storageArea` – 更新が行われた場所の `localStorage` あるいは `sessionStorage` オブジェクト
 
-重要なことは、それが起きた `window` を除く、ストーレジがアクセス可能なすべての `window` オブジェクト上でイベントがトリガーされるということです。
+重要なことは、それが起きた `window` を除く、ストレージがアクセス可能なすべての `window` オブジェクト上でイベントがトリガーされるということです。
 
 詳しく説明しましょう。
 
@@ -198,7 +198,7 @@ alert( sessionStorage.getItem('test') ); // リフレッシュ後: 1
 両方のウィンドウが `window.onstorage` をリッスンしている場合、各ウィンドウは他のウィンドウで行われた更新に反応します。
 
 ```js run
-// 他の document から同じストーレジに対して行われた更新をトリガーする
+// 他の document から同じストレージに対して行われた更新をトリガーする
 window.onstorage = event => {
   if (event.key != 'now') return;
   alert(event.key + ':' + event.newValue + " at " + event.url);
@@ -209,7 +209,7 @@ localStorage.setItem('now', Date.now());
 
 イベントには次のものが含まれていることにも留意してください。: `event.url`、これはデータが更新された document の URLです。
 
-また、`event.storageArea` はストーレジオブジェクトを含みます。イベントは `sessionStorage` と `localStorage` 両方で同じなので、`storageArea` は変更されたオブジェクトを参照します。変更に "応答" するために、その中に何かを戻すことができます。
+また、`event.storageArea` はストレージオブジェクトを含みます。イベントは `sessionStorage` と `localStorage` 両方で同じなので、`storageArea` は変更されたオブジェクトを参照します。変更に "応答" するために、その中に何かを戻すことができます。
 
 **これは、同じオリジンからの異なるウィンドウがメッセージを交換することを可能にします。**
 
