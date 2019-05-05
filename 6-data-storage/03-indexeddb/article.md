@@ -246,15 +246,15 @@ request.onerror = function() {
 - `add` の場合の `request.result` は新しいオブジェクトのキーです。
 - エラーは `request.error` にあります(あれば)。
 
-## Transactions autocommit
+## トランザクションの自動コミット
 
-In the example above we started the transaction and made `add` request. We could make more requests. How do we finish ("commit") the transaction?
+上の例では、トランザクションを開始して、`add` リクエストを行いました。より多くのリクエストを行うことも可能です。トランザクションをどのようにして終了 ("コミット")するでしょうか？
 
-The short answer is: we don't.
+一言で言うと: そうではありません。
 
-In the next version 3.0 of the specification, there will probably be a manual way to finish the transaction, but right now in 2.0 there isn't.
+仕様の次のバージョン 3.0 では、おそらくトランザクションを手動で終了させる方法があるでしょう。しかし、今のところ、2.0 にはありません。
 
-**When all transaction requests are finished, and the [microtasks queue](info:microtask-queue) is empty, it is committed automatically.**
+**すべてのトランザクションの要求が終了し、[microtasks queue](info:microtask-queue) が空になると、自動的にコミットされます。**
 
 ```smart header="What's an \"empty microtask queue\"?"
 The microtask queue is explained in [another chapter](info:async-await#microtask-queue). In short, an empty microtask queue means that for all settled promises their `.then/catch/finally` handlers are executed.
