@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Why do we need Origin?
+# なぜ Origin が必要なのでしょう?
 
-As you probably know, there's HTTP-header `Referer`, that usually contains an url of the page which initiated a network request.
+恐らくご存知の通り、HTTP ヘッダには `Referer` があります。これは通常、ネットワークリクエストを開始したページの URL が含まれています。
 
-For instance, when fetching `http://google.com` from `http://javascript.info/some/url`, the headers look like this:
+例えば、`http://javascript.info/some/url` から `http://google.com` を取得しようとすると、そのヘッダは次のようになります。:
 
 ```
 Accept: */*
@@ -20,9 +20,9 @@ Referer: http://javascript.info/some/url
 */!*
 ```
 
-As you can see, both `Referer` and `Origin` are present.
+ご覧の通り、`Referer` と `Origin` 両方が存在します。
 
-The questions:
+ここで質問です:
 
-1. Why `Origin` is needed, if `Referer` has even more information?
-2. If it possible that there's no `Referer` or `Origin`, or it's incorrect?
+1. `Referer` がより多くの情報を持っているのに、なぜ ` Origin` が必要なのでしょうか。
+2. `Referer` や `Origin` がない、あるいはそれが正しくない可能性はありますか？
