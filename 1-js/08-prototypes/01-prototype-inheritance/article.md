@@ -1,24 +1,22 @@
-# プロトタイプ継承
+# Prototypal inheritance
 
-プログラミングでは、何かを取ってそれを拡張することがしばしばあります。
+In programming, we often want to take something and extend it.
 
-例えば、プロパティとメソッドをもつ `user` オブジェクトを持っているとします。そして、そのいくつかを僅かに変更した `admin` や `guest` を作りたいとします。コピーや再実装ではなく、単にその上に新しいオブジェクトを作成することで、`user` が持っているものを再利用したいです。
+For instance, we have a `user` object with its properties and methods, and want to make `admin` and `guest` as slightly modified variants of it. We'd like to reuse what we have in `user`, not copy/reimplement its methods, just build a new object on top of it.
 
-*プロトタイプ継承* はそれを助ける言語の機能です。
+*Prototypal inheritance* is a language feature that helps in that.
 
-[cut]
+## [[Prototype]]
 
-## プロトタイプ [[Prototype]]
-
-JavaScriptでは、オブジェクトは特別な隠しプロパティ `[[Prototype]]` を持っており、それは `null` または別のオブジェクトを参照します。そのオブジェクトは "プロトタイプ" と呼ばれます。
+In JavaScript, objects have a special hidden property `[[Prototype]]` (as named in the specification), that is either `null` or references another object. That object is called "a prototype":
 
 ![prototype](object-prototype-empty.png)
 
-`[[Prototype]]` は "魔法のような" 意味を持っています。私たちが `object` からプロパティを読みたいときで、それがない場合、JavaScriptは自動的に、プロトタイプからそれを取得します。プログラミングではこのようなことを "プロトタイプ継承" と呼びます。多くのクールな言語機能やプログラミングテクニックは、これがベースになっています。
+The prototype is a little bit "magical". When we want to read a property from `object`, and it's missing, JavaScript automatically takes it from the prototype. In programming, such thing is called "prototypal inheritance". Many cool language features and programming techniques are based on it.
 
-プロパティ `[[Prototype]]` は内部であり隠されていますが、セットする多くの方法があります。
+The property `[[Prototype]]` is internal and hidden, but there are many ways to set it.
 
-それらの１つは、次のように `__proto__` を使う方法です:
+One of them is to use `__proto__`, like this:
 
 ```js run
 let animal = {
@@ -33,11 +31,17 @@ rabbit.__proto__ = animal;
 */!*
 ```
 
-`__proto__` は `[[Prototype]]` と *同一ではない* ことに注意してください。これはそのための getter/setter です。あとでセットする別の方法について話しますが、今のところ `__proto__` の理解はそれで問題ありません。
+```smart header="`__proto__` is a historical getter/setter for `[[Prototype]]`"
+Please note that `__proto__` is *not the same* as `[[Prototype]]`. That's a getter/setter for it.
 
-もしも `rabbit` の中のプロパティを探し、それがない場合、JavaScriptは自動で `animal` からそれを取ります。
+It exists for historical reasons, in modern language it is replaced with functions `Object.getPrototypeOf/Object.setPrototypeOf` that also get/set the prototype. We'll study the reasons for that and these functions later.
 
-例:
+By the specification, `__proto__` must only be supported by browsers, but in fact all environments including server-side support it. For now, as `__proto__` notation is a little bit more intuitively obvious, we'll use it in the examples.
+```
+
+If we look for a property in `rabbit`, and it's missing, JavaScript automatically takes it from `animal`.
+
+For instance:
 
 ```js run
 let animal = {
@@ -51,25 +55,24 @@ let rabbit = {
 rabbit.__proto__ = animal; // (*)
 */!*
 
-// 今、rabbit で両方のプロパティを見つけることができます:
+// we can find both properties in rabbit now:
 *!*
 alert( rabbit.eats ); // true (**)
 */!*
 alert( rabbit.jumps ); // true
 ```
 
-ここで、行 `(*)` は `rabbit` のプロトタイプに `animal` をセットしています。
+Here the line `(*)` sets `animal` to be a prototype of `rabbit`.
 
-次に、`alert` がプロパティ `rabbit.eats` `(**)` を読もうとしたとき、それは `rabbit` にはないので、JavaScriptは `[[Prototype]]` 参照に従って、`animal` の中でそれを見つけます(下から上に向かいます)。
+Then, when `alert` tries to read property `rabbit.eats` `(**)`, it's not in `rabbit`, so JavaScript follows the `[[Prototype]]` reference and finds it in `animal` (look from the bottom up):
 
 ![](proto-animal-rabbit.png)
 
-ここでは、私たちは "`animal` は `rabbit` のプロトタイプ" または "`rabbit` がプロトタイプ的に `animal` を継承している" という事ができます。"
+Here we can say that "`animal` is the prototype of `rabbit`" or "`rabbit` prototypically inherits from `animal`".
 
-したがって、もし `animal` が多くの役立つプロパティやメソッドを持っている場合、それらは自動的に `rabbit` でも利用可能になります。
-このようなプロパティは "継承" と呼ばれます。
+So if `animal` has a lot of useful properties and methods, then they become automatically available in `rabbit`. Such properties are called "inherited".
 
-もし `animal` がメソッドを持っている場合、`rabbit` でもそれを呼ぶことができます:
+If we have a method in `animal`, it can be called on `rabbit`:
 
 ```js run
 let animal = {
@@ -86,17 +89,17 @@ let rabbit = {
   __proto__: animal
 };
 
-// walk は prototype から取られました
+// walk is taken from the prototype
 *!*
 rabbit.walk(); // Animal walk
 */!*
 ```
 
-メソッドは次のように自動的にプロトタイプから取られます。:
+The method is automatically taken from the prototype, like this:
 
 ![](proto-animal-rabbit-walk.png)
 
-プロトタイプチェーンは長くても問題ありません。:
+The prototype chain can be longer:
 
 
 ```js run
@@ -109,47 +112,51 @@ let animal = {
 
 let rabbit = {
   jumps: true,
+*!*
   __proto__: animal
+*/!*
 };
 
 let longEar = {
   earLength: 10,
+*!*
   __proto__: rabbit
-}
+*/!*
+};
 
-// walk は prototype チェーンから取られました
+// walk is taken from the prototype chain
 longEar.walk(); // Animal walk
-alert(longEar.jumps); // true (rabbit から)
+alert(longEar.jumps); // true (from rabbit)
 ```
 
 ![](proto-animal-rabbit-chain.png)
 
-実際には、2つの制限があります。:
+There are actually only two limitations:
 
-1. 参照を循環させることはできません。JavaScriptは、循環するように `__proto__` を割り当てようとするとエラーを投げます。
-2. `__proto__` の値はオブジェクトまたは `null` になります。プリミティブのような、それ以外のすべての値は無視されます。
+1. The references can't go in circles. JavaScript will throw an error if we try to assign `__proto__` in a circle.
+2. The value of `__proto__` can be either an object or `null`, other types (like primitives) are ignored.
 
-また、それは明らかかもしれませんが、1つの `[[Prototype]]` しか存在しません。 オブジェクトは2つの他のものから継承することはできません。
+Also it may be obvious, but still: there can be only one `[[Prototype]]`. An object may not inherit from two others.
 
-## 読み書きのルール 
+## Writing doesn't use prototype
 
-プロトタイプは、プロパティを読むためだけに使われます。
+The prototype is only used for reading properties.
 
-データプロパティ(getter/setter ではない)の場合、書き込み/削除操作はオブジェクトで直接動作します。
+Write/delete operations work directly with the object.
 
-下の例では、自身の `walk` メソッドを `rabbit` に割り当てています。:
+In the example below, we assign its own `walk` method to `rabbit`:
 
 ```js run
 let animal = {
   eats: true,
   walk() {
-    /* このメソッドは rabbit では使われません */  
+    /* this method won't be used by rabbit */  
   }
 };
 
 let rabbit = {
   __proto__: animal
-}
+};
 
 *!*
 rabbit.walk = function() {
@@ -160,13 +167,13 @@ rabbit.walk = function() {
 rabbit.walk(); // Rabbit! Bounce-bounce!
 ```
 
-これ以降、`rabbit.walk()` 呼び出しは、プロトタイプを使うことなく、オブジェクトの中にすぐにメソッドを見つけ、それを実行します。
+From now on, `rabbit.walk()` call finds the method immediately in the object and executes it, without using the prototype:
 
 ![](proto-animal-rabbit-walk-2.png)
 
-getter/setter の場合 -- もしプロパティの読み書きをすると、プロトタイプで参照されて呼び出されます。
+That's for data properties only, not for accessors. If a property is a getter/setter, then it behaves like a function: getters/setters are looked up in the prototype.
 
-例えば、以下のコードで `admin.fullName` プロパティをチェックしてください:
+For that reason `admin.fullName` works correctly in the code below:
 
 ```js run
 let user = {
@@ -189,31 +196,30 @@ let admin = {
 
 alert(admin.fullName); // John Smith (*)
 
-// setter がトリガします!
+// setter triggers!
 admin.fullName = "Alice Cooper"; // (**)
 ```
 
-ここで、行 `(*)` では、プロパティ `admin.fullName` はプロトタイプ `user` が getter を持っているので、それが呼ばれます。また、行 `(**)` では、プロパティはプロトタイプに setter を持っているので、それが呼ばれます。
+Here in the line `(*)` the property `admin.fullName` has a getter in the prototype `user`, so it is called. And in the line `(**)` the property has a setter in the prototype, so it is called.
 
-## "this" の値 
+## The value of "this"
 
-上の例で、興味深い質問が起きるかもしれません。: `set fullName(value)` の内側での `this` の値はなんでしょうか？
-プロパティ `this.name` と `this.surname` が書かれているのはどこでしょうか？ `user` または `admin` ?
+An interesting question may arise in the example above: what's the value of `this` inside `set fullName(value)`? Where the properties `this.name` and `this.surname` are written: into `user` or `admin`?
 
-答えはシンプルです: `this` はプロトタイプによる影響を持ったく受けません。
+The answer is simple: `this` is not affected by prototypes at all.
 
-**メソッドがどこにあるかは関係ありません：オブジェクトの中でも、そのプロトタイプ内でも。メソッド呼び出しでは、`this` は常にドットの前のオブジェクトです。**
+**No matter where the method is found: in an object or its prototype. In a method call, `this` is always the object before the dot.**
 
-したがって、setter は実際に `this` として `admin` を使い、`user` ではありません。
+So, the setter call `admin.fullName=` uses `admin` as `this`, not `user`.
 
-それは、実際には非常に重要なことです。なぜなら、多くのメソッドを持つ大きなオブジェクトを持ち、それを継承する可能性があるからです。次に、継承されたオブジェクトの上でそれらのメソッドを実行し、大きなオブジェクトではなく、継承したオブジェクトの状態を変更します。
+That is actually a super-important thing, because we may have a big object with many methods and inherit from it. Then inherited objects can run its methods, and they will modify the state of these objects, not the big one.
 
-例えば、ここでは `animal` は "メソッド格納域" を表現しており、`rabbit` はそれを使います。
+For instance, here `animal` represents a "method storage", and `rabbit` makes use of it.
 
-呼び出し `rabbit.sleep()` は `rabbit` オブジェクトに `this.isSleeping` をセットします。:
+The call `rabbit.sleep()` sets `this.isSleeping` on the `rabbit` object:
 
 ```js run
-// animal がメソッドを持っています
+// animal has methods
 let animal = {
   walk() {
     if (!this.isSleeping) {
@@ -230,25 +236,95 @@ let rabbit = {
   __proto__: animal
 };
 
-// rabbit.isSleeping を変更する
+// modifies rabbit.isSleeping
 rabbit.sleep();
 
 alert(rabbit.isSleeping); // true
-alert(animal.isSleeping); // undefined (prototype にそのようなプロパティはありません)
+alert(animal.isSleeping); // undefined (no such property in the prototype)
 ```
 
-結果の図は次のようになります:
+The resulting picture:
 
 ![](proto-animal-rabbit-walk-3.png)
 
-もしも私たちが `bird`, `snake` など `animal` から継承された他のオブジェクトを持っていた場合、それらもまた `animal` のメソッドへのアクセスを得ます。しかし各メソッドでの `this` は対応するオブジェクトであり、`animal` ではなく、呼び出し時に（前のドット）で評価されます。 だから私たちが `this` にデータを書き込むとき、それはこれらのオブジェクトに格納されます。
+If we had other objects like `bird`, `snake` etc inheriting from `animal`, they would also gain access to methods of `animal`. But `this` in each method would be the corresponding object, evaluated at the call-time (before dot), not `animal`. So when we write data into `this`, it is stored into these objects.
 
-結果として、メソッドは共有されますが、オブジェクトの状態は共有されません。
+As a result, methods are shared, but the object state is not.
 
-## サマリ 
+## for..in loop
 
-- JavaScriptでは、すべてのオブジェクトは隠れた `[[Prototype]]` プロパティを持っており、それは別のオブジェクトまたは `null` です。
-- それにアクセスするために `obj.__proto__` を使うことができます(他の方法もあります。それらは後ほど学びます)。
-- `[[Prototype]]` によるオブジェクトの参照は "プロトタイプ" と呼ばれます。
-- もしも `obj` のプロパティを読みたい、またはメソッドを呼び出したいが存在しない場合、JavaScriptはそれをプロトタイプの中で見つけようとします。書き込み/削除操作はオブジェクトに対して直接動作し、プロトタイプを使いません(プロパティが setter でない限り)。
-- もしも `obj.method()` を呼び出し、`method` がプロトタイプから取られた場合も、`this` は依然として `obj` を参照します。したがって、メソッドはたとえ継承されていたとしても、常に現在のオブジェクトで動作します。
+The `for..in` loops over inherited properties too.
+
+For instance:
+
+```js run
+let animal = {
+  eats: true
+};
+
+let rabbit = {
+  jumps: true,
+  __proto__: animal
+};
+
+*!*
+// Object.keys only return own keys
+alert(Object.keys(rabbit)); // jumps
+*/!*
+
+*!*
+// for..in loops over both own and inherited keys
+for(let prop in rabbit) alert(prop); // jumps, then eats
+*/!*
+```
+
+If that's not what we want, and we'd like to exclude inherited properties, there's a built-in method [obj.hasOwnProperty(key)](mdn:js/Object/hasOwnProperty): it returns `true` if `obj` has its own (not inherited) property named `key`.
+
+So we can filter out inherited properties (or do something else with them):
+
+```js run
+let animal = {
+  eats: true
+};
+
+let rabbit = {
+  jumps: true,
+  __proto__: animal
+};
+
+for(let prop in rabbit) {
+  let isOwn = rabbit.hasOwnProperty(prop);
+
+  if (isOwn) {
+    alert(`Our: ${prop}`); // Our: jumps
+  } else {
+    alert(`Inherited: ${prop}`); // Inherited: eats
+  }
+}
+```
+
+Here we have the following inheritance chain: `rabbit` inherits from `animal`, that inherits from `Object.prototype` (because `animal` is a literal object `{...}`, so it's by default), and then `null` above it:
+
+![](rabbit-animal-object.png)
+
+Note, there's one funny thing. Where is the method `rabbit.hasOwnProperty` coming from? We did not define it. Looking at the chain we can see that the method is provided by `Object.prototype.hasOwnProperty`. In other words, it's inherited.
+
+...But why `hasOwnProperty` does not appear in `for..in` loop, like `eats` and `jumps`, if it lists all inherited properties.
+
+The answer is simple: it's not enumerable. Just like all other properties of `Object.prototype`, it has `enumerable:false` flag. That's why they are not listed.
+
+```smart header="All other iteration methods ignore inherited properties"
+All other key/value-getting methods, such as `Object.keys`, `Object.values` and so on ignore inherited properties.
+
+They only operate on the object itself. Properties from the prototype are taken into account.
+```
+
+## Summary
+
+- In JavaScript, all objects have a hidden `[[Prototype]]` property that's either another object or `null`.
+- We can use `obj.__proto__` to access it (a historical getter/setter, there are other ways, to be covered soon).
+- The object referenced by `[[Prototype]]` is called a "prototype".
+- If we want to read a property of `obj` or call a method, and it doesn't exist, then JavaScript tries to find it in the prototype.
+- Write/delete operations for act directly on the object, they don't use the prototype (assuming it's a data property, not is a setter).
+- If we call `obj.method()`, and the `method` is taken from the prototype, `this` still references `obj`. So methods always work with the current object even if they are inherited.
+- The `for..in` loop iterates over both own and inherited properties. All other key/value-getting methods only operate on the object itself.

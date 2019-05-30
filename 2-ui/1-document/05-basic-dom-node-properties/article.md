@@ -4,9 +4,13 @@ DOM ノードをより深く見ていきましょう。
 
 このチャプターでは、それらが何者であるか、最もよく使われるプロパティについて詳しく見ていきます。
 
+<<<<<<< HEAD
 [cut]
 
 ## DOM ノードクラス 
+=======
+## DOM node classes
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 DOM ノードはそれらのクラスに応じて異なるプロパティを持っています。例えば、タグ `<a>` に対応する要素ノードはリンク関連のプロパティを持っており、`<input>` に対応する要素ノードは入力関連のプロパティを持っています。テキストノードは要素ノードとは違います。しかし、すべての DOM ノードのクラスは単一の階層を形成するため、すべてのノードの間で共通のプロパティやメソッドを持っています。
 
@@ -77,8 +81,13 @@ alert( document.body instanceof EventTarget ); // true
 `document.body` でそれを使ってみてください。
 ```
 
+<<<<<<< HEAD
 ````smart header="仕様での IDL"
 仕様では、クラスは JavaScript ではなく、特別な [Interface description language](https://en.wikipedia.org/wiki/Interface_description_language) (IDL) を使って説明されています。これは通常理解しやすいです。
+=======
+````smart header="IDL in the spec"
+In the specification, classes are described not using JavaScript, but a special [Interface description language](https://en.wikipedia.org/wiki/Interface_description_language) (IDL), that is usually easy to understand.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 IDL では、すべてのプロパティの型が前についています。例えば `DOMString`, `boolean` などです。
 
@@ -93,7 +102,11 @@ interface HTMLInputElement: HTMLElement {
   // ここに <input> 要素のプロパティとメソッドがあります
 
 *!*
+<<<<<<< HEAD
   // "DOMString" はプロパティが文字列であることを意味します。
+=======
+  // "DOMString" means that the value of these properties are strings
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 */!*
   attribute DOMString accept;
   attribute DOMString alt;
@@ -101,12 +114,20 @@ interface HTMLInputElement: HTMLElement {
   attribute DOMString value;
 
 *!*
+<<<<<<< HEAD
   // boolean プロパティ (true/false)
+=======
+  // boolean value property (true/false)
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
   attribute boolean autofocus;
 */!*
   ...
 *!*
+<<<<<<< HEAD
   // ここはメソッドです: "void" は返却値なしを意味します。
+=======
+  // now the method: "void" means that the method returns no value
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 */!*
   void select();
   ...
@@ -162,12 +183,23 @@ tagName と nodeName に違いはあるでしょうか？
 
 もちろん、その違いはそれらの名前に反映されていますが、実際は少し微妙です。
 
+<<<<<<< HEAD
 - `tagName` プロパティは `Element` ノードに対してのみ存在します。
 - `nodeName` は任意の `Node` で定義されています:
     - 要素の場合は、`tagName` と同じ意味です。
     - 他のノードタイプ(テキスト、コメントなど)の場合、ノードタイプの文字列を持ちます。
 
 つまり、`tagName` は要素ノード(`Element` クラスから始まる)によってのみサポートされています。一方、`nodeName` は他のノードタイプについてな何か言うことができます。
+=======
+- The `tagName` property exists only for `Element` nodes.
+- The `nodeName` is defined for any `Node`:
+    - for elements it means the same as `tagName`.
+    - for other node types (text, comment, etc.) it has a string with the node type.
+
+In other words, `tagName` is only supported by element nodes (as it originates from `Element` class), while `nodeName` can say something about other node types.
+
+For instance, let's compare `tagName` and `nodeName` for the `document` and a comment node:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 例えば、`document` ノードとコメントノードに対して、`tagName` と `nodeName` を比較してみましょう。:
 
@@ -176,7 +208,7 @@ tagName と nodeName に違いはあるでしょうか？
 
   <script>
     // for comment
-    alert( document.body.firstChild.tagName ); // undefined (not element)
+    alert( document.body.firstChild.tagName ); // undefined (no element)
     alert( document.body.firstChild.nodeName ); // #comment
 
     // for document
@@ -219,7 +251,11 @@ XMLモードでは、文字の大小は "そのまま" 維持されます。最�
 </body>
 ```
 
+<<<<<<< HEAD
 無効な HTML を挿入しようとすると、ブラウザはエラーを修正します。:
+=======
+We can try to insert invalid HTML, the browser will fix our errors:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ```html run
 <body>
@@ -463,15 +499,24 @@ DOM 要素は追加のプロパティも持っており、それらの多くは�
 
 もし指定したクラスに対して、サポートされているすべてのプロパティのリストが知りたい場合、仕様でそれを見つけることができます。例えば、HTMLInputElemen は <https://html.spec.whatwg.org/#htmlinputelement> でドキュメント化されています。
 
+<<<<<<< HEAD
 あるいは、速くそれを知りたい場合や具体的なブラウザで関心がある場合には、-- いつでも `console.dir(elem)` を使って要素を出力しプロパティを読むことができます。もしくはブラウザ開発者ツールの Elements タブで "DOM プロパティ" を参照してください。
+=======
+Or if we'd like to get them fast or are interested in a concrete browser specification -- we can always output the element using `console.dir(elem)` and read the properties. Or explore "DOM properties" in the Elements tab of the browser developer tools.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ## サマリ 
 
+<<<<<<< HEAD
 各 DOM ノードは特定のクラスに属します。クラスは階層を形成します。プロパティとメソッドの完全なセットは継承の結果として得られます。
+=======
+Each DOM node belongs to a certain class. The classes form a hierarchy. The full set of properties and methods come as the result of inheritance.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 メインの DOM ノードプロパティは次の通りです:
 
 `nodeType`
+<<<<<<< HEAD
 : ノードタイプ。DOM オブジェクトクラスから取得することができますが、それがテキストノードか要素ノードかを単に知りたいだけであることがしばしばです。 `nodeType` プロパティはそれに適しています。これは数値で最も重要なのは: 要素の場合 `1` と、テキストノードの場合 `3` です。読み取り専用です。
 
 `nodeName/tagName`
@@ -479,12 +524,25 @@ DOM 要素は追加のプロパティも持っており、それらの多くは�
 
 `innerHTML`
 : 要素のHTMLコンテンツ。変更可能。
+=======
+: We can get `nodeType` from the DOM object class, but often we need just to see if it is a text or element node. The `nodeType` property is good for that. It has numeric values, most important are: `1` -- for elements,`3` -- for text nodes. Read-only.
+
+`nodeName/tagName`
+: For elements, tag name (uppercased unless XML-mode). For non-element nodes `nodeName` describes what it is. Read-only.
+
+`innerHTML`
+: The HTML content of the element. Can be modified.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 `outerHTML`
 : 要素の完全なHTMLです。`elem.outerHTML` への書き込み操作は `elem` 自体に触れません。代わりに、外部のコンテキストにおいて、新しいHTMLで置き換えます。
 
 `nodeValue/data`
+<<<<<<< HEAD
 : 非要素ノード(テキスト、コメント)のコンテンツです。これら2つはほとんど同じで通常は `data` を使います。変更可能。
+=======
+: The content of a non-element node (text, comment). These two are almost the same, usually we use `data`. Can be modified.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 `textContent`
 : 要素中のテキストで、基本的には HTML からすべての `<タグ>` を除いたものです。それに書き込むと、要素内にテキストが配置され、すべての特殊文字とタグがテキストとして正確に扱われます。 ユーザーが作成したテキストを安全に挿入し、不要なHTMLの挿入を防ぐことができます。
@@ -492,6 +550,10 @@ DOM 要素は追加のプロパティも持っており、それらの多くは�
 `hidden`
 : `true` をセットした場合、CSSの　`display:none` と同じです。
 
+<<<<<<< HEAD
 DOM ノードはクラスに応じて他のプロパティも持っています。例えば `<input>` 要素(`HTMLInputElement`) は `value`, `type` をサポートし、 `<a>` 要素 (`HTMLAnchorElement`) は `href` などです。ほとんどの標準HTML属性は対応する DOM プロパティを持っています。
+=======
+DOM nodes also have other properties depending on their class. For instance, `<input>` elements (`HTMLInputElement`) support `value`, `type`, while `<a>` elements (`HTMLAnchorElement`) support `href` etc. Most standard HTML attributes have a corresponding DOM property.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 しかし、HTML属性とDOMプロパティは必ずしも同じではありません。これについては次のチャプターで説明します。

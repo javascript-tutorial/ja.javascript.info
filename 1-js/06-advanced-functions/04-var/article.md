@@ -11,9 +11,13 @@
 
 しかし、`var` はそれらとは大きく異なり、そしてそれは非常に古くからのものです。一般的には、 `var` は現在のスクリプトでは使われませんが、古いスクリプトにはまだ潜んでいます。
 
+<<<<<<< HEAD
 もしあなたがこのようなスクリプトに出会う予定がなければ、このチャプターをスキップまたは後回しにして構いません。が、後でそれに噛みつかれることがあるかもしれないので注意してください。
 
 [cut]
+=======
+If you don't plan on meeting such scripts you may even skip this chapter or postpone it, but then there's a chance that it bites you later.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 一見すると、`var` は `let` と同じ振る舞いをします。つまり、変数を宣言します:
 
@@ -76,7 +80,11 @@ sayHi();
 alert(phrase); // Error: phrase は未定義
 ```
 
+<<<<<<< HEAD
 上の通り、`var` は `if`, `for` もしくは他のコードブロックを貫通します。それは、JavaScriptは長い間ブロックがレキシカル環境を持っていなかったためです。そして、 `var` はそれを想起させます。
+=======
+As we can see, `var` pierces through `if`, `for` or other code blocks. That's because a long time ago in JavaScript blocks had no Lexical Environments. And `var` is a remnant of that.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ## "var" は関数の開始で処理されます 
 
@@ -184,4 +192,8 @@ sayHi();
 
 グローバルオブジェクトに関連する小さな違いがもう少しあります。それは次のチャプターで説明します。
 
+<<<<<<< HEAD
 これらの違いは、実際にはほとんどの場合で悪いことです。 まず、ブロックローカル変数を作成することができません。また、巻き上げはエラーを引き起こす余地を増やします。 したがって、新しいスクリプトでは、 `var` はほとんど使用されません。
+=======
+These differences are actually a bad thing most of the time. Block-level variables is such a great thing. That's why `let` was introduced in the standard long ago, and is now a major way (along with `const`) to declare a variable.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f

@@ -1,19 +1,41 @@
+<<<<<<< HEAD
 # 日本語版 Modern JavaScript Tutorial
 
 このリポジトリは <https://javascript.info> の日本語翻訳版で、<https://ja.javascript.info> で公開されています。
 
 翻訳をより良いものにするために、ご協力お願いします!
+=======
+# The Modern JavaScript Tutorial
+
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 - "Translate Progress" の [issue](https://github.com/javascript-tutorial/ja.javascript.info/issues) を見てください。
 - 未チェック(未翻訳を表します)のコンテンツの中で、翻訳したいコンテンツを選んでください。
 - 翻訳していることが分かるよう、issueを作成してください。
 - リポジトリを Fork し、翻訳を行い、できたら PR をしてください。
 
+<<<<<<< HEAD
 🎉 Thank you!
 
 コントリビューターの名前と翻訳した量は <https://ja.javascript.info/about#contributors> で見ることができます(PRがマージされると更新されます)。
 
 P.S. 翻訳されている他の言語の一覧は <https://github.com/javascript-tutorial/translate> にあります。
+=======
+We'd like to make the tutorial available in many languages. Please help us to translate.
+
+See <https://javascript.info/translate> for the details.
+
+## Contributions
+
+We'd also like to collaborate on the tutorial with other people.
+
+Something's wrong? A topic is missing? Explain it to people, add as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.  
+
+The list of contributors is available at <https://javascript.info/about#contributors>.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ## 構造
 
@@ -94,3 +116,11 @@ MDN へのリンクについては、部分的にしか翻訳されていない�
 
 サーバは <https://github.com/javascript-tutorial/server> にあります。
 
+<<<<<<< HEAD
+=======
+It's very easy to add something new.
+
+---
+💓  
+Ilya Kantor @iliakan
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f

@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 次の月を使って日付を作りますが、その日としてゼロを渡します:
 ```js run
+=======
+Let's create a date using the next month, but pass zero as the day:
+```js run demo
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 function getLastDayOfMonth(year, month) {
   let date = new Date(year, month + 1, 0);
   return date.getDate();

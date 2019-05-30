@@ -5,13 +5,21 @@ libs:
 
 # カリー化と部分適用
 
+<<<<<<< HEAD
 今まで、`this` をバインドすることについて話していました。 さあ、もう一歩を進めましょう。
+=======
+Until now we have only been talking about binding `this`. Let's take it a step further.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 私たちは、`this` だけでなく、引数もバインドすることができます。それはめったにされませんが、便利なときがあります。
 
+<<<<<<< HEAD
 [cut]
 
 `bind` の完全な構文です:
+=======
+The full syntax of `bind`:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ```js
 let bound = func.bind(context, arg1, arg2, ...);
@@ -30,6 +38,10 @@ function mul(a, b) {
 これをベースとした関数 `double` を作るために、`bind` を使ってみましょう。:
 
 ```js run
+function mul(a, b) {
+  return a * b;
+}
+
 *!*
 let double = mul.bind(null, 2);
 */!*
@@ -48,6 +60,10 @@ alert( double(5) ); // = mul(2, 5) = 10
 下のコードの関数 `triple` は値を3倍にします:
 
 ```js run
+function mul(a, b) {
+  return a * b;
+}
+
 *!*
 let triple = mul.bind(null, 3);
 */!*
@@ -59,9 +75,15 @@ alert( triple(5) ); // = mul(3, 5) = 15
 
 なぜ、通常部分的な関数を作るのでしょうか？
 
+<<<<<<< HEAD
 ここでの我々のメリットは、分かりやすい名前(`double`, `triple`)で独立した関数を作れたことです。私たちはそれを使うことができ、毎回最初の引数を書く必要がありません。なぜなら、`bind` で固定されているからです。
 
 別のケースでは、非常に汎用的な関数を持っており、利便性のために汎用性を減らしたい時に部分適用は役立ちます。
+=======
+The benefit is that we can create an independent function with a readable name (`double`, `triple`). We can use it and not provide first argument of every time as it's fixed with `bind`.
+
+In other cases, partial application is useful when we have a very generic function and want a less universal variant of it for convenience.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 例えば、関数 `send(from, to, text)` を考えます。次に、`user` オブジェクトの内側で、その部分的なバリアントを使いたいかもしれません。: 現在のユーザから送信を行う `sendTo(to, text)` 関数など。
 
@@ -97,8 +119,13 @@ let user = {
 user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
 
 user.sayNow("Hello");
+<<<<<<< HEAD
 // このようになります:
 // [10:00] Hello, John!
+=======
+// Something like:
+// [10:00] John: Hello!
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 ```
 
 `partial(func[, arg1, arg2...])` の呼び出しの結果は次のように `func` を呼び出すラッパー `(*)` です。:
@@ -114,16 +141,24 @@ user.sayNow("Hello");
 
 "カリー化" と呼ばれる別のものと、上で言及された関数の部分適用を混同する人もいます。それらはここで言及しておくべき関数を扱う別の興味深いテクニックです。
 
+<<<<<<< HEAD
 [Currying](https://en.wikipedia.org/wiki/Currying) は `f(a, b, c)` と呼び出し可能なものを `f(a)(b)(c)` として呼び出しできるように変換します。
 
 ２変数関数に対するカリー化を行う関数 `curry` を作ってみましょう。つまり、`f(a, b)` を `f(a)(b)` に変換します。:
+=======
+[Currying](https://en.wikipedia.org/wiki/Currying) is a transformation of functions that translates a function from callable as `f(a, b, c)` into callable as `f(a)(b)(c)`. In JavaScript, we usually make a wrapper to keep the original function.
+
+Currying doesn't call a function. It just transforms it.
+
+Let's create a helper `curry(f)` function that performs currying for a two-argument `f`. In other words, `curry(f)` for two-argument `f(a, b)` translates it into `f(a)(b)`
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ```js run
 *!*
-function curry(func) {
+function curry(f) { // curry(f) does the currying transform
   return function(a) {
     return function(b) {
-      return func(a, b);
+      return f(a, b);
     };
   };
 }
@@ -149,19 +184,34 @@ lodash の [_.curry](https://lodash.com/docs#curry) のようなカリー化の�
 
 ```js
 function curry(f) {
+<<<<<<< HEAD
   return function(..args) {
     // もし args.length == f.length の場合(f と同じ引数がある場合),
     //   呼び出しを f へ渡す
     // それ以外は argsを最初の引数として固定する部分関数を返す
+=======
+  return function(...args) {
+    // if args.length == f.length (as many arguments as f has),
+    //   then pass the call to f
+    // otherwise return a partial function that fixes args as first arguments
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
   };
 }
 ```
 
 ## カリー化? 何のために? 
 
+<<<<<<< HEAD
 高度なカリー化を使用すると、簡単に関数を通常呼び出し可能にしつつ、部分適用をすることができます。このメリットを理解するために、価値のある実例を見る必要があります。
 
 例えば、情報を整形して出力するロギング関数 `log(date, importance, message)` を持っているとします。実際のプロジェクトでは、このような関数には、ネットワーク経由での送信やフィルタリングなど、他にも多くの便利な機能があります。
+=======
+To understand the benefits we definitely need a worthy real-life example.
+
+Advanced currying allows the function to be both callable normally and partially.
+
+For instance, we have the logging function `log(date, importance, message)` that formats and outputs the information. In real projects such functions also have many other useful features like sending logs over the network:
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ```js
 function log(date, importance, message) {
@@ -205,16 +255,28 @@ let todayDebug = todayLog("DEBUG");
 todayDebug("message"); // [HH:mm] DEBUG message
 ```
 
+<<<<<<< HEAD
 なので:
 1. カリー化をしても何も失いませんでした。: `log` は以前のように呼び出し可能です。
 2. 色んなケースに応じて便利な部分適用した関数を生成する事ができました。
 
+=======
+So:
+1. We didn't lose anything after currying: `log` is still callable normally.
+2. We were able to generate partial functions such as for today's logs.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 ## 高度なカリー実装 
 
+<<<<<<< HEAD
 ここでは、上記で使用できる "高度な" カリー実装を示します。
+=======
+In case you'd like to get in details (not obligatory!), here's the "advanced" curry implementation that we could use above.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
-```js run
+It's pretty short:
+
+```js
 function curry(func) {
 
   return function curried(...args) {
@@ -228,13 +290,18 @@ function curry(func) {
   };
 
 }
+```
 
+Usage examples:
+
+```js
 function sum(a, b, c) {
   return a + b + c;
 }
 
 let curriedSum = curry(sum);
 
+<<<<<<< HEAD
 // 通常通り呼ぶことも出来ます
 alert( curriedSum(1, 2, 3) ); // 6
 
@@ -246,6 +313,14 @@ alert( curriedSum(1)(2)(3) ); // 6
 ```
 
 新しい `curry` は複雑に見えますが、実際には理解するのはとても簡単です。
+=======
+alert( curriedSum(1, 2, 3) ); // 6, still callable normally
+alert( curriedSum(1)(2,3) ); // 6, currying of 1st arg
+alert( curriedSum(1)(2)(3) ); // 6, full currying
+```
+
+The new `curry` may look complicated, but it's actually easy to understand.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 `curry(func)` の結果は、このように `curried` のラッパーです。:
 

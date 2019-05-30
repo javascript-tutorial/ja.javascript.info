@@ -10,9 +10,13 @@
 
 関数がタスクを解決するとき、処理の過程で多くの他の関数を呼ぶことができます。この部分的なケースとして、関数が *自分自身* を呼ぶときです。それは *再帰* と呼ばれます。
 
+<<<<<<< HEAD
 [cut]
 
 ## 2つの考え方 
+=======
+## Two ways of thinking
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 初めのシンプルな例として、`x` の `n` 乗をする関数 `pow(x, n)` を書いてみましょう。つまり、`x` 自身を `n` 回乗算します。
 
@@ -318,7 +322,15 @@ let company = {
 };
 ```
 
+<<<<<<< HEAD
 言い換えると、会社は部署を持っています。
+=======
+In other words, a company has departments.
+
+- A department may have an array of staff. For instance, `sales` department has 2 employees: John and Alice.
+- Or a department may split into subdepartments, like `development` has two branches: `sites` and `internals`. Each of them has their own staff.
+- It is also possible that when a subdepartment grows, it divides into subsubdepartments (or teams).
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 - 部署はスタッフの配列を持っているかもしれません。例えば、`sales` 部門は２人の従業員がいます。John と Alice です。
 - もしくは、`development` は２つの枝(`sites` と `internals`)を持っているように、部署はサブの部署に分割されるかもしれません。それらは各々のスタッフを持ちます。
