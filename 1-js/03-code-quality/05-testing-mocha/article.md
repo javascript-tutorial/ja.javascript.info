@@ -4,9 +4,13 @@
 
 それは実際には開発者の "最低限の教育" の一部です。
 
+<<<<<<< HEAD
 [cut]
 
 ## なぜテストが必要なのでしょうか？ 
+=======
+## Why we need tests?
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 関数を書くとき、通常それが何をすべきかをイメージできます: どのパラメータがどのような結果を与えるか。
 
@@ -99,7 +103,11 @@ describe("pow", function() {
 ```html src="index.html"
 ```
 
+<<<<<<< HEAD
 ページは４つのパートに分かれています:
+=======
+The page can be divided into five parts:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 1. `<head>` -- テストのためのサードパーティーのライブラリやスタイルの追加
 2. テストするための関数の `<script>`、このケースでは -- `pow` のコードです。
@@ -120,7 +128,7 @@ describe("pow", function() {
 テストを通すため、`pow` を実装しましょう:
 
 ```js
-function pow() {
+function pow(x, n) {
   return 8; // :) we cheat!
 }
 ```
@@ -236,7 +244,7 @@ describe("pow", function() {
 describe("pow", function() {
 
 *!*
-  describe("raises x to power n", function() {
+  describe("raises x to power 3", function() {
 */!*
 
     function makeTest(x) {
@@ -299,7 +307,11 @@ Testing finished – after all tests (after)
 
 [edit src="beforeafter" title="Open the example in the sandbox."]
 
+<<<<<<< HEAD
 通常、`beforeEach/afterEach` (`before/each`) は初期化の実行のために使われ、カウンタをゼロにしたり、テストの間で何かをするときに使われます。
+=======
+Usually, `beforeEach/afterEach` (`before/after`) are used to perform initialization, zero out counters or do something else between the tests (or test groups).
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 ````
 
 ## 仕様を拡張する 

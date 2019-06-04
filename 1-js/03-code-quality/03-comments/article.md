@@ -18,7 +18,11 @@ complex;
 code;
 ```
 
+<<<<<<< HEAD
 しかし良いコードでは、このような "説明的な" コメントは最小限にすべきです。真面目にそれらがなくても理解しやすいコードにするべきです。
+=======
+But in good code the amount of such "explanatory" comments should be minimal. Seriously, code should be easy to understand without them.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 それに関して素晴らしいルールがあります。"もしもコードがコメントを必要とするほど不明瞭な場合、書き直すべきかもしれません"。
 
@@ -113,7 +117,11 @@ function addJuice(container) {
 
 改めて言いますが、関数自身が何が行われているのかを伝えているので、コメントすることは何もありません。また分割するとコードの構造はより良くなります。各関数がすること、何を引数として取り、何を返すのかは明白です。
 
+<<<<<<< HEAD
 現実では、完全に "説明的な" コメントを避けることはできません。複雑なアルゴリズムがあり、その最適化のための賢明な "微調整" がコードの中で行われることがあります。しかし、一般的にはコードをシンプルで自己記述的に保つよう努めるべきです。
+=======
+In reality, we can't totally avoid "explanatory" comments. There are complex algorithms. And there are smart "tweaks" for purposes of optimization. But generally we should try to keep the code simple and self-descriptive.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ## 良いコメント 
 
@@ -145,8 +153,13 @@ function addJuice(container) {
 
     また、コメントからHTMLドキュメントを生成することができる [JSDoc 3](https://github.com/jsdoc3/jsdoc) のようなツールもあります。JSDocに関するより多くの情報は <http://usejsdoc.org/> で読むことができます。
 
+<<<<<<< HEAD
 タスクがこのように解決されるのはなぜか？
 : 書かれていることは重要です。が、何が起こっていることを理解するためには、*書かれていないこと* がより重要かもしれません。なぜそのタスクがこの方法で正しく解決されるのか？コードは回答しません。
+=======
+Why is the task solved this way?
+: What's written is important. But what's *not* written may be even more important to understand what's going on. Why is the task solved exactly this way? The code gives no answer.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
     もしそのタスクを解決する方法が多数ある場合、なぜこれを選んだのでしょう？特に、それが最も明白なものではないとき。
 
@@ -157,12 +170,21 @@ function addJuice(container) {
 
     解決策を説明するコメントはとても重要です。それらは正しい方向で開発を続けるのに役立ちます。
 
+<<<<<<< HEAD
 コードの捉えにくい特徴はある？それらはどこで使われる？
 : もしもコードが捉えにくく、紛らわしいものがある場合にはきっとコメントする価値があります。
+=======
+Any subtle features of the code? Where they are used?
+: If the code has anything subtle and counter-intuitive, it's definitely worth commenting.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ## サマリ 
 
+<<<<<<< HEAD
 よい開発者であることを示す重要な指標は、コメントです: 何を書くか、また、何を書かないかさえ、指標となります。
+=======
+An important sign of a good developer is comments: their presence and even their absence.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 よいコメントはコードを上手く維持し、時間が経った後でそこに戻ったときにも効果的に使えるようにします。
 
@@ -172,7 +194,11 @@ function addJuice(container) {
 - 関数の使用方法
 - 重要な解決策、特にそれが一目瞭然でないとき
 
+<<<<<<< HEAD
 **コメントを避ける:**
+=======
+**Avoid comments:**
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 - "どのようにコードが動くか" そして "それが何をするか" を伝える
 - コードを、コメントを必要としないような、シンプルで自己記述的にすることが不可能な場合にのみ置きます。

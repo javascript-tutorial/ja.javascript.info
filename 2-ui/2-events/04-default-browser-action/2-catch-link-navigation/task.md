@@ -4,7 +4,11 @@ importance: 5
 
 # 要素内のリンクをキャッチする
 
+<<<<<<< HEAD
 `id="contents"` の要素内のすべてのリンクが、ユーザに本当に離れたいかを尋ねるようにしてください。そして、答えが No の場合は遷移しません。
+=======
+Make all links inside the element with `id="contents"` ask the user if they really want to leave. And if they don't then don't follow.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 このようになります:
 
