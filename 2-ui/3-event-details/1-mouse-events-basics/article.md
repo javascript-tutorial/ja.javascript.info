@@ -4,9 +4,13 @@
 
 このチャプターでは、マウスイベントとそれらのプロパティの詳細について説明していきます。
 
+<<<<<<< HEAD
 [cut]
 
 ## マウスイベントタイプ 
+=======
+## Mouse event types
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 マウスイベントは2つのカテゴリに分けることができます: "シンプル" と "複雑" です。
 
@@ -58,7 +62,11 @@
 
 ## ボタンを取得する: which 
 
+<<<<<<< HEAD
 クリック関連のイベントは常にボタンが取得できる `which` プロパティを持っています。
+=======
+Click-related events always have the `which` property, which allows to get the exact mouse button.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 これは `click` や `contextmenu` では使われません。なぜなら前者は左クリックのときだけ、後者は -- 右クリックのときにだけ起こるからです。
 
@@ -177,7 +185,11 @@ Before...
 
 ...しかし、潜在的な問題があります! テキストは本当に選択不能になります。たとえユーザが "Before" から選択を開始し、"After" まで選択したとしても、その選択は "Unselectable" の部分はスキップされます。私たちは本当にそのテキストを選択不可にしたいですか？
 
+<<<<<<< HEAD
 殆どの場合、そうではありません。ユーザは、コピーまたはその他の必要性のために、テキストを選択する正当な理由がある可能性があります。 もしユーザにそれをさせることを許さなければ、それは邪魔になるかもしれません。 そのためこの解決策はそれほど良いものではありません。
+=======
+Most of time, we don't. A user may have valid reasons to select the text, for copying or other needs. That may be inconvenient if we don't allow them to do it. So this solution is not that good.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 私たちが欲しいものは、ダブルクリックで選択を防ぐ、それだけです。
 
@@ -195,6 +207,10 @@ Before...
 
 一方、その中のテキストは依然として選択可能です。選択はテキスト自身ではなく、その前後から始める必要があります。通常それは問題ありません。
 
+<<<<<<< HEAD
+=======
+The text inside it is still selectable. However, the selection should start not on the text itself, but before or after it. Usually that's fine though.
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 ````smart header="選択のキャンセル"
 選択を *防ぐ* 代わりに、イベントハンドラの中で、"事後に" キャンセルすることができます。
@@ -229,12 +245,17 @@ Before...
 
 ## サマリ 
 
+<<<<<<< HEAD
 マウスイベントは次のプロパティを持っています:
+=======
+Mouse events have the following properties:
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb
 
 - ボタン: `which`.
 - 修飾子 (押された場合 `true`): `altKey`, `ctrlKey`, `shiftKey` と `metaKey` (Mac).
   - `key:Ctrl` を処理したい場合、Mac ユーザを忘れてはいけません、彼らは `key:Cmd` を使うので、`if (e.metaKey || e.ctrlKey)` とチェックするのが良いです。
 
+<<<<<<< HEAD
 - ウィンドウ相対座標: `clientX/clientY`.
 - ドキュメント相対座標: `pageX/clientX`.
 
@@ -244,3 +265,14 @@ Before...
 1. CSS プロパティ `user-select:none` (ブラウザプレフィックス付きで)はそれを完全に無効にします。
 2. `getSelection().removeAllRanges()` を使って選択を事後にキャンセルします。
 3. `mousedown` を処理し、デフォルトアクションを防ぎます(通常はこれがベストです)。
+=======
+- Window-relative coordinates: `clientX/clientY`.
+- Document-relative coordinates: `pageX/pageY`.
+
+It's also important to deal with text selection as an unwanted side-effect of clicks.
+
+There are several ways to do this, for instance:
+1. The CSS-property `user-select:none` (with browser prefixes) completely disables text-selection.
+2. Cancel the selection post-factum using `getSelection().removeAllRanges()`.
+3. Handle `mousedown` and prevent the default action (usually the best).
+>>>>>>> a0266c574c0ab8a0834dd38ed65e7e4ee27f9cdb

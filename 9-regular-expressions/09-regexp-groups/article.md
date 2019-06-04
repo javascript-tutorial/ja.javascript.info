@@ -1,63 +1,59 @@
-# キャプチャグループ
+# Capturing groups
 
-パターンの一部を丸括弧 `pattern:(...)`で囲むことができます。これは "キャプチャグループ" と呼ばれています。
+A part of a pattern can be enclosed in parentheses `pattern:(...)`. This is called a "capturing group".
 
-これには2つの効果があります:
+That has two effects:
 
-1. [String#match](mdn:js/String/match) または [RegExp#exec](mdn:/RegExp/exec) メソッドを利用したとき、マッチした部分を別々の配列アイテムに置くことができます。
-2. 丸括弧の後の量指定子を置いた場合、最後の文字ではなく全体に丸括弧が適用されます。
+1. It allows to place a part of the match into a separate array.
+2. If we put a quantifier after the parentheses, it applies to the parentheses as a whole, not the last character.
 
-[cut]
+## Example
 
-## 例
-
-下の例では、パターン `pattern:(go)+` は1つ以上の `match:'go'` を見つけます:
+In the example below the pattern `pattern:(go)+` finds one or more `match:'go'`:
 
 ```js run
 alert( 'Gogogo now!'.match(/(go)+/i) ); // "Gogogo"
 ```
 
-括弧なしだと、パターン `pattern:/go+/` は `subject:g` と、それに続けて1回以上の `subject:o` の繰り返しを意味します、例えば、`match:goooo` や `match:gooooooooo` です。
+Without parentheses, the pattern `pattern:/go+/` means `subject:g`, followed by `subject:o` repeated one or more times. For instance, `match:goooo` or `match:gooooooooo`.
 
-括弧は単語 `pattern:(go)` をグループ化します。
+Parentheses group the word `pattern:(go)` together.
 
-もっと複雑なもの -- メールアドレスにマッチする正規表現を作りましょう。
+Let's make something more complex -- a regexp to match an email.
 
-メールアドレスの例です:
+Examples of emails:
 
 ```
 my@mail.com
 john.smith@site.com.uk
 ```
 
-パターンは: `pattern:[-.\w]+@([\w-]+\.)+[\w-]{2,20}` です。
+The pattern: `pattern:[-.\w]+@([\w-]+\.)+[\w-]{2,20}`.
 
-- `@` の前の最初のパートは、`match:john.smith` のように単語的な文字、ドットとダッシュを含みます `pattern:[-.\w]+`。
-- 次は `pattern:@` です。
-- そして、ドメインです。2階層のドメイン `site.com` かもしれないし、`host.site.com.uk` のようにサブドメインを持つ可能性があります。私たちは、`match:mail.` または `match:site.com.` のようなサブドメインに対して、"後ろにドットが続く単語" の1回以上の繰り返しをし、その後 `match:.com` や `match:.uk` のような最後の部分に対する "単語" としてマッチさせることができます。
+1. The first part `pattern:[-.\w]+` (before `@`) may include any alphanumeric word characters, a dot and a dash, to match `match:john.smith`.
+2. Then `pattern:@`, and the domain. It may be a subdomain like `host.site.com.uk`, so we match it as "a word followed by a dot `pattern:([\w-]+\.)` (repeated), and then the last part must be a word: `match:com` or `match:uk` (but not very long: 2-20 characters).
 
-    "ドットが続く単語" は `pattern:(\w+\.)+` (繰り返し) です。最後の言葉は末尾にドットは持たないので、単に `\w{2,20}` になります。量指定子 `pattern:{2,20}` は長さを制限します。`.uk`, `.com` や `.museum` のようなドメインのゾーンは 20文字を超えることはできないためです。
+That regexp is not perfect, but good enough to fix errors or occasional mistypes.
 
-    なので、ドメインパターンは `pattern:(\w+\.)+\w{2,20}` になります。さらに、ドメインはダッシュも許容するので `\w` を `[\w-]` に置き換えます。これで最終的な結果を得ました。
-
-この正規表現は完璧ではありませんが、たいていの場合動作します。これはパターンが短く、誤りや時折起きる間違いを修正するのには十分です。
-
-例えば、ここでは文字列中のすべてのメールアドレスを見つけます:
+For instance,  we can find all emails in the string:
 
 ```js run
 let reg = /[-.\w]+@([\w-]+\.)+[\w-]{2,20}/g;
 
-alert("my@mail.com @ his@site.com.uk".match(reg)); // my@mail.com,his@site.com.uk
+alert("my@mail.com @ his@site.com.uk".match(reg)); // my@mail.com, his@site.com.uk
 ```
 
+In this example parentheses were used to make a group for repeating `pattern:(...)+`. But there are other uses too, let's see them.
 
-## 括弧の内容
+## Contents of parentheses  
 
-丸括弧は左から右へ番号付けされます。検索エンジンはそれぞれの中身を覚えており、パターンまたは置換文字列の中で内容を参照することができます。
+Parentheses are numbered from left to right. The search engine remembers the content of each and allows to reference it in the pattern or in the replacement string.
 
-例えば、(簡略化された) パターン `pattern:<.*?>` を使って HTML タグを見つけます。通常、結果の後に何かをしたいでしょう。
+For instance, we'd like to find HTML tags `pattern:<.*?>`, and process them.
 
-`<...>` の中身を丸括弧で囲むと、次のようにしてアクセスすることができます:
+Let's wrap the inner content into parentheses, like this: `pattern:<(.*?)>`.
+
+We'll get them into an array:
 
 ```js run
 let str = '<h1>Hello, world!</h1>';
@@ -66,38 +62,35 @@ let reg = /<(.*?)>/;
 alert( str.match(reg) ); // Array: ["<h1>", "h1"]
 ```
 
-正規表現が `pattern:/.../g` フラグを持っていないときだけ、[String#match](mdn:js/String/match) の呼び出しはグループを返します。
+The call to [String#match](mdn:js/String/match) returns groups only if the regexp has no `pattern:/.../g` flag.
 
-グループとのすべてのマッチが必要な場合、<info:regexp-methods> で説明したように [RegExp#exec](mdn:js/RegExp/exec) メソッドを使います。:
+If we need all matches with their groups then we can use `.matchAll` or `regexp.exec` as described in <info:regexp-methods>:
 
 ```js run
 let str = '<h1>Hello, world!</h1>';
 
-// 2つマッチします: 開始 <h1> と閉じ </h1> タグです
+// two matches: opening <h1> and closing </h1> tags
 let reg = /<(.*?)>/g;
 
-let match;
+let matches = Array.from( str.matchAll(reg) );
 
-while (match = reg.exec(str)) {
-  // 最初のマッチを表示: <h1>,h1
-  // 次のマッチを表示: </h1>,/h1
-  alert(match);
-}
+alert(matches[0]); //  Array: ["<h1>", "h1"]
+alert(matches[1]); //  Array: ["</h1>", "/h1"]
 ```
 
-ここでは `pattern:<(.*?)>` で2つのマッチがあり、それぞれが完全なマッチとグループの配列です。
+Here we have two matches for `pattern:<(.*?)>`, each of them is an array with the full match and groups.
 
-## ネストされたグループ
+## Nested groups
 
-括弧はネストすることができます。この場合も数字は左から右です。
+Parentheses can be nested. In this case the numbering also goes from left to right.
 
-例えば、`subject:<span class="my">` でタグを探すとき、次の内容に興味を持つかもしれません:
+For instance, when searching a tag in `subject:<span class="my">` we may be interested in:
 
-1. タグ全体のコンテンツ: `match:span class="my"`.
-2. タグの名前: `match:span`.
-3. タグの属性: `match:class="my"`.
+1. The tag content as a whole: `match:span class="my"`.
+2. The tag name: `match:span`.
+3. The tag attributes: `match:class="my"`.
 
-これらのための括弧を追加しましょう:
+Let's add parentheses for them:
 
 ```js run
 let str = '<span class="my">';
@@ -108,60 +101,125 @@ let result = str.match(reg);
 alert(result); // <span class="my">, span class="my", span, class="my"
 ```
 
-グループは次のようになります:
+Here's how groups look:
 
 ![](regexp-nested-groups.png)
 
-`result` の先頭のインデックスは常に完全なマッチです。
+At the zero index of the `result` is always the full match.
 
-次にグループで、左から右に番号付けされています。ここでは `result[1]` はタグコンテンツ全体が囲まれています。
+Then groups, numbered from left to right. Whichever opens first gives the first group `result[1]`. Here it encloses the whole tag content.
 
-次の `result[2]` は, 2つ目の開始 `result[2]` から対応する `pattern:)` までのグループ -- タグ名で、その後スペースはグループ化していませんが、`result[3]` で属性をグループ化しています。
+Then in `result[2]` goes the group from the second opening `pattern:(` till the corresponding `pattern:)` -- tag name, then we don't group spaces, but group attributes for `result[3]`.
 
-**もしグループが任意であり、マッチに存在しない場合、対応する `result` のインデックスは存在します(が、 `undefined` です)。**
+**If a group is optional and doesn't exist in the match, the corresponding `result` index is present (and equals `undefined`).**
 
-例えば、正規表現 `pattern:a(z)?(c)?` を考えてみましょう。これは `"a"` に任意の `"z"`が続き, それに任意の `"c"` が続くパターンを探します。
+For instance, let's consider the regexp `pattern:a(z)?(c)?`. It looks for `"a"` optionally followed by `"z"` optionally followed by `"c"`.
 
-もし1文字 `subject:a` に対して実行すると、結果はこのようになります:
+If we run it on the string with a single letter `subject:a`, then the result is:
 
 ```js run
 let match = 'a'.match(/a(z)?(c)?/);
 
 alert( match.length ); // 3
-alert( match[0] ); // a (マッチ全体)
+alert( match[0] ); // a (whole match)
 alert( match[1] ); // undefined
 alert( match[2] ); // undefined
 ```
 
-配列は長さ `3` ですが、すべてのグループは空です。
+The array has the length of `3`, but all groups are empty.
 
-そして、文字列 `subject:ack` の場合はより複雑なマッチになります:
+And here's a more complex match for the string `subject:ack`:
 
 ```js run
 let match = 'ack'.match(/a(z)?(c)?/)
 
 alert( match.length ); // 3
-alert( match[0] ); // ac (マッチ全体)
-alert( match[1] ); // undefined, (z)? がないので。
+alert( match[0] ); // ac (whole match)
+alert( match[1] ); // undefined, because there's nothing for (z)?
 alert( match[2] ); // c
 ```
 
-配列の長さは不変で `3` です。しかしグループ `pattern:(z)?` は無いので、結果は `["ac", undefined, "c"]` になります。
+The array length is permanent: `3`. But there's nothing for the group `pattern:(z)?`, so the result is `["ac", undefined, "c"]`.
 
-## ? を使用した非キャプチャグループ:
+## Named groups
 
-量指定子を正しく適用するために括弧が必要ですが、配列にそれらの内容が必要でない場合があります。
+Remembering groups by their numbers is hard. For simple patterns it's doable, but for more complex ones we can give names to parentheses.
 
-先頭に `pattern:?:` を追加するとグループを除外することができます。
+That's done by putting `pattern:?<name>` immediately after the opening paren, like this:
 
-例えば、`pattern:(go)+` を見つけたいですが、別の配列アイテムにその内容 (`go`) を覚えたくない場合、`pattern:(?:go)+` と書くことができます。
+```js run
+*!*
+let dateRegexp = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/;
+*/!*
+let str = "2019-04-30";
 
-下の例では、`results` の配列の別の要素として名前 "John" だけを取得します。:
+let groups = str.match(dateRegexp).groups;
+
+alert(groups.year); // 2019
+alert(groups.month); // 04
+alert(groups.day); // 30
+```
+
+As you can see, the groups reside in the `.groups` property of the match.
+
+We can also use them in replacements, as `pattern:$<name>` (like `$1..9`, but name instead of a digit).
+
+For instance, let's rearrange the date into `day.month.year`:
+
+```js run
+let dateRegexp = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/;
+
+let str = "2019-04-30";
+
+let rearranged = str.replace(dateRegexp, '$<day>.$<month>.$<year>');
+
+alert(rearranged); // 30.04.2019
+```
+
+If we use a function, then named `groups` object is always the last argument:
+
+```js run
+let dateRegexp = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/;
+
+let str = "2019-04-30";
+
+let rearranged = str.replace(dateRegexp,
+  (str, year, month, day, offset, input, groups) =>
+   `${groups.day}.${groups.month}.${groups.year}`
+);
+
+alert(rearranged); // 30.04.2019
+```
+
+Usually, when we intend to use named groups, we don't need positional arguments of the function. For the majority of real-life cases we only need `str` and `groups`.
+
+So we can write it a little bit shorter:
+
+```js
+let rearranged = str.replace(dateRegexp, (str, ...args) => {
+  let {year, month, day} = args.pop();
+  alert(str); // 2019-04-30
+  alert(year); // 2019
+  alert(month); // 04
+  alert(day); // 30
+});
+```
+
+
+## Non-capturing groups with ?:
+
+Sometimes we need parentheses to correctly apply a quantifier, but we don't want the contents in results.
+
+A group may be excluded by adding `pattern:?:` in the beginning.
+
+For instance, if we want to find `pattern:(go)+`, but don't want to remember the contents (`go`) in a separate array item, we can write: `pattern:(?:go)+`.
+
+In the example below we only get the name "John" as a separate member of the `results` array:
 
 ```js run
 let str = "Gogo John!";
 *!*
-// キャプチャから Gogo を除外します
+// exclude Gogo from capturing
 let reg = /(?:go)+ (\w+)/i;
 */!*
 
@@ -170,3 +228,10 @@ let result = str.match(reg);
 alert( result.length ); // 2
 alert( result[1] ); // John
 ```
+
+## Summary
+
+- Parentheses can be:
+  - capturing `(...)`, ordered left-to-right, accessible by number.
+  - named capturing `(?<name>...)`, accessible by name.
+  - non-capturing `(?:...)`, used only to apply quantifier to the whole groups.
