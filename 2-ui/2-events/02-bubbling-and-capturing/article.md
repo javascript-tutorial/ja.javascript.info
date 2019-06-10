@@ -10,7 +10,11 @@
 </div>
 ```
 
+<<<<<<< HEAD
 少し奇妙に見えますよね？ なぜ実際のクリックが `<em>` だった場合に `<div>` 上のハンドラが実行されるでしょう？
+=======
+Isn't it a bit strange? Why does the handler on `<div>` run if the actual click was on `<em>`?
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ## バブリング(Bubbling) 
 
@@ -18,7 +22,11 @@
 
 **要素上でイベントが起きると、最初にその上のハンドラが実行され、次にその親のハンドラが実行され、他の祖先に到達するまでそれらが行われます。**
 
+<<<<<<< HEAD
 たとえば、3つのネストされた要素 `FORM > DIV > P` があり、それぞれにハンドラがあります:
+=======
+Let's say we have 3 nested elements `FORM > DIV > P` with a handler on each of them:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ```html run autorun
 <style>
@@ -108,9 +116,15 @@ It's possible that `event.target` equals `this` -- when the click is made direct
 
 例えば:
 
+<<<<<<< HEAD
 1. 私たちはネストされたメニューを作ります。各サブメニューはその要素上でクリックを処理し、外部のメニューがトリガされないよう、`stopPropagation` を呼び出します。
 2. 後ほど、ユーザの行動(人々がクリックした場所)を追跡するためにウィンドウ全のクリックをキャッチすることに決めました。いくつかの分析システムはそのようなことをします。通常、すべてのクリックをキャッチするためのコードは `document.addEventListener('click'…)` を使います。
 3. 我々の分析は、クリックが `stopPropagation` で止められた領域上では動作しません。それは "デッドゾーン" になります。
+=======
+1. We create a nested menu. Each submenu handles clicks on its elements and calls `stopPropagation` so that the outer menu won't trigger.
+2. Later we decide to catch clicks on the whole window, to track users' behavior (where people click). Some analytic systems do that. Usually the code uses `document.addEventListener('click'…)` to catch all clicks.
+3. Our analytic won't work over the area where clicks are stopped by `stopPropagation`. We've got a "dead zone".
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 通常、本当にバブリングを防がなければならないケースはほとんどありません。必要と思われるタスクは他の手段で解決できる可能性があります。そのうちの１つはカスタムイベントを利用することで、後でそれを説明します。また、データをあるハンドラの `event` オブジェクトに書き込み、別のハンドラでそれを読み込むこともできるので、親のハンドラに下位の処理に関する情報を渡すことができます。
 ```
@@ -136,18 +150,34 @@ It's possible that `event.target` equals `this` -- when the click is made direct
 
 `on<event>`プロパティまたは HTML属性、もしくは `addEventListener(event, handler)` を使って追加されたハンドラはキャプチャリングについて何も知りません。それらはフェーズ 2 と 3 でのみ実行されます。
 
+<<<<<<< HEAD
 キャプチャリングフェーズでイベントをキャッチするには、`addEventListener` の３つ目の引数を `true` にする必要があります。
 
 最後の引数は２つのとり得る値があります:
+=======
+To catch an event on the capturing phase, we need to set the handler `capture` option to `true`:
+
+```js
+elem.addEventListener(..., {capture: true})
+// or, just "true" is an alias to {capture: true}
+elem.addEventListener(..., true)
+```
+
+There are two possible values of the `capture` option:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 - `false` (デフォルト) の場合、ハンドラはバブリングフェーズで設定されます。
 - `true` の場合、ハンドラはキャプチャリングフェーズで設定されます。
 
 正式には３つのフェーズがありますが、２つ目のフェーズ("ターゲットフェーズ": イベントが要素に到達した)は個別に処理されないことに注意してください: キャプチャフェーズとバブリングフェーズの両方のハンドラがそのフェーズでトリガします。
 
+<<<<<<< HEAD
 キャプチャリングとバブリングハンドラをターゲット要素に置くと、キャプチャハンドラはキャプチャフェーズの最後にトリガし、バブルハンドラはバブリングフェーズで最初にトリガします。
 
 動作を見てみましょう:
+=======
+Let's see both capturing and bubbling in action:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ```html run autorun height=140 edit
 <style>
@@ -182,13 +212,27 @@ It's possible that `event.target` equals `this` -- when the click is made direct
 
 イベントが捕捉されたフェーズの番号を示すプロパティ `event.eventPhase` があります。 しかし、私たちは通常ハンドラでそれを知っているので、めったに使用されません。
 
+<<<<<<< HEAD
 ## サマリ 
+=======
+```smart header="To remove the handler, `removeEventListener` needs the same phase"
+If we `addEventListener(..., true)`, then we should mention the same phase in `removeEventListener(..., true)` to correctly remove the handler.
+```
+
+## Summary
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 イベントハンドラプロセスです:
 
+<<<<<<< HEAD
 - イベントが発生したとき -- それが起きた最もネストされた要素は "ターゲット要素" (`event.target`) としてラベル付けされます。
 - 次にイベントは `addEventListener(...., true)` で割り当てられたハンドラを呼び出しながらドキュメントルートから `event.target` へ下りていきます。
 - その後、イベントは `on<event>` と3つ目の引数がないもしくは `false` の `addEventListener` を使って割り当てられたハンドラを実行しながら `event.target` からルートまで上がっていきます。
+=======
+- When an event happens -- the most nested element where it happens gets labeled as the "target element" (`event.target`).
+- Then the event first moves from the document root down to the `event.target`, calling handlers assigned with `addEventListener(...., true)` on the way (`true` is a shorthand for `{capture: true}`).
+- Then the event moves from `event.target` up to the root, calling handlers assigned using  `on<event>` and `addEventListener` without the 3rd argument or with the 3rd argument `false`.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 それぞれのハンドラは `event` オブジェクトのプロパティにアクセスできます:
 

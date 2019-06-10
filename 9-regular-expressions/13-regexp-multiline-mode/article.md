@@ -1,16 +1,14 @@
-# 複数行モード, フラグ "m"
+# Multiline mode, flag "m"
 
-フラグ `pattern:/.../m` とすることで、複数行モードを有効にできます。
+The multiline mode is enabled by the flag `pattern:/.../m`.
 
-[cut]
+It only affects the behavior of `pattern:^` and `pattern:$`.
 
-これは `pattern:^` と `pattern:$` の動作にのみ影響します。
+In the multiline mode they match not only at the beginning and end of the string, but also at start/end of line.
 
-複数行モードでは、文字列の始めと終わりだけでなく、行の始まりと終わりにもマッチします。
+## Line start ^
 
-## 行の開始 ^
-
-下の例では、テキストは複数行です。パターン `pattern:/^\d+/gm` はそれぞれの行の先頭から数字を取ります。:
+In the example below the text has multiple lines. The pattern `pattern:/^\d+/gm` takes a number from the beginning of each one:
 
 ```js run
 let str = `1st place: Winnie
@@ -22,7 +20,7 @@ alert( str.match(/^\d+/gm) ); // 1, 2, 33
 */!*
 ```
 
-`pattern:/.../m` フラグがない場合は、最初の数値だけがマッチします:
+Without the flag  `pattern:/.../m` only the first number is matched:
 
 
 ```js run
@@ -35,15 +33,15 @@ alert( str.match(/^\d+/g) ); // 1
 */!*
 ```
 
-これは、デフォルトではキャレット `pattern:^` はテキストの先頭にのみマッチし、複数行モードでは -- 行の始まりがマッチするためです。
+That's because by default a caret `pattern:^` only matches at the beginning of the text, and in the multiline mode -- at the start of a line.
 
-正規表現エンジンはテキストに沿って進み、`pattern:^` で始まる文字列を探し、見つけたとき -- パターン `pattern:\d+` の残りの部分のマッチを続けます。
+The regular expression engine moves along the text and looks for a string start `pattern:^`, when finds -- continues to match the rest of the pattern `pattern:\d+`.
 
-## 行の終わり $
+## Line end $
 
-ドル記号 `pattern:$` も同様に振る舞います。
+The dollar sign `pattern:$` behaves similarly.
 
-正規表現 `pattern:\w+$` は各行で最後の単語を見つけます。:
+The regular expression `pattern:\w+$` finds the last word in every line
 
 ```js run
 let str = `1st place: Winnie
@@ -53,15 +51,15 @@ let str = `1st place: Winnie
 alert( str.match(/\w+$/gim) ); // Winnie,Piglet,Eeyore
 ```
 
-フラグ `pattern:/.../m` がなければ、ドル `pattern:$` は文字列全体の終わりにのみマッチします。なので、最後の単語だけが見つかるでしょう。
+Without the `pattern:/.../m` flag the dollar `pattern:$` would only match the end of the whole string, so only the very last word would be found.
 
-## アンカー ^$ vs \n
+## Anchors ^$ versus \n
 
-改行を見つけるには、`pattern:^` と `pattern:$` だけでなく、改行文字 `\n` を使うこともできます。
+To find a newline, we can use not only `pattern:^` and `pattern:$`, but also the newline character `\n`.
 
-最初の違いは、アンカーとは異なり、文字 `\n` は改行文字を "消費" し、結果にそれを追加することです。
+The first difference is that unlike anchors, the character `\n` "consumes" the newline character and adds it to the result.
 
-例えば、ここでは `pattern:$` の代わりに `\n` を使っています:
+For instance, here we use it instead of `pattern:$`:
 
 ```js run
 let str = `1st place: Winnie
@@ -71,8 +69,8 @@ let str = `1st place: Winnie
 alert( str.match(/\w+\n/gim) ); // Winnie\n,Piglet\n
 ```
 
-ここでは、すべてのマッチは単語に改行文字を加えたものです。
+Here every match is a word plus a newline character.
 
-そして、もう1つの違いは -- 改行 `\n` は文字列の末尾にはマッチしないことです。そのため、`Eeyore` は上の例では見つかりませんでした。
+And one more difference -- the newline `\n` does not match at the string end. That's why `Eeyore` is not found in the example above.
 
-したがって、通常はアンカーのほうが優れています。それらは我々が欲しいものにより近いです。
+So, anchors are usually better, they are closer to what we want to get.

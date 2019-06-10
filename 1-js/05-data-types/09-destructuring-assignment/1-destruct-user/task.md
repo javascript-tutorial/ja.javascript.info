@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 分割代入
+# Destructuring assignment
 
-次のオブジェクトがあります:
+We have an object:
 
 ```js
 let user = {
@@ -13,13 +13,13 @@ let user = {
 };
 ```
 
-以下のような分割代入を書いてください:
+Write the destructuring assignment that reads:
 
-- `name` プロパティを変数 `name` に、
-- `years` プロパティを変数 `age` に、
-- `isAdmin` プロパティを変数 `isAdmin` (存在しない場合は false )にしてください。
+- `name` property into the variable `name`.
+- `years` property into the variable `age`.
+- `isAdmin` property into the variable `isAdmin` (false if absent)
 
-代入後の値は次のようになる必要があります:
+The values after the assignment should be:
 
 ```js
 let user = { name: "John", years: 30 };

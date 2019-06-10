@@ -5,9 +5,13 @@
 
 私たちはこれまで文字列だけ見てきました。今シンボルが我々に与えてくれるアドバンテージを見てみましょう。
 
+<<<<<<< HEAD
 [cut]
 
 ## シンボル 
+=======
+## Symbols
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 "シンボル" 値はユニークな識別子を表現します。
 
@@ -20,8 +24,13 @@ let id = Symbol();
 
 また、シンボルに説明を与えることもでき(シンボル名と呼びます)、デバッグ目的で便利です。
 
+<<<<<<< HEAD
 ```js
 // id は "id" という説明を持つ symbol です
+=======
+```js run
+// id is a symbol with the description "id"
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 let id = Symbol("id");
 ```
 
@@ -52,7 +61,13 @@ alert(id); // TypeError: Cannot convert a Symbol value to a string
 */!*
 ```
 
+<<<<<<< HEAD
 もし本当にシンボルを表示したい場合は、このように `toString()` を呼ぶ必要があります:
+=======
+That's a "language guard" against messing up, because strings and symbols are fundamentally different and should not occasionally convert one into another.
+
+If we really want to show a symbol, we need to call `.toString()` on it, like here:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 ```js run
 let id = Symbol("id");
 *!*
@@ -60,7 +75,18 @@ alert(id.toString()); // Symbol(id), これは動作します
 */!*
 ```
 
+<<<<<<< HEAD
 これは、文字列とシンボルが根本的に異なるものであり、それを変換すべきではないため、混乱を避けるための「言語によるガード」です。
+=======
+Or get `symbol.description` property to get the description only:
+```js run
+let id = Symbol("id");
+*!*
+alert(id.description); // id
+*/!*
+```
+
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 ````
 
 ## "隠れた" プロパティ 
@@ -77,7 +103,11 @@ user[id] = "ID Value";
 alert( user[id] ); // キーとして symbol を使ってデータにアクセスできます
 ```
 
+<<<<<<< HEAD
 文字列 `"id"`に対して `Symbol（"id"）` を使うことの利点は何でしょうか？
+=======
+What's the benefit of using `Symbol("id")` over a string `"id"`?
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 それを知るため、より深い例を作ってみましょう。
 

@@ -4,9 +4,13 @@
 
 それは、コンストラクタ関数と `"new"` 演算子を使うことで実現できます。
 
+<<<<<<< HEAD
 [cut]
 
 ## コンストラクタ 関数 
+=======
+## Constructor function
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 コンストラクタ関数は技術的には通常の関数です。それには2つの慣習があります:
 
@@ -84,7 +88,15 @@ let user = new function() {
 コンストラクタはどこにも保存されず、単に作られて呼び出されただけなので2度は呼び出せません。なので、このやり方は将来再利用することなく、単一のオブジェクトを構成するコードをカプセル化することを目指しています。
 ````
 
+<<<<<<< HEAD
 ## 二重構文コンストラクタ: new.target 
+=======
+## Constructor mode test: new.target
+
+```smart header="Advanced stuff"
+The syntax from this section is rarely used, skip it unless you want to know everything.
+```
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 関数の中では、`new.target` プロパティを使うことで、それが `new` で呼ばれたかそうでないかを確認することができます。
 
@@ -95,14 +107,32 @@ function User() {
   alert(new.target);
 }
 
+<<<<<<< HEAD
 // new なし:
+=======
+// without "new":
+*!*
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 User(); // undefined
+*/!*
 
+<<<<<<< HEAD
 // new あり:
+=======
+// with "new":
+*!*
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 new User(); // function User { ... }
+*/!*
 ```
 
+<<<<<<< HEAD
 これは、 `new` の場合と、通常呼び出し両方の構文が同じように動作するようにするために使用できます:
+=======
+That can be used inside the function to know whether it was called with `new`, "in constructor mode", or without it, "in regular mode".
+
+We can also make both `new` and regular calls to do the same, like this:
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ```js run
 function User(name) {
@@ -117,7 +147,13 @@ let john = User("John"); // new User へのリダイレクト
 alert(john.name); // John
 ```
 
+<<<<<<< HEAD
 このアプローチは、構文をより柔軟にするためにライブラリの中で使われることがあります。が、恐らくどこへでもこれを使うのは良いことではありません。なぜなら、 `new` を省略すると、何をしているのかが少し分かりにくくなるからです。 `new` があれば、新しいオブジェクトが作られることを知ることができます。
+=======
+This approach is sometimes used in libraries to make the syntax more flexible. So that people may call the function with or without `new`, and it still works.
+
+Probably not a good thing to use everywhere though, because omitting `new` makes it a bit less obvious what's going on. With `new` we all know that the new object is being created.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ## コンストラクタからの返却 
 
@@ -216,5 +252,9 @@ JavaScript は多くの組み込みのオブジェクトでコンストラクタ
 ```smart header="オブジェクト, 我々は戻ってきます!"
 このチャプターでは、オブジェクトとコンストラクタについての基礎のみを説明しています。これらは、次のチャプターでデータ型と関数についてより深く学ぶために不可欠です。
 
+<<<<<<< HEAD
 それを学んだ後、チャプター <info:object-oriented-programming> では、オブジェクトに戻り、継承やクラスを含めそれらを詳細に説明します。
+=======
+After we learn that, we return to objects and cover them in-depth in the chapters <info:prototypes> and <info:classes>.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 ```

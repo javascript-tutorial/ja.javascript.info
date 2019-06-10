@@ -2,15 +2,23 @@
 
 ユーザがクリックするか、キーボードで `key:Tab` キーを使うとき、要素はフォーカスを受け取ります。また、ページが読み込まれたとき、デフォルトで要素にフォーカスを与える `autofocus` HTML属性もあり、フォーカスを取得するための別の手段です。
 
+<<<<<<< HEAD
 フォーカスは、たいてい "ここでデータを受け入れる準備をする" ことを意味します。つまり、コードを実行して初期化したり何かをロードすることができる瞬間です。
+=======
+Focusing on an element generally means: "prepare to accept the data here", so that's the moment when we can run the code to initialize the required functionality.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 フォーカスを失う瞬間("blur")はより重要になります。それは、ユーザが他の場所をクリックしたり、`key:Tab` を押して次のフォームフィールドに移動したり、同様に他の手段もあります。
 
 フォーカスを失うということは、通常 "データが入力された" ことを意味します。そのため、それをチェックしたり、サーバに保存したりするコードを実行することができます。
 
+<<<<<<< HEAD
 フォーカスイベントを扱う際には重要な特性があります。ここではそれを説明するためにベストを尽くします。
 
 [cut]
+=======
+There are important peculiarities when working with focus events. We'll do the best to cover them further on.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ## イベント focus/blur 
 
@@ -51,7 +59,11 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
+<<<<<<< HEAD
 現代の HTML では input の属性を使って多くのバリデーションを行うことができます: `required`, `pattern` などです。そして、時にはそれらが丁度私たちが必要なことである場合もあります。JavaScriptは、より柔軟性が必要な場合に使用できます。 その値が正しい場合、変更された値をサーバ上に自動的に送信することもできます。
+=======
+Modern HTML allows to do many validations using input attributes: `required`, `pattern` and so on. And sometimes they are just what we need. JavaScript can be used when we want more flexibility. Also we could automatically send the changed value to the server if it's correct.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 
 ## メソッド focus/blur 
 
@@ -101,7 +113,11 @@ Your email please: <input type="email" id="input">
 
 これらの特徴により、`focus/blur` ハンドラが必要ないときにトリガすることがあります。
 
+<<<<<<< HEAD
 最善の策は、それらのイベントを使うとき注意を払うことです。ユーザが開始したフォーカス解除を追跡したい場合は、自分自身でフォーカス解除を回避する必要があります。
+=======
+The best recipe is to be careful when using these events. If we want to track user-initiated focus-loss, then we should avoid causing it ourselves.
+>>>>>>> 9cb33f4039e5751bfd0e2bca565a37aa463fb477
 ```
 ## 任意の要素にフォーカスを当てる: tabindex 
 
