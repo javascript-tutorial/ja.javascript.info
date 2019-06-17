@@ -11,9 +11,13 @@
 
 しかし、`var` はそれらとは大きく異なり、そしてそれは非常に古くからのものです。一般的には、 `var` は現在のスクリプトでは使われませんが、古いスクリプトにはまだ潜んでいます。
 
+<<<<<<< HEAD
 もしあなたがこのようなスクリプトに出会う予定がなければ、このチャプターをスキップまたは後回しにして構いません。が、後でそれに噛みつかれることがあるかもしれないので注意してください。
 
 [cut]
+=======
+If you don't plan on meeting such scripts you may even skip this chapter or postpone it, but then there's a chance that it bites you later.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 一見すると、`var` は `let` と同じ振る舞いをします。つまり、変数を宣言します:
 
@@ -37,7 +41,7 @@ alert(phrase); // Error, phrase は未定義です
 
 例:
 
-```js
+```js run
 if (true) {
   var test = true; // "let" の代わりに "var" を使う
 }
@@ -63,7 +67,7 @@ alert(i); // 10, "i" ループ後も見え、それはグローバル変数で�
 
 コードブロックが関数の内側にある場合、`var` は関数レベルの変数になります:
 
-```js
+```js run
 function sayHi() {
   if (true) {
     var phrase = "Hello";
@@ -73,10 +77,17 @@ function sayHi() {
 }
 
 sayHi();
+<<<<<<< HEAD
 alert(phrase); // Error: phrase は未定義
 ```
 
 上の通り、`var` は `if`, `for` もしくは他のコードブロックを貫通します。それは、JavaScriptは長い間ブロックがレキシカル環境を持っていなかったためです。そして、 `var` はそれを想起させます。
+=======
+alert(phrase); // Error: phrase is not defined (Check the Developer Console)
+```
+
+As we can see, `var` pierces through `if`, `for` or other code blocks. That's because a long time ago in JavaScript blocks had no Lexical Environments. And `var` is a remnant of that.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ## "var" は関数の開始で処理されます 
 
@@ -86,7 +97,7 @@ alert(phrase); // Error: phrase は未定義
 
 従って、このようなコード:
 
-```js
+```js run
 function sayHi() {
   phrase = "Hello";
 
@@ -96,11 +107,12 @@ function sayHi() {
   var phrase;
 */!*
 }
+sayHi();
 ```
 
 ...は技術的にはこれと同じです(`var phrase` を上に移動させています):
 
-```js
+```js run
 function sayHi() {
 *!*
   var phrase;
@@ -110,11 +122,12 @@ function sayHi() {
 
   alert(phrase);
 }
+sayHi();
 ```
 
 ...もしくはこれです(コードブロックが無視されることを忘れないでください):
 
-```js
+```js run
 function sayHi() {
   phrase = "Hello"; // (*)
 
@@ -126,6 +139,7 @@ function sayHi() {
 
   alert(phrase);
 }
+sayHi();
 ```
 
 また、すべての `var` が関数の先頭に "持ち上げられ" ているので、人々はそのような振る舞いを "巻き上げ" とも呼びます。
@@ -184,4 +198,8 @@ sayHi();
 
 グローバルオブジェクトに関連する小さな違いがもう少しあります。それは次のチャプターで説明します。
 
+<<<<<<< HEAD
 これらの違いは、実際にはほとんどの場合で悪いことです。 まず、ブロックローカル変数を作成することができません。また、巻き上げはエラーを引き起こす余地を増やします。 したがって、新しいスクリプトでは、 `var` はほとんど使用されません。
+=======
+These differences are actually a bad thing most of the time. Block-level variables is such a great thing. That's why `let` was introduced in the standard long ago, and is now a major way (along with `const`) to declare a variable.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2

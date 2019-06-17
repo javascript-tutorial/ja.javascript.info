@@ -1,10 +1,12 @@
 # 要素サイズとスクローリング
 
+<<<<<<< HEAD
 要素の幅、高さや他のジオメトリの特徴を関する情報を読み取ることのできる JavaScript のプロパティがたくさんあります。
+=======
+There are many JavaScript properties that allow us to read information about element width, height and other geometry features.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 JavaScript では、要素を移動したり配置するときに、座標を正しく計算するためにしばしばそれらを必要とします。
-
-[cut]
 
 
 ## サンプル要素 
@@ -37,7 +39,11 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 ```smart header="スクロールバーを気にしてください"
 上の図は、要素にスクロールバーがあるときの最も複雑なケースを示します。いくつかのブラウザ(すべてではありません)はコンテンツから取得することで、スクロールバーの領域を予約します。
 
+<<<<<<< HEAD
 したがって、スクロールバーがなければ、コンテンツの幅は `300px` になりますが、スクロールバーの幅が `16px` の場合(幅はデバイスやブラウザによって異なる場合があります)、 `300-16 = 284px` しか残っておらず、我々はそれを考慮する必要があります。そのため、このチャプターの例ではスクロールバーがあると仮定しています。もしスクロールバーがない場合には、物事は少しシンプルです。
+=======
+So, without scrollbar the content width would be `300px`, but if the scrollbar is `16px` wide (the width may vary between devices and browsers) then only `300 - 16 = 284px` remains, and we should take it into account. That's why examples from this chapter assume that there's a scrollbar. If there's no scrollbar, then things are just a bit simpler.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ```
 
 ```smart header="`padding-bottom` はテキストで埋められるかもしれません"
@@ -62,6 +68,7 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 
 `offsetParent` は次のような、最も近い祖先です。:
 
+<<<<<<< HEAD
 1. CSS-positioned(CSS位置) (`position` は `absolute`, `relative` または `fixed`),
 2. もしくは `<td>`, `<th>`, `<table>`,
 2. もしくは `<body>`.
@@ -69,6 +76,15 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 ほとんどの実践的なケースでは、`offsetParent` を使用して、最も近い CSS位置の祖先の取得出来ます。そして、`offsetLeft/offsetTop` はその左上隅への相対的な x/y 座標を提供します。
 
 下の例では、内部の `<div>` は `offsetParent` として `<main>` を持っており、`offsetLeft/offsetTop` はその左上隅(`180`)からシフトしています。:
+=======
+1. CSS-positioned (`position` is `absolute`, `relative`, `fixed` or `sticky`),
+2. or `<td>`, `<th>`, `<table>`,
+2. or `<body>`.
+
+In most practical cases we can use `offsetParent` to get the nearest CSS-positioned ancestor. And `offsetLeft/offsetTop` provide x/y coordinates relative to its upper-left corner.
+
+In the example below the inner `<div>` has `<main>` as `offsetParent` and `offsetLeft/offsetTop` shifts from its upper-left corner (`180`):
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```html run height=10
 <main style="position: relative" id="main">
@@ -87,6 +103,7 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 
 `offsetParent` が `null` である場合がいくつかあります:
 
+<<<<<<< HEAD
 1. 表示されていない要素(`display:none` またはドキュメント上にない)の場合
 2. `<body>` と `<html>` の場合
 3. `position:fixed` を持つ要素の場合
@@ -94,6 +111,17 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 ## offsetWidth/Height
 
 次に、要素自身へ移動しましょう。
+=======
+There are several occasions when `offsetParent` is `null`:
+
+1. For not shown elements (`display:none` or not in the document).
+2. For `<body>` and `<html>`.
+3. For elements with `position:fixed`.
+
+## offsetWidth/Height
+
+Now let's move on to the element itself.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 これら2つのプロパティは最もシンプルなものです。これらは要素の "外部の" 幅/高さを提供します。もしくは、言い換えると、ボーダーを含むその要素の完全なサイズです。
 
@@ -101,8 +129,13 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 
 サンプル要素の場合:
 
+<<<<<<< HEAD
 - `offsetWidth = 390` -- 外部の幅で、内部のCSS幅(`300px`)とパディング(`2*20px`) とボーダー(`2*25px`) を足したものです。
 - `offsetHeight = 290` -- 外部の高さです。
+=======
+- `offsetWidth = 390` -- the outer width, can be calculated as inner CSS-width (`300px`) plus paddings (`2 * 20px`) and borders (`2 * 25px`).
+- `offsetHeight = 290` -- the outer height.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ````smart header="表示されていない要素のジオメトリプロパティはゼロ/nullです"
 ジオメトリプロパティは表示されている要素に対してのみ計算されます。
@@ -139,9 +172,15 @@ function isHidden(elem) {
 
 違いは何でしょう?
 
+<<<<<<< HEAD
 ドキュメントが右から左のとき(OSがアラビア語またはヘブライ語のとき)、その違いが見えます。スクロールバーは右側にはなく左側にあります。`clientLeft` にはスクロールバーの幅も含まれます。
 
 この場合、今回の例の `clientLeft` は `25` ではなく、スクロールバーの幅を含めたものになります `25+16=41`:
+=======
+It becomes visible when the document is right-to-left (the operating system is in Arabic or Hebrew languages). The scrollbar is then not on the right, but on the left, and then `clientLeft` also includes the scrollbar width.
+
+In that case, `clientLeft` would be not `25`, but with the scrollbar width `25 + 16 = 41`:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ![](metric-client-left-top-rtl.png)
 
@@ -153,7 +192,11 @@ function isHidden(elem) {
 
 ![](metric-client-width-height.png)
 
+<<<<<<< HEAD
 上の図では、最初に `clientHeight` を考えましょう: これは評価するのが簡単です。水平スクロールバーがないので、ボーダーの内側の合計になります: CSS高さ `200px` に top と bottom のパディング(`2*20px`) を加えた合計 `240px` です。
+=======
+On the picture above let's first consider `clientHeight`: it's easier to evaluate. There's no horizontal scrollbar, so it's exactly the sum of what's inside the borders: CSS-height `200px` plus top and bottom paddings (`2 * 20px`) total `240px`.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 さて、`clientWidth` は -- コンテンツ幅は `300px` ではなく `284px` です。なぜなら `16px` はスクロールバーの幅だからです。したがって、合計は `284px` に左右のパディングを足した `324px` です。
 
@@ -165,23 +208,38 @@ function isHidden(elem) {
 
 ## scrollWidth/Height
 
+<<<<<<< HEAD
 - プロパティ `clientWidth/clientHeight` は要素の可視部分のみを占めます。
 - プロパティ `scrollWidth/scrollHeight` はスクロールアウトされた(隠れた)部分も含めます:
+=======
+- Properties `clientWidth/clientHeight` only account for the visible part of the element.
+- Properties `scrollWidth/scrollHeight` also include the scrolled out (hidden) parts:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ![](metric-scroll-width-height.png)
 
 上の図では:
 
+<<<<<<< HEAD
 - `scrollHeight = 723` -- はスクロールアウト部分を含めたコンテンツ領域一杯の内部の高さです。
 - `scrollWidth = 324` -- は内部の全幅で、ここでは水平スクロールがないので、`clientWidth` と等しくなります。
+=======
+- `scrollHeight = 723` -- is the full inner height of the content area including the scrolled out parts.
+- `scrollWidth = 324` -- is the full inner width, here we have no horizontal scroll, so it equals `clientWidth`.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 要素の広さを、その一杯の幅/高さに広げるのにこれらのプロパティを使うことができます。
 
 このように:
 
 ```js
+<<<<<<< HEAD
 // 要素をコンテンツの高さ一杯に広げます
 element.style.height = element.scrollHeight + 'px';
+=======
+// expand the element to the full content height
+element.style.height = `${element.scrollHeight}px`;
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ```
 
 ```online
@@ -189,7 +247,7 @@ element.style.height = element.scrollHeight + 'px';
 
 <div id="element" style="width:300px;height:200px; padding: 0;overflow: auto; border:1px solid black;">text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text</div>
 
-<button style="padding:0" onclick="element.style.height = element.scrollHeight + 'px'">element.style.height = element.scrollHeight + 'px'</button>
+<button style="padding:0" onclick="element.style.height = `${element.scrollHeight}px`">element.style.height = `${element.scrollHeight}px`</button>
 ```
 
 ## scrollLeft/scrollTop
@@ -202,11 +260,19 @@ element.style.height = element.scrollHeight + 'px';
 
 つまり、`scrollTop` は "どのくらいスクロールされているか" です。
 
+<<<<<<< HEAD
 ````smart header="`scrollLeft/scrollTop` は変更可能です"
 ほとんどのジオメトリプロパティは読み取り専用ですが、`scrollLeft/scrollTop` は変更可能で、ブラウザは要素をスクロールさせます。
 
 ```online
 下の要素をクリックすると、コード `elem.scrollTop+=10` を実行します。それは要素のコンテンツを `10px` 下にスクロールします。
+=======
+````smart header="`scrollLeft/scrollTop` can be modified"
+Most of the geometry properties here are read-only, but `scrollLeft/scrollTop` can be changed, and the browser will scroll the element.
+
+```online
+If you click the element below, the code `elem.scrollTop += 10` executes. That makes the element content scroll `10px` down.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 <div onclick="this.scrollTop+=10" style="cursor:pointer;border:1px solid black;width:100px;height:80px;overflow:auto">Click<br>Me<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
 ```
@@ -228,7 +294,11 @@ let elem = document.body;
 alert( getComputedStyle(elem).width ); // 要素の CSS幅を表示します
 ```
 
+<<<<<<< HEAD
 なぜ代わりにジオメトリプロパティを使う必要があるのでしょうか？2つ理由があります:
+=======
+Why should we use geometry properties instead? There are two reasons:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 1. まず、CSS 幅/高さ は別のプロパティに依存しています: CSS の幅と高さが "何か" を定義する `box-sizing` です。CSS 目的のために `box-sizing` を変更すると、このような JavaScript が壊れる可能性があります。
 2. 次に、CSS `width/height` は `auto` の場合があります。例えば、インライン要素の場合です:
@@ -260,12 +330,17 @@ alert( getComputedStyle(elem).width ); // 要素の CSS幅を表示します
 デスクトップ Windows OS 上の Firefox, Chrome, Edge はすべてスクロールバーのためのスペースを確保します。しかし、ChromeとEdgeがより小さい値を表示する一方、Firefox は `300px` を表示します。これは、Firefox が CSS 幅を返し、他のブラウザは "実際の" 幅を返すためです。
 ```
 
+<<<<<<< HEAD
 説明した違いは JavaScript から `getComputedStyle(...).width` を読むことについてのみであり、視覚的にはすべて正しいことに注意してください。
+=======
+Please note that the described difference is only about reading `getComputedStyle(...).width` from JavaScript, visually everything is correct.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ## サマリ 
 
 要素は次のジオメトリプロパティを持っています:
 
+<<<<<<< HEAD
 - `offsetParent` -- は最も近い position 指定された祖先 もしくは `td`, `th`, `table`, `body` です。
 - `offsetLeft/offsetTop` -- は `offsetParent` の左上端を基準とする座標です。
 - `offsetWidth/offsetHeight` -- はボーダーを含む要素の "外部の" 幅/高さです。
@@ -273,5 +348,14 @@ alert( getComputedStyle(elem).width ); // 要素の CSS幅を表示します
 - `clientWidth/clientHeight` -- はパディングを含むコンテンツの幅/高さですが、スクロールバーは含みません。
 - `scrollWidth/scrollHeight` -- スクロールアウト部分を含むコンテンツの幅/高さです。パディングも含みますが、スクロールバーは含みません。
 - `scrollLeft/scrollTop` -- 要素のスクロールアウトされた部分の幅/高さで、左上の角から距離です。
+=======
+- `offsetParent` -- is the nearest positioned ancestor or `td`, `th`, `table`, `body`.
+- `offsetLeft/offsetTop` -- coordinates relative to the upper-left edge of `offsetParent`.
+- `offsetWidth/offsetHeight` -- "outer" width/height of an element including borders.
+- `clientLeft/clientTop` -- the distance from the upper-left outer corner to its upper-left inner corner. For left-to-right OS they are always the widths of left/top borders. For right-to-left OS the vertical scrollbar is on the left so `clientLeft` includes its width too.
+- `clientWidth/clientHeight` -- the width/height of the content including paddings, but without the scrollbar.
+- `scrollWidth/scrollHeight` -- the width/height of the content including the scrolled out parts. Also includes paddings, but not the scrollbar.
+- `scrollLeft/scrollTop` -- width/height of the scrolled out part of the element, starting from its upper-left corner.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 `scrollLeft/scrollTop` 以外のすべてのプロパティは読み取り専用です。`scrollLeft/scrollTop` を変更するとブラウザは要素をスクロールします。

@@ -1,5 +1,6 @@
 # ArrayBuffer, binary arrays
 
+<<<<<<< HEAD
 Web 開発では、ファイル(作成、更新、ダウンロード)を処理するときにバイナリデータに出くわします。その他の典型的なユースケースは画像処理です。
 
 これらはすべて JavaScript で可能です。また、バイナリ操作も高性能です。
@@ -65,12 +66,80 @@ view[0] = 123456;
 // 値のイテレート
 for(let num of view) {
   alert(num); // 123456, 次に 0, 0, 0 (全部で 4 つの値)
+=======
+In web-development we meet binary data mostly while dealing with files (create, upload, download). Another typical use case is image processing.
+
+That's all possible in JavaScript, and binary operations are high-performant.
+
+Although, there's a bit of confusion, because there are many classes. To name a few:
+- `ArrayBuffer`, `Uint8Array`, `DataView`, `Blob`, `File`, etc.
+
+Binary data in JavaScript is implemented in a non-standard way, compared to other languages. But when we sort things out, everything becomes fairly simple.
+
+**The basic binary object is `ArrayBuffer` -- a reference to a fixed-length contiguous memory area.**
+
+We create it like this:
+```js run
+let buffer = new ArrayBuffer(16); // create a buffer of length 16
+alert(buffer.byteLength); // 16
+```
+
+This allocates a contiguous memory area of 16 bytes and pre-fills it with zeroes.
+
+```warn header="`ArrayBuffer` is not an array of something"
+Let's eliminate a possible source of confusion. `ArrayBuffer` has nothing in common with `Array`:
+- It has a fixed length, we can't increase or decrease it.
+- It takes exactly that much space in the memory.
+- To access individual bytes, another "view" object is needed, not `buffer[index]`.
+```
+
+`ArrayBuffer` is a memory area. What's stored in it? It has no clue. Just a raw sequence of bytes.
+
+**To manipulate an `ArrayBuffer`, we need to use a "view" object.**
+
+A view object does not store anything on it's own. It's the "eyeglasses" that give an interpretation of the bytes stored in the `ArrayBuffer`.
+
+For instance:
+
+- **`Uint8Array`** -- treats each byte in `ArrayBuffer` as a separate number, with possible values are from 0 to 255 (a byte is 8-bit, so it can hold only that much). Such value is called a "8-bit unsigned integer".
+- **`Uint16Array`** -- treats every 2 bytes as an integer, with possible values from 0 to 65535. That's called a "16-bit unsigned integer".
+- **`Uint32Array`** -- treats every 4 bytes as an integer, with possible values from 0 to 4294967295. That's called a "32-bit unsigned integer".
+- **`Float64Array`** -- treats every 8 bytes as a floating point number with possible values from <code>5.0x10<sup>-324</sup></code> to <code>1.8x10<sup>308</sup></code>.
+
+So, the binary data in an `ArrayBuffer` of 16 bytes can be interpreted as 16 "tiny numbers", or 8 bigger numbers (2 bytes each), or 4 even bigger (4 bytes each), or 2 floating-point values with high precision (8 bytes each).
+
+![](arraybuffer-views.png)
+
+`ArrayBuffer` is the core object, the root of everything, the raw binary data.
+
+But if we're going to write into it, or iterate over it, basically for almost any operation – we must use a view, e.g:
+
+```js run
+let buffer = new ArrayBuffer(16); // create a buffer of length 16
+
+*!*
+let view = new Uint32Array(buffer); // treat buffer as a sequence of 32-bit integers
+
+alert(Uint32Array.BYTES_PER_ELEMENT); // 4 bytes per integer
+*/!*
+
+alert(view.length); // 4, it stores that many integers
+alert(view.byteLength); // 16, the size in bytes
+
+// let's write a value
+view[0] = 123456;
+
+// iterate over values
+for(let num of view) {
+  alert(num); // 123456, then 0, 0, 0 (4 values total)
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 }
 
 ```
 
 ## TypedArray
 
+<<<<<<< HEAD
 これらすべてのビュー (`Uint8Array`, `Uint32Array`, etc) の共通の用語は、[TypedArray](https://tc39.github.io/ecma262/#sec-typedarray-objects) です。これらは同じメソッドとプロパティのセットを共有します。
 
 これらは通常の配列によく似ています: インデックスがあり、反復可能(iterable)です。
@@ -78,6 +147,16 @@ for(let num of view) {
 型付き配列のコンストラクタ (`Int8Array` でも `Float64Array` でも構いません)は、引数の種類に応じて異なる振る舞いをします。
 
 5 つの引数のパターンがあります:
+=======
+The common term for all these views (`Uint8Array`, `Uint32Array`, etc) is [TypedArray](https://tc39.github.io/ecma262/#sec-typedarray-objects). They share the same set of methods and properities.
+
+They are much more like regular arrays: have indexes and iterable.
+
+
+A typed array constructor (be it `Int8Array` or `Float64Array`, doesn't matter) behaves differently depending on argument types.
+
+There are 5 variants of arguments:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 new TypedArray(buffer, [byteOffset], [length]);
@@ -87,6 +166,7 @@ new TypedArray(length);
 new TypedArray();
 ```
 
+<<<<<<< HEAD
 1. `ArrayBuffer` の引数が与えられると、それに対するビューが作られます。我々はすでにその構文を使いました。
 
     オプションで、`byteOffset` で開始位置(デフォルトは 0)、`length` で長さ(デフォルトではバッファの終わりまで) を指定することができ、その場合はビューは `buffer` の一部だけをカバーします。 
@@ -94,21 +174,41 @@ new TypedArray();
 2. `Array` または配列ライクなオブジェクトが与えられた場合は、同じ長さの型付き配列を生成し、内容をコピーします。
 
     これを使って配列にデータを事前に埋め込むことができます:
+=======
+1. If an `ArrayBuffer` argument is supplied, the view is created over it. We used that syntax already.
+
+    Optionally we can provide `byteOffset` to start from (0 by default) and the `length` (till the end of the buffer by default), then the view will cover only a part of the `buffer`.
+
+2. If an `Array`, or any array-like object is given, it creates a typed array of the same length and copies the content.
+
+    We can use it to pre-fill the array with the data:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
     ```js run
     *!*
     let arr = new Uint8Array([0, 1, 2, 3]);
     */!*
+<<<<<<< HEAD
     alert( arr.length ); // 4
     alert( arr[1] ); // 1
     ```
 3. If another `TypedArray` is supplied, it does the same: creates a typed array of the same length and copies values. Values are converted to the new type in the process.
+=======
+    alert( arr.length ); // 4, created binary array of the same length
+    alert( arr[1] ); // 1, filled with 4 bytes (unsigned 8-bit integers) with given values
+    ```
+3. If another `TypedArray` is supplied, it does the same: creates a typed array of the same length and copies values. Values are converted to the new type in the process, if needed.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
     ```js run
     let arr16 = new Uint16Array([1, 1000]);
     *!*
     let arr8 = new Uint8Array(arr16);
     */!*
     alert( arr8[0] ); // 1
+<<<<<<< HEAD
     alert( arr8[1] ); // 232 (tried to copy 1000, but can't fit 1000 into 8 bits)
+=======
+    alert( arr8[1] ); // 232, tried to copy 1000, but can't fit 1000 into 8 bits (explanations below)
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
     ```
 
 4. For a numeric argument `length` -- creates the typed array to contain that many elements. Its byte length will be `length` multiplied by the number of bytes in a single item `TypedArray.BYTES_PER_ELEMENT`:
@@ -223,6 +323,10 @@ new DataView(buffer, [byteOffset], [byteLength])
 For instance, here we extract numbers in different formats from the same buffer:
 
 ```js run
+<<<<<<< HEAD
+=======
+// binary array of 4 bytes, all have the maximal value 255
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 let buffer = new Uint8Array([255, 255, 255, 255]).buffer;
 
 let dataView = new DataView(buffer);
@@ -230,13 +334,21 @@ let dataView = new DataView(buffer);
 // get 8-bit number at offset 0
 alert( dataView.getUint8(0) ); // 255
 
+<<<<<<< HEAD
 // now get 16-bit number at offset 0, that's 2 bytes, both with max value
+=======
+// now get 16-bit number at offset 0, it consists of 2 bytes, together iterpreted as 65535
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 alert( dataView.getUint16(0) ); // 65535 (biggest 16-bit unsigned int)
 
 // get 32-bit number at offset 0
 alert( dataView.getUint32(0) ); // 4294967295 (biggest 32-bit unsigned int)
 
+<<<<<<< HEAD
 dataView.setUint32(0, 0); // set 4-byte number to zero
+=======
+dataView.setUint32(0, 0); // set 4-byte number to zero, thus setting all bytes to 0
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ```
 
 `DataView` is great when we store mixed-format data in the same buffer. E.g we store a sequence of pairs (16-bit integer, 32-bit float). Then `DataView` allows to access them easily.
@@ -256,12 +368,20 @@ To do almost any operation on `ArrayBuffer`, we need a view.
 
 In most cases we create and operate directly on typed arrays, leaving `ArrayBuffer` under cover, as a "common discriminator". We can access it as `.buffer` and make another view if needed.
 
+<<<<<<< HEAD
 There are also two additional terms:
 - `ArrayBufferView` is an umbrella term for all these kinds of views.
 - `BufferSource` is an umbrella term for `ArrayBuffer` or `ArrayBufferView`.
 
 These are used in descriptions of methods that operate on binary data. `BufferSource` is one of the most common terms, as it means "any kind of binary data" -- an `ArrayBuffer` or a view over it. 
 
+=======
+There are also two additional terms, that are used in descriptions of methods that operate on binary data:
+- `ArrayBufferView` is an umbrella term for all these kinds of views.
+- `BufferSource` is an umbrella term for `ArrayBuffer` or `ArrayBufferView`.
+
+We'll see these terms in the next chapters. `BufferSource` is one of the most common terms, as it means "any kind of binary data" -- an `ArrayBuffer` or a view over it.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 Here's a cheatsheet:
 

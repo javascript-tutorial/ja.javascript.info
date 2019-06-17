@@ -6,9 +6,13 @@
 
 `click`, `mousedown` などのような、組み込みのイベントを生成することもでき、テストをするときに便利です。
 
+<<<<<<< HEAD
 [cut]
 
 ## イベントコンストラクタ 
+=======
+## Event constructor
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 イベントはDOM 要素クラスと同様、階層を形成します。ルートは組み込みの [Event](http://www.w3.org/TR/dom/#event) クラスです。
 
@@ -150,7 +154,7 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 *!*
     detail: { name: "John" }
 */!*
-  });
+  }));
 </script>
 ```
 
@@ -269,9 +273,15 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 
 イベントを生成するためには、最初にイベントオブジェクトを作成する必要があります。
 
+<<<<<<< HEAD
 汎用的な `Event(name, options)` コンストラクタは、任意のイベント名と2つのプロパティを持つ `options` オブジェクトを受け取ります。:
   - イベントがバブルするべきであれば、`bubbles: true`。
   - `cancelable: true` は `event.preventDefault()` が動作します。
+=======
+The generic `Event(name, options)` constructor accepts an arbitrary event name and the `options` object with two properties:
+  - `bubbles: true` if the event should bubble.
+  - `cancelable: true` if the `event.preventDefault()` should work.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 他の `MouseEvent`, `KeyboardEvent` などのようなネイティブイベントのコンストラクタはそのイベントタイプに固有のプロパティを受け入れます。例えば、マウスイベントであれば `clientX` です。
 

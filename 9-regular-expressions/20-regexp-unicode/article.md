@@ -1,15 +1,15 @@
 
-# ユニコードフラグ
+# Unicode: flag "u"
 
-ユニコードフラグ `/.../u` はサロゲートペアの正しいサポートができるようになります。
+The unicode flag `/.../u` enables the correct support of surrogate pairs.
 
-サロゲートペアについては、チャプター <info:string> で説明されています。
+Surrogate pairs are explained in the chapter <info:string>.
 
-簡単に思い出してみましょう。手短に言えば、通常の文字は2バイトでエンコードされています。それは最大で 65536 文字になります。しかし世界にはもっと多くの文字があります。
+Let's briefly remind them here. In short, normally characters are encoded with 2 bytes. That gives us 65536 characters maximum. But there are more characters in the world.
 
-そのため、`𝒳` (数学的な X)や `😄` (スマイル)のような特定の希少な文字は4バイトでエンコードされています。
+So certain rare characters are encoded with 4 bytes, like `𝒳` (mathematical X) or `😄` (a smile).
 
-これは比較のためのユニコード値です:
+Here are the unicode values to compare:
 
 | Character  | Unicode | Bytes  |
 |------------|---------|--------|
@@ -19,48 +19,70 @@
 |`𝒴`| 0x1d4b4 | 4 |
 |`😄`| 0x1f604 | 4 |
 
-したがって、`a` や `≈` と言った文字は 2バイトを占め、珍しいものは4バイトになります。
+So characters like `a` and `≈` occupy 2 bytes, and those rare ones take 4.
 
-ユニコードは、4バイト文字がそれ全体でのみ意味を持つように作られています。
+The unicode is made in such a way that the 4-byte characters only have a meaning as a whole.
 
-昔は JavaScript はそのことを知らなかったので、多くの文字列メソッドにはまだ問題があります。例えば、`length` はそれらを2つの文字であると考えます:
+In the past JavaScript did not know about that, and many string methods still have problems. For instance, `length` thinks that here are two characters:
 
 ```js run
 alert('😄'.length); // 2
 alert('𝒳'.length); // 2
 ```
 
-...ですが、1文字にしか見えませんよね? ポイントは `length` は4バイトを2つの2バイト文字として扱うということです。それらは併せてでしか考えられない(いわゆる "サロゲートペア")ため、正しくありません。
+...But we can see that there's only one, right? The point is that `length` treats 4 bytes as two 2-byte characters. That's incorrect, because they must be considered only together (so-called "surrogate pair").
 
-通常、正規表現も2つの2バイト文字として "長い文字" を扱います。
+Normally, regular expressions also treat "long characters" as two 2-byte ones.
 
-これはおかしな結果に繋がります。例えば `subject:𝒳` という文字列で `pattern:[𝒳𝒴]` を見つけようとしてみましょう。:
+That leads to odd results, for instance let's try to find `pattern:[𝒳𝒴]` in the string `subject:𝒳`:
 
 ```js run
-alert( '𝒳'.match(/[𝒳𝒴]/) ); // おかしな結果
+alert( '𝒳'.match(/[𝒳𝒴]/) ); // odd result (wrong match actually, "half-character")
 ```
 
-デフォルトでは正規表現のエンジンはサロゲートペアを理解しないため、結果は間違っています。`[𝒳𝒴]` は2つではなく、4つの文字(`𝒳` の左半分 `(1)`, `𝒳` の右半分 `(2)`, `𝒴` の左半分 `(3)`, `𝒴` の右半分 `(4)`) と考えます。
+The result is wrong, because by default the regexp engine does not understand surrogate pairs.
 
-なので、全体ではなく文字列 `𝒳` で `𝒳` の左半分を見つけます。
+So, it thinks that `[𝒳𝒴]` are not two, but four characters:
+1. the left half of `𝒳` `(1)`,
+2. the right half of `𝒳` `(2)`,
+3. the left half of `𝒴` `(3)`,
+4. the right half of `𝒴` `(4)`.
 
-つまり、検索は `'12'.match(/[1234]/)` のように動作します -- `1` が返ります(`𝒳` の左半分)。
+We can list them like this:
 
-`/.../u` フラグはそれを直します。正規表現エンジンでサロゲートペアを利用可能にするので結果は正しくなります:
+```js run
+for(let i=0; i<'𝒳𝒴'.length; i++) {
+  alert('𝒳𝒴'.charCodeAt(i)); // 55349, 56499, 55349, 56500
+};
+```
+
+So it finds only the "left half" of `𝒳`.
+
+In other words, the search works like `'12'.match(/[1234]/)`: only `1` is returned.
+
+## The "u" flag
+
+The `/.../u` flag fixes that.
+
+It enables surrogate pairs in the regexp engine, so the result is correct:
 
 ```js run
 alert( '𝒳'.match(/[𝒳𝒴]/u) ); // 𝒳
 ```
 
-フラグを忘れた場合、エラーが起きる場合があります:
+Let's see one more example.
+
+If we forget the `u` flag and occasionally use surrogate pairs, then we can get an error:
 
 ```js run
 '𝒳'.match(/[𝒳-𝒴]/); // SyntaxError: invalid range in character class
 ```
 
-ここでは、正規表現 `[𝒳-𝒴]` は `[12-34]` と扱われます(`2` は `𝒳` の右部分、`3` は `𝒴` の左部分)。そしてその2つの半分 `2` と `3` の間の範囲は認められません。
+Normally, regexps understand `[a-z]` as a "range of characters with codes between codes of `a` and `z`.
 
-フラグを使うと正しく動作します:
+But without `u` flag, surrogate pairs are assumed to be a "pair of independent characters", so `[𝒳-𝒴]` is like `[<55349><56499>-<55349><56500>]` (replaced each surrogate pair with code points). Now we can clearly see that the range `56499-55349` is unacceptable, as the left range border must be less than the right one.
+
+Using the `u` flag makes it work right:
 
 ```js run
 alert( '𝒴'.match(/[𝒳-𝒵]/u) ); // 𝒴

@@ -1,116 +1,114 @@
-# セットと範囲 [...]
+# Sets and ranges [...]
 
-角括弧 `[…]` 内の複数の文字または文字クラスは "指定された中の任意の文字を探す" ことを意味します。
+Several characters or character classes inside square brackets `[…]` mean to "search for any character among given".
 
-[cut]
+## Sets
 
-## セット
+For instance, `pattern:[eao]` means any of the 3 characters: `'a'`, `'e'`, or `'o'`.
 
-例えば、`pattern:[eao]` は3文字 `'a'`, `'e'`, または `'o'` のいずれかを意味します。
-
-それは *セット* と呼ばれます。セットは通常の文字と併せて正規表現の中で使うことができます。:
+That's called a *set*. Sets can be used in a regexp along with regular characters:
 
 ```js run
-// [t or m], 次に "op" となる文字列を見つける
+// find [t or m], and then "op"
 alert( "Mop top".match(/[tm]op/gi) ); // "Mop", "top"
 ```
 
-セットには複数の文字がありますが、マッチした中での1文字に相当することに注意してください。
+Please note that although there are multiple characters in the set, they correspond to exactly one character in the match.
 
-従って、下の例ではマッチするものはありません:
+So the example below gives no matches:
 
 ```js run
-// "V" に続き [o or i], その後 "la" となる文字列を見つける
-alert( "Voila".match(/V[oi]la/) ); // null, マッチしない
+// find "V", then [o or i], then "la"
+alert( "Voila".match(/V[oi]la/) ); // null, no matches
 ```
 
-パターンは次のように想定します:
+The pattern assumes:
 
 - `pattern:V`,
-- 次に文字 `pattern:[oi]` の *1つ*,
-- 次に `pattern:la`.
+- then *one* of the letters `pattern:[oi]`,
+- then `pattern:la`.
 
-なので、`match:Vola` もしくは `match:Vila` がマッチします。
+So there would be a match for `match:Vola` or `match:Vila`.
 
-## 範囲
+## Ranges
 
-角括弧は *文字の範囲* を含むこともあります。
+Square brackets may also contain *character ranges*.
 
-例えば、`pattern:[a-z]` は `a` から `z` までの範囲の文字で、 `pattern:[0-5]` は `0` から `5` までの数字です。
+For instance, `pattern:[a-z]` is a character in range from `a` to `z`, and `pattern:[0-5]` is a digit from `0` to `5`.
 
-下の例では、`x` に続いて2桁の数字または `A` から `F` までの文字を探しています:
+In the example below we're searching for `"x"` followed by two digits or letters from `A` to `F`:
 
 ```js run
 alert( "Exception 0xAF".match(/x[0-9A-F][0-9A-F]/g) ); // xAF
 ```
 
-単語 `subject:Exception` で、部分文字列 `subject:xce` があることに注目していください。それはパターンにマッチしませんでした。理由はパターン `pattern:[0-9A-F]` が大文字であるのに対し、小文字だからです。
+Please note that in the word `subject:Exception` there's a substring `subject:xce`. It didn't match the pattern, because the letters are lowercase, while in the set `pattern:[0-9A-F]` they are uppercase.
 
-それも見つけたい場合は、`a-f` の範囲も追加します: `pattern:[0-9A-Fa-f]`。 `i` フラグも小文字を許容するでしょう。
+If we want to find it too, then we can add a range `a-f`: `pattern:[0-9A-Fa-f]`. The `i` flag would allow lowercase too.
 
-**文字クラスは、特定の文字セットの短縮形です**
+**Character classes are shorthands for certain character sets.**
 
-例:
+For instance:
 
-- **\d** -- `pattern:[0-9]` と同じです,
-- **\w** -- `pattern:[a-zA-Z0-9_]` と同じです,
-- **\s** -- `pattern:[\t\n\v\f\r ]` に他のユニコードの空白文字を加えたものと同じです。
+- **\d** -- is the same as `pattern:[0-9]`,
+- **\w** -- is the same as `pattern:[a-zA-Z0-9_]`,
+- **\s** -- is the same as `pattern:[\t\n\v\f\r ]` plus few other unicode space characters.
 
-`[…]` の内側でも同様に文字クラスを使うことができます。
+We can use character classes inside `[…]` as well.
 
-例えば、"twenty-third" のような言葉に対し、すべての単語文字またはダッシュにマッチさせたいとします。`pattern:\w` はダッシュを含まないため、`pattern:\w+` ではできません。しかし `pattern:[\w-]` とすることができます。
+For instance, we want to match all wordly characters or a dash, for words like "twenty-third". We can't do it with `pattern:\w+`, because `pattern:\w` class does not include a dash. But we can use `pattern:[\w-]`.
 
-`pattern：[\s\S]` のように、可能性のあるすべての文字をカバーするためにクラスの組み合わせを使うこともできます。これは空白及び非空白 -- なので任意の文字に一致します。 ドット `"."` は改行以外の任意の文字にマッチするので、これはドットよりも広いです。
+We also can use several classes, for example `pattern:[\s\S]` matches spaces or non-spaces -- any character. That's wider than a dot `"."`, because the dot matches any character except a newline (unless `s` flag is set).
 
-## 範囲を除外する
+## Excluding ranges
 
-通常の範囲に加えて、 `pattern:[^…]` のような、範囲を "除外" するものもあります。
+Besides normal ranges, there are "excluding" ranges that look like `pattern:[^…]`.
 
-それらは開始時にキャレット文字 `^` で指定され、*指定されたもの以外の文字* と一致します。
+They are denoted by a caret character `^` at the start and match any character *except the given ones*.
 
-例:
+For instance:
 
-- `pattern:[^aeyo]` -- `'a'`, `'e'`, `'y'` または `'o'` を除く任意の文字.
-- `pattern:[^0-9]` -- 数字以外の任意の文字, `\D` と同じです.
-- `pattern:[^\s]` -- 任意の非空白文字, `\S` と同じです.
+- `pattern:[^aeyo]` -- any character except  `'a'`, `'e'`, `'y'` or `'o'`.
+- `pattern:[^0-9]` -- any character except a digit, the same as `\D`.
+- `pattern:[^\s]` -- any non-space character, same as `\S`.
 
-下の例では、文字、数字または空白以外の文字を探します:
+The example below looks for any characters except letters, digits and spaces:
 
 ```js run
 alert( "alice15@gmail.com".match(/[^\d\sA-Z]/gi) ); // @ and .
 ```
 
-## […] でエスケープしない
+## No escaping in […]
 
-通常、正確にドット文字を見つけたい場合、`pattern:\.` のようにエスケープが必要です。そしてバックスラッシュが必要な場合には、`pattern:\\` を使います。
+Usually when we want to find exactly the dot character, we need to escape it like `pattern:\.`. And if we need a backslash, then we use `pattern:\\`.
 
-角括弧で囲まれた大多数の特殊文字は、エスケープなしで使うことができます:
+In square brackets the vast majority of special characters can be used without escaping:
 
-- ドット `pattern:'.'`.
-- プラス `pattern:'+'`.
-- 丸括弧 `pattern:'( )'`.
-- ダッシュ `pattern:'-'`, 先頭または末尾に(範囲を定義していない場合).
-- キャレット `pattern:'^'`, 先頭でない場合(それは除外を意味する).
-- そして、角括弧の開始 `pattern:'['`.
+- A dot `pattern:'.'`.
+- A plus `pattern:'+'`.
+- Parentheses `pattern:'( )'`.
+- Dash `pattern:'-'` in the beginning or the end (where it does not define a range).
+- A caret `pattern:'^'` if not in the beginning (where it means exclusion).
+- And the opening square bracket `pattern:'['`.
 
-つまり、角括弧を意味するものを除いて、すべての特殊文字が許可されます。
+In other words, all special characters are allowed except where they mean something for square brackets.
 
-角括弧内のドット `"."` は単なるドットを意味します。パターン `pattern:[.,]` は1つの文字を探します: ドットまたはカンマです。
+A dot `"."` inside square brackets means just a dot. The pattern `pattern:[.,]` would look for one of characters: either a dot or a comma.
 
-下の例では、正規表現 `pattern:[-().^+]` は `-().^+` の文字の1つを探します:
+In the example below the regexp `pattern:[-().^+]` looks for one of the characters `-().^+`:
 
 ```js run
-// エスケープは必要ありません
+// No need to escape
 let reg = /[-().^+]/g;
 
-alert( "1 + 2 - 3".match(reg) ); // +, - にマッチ
+alert( "1 + 2 - 3".match(reg) ); // Matches +, -
 ```
 
-...しかし "念の為" エスケープすることを決めた場合にも特に害はありません:
+...But if you decide to escape them "just in case", then there would be no harm:
 
 ```js run
-// すべてエスケープ
+// Escaped everything
 let reg = /[\-\(\)\.\^\+]/g;
 
-alert( "1 + 2 - 3".match(reg) ); // 同じく動作します: +, -
+alert( "1 + 2 - 3".match(reg) ); // also works: +, -
 ```

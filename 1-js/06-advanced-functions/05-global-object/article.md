@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 
 # グローバルオブジェクト
 
@@ -24,15 +25,19 @@ JavaScript が作られたとき、すべてのグローバル変数と関数を
     他の組み込みに対しても同様です。E.g. `Array` の代わりに、`window.Array` と書くことができます。
 
 2. グローバルな関数宣言と `var` 変数へのアクセスを提供します。私たちはそのプロパティを使って、それらの読み書きをすることが出来ます。例えば:
+=======
+# Global object
 
-    <!-- no-strict to move variables out of eval -->
-    ```js untrusted run no-strict refresh
-    var phrase = "Hello";
+The global object provides variables and functions that are available anywhere. Mostly, the ones that are built into the language or the environment.
 
-    function sayHi() {
-      alert(phrase);
-    }
+In a browser it is named `window`, for Node.js it is `global`, for other environments it may have another name.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
+Recently, `globalThis` was added to the language, as a standartized name for a global object, that should be supported across all environments. In some browsers, namely non-Chromium Edge, `globalThis` is not yet supported, but can be easily polyfilled.
+
+All properties of the global object can be accessed directly:
+
+<<<<<<< HEAD
     // windows から読める
     alert( window.phrase ); // Hello (グローバル var)
     alert( window.sayHi ); // function (グローバル関数宣言)
@@ -72,10 +77,31 @@ Node.JSのようなサーバサイド環境では、`global` オブジェクト�
 通常、それを使うのは良い考えではありませんが、ここで幾つかありそうな例を挙げます。
 
 1. もし関数がローカルに同じ名前の物を持っている状態で、グローバル変数にアクセスしたい場合
+=======
+```js run
+alert("Hello");
 
-    ```js untrusted run no-strict refresh
-    var user = "Global";
+// the same as
+window.alert("Hello");
+```
 
+In a browser, global variables declared with `var` become the property of the global object:
+
+```js run untrusted refresh
+var gVar = 5;
+
+alert(window.gVar); // 5 (became a property of the global object)
+```
+
+Please don't rely on that! This behavior exists for compatibility reasons. Modern scripts use JavaScript modules where such thing doesn't happen. We'll cover them later in the chapter  [](info:modules).
+
+Also, more modern variable declarations `let` and `const` do not exhibit such behavior at all:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
+
+```js run untrusted refresh
+let gLet = 5;
+
+<<<<<<< HEAD
     function sayHi() {
       var user = "Local";
 
@@ -114,8 +140,14 @@ Node.JSのようなサーバサイド環境では、`global` オブジェクト�
     ```
 
     これは `window` を使っていませんが、(理論的には)信頼性が低いです。なぜなら、 `typeof` はローカルの XMLHttpRequest を使う可能性があるためです。
+=======
+alert(window.gLet); // undefined (doesn't become a property of the global object)
+```
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
+If a value is so important that you'd like to make it available globally, write it directly as a property:
 
+<<<<<<< HEAD
 3. 正当な window から変数を取得する場合です。恐らくこれが最も有効なユースケースです。
 
     ブラウザは複数のウィンドウやタブを開いている場合があります。また `<iframe>` に別のものが埋め込まれている場合もあります。すべてのブラウザウィンドウは自身の `window` オブジェクトとグローバル変数を持っています。JavaScriptを使用すると、同じサイト（同じプロトコル、ホスト、ポート）からのウィンドウが相互に変数にアクセスできるようになります。
@@ -169,3 +201,54 @@ Node.JSのようなサーバサイド環境では、`global` オブジェクト�
     ```
 
     仕様によると、Node.JS のような非ブラウザも含め、このケースでの `this` はグローバルオブジェクトである必要があります。それは古いスクリプトのための互換性です。strict モードでは、`this` は `undefined` になります。
+=======
+```js run
+*!*
+// make current user information global, to let all scripts access it
+window.currentUser = {
+  name: "John"
+};
+*/!*
+
+// somewhere else in code
+alert(currentUser.name);  // John
+
+// or, if we have a local variable with the name "value"
+// get it from window explicitly (safe!)
+alert(window.currentUser.name); // John
+```
+
+That said, using global variables is generally discouraged. There should be as few global variables as possible. The code design where a function gets "input" variables and produces certain "outcome" is  clearer, less prone to errors and easier to test.
+
+## Using for polyfills
+
+We can test the global object for support of modern language features.
+
+For instance, test if a built-in `Promise` object exists (it doesn't in really old browsers):
+```js run
+if (!window.Promise) {
+  alert("Your browser is really old!");
+}
+```
+
+If there's none (say, we're in an old browser), we can create "polyfills": add functions that are not supported by the environment, but exist in the modern standard.
+
+```js run
+if (!window.Promise) {
+  window.Promise = ... // custom implementation of the modern language feature
+}
+```
+
+## Summary
+
+- The global object holds variables that should be available everywhere.
+
+    That includes JavaScript built-ins, such as `Array` and environment-specific values, such as `window.innerHeight` -- the window height in the browser.
+- The global object has a universal name `globalThis`.
+
+    ...But more often is referred by "old-school" environment-specific names, such as `window` (browser) and `global` (Node.js). As `globalThis` is a recent proposal, it's not supported in non-Chromium Edge (but can be polyfilled).
+- We should store values in the global object only if they're truly global for our project. And keep their number at minimum.
+- In-browser, unless we're using [modules](info:modules), a global variable declared with `var` becomes a property of the global object.
+
+    To make the code easier to understand and more future-proof, we should operate directly on the properties of the global object: `window.x = ...` instead of `var x = ...`.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2

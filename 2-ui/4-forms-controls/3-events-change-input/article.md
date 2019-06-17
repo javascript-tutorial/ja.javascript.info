@@ -6,7 +6,11 @@
 
 [change](http://www.w3.org/TR/html5/forms.html#event-input-change) イベントは要素の変更が終わったときにトリガされます。
 
+<<<<<<< HEAD
 テキストインプットの場合、それはフォーカスを失った時にイベントが発生することを意味します。
+=======
+For text inputs that means that the event occurs when it loses focus.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 例えば、以下のテキストフィールドでタイプしている間 -- イベントは起こりません。しかし、例えばボタンのクリックなど、他のなにかにフォーカスを移動させたとき、 -- `change` イベントが発生します:
 
@@ -62,7 +66,11 @@
 </script>
 ```
 
+<<<<<<< HEAD
 技術的には、なんでもコピー/ペーストすることが出来ます。例えば、OSのファイルマネージャでコピーや保管ができ、それを貼り付けることができます。
+=======
+Technically, we can copy/paste everything. For instance, we can copy a file in the OS file manager, and paste it.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 [仕様](https://www.w3.org/TR/clipboard-apis/#dfn-datatransfer)に、さまざまなデータ型で動作し、クリップボードへの読み書きを行うためのメソッドの一覧があります。
 
@@ -74,6 +82,12 @@
 
 | イベント | 説明 | 補足 |
 |---------|----------|-------------|
+<<<<<<< HEAD
 | `change`| 値が変更されたとき. | テキストインプットの場合はフォーカスが外れたときに発生します. |
 | `input` | テキスト入力のすべての変更. | `change` とは違い即座に発生します. |
 | `cut/copy/paste` | カット/コピー/ペースト操作. | 操作は防ぐ事が可能です。`event.clipbordData` プロパティでクリップボードへの読み書きのアクセスが可能です. |
+=======
+| `change`| A value was changed. | For text inputs triggers on focus loss. |
+| `input` | For text inputs on every change. | Triggers immediately unlike `change`. |
+| `cut/copy/paste` | Cut/copy/paste actions. | The action can be prevented. The `event.clipboardData` property gives read/write access to the clipboard. |
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2

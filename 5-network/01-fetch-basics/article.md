@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # Fetch: 基本
 
 メソッド `fetch()` は HTTP 経由でリクエストを送信するモダンな方法です。
@@ -6,11 +7,21 @@
 ここ数年間で進化し、現在も改善が続けられています。今のところ、サポートはブラウザの間で非常にしっかりしています。
 
 基本構文は次の通りです:
+=======
+# Fetch: Basics
+
+Method `fetch()` is the modern way of sending requests over HTTP.
+
+It evolved for several years and continues to improve, right now the support is pretty solid among browsers.
+
+The basic syntax is:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 let promise = fetch(url, [options])
 ```
 
+<<<<<<< HEAD
 - **`url`** -- アクセスする URL
 - **`options`** -- オプションのパラメータ: メソッドやヘッダなど
 
@@ -30,18 +41,46 @@ promise は `fetch` が HTTP リクエストを作るすることができなか
 - **`status`** -- HTTP ステータスコード.
 
 例:
+=======
+- **`url`** -- the URL to access.
+- **`options`** -- optional parameters: method, headers etc.
+
+The browser starts the request right away and returns a `promise`.
+
+Getting a response is usually a two-stage process.
+
+**The `promise` resolves with an object of the built-in [Response](https://fetch.spec.whatwg.org/#response-class) class as soon as the server responds with headers.**
+
+
+So we can check HTTP status, to see whether it is successful or not, check headers, but don't have the body yet.
+
+The promise rejects if the `fetch` was unable to make HTTP-request, e.g. network problems, or there's no such site. HTTP-errors, even such as 404 or 500, are considered a normal flow.
+
+We can see them in response properties:
+
+- **`ok`** -- boolean, `true` if the HTTP status code is 200-299.
+- **`status`** -- HTTP status code.
+
+For example:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 let response = await fetch(url);
 
+<<<<<<< HEAD
 if (response.ok) { // HTTP ステータスが 200-299 の場合
   // レスポンスの本文を取得(後述)
+=======
+if (response.ok) { // if HTTP-status is 200-299
+  // get the response body (see below)
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
   let json = await response.json();
 } else {
   alert("HTTP-Error: " + response.status);
 }
 ```
 
+<<<<<<< HEAD
 レスポンスの本文を取得するには、追加のメソッド呼び出しが必要です。
 
 `Response` は様々な形式で本文にアクセスするための、複数の promise ベースのメソッドを提供しています。:
@@ -54,18 +93,40 @@ if (response.ok) { // HTTP ステータスが 200-299 の場合
 - 加えて, `response.body` は [ReadableStream](https://streams.spec.whatwg.org/#rs-class) オブジェクトで、本文をチャンク毎に読むことができます。後ほど例を見ていきましょう。
 
 例えば、ここでは Github から最新のコミットの JSON オブジェクトを取得します。:
+=======
+To get the response body, we need to use an additional method call.
+
+`Response` provides multiple promise-based methods to access the body in various formats:
+
+- **`response.json()`** -- parse the response as JSON object,
+- **`response.text()`** -- return the response as text,
+- **`response.formData()`** -- return the response as FormData object (form/multipart encoding),
+- **`response.blob()`** -- return the response as [Blob](info:blob) (binary data with type),
+- **`response.arrayBuffer()`** -- return the response as [ArrayBuffer](info:arraybuffer-binary-arrays) (pure binary data),
+- additionally, `response.body` is a [ReadableStream](https://streams.spec.whatwg.org/#rs-class) object, it allows to read the body chunk-by-chunk, we'll see an example later.
+
+For instance, here we get a JSON-object with latest commits from GitHub:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js run async
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
 
 *!*
+<<<<<<< HEAD
 let commits = await response.json(); // レスポンスの本文を読み JSON としてパースする
+=======
+let commits = await response.json(); // read response body and parse as JSON
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 */!*
 
 alert(commits[0].author.login);
 ```
 
+<<<<<<< HEAD
 もしくは、純粋な promise 構文を使用した場合は次のようになります:
+=======
+Or, the same using pure promises syntax:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js run
 fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits')
@@ -73,35 +134,58 @@ fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commi
   .then(commits => alert(commits[0].author.login));
 ```
 
+<<<<<<< HEAD
 テキストを取得するには:
+=======
+To get the text:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ```js
 let text = await response.text();
 ```
 
+<<<<<<< HEAD
 また、バイナリの例では、画像を取得して表示してみましょう(blob に対する操作の詳細については、チャプター [Blob](info:blob) を参照してください)。:
+=======
+And for the binary example, let's fetch and show an image (see chapter [Blob](info:blob) for details about operations on blobs):
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js async run
 let response = await fetch('/article/fetch/logo-fetch.svg');
 
 *!*
+<<<<<<< HEAD
 let blob = await response.blob(); // Blob オブジェクトとしてダウンロード
 */!*
 
 // <img> を作成
+=======
+let blob = await response.blob(); // download as Blob object
+*/!*
+
+// create <img> for it
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 let img = document.createElement('img');
 img.style = 'position:fixed;top:10px;left:10px;width:100px';
 document.body.append(img);
 
+<<<<<<< HEAD
 // 表示
 img.src = URL.createObjectURL(blob);
 
 setTimeout(() => { // 2秒後に隠す
+=======
+// show it
+img.src = URL.createObjectURL(blob);
+
+setTimeout(() => { // hide after two seconds
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
   img.remove();
   URL.revokeObjectURL(img.src);
 }, 2000);
 ```
 
 ````warn
+<<<<<<< HEAD
 本文のパース方法は1つだけ選ぶことができます。
 
 もし `response.text()` でレスポンスを取得した後、`response.json()` は動作しません。本文のコンテンツは既に処理されているためです。
@@ -109,27 +193,53 @@ setTimeout(() => { // 2秒後に隠す
 ```js
 let text = await response.text(); // 本文を返す
 let parsed = await response.json(); // 失敗 (既に本文は処理済み)
+=======
+We can choose only one body-parsing method.
+
+If we got the response with `response.text()`, then `response.json()` won't work, as the body content has already been processed.
+
+```js
+let text = await response.text(); // response body consumed
+let parsed = await response.json(); // fails (already consumed)
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 ````
 
 ## Headers
 
+<<<<<<< HEAD
 `response.headers` には、Mapライクなヘッダオブジェクトがあります。
 
 個々のヘッダを取得したり、それらをイテレートすることができます。
+=======
+There's a Map-like headers object in `response.headers`.
+
+We can get individual headers or iterate over them:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js run async
 let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
 
+<<<<<<< HEAD
 // ヘッダを1つ取得
 alert(response.headers.get('Content-Type')); // application/json; charset=utf-8
 
 // すべてのヘッダをイテレート
+=======
+// get one header
+alert(response.headers.get('Content-Type')); // application/json; charset=utf-8
+
+// iterate over all headers
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 for (let [key, value] of response.headers) {
   alert(`${key} = ${value}`);
 }
 ```
 
+<<<<<<< HEAD
 ヘッダを設定するには、次のように `headers` オプションを使用します:
+=======
+To set a header, we can use the `headers` option, like this:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 let response = fetch(protectedUrl, {
@@ -139,7 +249,11 @@ let response = fetch(protectedUrl, {
 });
 ```
 
+<<<<<<< HEAD
 ...しかし、設定できない [禁止された HTTP ヘッダ](https://fetch.spec.whatwg.org/#forbidden-header-name) のリストがあります。:
+=======
+...But there's a list of [forbidden HTTP headers](https://fetch.spec.whatwg.org/#forbidden-header-name) that we can't set:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 - `Accept-Charset`, `Accept-Encoding`
 - `Access-Control-Request-Headers`
@@ -162,6 +276,7 @@ let response = fetch(protectedUrl, {
 - `Proxy-*`
 - `Sec-*`
 
+<<<<<<< HEAD
 これらのヘッダは適切で安全な HTTP を保証するため、ブラウザによってのみ制御されます。
 
 ## POST リクエスト
@@ -180,6 +295,26 @@ let response = fetch(protectedUrl, {
 ## JSON を送信する
 
 このコードは、`user` オブジェクトを JSON としてサブミットします。:
+=======
+These headers ensure proper and safe HTTP, so they are controlled exclusively by the browser.
+
+## POST requests
+
+To make a `POST` request, or a request with another method, we need to use `fetch` options:
+
+- **`method`** -- HTTP-method, e.g. `POST`,
+- **`body`** -- one of:
+  - a string (e.g. JSON),
+  - `FormData` object, to submit the data as `form/multipart`,
+  - `Blob`/`BufferSource` to send binary data,
+  - [URLSearchParams](info:url), to submit the data as `x-www-form-urlencoded`, rarely used.
+
+Let's see examples.
+
+## Submit JSON
+
+This code submits a `user` object as JSON:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js run async
 let user = {
@@ -201,11 +336,19 @@ let result = await response.json();
 alert(result.message);
 ```
 
+<<<<<<< HEAD
 本文(body)が文字列の場合、`Content-Type` にはデフォルトでは `text/plain` が設定されることに留意してください。そのため、`application/json` を代わりに送信するために `headers` オプションを使用しています。
 
 ## form を送信する
 
 HTML の `<form>` で同じことをしてみましょう。
+=======
+Please note, if the body is a string, then `Content-Type` is set to `text/plain;charset=UTF-8` by default. So we use `headers` option to send `application/json` instead.
+
+## Submit a form
+
+Let's do the same with an HTML `<form>`.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 
 ```html run
@@ -230,6 +373,7 @@ HTML の `<form>` で同じことをしてみましょう。
 </script>
 ```
 
+<<<<<<< HEAD
 ここで、[FormData](https://xhr.spec.whatwg.org/#formdata) は自動的に form をエンコードし、`<input type="file">` フィールドも処理され、`Content-Type: form/multipart` を使用して送信します。
 
 ## 画像を送信する
@@ -237,6 +381,15 @@ HTML の `<form>` で同じことをしてみましょう。
 `Blob` や `BufferSource` を使用して、バイナリデータを直接送信することもできます。
 
 例えば、ここにマウスを動かすことで描画ができる `<canvas>` があります。"submit" ボタンをクリックすると、画像をサーバに送信します。:
+=======
+Here [FormData](https://xhr.spec.whatwg.org/#formdata) automatically encodes the form, `<input type="file">` fields are handled also, and sends it using `Content-Type: form/multipart`.
+
+## Submit an image
+
+We can also submit binary data directly using `Blob` or `BufferSource`.
+
+For example, here's a `<canvas>` where we can draw by moving a mouse. A click on the "submit" button sends the image to server:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```html run autorun height="90"
 <body style="margin:0">
@@ -265,9 +418,15 @@ HTML の `<form>` で同じことをしてみましょう。
 </body>
 ```
 
+<<<<<<< HEAD
 ここでも `Content-Type` を手動で設定する必要がありませんでした。なぜなら、`Blob` オブジェクトは組み込みのタイプ(`toBlob` により生成される `image/png`)を持っているからです。
 
 `submit()` 関数はこのように `async/await` なしで書くこともできます。:
+=======
+Here we also didn't need to set `Content-Type` manually, because a `Blob` object has a built-in type (here `image/png`, as generated by `toBlob`).
+
+The `submit()` function can be rewritten without `async/await` like this:
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```js
 function submit() {
@@ -282,11 +441,19 @@ function submit() {
 }
 ```
 
+<<<<<<< HEAD
 ## 画像付きのカスタム FormData 
 
 けれども、実際には "name" や他のメタデータといった追加のフィールドと一緒に、 form の一部として画像を送信するほうがより便利なことが多いです。
 
 また、大抵サーバは生のバイナリデータよりもマルチパートエンコード形式を受け入れるのにより適しています。
+=======
+## Custom FormData with image
+
+In practice though, it's often more convenient to send an image as a part of the form, with additional fields, such as "name" and other metadata.
+
+Also, servers are usually more suited to accept multipart-encoded forms, rather than raw binary data.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 
 ```html run autorun height="90"
 <body style="margin:0">
@@ -322,6 +489,7 @@ function submit() {
 </body>
 ```
 
+<<<<<<< HEAD
 これで、サーバの観点からは、画像は form 中の "ファイル" です。
 
 ## サマリ
@@ -358,3 +526,41 @@ fetch(url, options)
 - `body` -- サブミットする string/FormData/BufferSource/Blob/UrlSearchParams データ。
 
 次のチャプターでは、より多くのオプションとユースケースを見ていきます。
+=======
+Now, from the server standpoint, the image is a "file" in the form.
+
+## Summary
+
+A typical fetch request consists of two `awaits`:
+
+```js
+let response = await fetch(url, options); // resolves with response headers
+let result = await response.json(); // read body as json
+```
+
+Or, promise-style:
+```js
+fetch(url, options)
+  .then(response => response.json())
+  .then(result => /* process result */)
+```
+
+Response properties:
+- `response.status` -- HTTP code of the response,
+- `response.ok` -- `true` is the status is 200-299.
+- `response.headers` -- Map-like object with HTTP headers.
+
+Methods to get response body:
+- **`response.json()`** -- parse the response as JSON object,
+- **`response.text()`** -- return the response as text,
+- **`response.formData()`** -- return the response as FormData object (form/multipart encoding),
+- **`response.blob()`** -- return the response as [Blob](info:blob) (binary data with type),
+- **`response.arrayBuffer()`** -- return the response as [ArrayBuffer](info:arraybuffer-binary-arrays) (pure binary data),
+
+Fetch options so far:
+- `method` -- HTTP-method,
+- `headers` -- an object with request headers (not any header is allowed),
+- `body` -- string/FormData/BufferSource/Blob/UrlSearchParams data to submit.
+
+In the next chapters we'll see more options and use cases.
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2

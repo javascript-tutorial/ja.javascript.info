@@ -35,7 +35,13 @@ document.documentElement.getBoundingClientRect().bottom = 1500
 
 
 ```js
+<<<<<<< HEAD
 document.documentElement.getBoundingClientRect().top = -1400
+=======
+// document top is above the window 1400px
+document.documentElement.getBoundingClientRect().top = -1400
+// document bottom is below the window 600px
+>>>>>>> 027933531e121650120f7e8385f691de99af12d2
 document.documentElement.getBoundingClientRect().bottom = 600
 ```
 
