@@ -101,78 +101,75 @@ new TypedArray();
     alert( arr.length ); // 4
     alert( arr[1] ); // 1
     ```
-3. If another `TypedArray` is supplied, it does the same: creates a typed array of the same length and copies values. Values are converted to the new type in the process.
+3. 別の `TypedArray` が与えられた場合も同じです: 同じ長さの型付き配列を生成し、値をコピーします。値はその処理の中で新しい型に変換されます。
     ```js run
     let arr16 = new Uint16Array([1, 1000]);
     *!*
     let arr8 = new Uint8Array(arr16);
     */!*
     alert( arr8[0] ); // 1
-    alert( arr8[1] ); // 232 (tried to copy 1000, but can't fit 1000 into 8 bits)
+    alert( arr8[1] ); // 232 (1000 をコピーしようとしますが、1000 は 8 ビットには収まりません(1000 は 11 1110 1000, 232 は 1110 1000)
     ```
 
-4. For a numeric argument `length` -- creates the typed array to contain that many elements. Its byte length will be `length` multiplied by the number of bytes in a single item `TypedArray.BYTES_PER_ELEMENT`:
+4. 数値引数の場合は `length` であり、その数の要素を含む型付き配列を作成します。そのバイト長は、一つあたりのアイテムのバイト数 `TypedArray.BYTES_PER_ELEMENT` が `length` 倍されたものになります。:
     ```js run
-    let arr = new Uint16Array(4); // create typed array for 4 integers
-    alert( Uint16Array.BYTES_PER_ELEMENT ); // 2 bytes per integer
-    alert( arr.byteLength ); // 8 (size in bytes)
+    let arr = new Uint16Array(4); // 長さ 4 の型付き配列を作成します。
+    alert( Uint16Array.BYTES_PER_ELEMENT ); // 要素あたり 2 バイトです
+    alert( arr.byteLength ); // 8 (バイトサイズ)
     ```
 
-5. Without arguments, creates an zero-length typed array.
+5. 引数がなければ、長さゼロの型付き配列を作成します。
 
-We can create a `TypedArray` directly, without mentioning `ArrayBuffer`. But a view cannot exist without an underlying `ArrayBuffer`, so gets created automatically in all these cases except the first one (when provided).
+`ArrayBuffer` に言及することなく、直接 `TypedArray` を作成することができます。しかし、ビューはその根底にある `ArrayBuffer` なしでは存在できないため、最初のケース(`ArrayBuffer` が与えられた場合)を除く、すべての場合に自動的に作成されます。
 
-To access the `ArrayBuffer`, there are properties:
-- `arr.buffer` -- references the `ArrayBuffer`.
-- `arr.byteLength` -- the length of the `ArrayBuffer`.
+`ArrayBuffer` にアクセスするには、次のプロパティを使います:
+- `arr.buffer` -- `ArrayBuffer` への参照です。
+- `arr.byteLength` -- `ArrayBuffer` の長さです。
 
-So, we can always move from one view to another:
+そのため、いつでもあるビューから別のビューへ移動させることができます。:
 ```js
 let arr8 = new Uint8Array([0, 1, 2, 3]);
 
-// another view on the same data
+// 同じデータを別のビューで
 let arr16 = new Uint16Array(arr8.buffer);
 ```
 
+型付き配列の一覧です:
 
-Here's the list of typed arrays:
+- `Uint8Array`, `Uint16Array`, `Uint32Array` -- 8, 16, 32 ビット整数の場合
+  - `Uint8ClampedArray` -- 8ビット整数の場合、代入時に "クランプ" します (下記参照)。
+- `Int8Array`, `Int16Array`, `Int32Array` -- 符号付き整数の場合(負の値になることもあります）。
+- `Float32Array`, `Float64Array` -- 32, 64 ビット符号付き浮動小数点の場合。
 
-- `Uint8Array`, `Uint16Array`, `Uint32Array` -- for integer numbers of 8, 16 and 32 bits.
-  - `Uint8ClampedArray` -- for 8-bit integers, "clamps" them on assignment (see below).
-- `Int8Array`, `Int16Array`, `Int32Array` -- for signed integer numbers (can be negative).
-- `Float32Array`, `Float64Array` -- for signed floating-point numbers of 32 and 64 bits.
+```warn header="`int8` またはそれに類似した単一値の型はありません"
+注意してください、`Int8Array` のような名前にもかかわらず、JavaScript には `int` あるいは `int8` のような単一値の型はありません。
 
-```warn header="No `int8` or similar single-valued types"
-Please note, despite of the names like `Int8Array`, there's no single-value type like `int`, or `int8` in JavaScript.
-
-That's logical, as `Int8Array` is not an array of these individual values, but rather a view on `ArrayBuffer`.
+繰り返しますが、`Int8Array` はこれらの個々の値の配列ではなく、`ArrayBuffer` のビューです。
 ```
 
-### Out-of-bounds behavior
+### 範囲外の動作
 
-What if we attempt to write an out-of-bounds value into a typed array? There will be no error. But extra bits are cut-off.
+もし範囲外の値を型付き配列に書き込もうとするとどうなるでしょう？エラーにはなりませんが、余分なビットが切り捨てられます。
 
-For instance, let's try to put 256 into `Uint8Array`. In binary form, 256 is `100000000` (9 bits), but `Uint8Array` only provides 8 bits per value, that makes the available range from 0 to 255.
+例えば、256 を `Uint8Array` に置くことを考えてみましょう。二進法(バイナリ形式)では、256 は `100000000` (9ビット)ですが、`Uint8Array` は値ごとに 8 ビットしか提供せず、0 から 255 までの範囲です。
 
-For bigger numbers, only the rightmost (less significant) 8 bits are stored, and the rest is cut off:
+範囲を超えるようなより大きい数値の場合、(重要度の低い)右端の8ビットだけが格納され、残りは切り捨てられます。:
 
 ![](8bit-integer-256.png)
 
-So we'll get zero.
+そのため、ゼロになります。
 
-For 257, the binary form is `100000001` (9 bits), the rightmost 8 get stored, so we'll have `1` in the array:
+257 の場合、二進法は `100000001` (9ビット)で、右端の 8ビットが格納されるので、配列には `1` が入ります。:
 
 ![](8bit-integer-257.png)
 
-In other words, the number modulo 2<sup>8</sup> is saved.
-
-Here's the demo:
+デモです:
 
 ```js run
 let uint8array = new Uint8Array(16);
 
 let num = 256;
-alert(num.toString(2)); // 100000000 (binary representation)
+alert(num.toString(2)); // 100000000 (二進表現)
 
 uint8array[0] = 256;
 uint8array[1] = 257;
@@ -181,27 +178,25 @@ alert(uint8array[0]); // 0
 alert(uint8array[1]); // 1
 ```
 
-`Uint8ClampedArray` is special in this aspect, its behavior is different. It saves 255 for any number that is greater than 255, and 0 for any negative number. That behavior is useful for image processing.
+`Uint8ClampedArray` はこの点で特別で異なる振る舞いをします。これは、255 よりも大きな値の場合は 255 を、負の値の場合には 0 を格納します。これは画像処理の場合に役立つ振る舞いです。
 
-## TypedArray methods
+## TypedArray メソッド
 
-`TypedArray` has regular `Array` methods, with notable exceptions.
+`TypedArray` は通常の `Array` のメソッドを持っていますが、注目すべき例外があります。
 
-We can iterate, `map`, `slice`, `find`, `reduce` etc.
+`map`, `slice`, `find`, `reduce` 等を使用してイテレートすることができます。
 
-There are few things we can't do though:
+ですが、できないことがいくつかあります:
 
-- No `splice` -- we can't "delete" a value, because typed arrays are views on a buffer, and these are fixed, contiguous areas of memory. All we can do is to assign a zero.
-- No `concat` method.
+- `splice` はありません。型付き配列は buffer のビューであり、これらは固定された連続したメモリ領域であるため、値を "削除" することはできません。できることは、ゼロの代入です。
+- `concat` メソッドはありません。
 
-There are two additional methods:
+2つの追加のメソッドがあります:
 
-- `arr.set(fromArr, [offset])` copies all elements from `fromArr` to the `arr`, starting at position `offset` (0 by default).
-- `arr.subarray([begin, end])` creates a new view of the same type from `begin` to `end` (exclusive). That's similar to `slice` method (that's also supported), but doesn't copy anything -- just creates a new view, to operate on the given piece of data.
+- `arr.set(fromArr, [offset])` は `fromArr` のすべての要素を `arr` へ、位置 `offset` (デフォルトは 0) を開始点としてコピーします。
+- `arr.subarray([begin, end])` は `begin` から `end` (排他的)までの同じ型のビューを作成します。これは `slice` メソッドに似ています(このメソッドもサポートされています)が、何もコピーしません。単に指定されたデータ範囲を操作するための新しいビューを作成するだけです。
 
-These methods allow us to copy typed arrays, mix them, create new arrays from existing ones, and so on.
-
-
+これらのメソッドにより、型付き配列のコピーしたり、ミックスしたり、既存の配列から新しい配列を作成したりすることができます。
 
 ## DataView
 
