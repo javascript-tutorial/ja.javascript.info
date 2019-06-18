@@ -200,64 +200,63 @@ alert(uint8array[1]); // 1
 
 ## DataView
 
-[DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) is a special super-flexible "untyped" view over `ArrayBuffer`. It allows to access the data on any offset in any format.
+[DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) は非常に柔軟な `ArrayBuffer` に対する "型指定のない" ビューです。あらゆるフォーマットの任意のオフセットのデータにアクセスすることができます。
 
-- For typed arrays, the constructor dictates what the format is. The whole array is supposed to be uniform. The i-th number is `arr[i]`.
-- With `DataView` we access the data with methods like `.getUint8(i)` or `.getUint16(i)`. We choose the format at method call time instead of the construction time.
+- 型付き配列の場合、コンストラクタはフォーマットが何であるかを決定します。配列全体は不変になります。i 番目の数値は `arr[i]` です。
+- `DataView` では、`.getUint8(i)` や `.getUint16(i)` メソッドでデータにアクセスします。フォーマットはコンストラクタ時の代わりに、メソッド呼び出し時に指定します。
 
-The syntax:
+構文:
 
 ```js
 new DataView(buffer, [byteOffset], [byteLength])
 ```
 
-- **`buffer`** -- the underlying `ArrayBuffer`. Unlike typed arrays, `DataView` doesn't create a buffer on its own. We need to have it ready.
-- **`byteOffset`** -- the starting byte position of the view (by default 0).
-- **`byteLength`** -- the byte length of the view (by default till the end of `buffer`).
+- **`buffer`** -- 基礎となる `ArrayBuffer` です。型付き配列とは異なり、`DataView` はそれ自身では buffer は作成しません。事前に用意する必要があります。
+- **`byteOffset`** -- ビューの開始バイト位置(デフォルトは 0)です。
+- **`byteLength`** -- ビューのバイト長(デフォルトは `buffer` の最後まで)です。
 
-For instance, here we extract numbers in different formats from the same buffer:
+例えば、ここでは同じバッファから異なるフォーマットで数値を取り出します。:
 
 ```js run
 let buffer = new Uint8Array([255, 255, 255, 255]).buffer;
 
 let dataView = new DataView(buffer);
 
-// get 8-bit number at offset 0
+// オフセット 0 で、8ビットの数値を取得します
 alert( dataView.getUint8(0) ); // 255
 
-// now get 16-bit number at offset 0, that's 2 bytes, both with max value
-alert( dataView.getUint16(0) ); // 65535 (biggest 16-bit unsigned int)
+// オフセット 0 で、16ビットの数値を取得します、つまり 2バイトです
+alert( dataView.getUint16(0) ); // 65535 (16ビット符号なし整数の最大値)
 
-// get 32-bit number at offset 0
-alert( dataView.getUint32(0) ); // 4294967295 (biggest 32-bit unsigned int)
+// オフセット 0 で、32ビットの数値を取得します
+alert( dataView.getUint32(0) ); // 4294967295 (32ビット符号なし整数の最大値)
 
-dataView.setUint32(0, 0); // set 4-byte number to zero
+dataView.setUint32(0, 0); // 4バイトの数値を 0 にセット
 ```
 
-`DataView` is great when we store mixed-format data in the same buffer. E.g we store a sequence of pairs (16-bit integer, 32-bit float). Then `DataView` allows to access them easily.
+`DataView` はフォーマットが混在したデータを同じバッファに格納するときに役立ちます。E.g 一連のペア(16ビット整数、32ビット float)を格納します。その後、`DataView` は簡単にそれらにアクセスすることができます。
 
-## Summary
+## サマリ
 
-`ArrayBuffer` is the core object, a reference to the fixed-length contiguous memory area.
+`ArrayBuffer` は基本となるオブジェクトで、固定長の連続したメモリ領域への参照です。
 
-To do almost any operation on `ArrayBuffer`, we need a view.
+`ArrayBuffer` に対するほとんどの操作は、次のビューが必要です。
 
-- It can be a `TypedArray`:
-    - `Uint8Array`, `Uint16Array`, `Uint32Array` -- for unsigned integers of 8, 16, and 32 bits.
-    - `Uint8ClampedArray` -- for 8-bit integers, "clamps" them on assignment.
-    - `Int8Array`, `Int16Array`, `Int32Array` -- for signed integer numbers (can be negative).
-    - `Float32Array`, `Float64Array` -- for signed floating-point numbers of 32 and 64 bits.
-- Or a `DataView` -- the view that uses methods to specify a format, e.g. `getUint8(offset)`.
+- `TypedArray`:
+    - `Uint8Array`, `Uint16Array`, `Uint32Array` -- 8, 16 あるいは 32 ビットの符号なし整数の場合
+    - `Uint8ClampedArray` -- 8 ビット整数の場合。代入時に "クランプ" します 
+    - `Int8Array`, `Int16Array`, `Int32Array` -- 符号あり整数値の場合(負の値もあり)
+    - `Float32Array`, `Float64Array` -- 32, 64 ビット符号あり浮動小数点
+- もしくは `DataView` -- フォーマットを指定するメソッドを使用するビューです。例えば、`getUint8(offset)`.
 
-In most cases we create and operate directly on typed arrays, leaving `ArrayBuffer` under cover, as a "common discriminator". We can access it as `.buffer` and make another view if needed.
+多くの場合、`ArrayBuffer` を隠したまま、直接型付き配列を作成し操作します。`.buffer` でアクセスすることができ、必要に応じて別のビューを作成することができます。
 
-There are also two additional terms:
-- `ArrayBufferView` is an umbrella term for all these kinds of views.
-- `BufferSource` is an umbrella term for `ArrayBuffer` or `ArrayBufferView`.
+その他に2つの用語があります:
+- `ArrayBufferView` はこれらすべての種類のビューの総称です。
+- `BufferSource` は `ArrayBuffer` もしくは `ArrayBufferView` の総称です。
 
-These are used in descriptions of methods that operate on binary data. `BufferSource` is one of the most common terms, as it means "any kind of binary data" -- an `ArrayBuffer` or a view over it. 
+これらはバイナリデータを操作するメソッドの説明で使用されています。`BufferSource` は最も一般的な用語で、"あらゆる種類のバイナリデータ" -- `ArrayBuffer` またはそれを覆うビュー、を意味します。
 
-
-Here's a cheatsheet:
+チートシートです:
 
 ![](arraybuffer-view-buffersource.png)
