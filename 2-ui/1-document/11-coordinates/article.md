@@ -9,11 +9,17 @@
 
 違いを理解し、どのタイプがどこにあるかを理解することは重要です。
 
+<<<<<<< HEAD
 [cut]
 
 ## ウィンドウ座標: getBoundingClientRect 
 
 ウィンドウ座標はウィンドウの左上端から始まります。
+=======
+## Window coordinates: getBoundingClientRect
+
+Window coordinates start at the upper-left corner of the window.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 メソッド `elem.getBoundingClientRect()` はプロパティを持つオブジェクトとして `elem` に対するウィンドウ座標を返します。:
 
@@ -27,9 +33,13 @@
 ![](coords.png)
 
 
+<<<<<<< HEAD
 ウィンドウ座標はドキュメントのスクロールアウト部分を考慮せず、ウィンドウの左上端から計算されたものになります。
 
 言い換えると、ページをスクロールするとき、要素は上下に移動し、*そのウィンドウ座標は変わります*。これはとても重要です。
+=======
+Window coordinates do not take the scrolled out part of the document into account, they are calculated from the window's upper-left corner.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 
 ```online
@@ -49,6 +59,7 @@ function showRect(elem) {
 
 また:
 
+<<<<<<< HEAD
 - 座標は小数の場合があります。それは正常で、内部的にはブラウザは計算のためにそれを使用します。私たちは `style.position.left/top` へ設定するときにそれらを丸める必要はありません。ブラウザで小数は問題ありません。
 - 座標は負の値になる場合があります。例えば、ページが下にスクロールされ、`elem` の上端がウィンドウの上にある場合、`elem.getBoundingClientRect().top` は負の値になります。
 - Chromeような一部のブラウザでは、結果 `getBoundingClientRect` にプロパティ `width` と `height` も追加します。減算することでもそれらを取得することは可能です: `height=bottom-top`, `width=right-left`。
@@ -59,6 +70,18 @@ function showRect(elem) {
 しかし、CSS では `right` プロパティは右端からの距離を意味し、`bottom` は -- 下端からの距離です。
 
 上の図を見た時、JavaScriptではそうでないことが分かります。すべてのウィンドウ座標は左上隅から数えられます。
+=======
+- Coordinates may be decimal fractions. That's normal, internally browser uses them for calculations. We don't have to round them when setting to `style.position.left/top`, the browser is fine with fractions.
+- Coordinates may be negative. For instance, if the page is scrolled down and the top `elem` is now above the window. Then, `elem.getBoundingClientRect().top` is negative.
+- Some browsers (like Chrome) provide additional properties, `width` and `height` of the element that invoked the method to `getBoundingClientRect` as the result. We can also get them by subtraction: `height=bottom-top`, `width=right-left`.
+
+```warn header="Coordinates right/bottom are different from CSS properties"
+If we compare window coordinates versus CSS positioning, then there are obvious similarities to `position:fixed`. The positioning of an element is also relative to the viewport.
+
+But in CSS, the `right` property means the distance from the right edge, and the `bottom` property means the distance from the bottom edge.
+
+If we just look at the picture above, we can see that in JavaScript it is not so. All window coordinates are counted from the upper-left corner, including these ones.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 ```
 
 ## elementFromPoint(x, y) 
@@ -156,7 +179,11 @@ setTimeout(() => message.remove(), 5000);
 
 ## ドキュメント座標 
 
+<<<<<<< HEAD
 ドキュメント相対座標は、ウィンドウではなくドキュメントの左上端から始めます。
+=======
+Document-relative coordinates start from the upper-left corner of the document, not the window.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 CSS では、ウィンドウ座標は `position:fixed` に対応する一方、ドキュメント座標は `position:absolute` に似ています。
 
@@ -180,7 +207,11 @@ CSS では、ウィンドウ座標は `position:fixed` に対応する一方、�
 
 ## ドキュメント座標の取得 
 
+<<<<<<< HEAD
 要素のドキュメント座標を取得するための標準メソッドはありません。しかし、簡単に書けます。
+=======
+There's no standard method to get the document coordinates of an element. But it's easy to write it.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 ２つの座標系は次の式で繋がれます:
 - `pageY` = `clientY` + ドキュメントのスクロールアウトした垂直部分の高さ

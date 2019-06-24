@@ -4,9 +4,15 @@
 
 現在の HTML 標準では [ドラッグイベントに関するセクション](https://html.spec.whatwg.org/multipage/interaction.html#dnd) があります。
 
+<<<<<<< HEAD
 それらはシンプルなタスクを簡単に解決したり、"外部" ファイルのドラッグ＆ドロップをブラウザで扱うことができたりと、興味深いです。したがって、OSのファイルマネージャでファイルを取り、ブラウザウィンドウへドロップすることができます。その後、JavaScript はそのコンテンツへアクセスできます。
 
 しかし、ネイティブのドラッグイベントにも制限があります。例えば、特定の領域でドラッグを制限することができます。また、ドラッグを "水平" または "垂直" のみにすることはできません。そのAPIでは実装できない他のドラッグ&ドロップのタスクがあります。
+=======
+They are interesting because they allow to solve simple tasks easily, and also allow to handle drag'n'drop of "external" files into the browser. So we can take a file in the OS file-manager and drop it into the browser window. Then JavaScript gains access to its contents.
+
+But native Drag Events also have limitations. For instance, we can't limit dragging by a certain area. Also we can't make it "horizontal" or "vertical" only. There are other drag'n'drop tasks that can't be implemented using that API.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 そのため、ここではマウスイベントを使用したドラッグ&ドロップの実装方法を見ていきます。それほど難しくはありません。
 
@@ -14,10 +20,17 @@
 
 基本のドラッグ&ドロップのアルゴリズムはこのようになります:
 
+<<<<<<< HEAD
 1. ドラッグ可能な要素で `mousedown` をキャッチします。
 2. 移動する要素を準備します (そのコピーを作成したりなど)
 3. その後、`mousemove` で `left/top` と `position:absolute` を変更することで、それを移動させます。
 4. `mouseup` (ボタンを離す) で、 -- 終了したドラッグ&ドロップに関連するすべてのアクションを実行します。
+=======
+1. Catch `mousedown` on a draggable element.
+2. Prepare the element for moving (maybe create a copy of it or whatever).
+3. Then on `mousemove` move it by changing `left/top` and `position:absolute`.
+4. On `mouseup` (button release) -- perform all actions related to a finished Drag'n'Drop.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 これらは基本です。私たちはそれを拡張することができます。例えば、ドロップ可能な要素上にマウスを持ってきたときに、それを強調表示するなどです。
 
@@ -57,8 +70,12 @@ ball.onmousedown = function(event) { // (1) 処理を開始
 };
 ```
 
+<<<<<<< HEAD
 コードを実行すると、何かおかしいことに気づきます。ドラッグ&ドロップの開始時に、ボールは "分岐" します: 我々はその "クローン" をドラッグし始めます。
 
+=======
+If we run the code, we can notice something strange. On the beginning of the drag'n'drop, the ball "forks": we start dragging its "clone".
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 ```online
 これは、アクションの例です:
@@ -101,7 +118,11 @@ ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
 ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 ```
 
+<<<<<<< HEAD
 悪くはありませんが副作用があります。ドラッグ&ドロップを開始するために、私たちはボール上どこでも `mousedown` できます。もしボールの端でそれをした場合、ボールは突然中央になるために "ジャンプ" します。
+=======
+Not bad, but there's a side-effect. To initiate the drag'n'drop, we can `mousedown` anywhere on the ball. But if do it at the edge, then the ball suddenly "jumps" to become centered.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 ポインタに対する要素の初期のずれを維持するようが良いでしょう。
 
@@ -178,7 +199,11 @@ ball.ondragstart = function() {
 [iframe src="ball3" height=230]
 ```
 
+<<<<<<< HEAD
 ボールの右下端でドラッグをする場合に、違いは特に顕著になります。以前の例ではボールはポイントの下に "ジャンプ" します。今は現在の位置からのなめらかにカーソルを追うことができます。
+=======
+The difference is especially noticeable if we drag the ball by its right-bottom corner. In the previous example the ball "jumps" under the pointer. Now it fluently follows the cursor from the current position.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 ## ドロップ可能を検出する 
 

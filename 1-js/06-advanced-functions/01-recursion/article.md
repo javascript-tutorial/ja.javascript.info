@@ -10,9 +10,13 @@
 
 関数がタスクを解決するとき、処理の過程で多くの他の関数を呼ぶことができます。この部分的なケースとして、関数が *自分自身* を呼ぶときです。それは *再帰* と呼ばれます。
 
+<<<<<<< HEAD
 [cut]
 
 ## 2つの考え方 
+=======
+## Two ways of thinking
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 初めのシンプルな例として、`x` の `n` 乗をする関数 `pow(x, n)` を書いてみましょう。つまり、`x` 自身を `n` 回乗算します。
 
@@ -88,7 +92,11 @@ pow(x, n) =
 ````smart header="通常、再帰はより短く書けます"
 再帰的な解決策は、通常、反復する方法よりも短いです。
 
+<<<<<<< HEAD
 ここで、`pow(x, n)` をより簡潔にし、かつ読みやすくするために `if` の代わりに3項演算子 `?` を使って書き直すことができます。:
+=======
+Here we can rewrite the same using the conditional operator `?` instead of `if` to make `pow(x, n)` more terse and still very readable:
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 ```js run
 function pow(x, n) {
@@ -103,11 +111,19 @@ function pow(x, n) {
 
 それは再帰の使用を制限しますが、依然として非常に広範囲に使われています。再帰的な考え方でコードがシンプルになり、保守が容易になるタスクはたくさんあります。
 
+<<<<<<< HEAD
 ## 実行スタック 
+=======
+## The execution context and stack
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 さて、どのように再帰呼び出しが動作するか検証してみましょう。そのためには関数の内部を見ていきます。
 
+<<<<<<< HEAD
 関数の実行に関する情報は、その *実行コンテキスト* に格納されています。
+=======
+The information about the process of execution of a running function is stored in its *execution context*.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 [実行コンテキスト(execution context)](https://tc39.github.io/ecma262/#sec-execution-contexts) は関数の実行に関する詳細を含む内部のデータ構造です。: 今はどの制御フローであるか、現在の変数、`this` の値(ここでは使いませんが)や、その他いくつかの内部データを持ちます。
 
@@ -318,7 +334,15 @@ let company = {
 };
 ```
 
+<<<<<<< HEAD
 言い換えると、会社は部署を持っています。
+=======
+In other words, a company has departments.
+
+- A department may have an array of staff. For instance, `sales` department has 2 employees: John and Alice.
+- Or a department may split into subdepartments, like `development` has two branches: `sites` and `internals`. Each of them has their own staff.
+- It is also possible that when a subdepartment grows, it divides into subsubdepartments (or teams).
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 - 部署はスタッフの配列を持っているかもしれません。例えば、`sales` 部門は２人の従業員がいます。John と Alice です。
 - もしくは、`development` は２つの枝(`sites` と `internals`)を持っているように、部署はサブの部署に分割されるかもしれません。それらは各々のスタッフを持ちます。
@@ -418,7 +442,11 @@ let arr = [obj1, obj2, obj3];
 
 ...しかし、配列を使う場合には問題があります。 "要素の削除" と "要素の挿入" 操作はコストが高いです。例えば `arr.unshift(obj)` 操作は新しい `obj` のための場所を作るために、全ての要素の番号を振り直す必要があります。また、もし配列が大きい場合、それは時間がかかります。`arr.shift()` も同じです。
 
+<<<<<<< HEAD
 大量の番号の再割当てを必要としない唯一の構造変更は配列の末尾への操作です: `arr.push/pop`。従って、配列は大きなキューに対しては非常に遅くなる可能性があります。
+=======
+The only structural modifications that do not require mass-renumbering are those that operate with the end of array: `arr.push/pop`. So an array can be quite slow for big queues, when we have to work with the beginning.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 あるいは、もしも本当に速い挿入/削除が必要であれば、[連結リスト(linked list)](https://en.wikipedia.org/wiki/Linked_list) と呼ばれる別のデータ構造を選択することもできます。
 
@@ -508,14 +536,28 @@ list.next = list.next.next;
 
 主な欠点は、番号では簡単に要素にアクセスできないことです。配列では簡単です( `arr[n]` で直接参照します)が、リストではアイテムの最初から始めてN個目の要素を取得するために、`N` 回 `next` を行う必要があります。
 
+<<<<<<< HEAD
 ...でも、常にこのような操作が必要とは限りません。例えば、キュー(queue)や [デック(deque)](https://en.wikipedia.org/wiki/Double-ended_queue) が必要なときです。これらは両端から要素を非常に高速に追加/削除できる順序付けられた構造です。
 
 時には、リストの最後の要素を追跡するために `tail` という名前の別の変数を追加する価値があります(そして要素を最後に追加または削除するときにそれを更新します)。要素の集合が大きいと、配列と速度の違いが大きくなります。
+=======
+...But we don't always need such operations. For instance, when we need a queue or even a [deque](https://en.wikipedia.org/wiki/Double-ended_queue) -- the ordered structure that must allow very fast adding/removing elements from both ends, but access to its middle is not needed.
+
+Lists can be enhanced:
+- We can add property `prev` in addition to `next` to reference the previous element, to move back easily.
+- We can also add a variable named `tail` referencing the last element of the list (and update it when adding/removing elements from the end).
+- ...The data structure may vary according to our needs.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
 ## サマリ 
 
+<<<<<<< HEAD
 用語:
 - *再帰* は "自己呼び出し" 関数を意味するプログラミングの用語です。このような関数を使用して、特定のタスクを簡潔で美しい方法で解決することができます。
+=======
+Terms:
+- *Recursion*  is a programming term that means calling a function from itself. Recursive functions can be used to solve tasks in elegant ways.
+>>>>>>> 9b5c1c95ec8a466150e519b0e94748717c747b09
 
     関数が自身を呼び出すとき、それは *再帰ステップ* と呼ばれます。 再帰の *基底* は、関数がそれ以上の呼び出しを行わないようにタスクを単純化する関数の引数です。
 
