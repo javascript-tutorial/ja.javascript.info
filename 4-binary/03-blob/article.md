@@ -204,16 +204,16 @@ canvas.toBlob(function(blob) {
 let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
 ```
 
-For screenshotting a page, we can use a library such as <https://github.com/niklasvh/html2canvas>. What it does is just walks the page and draws it on `<canvas>`. Then we can get a blob of it the same way as above.
+ページをスクリーンショットするには、<https://github.com/niklasvh/html2canvas> のようなライブラリが使えます。これがしていることは、単にページを見て `<canvas>` 上にそれを描いているだけです。そして、上と同じ方法でその blob を取得することができます。
 
-## From Blob to ArrayBuffer
+## Blob から ArrayBuffer へ
 
-The `Blob` constructor allows to create a blob from almost anything, including any `BufferSource`.
+`Blob` コンストラクタは、`BufferSource` を含め、ほぼ何からでも blob を作成することができます。
 
-But if we need to perform low-level processing, we can get the lowest-level `ArrayBuffer` from it using `FileReader`:
+しかし、低レベルの処理を実行する必要がある場合、`FileReader` を使って、最も低レベルである `ArrayBuffer` を取得することもできます。:
 
 ```js
-// get arrayBuffer from blob
+// blob から arrayBuffer を取得
 let fileReader = new FileReader();
 
 *!*
@@ -226,15 +226,15 @@ fileReader.onload = function(event) {
 ```
 
 
-## Summary
+## サマリ
 
-While `ArrayBuffer`, `Uint8Array` and other `BufferSource` are "binary data", a [Blob](https://www.w3.org/TR/FileAPI/#dfn-Blob) represents "binary data with type".
+`ArrayBuffer`, `Uint8Array` やその他の `BufferSource` が "バイナリデータ" である一方、[Blob](https://www.w3.org/TR/FileAPI/#dfn-Blob) は "タイプを持つバイナリデータ" を表します。
 
-That makes Blobs convenient for upload/download operations, that are so common in the browser.
+これは Blob のアップロード/ダウンロード操作を便利にし、ブラウザでは一般的です。
 
-Methods that perform web-requests, such as [XMLHttpRequest](info:xmlhttprequest), [fetch](info:fetch-basics) and so on, can work with `Blob` natively, as well as with other binary types.
+[XMLHttpRequest](info:xmlhttprequest), [fetch](info:fetch-basics) などの webリクエストを行うメソッドは、他のバイナリタイプと同様に、`Blob` をネイティブに使用することができます。
 
-We can easily convert betweeen `Blob` and low-level binary data types:
+`Blob` と低レベルのバイナリデータ型の間の変換は容易に行うことができます。:
 
-- We can make a Blob from a typed array using `new Blob(...)` constructor.
-- We can get back `ArrayBuffer` from a Blob using `FileReader`, and then create a view over it for low-level binary processing.
+- `new Blob(...)` コンストラクタを使用して、型付き配列から Blob を作成することができます。
+- `FileReader` を使用して、Blob から `ArrayBuffer` に戻すことができ、低レベルのバイナリ処理のためにビューを作成することもできます。
