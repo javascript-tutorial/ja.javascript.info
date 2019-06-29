@@ -1,42 +1,82 @@
 
-# クラスの継承, super
+# クラスの継承
 
-クラスは別のクラスに拡張することができます。 技術的には、プロトタイプの継承に基づいた素晴らしい構文があります。
+2つのクラスがあるとしましょう。
 
-別のクラスから継承するためには、`"extends"` と括弧 `{..}` の前に親クラスを指定する必要があります。
+`Animal`:
 
-[cut]
-
-ここでは、`Rabbit` は `Animal` から継承しています:
-
-```js run
+```js
 class Animal {
-
   constructor(name) {
     this.speed = 0;
     this.name = name;
   }
-
   run(speed) {
     this.speed += speed;
     alert(`${this.name} runs with speed ${this.speed}.`);
   }
-
   stop() {
     this.speed = 0;
     alert(`${this.name} stopped.`);
   }
-
 }
 
-*!*
-// Animal から継承
-class Rabbit extends Animal {
+let animal = new Animal("My animal");
+```
+
+![](rabbit-animal-independent-animal.png)
+
+
+...そして `Rabbit`:
+
+```js
+class Rabbit {
+  constructor(name) {
+    this.name = name;
+  }
   hide() {
     alert(`${this.name} hides!`);
   }
 }
+
+let rabbit = new Rabbit("My rabbit");
+```
+
+![](rabbit-animal-independent-rabbit.png)
+
+
+現時点では、完全に独立しています。
+
+ですが、`Rabbit` は `Animal` を拡張したものにしたいです。言い換えると、うさぎ(rabbit)は動物(animal)をベースにするべきであり、`Animal` のメソッドへのアクセスを持ち、自身のメソッドでそれらを拡張するべきです。
+
+他のクラスから継承するには、括弧 `{..}` の前に `"extends"` と親のクラスを指定します。
+
+ここでは、`Rabbit` は `Animal` を継承しています。:
+
+```js run
+class Animal {
+  constructor(name) {
+    this.speed = 0;
+    this.name = name;
+  }
+  run(speed) {
+    this.speed += speed;
+    alert(`${this.name} runs with speed ${this.speed}.`);
+  }
+  stop() {
+    this.speed = 0;
+    alert(`${this.name} stopped.`);
+  }
+}
+
+// "extends Animal" を指定してAnimalから継承する
+*!*
+class Rabbit extends Animal {
 */!*
+  hide() {
+    alert(`${this.name} hides!`);
+  }
+}
 
 let rabbit = new Rabbit("White Rabbit");
 
@@ -44,11 +84,15 @@ rabbit.run(5); // White Rabbit runs with speed 5.
 rabbit.hide(); // White Rabbit hides!
 ```
 
-`extends` キーワードは、実際には `Rabbit.prototype` から `Animal.prototype` へ `[[Prototype]]` 参照を追加します。
+これで `Rabbit` は `Animal` のコンストラクタをデフォルトで利用するので、コードは少し短くなりました。そして、`run` をすることもできます。
+
+内部では、`extends` キーワードは、`Rabbit.prototype` から `Animal.prototype` へとの `[[Prototype]]` 参照を追加しています:
 
 ![](animal-rabbit-extends.png)
 
-なので、現在 `rabbit` は自身のメソッドと `Animal` のメソッド両方へのアクセスを持ちます。
+したがって、`Rabbit.prototype` にメソッドが見つからない場合、JavaScript は `Animal.prototype` から取ります。
+
+チャプター <info:native-prototypes> から想起できるように、JavaScript は同じプロトタイプ継承を組み込みオブジェクトに対しても使います。E.g. `Date.prototype.[[Prototype]]` は `Object.prototype` なので、date は一般的なオブジェクトメソッドを持っています。
 
 ````smart header="`extends` の後では任意の式が指定できます"
 クラス構文では単にクラスではなく、`extends` の後に任意の式を指定することができます。
@@ -434,145 +478,17 @@ rabbit.eat();  // super 呼び出しエラー([[HomeObject]] が無いため)
 */!*
 ```
 
-## 静的メソッドと継承 
+## サマリ
 
-`class` 構文は静的なプロパティに対しても継承をサポートしています。
+1. クラスを拡張するには: `class Child extends Parent`:
+    - これは `Child.prototype.__proto__` は `Parent.prototype` になることを意味するので、メソッドは継承されます。
+2. コンストラクタをオーバーライドするとき:
+    - `this` を使う前に `Child` コンストラクタの中で `super` として親のコンストラクタを呼ばなければなりません。
+3. 他のメソッドをオーバーライドするとき:
+    - `super.method()` を使用することで、`Child` で親のメソッドを呼び出すことができます。
+4. 内部:
+    - メソッドは内部の `[[HomeObject]]` プロパティで自身のクラス/オブジェクトを覚えています。 これが `super` が親メソッドを解決する方法です。
+    - そのため、あるオブジェクトから別のオブジェクトへ `super` を持つメソッドをコピーするのは安全ではありません。
 
-例:
-
-```js run
-class Animal {
-
-  constructor(name, speed) {
-    this.speed = speed;
-    this.name = name;
-  }
-
-  run(speed = 0) {
-    this.speed += speed;
-    alert(`${this.name} runs with speed ${this.speed}.`);
-  }
-
-  static compare(animalA, animalB) {
-    return animalA.speed - animalB.speed;
-  }
-
-}
-
-// Animal から継承
-class Rabbit extends Animal {
-  hide() {
-    alert(`${this.name} hides!`);
-  }
-}
-
-let rabbits = [
-  new Rabbit("White Rabbit", 10),
-  new Rabbit("Black Rabbit", 5)
-];
-
-rabbits.sort(Rabbit.compare);
-
-rabbits[0].run(); // Black Rabbit runs with speed 5.
-```
-
-これで、継承された `Animal.compare` が呼び出されると想定される `Rabbit.compare` を呼ぶことができます。
-
-どのように動くのでしょう？繰り返しますが、プロトタイプを使用します。 すでに推測したように、`extends` は `Rabbit` に `Animal` への `[[Prototype]]` 参照を与えます。
-
-![](animal-rabbit-static.png)
-
-従って、`Rabbit` 関数は `Animal` 関数から継承します。そして `Animal` 関数は通常 `Function.prototype` を参照する `[[Prototype]]` を持っています。なぜならそれは何も `extend` していないからです。
-
-ここで、それを確認してみましょう。:
-
-```js run
-class Animal {}
-class Rabbit extends Animal {}
-
-// 静的プロパティとメソッドの場合
-alert(Rabbit.__proto__ == Animal); // true
-
-// 次のステップは Function.prototype です
-alert(Animal.__proto__ == Function.prototype); // true
-
-// オブジェクトメソッドの "通常の" プロトタイプチェーンに加えて
-alert(Rabbit.prototype.__proto__ === Animal.prototype); // true
-```
-
-このように `Rabbit` は `Animal` のすべての静的メソッドへアクセスです。
-
-### 組み込みで、静的継承はありません
-
-組み込みのクラスはこのような静的な `[[Prototype]]` 参照は持っていないことに注意してください。例えば、`Object` は `Object.defineProperty`, `Object.keys` やその他を持っていますが、`Array` や `Date` などはそれらを継承しません。
-
-これは `Date` や `Object` の構造を示す図です。:
-
-![](object-date-inheritance.png)
-
-`Date` と `Object` の間のリンクはないことに注意してください。`Object` と `Date` は独立して存在します。`Date.prototype` は `Object.prototype` から継承しますが、それだけです。
-
-このような差異は歴史的な理由で存在します。: JavaScript言語の幕開けにクラス構文と静的メソッドを継承することは考えられませんでした。
-
-## ネイティブは拡張可能です 
-
-Array, Map やその他のような組み込みのクラスもまた拡張可能です。
-
-例えば、ここでは `PowerArray` はネイティブの `Array` から継承しています。:
-
-```js run
-// メソッドを追加する(もっと追加することもできます)
-class PowerArray extends Array {
-  isEmpty() {
-    return this.length == 0;
-  }
-}
-
-let arr = new PowerArray(1, 2, 5, 10, 50);
-alert(arr.isEmpty()); // false
-
-let filteredArr = arr.filter(item => item >= 10);
-alert(filteredArr); // 10, 50
-alert(filteredArr.isEmpty()); // false
-```
-
-1つとても興味深いことに留意してください。`filter`, `map` やその他組み込みのメソッドは -- 正確に継承された型の新しいオブジェクトを返します。 それらはそうするために `constructor`プロパティに依存しています。
-
-上の例です,
-```js
-arr.constructor === PowerArray
-```
-
-なので、`arr.filter()` が呼ばれた時、それは内部で `new PowerArray` と同じ結果の新しい配列が作成されます。 そして、呼び出しのチェーンの下でさらに使い続けることができます。
-
-さらにその振る舞いをカスタマイズすることもできます。静的な getter `Symbol.species` が存在する場合、そのようなケースで使うためにコンストラクタを返します。
-
-例えば、ここでは `Symbol.species` によって、`map`, `filter` のような組み込みメソッドは "通常の" 配列を返します。:
-
-```js run
-class PowerArray extends Array {
-  isEmpty() {
-    return this.length == 0;
-  }
-
-*!*
-  // 組み込みのメソッドはこれをコンストラクタとして使います
-  static get [Symbol.species]() {
-    return Array;
-  }
-*/!*
-}
-
-let arr = new PowerArray(1, 2, 5, 10, 50);
-alert(arr.isEmpty()); // false
-
-// fileter はコンストラクタとして arr.constructor[Symbol.species] を使って新しい配列を作ります。
-let filteredArr = arr.filter(item => item >= 10);
-
-*!*
-// filteredArr は PowerArray ではなく Array です
-*/!*
-alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty は関数ではありません
-```
-
-より高度な手段として使用し、不要な場合には結果の値から拡張機能を取り除くことができます。 あるいは、さらに拡張することもできます。
+また：
+ - アロー関数は独自の `this` や `super` を持っていないので、周囲の文脈に透過的にフィットします。
