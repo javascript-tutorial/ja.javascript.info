@@ -14,15 +14,12 @@ IDEはプロジェクト(多くのファイル)をロードし、ファイル間
 
 もしもまだIDEの選択を検討していないなら、次のようなIDEを見てみてください。
 
-- IntelliJ editors: フロントエンド開発者のための [WebStorm](http://www.jetbrains.com/webstorm/) と他の言語が必要であれば [PHPStorm (PHP)](http://www.jetbrains.com/phpstorm/), [IDEA (Java)](http://www.jetbrains.com/idea/), [RubyMine (Ruby)](http://www.jetbrains.com/ruby/) など。
-- .NET 開発者の場合、Visual Studio は良いです。またフリー版も利用可能です ([Visual Studio Community](https://www.visualstudio.com/vs/community/))
-- [Aptana](http://www.aptana.com/) や Zend Studio のような Eclipse ベースのプロダクト。
-- [Komodo IDE](http://www.activestate.com/komodo-ide) やその軽量のフリー版 [Komodo Edit](http://www.activestate.com/komodo-edit).
-- [Netbeans](http://netbeans.org/).
+- [Visual Studio Code](https://code.visualstudio.com/) (クロスプラットフォーム, フリー).
+- [WebStorm](http://www.jetbrains.com/webstorm/) (クロスプラットフォーム, 有料).
 
-上に挙げたすべてのIDEはWindowとMacの環境で利用でき、Visual Studio以外のIDEはLinuxでも利用できます。
+Windows には、"Visual Studio"もあります。"Visual Studio Code" と混同しないでください。"Visual Studio" は、.NET プラットフォームに最適な、有料で強力なWindows専用エディタです。JavaScriptも得意です。無料版[Visual Studio Community]（https://www.visualstudio.com/vs/community/）もあります。
 
-ほとんどのIDEは有償ですが、トライアル期間を持っています。それらのコストはたいてい資格をもつ開発者の給料と比べわずかなので、あなたにとってベストなものを選んでください。
+多くのIDEは有料ですが、トライアル期間を持っています。それらのコストはたいてい資格をもつ開発者の給料と比べわずかなので、あなたにとってベストなものを選んでください。
 
 ## 軽量なエディタ 
 
@@ -36,22 +33,10 @@ IDEはプロジェクト(多くのファイル)をロードし、ファイル間
 
 注目に値するものとしては次のような選択肢があります:
 
-- [Visual Studio Code](https://code.visualstudio.com/) (クロスプラットフォーム、フリー).
 - [Atom](https://atom.io/) (クロスプラットフォーム、フリー).
 - [Sublime Text](http://www.sublimetext.com) (クロスプラットフォーム、シェアウェア).
 - [Notepad++](https://notepad-plus-plus.org/) (Windows, フリー).
-- 使い方を知っている場合は、Vim や Emacs もまたクールです。
-
-## 私のお気に入り 
-
-著者の個人的な好みはプロジェクトのためのIDEと、素早く簡単にファイル編集するための軽量エディタ、両方を持つことです。
-
-私が使っているのはこれらです:
-
-- JS には [WebStorm](http://www.jetbrains.com/webstorm/), また、プロジェクトでもう1つ言語があるなら[PHPStorm](http://www.jetbrains.com/phpstorm/) (PHP), [IDEA](http://www.jetbrains.com/idea/) (Java), [RubyMine](http://www.jetbrains.com/ruby/) (Ruby)のような Jetbrains の別のエディタを使っています。使ったことはありませんが、他の言語用のものもあります。
-- 軽量なエディタとしては -- [Sublime Text](http://www.sublimetext.com) もしくは [Atom](https://atom.io/) です.
-
-もしも何を選べばよいか分からない場合、これらを検討してみてください。
+- [Vim](http://www.vim.org/) や [Emacs](https://www.gnu.org/software/emacs/)も使い方を知っているなら良い選択肢です。
 
 ## 議論はしません 
 
