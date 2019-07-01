@@ -27,7 +27,11 @@ alert(document.constructor.name); // HTMLDocument
 alert(HTMLDocument.prototype.constructor === HTMLDocument); // true
 ```
 
+<<<<<<< HEAD
 すべてのプロトタイプの組み込みクラスは `constructor` 参照があり、`constructor.name` でクラスの名前を得ることができます。 `document`プロトタイプチェーン内のすべてのオブジェクトに対してそれをやってみましょう:
+=======
+To get a name of the class as a string, we can use `constructor.name`. Let's do it for the whole `document` prototype chain, till class `Node`:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js run
 alert(HTMLDocument.prototype.constructor.name); // HTMLDocument

@@ -24,8 +24,13 @@ let form = document.getElementsByName('search')[0]
 // or, form をつけ具体的に
 document.querySelector('form[name="search"]')
 
+<<<<<<< HEAD
 // 5. フォーム内の最初の input
 form.getElementsByTagName('input')
+=======
+// 5. The first input in that form.
+form.getElementsByTagName('input')[0]
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 // or
 form.querySelector('input')
 

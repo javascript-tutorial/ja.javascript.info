@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 数値の正規表現は: `pattern:-?\d+(\.\d+)?` です。前のタスクで作ったものです。
 
 演算子は、`pattern:[-+*/]` です。ダッシュ `pattern:-` を先頭に置きます。中央にある場合、ダッシュは文字の範囲を意味しますが、それは必要ないからです。
@@ -11,6 +12,23 @@ JavaScript の正規表現 `pattern:/.../` の中ではスラッシュをエス�
 配列として結果を取得するため、必要なデータの周りに括弧を置きましょう: 数値と演算子です: `pattern:(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)`.
 
 動作:
+=======
+A regexp for a number is: `pattern:-?\d+(\.\d+)?`. We created it in previous tasks.
+
+An operator is `pattern:[-+*/]`.
+
+Please note:
+- Here the dash `pattern:-` goes first in the brackets, because in the middle it would mean a character range, while we just want a character `-`.
+- A slash `/` should be escaped inside a JavaScript regexp `pattern:/.../`, we'll do that later.
+
+We need a number, an operator, and then another number. And optional spaces between them.
+
+The full regular expression: `pattern:-?\d+(\.\d+)?\s*[-+*/]\s*-?\d+(\.\d+)?`.
+
+To get a result as an array let's put parentheses around the data that we need: numbers and the operator: `pattern:(-?\d+(\.\d+)?)\s*([-+*/])\s*(-?\d+(\.\d+)?)`.
+
+In action:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js run
 let reg = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
@@ -18,6 +36,7 @@ let reg = /(-?\d+(\.\d+)?)\s*([-+*\/])\s*(-?\d+(\.\d+)?)/;
 alert( "1.2 + 12".match(reg) );
 ```
 
+<<<<<<< HEAD
 結果は次の内容を含みます:
 
 - `result[0] == "1.2 + 12"` (完全なマッチ)
@@ -32,6 +51,24 @@ alert( "1.2 + 12".match(reg) );
 なので、`pattern:(?:\.\d+)?` のように、`pattern:?:` を追加することで、キャプチャグループから余分なグループを取り除きましょう。
 
 最終的な解法は次の通りです:
+=======
+The result includes:
+
+- `result[0] == "1.2 + 12"` (full match)
+- `result[1] == "1.2"` (first group `(-?\d+(\.\d+)?)` -- the first number, including the decimal part)
+- `result[2] == ".2"` (second group`(\.\d+)?` -- the first decimal part)
+- `result[3] == "+"` (third group `([-+*\/])` -- the operator)
+- `result[4] == "12"` (forth group `(-?\d+(\.\d+)?)` -- the second number)
+- `result[5] == undefined` (fifth group `(\.\d+)?` -- the last decimal part is absent, so it's undefined)
+
+We only want the numbers and the operator, without the full match or the decimal parts.
+
+The full match (the arrays first item) can be removed by shifting the array `pattern:result.shift()`.
+
+The decimal groups can be removed by making them into non-capturing groups, by adding `pattern:?:` to the beginning: `pattern:(?:\.\d+)?`.
+
+The final solution:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js run
 function parse(expr) {
@@ -39,7 +76,11 @@ function parse(expr) {
 
   let result = expr.match(reg);
 
+<<<<<<< HEAD
   if (!result) return;
+=======
+  if (!result) return [];
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
   result.shift();
 
   return result;

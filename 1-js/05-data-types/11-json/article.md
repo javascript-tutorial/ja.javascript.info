@@ -25,8 +25,6 @@ alert(user); // {name: "John", age: 30}
 
 幸いにも、これらの処理を行うためにコードを書く必要はありません。この課題は既に解決されています。
 
-[cut]
-
 ## JSON.stringify
 
 [JSON](http://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) は値とオブジェクトを表現する一般的な形式です。[RFC 4627](http://tools.ietf.org/html/rfc4627) で標準として記述されています。当初はJavaScriptのために作られたものでしたが、多くの他の言語も同様に JSON を処理するライブラリを持っています。従って、クライアントが JavaScript を使い、サーバが Ruby/PHP/Java/その他 で書かれている場合に、データ交換としてJSONを使うのは簡単です。
@@ -68,13 +66,21 @@ alert(json);
 
 メソッド `JSON.stringify(student)` はオブジェクトを受け取り、それを文字列に変換します。
 
+<<<<<<< HEAD
 結果の `json` 文字列は *JSONエンコードされた*, *シリアライズされた(serialized)*, *文字列化された(stringified)* または *整列化された(marshalled)* オブジェクトと呼ばれます。
 これでネットワーク経由で送信したり、シンプルなデータストアに格納する準備ができました。
+=======
+The resulting `json` string is called a *JSON-encoded* or *serialized* or *stringified* or *marshalled* object. We are ready to send it over the wire or put into a plain data store.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 JSONエンコードされたオブジェクトは、オブジェクトリテラルと比べ、何点か重要な違いがあることに注意してください:
 
+<<<<<<< HEAD
 - 文字列にはダブルクォートを使います。JSONにはシングルクォートやバッククォートはありません。従って `'John'` は `"John"` になります。
 - オブジェクトのプロパティ名もまたダブルクォートであり、必須です。従って `age:30` は `"age":30` になります。
+=======
+Please note that a JSON-encoded object has several important differences from the object literal:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 `JSON.stringify` はプリミティブに対しても同様に適用できます。
 
@@ -133,7 +139,7 @@ let meetup = {
   title: "Conference",
 *!*
   room: {
-    number: 123,
+    number: 23,
     participants: ["john", "ann"]
   }
 */!*
@@ -192,7 +198,11 @@ replacer
 space
 : フォーマットで使うスペースの数です。
 
+<<<<<<< HEAD
 ほとんどのケースで `JSON.stringify` は最初の引数だけで使用されます。しかし、循環参照をフィルタリングするような置換処理を微調整する必要がある場合は、`JSON.stringify` の第2引数を使用できます。
+=======
+Most of the time, `JSON.stringify` is used with the first argument only. But if we need to fine-tune the replacement process, like to filter out circular references, we can use the second argument of `JSON.stringify`.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 もしも第2引数にプロパティの配列を渡した場合、それらのプロパティだけがエンコードされます。
 
@@ -246,7 +256,11 @@ alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'num
 
 幸いなことに、そのような場合は配列の代わりに `replacer` 関数を使うことができます。
 
+<<<<<<< HEAD
 関数はすべての `(key,value)` ペアで呼ばれ、"置換された" 値を返す必要があります。そしてそれはオリジナルのものの代わりに使われます。
+=======
+The function will be called for every `(key, value)` pair and should return the "replaced" value, which will be used instead of the original one.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 私たちのケースでは、`occupiedBy` 以外のすべてが "そのままの" `value` を返せばOKです。`occupiedBy` を無視するため、下のコードでは `undefied` を返しています:
 
@@ -283,7 +297,11 @@ number:       23
 
 `replacer` 関数はネストされたオブジェクトや配列のアイテムを含むすべての key/value ペアを取得することに留意してください。再帰的に適用されます。`replacer` の内側での `this` の値は現在のプロパティを含むオブジェクトです。
 
+<<<<<<< HEAD
 最初の呼び出しだけ特別です。これは特別な "ラッパーオブジェクト" (`{"": meetup}`) を使って作られます。 言い換えると、最初の `(key,value)` ペアは空のキーを持ち、値はターゲットのオブジェクト全体です。そういう訳で、上の例の最初の行は `":[object Object]"` となっています。
+=======
+The first call is special. It is made using a special "wrapper object": `{"": meetup}`. In other words, the first `(key, value)` pair has an empty key, and the value is the target object as a whole. That's why the first line is `":[object Object]"` in the example above.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 このアイデアは、できるだけ多くの力を `replace` を提供することです。必要に応じてオブジェクト全体を分析したり、置換/スキップすることができます。
 
@@ -334,7 +352,11 @@ alert(JSON.stringify(user, null, 2));
 
 ## カスタムの "toJSON" 
 
+<<<<<<< HEAD
 文字列変換用の `toString` のように、オブジェクトはJSONへの変換用メソッド `toJSON` を提供しています。`JSON.stringify` は利用可能であればそれを自動で呼び出します。
+=======
+Like `toString` for string conversion, an object may provide method `toJSON` for to-JSON conversion. `JSON.stringify` automatically calls it if available.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 例:
 
@@ -363,7 +385,11 @@ alert( JSON.stringify(meetup) );
 
 ここで、`date` `(1)` が文字列になっているのが分かります。これは、すべての date にこのような種類の文字列を返す組み込みの `toJSON` メソッドがあるからです。
 
+<<<<<<< HEAD
 さて、オブジェクト `room` にカスタムの `toJSON` を足してみましょう:
+=======
+Now let's add a custom `toJSON` for our object `room` `(2)`:
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 ```js run
 let room = {
@@ -410,7 +436,11 @@ str
 : パースする JSON文字列です。
 
 reviver
+<<<<<<< HEAD
 : 各 `(key,value)` ペアで呼ばれ、値を変形することができるオプションの関数(function(key,value))です。
+=======
+: Optional function(key,value) that will be called for each `(key, value)` pair and can transform the value.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
 
 例:
 
@@ -520,8 +550,18 @@ alert( schedule.meetups[1].date.getDate() ); // これも動作します!
 
 ## サマリ 
 
+<<<<<<< HEAD
 - JSON はほとんどのプログラミング言語に対して、自身の独立した標準とライブラリを持つデータ形式です。
 - JSON はプレーンなオブジェクト、配列、文字列、数値、真偽値、`null` をサポートします。
 - JavaScript は JSON にシリアライズするためのメソッド [JSON.stringify](mdn:js/JSON/stringify) と、 JSONから読み込みをする [JSON.parse](mdn:js/JSON/parse) を提供します。
 - 両メソッドとも、スマートな読み書きのための変換関数をサポートしています。
 - もしもオブジェクトが `toJSON` を持っていたら、`JSON.stringify` がそれを呼び出します。
+=======
+## Summary
+
+- JSON is a data format that has its own independent standard and libraries for most programming languages.
+- JSON supports plain objects, arrays, strings, numbers, booleans, and `null`.
+- JavaScript provides methods [JSON.stringify](mdn:js/JSON/stringify) to serialize into JSON and [JSON.parse](mdn:js/JSON/parse) to read from JSON.
+- Both methods support transformer functions for smart reading/writing.
+- If an object has `toJSON`, then it is called by `JSON.stringify`.
+>>>>>>> 6bbe0b4313a7845303be835d632ef8e5bc7715cd
