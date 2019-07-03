@@ -4,7 +4,11 @@ importance: 5
 
 # 通知を作成する
 
+<<<<<<< HEAD
 通知の関数 `showNotification(options)` を書いてください。: `<div class="notification">` と与えられたコンテンツ。通知は1.5秒後に自動的に消える必要があります。
+=======
+Write a function `showNotification(options)` that creates a notification: `<div class="notification">` with the given content. The notification should automatically disappear after 1.5 seconds.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 オプションは次の通りです:
 

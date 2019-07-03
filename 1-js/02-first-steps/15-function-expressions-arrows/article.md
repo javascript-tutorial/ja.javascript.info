@@ -2,9 +2,13 @@
 
 JavaScriptでは、関数は "魔法の言語構造" ではなく、特別な種類の値です。
 
+<<<<<<< HEAD
 [cut]
 
 前に私たちが使っていた構文は *関数宣言* と呼ばれます:
+=======
+The syntax that we used before is called a *Function Declaration*:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js
 function sayHi() {
@@ -80,8 +84,13 @@ let func = sayHi;
 すべて同じように動作します。何が起こっているのかより明白ですね。
 
 
+<<<<<<< HEAD
 ````smart header="なぜ末尾にセミコロンがあるのでしょう？"
 疑問があるかもしれません。なぜ関数式は末尾にセミコロン `;` を持つのか、そして関数宣言にはそれがないのか:
+=======
+````smart header="Why is there a semicolon at the end?"
+You might wonder, why does Function Expression have a semicolon `;` at the end, but Function Declaration does not:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js
 function sayHi() {
@@ -176,7 +185,11 @@ ask(
 
 関数宣言と関数式の違いを明確に述べてみましょう。
 
+<<<<<<< HEAD
 まず、構文です:
+=======
+First, the syntax: how to differentiate between them in the code.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 - *関数宣言:* メインのコードフローで別の文として宣言された関数
 
@@ -186,9 +199,14 @@ ask(
       return a + b;
     }
     ```
+<<<<<<< HEAD
 - *関数式:* 式の内部、または別の構文構造の中で作れらた関数
 
     ここで、関数は "代入式 =" の右側に作成されます。:
+=======
+- *Function Expression:* a function, created inside an expression or inside another syntax construct. Here, the function is created at the right side of the "assignment expression" `=`:
+
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
     ```js
     // 関数式
     let sum = function(a, b) {
@@ -198,12 +216,19 @@ ask(
 
 よりささいな違いは、関数がJavaScriptエンジンによって *作られたとき* です。
 
+<<<<<<< HEAD
 **関数式は、実行がそれに到達した時に作られ、それ以降で利用可能になります。**
 
 一度実行フローが代入 `let sum = function…` の右辺へ渡ったら -- 関数は作られ、そこから使えるようになります(代入や呼び出しなど)。
+=======
+**A Function Expression is created when the execution reaches it and is usable only from that moment.**
+
+Once the execution flow passes to the right side of the assignment `let sum = function…` -- here we go, the function is created and can be used (assigned, called, etc. ) from now on.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 関数宣言は異なります
 
+<<<<<<< HEAD
 **関数宣言はスクリプト/コードブロック全体で使用できます。**
 
 つまり、JavaScriptがスクリプトまたはコードブロックの実行の準備をする時、最初にその中の関数定義を探し、関数を生成します。それは "初期化段階" と考えることができます。
@@ -211,6 +236,16 @@ ask(
 そして、すべての関数宣言が処理されたあと、実行が続けられます。
 
 結果的に、関数宣言として宣言された関数は、定義された関数よりも早く呼ぶことができます。
+=======
+**A Function Declaration can be called earlier than it is defined.**
+
+For example, a global Function Declaration is visible in the whole script, no matter where it is.
+
+That's due to internal algorithms. When JavaScript prepares to run the script, it first looks for global Function Declarations in it and creates the functions. We can think of it as an "initialization stage".
+
+And after all Function Declarations are processed, the code is executed. So it has access to these functions.
+
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 例えば、これは動作します:
 
@@ -226,7 +261,11 @@ function sayHi(name) {
 
 関数宣言 `sayHi` は、JavaScriptがスクリプトの開始の準備をしているときに生成され、その中でどこからでも見えます。
 
+<<<<<<< HEAD
 ...もしもそれが関数式だった場合、動作しないでしょう:
+=======
+...If it were a Function Expression, then it wouldn't work:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js run refresh untrusted
 *!*
@@ -240,6 +279,7 @@ let sayHi = function(name) {  // (*) no magic any more
 
 関数式は、実行がそれに到達した時に作られます。それは行 `(*)` で起こります。遅すぎます。
 
+<<<<<<< HEAD
 **関数宣言がコードブロックの中で作られるとき、そのブロックの内側であればどこからでも見えます。しかし、その外側からは見えません。**
 
 必要とされるブロックの中だけでローカル変数を宣言することは、時には便利です。しかし、その機能も問題を引き起こす可能性があります。
@@ -247,6 +287,13 @@ let sayHi = function(name) {  // (*) no magic any more
 例えば、ランタイムの中で得た `age` 変数に依存する関数 `welcome()` を宣言する必要があるとしましょう。そして、しばらくしてから使用する予定だとします。
 
 下のコードはうまく動作しません:
+=======
+**In strict mode, when a Function Declaration is within a code block, it's visible everywhere inside that block. But not outside of it.**
+
+For instance, let's imagine that we need to declare a function `welcome()` depending on the `age` variable that we get during runtime. And then we plan to use it some time later.
+
+If we use Function Declaration, it won't work as intended:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -299,8 +346,13 @@ if (age < 18) {
   }
 }
 
+<<<<<<< HEAD
 // ここは、波括弧の外です
 // なのでその中で作られた関数宣言は見ることができません
+=======
+// Here we're out of curly braces,
+// so we can not see Function Declarations made inside of them.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 *!*
 welcome(); // エラー: welcome は定義されていません
@@ -352,12 +404,21 @@ welcome(); // ok now
 ```
 
 
+<<<<<<< HEAD
 ```smart header="関数宣言と関数式のどちらを選択するのか？"
 経験則として、関数を宣言する必要があるとき、最初に考えるのは関数宣言構文です。関数が宣言される前に呼ぶことができるため、コードを体系化する自由度が増します。
 
 また、コードの中で、`let f = function(…) {…}` よりも `function f(…) {…}`  の方が調べるのが少し簡単です。関数宣言はより "目を引きます"。
 
 ...しかし、関数宣言が幾つかの理由で適していない場合(上でみた例)、関数式を使用するべきです。
+=======
+```smart header="When to choose Function Declaration versus Function Expression?"
+As a rule of thumb, when we need to declare a function, the first to consider is Function Declaration syntax. It gives more freedom in how to organize our code, because we can call such functions before they are declared.
+
+That's also better for readability, as it's easier to look up `function f(…) {…}` in the code than `let f = function(…) {…}`. Function Declarations are more "eye-catching".
+
+...But if a Function Declaration does not suit us for some reason, or we need a conditional declaration (we've just seen an example), then Function Expression should be used.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 ```
 
 
@@ -376,7 +437,7 @@ let func = (arg1, arg2, ...argN) => expression
 ```js
 let func = function(arg1, arg2, ...argN) {
   return expression;
-}
+};
 ```
 
 ...が、はるかに簡潔です
@@ -439,15 +500,26 @@ welcome(); // ok now
 
 上の例は、`=>` の左から引数を取得し、右側の式を評価しました。
 
+<<<<<<< HEAD
 複数の式や文のように、もう少し複雑なものが必要な時があります。それも可能ですが、この場合は括弧で囲む必要があります。そして、その中で通常の `return` を使います。
+=======
+Sometimes we need something a little bit more complex, like multiple expressions or statements. It is also possible, but we should enclose them in curly braces. Then use a normal `return` within them.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 このようになります:
 
 ```js run
+<<<<<<< HEAD
 let sum = (a, b) => {  // 波括弧を使って複数行の関数を書けます
   let result = a + b;
 *!*
   return result; // 波括弧を使った場合、結果を得るには return を使います
+=======
+let sum = (a, b) => {  // the curly brace opens a multiline function
+  let result = a + b;
+*!*
+  return result; // if we use curly braces, use return to get results
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 */!*
 };
 
@@ -474,5 +546,10 @@ alert( sum(1, 2) ); // 3
 
 アロー関数はワンライナーに対し便利です。2つの種類があります:
 
+<<<<<<< HEAD
 1. 括弧無し: `(...args) => expression` -- 右側は式です: 関数はそれを評価しその結果を返します。
 2. 括弧あり: `(...args) => { body }` -- 括弧があると、関数内で複数の文を書くことができます、しかし何かを返却する場合には、明確に `return` が必要です。
+=======
+1. Without curly braces: `(...args) => expression` -- the right side is an expression: the function evaluates it and returns the result.
+2. With curly braces: `(...args) => { body }` -- brackets allow us to write multiple statements inside the function, but we need an explicit `return` to return something.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af

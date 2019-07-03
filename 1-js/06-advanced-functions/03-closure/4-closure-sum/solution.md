@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 2つ目の括弧が動作するために、1つ目は関数を返さなければなりません。
+=======
+For the second parentheses to work, the first ones must return a function.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 このように:
 

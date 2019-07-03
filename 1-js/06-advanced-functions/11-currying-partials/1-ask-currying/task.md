@@ -8,7 +8,11 @@ importance: 5
 
 `user` オブジェクトが修正されました。今、2つの関数 `loginOk/loginFail` の代わりに、単一の関数 `user.login(true/false)` があります。
 
+<<<<<<< HEAD
 下のコードでは、何を渡すと `ok` として `user.login(true)` を、`fail` として `user.login(fail)` を呼ぶでしょうか？
+=======
+What to pass `askPassword` in the code below, so that it calls `user.login(true)` as `ok` and `user.login(false)` as `fail`?
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```js
 function askPassword(ok, fail) {

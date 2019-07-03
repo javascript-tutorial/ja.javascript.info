@@ -3,6 +3,7 @@
 
 オブジェクトが加算 `obj1 + obj2`、減算 `obj1 - obj2`, または `alert(obj)` を使って出力されるとき、何が起きるでしょう？
 
+<<<<<<< HEAD
 オブジェクトには、変換を行う特別なメソッドがあります。
 
 チャプター <info:type-conversions> では、プリミティブな数値、文字列や真偽値変換のルールを見てきました。しかしまだオブジェクトが残っています。ここまでのチュートリアルでメソッドとシンボルについて学んだので、今ならそれらを理解することができます。
@@ -22,11 +23,30 @@
 そのアルゴリズムは、特別なオブジェクトメソッドを使って変換をカスタマイズすることができます。
 
 コンテキストに応じて、変換にはいわゆる "hint" があります。
+=======
+In that case objects are auto-converted to primitives, and then the operation is carried out.
+
+In the chapter <info:type-conversions> we've seen the rules for numeric, string and boolean conversions of primitives. But we left a gap for objects. Now, as we know about methods and symbols it becomes possible to fill it.
+
+1. All objects are `true` in a boolean context. There are only numeric and string conversions.
+2. The numeric conversion happens when we subtract objects or apply mathematical functions. For instance, `Date` objects (to be covered in the chapter <info:date>) can be subtracted, and the result of `date1 - date2` is the time difference between two dates.
+3. As for the string conversion -- it usually happens when we output an object like `alert(obj)` and in similar contexts.
+
+## ToPrimitive
+
+We can fine-tune string and numeric conversion, using special object methods.
+
+The conversion algorithm is called `ToPrimitive` in the [specification](https://tc39.github.io/ecma262/#sec-toprimitive). It's called with a "hint" that specifies the conversion type.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 3つのケースがあります:
 
 `"string"`
+<<<<<<< HEAD
 : 操作が `alert` のように文字列を期待するとき -- オブジェクトから文字列への変換をします:
+=======
+: For an object-to-string conversion, when we're doing an operation on an object that expects a string, like `alert`:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
     ```js
     // 出力
@@ -37,7 +57,11 @@
     ```
 
 `"number"`
+<<<<<<< HEAD
 : 操作が数学のように数値を期待するとき -- オブジェクトから数値への変換をします:
+=======
+: For an object-to-number conversion, like when we're doing maths:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
     ```js
     // 明示的な変換
@@ -54,7 +78,11 @@
 `"default"`
 : 操作がどんな型を期待しているか "よくわからない" ようなレアケースで起こります
 
+<<<<<<< HEAD
     例えば、二項演算子 `+` は文字列(それらの連結)と数値(それらの加算)両方で動作するので、文字列と数値の両方の場合がありえます。または、オブジェクトが `==` を使用して、文字列、数値またはシンボルと比較されるときです。
+=======
+    For instance, binary plus `+` can work both with strings (concatenates them) and numbers (adds them), so both strings and numbers would do. Or when an object is compared using `==` with a string, number or a symbol, it's also unclear which conversion should be done.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
     ```js
     // 二項演算子 +
@@ -161,14 +189,30 @@ alert(user + 500); // toString -> John500
 
 `Symbol.toPrimitive`と` valueOf` がなければ、 `toString` はすべてのプリミティブ変換を扱います。
 
+<<<<<<< HEAD
 
 ## ToPrimitive と ToString/ToNumber
+=======
+## Return types
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 すべてのプリミティブ変換メソッドについて知っておくべき重要なことは、それらが必ずしも "hint" のプリミティブを返すわけではないということです。
 
 `toString()` が正しく文字列を返すか、もしくは `Symbol.toPrimitive` メソッドが "number" の hint で数値を返すかはコントロールできません。
 
+<<<<<<< HEAD
 **唯一の必須事項は、これらのメソッドはプリミティブを返す必要がある、ということです。**
+=======
+The only mandatory thing: these methods must return a primitive, not an object.
+
+```smart header="Historical notes"
+For historical reasons, if `toString` or `valueOf` returns an object, there's no error, but such value is ignored (like if the method didn't exist). That's because in ancient times there was no good "error" concept in JavaScript.
+
+In contrast, `Symbol.toPrimitive` *must* return a primitive, otherwise there will be an error.
+```
+
+## Further operations
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 変換が行われるとプリミティブが返却され、その後引き続き処理が行われます。必要に応じてさらに変換が行われます。
 
@@ -210,11 +254,14 @@ alert(user + 500); // toString -> John500
     alert(obj + 2); // 3 (ToPrimitive は boolean を返します, 文字列ではありません => ToNumber)
     ```
 
+<<<<<<< HEAD
 ```smart header="歴史的な備考"
 歴史的な理由で、メソッド `toString` と `valueOf` はプリミティブを *返すべきです*: もしそれらがオブジェクトを返した場合、エラーにはなりませんがそのオブジェクトは無視されます(メソッドが存在しなかったかのように)。
 
 対象的に、`Symbol.toPrimitive` はプリミティブを *返さなければいけません*、そうでなければエラーになります。
 ```
+=======
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ## サマリ 
 

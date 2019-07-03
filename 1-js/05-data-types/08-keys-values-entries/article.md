@@ -1,11 +1,19 @@
 
 # Object.keys, values, entries
 
+<<<<<<< HEAD
 ここでは、個々のデータ構造から離れて、それらの繰り返し処理について話しましょう。
+=======
+Let's step away from the individual data structures and talk about the iterations over them.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 前のチャプターで、`map.keys()`, `map.values()`, `map.entries()` と言うメソッドを見ました。
 
+<<<<<<< HEAD
 これらのメソッドは一般的なものであり、データ構造に対して利用することは共通認識です。そのため、もし独自のデータ構造を作成するときには、それらも実装しておく方がよいです。
+=======
+These methods are generic, there is a common agreement to use them for data structures. If we ever create a data structure of our own, we should implement them too.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 これらは以下でサポートされています:
 
@@ -45,7 +53,7 @@ let user = {
 };
 ```
 
-- `Object.keys(user) = [name, age]`
+- `Object.keys(user) = ["name", "age"]`
 - `Object.values(user) = ["John", 30]`
 - `Object.entries(user) = [ ["name","John"], ["age",30] ]`
 
@@ -63,8 +71,101 @@ for (let value of Object.values(user)) {
 }
 ```
 
+<<<<<<< HEAD
 ## Object.keys/values/entries は Symbol を使っているプロパティを無視します
 
 `for..in` ループのように、これらのメソッドはキーとして `Symbol(...)` を使っているプロパティを無視します。
 
 通常それは便利です。しかし、もしもこのようなキーも同様に扱いたい場合は、別のメソッド [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols)  があります。これは Symbol を使っているキーのみの配列を返します。また、メソッド [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) は *すべての* キーを返します。
+=======
+```warn header="Object.keys/values/entries ignore symbolic properties"
+Just like a `for..in` loop, these methods ignore properties that use `Symbol(...)` as keys.
+
+Usually that's convenient. But if we want symbolic keys too, then there's a separate method [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols) that returns an array of only symbolic keys. Also, there exist a method [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) that returns *all* keys.
+```
+
+## Object.fromEntries to transform objects
+
+Sometimes we need to perform a transformation of an object to `Map` and back.
+
+We already have `new Map(Object.entries(obj))` to make a `Map` from `obj`.
+
+The syntax of `Object.fromEntries` does the reverse. Given an array of `[key, value]` pairs, it creates an object:
+
+```js run
+let prices = Object.fromEntries([
+  ['banana', 1],
+  ['orange', 2],
+  ['meat', 4]
+]);
+
+// now prices = { banana: 1, orange: 2, meat: 4 }
+
+alert(prices.orange); // 2
+```
+
+Let's see practical applications.
+
+For example, we'd like to create a new object with double prices from the existing one.
+
+For arrays, we have `.map` method that allows to transform an array, but nothing like that for objects.
+
+So we can use a loop:
+
+```js run
+let prices = {
+  banana: 1,
+  orange: 2,
+  meat: 4,
+};
+
+let doublePrices = {};
+for(let [product, price] of Object.entries(prices)) {
+  doublePrices[product] = price * 2;
+}
+
+alert(doublePrices.meat); // 8
+```
+
+...Or we can represent the object as an `Array` using `Object.entries`, then perform the operations with `map` (and potentially other array methods), and then go back using `Object.fromEntries`.
+
+Let's do it for our object:
+
+```js run
+let prices = {
+  banana: 1,
+  orange: 2,
+  meat: 4,
+};
+
+*!*
+let doublePrices = Object.fromEntries(
+  // convert to array, map, and then fromEntries gives back the object
+  Object.entries(prices).map(([key, value]) => [key, value * 2])
+);
+*/!*
+
+alert(doublePrices.meat); // 8
+```   
+
+It may look difficult from the first sight, but becomes easy to understand after you use it once or twice.
+
+We also can use `fromEntries` to get an object from `Map`.
+
+E.g. we have a `Map` of prices, but we need to pass it to a 3rd-party code that expects an object.
+
+Here we go:
+
+```js run
+let map = new Map();
+map.set('banana', 1);
+map.set('orange', 2);
+map.set('meat', 4);
+
+let obj = Object.fromEntries(map);
+
+// now obj = { banana: 1, orange: 2, meat: 4 }
+
+alert(obj.orange); // 2
+```
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af

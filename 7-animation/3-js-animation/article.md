@@ -4,22 +4,29 @@ JavaScript アニメーションは CSS ではできないことを扱うこと�
 
 例えば、ベジェ曲線とは異なるタイミング関数を用いて複雑な経路に沿って移動したり、canvas 上でのアニメーションです。
 
-[cut]
+## Using setInterval
 
-## setInterval
+An animation can be implemented as a sequence of frames -- usually small changes to HTML/CSS properties.
 
+<<<<<<< HEAD:7-animation/3-js-animation/article.md
 HTML/CSS の観点からは、アニメーションはスタイルプロパティの段階的な変更です。例えば、`style.left` を `0px` から `100px` に変更すると、要素が移動します。
 
 そして、もしそれを `setInterval` の中で増加させるとき、毎秒 50 回の小さな変更を加えることによって、その変化はなめらかに見えます。これは映画館と同じ原理です。: 毎秒 24 以上のフレームがあれば十分に滑らかに見えます。
+=======
+For instance, changing `style.left` from `0px` to `100px` moves the element. And if we increase it in `setInterval`, changing by `2px` with a tiny delay, like 50 times per second, then it looks smooth. That's the same principle as in the cinema: 24 frames per second is enough to make it look smooth.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af:7-animation/3-js-animation/article.md
 
 疑似コードは次のようになります:
 
 ```js
+<<<<<<< HEAD:7-animation/3-js-animation/article.md
 let delay = 1000 / 50; // 1 秒で 50 フレーム
+=======
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af:7-animation/3-js-animation/article.md
 let timer = setInterval(function() {
   if (animation complete) clearInterval(timer);
-  else increase style.left
-}, delay)
+  else increase style.left by 2px
+}, 20); // change by 2px every 20ms, about 50 frames per second
 ```
 
 より複雑なアニメーションの例:
@@ -52,15 +59,21 @@ function draw(timePassed) {
 
 [codetabs height=200 src="move"]
 
-## requestAnimationFrame
+## Using requestAnimationFrame
 
 複数のアニメーションが同時に実行されているとしましょう。
 
+<<<<<<< HEAD:7-animation/3-js-animation/article.md
 もしそれらを別々に実行し、それぞれが個別に `setInterval(..., 20)` を持っていると、ブラウザは `20ms` 間隔よりもっと頻繁に再描画をする必要があります。
 
 各 `setInterval` は `20ms` 毎に一回トリガしますが、独立しているので `20ms` の中に複数の独立した実行があることになります。
 
 これらの複数の独立した再描画は、ブラウザを簡単にするためにグループ化すべきです。
+=======
+If we run them separately, then even though each one has `setInterval(..., 20)`, then the browser would have to repaint much more often than every `20ms`.
+
+That's because they have different starting time, so "every 20ms" differs between different animations. The intervals are not aligned. So we'll have several independent runs within `20ms`.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af:7-animation/3-js-animation/article.md
 
 言い換えると、これ:
 
@@ -72,19 +85,31 @@ setInterval(function() {
 }, 20)
 ```
 
+<<<<<<< HEAD:7-animation/3-js-animation/article.md
 ...は以下よりも軽量です:
+=======
+...Is lighter than three independent calls:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af:7-animation/3-js-animation/article.md
 
 ```js
-setInterval(animate1, 20);
-setInterval(animate2, 20);
+setInterval(animate1, 20); // independent animations
+setInterval(animate2, 20); // in different places of the script
 setInterval(animate3, 20);
 ```
 
+<<<<<<< HEAD:7-animation/3-js-animation/article.md
 考慮すべきことがもう1つあります。CPUが過負荷であったり、その他あまり頻繁に再描画しなくてよい場合があります。例えば、ブラウザのタブが非表示の場合、描画には全く意味がありません。
 
 関数 `requestAnimationFrame` を提供する標準の [アニメーションタイミング](http://www.w3.org/TR/animation-timing/) があります。
 
 この関数は、これらすべての問題及び、その他多くのことに対応しています。
+=======
+These several independent redraws should be grouped together, to make the redraw easier for the browser and hence load less CPU load and look smoother.
+
+There's one more thing to keep in mind. Sometimes when CPU is overloaded, or there are other reasons to redraw less often (like when the browser tab is hidden), so we really shouldn't run it every `20ms`.
+
+But how do we know about that in JavaScript? There's a specification [Animation timing](http://www.w3.org/TR/animation-timing/) that provides the function `requestAnimationFrame`. It addresses all these issues and even more.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af:7-animation/3-js-animation/article.md
 
 構文:
 ```js
@@ -106,7 +131,11 @@ cancelAnimationFrame(requestId);
 
 通常 `callback` は CPU が過負荷状態になったり、ノートパソコンのバッテリーがほとんどなかったり、その他別の理由がある場合を除きすぐに実行されます。
 
+<<<<<<< HEAD:7-animation/3-js-animation/article.md
 下のコードは `requestAnimationFrame` での最初の10回の実行時間を表示します。通常は 10-20ms です。
+=======
+The code below shows the time between first 10 runs for `requestAnimationFrame`. Usually it's 10-20ms:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af:7-animation/3-js-animation/article.md
 
 ```html run height=40 refresh
 <script>
@@ -419,7 +448,7 @@ Here's the animated "bouncing" text typing:
 
 ## Summary
 
-JavaScript animation should be implemented via `requestAnimationFrame`. That built-in method allows to setup a callback function to run when the browser will be preparing a repaint. Usually that's very soon, but the exact time depends on the browser.
+For animations that CSS can't handle well, or those that need tight control, JavaScript can help. JavaScript animations should be implemented via `requestAnimationFrame`. That built-in method allows to setup a callback function to run when the browser will be preparing a repaint. Usually that's very soon, but the exact time depends on the browser.
 
 When a page is in the background, there are no repaints at all, so the callback won't run: the animation will be suspended and won't consume resources. That's great.
 

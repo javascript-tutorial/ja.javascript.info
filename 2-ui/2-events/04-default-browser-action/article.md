@@ -10,16 +10,24 @@
 
 JavaScript でイベントを処理している場合、ブラウザの動作は必要ないことがよくあります。幸いにも、それは防ぐことができます。
 
+<<<<<<< HEAD
 [cut]
 
 ## ブラウザの動作を防ぐ 
+=======
+## Preventing browser actions
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ブラウザに動作してほしくないと伝える方法が2つあります:
 
 - 主な方法は、`event` オブジェクトを使うことです。メソッド `event.preventDefault()` があります。
 - ハンドラが `on<event>` (`addEventListener` ではない)を使って割り当てられている場合、そこから `false` を返すだけで実現できます。
 
+<<<<<<< HEAD
 下の例では、リンクをクリックしてもURLが変更されません:
+=======
+In the example below a click to links doesn't lead to URL change:
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```html autorun height=60 no-beautify
 <a href="/" onclick="return false">Click here</a>
@@ -94,6 +102,20 @@ menu.onclick = function(event) {
 ```
 
 なぜなら、ブラウザのアクションは `mousedown` でキャンセルされたためです。input を入力する別の方法を使うと、フォーカスはまだ可能です。例えば、最初の入力から次の入力に切り替えるための `key:Tab` キーです。しかしマウスクリックはこれ以上動作しません。
+
+## The "passive" handler option
+
+The optional `passive: true` option of `addEventListener` signals the browser that the handler is not going to call `preventDefault()`.
+
+Why that may be needed?
+
+There are some events like `touchmove` on mobile devices (when the user moves their finger across the screen), that cause scrolling by default, but that scrolling can be prevented using `preventDefault()` in the handler.
+
+So when the browser detects such event, it has first to process all handlers, and then if `preventDefault` is not called anywhere, it can proceed with scrolling. That may cause unnecessary delays and "jitters" in the UI.
+
+The `passive: true` options tells the browser that the handler is not going to cancel scrolling. Then browser scrolls immediately providing a maximally fluent experience, and the event is handled by the way.
+
+For some browsers (Firefox, Chrome), `passive` is `true` by default for `touchstart` and `touchmove` events.
 
 
 ## event.defaultPrevented
@@ -217,12 +239,22 @@ JavaScriptでイベントを排他的に処理したい場合、デフォルト�
 
 デフォルトのアクションを防ぐには -- `event.preventDefault()` または `return false` を使います。2つ目の方法は `on<event>` で割り当てられたハンドラに対してのみ機能します。
 
+<<<<<<< HEAD
 デフォルトアクションが防がれた場合、`event.defaultPrevented` の値は `true` になり、それ以外は `false` になります。
+=======
+The `passive: true` option of `addEventListener` tells the browser that the action is not going to be prevented. That's useful for some mobile events, like `touchstart` and `touchmove`, to tell the browser that it should not wait for all handlers to finish before scrolling.
+
+If the default action was prevented, the value of `event.defaultPrevented` becomes `true`, otherwise it's `false`.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 ```warn header="セマンティックのままで、乱用しないでください"
 技術的には、デフォルトアクションを防ぎ、JavaScript を追加することによって、任意の要素の振る舞いをカスタマイズすることが可能です。例えば、`<a>` を作り、それをボタンのように動作させたり、`<button>` をリンク(別のURLにリダイレクトするなど)として振る舞わせることができます。
 
+<<<<<<< HEAD
 しかし、一般的には HTML要素のセマンティックな意味を維持するべきです。例えば、`<a>` はボタンではなくナビゲーションを実行するべきです。
+=======
+But we should generally keep the semantic meaning of HTML elements. For instance, `<a>` should perform navigation, not a button.
+>>>>>>> b300836f00536a5eb9a716ad2cbb6b8fe97c25af
 
 "単なる良いもの" に加えて、アクセシビリティの点でHTMLをより良くします。
 
