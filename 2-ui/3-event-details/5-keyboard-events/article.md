@@ -6,8 +6,6 @@
 
 キーボードイベントは、キーボードアクション(仮想キーボードも含む)を処理したいときに使われるべきです。例えば、矢印キー `key:Up` や `key:Down`、またはホットキー (キーの組み合わせを含む)に反応するために使います。
 
-[cut]
-
 
 ## テストスタンド 
 
@@ -77,6 +75,7 @@
 
 私たちはホットキーを処理したいとしましょう: `key:Ctrl+Z` (Mac だと`key:Cmd+Z`)。多くのテキストエディタは "元に戻す" アクションをフックします。`keydown` にリスナーを設定して、どのキーが押されたか確認することができます -- ホットキーを検出するために。
 
+<<<<<<< HEAD
 問題に答えてください -- このようなリスナーにおいて、`event.key` または `event.code` どちらの値をチェックするべきでしょうか？
 
 立ち止まって答えてみてください。
@@ -84,6 +83,13 @@
 もう決めましたか？
 
 あなたが理解しているのであれば、答えはもちろん `event.code` です。ここでは `event.key` は欲しくありません。`event.key` は言語、もしくは `CapsLock` の有効化に依存して変わる可能性があります。`event.code` は厳密にキーに紐付いているので、ここでは次のように書けます:
+=======
+There's a dilemma here: in such a listener, should we check the value of `event.key` or `event.code`?
+
+On one hand, the value of `event.key` changes depending on the language. If the visitor has several languages in OS and switches between them, the same key gives different characters. So it makes sense to check `event.code`, it's always the same.
+
+Like this:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 document.addEventListener('keydown', function(event) {
@@ -93,11 +99,38 @@ document.addEventListener('keydown', function(event) {
 });
 ```
 
+<<<<<<< HEAD
 ## 自動繰り返し 
 
 もしキーが長時間押されていると、繰り返しを始めます: `keydown` は何度もトリガされ、その後キーが離されたとき、最終的に `keyup` を得ます。そのため、多くの `keydown` と単一の `keyup` をもつのは普通なことです。
 
 すべての繰り返しキーに対して、イベントオブジェクトは `event.repeat` プロパティが `true` に設定されています。
+=======
+On the other hand, there's a problem with `event.code`. For different keyboard layouts, the same key may have different labels (letters).
+
+For example, here are US layout ("QWERTY") and German layout ("QWERTZ") under it (courtesy of Wikipedia):
+
+![](us-layout.png)
+
+![](german-layout.png)
+
+For the same key, US layout has "Z", while German layout has "Y" (letters are swapped).
+
+So, `event.code` will equal `KeyZ` for people with German layout when they press "Y".
+
+That sounds odd, but so it is. The [specification](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system) explicitly mentions such behavior.
+
+- `event.code` has the benefit of staying always the same, bound to the physical key location, even if the visitor changes languages. So hotkeys that rely on it work well even in case of a language switch.
+- `event.code` may match a wrong character for unexpected layout. Same letters in different layouts may map to different physical keys, leading to different codes. Luckily, that happens only with several codes, e.g. `keyA`, `keyQ`, `keyZ` (as we've seen), and doesn't happen with special keys such as `Shift`. You can find the list in the [specification](https://www.w3.org/TR/uievents-code/#table-key-code-alphanumeric-writing-system).
+
+So, to reliably track layout-dependent characters, `event.key` may be a better way.
+
+## Auto-repeat
+
+If a key is being pressed for a long enough time, it starts to "auto-repeat": the `keydown` triggers again and again, and then when it's released we finally get `keyup`. So it's kind of normal to have many `keydown` and a single `keyup`.
+
+For events triggered by auto-repeat, the event object has `event.repeat` property set to `true`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 
 ## デフォルトアクション 
@@ -125,7 +158,11 @@ function checkPhoneKey(key) {
 <input *!*onkeydown="return checkPhoneKey(event.key)"*/!* placeholder="Phone, please" type="tel">
 ```
 
+<<<<<<< HEAD
 `key:Backspace`, `key:Left`, `key:Right`, `key:Ctrl+V` のような特別なキーはインプットでは動作しないことに注意してください。これは厳密なフィルタ `checkPhoneKey` の副作用です。
+=======
+Please note that special keys like `key:Backspace`, `key:Left`, `key:Right`, `key:Ctrl+V` do not work in the input. That's a side-effect of the strict filter `checkPhoneKey`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 少しだけ緩めましょう。:
 
@@ -146,11 +183,17 @@ function checkPhoneKey(key) {
 
 ## レガシー 
 
+<<<<<<< HEAD
 過去、`keypress` イベントや、`keyCode`, `charCode`, `which` と言ったイベントオブジェクトのプロパティがありました。
 
 そこにはブラウザの非互換性が非常に多く、仕様の開発者はそれらのすべてを非推奨にすることに決めました。ブラウザがそれらをサポートし続けるので、古いコードはまだ動作しますが、それらをもう使用する必要は全くありません。
 
 このチャプターに、それらの詳しい説明があった時期もありました。しかし、今のところ、私たちはそれらを忘れても問題ありません。
+=======
+There were so many browser incompatibilities while working with them, that developers of the specification had no way, other than deprecating all of them and creating new, modern events (described above in this chapter). The old code still works, as browsers keep supporting them, but there's totally no need to use those any more.
+
+There was a time when this chapter included their detailed description. But, as of now, browsers support modern events, so it was removed and replaced with more details about the modern event handling.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## サマリ 
 
@@ -163,9 +206,16 @@ function checkPhoneKey(key) {
 
 主なキーボードイベントのプロパティ:
 
+<<<<<<< HEAD
 - `code` -- "キーコード" (`"KeyA"`, `"ArrowLeft"` など)。キーボード上のキーの物理的な位置に固有です。
 - `key` -- 文字 (`"A"`, `"a"` など)。非文字のキーの場合は通常 `code` と同じ値を持っています。
 
 過去、キーボードイベントはフォームフィールドで、ユーザ入力を追跡するために使われていました。しかし、入力は様々な方法で行われる可能性があるため、それは信頼できません。任意の入力を処理するために `input` と `change` イベントがあります (これらについてはチャプター <info:events-change-input> で後ほど説明します)。これらは任意の入力後にトリガされ、マウスや音声認識なども含みます。
+=======
+- `code` -- the "key code" (`"KeyA"`, `"ArrowLeft"` and so on), specific to the physical location of the key on keyboard.
+- `key` -- the character (`"A"`, `"a"` and so on), for non-character keys, such as `key:Esc`, usually has the same value  as `code`.
+
+In the past, keyboard events were sometimes used to track user input in form fields. That's not reliable, because the input can come from various sources. We have `input` and `change` events to handle any input (covered later in the chapter <info:events-change-input>). They trigger after any kind of input, including copy-pasting or speech recognition.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 本当にキーボードが必要なときにキーボードイベントを使うべきです。例えば、ホットキーや特別なキーに反応するため、などです。

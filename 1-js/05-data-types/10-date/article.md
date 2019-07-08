@@ -2,9 +2,13 @@
 
 新しい組み込みオブジェクトを見ていきましょう: [Date](mdn:js/Date)。日付や時刻を保存し、管理するためのメソッドを提供します。
 
+<<<<<<< HEAD
 例えば、作成/修正時刻を保存したり、時間を測定したり、単に現在の時刻を表示するために使うことができます。
 
 [cut]
+=======
+For instance, we can use it to store creation/modification times, to measure time, or just to print out the current date.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## 作成 
 
@@ -40,13 +44,23 @@
 
     ```js run
     let date = new Date("2017-01-26");
-    alert(date); // Thu Jan 26 2017 ...
+    alert(date);
+    // The time is not set, so it's assumed to be midnight GMT and
+    // is adjusted according to the timezone the code is run in
+    // So the result could be
+    // Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)
+    // or
+    // Wed Jan 25 2017 16:00:00 GMT-0800 (Pacific Standard Time)
     ```
 
 `new Date(year, month, date, hours, minutes, seconds, ms)`
+<<<<<<< HEAD
 : ローカルタイムゾーンで、与えられた要素で日付を作成します。最初の2つの引数は必須です。
 
     補足:
+=======
+: Create the date with the given components in the local time zone. Only the first two arguments are obligatory.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
     - `year` は4桁でなければいけません。`2013` はOKですが、`98` はダメです。
     - `month` `0` (1月) から数え、`11` (12月)までです。
@@ -69,7 +83,11 @@
 
 ## date コンポーネントへのアクセス 
 
+<<<<<<< HEAD
 `Date` オブジェクトから 年、月などへアクセスする多くのメソッドがあります。しかし、カテゴライズすることで簡単に覚えることができます。
+=======
+There are methods to access the year, month and so on from the `Date` object:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 [getFullYear()](mdn:js/Date/getFullYear)
 : 年を取得します(4桁)
@@ -109,7 +127,11 @@ alert( date.getHours() );
 alert( date.getUTCHours() );
 ```
 
+<<<<<<< HEAD
 なお、UTCのパターンを持たない、2つの特別なメソッドがあります:
+=======
+Besides the given methods, there are two special ones that do not have a UTC-variant:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 [getTime()](mdn:js/Date/getTime)
 : 日付のタイムスタンプを返します -- それは、1970年 UTC+0 の 1月1日からの経過ミリ秒です。
@@ -212,21 +234,33 @@ alert(+date); // ミリ秒の数値です, date.getTime() と同じです
 これは時間の計測で使うことができます:
 
 ```js run
+<<<<<<< HEAD
 let start = new Date(); // 計測開始
+=======
+let start = new Date(); // start measuring time
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 // なにかする
 for (let i = 0; i < 100000; i++) {
   let doSomething = i * i * i;
 }
 
+<<<<<<< HEAD
 let end = new Date(); // 終了
+=======
+let end = new Date(); // end measuring time
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 alert( `The loop took ${end - start} ms` );
 ```
 
 ## Date.now() 
 
+<<<<<<< HEAD
 もし差分だけ測定したい場合、`Date` オブジェクトを使う必要はありません。
+=======
+If we only want to measure time, we don't need the `Date` object.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 現在のタイムスタンプを返す特別なメソッド `Date.now()` があります。
 
@@ -259,6 +293,8 @@ CPUを必要とする機能について、信頼できるベンチマークが�
 
 例えば、2つの日付の差を計算する2つの関数を測定してみましょう。どちらがより速いでしょうか？
 
+Such performance measurements are often called "benchmarks".
+
 ```js
 // date1 と date2 を持っており、これらの差をmsで返すのはどちらの関数が速いでしょう？
 function diffSubtract(date1, date2) {
@@ -275,7 +311,11 @@ function diffGetTime(date1, date2) {
 
 さて、どちらがより速いでしょうか？
 
+<<<<<<< HEAD
 最初に思いつくアイデアは、それらを何度も連続で実行し、その時間の差を測ることです。我々のケースでは、関数はとてもシンプルなので、約10万回程度行う必要があります。
+=======
+The first idea may be to run them many times in a row and measure the time difference. For our case, functions are very simple, so we have to do it at least 100000 times.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 測定してみましょう。:
 
@@ -305,7 +345,11 @@ alert( 'Time of diffGetTime: ' + bench(diffGetTime) + 'ms' );
 
 さて、私たちは測定結果を得ましたが、これはまだ良いベンチマークではありません。
 
+<<<<<<< HEAD
 `bench(diffSubtract)` を実行しているときにCPUは並列で何かをしていてリソースを消費しており、`bench(diffGetTime)` の実行時までにはその作業が完了していたと想像してください。
+=======
+Imagine that at the time of running `bench(diffSubtract)` CPU was doing something in parallel, and it was taking resources. And by the time of running `bench(diffGetTime)` that work has finished.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 これは、現代のマルチプロセスOSでのよくある実際のシナリオです。
 
@@ -362,8 +406,13 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
+<<<<<<< HEAD
 ```warn header="マイクロベンチマークをするのは気をつけてください"
 現代のJavaScriptエンジンは多くの最適化を行います。それらは "人工的なテスト" の結果を "通常の使用" と比較して調整するかもしれません。 非常に小さいものをベンチマークするときは特にそうです。従って、真面目にパフォーマンスを理解したいのであれば、JavaScriptエンジンの仕組みを学んでください。そして、マイクロベンチマークは全く必要ないでしょう。
+=======
+```warn header="Be careful doing microbenchmarking"
+Modern JavaScript engines perform many optimizations. They may tweak results of "artificial tests" compared to "normal usage", especially when we benchmark something very small, such as how an operator works, or a built-in function. So if you seriously want to understand performance, then please study how the JavaScript engine works. And then you probably won't need microbenchmarks at all.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 V8 についての素晴らしい記事は <http://mrale.ph> にあります。
 ```
@@ -410,7 +459,11 @@ alert(date);
 
 多くの他のシステムとは異なり、JavaScriptでのタイムスタンプは秒ではなく、ミリ秒です。
 
+<<<<<<< HEAD
 また、私たちはより高精度の時間計測が必要な場合があります。JavaScript自身はマイクロ秒(100万分の1秒)での時間を計測する方法を持っていませんが、ほとんどの環境はそれを提供しています。例えば、ブラウザはマイクロ秒の精度(少数第3桁)で、ページ読み込み開始からのミリ秒を返す [performance.now()](mdn:api/Performance/now) を持っています。:
+=======
+Sometimes we need more precise time measurements. JavaScript itself does not have a way to measure time in microseconds (1 millionth of a second), but most environments provide it. For instance, browser has [performance.now()](mdn:api/Performance/now) that gives the number of milliseconds from the start of page loading with microsecond precision (3 digits after the point):
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 alert(`Loading started ${performance.now()}ms ago`);
@@ -419,4 +472,8 @@ alert(`Loading started ${performance.now()}ms ago`);
 // 少数点3桁以上は精度エラーで、最初の3桁だけが正しいです
 ```
 
+<<<<<<< HEAD
 Node.JS は `microtime` モジュールや他の方法を持っています。技術的には、どのデバイスや環境でも精度をあげることができます。単に `Date` にはないだけです。
+=======
+Node.js has `microtime` module and other ways. Technically, any device and environment allows to get more precision, it's just not in `Date`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d

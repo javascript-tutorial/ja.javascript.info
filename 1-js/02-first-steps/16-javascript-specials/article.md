@@ -2,9 +2,13 @@
 
 このチャプターでは、微妙なケースに特に注意を払いながら、私たちが今まで学んだJavaScriptの機能を簡単に再確認します。
 
+<<<<<<< HEAD
 [cut]
 
 ## コード構造 
+=======
+## Code structure
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 文はセミコロンで区切られます:
 
@@ -83,12 +87,21 @@ x = "John";
 
 7つのデータ型があります:
 
+<<<<<<< HEAD
 - `number` 浮動少数点と整数値両方
 - `string` 文字列
 - `boolean` 論理値: `true/false`
 - `null` -- 単一の値 `null` を持つ型。"空白", "存在しない" を意味する
 - `undefined` -- 単一の値 `undefined` を持つ型。"未割り当て" を意味する
 - `object` と `symbol` -- 複雑なデータ構造やユニークな識別子です。私たちはまだそれらは学んでいません。
+=======
+- `number` for both floating-point and integer numbers,
+- `string` for strings,
+- `boolean` for logical values: `true/false`,
+- `null` -- a type with a single value `null`, meaning "empty" or "does not exist",
+- `undefined` -- a type with a single value `undefined`, meaning "not assigned",
+- `object` and `symbol` -- for complex data structures and unique identifiers, we haven't learnt them yet.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 `typeof` 演算子は値の型を返します。2つ例外があります:
 ```js
@@ -102,8 +115,13 @@ typeof function(){} == "function" // 関数は特別に扱われます
 
 私たちは動作環境としてブラウザを使っているので、基本のUI関数は次の通りです:
 
+<<<<<<< HEAD
 [`prompt(question[, default])`](mdn:api/Window/prompt)
 : `question` を訪ね、訪問者の入力もしくは、"cancel" が選択されたときは `null` を返します。
+=======
+[`prompt(question, [default])`](mdn:api/Window/prompt)
+: Ask a `question`, and return either what the visitor entered or `null` if they clicked "cancel".
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 [`confirm(question)`](mdn:api/Window/confirm)
 : `question` を訪ね、OKかキャンセルを選択させます。選択は `true/false` として返却されます。
@@ -111,7 +129,11 @@ typeof function(){} == "function" // 関数は特別に扱われます
 [`alert(message)`](mdn:api/Window/alert)
 : `message` を出力します。
 
+<<<<<<< HEAD
 それらの関数はすべて *モーダル* であり、コードの実行を止め、訪問者が回答するまでそのページとのやり取りを防ぎます。
+=======
+All these functions are *modal*, they pause the code execution and prevent the visitor from interacting with the page until they answer.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 例えば:
 
@@ -132,7 +154,11 @@ JavaScriptは次のような演算子をサポートします:
 算術
 : 常連: `* + - /`, また剰余として `%`、数字の累乗として `**`。
 
+<<<<<<< HEAD
     二項演算子プラス `+` は文字列を連結します。また、オペランドのいずれかが文字列であれば、もう一方も文字列に変換されます:
+=======
+    The binary plus `+` concatenates strings. And if any of the operands is a string, the other one is converted to string too:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
     ```js run
     alert( '1' + 2 ); // '12', string
@@ -145,11 +171,19 @@ JavaScriptは次のような演算子をサポートします:
 ビット単位
 : ビット演算子ビットレベルで整数を扱います。必要なときに、[docs](mdn:/JavaScript/Reference/Operators/Bitwise_Operators)を見てください。
 
+<<<<<<< HEAD
 3項
 : 3つのパラメータを持つ唯一の演算子です: `cond ? resultA : result B`. `cond` が真の場合、`resultA` を返し、そうでなければ `resultB` を返します。
 
 論理演算子
 : 論理積 `&&` と 論理和 `||` は短絡評価を行い、それが停止したところの値を返します。
+=======
+Ternary
+: The only operator with three parameters: `cond ? resultA : resultB`. If `cond` is truthy, returns `resultA`, otherwise `resultB`.
+
+Logical operators
+: Logical AND `&&` and OR `||` perform short-circuit evaluation and then return the value where it stopped. Logical NOT `!` converts the operand to boolean type and returns the inverse value.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 比較
 : 異なる型の値のための等価チェック `==` は、それらを数値に変換します(`null` と `undefined`を除きます。それらは、お互いに等しく、他とは等しくなりません)、従って、これらは等価です。:
@@ -161,14 +195,23 @@ JavaScriptは次のような演算子をサポートします:
 
     他の比較も同様に数値に変換します。
 
+<<<<<<< HEAD
     厳密等価演算子 `===` は変換を行いません: 異なる型は常に異なる値を意味します。:
+=======
+    The strict equality operator `===` doesn't do the conversion: different types always mean different values for it.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
     値 `null` と `undefined` は特別です: それらはお互いに等価 `==` であり、それ以外と等しくありません。
 
     より大きい/少ない演算子は文字列を1文字ずつ比較し、他の型は数値に変換します。
 
+<<<<<<< HEAD
 論理演算子
 : カンマ演算子のように、他のものはほとんど使われません。
+=======
+Other operators
+: There are few others, like a comma operator.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 より詳細はこちらです: <info:operators>, <info:comparison>, <info:logical-operators>.
 
@@ -202,7 +245,11 @@ JavaScriptは次のような演算子をサポートします:
 
 ## "switch" 構造 
 
+<<<<<<< HEAD
 "switch" 構造は複数の `if` チェックに置換できます。それは比較に `===` を使います。
+=======
+The "switch" construct can replace multiple `if` checks. It uses `===` (strict equality) for comparisons.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 例えば:
 
@@ -248,7 +295,11 @@ switch (age) {
     }
     ```
 
+<<<<<<< HEAD
     `sum = function name(a, b)` のように、関数式は名前を持つことができます、しかしその `name` は関数の内側でのみ見えます。
+=======
+    Function expressions can have a name, like `sum = function name(a, b)`, but that `name` is only visible inside that function.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 3. アロー関数:
 

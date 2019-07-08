@@ -59,7 +59,7 @@ map.set(sorted, word);
 
 その場合の解答は次のようになります:
 
-```js run
+```js run demo
 function aclean(arr) {
   let obj = {};
 
@@ -68,7 +68,7 @@ function aclean(arr) {
     obj[sorted] = arr[i];
   }
 
-  return Array.from(Object.values(obj));
+  return Object.values(obj);
 }
 
 let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];

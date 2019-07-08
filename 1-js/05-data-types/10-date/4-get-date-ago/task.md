@@ -8,7 +8,11 @@ importance: 4
 
 例えば、今日が 20日の場合、`getDateAgo(new Date(), 1)` は 19で、`getDateAgo(new Date(), 2)` は 18になります。
 
+<<<<<<< HEAD
 数ヶ月/年に対しても、信頼性をもって動作しなければなりません:
+=======
+Should work reliably for `days=365` or more:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js
 let date = new Date(2015, 0, 2);

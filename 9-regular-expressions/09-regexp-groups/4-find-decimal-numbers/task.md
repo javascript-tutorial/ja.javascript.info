@@ -1,11 +1,11 @@
-# すべての数値を見つける
+# Find all numbers
 
-整数、浮動小数点や負数も含むすべての10進数を探す正規表現を書いてください。
+Write a regexp that looks for all decimal numbers including integer ones, with the floating point and negative ones.
 
-使用例:
+An example of use:
 
 ```js
-let reg = /あなたの正規表現/g;
+let reg = /your regexp/g;
 
 let str = "-1.5 0 2 -123.4.";
 

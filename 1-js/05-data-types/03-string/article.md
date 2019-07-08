@@ -4,9 +4,13 @@ JavaScriptでは、テキストデータは文字列として格納されます�
 
 文字列の内部のフォーマットは常に [UTF-16](https://en.wikipedia.org/wiki/UTF-16) であり、ページのエンコーディングとは関係ありません。
 
+<<<<<<< HEAD
 [cut]
 
 ## 引用符 
+=======
+## Quotes
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 引用符の種類を思い出してみましょう。
 
@@ -88,13 +92,22 @@ World` );
 
 ```js run
 alert( "\u00A9" ); // ©
+<<<<<<< HEAD
 alert( "\u{20331}" ); // 佫, 中国の象形文字 (long unicode)
 alert( "\u{1F60D}" ); // 😍, スマイル記号 (another long unicode)
+=======
+alert( "\u{20331}" ); // 佫, a rare Chinese hieroglyph (long unicode)
+alert( "\u{1F60D}" ); // 😍, a smiling face symbol (another long unicode)
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ```
 
 すべての特殊文字はバックスラッシュ `\` で始まります。それは "エスケープ文字" とも呼ばれます。
 
+<<<<<<< HEAD
 また、文字列の中に引用符を挿入したいときにも使います。
+=======
+We might also use it if we wanted to insert a quote into the string.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 例:
 
@@ -104,7 +117,11 @@ alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 
 上で見るように、内側の引用符の前にバックスラッシュ `\'` を追加しないといけません。そうしないと、文字列の終わりだと認識されるためです。
 
+<<<<<<< HEAD
 もちろん、これは囲っているものと同じ引用符を使う場合についてです。なので、よりよい解決策は、ダブルクォートかバッククォートを代わりに使うことです:
+=======
+Of course, that refers only to the quotes that are the same as the enclosing ones. So, as a more elegant solution, we could switch to double quotes or backticks instead:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ```js run
 alert( `I'm the Walrus!` ); // I'm the Walrus!
@@ -133,7 +150,11 @@ alert( `My\n`.length ); // 3
 ```warn header="`length` はプロパティです"
 いくつかの他の言語について知っている人は、単なる `str.length` の代わりに `str.length()` と呼び間違えることがありますが、それは動作しません。
 
+<<<<<<< HEAD
 `str.length` は数値プロパティであり、関数ではないことに注意してください。その後に括弧をつける必要はありません。
+=======
+Please note that `str.length` is a numeric property, not a function. There is no need to add parenthesis after it.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ```
 
 ## 文字へのアクセス 
@@ -275,8 +296,13 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 */!*
 ```
 
+<<<<<<< HEAD
 ```smart header="`str.lastIndexOf(pos)`"
 文字列の最後から最初に向かって探す類似のメソッド [str.lastIndexOf(pos)](mdn:js/String/lastIndexOf) もあります。
+=======
+```smart header="`str.lastIndexOf(substr, position)`"
+There is also a similar method [str.lastIndexOf(substr, position)](mdn:js/String/lastIndexOf) that searches from the end of a string to its beginning.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 それは逆の順序でマッチする対象を列挙します。
 ```
@@ -305,8 +331,14 @@ if (str.indexOf("Widget") != -1) {
 }
 ```
 
+<<<<<<< HEAD
 ````smart header="ビットの NOT トリック"
 ここで使われている古いトリックの1つは `~` 演算子の [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) です。それは、数値を 32bit 整数に変換し(もし存在すれば小数部分を除いて)、その2進数表現のすべてのビットを反転します。
+=======
+#### The bitwise NOT trick
+
+One of the old tricks used here is the [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT) `~` operator. It converts the number to a 32-bit integer (removes the decimal part if exists) and then reverses all bits in its binary representation.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 32ビット整数の場合、 `〜n` は（IEEE-754形式のため） `-(n+1)` と全く同じ意味です。
 
@@ -321,9 +353,15 @@ alert( ~-1 ); // 0, -(-1+1) と同じです
 */!*
 ```
 
+<<<<<<< HEAD
 上の通り、`~n` は、 `n == -1` のときだけゼロになります。
 
 なので、`if ( ~str.indexOf("...") )` のテストは `indexOf` の結果が `-1` でない場合は true です。つまり、マッチするものがあるとき、です。
+=======
+As we can see, `~n` is zero only if `n == -1` (that's for any 32-bit signed integer `n`).
+
+So, the test `if ( ~str.indexOf("...") )` is truthy only if the result of `indexOf` is not `-1`. In other words, when there is a match.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 `indexOf` チェックの短縮形として使われます:
 
@@ -337,8 +375,16 @@ if (~str.indexOf("Widget")) {
 
 通常、言語機能を明白でない方法で使用することは推奨されませんが、このトリックは昔のコードでは広く使われています。なので、これは理解しておきましょう。
 
+<<<<<<< HEAD
 覚えておきましょう: `if (~str.indexOf(...))` は "もし見つかったら" と読みます。
 ````
+=======
+Just remember: `if (~str.indexOf(...))` reads as "if found".
+
+Technically speaking, numbers are truncated to 32 bits by `~` operator, so there exist other big numbers that give `0`, the smallest is `~4294967295=0`. That makes such check is correct only if a string is not that long.
+
+Right now we can see this trick only in the old code, as modern JavaScript provides `.includes` method (see below).
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ### includes, startsWith, endsWith
 
@@ -443,15 +489,25 @@ JavaScriptでは、部分文字列を取得する3つの方法があります: `
 
 | メソッド | 選択対象... | 負の値 |
 |--------|-----------|-----------|
+<<<<<<< HEAD
 | `slice(start, end)` | `start` から `end` まで | 負の値を許可します |
 | `substring(start, end)` | `start` と `end` の間 | 負の値は `0` 扱いです |
 | `substr(start, length)` | `start` から `length` 文字を取得 | 負の `start` を許可します |
+=======
+| `slice(start, end)` | from `start` to `end` (not including `end`) | allows negatives |
+| `substring(start, end)` | between `start` and `end` | negative values mean `0` |
+| `substr(start, length)` | from `start` get `length` characters | allows negative `start` |
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 
 ```smart header="どれを選ぶ?"
 これらすべて使えます。正確には、`substr` は小さな欠点があります: それは コアなJavaScriptの仕様ではなく、主に歴史的な理由から存在するブラウザ専用の機能を扱う Annex B で説明されています。なので、非ブラウザ環境ではサポートされていない可能性があります。ただ、実際にはほぼどこでも動作しています。
 
+<<<<<<< HEAD
 著者はほとんどのケースで `slice` を使っています。
+=======
+The author finds themself using `slice` almost all the time.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ```
 
 ## 文字列比較 
@@ -549,15 +605,24 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 
 ## 内部, Unicode 
 
+<<<<<<< HEAD
 ```warn header="高度な知識"
 このセクションでは、文字列の内部構造について詳しく説明します。 この知識は、絵文字、珍しい数学的な象形文字やその他の珍しい記号を扱う予定の場合に便利です。
+=======
+```warn header="Advanced knowledge"
+The section goes deeper into string internals. This knowledge will be useful for you if you plan to deal with emoji, rare mathematical or hieroglyphic characters or other rare symbols.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 それらをサポートする予定がない場合には、このセクションはスキップしてもOKです。
 ```
 
 ### サロゲートペア
 
+<<<<<<< HEAD
 ほとんどの記号は2バイトのコードを持っています。 ほとんどのヨーロッパ言語、数字、さらには象形文字の多くの文字は、2バイト表現です。
+=======
+All frequently used characters have 2-byte codes. Letters in most european languages, numbers, and even most hieroglyphs, have a 2-byte representation.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 しかし、2バイトの組み合わせは 65536 通りしか許されず、すべての記号を表現するには十分ではありません。なので、非常に珍しい記号は "サロゲートペア" と呼ばれる2バイト文字のペアでエンコードされています。
 
@@ -566,7 +631,7 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ```js run
 alert( '𝒳'.length ); // 2, MATHEMATICAL SCRIPT CAPITAL X
 alert( '😂'.length ); // 2, FACE WITH TEARS OF JOY
-alert( '𩷶'.length ); // 2, a rare chinese hieroglyph
+alert( '𩷶'.length ); // 2, a rare Chinese hieroglyph
 ```
 
 JavaScriptが作られたとき、サロゲートペアは存在しなかったため、言語として正しく処理されていないことに注意してください!
@@ -626,8 +691,13 @@ alert( 'S\u0307\u0323' ); // Ṩ
 例:
 
 ```js run
+<<<<<<< HEAD
 alert( 'S\u0307\u0323' ); // Ṩ, S + 上のドット + 下のドット
 alert( 'S\u0323\u0307' ); // Ṩ, S + 下のドット + 上のドット
+=======
+alert( 'S\u0307\u0323' ); // Ṩ, S + dot above + dot below
+alert( 'S\u0323\u0307' ); // Ṩ, S + dot below + dot above
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 alert( 'S\u0307\u0323' == 'S\u0323\u0307' ); // false
 ```
@@ -648,7 +718,11 @@ alert( "S\u0307\u0323".normalize().length ); // 1
 alert( "S\u0307\u0323".normalize() == "\u1e68" ); // true
 ```
 
+<<<<<<< HEAD
 実際には、これは必ずしもそうではありません。理由は、記号 `Ṩ` は "十分に一般的" なので、UTF-16 の作成者がそれをメインテーブルに含め、コードを与えたからです。
+=======
+In reality, this is not always the case. The reason being that the symbol `Ṩ` is "common enough", so UTF-16 creators included it in the main table and gave it the code.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 正規化ルールやバリアントについてもっと学びたい場合、それらはユニコード標準 [Unicode Normalization Forms](http://www.unicode.org/reports/tr15/) の付録に記載されています。が、ほとんど実践的な目的においては、このセクションの内容で十分です。
 

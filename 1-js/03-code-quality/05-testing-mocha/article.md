@@ -1,10 +1,14 @@
 # mocha による自動テスト
 
+<<<<<<< HEAD
 多くのタスクがある場合、自動テストが使用されます。
 
 それは実際には開発者の "最低限の教育" の一部です。
 
 [cut]
+=======
+Automated testing will be used in further tasks, and it's also widely used in real projects.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## なぜテストが必要なのでしょうか？ 
 
@@ -22,7 +26,11 @@
 
 これは非常に典型的なパターンです。何かを開発するとき、多くのユースケースの可能性を心に留めます。しかし、全ての変更のたびに手動ですべてをチェックするのをプログラマに期待するのは難しいです。なので、何か1つを直すと別の何かを壊してしまうことは容易に起こります。
 
+<<<<<<< HEAD
 **自動テストは、実際のコードに加えてテストが別々に書かれていることを意味します。これにより、それらのテストは簡単に実行でき、すべての主要なユースケースをチェックすることができます。**
+=======
+**Automated testing means that tests are written separately, in addition to the code. They can be executed automatically and check all the main use cases.**
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## ビヘイビア駆動開発(BDD) 
 
@@ -30,6 +38,10 @@
 
 **BDD には3つのことがあります。テスト、ドキュメント、そして例です。**
 
+<<<<<<< HEAD
+=======
+Let's see the example.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 言葉は十分です。例を見てみましょう。
 
@@ -58,8 +70,13 @@ describe("pow", function() {
 `describe("title", function() { ... })`
 : 何の機能を記述しているか。"ワーカー" -- `it` のブロックのことです、をグループ化するために使います。このケースでは、関数 `pow` について記述しています。
 
+<<<<<<< HEAD
 `it("title", function() { ... })`
 : `it` のタイトルでは、特定のユースケースを人間が読めるように記述し、２つ目の引数は、それをテストするための関数です。
+=======
+`it("use case description", function() { ... })`
+: In the title of `it` we *in a human-readable way* describe the particular use case, and the second argument is a function that tests it.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 `assert.equal(value1, value2)`
 : `it` ブロックの中のコードです。もし実装が正しければエラーなく実行されます。
@@ -72,6 +89,7 @@ describe("pow", function() {
 
 開発フローは通常このようになります:
 
+<<<<<<< HEAD
 1. 最も基本的な機能のテストと一緒に、初期仕様が書かれます。
 2. 初期の実装がされます。
 3. それが動くかを確認するため、テストフレームワークである [Mocha](http://mochajs.org/) (より詳細はこの後) を実行します。エラーが表示されます。すべてが動作するまで修正を行います。
@@ -79,10 +97,25 @@ describe("pow", function() {
 5. まだ実装でサポートされていない可能性のある、より多くのユースケースを仕様(テスト)に追加します。テストは失敗し始めます。
 6. 3に戻り、テストのエラーが無くなるまで実装を更新します。
 7. 機能が完成するまで3-6のステップを繰り返します。
+=======
+1. An initial spec is written, with tests for the most basic functionality.
+2. An initial implementation is created.
+3. To check whether it works, we run the testing framework [Mocha](http://mochajs.org/) (more details soon) that runs the spec. While the functionality is not complete, errors are displayed. We make corrections until everything works.
+4. Now we have a working initial implementation with tests.
+5. We add more use cases to the spec, probably not yet supported by the implementations. Tests start to fail.
+6. Go to 3, update the implementation till tests give no errors.
+7. Repeat steps 3-6 till the functionality is ready.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 上で分かる通り、開発は *反復* です。仕様を書き、それを実装し、テストが通ることを確認し、さらにテストを書いて、それらが動作することを確認します。最終的に、動作する実装とテストができ上がります。
 
+<<<<<<< HEAD
 私たちのケースでは、最初のステップは完了です: `pow` の初期仕様を持っています。なので実装していきましょう。が、その前にテストが動作すること(テスト自体は失敗しますが)を試してみましょう。
+=======
+Let's see this development flow in our practical case.
+
+The first step is complete: we have an initial spec for `pow`. Now, before making the implementaton, let's use few JavaScript libraries to run the tests, just to see that they are working (they will all fail).
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## アクションの仕様 
 
@@ -99,7 +132,11 @@ describe("pow", function() {
 ```html src="index.html"
 ```
 
+<<<<<<< HEAD
 ページは４つのパートに分かれています:
+=======
+The page can be divided into five parts:
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 1. `<head>` -- テストのためのサードパーティーのライブラリやスタイルの追加
 2. テストするための関数の `<script>`、このケースでは -- `pow` のコードです。
@@ -113,14 +150,18 @@ describe("pow", function() {
 
 現時点ではテストは失敗しエラーが起きます。それは当然です: `pow` のコードは空なので、`pow(2, 3)` は `8` ではなく `undefined` を返します。
 
+<<<<<<< HEAD
 なお、将来的には、[karma](https://karma-runner.github.io/) のような高度なテストランナーがあることを心に留めておきましょう。一般的には、それらを利用することで多数の異なるテストのセットアップは問題にはなりません。
+=======
+For the future, let's note that there are more high-level test-runners, like [karma](https://karma-runner.github.io/) and others, that make it easy to autorun many different tests.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ## 初期の実装 
 
 テストを通すため、`pow` を実装しましょう:
 
 ```js
-function pow() {
+function pow(x, n) {
   return 8; // :) we cheat!
 }
 ```
@@ -135,7 +176,11 @@ function pow() {
 
 ...テストは通るが、関数は誤った動作するという状況は非常に典型的で、実践で起こります。私たちの仕様は不完全であり、ユースケースの追加が必要です。
 
+<<<<<<< HEAD
 `pow(3, 4) = 81` を確認するテストを追加しましょう。
+=======
+Let's add one more test to check that `pow(3, 4) = 81`.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 ここで、テストを整理するために、次のいずれかの方法を選ぶことができます:
 
@@ -236,7 +281,7 @@ describe("pow", function() {
 describe("pow", function() {
 
 *!*
-  describe("raises x to power n", function() {
+  describe("raises x to power 3", function() {
 */!*
 
     function makeTest(x) {
@@ -299,7 +344,11 @@ Testing finished – after all tests (after)
 
 [edit src="beforeafter" title="Open the example in the sandbox."]
 
+<<<<<<< HEAD
 通常、`beforeEach/afterEach` (`before/each`) は初期化の実行のために使われ、カウンタをゼロにしたり、テストの間で何かをするときに使われます。
+=======
+Usually, `beforeEach/afterEach` and `before/after` are used to perform initialization, zero out counters or do something else between the tests (or test groups).
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 ````
 
 ## 仕様を拡張する 
@@ -386,23 +435,40 @@ BDDでは、仕様が最初で実装はそれに従います。最終的に仕�
 2. **ドキュメント** -- `describe` と `it` のタイトルはその関数がすることを示します。
 3. **例** -- テストは実際には関数がどのように使われるのかを見せる、動作するサンプルです。
 
+<<<<<<< HEAD
 仕様があると、安全に改善、変更、スクラッチで関数の書き直しですらもでき、それがまだ正しく動くことを確認することができます。
 
 関数が多くの場所で使われる場合、大規模なプロジェクトではそれが特に重要になります。このような関数を変更するとき、それを使う全ての箇所で正しく動作するかを手動で確認する方法はありません。
 
 テストがない場合、2つの道があります:
+=======
+1. To perform the change, no matter what. And then our users meet bugs, as we probably fail to check something manually.
+2. Or, if the punishment for errors is harsh, as there are no tests, people become afraid to modify such functions, and then the code becomes outdated, no one wants to get into it. Not good for development.
+
+**Automatic testing helps to avoid these problems!**
+
+If the project is covered with tests, there's just no such problem. After any changes, we can run tests and see a lot of checks made in a matter of seconds.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 1. たとえ何が起ころうと関係なく、変更(修正)を行います。そして、我々のユーザはバグを見つけ、それを報告します。これが許されるのであれば。
 2. もしくは、エラーへの罰が厳しい場合、人々はこのような関数を変更することを恐れるようになります。そして関数は古くなり、クモの巣が生い茂り誰もその中に入りたくなくなります。それは良いことではありません。
 
+<<<<<<< HEAD
 **自動テストコードはその反対です!**
+=======
+Naturally, that's because auto-tested code is easier to modify and improve. But there's also another reason.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 もしプロジェクトがテストでカバーされていれば、このような問題はありません。私たちはテストを走らせ、あっという間に多くの確認結果を知ることができます。
 
 **さらに、よくテストされたコードは、より良いアーキテクチャを持っています。**
 
+<<<<<<< HEAD
 無論、変更や改善が容易だからですが、それだけではありません。
 
 テストを書くためには、すべての関数が明確に記述されたタスク、よく定義された入力と出力を持つようにコードを編成する必要があります。それは最初からよいアーキテクチャであることを意味します。
+=======
+Later in the tutorial you will meet many tasks with tests baked-in. So you'll see more practical examples.
+>>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
 
 実際にはそう簡単なことではありません。どのような挙動をするべきかまだ明確でない場合、実際のコードの前に仕様を書くのが難しいときもあります。しかし、一般的には、テストを書くことは開発を速く、より安定させます。
