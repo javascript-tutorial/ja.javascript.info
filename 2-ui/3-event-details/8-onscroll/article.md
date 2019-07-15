@@ -6,9 +6,13 @@
 - ユーザーがドキュメント内のどこにあるかに応じて、追加のコントロールや情報を表示/非表示する。
 - ユーザがページの下までスクロールしたときに追加のデータを読み込む。
 
+<<<<<<< HEAD
 [cut]
 
 ここに現在のスクロールを表示する小さい関数がります:
+=======
+Here's a small function to show the current scroll:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```js autorun
 window.addEventListener('scroll', function() {
@@ -31,9 +35,15 @@ window.addEventListener('scroll', function() {
 
 しかし、スクロールを引き起こすイベントの `event.preventDefault（）`によるスクロールを防ぐことができます。
 
+<<<<<<< HEAD
 例えば:
 - `wheel` イベント -- マウスホイールの回転 ("スクロール" タッチパッドアクションもそれを生成します)
 - `key:pageUp` や `key:pageDown` のための `keydown`
+=======
+If we add an event handler to these events and `event.preventDefault()` in it, then the scroll won't start.
+
+Sometimes that may help, but it's more reliable to use CSS to make something unscrollable, such as the `overflow` property.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 これは役立つ場合があります。しかし、他にもスクロールする方法があり、それらすべてを処理するのは非常に難しいです。そのため、何かをスクロールできないようにするには、 `overflow` プロパティのように CSS を使うのが、より信頼できる方法です。
 

@@ -6,9 +6,13 @@
 
 `click`, `mousedown` などのような、組み込みのイベントを生成することもでき、テストをするときに便利です。
 
+<<<<<<< HEAD
 [cut]
 
 ## イベントコンストラクタ 
+=======
+## Event constructor
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 イベントはDOM 要素クラスと同様、階層を形成します。ルートは組み込みの [Event](http://www.w3.org/TR/dom/#event) クラスです。
 
@@ -150,7 +154,7 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 *!*
     detail: { name: "John" }
 */!*
-  });
+  }));
 </script>
 ```
 
@@ -235,7 +239,7 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```    
 
@@ -243,35 +247,51 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 
 それは `dispatchEvent` についてだけでなく、他のケースも同様です。イベントハンドラ中の JavaScript は別のイベントにつながるメソッドを呼び出すことができます -- それらも同期的に処理されます。
 
+<<<<<<< HEAD
 もしそれが気に入らなければ、`onclick` の末尾に `dispatchEvent` (または他のイベントトリガ呼び出し) を置くか、不便であれば `setTimeout(..., 0)` で囲みます。:
+=======
+If we don't like it, we can either put the `dispatchEvent` (or other event-triggering call) at the end of `onclick` or wrap it in zero-delay `setTimeout`:
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 ```html run
 <button id="menu">Menu (click me)</button>
 
 <script>
-  // 1 -> 2 -> nested
+  // Now the result is: 1 -> 2 -> nested
   menu.onclick = function() {
     alert(1);
 
     // alert(2)
     setTimeout(() => menu.dispatchEvent(new CustomEvent("menu-open", {
       bubbles: true
-    })), 0);
+    })));
 
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```    
 
+<<<<<<< HEAD
 ## サマリ 
+=======
+Now `dispatchEvent` runs asynchronously after the current code execution is finished, including `mouse.onclick`, so event handlers are totally separate.
+
+## Summary
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 イベントを生成するためには、最初にイベントオブジェクトを作成する必要があります。
 
+<<<<<<< HEAD
 汎用的な `Event(name, options)` コンストラクタは、任意のイベント名と2つのプロパティを持つ `options` オブジェクトを受け取ります。:
   - イベントがバブルするべきであれば、`bubbles: true`。
   - `cancelable: true` は `event.preventDefault()` が動作します。
+=======
+The generic `Event(name, options)` constructor accepts an arbitrary event name and the `options` object with two properties:
+  - `bubbles: true` if the event should bubble.
+  - `cancelable: true` if the `event.preventDefault()` should work.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 他の `MouseEvent`, `KeyboardEvent` などのようなネイティブイベントのコンストラクタはそのイベントタイプに固有のプロパティを受け入れます。例えば、マウスイベントであれば `clientX` です。
 

@@ -6,8 +6,13 @@ importance: 5
 
 メッセージ `html` 入力フィールドとボタン `OK/CANCEL` を持つフォームを表示する関数 `showPrompt(html, callback)` を作成してください。
 
+<<<<<<< HEAD
 - ユーザテキストフィールドに何か入力し、`key:Enter` または OK ボタンをクリックする必要があります。その後、入力された値を一緒に `callback(value)` が呼ばれます。
 - そうではなく、ユーザが `key:Esc` や CANCEL を押した場合、`callback(null)` が呼ばれます。
+=======
+- A user should type something into a text field and press `key:Enter` or the OK button, then `callback(value)` is called with the value they entered.
+- Otherwise if the user presses `key:Esc` or CANCEL, then `callback(null)` is called.
+>>>>>>> be342e50e3a3140014b508437afd940cd0439ab7
 
 どちらの場合も、入力プロセスが終了したらフォームが削除されます。
 

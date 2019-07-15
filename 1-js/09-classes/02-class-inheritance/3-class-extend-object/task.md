@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# クラスは Object を拡張しますか？
+# Class extends Object?
 
-私たちが知っている通り、すべてのオブジェクトは通常 `Object.prototype` を継承しており、"一般的な" オブジェクトメソッドにアクセスできます。
+As we know, all objects normally inherit from `Object.prototype` and get access to "generic" object methods like `hasOwnProperty` etc.
 
-ここでのデモンストレーションのように:
+For instance:
 
 ```js run
 class Rabbit {
@@ -18,15 +18,17 @@ class Rabbit {
 let rabbit = new Rabbit("Rab");
 
 *!*
-// hasOwnProperty メソッドは Object.prototype からです
+// hasOwnProperty method is from Object.prototype
 // rabbit.__proto__ === Object.prototype
 alert( rabbit.hasOwnProperty('name') ); // true
 */!*
 ```
 
-従って、`"class Rabbit extends Object"` は正確に `"class Rabbit"` と同じである、と言うのは正しいでしょうか？それとも違うでしょうか？
+But if we spell it out explicitly like `"class Rabbit extends Object"`, then the result would be different from a simple `"class Rabbit"`?
 
-これは動作するでしょうか?
+What's the difference?
+
+Here's an example of such code (it doesn't work -- why? fix it?):
 
 ```js
 class Rabbit extends Object {
@@ -39,5 +41,3 @@ let rabbit = new Rabbit("Rab");
 
 alert( rabbit.hasOwnProperty('name') ); // true
 ```
-
-もし動かない場合、コードを直してください。
