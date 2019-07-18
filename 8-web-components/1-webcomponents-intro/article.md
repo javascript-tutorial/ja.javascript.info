@@ -1,4 +1,4 @@
-# From the orbital height
+# 導入(From the orbital height)
 
 このセクションでは、"web コンポーネント" に関する一連の最新の標準について説明します。
 
