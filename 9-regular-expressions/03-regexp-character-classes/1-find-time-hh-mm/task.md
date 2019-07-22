@@ -1,8 +1,8 @@
-# 時間を見つけて
+# Find the time
 
-時間にはフォーマット `hours:minutes` があります。`09:00` のように時と分は両方とも2桁の数字です。
+The time has a format: `hours:minutes`. Both hours and minutes has two digits, like `09:00`.
 
-文字列 `subject:Breakfast at 09:00 in the room 123:456.` で時間を見つける正規表現を作成してください。
+Make a regexp to find time in the string: `subject:Breakfast at 09:00 in the room 123:456.`
 
-P.S. このタスクではまだ時間の正しさをチェックをする必要はありません。なので、`25:99` も有効な結果です。
-P.P.S 正規表現は `123:456` にはマッチしないでください。
+P.S. In this task there's no need to check time correctness yet, so `25:99` can also be a valid result.
+P.P.S. The regexp shouldn't match `123:456`.

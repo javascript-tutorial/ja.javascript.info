@@ -1,23 +1,22 @@
-# ミックスイン
+# Mixins
 
-JavaScriptでは、単一のオブジェクトからのみ継承できます。オブジェクトの `[[Prototype]]` は1つしかありません。そしてクラスは1つの他のクラスだけを拡張することができます。
+In JavaScript we can only inherit from a single object. There can be only one `[[Prototype]]` for an object. And a class may extend only one other class.
 
-しかし、それを制限と感じる場合があります。例えば、`StreetSweeper` と `Bycicle` というクラスを持っていて、`StreetSweepingBycicle` を作りたい場合などです。
+But sometimes that feels limiting. For instance, I have a class `StreetSweeper` and a class `Bicycle`, and want to make a `StreetSweepingBicycle`.
 
-あるいは `Renderer` クラスとイベントハンドラを実装する `EventEmitter` クラスを持っていて、テンプレートとイベントの発火を利用できるページを作るために、`Page` クラスで一緒にそれらの機能性をマージしたい場合があります。
+Or, talking about programming, we have a class `User` and a class `EventEmitter` that implements event generation, and we'd like to add the functionality of `EventEmitter` to `User`, so that our users can emit events.
 
-ここでは、それを助ける "mixins(ミックスイン)" と呼ばれるコンセプトがあります。
+There's a concept that can help here, called "mixins".
 
-Wikipedis の定義によると、[mixin](https://en.wikipedia.org/wiki/Mixin) は他のクラスの親クラスでないが、他のクラスで使用するためのメソッドを含むクラスです。
+As defined in Wikipedia, a [mixin](https://en.wikipedia.org/wiki/Mixin) is a class that contains methods for use by other classes without having to be the parent class of those other classes.
 
-つまり、*mixin* は特定の振る舞いを実装したメソッドを提供しますが、単独では使わず、別のクラスの振る舞いを追加するために使います。
+In other words, a *mixin* provides methods that implement a certain behavior, but we do not use it alone, we use it to add the behavior to other classes.
 
+## A mixin example
 
-## mixin のサンプル
+The simplest way to make a mixin in JavaScript is to make an object with useful methods, so that we can easily merge them into a prototype of any class.
 
-JavaScriptで mixin を作る最もシンプルな方法は、役立つメソッドをもつオブジェクトを作ることです。そのすることで、それらを簡単にどのクラスのプロトタイプにもマージすることができます。
-
-例えば、ここでは mixin `sayHiMixin` は `User` のためのいくつかの "スピーチ" を追加するために使われます。:
+For instance here the mixin `sayHiMixin` is used to add some "speech" for `User`:
 
 ```js run
 *!*
@@ -25,15 +24,15 @@ JavaScriptで mixin を作る最もシンプルな方法は、役立つメソッ
 */!*
 let sayHiMixin = {
   sayHi() {
-    alert("Hello " + this.name);
+    alert(`Hello ${this.name}`);
   },
   sayBye() {
-    alert("Bye " + this.name);
+    alert(`Bye ${this.name}`);
   }
 };
 
 *!*
-// 使い方:
+// usage:
 */!*
 class User {
   constructor(name) {
@@ -41,14 +40,14 @@ class User {
   }
 }
 
-// メソッドをコピー
+// copy the methods
 Object.assign(User.prototype, sayHiMixin);
 
-// これで User は sayHi できます
-new User("Dude").sayHi(); // Hi Dude!
+// now User can say hi
+new User("Dude").sayHi(); // Hello Dude!
 ```
 
-これは継承ではなく、単純なメソッドのコピーです。従って、`User` は他のクラスを拡張することができ、さらに以下のように追加のメソッドをミックスインするとして含めることができます:
+There's no inheritance, but a simple method copying. So `User` may inherit from another class and also include the mixin to "mix-in" the additional methods, like this:
 
 ```js
 class User extends Person {
@@ -58,9 +57,9 @@ class User extends Person {
 Object.assign(User.prototype, sayHiMixin);
 ```
 
-ミックスインは自身の内部で継承を活用することもできます。。
+Mixins can make use of inheritance inside themselves.
 
-例えば、ここでは `sayHiMixin` は `sayMixin` を継承しています。:
+For instance, here `sayHiMixin` inherits from `sayMixin`:
 
 ```js run
 let sayMixin = {
@@ -70,16 +69,16 @@ let sayMixin = {
 };
 
 let sayHiMixin = {
-  __proto__: sayMixin, // (またはここで prototype を設定するのに Object.create が使えます)
+  __proto__: sayMixin, // (or we could use Object.create to set the prototype here)
 
   sayHi() {
     *!*
-    // 親のメソッド呼び出し
+    // call parent method
     */!*
-    super.say("Hello " + this.name);
+    super.say(`Hello ${this.name}`);
   },
   sayBye() {
-    super.say("Bye " + this.name);
+    super.say(`Bye ${this.name}`);
   }
 };
 
@@ -89,39 +88,41 @@ class User {
   }
 }
 
-// メソッドをコピー
+// copy the methods
 Object.assign(User.prototype, sayHiMixin);
 
-// これで User は sayHi できます
+// now User can say hi
 new User("Dude").sayHi(); // Hello Dude!
 ```
 
-`sayHiMixin` からの親メソッド `super.say()` の呼び出しは、クラスではなくそのミックスインのプロトタイプの中のメソッドを探すことに注意してください。
+Please note that the call to the parent method `super.say()` from `sayHiMixin` looks for the method in the prototype of that mixin, not the class.
 
 ![](mixin-inheritance.png)
 
-これは `sayHiMixin` のメソッドに `[[HomeObject]]` がセットされているからです。そのため、`super` は実際には `sayHiMixin.__proto__`を意味し、`User.__proto__`を意味しません。
+That's because methods `sayHi` and `sayBye` were initially created in `sayHiMixin`. So their `[[HomeObject]]` internal property references `sayHiMixin`, as shown on the picture above.
 
-## イベントMixin 
+As `super` looks for parent methods in `[[HomeObject]].[[Prototype]]`, that means it searches `sayHiMixin.[[Prototype]]`, not `User.[[Prototype]]`.
 
-さて、実践のためのミックスインを作ってみましょう。
+## EventMixin
 
-多くのオブジェクトの重要な特徴はイベントを扱うことです。
+Now let's make a mixin for real life.
 
-つまり: オブジェクトには、何か重要な事が起きたときに "イベントを生成する" メソッドが必要であり、他のオブジェクトはこのようなイベントを "リッスン" できる必要があります。
+An important feature of many browser objects (for instance) is that they can generate events. Events is a great way to "broadcast information" to anyone who wants it. So let's make a mixin that allows to easily add event-related functions to any class/object.
 
-イベントには名前が必要であり、必要に応じて追加データをバンドルする必要があります。
+- The mixin will provide a method `.trigger(name, [...data])` to "generate an event" when something important happens to it. The `name` argument is a name of the event, optionally followed by additional arguments with event data.
+- Also the method `.on(name, handler)` that adds `handler` function as the listener to events with the given name. It will be called when an event with the given `name` triggers, and get the arguments from `.trigger` call.
+- ...And the method `.off(name, handler)` that removes `handler` listener.
 
-例えば、オブジェクト `user` は訪問者がログインするときに `"login"` というイベントを生成することができます。そして、別オブジェクト `calendar` はログインした人のカレンダーをロードするために、このようなイベントを受けりたいかもしれません。
+After adding the mixin, an object `user` will become able to generate an event `"login"` when the visitor logs in. And another object, say, `calendar` may want to listen to such events to load the calendar for the logged-in person.
 
-あるいは、`menu` はメニューアイテムが選択されたときに `"select"` イベントを生成することができ、他のオブジェクトはその情報を取得したりイベントに反応したいかもしれません。
+Or, a `menu` can generate the event `"select"` when a menu item is selected, and other objects may assign handlers to react on that event. And so on.
 
-イベントは、それを望む人と "情報を共有する" 方法です。 それらはどのクラスでも役に立ちますので、そのためのミックスインを作ってみましょう:
+Here's the code:
 
 ```js run
 let eventMixin = {
   /**
-   * イベントの購読, 使い方:
+   * Subscribe to event, usage:
    *  menu.on('select', function(item) { ... }
   */
   on(eventName, handler) {
@@ -133,73 +134,73 @@ let eventMixin = {
   },
 
   /**
-   * 購読のキャンセル 使い方:
+   * Cancel the subscription, usage:
    *  menu.off('select', handler)
    */
   off(eventName, handler) {
     let handlers = this._eventHandlers && this._eventHandlers[eventName];
     if (!handlers) return;
-    for(let i = 0; i < handlers.length; i++) {
-      if (handlers[i] == handler) {
+    for (let i = 0; i < handlers.length; i++) {
+      if (handlers[i] === handler) {
         handlers.splice(i--, 1);
       }
     }
   },
 
   /**
-   * イベントを生成してデータをアタッチ
+   * Generate an event with the given name and data
    *  this.trigger('select', data1, data2);
    */
   trigger(eventName, ...args) {
     if (!this._eventHandlers || !this._eventHandlers[eventName]) {
-      return; // イベントに対応するハンドラがない場合
+      return; // no handlers for that event name
     }
 
-    // ハンドラ呼び出し
+    // call the handlers
     this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
   }
 };
 ```
 
-ここでは3つのメソッドがあります:
 
-1. `.on(eventName, handler)` -- その名前のイベントが発生した時に実行するための関数 `handler` を割り当てます。ハンドラは `_eventHandlers` プロパティの中に格納されます。
-2. `.off(eventName, handler)` -- ハンドラリストから関数を削除します。
-3. `.trigger(eventName, ...args)` -- イベントを生成します: すべての割り当てられたハンドラが呼び出され、`args` がそれらの引数として渡されます。
+- `.on(eventName, handler)` -- assigns function `handler` to run when the event with that name happens. Technically, there's `_eventHandlers` property, that stores an array of handlers for each event name. So it just adds it to the list.
+- `.off(eventName, handler)` -- removes the function from the handlers list.
+- `.trigger(eventName, ...args)` -- generates the event: all handlers from `_eventHandlers[eventName]` are called, with a list of arguments `...args`.
 
-使い方:
+Usage:
 
 ```js run
-// クラスを作成
+// Make a class
 class Menu {
   choose(value) {
     this.trigger("select", value);
   }
 }
-// mixin を追加
+// Add the mixin with event-related methods
 Object.assign(Menu.prototype, eventMixin);
 
 let menu = new Menu();
 
-// 選択時にハンドラを呼び出し
+// add a handler, to be called on selection:
 *!*
-menu.on("select", value => alert("Value selected: " + value));
+menu.on("select", value => alert(`Value selected: ${value}`));
 */!*
 
-// イベントのトリガ => Value selected: 123 を表示
-menu.choose("123"); // 選択された値
+// triggers the event => the handler above runs and shows:
+// Value selected: 123
+menu.choose("123");
 ```
 
-これで、もしユーザ選択に反応するためのコードがある場合、`menu.on(...)` でバインドすることができます。
+Now if we'd like any code to react on menu selection, we can listen to it with `menu.on(...)`.
 
-そして、`eventMixin` は継承のチェーンを邪魔することなく、我々が望むだけのクラスに対してこのような振る舞いを追加することができます。
+And `eventMixin` mixin makes it easy to add such behavior to as many classes as we'd like, without interfering with the inheritance chain.
 
-## サマリ 
+## Summary
 
-*Mixin(ミックスイン)* -- は一般的なオブジェクト指向プログラミングの言葉です: 他のクラスのためのメソッドを含むクラスです。
+*Mixin* -- is a generic object-oriented programming term: a class that contains methods for other classes.
 
-python のようないくつかの他の言語は、多重継承を使いミックスインを作成することができます。JavaScriptでは多重継承をサポートしていませんが、プロトタイプにそれらをコピーすることでミックスインを実装することができます。
+Some other languages like e.g. Python allow to create mixins using multiple inheritance. JavaScript does not support multiple inheritance, but mixins can be implemented by copying methods into prototype.
 
-上で見てきたように、イベントハンドリングのような複数の振る舞いによってクラスを拡張する方法としてミックスインが利用できます。
+We can use mixins as a way to augment a class by multiple behaviors, like event-handling as we have seen above.
 
-時折、ミックスインがネイティブのクラスメソッドを上書きすると、矛盾する点になることがあります。なので、一般的にはこのような可能性を最小化するために、ミックスインの名付けについてよく考える必要があります。
+Mixins may become a point of conflict if they occasionally overwrite existing class methods. So generally one should think well about the naming methods of a mixin, to minimize the probability of that.

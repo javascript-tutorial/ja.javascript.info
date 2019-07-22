@@ -2,9 +2,13 @@
 
 *イベント* は何かが起きたと言う信号です。すべての DOM ノードはこのような信号を生成します(ただし、イベントは DOM に限ったものではありません)。
 
+<<<<<<< HEAD
 [cut]
 
 ここでは最も有用なDOMイベントのリストを見てみましょう。:
+=======
+Here's a list of the most useful DOM events, just to take a look at:
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 **マウスイベント:**
 - `click` -- 要素上でマウスをクリックしたとき(タッチスクリーンデバイスでは、タップでこのイベントを生成します)。
@@ -20,8 +24,13 @@
 **キーボードイベント:**
 - `keydown` と `keyup` -- 訪問者がボタンを押したり離したとき。
 
+<<<<<<< HEAD
 **ドキュメントイベント**
 - `DOMContentLoaded` -- HTMLがロードされ処理されたとき、DOM は完全に構築済みです。
+=======
+**Document events:**
+- `DOMContentLoaded` -- when the HTML is loaded and processed, DOM is fully built.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 **CSS イベント:**
 - `transitionend` -- CSS アニメーションが終了したとき。
@@ -32,7 +41,11 @@
 
 イベントに反応するために、*ハンドラ* -- イベント発生時に実行する関数 -- を割り当てることができます。
 
+<<<<<<< HEAD
 ハンドラは、ユーザのアクション時に JavaScript コードを実行する方法です。
+=======
+Handlers are a way to run JavaScript code in case of user actions.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 ハンドラを割り当てる方法はいくつかあります。最も簡単なものから始め、それらを見ていきましょう。
 
@@ -162,9 +175,15 @@ button.onclick = sayThanks;
 button.onclick = sayThanks();
 ```
 
+<<<<<<< HEAD
 もしカッコをつけると、`sayThanks()` 関数の実行 *結果* になるので、最後の行の `onclick` は `undefined` (関数が何も返さない)になります。それは動作しません。
 
 ...しかしマークアップでは、カッコは必要です:
+=======
+If we add parentheses, `sayThanks()` --  is a function call. So the last line actually takes the *result* of the function execution, that is `undefined` (as the function returns nothing), and assigns it to `onclick`. That doesn't work.
+
+...But in the markup we do need the parentheses:
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 ```html
 <input type="button" id="button" onclick="sayThanks()">
@@ -218,7 +237,7 @@ Web標準の開発者はずっと前に理解しており、特別なメソッ�
 ハンドラを追加する構文は次のようになります:
 
 ```js
-element.addEventListener(event, handler[, phase]);
+element.addEventListener(event, handler[, options]);
 ```
 
 `event`
@@ -227,6 +246,7 @@ element.addEventListener(event, handler[, phase]);
 `handler`
 : ハンドラ関数.
 
+<<<<<<< HEAD
 `phase`
 : オプションの引数で、ハンドラが動作する "フェーズ" です。後ほど説明します。通常は使いません。
 
@@ -235,6 +255,19 @@ element.addEventListener(event, handler[, phase]);
 ```js
 // addEventListener とまったく同じ引数です
 element.removeEventListener(event, handler[, phase]);
+=======
+`options`
+: An additional optional object with properties:
+    - `once`: if `true`, then the listener is automatically removed after it triggers.
+    - `capture`: the phase where to handle the event, to be covered later in the chapter <info:bubbling-and-capturing>. For historical reasons, `options` can also be `false/true`, that's the same as `{capture: false/true}`.
+    - `passive`: if `true`, then the handler will not `preventDefault()`, we'll cover that later in <info:default-browser-action>.
+
+
+To remove the handler, use `removeEventListener`:
+
+```js
+element.removeEventListener(event, handler[, options]);
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 ```
 
 ````warn header="削除は同じ関数が必要です"
@@ -289,8 +322,13 @@ input.removeEventListener("click", handler);
 
 上の例で分かる通り、DOMプロパティと `addEventListener` 両方を使ってハンドラを設定することができます。しかし、一般的にどちらかの方法を使います。
 
+<<<<<<< HEAD
 ````warn header="いくつかのイベントでは、ハンドラは `addEventListener`でのみ動作します"
 DOMプロパティ経由では割り当てることができないイベントが存在します。`addEventListener` を使用しなければなりません。
+=======
+````warn header="For some events, handlers only work with `addEventListener`"
+There exist events that can't be assigned via a DOM-property. Must use `addEventListener`.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 例えば、`transitionend` (CSS アニメーションの終了) イベントなどです。
 
@@ -350,12 +388,20 @@ DOMプロパティ経由では割り当てることができないイベント�
 : イベントタイプ、ここでは `"click"` です.
 
 `event.currentTarget`
+<<<<<<< HEAD
 : イベントを処理した要素です。これは、あなたが `this` を他の何かにバインドしない限り、`this` とまったく同じであり、`event.currentTarget` は役立ちます。
+=======
+: Element that handled the event. That's exactly the same as `this`, unless the handler is an arrow function, or its `this` is bound to something else, then `event.currentTarget` becomes useful.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 `event.clientX / event.clientY`
 : マウスイベントに対するカーソルのウィンドウ相対座標です。
 
+<<<<<<< HEAD
 他にもプロパティがあります。それらはイベントのタイプによって異なりますので、詳細については別のイベントを扱う時にそれらを学びます。
+=======
+There are more properties. They depend on the event type, so we'll study them later when we come to different events in details.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 ````smart header="イベントオブジェクトもまた HTML からアクセス可能です"
 もし HTML でハンドラを割り当てる場合、このようにし `event` オブジェクトを使うことも可能です。:

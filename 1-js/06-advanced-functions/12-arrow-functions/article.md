@@ -2,9 +2,13 @@
 
 アロー関数について改めて考えてみましょう。
 
+<<<<<<< HEAD
 [cut]
 
 アロー関数は小さなものを書くための単なる "簡略化" ではありません。
+=======
+Arrow functions are not just a "shorthand" for writing small stuff.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 JavaScriptは、小さな関数を書く必要がある状況に満ちており、それはいろんな場所で実行されます。
 

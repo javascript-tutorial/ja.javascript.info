@@ -3,9 +3,13 @@
 JavaScriptでは関数を扱う際、非常に柔軟性があります。関数は渡され、オブジェクトとして使われます。また、これらの間の呼び出しを *転送* したり、それらを *装飾(デコレータ)* することもできます。ここではそれらの方法を見ていきましょう。
 
 
+<<<<<<< HEAD
 [cut]
 
 ## 透過キャッシュ(Transparent caching) 
+=======
+## Transparent caching
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 CPU負荷は高いが、その結果が不変である関数 `slow(x)` を持っているとします。言い換えると、同じ `x` の場合、常に同じ結果が返ってきます。
 
@@ -71,7 +75,11 @@ alert( "Again: " + slow(2) ); // 前の行と同じ
 
 上で言及されたキャッシュデコレータはオブジェクトメソッドで動作するのには適していません。
 
+<<<<<<< HEAD
 例えば、下のコードでは、デコレーションの後、`worker.slow()` は動作を停止します:
+=======
+For instance, in the code below `worker.slow()` stops working after the decoration:
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 ```js run
 // worker.slow のキャッシングを作成する
@@ -307,7 +315,11 @@ func.apply(context, args);   // apply を使うのと同じです
 
 したがって、これらの呼び出しはお互いを補完します。 反復可能(iterable) が期待されるところでは、 `call` が動作します。配列ライク(array-like)が期待される場合は `apply` が動作します。
 
+<<<<<<< HEAD
 また、`args` が 反復可能であり配列ライクである場合は、本当の配列のように、技術的にはどちらを使うことも可能ですが、`apply` は恐らくより高速です。なぜなら、1つの操作だからです。ほとんどのJavaScriptエンジンの内部の最適化は、 `call + spread` のペアよりも良いものです。
+=======
+And if `args` is both iterable and array-like, like a real array, then we technically could use any of them, but `apply` will probably be faster, because it's a single operation. Most JavaScript engines internally optimize it better than a pair `call + spread`.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 `apply` の最も重要な用途の1つは、次のように別の関数へ呼び出しを渡すことです。:
 
@@ -455,6 +467,11 @@ let wrapper = function() {
 }
 ```
 
+<<<<<<< HEAD
 また、私たちはオブジェクトからメソッドを取得し、別のオブジェクトのコンテキストでそのメソッドを `呼び出す` と言う、 *メソッドの借用* の例も見ました。配列のメソッドを取り、それらを引数に適用するのはよくあることです。代替としては、本当の配列である残りのパラメータオブジェクトを使うこと、があります。
+=======
+We also saw an example of *method borrowing* when we take a method from an object and `call` it in the context of another object. It is quite common to take array methods and apply them to `arguments`. The alternative is to use rest parameters object that is a real array.
+
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 多くのデコレータが世の中に出回っています。このチャプターのタスクを解決することで、いかにデコレータが良いものかを確認してください。

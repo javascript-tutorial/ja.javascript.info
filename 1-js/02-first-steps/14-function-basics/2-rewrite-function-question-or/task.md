@@ -23,5 +23,10 @@ function checkAge(age) {
 
 `checkAge` の2つのバリアントを作ってください。:
 
+<<<<<<< HEAD
 1. 疑問符演算子 `'?'` を使うケース
 2. OR `||` を使うケース
+=======
+1. Using a question mark operator `?`
+2. Using OR `||`
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3

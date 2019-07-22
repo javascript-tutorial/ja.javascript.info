@@ -4,7 +4,11 @@ importance: 5
 
 # スパムのチェック
 
+<<<<<<< HEAD
 もし `str` に 'viagra' または 'XXX' を含む場合には `true` を、それ以外の場合には `false` を返す関数 `checkSpam(str)` を書きなさい。
+=======
+Write a function `checkSpam(str)` that returns `true` if `str` contains 'viagra' or 'XXX', otherwise `false`.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 この関数は大文字と小文字を区別する必要はありません。:
 

@@ -3,11 +3,16 @@
 
 *反復可能な(iterables)* オブジェクトは配列の汎化です。これは、`for..of` ループで任意のオブジェクトを使用できるようにするための概念です。
 
+<<<<<<< HEAD
 もちろん、配列は反復可能です。しかし、他にも多くの組み込みオブジェクトがあり、それらも同様に反復可能です。例えば、文字列も反復可能です。後で分かりますが、多くの組み込みの演算子やメソッドはそれらに依存しています。
 
 もしオブジェクトが何かの集合(リスト、セット)を表す場合、`for..of` はそれをループ処理するのに最適な構文です。それでは、それを動作させる方法を見てみましょう。
+=======
+Of course, Arrays are iterable. But there are many other built-in objects, that are iterable as well. For instance, Strings are iterable also. As we'll see, many built-in operators and methods rely on them.
 
-[cut]
+If an object represents a collection (list, set) of something, then `for..of` is a great syntax to loop over it, so let's see how to make it work.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
+
 
 ## Symbol.iterator 
 
@@ -29,10 +34,17 @@ let range = {
 
 `range` を 反復可能(iterable) にするために (`for..of` を動作させるために)は、`Symbol.iterator` (このための特別な組み込みのシンボルです)という名前のメソッドをオブジェクトに追加する必要があります。
 
+<<<<<<< HEAD
 - `for..of` が始まると、そのメソッドを呼び出します(なければエラーになります)。
 - メソッドは *iterator* (メソッド `next` をもつオブジェクト)を返さなければいけません。
 - `for..of` が次の値を必要とするとき、そのオブジェクトの `next()` を呼びます。
 - `next()` の結果は `{done: Boolean, value: any}` の形式でなければなりません。そして `done=true` は繰り返しが終わったことを示します。そうでない場合は、`value` は新しい値である必要があります。
+=======
+1. When `for..of` starts, it calls that method once (or errors if not found). The method must return an *iterator* -- an object with the method `next`.
+2. Onward, `for..of` works *only with that returned object*.
+3. When `for..of` wants the next value, it calls `next()` on that object.
+4. The result of `next()` must have the form `{done: Boolean, value: any}`, where `done=true`  means that the iteration is finished, otherwise `value` must be the new value.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 これは `range` の完全な実装です:
 
@@ -45,7 +57,12 @@ let range = {
 // 1. for..of の呼び出しは、最初にこれを呼び出します
 range[Symbol.iterator] = function() {
 
+<<<<<<< HEAD
   // 2. ...これは iterator を返します:
+=======
+  // ...it returns the iterator object:
+  // 2. Onward, for..of works only with this iterator, asking it for next values
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
   return {
     current: this.from,
     last: this.to,      
@@ -68,10 +85,17 @@ for (let num of range) {
 }
 ```
 
+<<<<<<< HEAD
 反復可能(iterables)の中心的な機能に注意してください。: 重要な関心の分離があります。
 
 - `range` 自身は `next()` メソッドを持っていません。
 - 代わりに、別のオブジェクト、いわゆる "イテレータ" は `range[Symbol.iterator]()` の呼び出しで生成され、反復を処理します。
+=======
+Please note the core feature of iterables: an important separation of concerns:
+
+- The `range` itself does not have the `next()` method.
+- Instead, another object, a so-called "iterator" is created by the call to `range[Symbol.iterator]()`, and it handles the whole iteration.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 従って、反復オブジェクトは反復処理されるオブジェクトから分離されています。
 
@@ -103,10 +127,19 @@ for (let num of range) {
 }
 ```
 
+<<<<<<< HEAD
 今、`range[Symbol.iterator]()` は `range` オブジェクト自身を返します: それは必要な `next()` メソッドを持ち、`this.current` で現在の反復の状況を覚えています。場合によってはそれでも問題ありません。欠点は、オブジェクトに対して同時に2つの `for..of` ループを実行することは不可能だということです。: イテレータ が1つしかないので、オブジェクトは繰り返し状態を共有します。
 
 ```smart header="無限のイテレータ"
 無限の イテレータ もまた実行可能です。例えば、 `range.to = Infinity` で、`range` が無限大になります。または、擬似乱数の無限のシーケンスを生成する反復可能なオブジェクトを作ることができます。これもまた役立つことがあります。
+=======
+Now `range[Symbol.iterator]()` returns the `range` object itself:  it has the necessary `next()` method and remembers the current iteration progress in `this.current`. Shorter? Yes. And sometimes that's fine too.
+
+The downside is that now it's impossible to have two `for..of` loops running over the object simultaneously: they'll share the iteration state, because there's only one iterator -- the object itself. But two parallel for-ofs is a rare thing, even in async scenarios.
+
+```smart header="Infinite iterators"
+Infinite iterators are also possible. For instance, the `range` becomes infinite for `range.to = Infinity`. Or we can make an iterable object that generates an infinite sequence of pseudorandom numbers. Also can be useful.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 `next` には制限はなく、より多くの値を返すことができますが、これは正常です。
 
@@ -122,11 +155,20 @@ for (let num of range) {
 
 ```js run
 for (let char of "test") {
+<<<<<<< HEAD
   alert( char ); // t, 次に e, 次に s, そして t
 }
 ```
 
 そしてサロゲートペアも正しく動作します!
+=======
+  // triggers 4 times: once for each character
+  alert( char ); // t, then e, then s, then t
+}
+```
+
+And it works correctly with surrogate pairs!
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 ```js run
 let str = '𝒳😂';
@@ -141,7 +183,11 @@ for (let char of str) {
 
 しかし、もう少し深く理解するために、明示的なイテレータの作り方を見てみましょう。
 
+<<<<<<< HEAD
 `for..of` と同じ方法で文字列を反復処理しますが、直接呼び出しをします。このコードは文字列のイテレータを取得し、それを "手動" で呼び出します。:
+=======
+We'll iterate over a string in exactlly the same way as `for..of`, but with direct calls. This code creates a string iterator and gets values from it "manually":
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 ```js run
 let str = "Hello";
@@ -167,7 +213,13 @@ while (true) {
 - *反復可能(Iterables)* は上で説明したように、`Symbol.iterator` メソッドを実装したオブジェクトです。
 - *配列ライク(Array-likes)* は、インデックスと `length` を持ったオブジェクトです。なので、これらは配列のように見えます。
 
+<<<<<<< HEAD
 もちろん、それらの特性は組み合わせることができます。例えば、文字列は 反復可能(iterable) (`for..of` が動作する) であり、かつ 配列ライク(array-like) (数値インデックスと `length` を持っています) です。
+=======
+When we use JavaScript for practical tasks in browser or other environments, we may meet objects that are iterables or array-likes, or both.
+
+For instance, strings are both iterable (`for..of` works on them) and array-like (they have numeric indexes and `length`).
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 しかし、反復可能(iterable) は 配列ライク(array-like) でない可能性があります。そして、同じように 配列ライク(array-like) も 反復可能(iterable) でない場合があります。
 
@@ -188,11 +240,19 @@ for (let item of arrayLike) {}
 */!*
 ```
 
+<<<<<<< HEAD
 それらの共通点は、反復可能(iterable) と 配列ライク(array-like) は両方とも通常の *配列ではなく*、`push` や `pop` などのメソッドを持っていません。もしもこのようなオブジェクトを持っていて、配列のように処理したい場合には不便です。
 
 ## Array.from
 
 それらを結びつける共通のメソッド [Array.from](mdn:js/Array/from) があります。これは 反復可能(iterable) または 配列ライク(array-like) な値を引数に取り、そこから "本当の" `Array` を作ります。それ以降、配列のメソッドを呼べるようになります。
+=======
+Both iterables and array-likes are usually *not arrays*, they don't have `push`, `pop` etc. That's rather inconvenient if we have such an object and want to work with it as with an array. E.g. we would like to work with `range` using array methods. How to achieve that?
+
+## Array.from
+
+There's a universal method [Array.from](mdn:js/Array/from) that takes an iterable or array-like value and makes a "real" `Array` from it. Then we can call array methods on it.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 例:
 
@@ -224,7 +284,11 @@ alert(arr); // 1,2,3,4,5 (配列の toString 変換が機能します)
 Array.from(obj[, mapFn, thisArg])
 ```
 
+<<<<<<< HEAD
 2つ目の引数 `mapFn` は、配列に追加する前に各要素に適用する関数であり、`thisArg` はそこでの `this` を指定できます。
+=======
+The optional second argument `mapFn` can be a function that will be applied to each element before adding to the array, and `thisArg` allows to set `this` for it.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 例:
 
@@ -294,8 +358,16 @@ alert( str.slice(1, 3) ); // ゴミ (異なるサロゲートペアの片割れ�
 - 文字列や配列のような組み込みの iterables もまた、`Symbol.iterator` を実装しています。
 - 文字列の イテレータ はサロゲートペアが考慮できます。
 
+<<<<<<< HEAD
 インデックス付きのプロパティと `length` をもつオブジェクトは *配列ライク(array-like)* と呼ばれます。このようなオブジェクトは他のプロパティやメソッドを持つことができますが、配列の組み込みメソッドは持っていません。
+=======
+Objects that have indexed properties and `length` are called *array-like*. Such objects may also have other properties and methods, but lack the built-in methods of arrays.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 もしも仕様の内側を見ていくと、多くの組み込みメソッドは、"本当の" 配列の代わりに 反復可能(iterable) または 配列ライク(array-like) で動作することを想定していることがわかるでしょう。なぜなら、それらはより抽象的なためです。
 
+<<<<<<< HEAD
 `Array.from(obj[, mapFn, thisArg])` は 反復可能(iterable) または 配列ライク(array-like) な `obj` の実際の `Array` を作成し、その後配列のメソッドを使えるようになります。オプションの引数 `mapFn` と `thisArg` は、各項目に関数を適用することを可能にします。
+=======
+`Array.from(obj[, mapFn, thisArg])` makes a real `Array` of an iterable or array-like `obj`, and we can then use array methods on it. The optional arguments `mapFn` and `thisArg` allow us to apply a function to each item.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3

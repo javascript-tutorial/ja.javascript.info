@@ -30,7 +30,11 @@ ladder.down();
 ladder.showStep(); // 1
 ```
 
+<<<<<<< HEAD
 `up` と `down` のコードを修正して、連鎖可能な呼び出しができるようにしてください。:
+=======
+Modify the code of `up`, `down` and `showStep` to make the calls chainable, like this:
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 ```js
 ladder.up().up().down().showStep(); // 1
