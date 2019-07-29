@@ -27,24 +27,28 @@
 
 これはその図です:
 
-![](move-ball-coords.png)
+![](move-ball-coords.svg)
 
 私たちは `event.clientX/clientY` -- クリックのウィンドウに相対的な座標 -- を持っています。
 
 クリック時のフィールドに相対的な `left` 座標を取得するには、フィールドの左端とボーダーの幅を引きます。:
 
 ```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
+let left = event.clientX - fieldCoords.left - field.clientLeft;
 ```
 
+<<<<<<< HEAD
 通常、 `ball.style.position.left` は "要素(ボール)の左端" を意味します。なので、その `left` を割り当てると、ボールの端がマウスカーソルの下に来ることになります。
+=======
+Normally, `ball.style.position.left` means the "left edge of the element" (the ball). So if we assign that `left`, then the ball edge, not center, would be under the mouse cursor.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 私たちは、それを中心にするために、ボールの半分の幅を左へ、半分の高さを上へ移動させる必要があります。
 
 なので、最終的な `left` は次のようになります:
 
 ```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft - ball.offsetWidth/2;
+let left = event.clientX - fieldCoords.left - field.clientLeft - ball.offsetWidth/2;
 ```
 
 縦の座標は同じロジックを使って計算します。

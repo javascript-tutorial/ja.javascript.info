@@ -1,42 +1,42 @@
 
 # Object.keys, values, entries
 
-ここでは、個々のデータ構造から離れて、それらの繰り返し処理について話しましょう。
+Let's step away from the individual data structures and talk about the iterations over them.
 
-前のチャプターで、`map.keys()`, `map.values()`, `map.entries()` と言うメソッドを見ました。
+In the previous chapter we saw methods `map.keys()`, `map.values()`, `map.entries()`.
 
-これらのメソッドは一般的なものであり、データ構造に対して利用することは共通認識です。そのため、もし独自のデータ構造を作成するときには、それらも実装しておく方がよいです。
+These methods are generic, there is a common agreement to use them for data structures. If we ever create a data structure of our own, we should implement them too.
 
-これらは以下でサポートされています:
+They are supported for:
 
 - `Map`
 - `Set`
-- `Array` (`arr.values()` を除く)
+- `Array` (except `arr.values()`)
 
-通常のオブジェクトも同様のメソッドをサポートしますが、構文は少し異なります。
+Plain objects also support similar methods, but the syntax is a bit different.
 
 ## Object.keys, values, entries
 
-通常のオブジェクトでは、次のメソッドが使えます。:
+For plain objects, the following methods are available:
 
-- [Object.keys(obj)](mdn:js/Object/keys) -- キーの配列を返します。
-- [Object.values(obj)](mdn:js/Object/values) -- 値の配列を返します。
-- [Object.entries(obj)](mdn:js/Object/entries) -- `[key, value]` ペアの配列を返します。
+- [Object.keys(obj)](mdn:js/Object/keys) -- returns an array of keys.
+- [Object.values(obj)](mdn:js/Object/values) -- returns an array of values.
+- [Object.entries(obj)](mdn:js/Object/entries) -- returns an array of `[key, value]` pairs.
 
-しかし、それらの違いに注意してください(例として map との比較です。):
+...But please note the distinctions (compared to map for example):
 
 |             | Map              | Object       |
 |-------------|------------------|--------------|
-| 構文 | `map.keys()`  | `Object.keys(obj)`.  `obj.keys()` ではありません。 |
-| 戻り値     | iterable    | "本当の" Array                     |
+| Call syntax | `map.keys()`  | `Object.keys(obj)`, but not `obj.keys()` |
+| Returns     | iterable    | "real" Array                     |
 
-最初の違いは、`obj.keys()` ではなく、`Object.keys(obj)` と呼ぶ必要がある点です。
+The first difference is that we have to call `Object.keys(obj)`, and not `obj.keys()`.
 
-なぜそうなっているのでしょう？主な理由は柔軟性です。JavaScript ではオブジェクトはすべての複雑な構造のベースであることを忘れないでください。そのため、独自の `order.values()` メソッドを実装する `order` という独自のオブジェクトがあるかもしれません。それでも `Object.values(order)` を呼ぶことができます。
+Why so? The main reason is flexibility. Remember, objects are a base of all complex structures in JavaScript. So we may have an object of our own like `order` that implements its own `order.values()` method. And we still can call `Object.values(order)` on it.
 
-2つ目の違いは、`Object.*` メソッドが単なる iterable ではなく "本当の" 配列オブジェクトを返すことです。これは主に歴史的な理由です。
+The second difference is that `Object.*` methods return "real" array objects, not just an iterable. That's mainly for historical reasons.
 
-例:
+For instance:
 
 ```js
 let user = {
@@ -45,11 +45,11 @@ let user = {
 };
 ```
 
-- `Object.keys(user) = [name, age]`
+- `Object.keys(user) = ["name", "age"]`
 - `Object.values(user) = ["John", 30]`
 - `Object.entries(user) = [ ["name","John"], ["age",30] ]`
 
-ここの例では、`Object.values` を使って、プロパティの値をループします:
+Here's an example of using `Object.values` to loop over property values:
 
 ```js run
 let user = {
@@ -57,14 +57,99 @@ let user = {
   age: 30
 };
 
-// 値のループ
+// loop over values
 for (let value of Object.values(user)) {
-  alert(value); // John, そして 30
+  alert(value); // John, then 30
 }
 ```
 
-## Object.keys/values/entries は Symbol を使っているプロパティを無視します
+```warn header="Object.keys/values/entries ignore symbolic properties"
+Just like a `for..in` loop, these methods ignore properties that use `Symbol(...)` as keys.
 
-`for..in` ループのように、これらのメソッドはキーとして `Symbol(...)` を使っているプロパティを無視します。
+Usually that's convenient. But if we want symbolic keys too, then there's a separate method [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols) that returns an array of only symbolic keys. Also, there exist a method [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) that returns *all* keys.
+```
 
-通常それは便利です。しかし、もしもこのようなキーも同様に扱いたい場合は、別のメソッド [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols)  があります。これは Symbol を使っているキーのみの配列を返します。また、メソッド [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) は *すべての* キーを返します。
+## Object.fromEntries to transform objects
+
+Sometimes we need to perform a transformation of an object to `Map` and back.
+
+We already have `new Map(Object.entries(obj))` to make a `Map` from `obj`.
+
+The syntax of `Object.fromEntries` does the reverse. Given an array of `[key, value]` pairs, it creates an object:
+
+```js run
+let prices = Object.fromEntries([
+  ['banana', 1],
+  ['orange', 2],
+  ['meat', 4]
+]);
+
+// now prices = { banana: 1, orange: 2, meat: 4 }
+
+alert(prices.orange); // 2
+```
+
+Let's see practical applications.
+
+For example, we'd like to create a new object with double prices from the existing one.
+
+For arrays, we have `.map` method that allows to transform an array, but nothing like that for objects.
+
+So we can use a loop:
+
+```js run
+let prices = {
+  banana: 1,
+  orange: 2,
+  meat: 4,
+};
+
+let doublePrices = {};
+for(let [product, price] of Object.entries(prices)) {
+  doublePrices[product] = price * 2;
+}
+
+alert(doublePrices.meat); // 8
+```
+
+...Or we can represent the object as an `Array` using `Object.entries`, then perform the operations with `map` (and potentially other array methods), and then go back using `Object.fromEntries`.
+
+Let's do it for our object:
+
+```js run
+let prices = {
+  banana: 1,
+  orange: 2,
+  meat: 4,
+};
+
+*!*
+let doublePrices = Object.fromEntries(
+  // convert to array, map, and then fromEntries gives back the object
+  Object.entries(prices).map(([key, value]) => [key, value * 2])
+);
+*/!*
+
+alert(doublePrices.meat); // 8
+```   
+
+It may look difficult from the first sight, but becomes easy to understand after you use it once or twice.
+
+We also can use `fromEntries` to get an object from `Map`.
+
+E.g. we have a `Map` of prices, but we need to pass it to a 3rd-party code that expects an object.
+
+Here we go:
+
+```js run
+let map = new Map();
+map.set('banana', 1);
+map.set('orange', 2);
+map.set('meat', 4);
+
+let obj = Object.fromEntries(map);
+
+// now obj = { banana: 1, orange: 2, meat: 4 }
+
+alert(obj.orange); // 2
+```

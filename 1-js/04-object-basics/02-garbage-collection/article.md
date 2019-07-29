@@ -4,9 +4,13 @@ JavaScriptのメモリ管理は、自動で私たちの目には見えないよ�
 
 何かがもう必要なくなったとき、何が起こるでしょう？JavaScriptエンジンはどのようにそれを検出し、クリーンアップするのでしょうか？
 
+<<<<<<< HEAD
 [cut]
 
 ## 到達性 
+=======
+## Reachability
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 JavaScriptのメモリ管理の主要なコンセプトは、*到達性* です。
 
@@ -41,7 +45,7 @@ let user = {
 };
 ```
 
-![](memory-user-john.png)
+![](memory-user-john.svg)
 
 ここで、矢印はオブジェクトの参照を示しています。グローバル変数 `user` はオブジェクト `{name: "John"}` を参照しています(簡潔のためにそれを John と呼びます)。John の `"name"` プロパティはプリミティブを格納しているので、オブジェクトの枠内に描かれています。
 
@@ -51,7 +55,7 @@ let user = {
 user = null;
 ```
 
-![](memory-user-john-lost.png)
+![](memory-user-john-lost.svg)
 
 今、John は到達不可能になりました。そこへの参照がないため、アクセスする手段はありません。ガベージコレクタはデータを捨てて、メモリを解放します。
 
@@ -70,7 +74,7 @@ let admin = user;
 */!*
 ```
 
-![](memory-user-john-admin.png)
+![](memory-user-john-admin.svg)
 
 今、先ほどと同じことをしたとすると:
 ```js
@@ -105,7 +109,7 @@ let family = marry({
 
 結果のメモリ構造:
 
-![](family.png)
+![](family.svg)
 
 今のところ、全てのオブジェクトは到達可能です:
 
@@ -116,19 +120,19 @@ delete family.father;
 delete family.mother.husband;
 ```
 
-![](family-delete-refs.png)
+![](family-delete-refs.svg)
 
 それら2つの参照のうち、1つだけを削除するのでは不十分です。なぜなら全てのオブジェクトはまだ到達可能だからです。
 
 しかし、もし両方を削除すると、John にはもう参照がないことがわかります:
 
-![](family-no-father.png)
+![](family-no-father.svg)
 
 外への参照は気にする必要はありません。内への参照のみがオブジェクトを到達可能にします。なので、John は今や到達不可能で、到達不可能になったその全てのデータとともにメモリ上から削除されるでしょう。
 
 ガベージコレクションの後:
 
-![](family-no-father-2.png)
+![](family-no-father-2.svg)
 
 ## 到達不可能な島 
 
@@ -142,7 +146,7 @@ family = null;
 
 すると、メモリの中はこうなります:
 
-![](family-no-family.png)
+![](family-no-family.svg)
 
 この例は、到達可能性の概念がどれほど重要であるかを示しています。
 
@@ -164,25 +168,25 @@ John と Ann はまだリンクされているのは明らかです。両方は�
 
 例えば、我々のオブジェクト構造はこのように見えます:
 
-![](garbage-collection-1.png)
+![](garbage-collection-1.svg)
 
 右側に明らかに "到達不可能な島" が見えます。今、どのように "マーク・アンド・スイープ" ガベージコレクタがそれを扱うか見てみましょう。
 
 最初のステップではルートをマークします:
 
-![](garbage-collection-2.png)
+![](garbage-collection-2.svg)
 
 次に、それらの参照をマークします:
 
-![](garbage-collection-3.png)
+![](garbage-collection-3.svg)
 
 ...そしてそれらの参照も、可能な限り、マークしていきます:
 
-![](garbage-collection-4.png)
+![](garbage-collection-4.svg)
 
 この手順でたどりつけなかったオブジェクトは到達不能とみなされ、削除されます:
 
-![](garbage-collection-5.png)
+![](garbage-collection-5.svg)
 
 ガベージコレクションは、このような考え方で実行されます。
 
@@ -210,6 +214,10 @@ JavaScriptエンジンは多くの最適化を適用して実行を高速化し�
 
 もしあなたが低レベルのプログラミングに慣れている場合、V8のガベージコレクションに関するより詳細な情報はこの記事[A tour of V8: Garbage Collection](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection).にあります。
 
+<<<<<<< HEAD
 [V8 blog](http://v8project.blogspot.com/) には、メモリ管理の変更に関する記事も随時掲載されています。 ガベージコレクションを学ぶには、V8の内部について一般的に学習し、V8エンジニアの一人として働いていた [Vyacheslav Egorov](http://mrale.ph) のブログを読むとよいでしょう。 "V8", それはインターネット上の記事で最もよくカバーされるからです。 他のエンジンでは、多くのアプローチは似ていますが、ガベージコレクションは多くの点で異なります。
+=======
+[V8 blog](https://v8.dev/) also publishes articles about changes in memory management from time to time. Naturally, to learn the garbage collection, you'd better prepare by learning about V8 internals in general and read the blog of [Vyacheslav Egorov](http://mrale.ph) who worked as one of V8 engineers. I'm saying: "V8", because it is best covered with articles in the internet. For other engines, many approaches are similar, but garbage collection differs in many aspects.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 低レベルの最適化が必要な場合は、エンジンに関する深い知識が必要です。 あなたが言語に精通した後の次のステップとしてそれを計画することが賢明でしょう。

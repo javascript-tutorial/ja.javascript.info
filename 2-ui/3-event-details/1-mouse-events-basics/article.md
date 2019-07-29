@@ -4,9 +4,13 @@
 
 このチャプターでは、マウスイベントとそれらのプロパティの詳細について説明していきます。
 
+<<<<<<< HEAD
 [cut]
 
 ## マウスイベントタイプ 
+=======
+## Mouse event types
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 マウスイベントは2つのカテゴリに分けることができます: "シンプル" と "複雑" です。
 
@@ -58,7 +62,11 @@
 
 ## ボタンを取得する: which 
 
+<<<<<<< HEAD
 クリック関連のイベントは常にボタンが取得できる `which` プロパティを持っています。
+=======
+Click-related events always have the `which` property, which allows to get the exact mouse button.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 これは `click` や `contextmenu` では使われません。なぜなら前者は左クリックのときだけ、後者は -- 右クリックのときにだけ起こるからです。
 
@@ -114,8 +122,14 @@ JS-codeの場合、`if (event.ctrlKey || event.metaKey)` というチェック�
 
 ```
 
+<<<<<<< HEAD
 ```warn header="モバイルデバイスもあります"
 キーボードの組み合わせは便利です。訪問者がキーボードを持っていれば、それは機能します。 あなたのデバイスがそれを持っていない場合でも、同じことをする別の方法があります。
+=======
+```warn header="There are also mobile devices"
+Keyboard combinations are good as an addition to the workflow. So that if the visitor has a
+ keyboard -- it works. And if their device doesn't have it -- then there should be another way to do the same.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 ```
 
 ## 座標: clientX/Y, pageX/Y 
@@ -125,7 +139,11 @@ JS-codeの場合、`if (event.ctrlKey || event.metaKey)` というチェック�
 1. ウィンドウに相対: `clientX` と `clientY`.
 2. ドキュメントに相対: `pageX` と `pageY`.
 
+<<<<<<< HEAD
 例えば、 500x500 サイズのウィンドウを持っていて、マウスが左上端にあるとき、`clientX` と `clientY` は `0` です。そして、マウスが中央にある場合、ドキュメント内のどの場所にあっても、`clientX` と `clientY` は `250` です。それらは `position:fixed` に似ています。
+=======
+For instance, if we have a window of the size 500x500, and the mouse is in the left-upper corner, then `clientX` and `clientY` are `0`. And if the mouse is in the center, then `clientX` and `clientY` are `250`, no matter what place in the document it is, how far the document was scrolled. They are similar to `position:fixed`.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ````online
 入力フィールドにマウスを移動し `clientX/clientY` を見てみてください (それは `iframe` の中にあるので、座標は `iframe` への相対です)。:
@@ -140,9 +158,15 @@ JS-codeの場合、`if (event.ctrlKey || event.metaKey)` というチェック�
 
 チャプター <info:coordinates> で座標についてより知ることができます。
 
+<<<<<<< HEAD
 ## マウスダウンで選択をしない 
 
 マウスクリックは邪魔になる副作用があります。ダブルクリックするとテキストを選択します。
+=======
+## Disabling selection on mousedown
+
+Mouse clicks have a side-effect that may be disturbing in some interfaces: a double click selects the text.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 もし独自のクリックイベントを処理したい場合、"余分な" 選択はいまいちに見えます。
 
@@ -177,7 +201,11 @@ Before...
 
 ...しかし、潜在的な問題があります! テキストは本当に選択不能になります。たとえユーザが "Before" から選択を開始し、"After" まで選択したとしても、その選択は "Unselectable" の部分はスキップされます。私たちは本当にそのテキストを選択不可にしたいですか？
 
+<<<<<<< HEAD
 殆どの場合、そうではありません。ユーザは、コピーまたはその他の必要性のために、テキストを選択する正当な理由がある可能性があります。 もしユーザにそれをさせることを許さなければ、それは邪魔になるかもしれません。 そのためこの解決策はそれほど良いものではありません。
+=======
+Most of time, we don't. A user may have valid reasons to select the text, for copying or other needs. That may be inconvenient if we don't allow them to do it. So this solution is not that good.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 私たちが欲しいものは、ダブルクリックで選択を防ぐ、それだけです。
 
@@ -195,6 +223,10 @@ Before...
 
 一方、その中のテキストは依然として選択可能です。選択はテキスト自身ではなく、その前後から始める必要があります。通常それは問題ありません。
 
+<<<<<<< HEAD
+=======
+The text inside it is still selectable. However, the selection should start not on the text itself, but before or after it. Usually that's fine for users.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ````smart header="選択のキャンセル"
 選択を *防ぐ* 代わりに、イベントハンドラの中で、"事後に" キャンセルすることができます。
@@ -229,12 +261,17 @@ Before...
 
 ## サマリ 
 
+<<<<<<< HEAD
 マウスイベントは次のプロパティを持っています:
+=======
+Mouse events have the following properties:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 - ボタン: `which`.
 - 修飾子 (押された場合 `true`): `altKey`, `ctrlKey`, `shiftKey` と `metaKey` (Mac).
   - `key:Ctrl` を処理したい場合、Mac ユーザを忘れてはいけません、彼らは `key:Cmd` を使うので、`if (e.metaKey || e.ctrlKey)` とチェックするのが良いです。
 
+<<<<<<< HEAD
 - ウィンドウ相対座標: `clientX/clientY`.
 - ドキュメント相対座標: `pageX/clientX`.
 
@@ -244,3 +281,16 @@ Before...
 1. CSS プロパティ `user-select:none` (ブラウザプレフィックス付きで)はそれを完全に無効にします。
 2. `getSelection().removeAllRanges()` を使って選択を事後にキャンセルします。
 3. `mousedown` を処理し、デフォルトアクションを防ぎます(通常はこれがベストです)。
+=======
+- Window-relative coordinates: `clientX/clientY`.
+- Document-relative coordinates: `pageX/pageY`.
+
+It's also important to deal with text selection, it may be an unwanted side-effect of clicks.
+
+There are several ways to do this, for instance:
+1. The CSS-property `user-select:none` (with browser prefixes) completely disables text-selection.
+2. Cancel the selection post-factum using `getSelection().removeAllRanges()`.
+3. Handle `mousedown` and prevent the default action (usually the best).
+
+The selection is a separate topic, covered in another chapter <info:selection-range>.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74

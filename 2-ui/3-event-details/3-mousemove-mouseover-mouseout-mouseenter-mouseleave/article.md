@@ -2,25 +2,37 @@
 
 マウスが要素間を移動するときに起こるイベントについての詳細を見ていきましょう。
 
-[cut]
-
 ## Mouseover/mouseout, relatedTarget
 
 `mouseoever` イベントはマウスポインタが要素の上に来るときに発生し、`mouseout` は -- そこを離れるときです。
 
-![](mouseover-mouseout.png)
+![](mouseover-mouseout.svg)
 
 これらのイベントは `relatedTarget` を持っているという点で特別です。
 
+<<<<<<< HEAD
 `mouseover` の場合:
 
 - `event.target` -- はマウスが来た要素です。
 - `event.relatedTarget` -- は、マウスが来た元の要素です(どこから来たか)。
+=======
+This property complements `target`. When a mouse leaves one element for another, one of them becomes `target`, and the other one `relatedTarget`.
+
+For `mouseover`:
+
+- `event.target` -- is the element where the mouse came over.
+- `event.relatedTarget` -- is the element from which the mouse came (`relatedTarget` -> `target`).
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 `mouseout` の場合はその逆です:
 
+<<<<<<< HEAD
 - `event.target` -- はマウスが離れた要素です。
 - `event.relatedTarget` -- は新たなポインタの下の要素です(マウスが向かった要素)
+=======
+- `event.target` -- is the element that mouse left.
+- `event.relatedTarget` -- is the new under-the-pointer element, that mouse left for (`target` -> `relatedTarget`).
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```online
 下の例では、それぞれの顔が要素です。マウスを移動させると、テキストエリアでイベントが見えます。
@@ -46,17 +58,21 @@
 
 つまり、訪問者がマウスをとても速く動かしている場合、DOM 要素はスキップされる可能性があることを意味します。:
 
-![](mouseover-mouseout-over-elems.png)
+![](mouseover-mouseout-over-elems.svg)
 
 もしもマウスが上に書いているように、 `#FROM` から `#TO` 要素へ非常に速く移動する場合、間にある `<div>` (やそれら) はスキップされる可能性があります。`mouseout` イベントは `#FROM` でトリガし、その後 `#TO` ですぐに `mouseover` をトリガするかもしれません。
 
 実際には、これは間に多くの要素がある場合に役立ちます。 私たちは本当にそれぞれのIn/Outを処理したくはありません。
 
+<<<<<<< HEAD
 その反面、マウスがあるイベントから別のイベントへゆっくり移動することは想定できないことに留意する必要があります。そうではなく、それは "ジャンプ" できます。
+=======
+On the other hand, we should keep in mind that we can't assume that the mouse slowly moves from one event to another. No, it can "jump".
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 特に、ウィンドウの外からページ中央にカーソルが移動することもあり得ます。そして、それは "どこからも" 来ていないので、`relatedTarget=null` です。:
 
-![](mouseover-mouseout-from-outside.png)
+![](mouseover-mouseout-from-outside.svg)
 
 <div style="display:none">
 In case of a fast move, intermediate elements may trigger no events. But if the mouse enters the element (`mouseover`), when we're guaranteed to have `mouseout` when it leaves it.
@@ -76,7 +92,7 @@ HTMLは2つのネストされた `<div>` 要素です。もしマウスをすば
 
 想像してください -- マウスポインタが要素に入りました。`mouseover` がトリガされました。その後、カーソルが子要素へ行きます。興味深いことは `mouseout` がその場合にトリガすることです。カーソルは依然として要素の中にありますが、`mouseout` が起きます!
 
-![](mouseover-to-child.png)
+![](mouseover-to-child.svg)
 
 奇妙に見えますが、簡単に説明する事ができます。
 
@@ -98,7 +114,11 @@ HTMLは2つのネストされた `<div>` 要素です。もしマウスをすば
 
 なので、`target` を考慮しないハンドラでは、`(2)` の `mouseout` で親を離れ、`(3)` の `mouseover` でそこへ戻ってきたように見えます。
 
+<<<<<<< HEAD
 要素の出入りの際にいくつかのアクションを実行する場合、多くの余分な "偽の" 実行が発生します。シンプルな物事に対して気づかない可能性があります。複雑な物事に対しては、望ましくない副作用を引き起こす可能性があります。
+=======
+If we perform some actions on entering/leaving the element, then we'll get a lot of extra "false" runs. For simple stuff that may be unnoticeable. For complex things that may bring unwanted side-effects.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 私たちは、代わりに `mouseenter/mouseleave` イベントを使用して修正できます。
 
@@ -171,7 +191,11 @@ The details are in the [full example](sandbox:mouseenter-mouseleave-delegation-2
 
 [codetabs height=380 src="mouseenter-mouseleave-delegation-2"]
 
+<<<<<<< HEAD
 カーソルを、テーブルセルやその内側の内外に移動させてみてください。以前の例とは異なり、全体として `<td>` だけが強調表示されています。
+=======
+Try to move the cursor in and out of table cells and inside them. Fast or slow -- doesn't matter. Only `<td>` as a whole is highlighted unlike the example before.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 ```
 
 

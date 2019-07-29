@@ -1,14 +1,14 @@
-解答は2つパートがあります。
+First, let's see why the latter code doesn't work.
 
-最初に、簡単な方は、継承しているクラスはコンストラクタで `super()` を呼ぶ必要があるということです。そうでなければ `"this"` が "定義済み" になりません。
+The reason becomes obvious if we try to run it. An inheriting class constructor must call `super()`. Otherwise `"this"` won't be "defined".
 
-なので、次のように直します:
+So here's the fix:
 
 ```js run
 class Rabbit extends Object {
   constructor(name) {
 *!*
-    super(); // 継承しているとき、親コンストラクタを呼ぶ必要があります
+    super(); // need to call the parent constructor when inheriting
 */!*
     this.name = name;
   }
@@ -19,16 +19,16 @@ let rabbit = new Rabbit("Rab");
 alert( rabbit.hasOwnProperty('name') ); // true
 ```
 
-しかし、これですべてではありません。
+But that's not all yet.
 
-修正した後でさえ、`"class Rabbit extends Object"` 対 `class Rabbit` では依然として重要な違いがあります。
+Even after the fix, there's still important difference in `"class Rabbit extends Object"` versus `class Rabbit`.
 
-知っている通り、 "extends" 構文は2つのプロトタイプを設定します。:
+As we know, the "extends" syntax sets up two prototypes:
 
-1. コンストラクタ関数の `"prototype"` 間(メソッド用)
-2. コンストラクタ関数自身の間(静的メソッド用)
+1. Between `"prototype"` of the constructor functions (for methods).
+2. Between the constructor functions itself (for static methods).
 
-我々のケースでは、`class Rabbit extends Object` では次を意味します:
+In our case, for `class Rabbit extends Object` it means:
 
 ```js run
 class Rabbit extends Object {}
@@ -37,51 +37,45 @@ alert( Rabbit.prototype.__proto__ === Object.prototype ); // (1) true
 alert( Rabbit.__proto__ === Object ); // (2) true
 ```
 
-従って、このように `Rabbit` 経由で `Object` の静的メソッドにアクセスすることができます。:
+So `Rabbit` now provides access to static methods of `Object` via `Rabbit`, like this:
 
 ```js run
 class Rabbit extends Object {}
 
 *!*
-// 通常は Object.getOwnPropertyNames と呼びます
+// normally we call Object.getOwnPropertyNames
 alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // a,b
 */!*
 ```
 
-また、`extends` を使わない場合 `class Rabbit` は2つ目の参照を持ちません。
+But if we don't have `extends Object`, then `Rabbit.__proto__` is not set to `Object`.
 
-比較してみてください:
+Here's the demo:
 
 ```js run
 class Rabbit {}
 
 alert( Rabbit.prototype.__proto__ === Object.prototype ); // (1) true
 alert( Rabbit.__proto__ === Object ); // (2) false (!)
+alert( Rabbit.__proto__ === Function.prototype ); // as any function by default
 
 *!*
-// エラー、Rabbit にこのような関数はありません
+// error, no such function in Rabbit
 alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // Error
 */!*
 ```
 
-シンプルな `class Rabbit` では `Rabbit` 関数は同じプロトタイプを持っています。
+So `Rabbit` doesn't provide access to static methods of `Object` in that case.
 
-```js run
-class Rabbit {}
+By the way, `Function.prototype` has "generic" function methods, like `call`, `bind` etc. They are ultimately available in both cases, because for the built-in `Object` constructor, `Object.__proto__ === Function.prototype`.
 
-// (2) の代わりに、これは正しいです:
-alert( Rabbit.__proto__ === Function.prototype );
-```
+Here's the picture:
 
-ところで、`Function.prototype` は "一般的な" 関数メソッドを持っています。例えば `call`, `bind` などです。それらは究極的には両方のケースで利用可能です。なぜなら、組み込みの `Object` コンストラクタに対して、`Object.__proto__ === Function.prototype` だからです。
+![](rabbit-extends-object.svg)
 
-これはその図です:
-
-![](rabbit-extends-object.png)
-
-従って、まとめると2つの違いがあります。:
+So, to put it short, there are two differences:
 
 | class Rabbit | class Rabbit extends Object  |
 |--------------|------------------------------|
-| --             | コンストラクタで `super()` を呼ぶ必要がある |
+| --             | needs to call `super()` in constructor |
 | `Rabbit.__proto__ === Function.prototype` | `Rabbit.__proto__ === Object` |

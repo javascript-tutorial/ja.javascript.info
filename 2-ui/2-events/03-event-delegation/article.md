@@ -1,7 +1,11 @@
 
 # イベント移譲(Event delegation)
 
+<<<<<<< HEAD
 キャプチャリングとバブリングにより、 *イベント移譲* と呼ばれる最も強力なイベントハンドリングのパターンの一つを実装することができます。
+=======
+Capturing and bubbling allow us to implement one of most powerful event handling patterns called *event delegation*.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 この考え方は、似たような方法で多くの要素を処理する場合に、それら一つ一つにハンドラを割り当てる代わりに、共通の祖先に１つハンドラを置きます。
 
@@ -81,7 +85,7 @@ function highlight(td) {
 
 当然、その `<strong>` でクリックが起きた場合、それは `event.target` の値になります。
 
-![](bagua-bubble.png)
+![](bagua-bubble.svg)
 
 `table.onclick` ハンドラでは、このような `event.target` を取り、クリックが `<td>` の中で行われたのかそうでないのかを知る必要があります。
 
@@ -182,7 +186,11 @@ table.onclick = function(event) {
 
 ### Counter
 
+<<<<<<< HEAD
 例えば、ここでは属性 `data-counter` は振る舞いを追加します: ボタンをクリックすると増加します。:
+=======
+For instance, here the attribute `data-counter` adds a behavior: "increase value on click" to buttons:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```html run autorun height=60
 Counter: <input type="button" value="1" data-counter>

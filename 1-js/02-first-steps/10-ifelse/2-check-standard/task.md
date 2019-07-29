@@ -8,6 +8,6 @@ importance: 2
 
 もし、訪問者が "ECMAScript" と入力したら、 "Right!" を出力し、それ以外は -- "Didn't know? ECMAScript!" と出力します。
 
-![](ifelse_task2.png)
+![](ifelse_task2.svg)
 
 [demo src="ifelse_task2"]

@@ -29,7 +29,7 @@ fib(4) = fib(3) + fib(2)
 
 これは完全な再帰ツリーです:
 
-![fibonacci recursion tree](fibonacci-recursion-tree.png)
+![fibonacci recursion tree](fibonacci-recursion-tree.svg)
 
 `fib(3)` が 2回評価され、`fib(2)` は3回評価されることが明確にわかります。計算の総量は `n` よりも遥かに速く大きくなり、`n=77` でさえ巨大になります。
 

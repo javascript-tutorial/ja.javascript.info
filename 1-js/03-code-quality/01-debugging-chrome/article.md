@@ -2,11 +2,17 @@
 
 より複雑なコードを書く前に、デバッグについて話しましょう。
 
+<<<<<<< HEAD
 すべてのモダンブラウザや、その他多くの環境は "デバッグ" をサポートしています。 -- 開発者ツールを使うことで、エラーの発見と修正がはるかに簡単になります。
 
 ここでは、恐らくこの観点では最も機能が充実している Chrome を使います。
 
 [cut]
+=======
+All modern browsers and most other environments support "debugging" -- a special UI in developer tools that makes finding and fixing errors much easier. It also allows to trace the code step by step to see what exactly is going on.
+
+We'll be using Chrome here, because it has enough features, most other browsers have a similar process`.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ## "sources" ペイン 
 
@@ -18,40 +24,60 @@ Chromeのバージョンによっては少し違って見えるかもしれま�
 
 もしもこの画面を見るのが初めてであれば、見ておくべきものがあります:
 
-![](chrome-open-sources.png)
+![](chrome-open-sources.svg)
 
+<<<<<<< HEAD
 トグルボタン <span class="devtools" style="background-position:-168px -76px"></span> はファイルを表示するタブを開きます。
 それをクリックして、`index.html` 、次にツリービューの `hello.js` を選択しましょう。ここで表示される内容は次の通りです:
+=======
+The toggler button <span class="devtools" style="background-position:-168px -76px"></span> opens the tab with files.
 
-![](chrome-tabs.png)
+Let's click it and select `hello.js` in the tree view. Here's what should show up:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
+
+![](chrome-tabs.svg)
 
 ここでは3つの領域が確認できます:
 
+<<<<<<< HEAD
 1. **リソース領域** html, JavaScript, css や、ページに紐付いているイメージなどを含むファイルがリストされます。
 2. **ソース領域** ソースコードを表示します。
 3. **情報と制御領域** これはデバッグのためで、この後見ていきます。
+=======
+1. The **Resources zone** lists HTML, JavaScript, CSS and other files, including images that are attached to the page. Chrome extensions may appear here too.
+2. The **Source zone** shows the source code.
+3. The **Information and control zone** is for debugging, we'll explore it soon.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 同じトグル <span class="devtools" style="background-position:-200px -76px"></span> を再びクリックすること、リソースの一覧やコードを隠すことができます。
 
 ## コンソール 
 
+<<<<<<< HEAD
 `Esc` を押すとコンソールが下に表示されます。そこでコマンドを入力し、`key:Enter` をするとコマンドを実行することができます。
+=======
+If we press `key:Esc`, then a console opens below. We can type commands there and press `key:Enter` to execute.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 実行結果は下に表示されます。
 
 例えば、ここでは `1+2 ` は `3` になり、`hello("debugger")` は何も返さないので、結果は `undefined` です:
 
-![](chrome-sources-console.png)
+![](chrome-sources-console.svg)
 
 ## ブレイクポイント 
 
+<<<<<<< HEAD
 [example page](debugging/index.html) のコードの中で何が起こっているのか見てみましょう。`hello.js` で、行番号 `4` をクリックします。コードではなく、右にある `"4"` の数字です。
+=======
+Let's examine what's going on within the code of the [example page](debugging/index.html). In `hello.js`, click at line number `4`. Yes, right on the `4` digit, not on the code.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 これでブレイクポイントがセットできました。行 `8` の数字もクリックしましょう。
 
 このようになるはずです(青はあなたがクリックした場所です):
 
-![](chrome-sources-breakpoint.png)
+![](chrome-sources-breakpoint.svg)
 
 *ブレイクポイント* はデバッガが自動でJavaScriptの実行を停止するコードのポイントです。
 
@@ -59,10 +85,18 @@ Chromeのバージョンによっては少し違って見えるかもしれま�
 
 右のペインでは、常にブレイクポイントの一覧を見ることができます。色々なファイルで多くのブレイクポイントを持っているときに役に立ちます。それらは次のようなことができます:
 
+<<<<<<< HEAD
 - コード中のブレイクポイントに素早く移動する(右ペインで移動したいブレイクポイントをクリック)
 - チェックを外すことで、一時的にブレイクポイントを無効にする
 - 右クリックから削除を選択することで、ブレイクポイントを削除する
 - ...など
+=======
+We can always find a list of breakpoints in the right pane. That's useful when we have many breakpoints in various files. It allows us to:
+- Quickly jump to the breakpoint in the code (by clicking on it in the right pane).
+- Temporarily disable the breakpoint by unchecking it.
+- Remove the breakpoint by right-clicking and selecting Remove.
+- ...And so on.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```smart header="条件付きのブレイクポイント"
 行番号の *右クリック* で *条件付きの* ブレイクポイントを作ることができます。与えられた式が真の場合にのみトリガします。
@@ -72,7 +106,11 @@ Chromeのバージョンによっては少し違って見えるかもしれま�
 
 ## デバッガコマンド 
 
+<<<<<<< HEAD
 次のように、`debugger` コマンドを使うことでもコードを停止することができます:
+=======
+We can also pause the code by using the `debugger` command in it, like this:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ```js
 function hello(name) {
@@ -92,9 +130,15 @@ function hello(name) {
 
 今回の例では、`hello()` はページ読み込み中に呼び出されるので、デバッガを起動する最も簡単な方法はページを再読込することです。なので、 `key:F5` (Windows, Linux)または `key:Cmd+R` (Mac) を押しましょう。
 
+<<<<<<< HEAD
 ブレイクポイントがセットされているので、実行は4行目で一時停止します。:
+=======
+In our example, `hello()` is called during the page load, so the easiest way to activate the debugger (after we've set the breakpoints) is to reload the page. So let's press `key:F5` (Windows, Linux) or `key:Cmd+R` (Mac).
 
-![](chrome-sources-debugger-pause.png)
+As the breakpoint is set, the execution pauses at the 4th line:
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
+
+![](chrome-sources-debugger-pause.svg)
 
 右側にある情報のドロップダウンを開いてください(矢印のラベルがついています)。現在のコードの状態を調べることができます:
 
@@ -108,7 +152,12 @@ function hello(name) {
 
     スタックの項目をクリックすると、デバッガは該当のコードにジャンプし、すべての変数も同様に調べられます。
 
+<<<<<<< HEAD
 3. **`Scope` -- 現在の変数。**
+=======
+    If you click on a stack item (e.g. "anonymous"), the debugger jumps to the corresponding code, and all its variables can be examined as well.
+3. **`Scope` -- current variables.**
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
     `Local` はローカル関数の変数を表示します。また、ソース上でもハイライト表示されたそれらの値を見ることができます。
 
@@ -122,12 +171,17 @@ function hello(name) {
 
 右ペインの上部にそのボタンがあります。
 
+<<<<<<< HEAD
 <span class="devtools" style="background-position:-7px -76px"></span> -- 実行の継続, ホットキー `key:F8`.
 : 実行を再開します。もしも他にブレイクポイントがなければ、そのまま実行が継続され、デバッガの制御から外れます。
+=======
+<span class="devtools" style="background-position:-7px -76px"></span> -- continue the execution, hotkey `key:F8`.
+: Resumes the execution. If there are no additional breakpoints, then the execution just continues and the debugger loses control.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
     次の図は、それを行った後に見える画面です:
 
-    ![](chrome-sources-debugger-trace-1.png)
+    ![](chrome-sources-debugger-trace-1.svg)
 
     実行は再開され、`say()` の中の別のブレイクポイントに到達し、そこで一時停止します。右の "Call stack" を見てください。もう一度呼び出すことで増えています。私たちは、今 `say()` の中にいます。
 
@@ -149,19 +203,27 @@ function hello(name) {
 ```smart header="Continue to here"
 コードの行で右クリックすると、"Continue to here" と呼ばれる素晴らしい選択肢を持つコンテキストメニューが開きます。
 
+<<<<<<< HEAD
 これは複数のステップを進めたいが、ブレイクポイントをセットするのが面倒なときに便利です。
+=======
+That's handy when we want to move multiple steps forward to the line, but we're too lazy to set a breakpoint.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 ```
 
 ## ロギング 
 
+<<<<<<< HEAD
 コンソールに何かを出力するために `console.log` 関数があります。
+=======
+To output something to console from our code, there's `console.log` function.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 例えば、これはコンソールに `0` から `4` までの値を出力します:
 
 ```js run
 // 見るにはコンソールを開いてください
 for (let i = 0; i < 5; i++) {
-  console.log("value", i);
+  console.log("значение", i);
 }
 ```
 
@@ -171,6 +233,7 @@ for (let i = 0; i < 5; i++) {
 
 ## サマリ 
 
+<<<<<<< HEAD
 これまで見てきた通り、スクリプトを一時停止するには主に3つの方法があります。
 1. ブレイクポイント
 2. `debugger` 構文
@@ -179,7 +242,21 @@ for (let i = 0; i < 5; i++) {
 これらにより変数を検査し実行が間違っている場所を確認することができます。
 
 ここで説明した以上に、開発者ツールには多くのオプションがあります。完全なマニュアルは <https://developers.google.com/web/tools/chrome-devtools>です。
+=======
+As we can see, there are three main ways to pause a script:
+1. A breakpoint.
+2. The `debugger` statements.
+3. An error (if dev tools are open and the button <span class="devtools" style="background-position:-264px -4px"></span> is "on").
+
+When paused, we can debug - examine variables and trace the code to see where the execution goes wrong.
+
+There are many more options in developer tools than covered here. The full manual is at <https://developers.google.com/web/tools/chrome-devtools>.
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 このチャプターの情報はデバッグを始めるには十分ですが、今後、特にブラウザの作業が多い場合は、上記のサイトを見て開発者ツールのより高度な機能を調べてください。
 
+<<<<<<< HEAD
 また、開発者ツールの色んな場所をクリックすることで何が表示されるかを見ることが出来ます。恐らくそれは開発者ツールを学ぶのに最も近道です。同様に右クリックも忘れないように!
+=======
+Oh, and also you can click at various places of dev tools and just see what's showing up. That's probably the fastest route to learn dev tools. Don't forget about the right click and context menus!
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
