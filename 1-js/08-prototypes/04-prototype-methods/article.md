@@ -113,7 +113,7 @@ alert(obj[key]); // [object Object], "some value" ではありません!
 
 `__proto__` はオブジェクトのプロパティではなく、`Object.prototype` のアクセサプロパティです。:
 
-![](object-prototype-2.png)
+![](object-prototype-2.svg)
 
 なので、もし `obj.__proto__` が読み込まれたり代入された場合、該当の getter/setter がそのプロトタイプから呼ばれ、それは `[[Prototype]]` の取得/設定をします。
 
@@ -134,7 +134,7 @@ alert(obj[key]); // "some value"
 
 `Object.create(null)` はプロトタイプなし(`[[Prototype]]` が `null`)の空オブジェクトを作ります。:
 
-![](object-prototype-null.png)
+![](object-prototype-null.svg)
 
 したがって、`__proto__` のための継承された getter/setter はありません。今や通常のデータプロパティとして処理されますので、上の例は正しく動作します。
 

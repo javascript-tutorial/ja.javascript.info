@@ -28,7 +28,7 @@ let generator = generateSequence();
 
 `generator` オブジェクトは "凍結された関数呼び出し" と捉えることができます。:
 
-![](generateSequence-1.png)
+![](generateSequence-1.svg)
 
 作成時に、コードの実行は最初の部分で一時停止されます。
 
@@ -58,7 +58,7 @@ alert(JSON.stringify(one)); // {value: 1, done: false}
 
 現時点では、最初の値だけ取得しました:
 
-![](generateSequence-2.png)
+![](generateSequence-2.svg)
 
 再び `generator.next()` を呼びましょう。実行が再開し、次の `yield` を貸します。:
 
@@ -68,7 +68,7 @@ let two = generator.next();
 alert(JSON.stringify(two)); // {value: 2, done: false}
 ```
 
-![](generateSequence-3.png)
+![](generateSequence-3.svg)
 
 そして、3回目を呼び出すと、実行は関数を終了する `return` 文に到達します。
 
@@ -78,7 +78,7 @@ let three = generator.next();
 alert(JSON.stringify(three)); // {value: 3, *!*done: true*/!*}
 ```
 
-![](generateSequence-4.png)
+![](generateSequence-4.svg)
 
 これでジェネレータが済みました。`done:true` でそれが判断でき、`value:3` を最終結果として処理します。
 
@@ -351,7 +351,7 @@ let question = generator.next().value; // <-- yield は値を返します
 generator.next(4); // --> 結果をジェネレータに渡します
 ```
 
-![](genYield2.png)
+![](genYield2.svg)
 
 1. 最初の呼び出し `generator.next()` は常に引数なしです。実行を開始し、最初の `yield` ("2+2?") の結果を返します。この時点で、ジェネレータは実行を一時停止します(依然としてその行にいます)。
 2. 次に、上の図にあるように、`yield` の結果は呼び出しコードの `question` 変数に入ります。
@@ -390,7 +390,7 @@ alert( generator.next(9).done ); // true
 
 実行の図です:
 
-![](genYield2-2.png)
+![](genYield2-2.svg)
 
 1. まず、`.next()` は実行を開始します。そして最初の `yield` に到達します。
 2. 結果は外部のコードに返却されます。

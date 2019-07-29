@@ -41,7 +41,7 @@ alert(buffer.byteLength); // 16
 
 したがって、16バイトの `ArrayBuffer` にあるバイナリデータは 16 個の "小さい数字", あるいは 8 個のより大きい数字(2バイトずつ), または 4 個のより大きな数字(4バイトずつ), 高精度の2個の浮動小数点値(8バイトずつとして解釈できます。
 
-![](arraybuffer-views.png)
+![](arraybuffer-views.svg)
 
 `ArrayBuffer` はコアとなるオブジェクト、すべてのもののルート、生のバイナリデータです。
 
@@ -155,13 +155,13 @@ let arr16 = new Uint16Array(arr8.buffer);
 
 範囲を超えるようなより大きい数値の場合、(重要度の低い)右端の8ビットだけが格納され、残りは切り捨てられます。:
 
-![](8bit-integer-256.png)
+![](8bit-integer-256.svg)
 
 そのため、ゼロになります。
 
 257 の場合、二進法は `100000001` (9ビット)で、右端の 8ビットが格納されるので、配列には `1` が入ります。:
 
-![](8bit-integer-257.png)
+![](8bit-integer-257.svg)
 
 デモです:
 
@@ -259,4 +259,4 @@ dataView.setUint32(0, 0); // 4バイトの数値を 0 にセット
 
 チートシートです:
 
-![](arraybuffer-view-buffersource.png)
+![](arraybuffer-view-buffersource.svg)

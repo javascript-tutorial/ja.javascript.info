@@ -41,7 +41,7 @@ let user = {
 };
 ```
 
-![](memory-user-john.png)
+![](memory-user-john.svg)
 
 ここで、矢印はオブジェクトの参照を示しています。グローバル変数 `user` はオブジェクト `{name: "John"}` を参照しています(簡潔のためにそれを John と呼びます)。John の `"name"` プロパティはプリミティブを格納しているので、オブジェクトの枠内に描かれています。
 
@@ -51,7 +51,7 @@ let user = {
 user = null;
 ```
 
-![](memory-user-john-lost.png)
+![](memory-user-john-lost.svg)
 
 今、John は到達不可能になりました。そこへの参照がないため、アクセスする手段はありません。ガベージコレクタはデータを捨てて、メモリを解放します。
 
@@ -70,7 +70,7 @@ let admin = user;
 */!*
 ```
 
-![](memory-user-john-admin.png)
+![](memory-user-john-admin.svg)
 
 今、先ほどと同じことをしたとすると:
 ```js
@@ -105,7 +105,7 @@ let family = marry({
 
 結果のメモリ構造:
 
-![](family.png)
+![](family.svg)
 
 今のところ、全てのオブジェクトは到達可能です:
 
@@ -116,19 +116,19 @@ delete family.father;
 delete family.mother.husband;
 ```
 
-![](family-delete-refs.png)
+![](family-delete-refs.svg)
 
 それら2つの参照のうち、1つだけを削除するのでは不十分です。なぜなら全てのオブジェクトはまだ到達可能だからです。
 
 しかし、もし両方を削除すると、John にはもう参照がないことがわかります:
 
-![](family-no-father.png)
+![](family-no-father.svg)
 
 外への参照は気にする必要はありません。内への参照のみがオブジェクトを到達可能にします。なので、John は今や到達不可能で、到達不可能になったその全てのデータとともにメモリ上から削除されるでしょう。
 
 ガベージコレクションの後:
 
-![](family-no-father-2.png)
+![](family-no-father-2.svg)
 
 ## 到達不可能な島 
 
@@ -142,7 +142,7 @@ family = null;
 
 すると、メモリの中はこうなります:
 
-![](family-no-family.png)
+![](family-no-family.svg)
 
 この例は、到達可能性の概念がどれほど重要であるかを示しています。
 
@@ -164,25 +164,25 @@ John と Ann はまだリンクされているのは明らかです。両方は�
 
 例えば、我々のオブジェクト構造はこのように見えます:
 
-![](garbage-collection-1.png)
+![](garbage-collection-1.svg)
 
 右側に明らかに "到達不可能な島" が見えます。今、どのように "マーク・アンド・スイープ" ガベージコレクタがそれを扱うか見てみましょう。
 
 最初のステップではルートをマークします:
 
-![](garbage-collection-2.png)
+![](garbage-collection-2.svg)
 
 次に、それらの参照をマークします:
 
-![](garbage-collection-3.png)
+![](garbage-collection-3.svg)
 
 ...そしてそれらの参照も、可能な限り、マークしていきます:
 
-![](garbage-collection-4.png)
+![](garbage-collection-4.svg)
 
 この手順でたどりつけなかったオブジェクトは到達不能とみなされ、削除されます:
 
-![](garbage-collection-5.png)
+![](garbage-collection-5.svg)
 
 ガベージコレクションは、このような考え方で実行されます。
 

@@ -41,7 +41,7 @@
 3. 次に外部の `<form>`.
 4. そして、`document` オブジェクトまで登ります.
 
-![](event-order-bubbling.png)
+![](event-order-bubbling.svg)
 
 なので、`<p>` をクリックすると、3つのアラートが表示されます: `p` -> `div` -> `form`
 
@@ -128,7 +128,7 @@ It's possible that `event.target` equals `this` -- when the click is made direct
 
 これは、テーブル中の `<td>` をクリックしたときの図で、仕様から抜粋したものです:
 
-![](eventflow.png)
+![](eventflow.svg)
 
 つまり: `<td>` をクリックした場合、イベントは最初に祖先のチェーンを通って要素へ下りていき(キャプチャリング)、ターゲットに到達した後、ハンドラを呼び出しながら上に行き(バブル)ます。
 

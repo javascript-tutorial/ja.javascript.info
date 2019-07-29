@@ -157,7 +157,7 @@ CSS でのベジェ曲線の構文です: `cubic-bezier(x2, y2, x3, y3)`。
 
 これは、その曲線がどのように見えるかを示したものです:
 
-![](bezier-linear.png)
+![](bezier-linear.svg)
 
 ...ご覧の通り、単なる直線です。時間(`x`)が過ぎるに連れて、アニメーションの完了(`y`)は着実に `0` から `1` に進みます。
 
@@ -181,7 +181,7 @@ CSS `transition` はその曲線に基づいています:
 
 グラフは次のようになります:
 
-![](train-curve.png)
+![](train-curve.svg)
 
 見てわかるように、処理は速く始まります: 曲線は高くなっていき、その後遅くなっていきます。
 
@@ -207,7 +207,7 @@ CSS:
 | <code>ease</code><sup>*</sup> | <code>ease-in</code> | <code>ease-out</code> | <code>ease-in-out</code> |
 |-------------------------------|----------------------|-----------------------|--------------------------|
 | <code>(0.25, 0.1, 0.25, 1.0)</code> | <code>(0.42, 0, 1.0, 1.0)</code> | <code>(0, 0, 0.58, 1.0)</code> | <code>(0.42, 0, 0.58, 1.0)</code> |
-| ![ease, figure](ease.png) | ![ease-in, figure](ease-in.png) | ![ease-out, figure](ease-out.png) | ![ease-in-out, figure](ease-in-out.png) |
+| ![ease, figure](ease.svg) | ![ease-in, figure](ease-in.svg) | ![ease-out, figure](ease-out.svg) | ![ease-in-out, figure](ease-in-out.svg) |
 
 `*` -- デフォルトでは、タイミング関数がない場合 `ease` が使用されます。
 
@@ -248,7 +248,7 @@ CSS:
 
 なぜこのようなことが起きるのでしょう？ -- 与えられたベジェ曲線を見れば明らかです:
 
-![](bezier-train-over.png)
+![](bezier-train-over.svg)
 
 2番目の `y` 座標がゼロより下に移動し、3番目の点は `1` を越えています。そのため、曲線は "通常" の象限から外れています。`y` は "標準" の範囲 `0..1` から外れています。
 

@@ -56,7 +56,7 @@ alert( "Again: " + slow(2) ); // 前の行と同じ
 
 `cachingDecorator(func)` の結果は "ラッパー" です: `func(x)` の呼び出しをキャッシュロジックに "ラップ" する `function(x)` です。:
 
-![](decorator-makecaching-wrapper.png)
+![](decorator-makecaching-wrapper.svg)
 
 上でわかるように、ラッパーは `func(x)` の結果を "そのまま" 返します。外部のコードからは、ラップされた `slow` 関数は、依然として同じことを行い、単にその振る舞いに追加されたキャッシュの側面をもちます。
 

@@ -4,4 +4,4 @@
 
 グラフは次の通りです:
 
-![](bezier-up.png)
+![](bezier-up.svg)

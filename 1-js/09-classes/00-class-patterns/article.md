@@ -190,7 +190,7 @@ let animal = new Animal("My animal");
 
 このように:
 
-![](class-inheritance-rabbit-animal.png)
+![](class-inheritance-rabbit-animal.svg)
 
 それを実装するコードは次の通りです:
 
@@ -230,7 +230,7 @@ rabbit.jump();
 
 ここはその完全なイメージです。:
 
-![](class-inheritance-rabbit-animal-2.png)
+![](class-inheritance-rabbit-animal-2.svg)
 
 ## サマリ 
 

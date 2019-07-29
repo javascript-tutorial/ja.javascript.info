@@ -39,7 +39,7 @@ executor がジョブを終了した時、次の中のいずれか1つを呼び�
     - `state` を `"rejected"` に設定します,
     - `result` を `error` に設定します.
 
-![](promise-resolve-reject.png)
+![](promise-resolve-reject.svg)
 
 ここには、シンプルな executor があります。:
 
@@ -62,7 +62,7 @@ let promise = new Promise(function(resolve, reject) {
 
 1秒後、executor は結果を生成するために `resolve("done")` を呼び出します。:
 
-![](promise-resolve-1.png)
+![](promise-resolve-1.svg)
 
 これは、 "ジョブが正常に完了した" 例でした。
 
@@ -75,7 +75,7 @@ let promise = new Promise(function(resolve, reject) {
 });
 ```
 
-![](promise-reject-1.png)
+![](promise-reject-1.svg)
 
 要約すると、executor はジョブ(通常は時間のかかる何か)を行い、その後、対応する promise オブジェクトの状態を変更するために、`resolve` または `reject` を呼び出します。
 

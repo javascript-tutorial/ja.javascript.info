@@ -78,6 +78,6 @@ alert(filteredArr.isEmpty()); // Error: filteredArr.isEmpty is not a function
 
 これは、`Date` と `Object` の構造のイメージです:
 
-![](object-date-inheritance.png)
+![](object-date-inheritance.svg)
 
 `Date` と `Object` の間に繋がりはないことに注目してください。`Object` と `Date` は両方とも独立して存在します。`Date.prototype` は `Object.prototype` を継承していますが、それだけです。

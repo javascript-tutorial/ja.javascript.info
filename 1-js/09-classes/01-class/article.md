@@ -73,7 +73,7 @@ alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 
 これは `class User` が生成するものの図です。:
 
-![](class-user.png)
+![](class-user.svg)
 
 
 従って、`class` はコンストラクタとプロトタイプメソッドを一緒に定義する特別な構文です。

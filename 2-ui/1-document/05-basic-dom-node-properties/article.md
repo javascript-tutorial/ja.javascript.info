@@ -16,7 +16,7 @@ DOM ノードはそれらのクラスに応じて異なるプロパティを持�
 
 ここに、図と説明があります:
 
-![](dom-class-hierarchy.png)
+![](dom-class-hierarchy.svg)
 
 The classes are:
 

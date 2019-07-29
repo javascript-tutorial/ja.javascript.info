@@ -28,7 +28,7 @@ alert(url.pathname); // /url
 
 チートシートです:
 
-![](url-object.png)
+![](url-object.svg)
 
 - `href` は完全な url, `url.toString()` と同じです。
 - `protocol` はコロン `:` で終わります。

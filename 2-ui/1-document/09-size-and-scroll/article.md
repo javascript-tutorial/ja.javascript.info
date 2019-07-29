@@ -30,7 +30,7 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 
 要素はこのように見えます:
 
-![](metric-css.png)
+![](metric-css.svg)
 
 [サンドボックスでドキュメントを開く](sandbox:metric) ことができます。
 
@@ -50,7 +50,7 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 
 ここに全体像があります:
 
-![](metric-all.png)
+![](metric-all.svg)
 
 それらは多くのプロパティがあり、1つの図でそれらすべてを表現するのは難しいです。が、それらの値は単純で理解しやすいものです。
 
@@ -83,7 +83,7 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 </script>
 ```
 
-![](metric-offset-parent.png)
+![](metric-offset-parent.svg)
 
 `offsetParent` が `null` である場合がいくつかあります:
 
@@ -97,7 +97,7 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 
 これら2つのプロパティは最もシンプルなものです。これらは要素の "外部の" 幅/高さを提供します。もしくは、言い換えると、ボーダーを含むその要素の完全なサイズです。
 
-![](metric-offset-width-height.png)
+![](metric-offset-width-height.svg)
 
 サンプル要素の場合:
 
@@ -133,7 +133,7 @@ function isHidden(elem) {
 - `clientLeft = 25` -- 左のボーダー幅
 - `clientTop = 25` -- トップのボーダー幅
 
-![](metric-client-left-top.png)
+![](metric-client-left-top.svg)
 
 ...しかし正確には -- それらはボーダーではなく、外側から内側の相対座標です。
 
@@ -143,7 +143,7 @@ function isHidden(elem) {
 
 この場合、今回の例の `clientLeft` は `25` ではなく、スクロールバーの幅を含めたものになります `25+16=41`:
 
-![](metric-client-left-top-rtl.png)
+![](metric-client-left-top-rtl.svg)
 
 ## clientWidth/Height
 
@@ -151,7 +151,7 @@ function isHidden(elem) {
 
 パディングと一緒にコンテンツの幅を含みますが、スクロールバーは含まれません。:
 
-![](metric-client-width-height.png)
+![](metric-client-width-height.svg)
 
 上の図では、最初に `clientHeight` を考えましょう: これは評価するのが簡単です。水平スクロールバーがないので、ボーダーの内側の合計になります: CSS高さ `200px` に top と bottom のパディング(`2*20px`) を加えた合計 `240px` です。
 
@@ -159,7 +159,7 @@ function isHidden(elem) {
 
 **もしパディングがない場合、`clientWidth/Height` は丁度ボーダーとスクロールバー(存在する場合)の内側のコンテンツ領域なります。**
 
-![](metric-client-width-nopadding.png)
+![](metric-client-width-nopadding.svg)
 
 したがって、パディングがない場合には、コンテンツ領域のサイズを取得するために `clientWidth/clientHeight` を使うことができます。
 
@@ -168,7 +168,7 @@ function isHidden(elem) {
 - プロパティ `clientWidth/clientHeight` は要素の可視部分のみを占めます。
 - プロパティ `scrollWidth/scrollHeight` はスクロールアウトされた(隠れた)部分も含めます:
 
-![](metric-scroll-width-height.png)
+![](metric-scroll-width-height.svg)
 
 上の図では:
 
@@ -198,7 +198,7 @@ element.style.height = element.scrollHeight + 'px';
 
 下の図では、縦スクロールのブロックに対する `scrollHeight` と `scrollTop` を見ることが出来ます。
 
-![](metric-scroll-top.png)
+![](metric-scroll-top.svg)
 
 つまり、`scrollTop` は "どのくらいスクロールされているか" です。
 

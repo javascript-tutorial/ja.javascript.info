@@ -6,7 +6,7 @@
 
 `Blob` はオプションの文字列 `type` (通常は MIMEタイプ) と `blobParts` -- 一連の他の `Blob` オブジェクト、文字列や `BufferSources` から構成されます。
 
-![](blob.png)
+![](blob.svg)
 
 コンストラクタの構文は次の通りです:
 

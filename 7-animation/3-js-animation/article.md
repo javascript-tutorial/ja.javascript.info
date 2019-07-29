@@ -166,7 +166,7 @@ Function `animate` accepts 3 parameters that essentially describes the animation
     ```
 
     It's graph:
-    ![](linear.png)
+    ![](linear.svg)
 
     That's just like `transition-timing-function: linear`. There are more interesting variants shown below.
 
@@ -227,7 +227,7 @@ function quad(timeFraction) {
 
 The graph:
 
-![](quad.png)
+![](quad.svg)
 
 See in action (click to activate):
 
@@ -237,7 +237,7 @@ See in action (click to activate):
 
 Here's the graph for `progress` in the power `5`:
 
-![](quint.png)
+![](quint.svg)
 
 In action:
 
@@ -255,7 +255,7 @@ function circ(timeFraction) {
 
 The graph:
 
-![](circ.png)
+![](circ.svg)
 
 [iframe height=40 src="circ" link]
 
@@ -275,7 +275,7 @@ function back(x, timeFraction) {
 
 **The graph for `x = 1.5`:**
 
-![](back.png)
+![](back.svg)
 
 For animation we use it with a specific value of `x`. Example for `x = 1.5`:
 
@@ -312,7 +312,7 @@ function elastic(x, timeFraction) {
 ```
 
 **The graph for `x=1.5`:**
-![](elastic.png)
+![](elastic.svg)
 
 In action for `x=1.5`:
 
@@ -355,7 +355,7 @@ Then the bounce will be not in the beginning, but at the end of the animation. L
 
 Here we can see how the transform changes the behavior of the function:
 
-![](bounce-inout.png)
+![](bounce-inout.svg)
 
 If there's an animation effect in the beginning, like bouncing -- it will be shown at the end.
 
@@ -401,7 +401,7 @@ The "easeInOut" transform joins two graphs into one: `easeIn` (regular) for the 
 
 The effect is clearly seen if we compare the graphs of `easeIn`, `easeOut` and `easeInOut` of the `circ` timing function:
 
-![](circ-ease.png)
+![](circ-ease.svg)
 
 - <span style="color:#EE6B47">Red</span> is the regular variantof `circ` (`easeIn`).
 - <span style="color:#8DB173">Green</span> -- `easeOut`.

@@ -66,7 +66,7 @@ alert( "I love HTML5!".match(/\s\w\w\w\w\d/) ); // 'HTML5'
 
 マッチ(各文字クラスは結果文字に対応します):
 
-![](love-html5-classes.png)
+![](love-html5-classes.svg)
 
 ## 単語境界: \b
 
@@ -95,7 +95,7 @@ alert( "Hello, JavaScript!".match(/\bJava\b/) ); // null
 
 例えば、`subject:Hello, Java!` の文字列で `\b` にマッチする位置は次の通りです:
 
-![](hello-java-boundaries.png)
+![](hello-java-boundaries.svg)
 
 したがって、`pattern:\bHello\b` と `pattern:\bJava\b` はマッチしますが、`pattern:\bHell\b` (`l` のあとに単語境界がないため) と `Java!\b` (感嘆符は `\w` でマッチする文字ではないので、単語境界がありません)はマッチしません。
 

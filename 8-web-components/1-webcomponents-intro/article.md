@@ -44,7 +44,7 @@
 
 自然にコンポーネントに分割されます。
 
-![](web-components-twitter.png)
+![](web-components-twitter.svg)
 
 1. トップナビゲーション
 2. ユーザ情報

@@ -101,7 +101,7 @@ let user = 'John'
 
 たとえば、変数 `message` は値 `"Hello!"` を持った `"message"` とラベル付けされた箱として想像することができます。:
 
-![](variable.png)
+![](variable.svg)
 
 箱の中にはどんな値でも入れることができます。
 
@@ -119,7 +119,7 @@ alert(message);
 
 値が変更されたとき、古い値は変数から削除されます。
 
-![](variable-change.png)
+![](variable-change.svg)
 
 私たちは2つの変数を宣言して、ある変数から別の変数にデータをコピーすることもできます。
 

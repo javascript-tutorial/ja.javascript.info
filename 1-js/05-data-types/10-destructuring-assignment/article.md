@@ -386,7 +386,7 @@ alert(item2);  // Donut
 
 左辺で言及されていなかった `extra` を除いた `options` オブジェクト全体が該当する変数に代入されます。
 
-![](destructuring-complex.png)
+![](destructuring-complex.svg)
 
 最終的には、`width`, `height`, `item1`, `item2` と、デフォルト値から `title` を得ます。
 

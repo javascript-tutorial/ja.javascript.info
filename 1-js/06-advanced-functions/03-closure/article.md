@@ -76,7 +76,7 @@ JavaScript では、すべての実行中の関数やコードブロック、ス
 
 例えば、この簡単なコードでは、レキシカル環境は1つだけあります。:
 
-![lexical environment](lexical-environment-global.png)
+![lexical environment](lexical-environment-global.svg)
 
 これは、スクリプト全体に関連付けられた、いわゆるグローバルレキシカル環境です。 ブラウザの場合、すべての `<script>` タグは同じグローバル環境を共有します。
 
@@ -84,7 +84,7 @@ JavaScript では、すべての実行中の関数やコードブロック、ス
 
 下記は、`let` 変数がどのように動作するかを示す図です:
 
-![lexical environment](lexical-environment-global-2.png)
+![lexical environment](lexical-environment-global-2.svg)
 
 右側の長方形は、実行の間でどのようにグローバルレキシカル環境が変わるかを示しています。:
 
@@ -108,7 +108,7 @@ JavaScript では、すべての実行中の関数やコードブロック、ス
 
 下のコードはレキシカル環境は最初から空ではないことを示しています。関数宣言なので `say` を持っています。その後 `let` で宣言された `phrase` を取得します:
 
-![lexical environment](lexical-environment-global-3.png)
+![lexical environment](lexical-environment-global-3.svg)
 
 
 ### 内外のレキシカル環境
@@ -131,7 +131,7 @@ say("John"); // Hello, John
 
 これは、実行が `say("John")` の内部にあるときで、矢印のついた行にあるレキシカル環境の図です。:
 
-![lexical environment](lexical-environment-simple.png)
+![lexical environment](lexical-environment-simple.svg)
 
 関数呼び出しの間、2つのレキシカル環境があります: 内部のもの(関数呼び出し用)と、外部のもの(グローバル)です:
 
@@ -149,7 +149,7 @@ say("John"); // Hello, John
 - `say` の内側にある `alert` が `name` にアクセスしたいとき、関数のレキシカル環境の中からすぐに見つけます。
 - `phrase` にアクセスしたいとき、ローカルには `phrase` がないので、続いて `外部` 参照を行い、グローバルでそれを見つけます。
 
-![lexical environment lookup](lexical-environment-simple-lookup.png)
+![lexical environment lookup](lexical-environment-simple-lookup.svg)
 
 これで、このチャプターの最初にあった1つ目の質問に答えることができます。
 
@@ -256,7 +256,7 @@ counter は内部でどのように動作しているのでしょう？
 
 内部関数が実行されると、`count++` の変数は内側から外に検索されます。上の例では、その順番は次のようになります。:
 
-![](lexical-search-order.png)
+![](lexical-search-order.svg)
 
 1. ネストされた関数のローカル変数
 2. 外部関数の変数
@@ -307,7 +307,7 @@ alert( counter2() ); // 0 (独立))
 
 1. スクリプトが開始された直後は、グローバルレキシカル環境だけがあります:
 
-    ![](lexenv-nested-makecounter-1.png)
+    ![](lexenv-nested-makecounter-1.svg)
 
     開始時点では、`makeCounter` 関数だけがあります。なぜなら、それが関数宣言だからです。それはまだ実行されていません。
 
@@ -319,7 +319,7 @@ alert( counter2() ); // 0 (独立))
 
 2. 次に、コードが実行され `makeCounter()` の呼び出しが行われます。これは、実行が `makeCounter()` の処理の最初の行の時点の図です。
 
-    ![](lexenv-nested-makecounter-2.png)
+    ![](lexenv-nested-makecounter-2.svg)
 
     `makeCounter()` 呼び出しの時点で、その変数や引数を保持するためにレキシカル環境が作られます。
 
@@ -335,19 +335,19 @@ alert( counter2() ); // 0 (独立))
 
     新しいネストされた関数の `[[Environment]]` の値は `makeCounter()` の現在のレキシカル環境です。:
 
-    ![](lexenv-nested-makecounter-3.png)
+    ![](lexenv-nested-makecounter-3.svg)
 
     このステップでは内部関数が作られますが、まだ呼ばれていないことに注意してください。`function() { return count++; }` の内側のコードは実行されておらず、私たちはそのコードを返します。
 
 4. 実行が進み、`makeCounter()` 呼び出しが終わると、結果(小さなネストされた関数)がグローバル変数 `counter` に代入されます。
 
-    ![](lexenv-nested-makecounter-4.png)
+    ![](lexenv-nested-makecounter-4.svg)
 
     関数は1行 `return count++` だけです。これは呼び出されたときに実行されます。
 
 5. `counter()` が呼ばれると、"空の" レキシカル環境が作られます。それはローカル変数を持っていませんが、`counter` の `[[Environment]]` はその外部参照として使われるので、それが作られた場所である、前の `makeCounter()` 呼び出しの変数にアクセスすることができます。
 
-    ![](lexenv-nested-makecounter-5.png)
+    ![](lexenv-nested-makecounter-5.svg)
 
     いま、変数にアクセスすると、最初に自身のレキシカル環境を探します(空です)。次に前の `makeCounter()` 呼び出しのレキシカル環境、次にグローバルです。
 
@@ -359,7 +359,7 @@ alert( counter2() ); // 0 (独立))
 
 6. `counter()` の呼び出しは `count` の値を返すだけでなく、その値も増やします。変更は "その場" で行われることに注目してください。`count` の値は、正確に見つかった環境で変更されます。
 
-    ![](lexenv-nested-makecounter-6.png)
+    ![](lexenv-nested-makecounter-6.svg)
 
     なので、変更(`count` の新しい値)だけ前のステップに戻ります。以降の呼び出しはすべて同じことを行います。
 
@@ -369,7 +369,7 @@ alert( counter2() ); // 0 (独立))
 
 下のコードの `work()` 関数は、その起源の場所から外部のレキシカル環境への参照を通じて `name` を得ようとします。:
 
-![](lexenv-nested-work.png)
+![](lexenv-nested-work.svg)
 
 従って、結果は `"Pete"` です。
 
@@ -409,7 +409,7 @@ alert(user); // Error, このような変数は見えません!
 ```
 -->
 
-![](lexenv-if.png)
+![](lexenv-if.svg)
 
 新しいレキシカル環境はその外部への参照をもつため `phrase` を見つけることができます。しかし、`if` の中で宣言されたすべての変数と関数式はレキシカル環境の中にあり、外部からは見えません。
 

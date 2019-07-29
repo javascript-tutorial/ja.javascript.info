@@ -188,7 +188,7 @@ document.cookie = "user=John; secure";
 
 そのフォームは `evil.com` から直接銀行のサイトに送信され、あなたの Cookie も送信されます。なぜなら、あなたが `bank.com` に訪れるたびに送信されるからです。そのため、銀行はあなたを認識し、実際に支払いを実行します。
 
-![](cookie-xsrf.png)
+![](cookie-xsrf.svg)
 
 これはクロスサイトリクエストフォージェリ(または XSRF)攻撃と呼ばれます。
 
@@ -348,15 +348,15 @@ function deleteCookie(name) {
 1. `site.com` のページは別のサイトからバナーをロードします。: `<img src="https://ads.com/banner.png">`
 2. バナーと一緒に、`ads.com` のリモートサーバは `id=1234` のような Cookie を持つ `Set-Cookie` ヘッダをセットするかもしれません。このような Cookie は `ads.com` ドメインから発生し、`ads.com` でのみ見えます。:
 
-    ![](cookie-third-party.png)
+    ![](cookie-third-party.svg)
 
 3. 次回 `ads.com` にアクセスがあったとき、リモートサーバは `id` Cookie を取得し、ユーザを認識します。:
 
-    ![](cookie-third-party-2.png)
+    ![](cookie-third-party-2.svg)
 
 4. さらに重要なことは、ユーザ `site.com` から同じくバナーをもつ別のサイト `other.coom` に移動するとき、`ads.coom` に属しているので、`ads.com` は Cookie を受け取ります。このように、訪問者を認識し、彼らがサイト間を移動するのを追跡します。:
 
-    ![](cookie-third-party-3.png)
+    ![](cookie-third-party-3.svg)
 
 
 サードパーティ Cookie はその性質上、昔からトラッキングや広告サービスに使われています。それらはオリジナルのドメインにバインドされているので、`ads.com` は異なるサイト間で同一ユーザを追跡することができます。

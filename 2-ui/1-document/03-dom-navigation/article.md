@@ -15,7 +15,7 @@ DOM 上のすべての操作は `document` オブジェクトから始まりま�
 
 これは DOM ノード間を移動できるリンクの図です。:
 
-![](dom-links.png)
+![](dom-links.svg)
 
 それらについてより深く議論しましょう。
 
@@ -219,7 +219,7 @@ Collections are iterable using `for..of`. Sometimes people try to use `for..in` 
 
 なので、*要素ノード* だけを考慮にいれたナビゲーションリンクをもっと見てみましょう:
 
-![](dom-links-elements.png)
+![](dom-links-elements.svg)
 
 リンクは上で与えられたものと似ており、`Element` という言葉が内部にあります:
 

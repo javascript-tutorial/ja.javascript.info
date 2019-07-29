@@ -189,7 +189,7 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 これはメソッドがしていることを示す図です:
 
-![](before-prepend-append-after.png)
+![](before-prepend-append-after.svg)
 
 なので、最終的には次のようなリストになります:
 
@@ -269,7 +269,7 @@ after
 
 これは挿入バリエーションの図です:
 
-![](insert-adjacent.png)
+![](insert-adjacent.svg)
 
 これと前の図との類似点は簡単に気づけます。 挿入ポイントは実際には同じですが、このメソッドはHTMLを挿入します。
 

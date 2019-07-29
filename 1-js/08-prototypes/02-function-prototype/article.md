@@ -43,7 +43,7 @@ alert( rabbit.eats ); // true
 
 これが結果のイメージです:
 
-![](proto-constructor-animal-rabbit.png)
+![](proto-constructor-animal-rabbit.svg)
 
 イメージ上で、`"prototype"` は水平矢印で、それは通常のプロパティです。`[[Prototype]]` は縦矢印で、`animal` から `rabbit` の継承を意味しています。
 
@@ -64,7 +64,7 @@ Rabbit.prototype = { constructor: Rabbit };
 */
 ```
 
-![](function-prototype-constructor.png)
+![](function-prototype-constructor.svg)
 
 コードでそれを確認できます:
 
@@ -88,7 +88,7 @@ let rabbit = new Rabbit(); // {constructor: Rabbit} の継承
 alert(rabbit.constructor == Rabbit); // true (prototype から)
 ```
 
-![](rabbit-prototype-constructor.png)
+![](rabbit-prototype-constructor.svg)
 
 `constructor` プロパティを使って既存のものと同じコンストラクタを使って新しいオブジェクトを作成することができます。
 

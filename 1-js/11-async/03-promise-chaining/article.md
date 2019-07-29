@@ -47,7 +47,7 @@ new Promise(function(resolve, reject) {
 
 結果がハンドラのチェーンに沿って渡されるので、一連の `alert` 呼び出しは `1` -> `2` -> `4` の順番で表示されます。
 
-![](promise-then-chain.png)
+![](promise-then-chain.svg)
 
 `promise.then` の呼び出しは promise を返すので、続けて次の `.then` を呼び出すことができます。そのためすべてのコードが機能します。
 
@@ -96,7 +96,7 @@ promise.then(function(result) {
 
 ...しかし、これは完全に別物です。ここに図があります(上記のチェーンと比較してください):
 
-![](promise-then-many.png)
+![](promise-then-many.svg)
 
 同一の promise 上のすべての `.then` は同じ結果を得ます -- その promise の結果です。従って、上のコードでは、すべての `alert` は同じ `1` を表示します。それらの間での結果渡しはありません。
 
@@ -672,7 +672,7 @@ Node.JSのようなブラウザ以外の環境では、未処理のエラーを�
 
 `.then/catch` によって返される promise がどのように変化するかの図です:
 
-![](promise-handler-variants.png)
+![](promise-handler-variants.svg)
 
 どのようなハンドラが呼ばれるかの小さな図です:
 

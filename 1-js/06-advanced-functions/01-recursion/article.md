@@ -73,7 +73,7 @@ pow(x, n) =
 
 `pow` は  `n == 1` まで *再帰的に自分自身を呼び出す* 、とも言えます。
 
-![recursive diagram of pow](recursion-pow.png)
+![recursive diagram of pow](recursion-pow.svg)
 
 
 例えば、`pow(2, 4)` を計算するために、再帰的なバリアントは次のようなステップを踏みます:
@@ -374,7 +374,7 @@ alert(sumSalaries(company)); // 6700
 
 呼び出しの図式は次の通りです:
 
-![recursive salaries](recursive-salaries.png)
+![recursive salaries](recursive-salaries.svg)
 
 我々はその原理が容易に理解できます: オブジェクト `{...}` に対してはサブコールが作られ、配列 `[...]` は再帰ツリーの "葉" であり即座に結果を返します。
 
@@ -446,7 +446,7 @@ let list = {
 
 リストの図式表示です:
 
-![linked list](linked-list.png)
+![linked list](linked-list.svg)
 
 以下は作成するための代替のコードです:
 
@@ -466,7 +466,7 @@ let secondList = list.next.next;
 list.next.next = null;
 ```
 
-![linked list split](linked-list-split.png)
+![linked list split](linked-list-split.svg)
 
 次の方法で結合できます:
 
@@ -490,7 +490,7 @@ list = { value: "new item", next: list };
 */!*
 ```
 
-![linked list](linked-list-0.png)
+![linked list](linked-list-0.svg)
 
 間から値を取り除くには、その前の `next` を変更します:
 
@@ -498,7 +498,7 @@ list = { value: "new item", next: list };
 list.next = list.next.next;
 ```
 
-![linked list](linked-list-remove-1.png)
+![linked list](linked-list-remove-1.svg)
 
 `list.next` は `1` を飛び越えて `2` という値になりました。値 `1` は今やチェーンからは除外されています。もしもそれがどこにも保持されていない場合、自動的にメモリから削除されます。
 
