@@ -8,7 +8,7 @@
 
 `mouseoever` イベントはマウスポインタが要素の上に来るときに発生し、`mouseout` は -- そこを離れるときです。
 
-![](mouseover-mouseout.png)
+![](mouseover-mouseout.svg)
 
 これらのイベントは `relatedTarget` を持っているという点で特別です。
 
@@ -46,7 +46,7 @@
 
 つまり、訪問者がマウスをとても速く動かしている場合、DOM 要素はスキップされる可能性があることを意味します。:
 
-![](mouseover-mouseout-over-elems.png)
+![](mouseover-mouseout-over-elems.svg)
 
 もしもマウスが上に書いているように、 `#FROM` から `#TO` 要素へ非常に速く移動する場合、間にある `<div>` (やそれら) はスキップされる可能性があります。`mouseout` イベントは `#FROM` でトリガし、その後 `#TO` ですぐに `mouseover` をトリガするかもしれません。
 
@@ -56,7 +56,7 @@
 
 特に、ウィンドウの外からページ中央にカーソルが移動することもあり得ます。そして、それは "どこからも" 来ていないので、`relatedTarget=null` です。:
 
-![](mouseover-mouseout-from-outside.png)
+![](mouseover-mouseout-from-outside.svg)
 
 <div style="display:none">
 In case of a fast move, intermediate elements may trigger no events. But if the mouse enters the element (`mouseover`), when we're guaranteed to have `mouseout` when it leaves it.
@@ -76,7 +76,7 @@ HTMLは2つのネストされた `<div>` 要素です。もしマウスをすば
 
 想像してください -- マウスポインタが要素に入りました。`mouseover` がトリガされました。その後、カーソルが子要素へ行きます。興味深いことは `mouseout` がその場合にトリガすることです。カーソルは依然として要素の中にありますが、`mouseout` が起きます!
 
-![](mouseover-to-child.png)
+![](mouseover-to-child.svg)
 
 奇妙に見えますが、簡単に説明する事ができます。
 

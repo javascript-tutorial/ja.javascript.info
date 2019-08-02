@@ -27,7 +27,7 @@
 
 これはその図です:
 
-![](move-ball-coords.png)
+![](move-ball-coords.svg)
 
 私たちは `event.clientX/clientY` -- クリックのウィンドウに相対的な座標 -- を持っています。
 

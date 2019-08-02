@@ -222,7 +222,7 @@ loadScript('1.js', function(error, script) {
 
 これは "コールバック地獄" や "破滅のピラミッド" と呼ばれる場合があります。
 
-![](callback-hell.png)
+![](callback-hell.svg)
 
 ネストされた呼び出しの "ピラミッド" はすべての非同期アクションで右に成長していきます。まもなく、それは制御不能になります。
 

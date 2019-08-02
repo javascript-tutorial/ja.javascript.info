@@ -202,7 +202,7 @@ setTimeout(function run() {
 
 `setInterval` では、内部スケジューラは100ms秒毎に `func(i)` を実行します。:
 
-![](setinterval-interval.png)
+![](setinterval-interval.svg)
 
 気づきましたか...？
 
@@ -218,7 +218,7 @@ setTimeout(function run() {
 
 次に、これは再帰的な `setTimeout` の図です:
 
-![](settimeout-interval.png)
+![](settimeout-interval.svg)
 
 **再帰的な `setInterval` は固定の遅延 (ここでは 100ms) を保証します。**
 

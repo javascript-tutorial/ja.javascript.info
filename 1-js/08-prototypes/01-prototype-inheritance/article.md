@@ -12,7 +12,7 @@
 
 JavaScriptでは、オブジェクトは特別な隠しプロパティ `[[Prototype]]` を持っており、それは `null` または別のオブジェクトを参照します。そのオブジェクトは "プロトタイプ" と呼ばれます。
 
-![prototype](object-prototype-empty.png)
+![prototype](object-prototype-empty.svg)
 
 `[[Prototype]]` は "魔法のような" 意味を持っています。私たちが `object` からプロパティを読みたいときで、それがない場合、JavaScriptは自動的に、プロトタイプからそれを取得します。プログラミングではこのようなことを "プロトタイプ継承" と呼びます。多くのクールな言語機能やプログラミングテクニックは、これがベースになっています。
 
@@ -62,7 +62,7 @@ alert( rabbit.jumps ); // true
 
 次に、`alert` がプロパティ `rabbit.eats` `(**)` を読もうとしたとき、それは `rabbit` にはないので、JavaScriptは `[[Prototype]]` 参照に従って、`animal` の中でそれを見つけます(下から上に向かいます)。
 
-![](proto-animal-rabbit.png)
+![](proto-animal-rabbit.svg)
 
 ここでは、私たちは "`animal` は `rabbit` のプロトタイプ" または "`rabbit` がプロトタイプ的に `animal` を継承している" という事ができます。"
 
@@ -94,7 +94,7 @@ rabbit.walk(); // Animal walk
 
 メソッドは次のように自動的にプロトタイプから取られます。:
 
-![](proto-animal-rabbit-walk.png)
+![](proto-animal-rabbit-walk.svg)
 
 プロトタイプチェーンは長くても問題ありません。:
 
@@ -122,7 +122,7 @@ longEar.walk(); // Animal walk
 alert(longEar.jumps); // true (rabbit から)
 ```
 
-![](proto-animal-rabbit-chain.png)
+![](proto-animal-rabbit-chain.svg)
 
 実際には、2つの制限があります。:
 
@@ -162,7 +162,7 @@ rabbit.walk(); // Rabbit! Bounce-bounce!
 
 これ以降、`rabbit.walk()` 呼び出しは、プロトタイプを使うことなく、オブジェクトの中にすぐにメソッドを見つけ、それを実行します。
 
-![](proto-animal-rabbit-walk-2.png)
+![](proto-animal-rabbit-walk-2.svg)
 
 getter/setter の場合 -- もしプロパティの読み書きをすると、プロトタイプで参照されて呼び出されます。
 
@@ -239,7 +239,7 @@ alert(animal.isSleeping); // undefined (prototype にそのようなプロパテ
 
 結果の図は次のようになります:
 
-![](proto-animal-rabbit-walk-3.png)
+![](proto-animal-rabbit-walk-3.svg)
 
 もしも私たちが `bird`, `snake` など `animal` から継承された他のオブジェクトを持っていた場合、それらもまた `animal` のメソッドへのアクセスを得ます。しかし各メソッドでの `this` は対応するオブジェクトであり、`animal` ではなく、呼び出し時に（前のドット）で評価されます。 だから私たちが `this` にデータを書き込むとき、それはこれらのオブジェクトに格納されます。
 

@@ -129,7 +129,7 @@ alert(ageElems[0].value); // 10, 1つ目の input の値
 
 これはその図です:
 
-![](form-navigation.png)
+![](form-navigation.svg)
 
 例:
 

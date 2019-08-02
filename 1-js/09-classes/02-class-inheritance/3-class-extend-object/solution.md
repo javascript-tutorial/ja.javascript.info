@@ -77,7 +77,7 @@ alert( Rabbit.__proto__ === Function.prototype );
 
 これはその図です:
 
-![](rabbit-extends-object.png)
+![](rabbit-extends-object.svg)
 
 従って、まとめると2つの違いがあります。:
 

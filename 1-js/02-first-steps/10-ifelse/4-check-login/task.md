@@ -17,7 +17,7 @@ importance: 3
 
 図:
 
-![](ifelse_task.png)
+![](ifelse_task.svg)
 
 入れ子の `if` ブロックを使ってください。コードの全体的な読みやすさに気をつけてください。
 

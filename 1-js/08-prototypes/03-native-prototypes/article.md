@@ -19,11 +19,11 @@ alert( obj ); // "[object Object]" ?
 
 このようになります(すべて組み込みです):
 
-![](object-prototype.png)
+![](object-prototype.svg)
 
 `new Object()` が呼ばれた(もしくはリテラルオブジェクト `{...}` が作られた)とき、その `[[Prototype]]` は前のチャプターで私たちが話してきたルールによって、 `Object.prototype` にセットされます。:
 
-![](object-prototype-1.png)
+![](object-prototype-1.svg)
 
 その後、`obj.toString()` が呼ばれると -- `Object.prototype` からメソッドが取り出されます。
 
@@ -52,7 +52,7 @@ alert(Object.prototype.__proto__); // null
 
 全体図は次のとおりです（3つの組み込みについて書いています）:
 
-![](native-prototypes-classes.png)
+![](native-prototypes-classes.svg)
 
 プロトタイプを手動でチェックしてみましょう。:
 
@@ -78,7 +78,7 @@ alert(arr); // 1,2,3 <-- Array.prototype.toString の結果
 
 以前見たように、`Object.prototype` も同様に `toString` を持っていますが、`Array.prototype` はチェーンでより近いので、配列のバリアントが使われます。
 
-![](native-prototypes-array-tostring.png)
+![](native-prototypes-array-tostring.svg)
 
 
 Chrome developer console のようなブラウザ内のツールでも継承を表示できます(組み込みオブジェクトのために `console.dir` を使う必要があるかもしれません)。

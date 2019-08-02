@@ -107,7 +107,7 @@ ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
 
 例えば、ボールの端でドラッグを開始する場合、ドラッグ中のカーソルは端のままであるべきです。
 
-![](ball_shift.png)
+![](ball_shift.svg)
 
 1. 訪問者がボタン (`mousedown`) を押したとき -- 変数 `shiftX/shiftY` に、カーソルからボールの左上端の距離を覚えることができます。私たちはドラッグの間その距離を維持する必要があります。
 

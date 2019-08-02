@@ -24,7 +24,7 @@ class Animal {
 let animal = new Animal("My animal");
 ```
 
-![](rabbit-animal-independent-animal.png)
+![](rabbit-animal-independent-animal.svg)
 
 
 ...そして `Rabbit`:
@@ -42,7 +42,7 @@ class Rabbit {
 let rabbit = new Rabbit("My rabbit");
 ```
 
-![](rabbit-animal-independent-rabbit.png)
+![](rabbit-animal-independent-rabbit.svg)
 
 
 現時点では、完全に独立しています。
@@ -88,7 +88,7 @@ rabbit.hide(); // White Rabbit hides!
 
 内部では、`extends` キーワードは、`Rabbit.prototype` から `Animal.prototype` へとの `[[Prototype]]` 参照を追加しています:
 
-![](animal-rabbit-extends.png)
+![](animal-rabbit-extends.svg)
 
 したがって、`Rabbit.prototype` にメソッドが見つからない場合、JavaScript は `Animal.prototype` から取ります。
 
@@ -387,7 +387,7 @@ longEar.eat(); // Error: 最大呼び出しスタックサイズを超えまし�
 
 これは何が起きているかを示す図です。:
 
-![](this-super-loop.png)
+![](this-super-loop.svg)
 
 1. `longEar.eat()` の中で、行 `(**)` は `this=longEar` となる `rabbit.eat` を呼び出します。
     ```js

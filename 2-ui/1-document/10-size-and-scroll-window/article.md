@@ -10,7 +10,7 @@ DOM の観点からは、ルートドキュメント要素は `document.document
 
 `document.documentElement` のプロパティ `clientWidth/clientHeight` はまさに私たちがここで欲しいものです:
 
-![](document-client-width-height.png)
+![](document-client-width-height.svg)
 
 ```online
 例えば、このボタンはあなたのウィンドウの高さを表示します。:

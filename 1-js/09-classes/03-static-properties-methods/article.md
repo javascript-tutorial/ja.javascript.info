@@ -173,7 +173,7 @@ rabbits[0].run(); // Black Rabbit runs with speed 5.
 
 これはどのように機能しているでしょう？改めて言いますが、プロトタイプを使用して、です。すでに推測したかもしれませんが、extends もまた `Rabbit` に `Animal` への参照を持つ `[[Prototype]]` を与えます。
 
-![](animal-rabbit-static.png)
+![](animal-rabbit-static.svg)
 
 したがって、`Rabbit` 関数は `Animal` 関数を継承しています。そして `Animal` 関数は通常 `Function.prototype` を参照する `[[Prototype]]` を持ちます。なぜなら、何も  `extend` していないからです。
 

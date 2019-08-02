@@ -110,7 +110,7 @@ alert(result); // <span class="my">, span class="my", span, class="my"
 
 グループは次のようになります:
 
-![](regexp-nested-groups.png)
+![](regexp-nested-groups.svg)
 
 `result` の先頭のインデックスは常に完全なマッチです。
 

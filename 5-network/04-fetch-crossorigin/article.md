@@ -135,7 +135,7 @@ Origin: https://javascript.info
 1. 正しい `Origin` がクロスドメインリクエストと一緒に送信されることを保証します。
 2. レスポンスの中で正しい `Access-Control-Allow-Origin` を確認すると、次は JavaScript アクセス、そうでなければエラーと共に禁止します。
 
-![](xhr-another-domain.png)
+![](xhr-another-domain.svg)
 
 これは "受け入れに同意した" 応答の例です:
 ```
@@ -201,7 +201,7 @@ preflight リクエストは `OPTIONS` メソッドを使い、本文はあり�
 - レスポンスヘッダ `Access-Control-Allow-Headers` は許可されたヘッダのリストを持たなければなりません。
 - 加えて、ヘッダ `Access-Control-Max-Age` でパーミッションキャッシュする秒数を指定する場合があります。その場合、ブラウザは与えれたパーミッションを満たす後続のリクエストに対して preflight を送信する必要はありません。
 
-![](xhr-preflight.png)
+![](xhr-preflight.svg)
 
 クロスドメインの `PATCH` リクエストの例でステップ毎にどのように動作するのか見ていきましょう(このメソッドはデータを更新するのによく使われます)。:
 

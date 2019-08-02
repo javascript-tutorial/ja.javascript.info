@@ -8,7 +8,7 @@
 
 これは、JavaScript がWebブラウザで実行されているときの鳥瞰図です:
 
-![](windowObjects.png)
+![](windowObjects.svg)
 
 `window` と呼ばれる "ルート" オブジェクトがあります。それは2つの役割を持ちます。:
 

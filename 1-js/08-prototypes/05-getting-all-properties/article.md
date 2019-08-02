@@ -70,7 +70,7 @@ for(let prop in rabbit) {
 ```
 ここでは、私たちは次の継承のチェーンを持っています。: `rabbit`, 次に `animal` そして `Object.prototype` (`animal` はリテラルオブジェクト `{...}` なので、これはデフォルトです)、その上に `null` があります。:
 
-![](rabbit-animal-object.png)
+![](rabbit-animal-object.svg)
 
 面白いことが1つあります。メソッド `rabbit.hasOwnProperty` はどこからきたでしょう？チェーンを見ると、`Object.prototype.hasOwnProperty` によってメソッドが提供されていることがわかります。言い換えると、それは継承されています。
 

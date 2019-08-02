@@ -12,7 +12,7 @@
 
 ルールに基づいたチートシート(より詳細は下)です:
 
-![](code-style.png)
+![](code-style.svg)
 <!--
 ```js
 function pow(x, n) {

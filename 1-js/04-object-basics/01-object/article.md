@@ -11,7 +11,7 @@
 
 オブジェクトは、署名されたファイルを持つキャビネットとしてイメージすることができます。すべてのデータは、キーによってそのファイルの中に格納されます。ファイルを名前で検索したり、ファイルの追加や削除は簡単です。
 
-![](object.png)
+![](object.svg)
 
 空のオブジェクト("空のキャビネット")は、次の2つ構文のいずれかで作ることができます:
 
@@ -20,7 +20,7 @@ let user = new Object(); // "オブジェクトコンストラクタ" 構文
 let user = {};  // "オブジェクトリテラル" 構文
 ```
 
-![](object-user-empty.png)
+![](object-user-empty.svg)
 
 通常は波括弧 `{...}` が使われます。その宣言は *オブジェクトリテラル* と呼ばれます。
 
@@ -44,7 +44,7 @@ let user = {     // オブジェクト
 
 生成された `user` オブジェクトは、"name" と "age" とラベル付けされた2つのファイルを持つキャビネットと考えることができます。
 
-![user object](object-user.png)
+![user object](object-user.svg)
 
 私たちは、いつでもそこからファイルの追加、削除、参照ができます。
 
@@ -62,7 +62,7 @@ alert( user.age ); // 30
 user.isAdmin = true;
 ```
 
-![user object 2](object-user-isadmin.png)
+![user object 2](object-user-isadmin.svg)
 
 プロパティを削除するには、`delete` 演算子を使います:
 
@@ -70,7 +70,7 @@ user.isAdmin = true;
 delete user.age;
 ```
 
-![user object 3](object-user-delete.png)
+![user object 3](object-user-delete.svg)
 
 また、複数単語からなるプロパティ名を使うこともできます。この場合は引用符で囲む必要があります:
 
@@ -82,7 +82,7 @@ let user = {
 };
 ```
 
-![](object-user-props.png)
+![](object-user-props.svg)
 
 
 ````smart header="末尾のカンマ"
@@ -465,7 +465,7 @@ let phrase = message;
 
 上記は、結果として2つの独立した変数をもち、それぞれ文字列 `"Hello!"` を保持しています。
 
-![](variable-copy-value.png)
+![](variable-copy-value.svg)
 
 オブジェクトはそうではありません。
 
@@ -479,7 +479,7 @@ let user = {
 };
 ```
 
-![](variable-contains-reference.png)
+![](variable-contains-reference.svg)
 
 ここで、オブジェクトはメモリ上のどこかへ格納されています。そして変数 `user` はその "参照" を持っています。
 
@@ -497,7 +497,7 @@ let admin = user; // 参照のコピー
 
 今、私たちは2つの変数を持っており、それぞれ同じオブジェクトへの参照を持っています。:
 
-![](variable-copy-reference.png)
+![](variable-copy-reference.svg)
 
 私たちは任意の変数を使って、キャビネットにアクセスしその中身を変更することができます:
 

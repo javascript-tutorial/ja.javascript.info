@@ -111,7 +111,7 @@ IndexedDB は [standard serialization algorithm](https://www.w3.org/TR/html53/in
 
 キーは次のいずれかのタイプでなければなりません: number, date, string, binary, または array。これは一意なオブジェクト識別子で、キーを使って値の検索/削除/更新をすることができます。
 
-![](indexeddb-structure.png)
+![](indexeddb-structure.svg)
 
 `localStorage` と同様、ストアに値を追加するときにキーを指定できます。これはプリミティブ値を格納するのに適しています。 しかし、オブジェクトを格納するとき、IndexedDB はオブジェクトプロパティをキーとして設定することを可能にし、それはとても便利です。もしくは、キーを自動生成することもできます。
 
@@ -486,7 +486,7 @@ openRequest.onupgradeneeded = function() {
 
 Imagine that our `inventory` has 4 books. Here's the picture that shows exactly what the `index` is:
 
-![](indexeddb-index.png)
+![](indexeddb-index.svg)
 
 As said, the index for each value of `price` (second argument) keeps the list of keys that have that price.
 

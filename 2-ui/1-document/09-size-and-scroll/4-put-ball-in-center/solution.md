@@ -2,7 +2,7 @@
 
 座標は、フィールド内部の左上の角から始まります:
 
-![](field.png)
+![](field.svg)
 
 内部フィールドの幅/高さは `clientWidth/clientHeight` です。なので、フィールドの中央は、座標 `(clientWidth/2, clientHeight/2)` となります。
 

@@ -81,7 +81,7 @@ function highlight(td) {
 
 当然、その `<strong>` でクリックが起きた場合、それは `event.target` の値になります。
 
-![](bagua-bubble.png)
+![](bagua-bubble.svg)
 
 `table.onclick` ハンドラでは、このような `event.target` を取り、クリックが `<td>` の中で行われたのかそうでないのかを知る必要があります。
 

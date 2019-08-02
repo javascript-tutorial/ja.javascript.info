@@ -172,7 +172,7 @@ JSON.stringify(meetup); // Error: Converting circular structure to JSON
 
 ここでは、循環参照(`room.occupiedBy` が `meetup` を参照し、`meetup.place` が `room` を参照している)のため変換が失敗します。:
 
-![](json-meetup.png)
+![](json-meetup.svg)
 
 
 ## 除外(Excluding)と変形(transforming): replacer 

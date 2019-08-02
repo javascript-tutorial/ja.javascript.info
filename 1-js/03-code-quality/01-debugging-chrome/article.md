@@ -18,12 +18,12 @@ Chromeのバージョンによっては少し違って見えるかもしれま�
 
 もしもこの画面を見るのが初めてであれば、見ておくべきものがあります:
 
-![](chrome-open-sources.png)
+![](chrome-open-sources.svg)
 
 トグルボタン <span class="devtools" style="background-position:-168px -76px"></span> はファイルを表示するタブを開きます。
 それをクリックして、`index.html` 、次にツリービューの `hello.js` を選択しましょう。ここで表示される内容は次の通りです:
 
-![](chrome-tabs.png)
+![](chrome-tabs.svg)
 
 ここでは3つの領域が確認できます:
 
@@ -41,7 +41,7 @@ Chromeのバージョンによっては少し違って見えるかもしれま�
 
 例えば、ここでは `1+2 ` は `3` になり、`hello("debugger")` は何も返さないので、結果は `undefined` です:
 
-![](chrome-sources-console.png)
+![](chrome-sources-console.svg)
 
 ## ブレイクポイント 
 
@@ -51,7 +51,7 @@ Chromeのバージョンによっては少し違って見えるかもしれま�
 
 このようになるはずです(青はあなたがクリックした場所です):
 
-![](chrome-sources-breakpoint.png)
+![](chrome-sources-breakpoint.svg)
 
 *ブレイクポイント* はデバッガが自動でJavaScriptの実行を停止するコードのポイントです。
 
@@ -94,7 +94,7 @@ function hello(name) {
 
 ブレイクポイントがセットされているので、実行は4行目で一時停止します。:
 
-![](chrome-sources-debugger-pause.png)
+![](chrome-sources-debugger-pause.svg)
 
 右側にある情報のドロップダウンを開いてください(矢印のラベルがついています)。現在のコードの状態を調べることができます:
 
@@ -127,7 +127,7 @@ function hello(name) {
 
     次の図は、それを行った後に見える画面です:
 
-    ![](chrome-sources-debugger-trace-1.png)
+    ![](chrome-sources-debugger-trace-1.svg)
 
     実行は再開され、`say()` の中の別のブレイクポイントに到達し、そこで一時停止します。右の "Call stack" を見てください。もう一度呼び出すことで増えています。私たちは、今 `say()` の中にいます。
 

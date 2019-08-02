@@ -98,7 +98,7 @@ new User("Dude").sayHi(); // Hello Dude!
 
 `sayHiMixin` からの親メソッド `super.say()` の呼び出しは、クラスではなくそのミックスインのプロトタイプの中のメソッドを探すことに注意してください。
 
-![](mixin-inheritance.png)
+![](mixin-inheritance.svg)
 
 これは `sayHiMixin` のメソッドに `[[HomeObject]]` がセットされているからです。そのため、`super` は実際には `sayHiMixin.__proto__`を意味し、`User.__proto__`を意味しません。
 
