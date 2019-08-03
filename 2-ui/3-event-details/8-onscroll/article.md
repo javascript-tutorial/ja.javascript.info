@@ -8,7 +8,7 @@
 
 [cut]
 
-ここに現在のスクロールを表示する小さい関数がります:
+ここに現在のスクロールを表示する小さい関数があります:
 
 ```js autorun
 window.addEventListener('scroll', function() {
