@@ -1,9 +1,22 @@
 
-# Fetch: 基本
+# Fetch
 
-メソッド `fetch()` は HTTP 経由でリクエストを送信するモダンな方法です。
+JavaScript は、必要に応じていつでもサーバへリクエストを送信し、新しい情報を読み込むことができます。
 
-ここ数年間で進化し、現在も改善が続けられています。今のところ、サポートはブラウザの間で非常にしっかりしています。
+例えば、次のようなことができます:
+
+- 注文を送信する
+- ユーザ情報を読み込む
+- サーバから最新の更新情報を受け取る
+- ...など
+
+...そしてこれらはすべてページをリロードすることなく行うことができます。
+
+それを表す包括的な用語 "AJAX" (<b>A</b>synchronous <b>J</b>avascript <b>A</b>nd <b>X</b>ml)があります。XML を使う必要はありません: この用語は昔から来ています。
+
+ネットワークリクエストを送信し、サーバから情報を取得するための様々な方法があります。
+
+`fetch()` メソッドはモダンで多目的に利用できるため、これから始めましょう。`fetch` は数年間進化と改善を続けています。今のところサポートはブラウザの間でとてもしっかりしています。
 
 基本構文は次の通りです:
 
@@ -75,7 +88,11 @@ fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commi
 
 テキストを取得するには:
 ```js
-let text = await response.text();
+let text = await response.text('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
+
+let text = await response.text(); // レスポンスボディをてきすととして読む
+
+alert(text.slice(0, 80) + '...');
 ```
 
 また、バイナリの例では、画像を取得して表示してみましょう(blob に対する操作の詳細については、チャプター [Blob](info:blob) を参照してください)。:
@@ -95,10 +112,10 @@ document.body.append(img);
 // 表示
 img.src = URL.createObjectURL(blob);
 
-setTimeout(() => { // 2秒後に隠す
+setTimeout(() => { // 3秒後に隠す
   img.remove();
   URL.revokeObjectURL(img.src);
-}, 2000);
+}, 3000);
 ```
 
 ````warn
@@ -175,11 +192,7 @@ let response = fetch(protectedUrl, {
   - `Blob`/`BufferSource` バイナリデータを送信する場合,
   - [URLSearchParams](info:url), `x-www-form-urlencoded` としてデータを送信する場合。ほとんど使われません。
 
-例を見てみましょう。
-
-## JSON を送信する
-
-このコードは、`user` オブジェクトを JSON としてサブミットします。:
+例を見てみましょう。このコードは、`user` オブジェクトを JSON として送信します。:
 
 ```js run async
 let user = {
@@ -202,35 +215,6 @@ alert(result.message);
 ```
 
 本文(body)が文字列の場合、`Content-Type` にはデフォルトでは `text/plain` が設定されることに留意してください。そのため、`application/json` を代わりに送信するために `headers` オプションを使用しています。
-
-## form を送信する
-
-HTML の `<form>` で同じことをしてみましょう。
-
-
-```html run
-<form id="formElem">
-  <input type="text" name="name" value="John">
-  <input type="text" name="surname" value="Smith">
-</form>
-
-<script>
-(async () => {
-  let response = await fetch('/article/fetch-basics/post/user', {
-    method: 'POST',
-*!*
-    body: new FormData(formElem)
-*/!*
-  });
-
-  let result = await response.json();
-
-  alert(result.message);
-})();
-</script>
-```
-
-ここで、[FormData](https://xhr.spec.whatwg.org/#formdata) は自動的に form をエンコードし、`<input type="file">` フィールドも処理され、`Content-Type: form/multipart` を使用して送信します。
 
 ## 画像を送信する
 
@@ -282,47 +266,6 @@ function submit() {
 }
 ```
 
-## 画像付きのカスタム FormData 
-
-けれども、実際には "name" や他のメタデータといった追加のフィールドと一緒に、 form の一部として画像を送信するほうがより便利なことが多いです。
-
-また、大抵サーバは生のバイナリデータよりもマルチパートエンコード形式を受け入れるのにより適しています。
-
-```html run autorun height="90"
-<body style="margin:0">
-  <canvas id="canvasElem" width="100" height="80" style="border:1px solid"></canvas>
-
-  <input type="button" value="Submit" onclick="submit()">
-
-  <script>
-    canvasElem.onmousemove = function(e) {
-      let ctx = canvasElem.getContext('2d');
-      ctx.lineTo(e.clientX, e.clientY);
-      ctx.stroke();
-    };
-
-    async function submit() {
-      let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
-
-*!*
-      let formData = new FormData();
-      formData.append("name", "myImage");
-      formData.append("image", blob);
-*/!*    
-
-      let response = await fetch('/article/fetch-basics/post/image-form', {
-        method: 'POST',
-        body: formData
-      });
-      let result = await response.json();
-      alert(result.message);
-    }
-
-  </script>
-</body>
-```
-
-これで、サーバの観点からは、画像は form 中の "ファイル" です。
 
 ## サマリ
 
