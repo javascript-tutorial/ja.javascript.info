@@ -4,7 +4,11 @@
 
 通常はそれを使用して、どうやって/なぜそのコードが動作するのかを説明します。
 
+<<<<<<< HEAD
 一見、コメントすることは当たり前かもしれませんが、プログラム初心者は間違った思い込みをすることがあります。
+=======
+At first sight, commenting might be obvious, but novices in programming often use them wrongly.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ## 悪いコメント 
 
@@ -18,7 +22,11 @@ complex;
 code;
 ```
 
+<<<<<<< HEAD
 しかし良いコードでは、このような "説明的な" コメントは最小限にすべきです。真面目にそれらがなくても理解しやすいコードにするべきです。
+=======
+But in good code, the amount of such "explanatory" comments should be minimal. Seriously, the code should be easy to understand without them.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 それに関して素晴らしいルールがあります。"もしもコードがコメントを必要とするほど不明瞭な場合、書き直すべきかもしれません"。
 
@@ -113,17 +121,29 @@ function addJuice(container) {
 
 改めて言いますが、関数自身が何が行われているのかを伝えているので、コメントすることは何もありません。また分割するとコードの構造はより良くなります。各関数がすること、何を引数として取り、何を返すのかは明白です。
 
+<<<<<<< HEAD
 現実では、完全に "説明的な" コメントを避けることはできません。複雑なアルゴリズムがあり、その最適化のための賢明な "微調整" がコードの中で行われることがあります。しかし、一般的にはコードをシンプルで自己記述的に保つよう努めるべきです。
+=======
+In reality, we can't totally avoid "explanatory" comments. There are complex algorithms. And there are smart "tweaks" for purposes of optimization. But generally we should try to keep the code simple and self-descriptive.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ## 良いコメント 
 
 これまでの通り、説明的なコメントは通常良くありません。ではどんなコメントが良いのでしょう？
 
+<<<<<<< HEAD
 アーキテクチャの説明をする
 : 高水準のコンポーネントの概要、相互作用の方法、様々な状況での制御フローを説明します... つまり -- コードの俯瞰図です。それは高水準のアーキテクチャ図のための特別な言語[UML](http://wikipedia.org/wiki/Unified_Modeling_Language)があります。これは間違いなく学ぶ価値があります。
 
 関数の使用方法を文書化する
 : 関数の文書化のための特別な構文 [JSDoc](http://en.wikipedia.org/wiki/JSDoc) があります。: 使用方法、パラメータ、返却値
+=======
+Describe the architecture
+: Provide a high-level overview of components, how they interact, what's the control flow in various situations... In short -- the bird's eye view of the code. There's a special language [UML](http://wikipedia.org/wiki/Unified_Modeling_Language) to build high-level architecture diagrams explaining the code. Definitely worth studying.
+
+Document function parameters and usage
+: There's a special syntax [JSDoc](http://en.wikipedia.org/wiki/JSDoc) to document a function: usage, parameters, returned value.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
     例:
     ```js
@@ -145,8 +165,13 @@ function addJuice(container) {
 
     また、コメントからHTMLドキュメントを生成することができる [JSDoc 3](https://github.com/jsdoc3/jsdoc) のようなツールもあります。JSDocに関するより多くの情報は <http://usejsdoc.org/> で読むことができます。
 
+<<<<<<< HEAD
 タスクがこのように解決されるのはなぜか？
 : 書かれていることは重要です。が、何が起こっていることを理解するためには、*書かれていないこと* がより重要かもしれません。なぜそのタスクがこの方法で正しく解決されるのか？コードは回答しません。
+=======
+Why is the task solved this way?
+: What's written is important. But what's *not* written may be even more important to understand what's going on. Why is the task solved exactly this way? The code gives no answer.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
     もしそのタスクを解決する方法が多数ある場合、なぜこれを選んだのでしょう？特に、それが最も明白なものではないとき。
 
@@ -157,12 +182,21 @@ function addJuice(container) {
 
     解決策を説明するコメントはとても重要です。それらは正しい方向で開発を続けるのに役立ちます。
 
+<<<<<<< HEAD
 コードの捉えにくい特徴はある？それらはどこで使われる？
 : もしもコードが捉えにくく、紛らわしいものがある場合にはきっとコメントする価値があります。
+=======
+Any subtle features of the code? Where they are used?
+: If the code has anything subtle and counter-intuitive, it's definitely worth commenting.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ## サマリ 
 
+<<<<<<< HEAD
 よい開発者であることを示す重要な指標は、コメントです: 何を書くか、また、何を書かないかさえ、指標となります。
+=======
+An important sign of a good developer is comments: their presence and even their absence.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 よいコメントはコードを上手く維持し、時間が経った後でそこに戻ったときにも効果的に使えるようにします。
 
@@ -172,7 +206,11 @@ function addJuice(container) {
 - 関数の使用方法
 - 重要な解決策、特にそれが一目瞭然でないとき
 
+<<<<<<< HEAD
 **コメントを避ける:**
+=======
+**Avoid comments:**
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 - "どのようにコードが動くか" そして "それが何をするか" を伝える
 - コードを、コメントを必要としないような、シンプルで自己記述的にすることが不可能な場合にのみ置きます。

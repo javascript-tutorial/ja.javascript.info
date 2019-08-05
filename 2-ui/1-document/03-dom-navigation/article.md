@@ -7,14 +7,23 @@ libs:
 
 # DOM を歩く
 
+<<<<<<< HEAD
 DOM は要素やそれらのコンテンツに対して何でもすることができますが、最初に対応する DOM オブジェクトに到達して、変数に入れる必要があります。それから要素やコンテンツを変更することができます。
 
 DOM 上のすべての操作は `document` オブジェクトから始まります。そこから任意のノードにアクセスできます。
+=======
+The DOM allows us to do anything with elements and their contents, but first we need to reach the corresponding DOM object.
 
-[cut]
+All operations on the DOM start with the `document` object. That's the main "entry point" to DOM. From it we can access any node.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
+Here's a picture of links that allow for travel between DOM nodes:
+
+<<<<<<< HEAD
 これは DOM ノード間を移動できるリンクの図です。:
 
+=======
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 ![](dom-links.svg)
 
 それらについてより深く議論しましょう。
@@ -88,9 +97,15 @@ DOM では、`null` 値は "存在しない" もしくは "このようなノー
 </html>
 ```
 
+<<<<<<< HEAD
 ...また、 `<body>` のすべての子孫について尋ねられた場合、直接の子 `<div>`, `<ul>` と `<li>` (`<ul>` の子) や `<b>` (`<li>` の子)のような、よりネストされた要素を取得 -- サブツリー全体です。
 
 **`子ノード` のコレクションは、テキストノードを含むすべての子ノードへのアクセスを提供します。**
+=======
+...And descendants of `<body>` are not only direct children `<div>`, `<ul>` but also more deeply nested elements, such as `<li>` (a child of `<ul>`) and `<b>` (a child of `<li>`) -- the entire subtree.
+
+**The `childNodes` collection lists all child nodes, including text nodes.**
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 下の例は、`document.body` の子を表示します:
 
@@ -157,9 +172,15 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 ```warn header="DOM コレクションは読み取り専用です"
 DOM コレクションやさらに -- このチャプターにリストされている *すべての* ナビゲーションプロパティは読み取り専用です。
 
+<<<<<<< HEAD
 代入 `childNodes[i] = ...` などにより子ノードを置き換えることはできません。
 
 DOM の変更は他のメソッドを必要とします。それらについては次のチャプターで見ていきましょう。
+=======
+We can't replace a child by something else by assigning `childNodes[i] = ...`.
+
+Changing DOM needs other methods. We will see them in the next chapter.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 ```
 
 ```warn header="DOM コレクションはライブです"
@@ -177,19 +198,37 @@ Collections are iterable using `for..of`. Sometimes people try to use `for..in` 
 ```html run
 <body>
 <script>
+<<<<<<< HEAD
   // 0, 1, length, item, values などが表示されます。
   for(let prop in document.body.childNodes) alert(prop);
+=======
+  // shows 0, 1, length, item, values and more.
+  for (let prop in document.body.childNodes) alert(prop);
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 </script>
 </body>
 ````
 
 ## 兄弟と親 
 
+<<<<<<< HEAD
 *兄弟(Siblings)* は同じ親(parent)の子ノードです。例えば、`<head>` と `<body>` は兄弟です:
+=======
+*Siblings* are nodes that are children of the same parent.
+
+For instance, here `<head>` and `<body>` are siblings:
+
+```html
+<html>
+  <head>...</head><body>...</body>
+</html>
+```
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 - `<body>` は `<head>` の "次の" または "右の" 兄弟と言われます。 
 - `<head>` `<body>` の "前の" または "左の" 兄弟と言われます。
 
+<<<<<<< HEAD
 親は `parentNode` として利用可能です。
 
 同じ親において、次のノード(次の兄弟) は `nextSibling` であり、前のノードは `previousSibling` です。
@@ -209,6 +248,23 @@ Collections are iterable using `for..of`. Sometimes people try to use `for..in` 
   // <body> の前は <head> です。
   alert( document.body.previousSibling ); // HTMLHeadElement
 </script></body></html>
+=======
+The next sibling is is `nextSibling`, and the previous one is `previousSibling`.
+
+The parent is available as `parentNode`.
+
+So all these tests are truthy:
+
+```js
+// parent of <body> is <html>
+alert( document.body.parentNode === document.documentElement ); // true
+
+// after <head> goes <body>
+alert( document.head.nextSibling ); // HTMLBodyElement
+
+// before <body> goes <head>
+alert( document.body.previousSibling ); // HTMLHeadElement
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 ```
 
 ## Element-only navigation
@@ -238,11 +294,25 @@ alert( document.documentElement.parentNode ); // document
 alert( document.documentElement.parentElement ); // null
 ```
 
+<<<<<<< HEAD
 言い換えると、`documentElement` (`<html>`) はルートノードです。公式にはその親として `document` を持っています。しかし、`document` は要素ノードではないので、`parentNode` はそれを返し、`parentElement` はそうではありません。
 
 ````
 
 上の例の1つを修正してみましょう: `childNodes` を `children` に置き換えます。これで要素のみが表示されます。:
+=======
+The reason is that root node `document.documentElement` (`<html>`) has `document` as its parent. But `document` is not an element node, so `parentNode` returns it and `parentElement` does not.
+
+This detail may be useful when we want to travel up from an arbitrary element `elem` to `<html>`, but not to the `document`:
+```js
+while(elem = elem.parentElement) { // go up till <html>
+  alert( elem );
+}
+```
+````
+
+Let's modify one of the examples above: replace `childNodes` with `children`. Now it shows only elements:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```html run
 <html>
@@ -275,18 +345,31 @@ alert( document.documentElement.parentElement ); // null
 
 テーブルはその素晴らしい例であり重要なケースです。
 
+<<<<<<< HEAD
 **`<table>`** 要素は次のプロパティをサポートします(上で与えられたものに加えて):
 - `table.rows` -- テーブルの `<tr>` 要素のコレクションです。
 - `table.caption/tHead/tFoot` -- 要素 `<caption>`, `<thead>`, `<tfoot>` への参照です。
 - `table.tBodies` -- `<tbody>` 要素のコレクション(標準によると多数になれます) です。
+=======
+**The `<table>`** element supports (in addition to the given above) these properties:
+- `table.rows` -- the collection of `<tr>` elements of the table.
+- `table.caption/tHead/tFoot` -- references to elements `<caption>`, `<thead>`, `<tfoot>`.
+- `table.tBodies` -- the collection of `<tbody>` elements (can be many according to the standard).
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 **`<thead>`, `<tfoot>`, `<tbody>`** 要素は `rows` プロパティを提供します:
 - `tbody.rows` -- 内側の `<tr>` のコレクション
 
 **`<tr>`:**
+<<<<<<< HEAD
 - `tr.cells` -- 与えられた `<tr>` の中の `<td>` と `<th>` セルの集合です。
 - `tr.sectionRowIndex` -- 囲んでいる `<thead>/<tbody>` の内部にある与えられた `<tr>` の番号です。
 - `tr.rowIndex` -- テーブル内の `<tr>` の番号です。
+=======
+- `tr.cells` -- the collection of `<td>` and `<th>` cells inside the given `<tr>`.
+- `tr.sectionRowIndex` -- the position (index) of the given `<tr>` inside the enclosing `<thead>/<tbody>/<tfoot>`.
+- `tr.rowIndex` -- the number of the `<tr>` in the table as a whole (including all table rows).
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 **`<td>` と `<th>`:**
 - `td.cellIndex` -- `<tr>` で囲まれている内側でのセルの番号です。
@@ -311,7 +394,11 @@ alert( document.documentElement.parentElement ); // null
 
 仕様: [tabular data](https://html.spec.whatwg.org/multipage/tables.html).
 
+<<<<<<< HEAD
 HTMLフォームのための追加のナビゲーションプロパティもあります。 フォームを使って作業を開始するときにそれらを見ていきます。
+=======
+There are also additional navigation properties for HTML forms. We'll look at them later when we start working with forms.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 # サマリ 
 

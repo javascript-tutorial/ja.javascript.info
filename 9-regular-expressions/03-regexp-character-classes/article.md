@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 文字クラス
 
 実践的なタスクを考えてみましょう -- `"+7(903)-123-45-67"` という電話番号があり、その文字列のすべての数字を見つける必要があります。他の文字に興味はありません。
@@ -9,6 +10,19 @@
 例えば、"数字" クラスがあります。それは `\d` と書きます。それを正規表現のパターンに入れ検索すると、任意の数字がそれにマッチします。
 
 例えば、正規表現 `pattern:/\d/`  は1つの数字を探します:
+=======
+# Character classes
+
+Consider a practical task -- we have a phone number `"+7(903)-123-45-67"`, and we need to turn it into pure numbers: `79035419441`.
+
+To do so, we can find and remove anything that's not a number. Character classes can help with that.
+
+A character class is a special notation that matches any symbol from a certain set.
+
+For the start, let's explore a "digit" class. It's written as `\d`. We put it in the pattern, that means "any single digit".
+
+For instance, the let's find the first digit in the phone number:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 let str = "+7(903)-123-45-67";
@@ -18,15 +32,22 @@ let reg = /\d/;
 alert( str.match(reg) ); // 7
 ```
 
+<<<<<<< HEAD
 上の例では、正規表現はグローバルではありません。なので、最初のマッチだけを探します。
 
 すべての数字を探すために `g` フラグを追加しましょう:
+=======
+Without the flag `g`, the regular expression only looks for the first match, that is the first digit `\d`.
+
+Let's add the `g` flag to find all digits:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 let str = "+7(903)-123-45-67";
 
 let reg = /\d/g;
 
+<<<<<<< HEAD
 alert( str.match(reg) ); // マッチした配列: 7,9,0,3,1,2,3,4,5,6,7
 ```
 
@@ -50,6 +71,31 @@ alert( str.match(reg) ); // マッチした配列: 7,9,0,3,1,2,3,4,5,6,7
 正規表現は通常の記号と文字クラス両方を含む場合があります。
 
 例として、`pattern:CSS\d` は `match:CSS` のあとに数字が続く文字列にマッチします。:
+=======
+alert( str.match(reg) ); // array of matches: 7,9,0,3,1,2,3,4,5,6,7
+
+alert( str.match(reg).join('') ); // 79035419441
+```
+
+That was a character class for digits. There are other character classes as well.
+
+Most used are:
+
+`\d` ("d" is from "digit")
+: A digit: a character from `0` to `9`.
+
+`\s` ("s" is from "space")
+: A space symbol: that includes spaces, tabs, newlines.
+
+`\w` ("w" is from "word")
+: A "wordly" character: either a letter of English alphabet or a digit or an underscore. Non-Latin letters (like cyrillic or hindi) do not belong to `\w`.
+
+For instance, `pattern:\d\s\w` means a "digit" followed by a "space character" followed by a "wordly character", like `"1 a"`.
+
+**A regexp may contain both regular symbols and character classes.**
+
+For instance, `pattern:CSS\d` matches a string `match:CSS` with a digit after it:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 let str = "CSS4 is cool";
@@ -58,6 +104,7 @@ let reg = /CSS\d/
 alert( str.match(reg) ); // CSS4
 ```
 
+<<<<<<< HEAD
 また、多くの文字クラスを使うこともできます:
 
 ```js run
@@ -75,12 +122,32 @@ alert( "I love HTML5!".match(/\s\w\w\w\w\d/) ); // 'HTML5'
 これは文字を表すのではなく、文字の境界を表します。
 
 例えば、 `pattern:\bJava\b` は `subject:Hello, Java!` という文字列の `match:Java` とマッチしますが、`subject:Hello, JavaScript!` という文字列にはマッチしません。:
+=======
+Also we can use many character classes:
+
+```js run
+alert( "I love HTML5!".match(/\s\w\w\w\w\d/) ); // ' HTML5'
+```
+
+The match (each character class corresponds to one result character):
+
+![](love-html5-classes.svg)
+
+## Word boundary: \b
+
+A word boundary `pattern:\b` -- is a special character class.
+
+It does not denote a character, but rather a boundary between characters.
+
+For instance, `pattern:\bJava\b` matches `match:Java` in the string `subject:Hello, Java!`, but not in the script `subject:Hello, JavaScript!`.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 alert( "Hello, Java!".match(/\bJava\b/) ); // Java
 alert( "Hello, JavaScript!".match(/\bJava\b/) ); // null
 ```
 
+<<<<<<< HEAD
 通常、文字クラスは結果の文字(単語や数字のような)を意味するので、ある意味では、境界は "ゼロ幅" を持ちますが、この場合はそうではありません。
 
 境界はテストです。
@@ -98,10 +165,37 @@ alert( "Hello, JavaScript!".match(/\bJava\b/) ); // null
 ![](hello-java-boundaries.svg)
 
 したがって、`pattern:\bHello\b` と `pattern:\bJava\b` はマッチしますが、`pattern:\bHell\b` (`l` のあとに単語境界がないため) と `Java!\b` (感嘆符は `\w` でマッチする文字ではないので、単語境界がありません)はマッチしません。
+=======
+The boundary has "zero width" in a sense that usually a character class means a character in the result (like a wordly character or a digit), but not in this case.
+
+The boundary is a test.
+
+When regular expression engine is doing the search, it's moving along the string in an attempt to find the match. At each string position it tries to find the pattern.
+
+When the pattern contains `pattern:\b`, it tests that the position in string is a word boundary, that is one of three variants:
+
+- Immediately before is `\w`, and immediately after -- not `\w`, or vise versa.
+- At string start, and the first string character is `\w`.
+- At string end, and the last string character is `\w`.
+
+For instance, in the string `subject:Hello, Java!` the following positions match `\b`:
+
+![](hello-java-boundaries.svg)
+
+So it matches `pattern:\bHello\b`, because:
+
+1. At the beginning of the string the first `\b` test matches.
+2. Then the word `Hello` matches.
+3. Then `\b` matches, as we're between `o` and a space.
+
+Pattern `pattern:\bJava\b` also matches. But not `pattern:\bHell\b` (because there's no word boundary after `l`) and not `Java!\b` (because the exclamation sign is not a wordly character, so there's no word boundary after it).
+
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 alert( "Hello, Java!".match(/\bHello\b/) ); // Hello
 alert( "Hello, Java!".match(/\bJava\b/) );  // Java
+<<<<<<< HEAD
 alert( "Hello, Java!".match(/\bHell\b/) );  // null
 alert( "Hello, Java!".match(/\bJava!\b/) ); // null
 ```
@@ -111,11 +205,23 @@ alert( "Hello, Java!".match(/\bJava!\b/) ); // null
 通常、スタンドアロンの英単語を見つけるのに `\b` を使います。そのため、`"Java"` が必要な場合、`pattern:\bJava\b` は正確にスタンドアロンの単語を見つけ、`"JavaScript"` の一部であるときは無視します。
 
 別の例: 正規表現 `pattern:\b\d\d\b` はスタンドアロンの 2桁の数字を探します。つまり、前後の `pattern:\d\d` は `\w` (もしくは文字列の始め/終わり)とは異なる記号でなければなりません。
+=======
+alert( "Hello, Java!".match(/\bHell\b/) );  // null (no match)
+alert( "Hello, Java!".match(/\bJava!\b/) ); // null (no match)
+```
+
+Once again let's note that `pattern:\b` makes the searching engine to test for the boundary, so that `pattern:Java\b` finds `match:Java` only when followed by a word boundary, but it does not add a letter to the result.
+
+Usually we use `\b` to find standalone English words. So that if we want `"Java"` language then `pattern:\bJava\b` finds exactly a standalone word and ignores it when it's a part of another word, e.g. it won't match `match:Java` in `subject:JavaScript`.
+
+Another example: a regexp `pattern:\b\d\d\b` looks for standalone two-digit numbers. In other words, it requires that before and after `pattern:\d\d` must be a symbol different from `\w` (or beginning/end of the string).
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 alert( "1 23 456 78".match(/\b\d\d\b/g) ); // 23,78
 ```
 
+<<<<<<< HEAD
 ```warn header="単語境界は英語以外のアルファベットでは機能しません"
 単語境界チェック `\b` は `\w` と他のものとの間の境界をテストします。しかし、 `\w` は英語文字(もしくは数字かアンダースコア)を意味するので、他の文字(キリル文字や象形文字など)の場合は機能しません。
 ```
@@ -140,6 +246,36 @@ alert( "1 23 456 78".match(/\b\d\d\b/g) ); // 23,78
 : 非境界: `\b` と逆のテストです。
 
 チャプターの先頭では、電話番号 `subject:+7(903)-123-45-67` からすべての数字を取得する方法を見ました。文字列から "純粋な" 電話番号を取得してみましょう。:
+=======
+```warn header="Word boundary doesn't work for non-Latin alphabets"
+The word boundary check `\b` tests for a boundary between `\w` and something else. But `\w` means an English letter (or a digit or an underscore), so the test won't work for other characters (like cyrillic or hieroglyphs).
+
+Later we'll come by Unicode character classes that allow to solve the similar task for different languages.
+```
+
+
+## Inverse classes
+
+For every character class there exists an "inverse class", denoted with the same letter, but uppercased.
+
+The "reverse" means that it matches all other characters, for instance:
+
+`\D`
+: Non-digit: any character except `\d`, for instance a letter.
+
+`\S`
+: Non-space: any character except `\s`, for instance a letter.
+
+`\W`
+: Non-wordly character: anything but `\w`.
+
+`\B`
+: Non-boundary: a test reverse to `\b`.
+
+In the beginning of the chapter we saw how to get all digits from the phone `subject:+7(903)-123-45-67`.
+
+One way was to match all digits and join them:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 let str = "+7(903)-123-45-67";
@@ -147,7 +283,11 @@ let str = "+7(903)-123-45-67";
 alert( str.match(/\d/g).join('') ); // 79031234567
 ```
 
+<<<<<<< HEAD
 代わりの方法は、文字列から非数字を見つけ削除することです:
+=======
+An alternative, shorter way is to find non-digits `\D` and remove them from the string:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 
 ```js run
@@ -156,6 +296,7 @@ let str = "+7(903)-123-45-67";
 alert( str.replace(/\D/g, "") ); // 79031234567
 ```
 
+<<<<<<< HEAD
 ## 空白は通常の文字です
 
 正規表現は空白を含む場合があることに注意してください。空白は普通の文字のように扱われます。
@@ -189,18 +330,58 @@ alert( "1-5".match(/\d - \d/) ); // null, 文字列 1-5 には空白がないか
 ドット `"."` は *改行を除く任意の文字* にマッチする特別な文字クラスです。
 
 例:
+=======
+## Spaces are regular characters
+
+Usually we pay little attention to spaces. For us strings `subject:1-5` and `subject:1 - 5` are nearly identical.
+
+But if a regexp doesn't take spaces into account, it may fail to work.
+
+Let's try to find digits separated by a dash:
+
+```js run
+alert( "1 - 5".match(/\d-\d/) ); // null, no match!
+```
+
+Here we fix it by adding spaces into the regexp `pattern:\d - \d`:
+
+```js run
+alert( "1 - 5".match(/\d - \d/) ); // 1 - 5, now it works
+```
+
+**A space is a character. Equal in importance with any other character.**
+
+Of course, spaces in a regexp are needed only if we look for them. Extra spaces (just like any other extra characters) may prevent a match:
+
+```js run
+alert( "1-5".match(/\d - \d/) ); // null, because the string 1-5 has no spaces
+```
+
+In other words, in a regular expression all characters matter, spaces too.
+
+## A dot is any character
+
+The dot `"."` is a special character class that matches "any character except a newline".
+
+For instance:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 alert( "Z".match(/./) ); // Z
 ```
 
+<<<<<<< HEAD
 また正規表現の中にある場合:
+=======
+Or in the middle of a regexp:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 let reg = /CS.4/;
 
 alert( "CSS4".match(reg) ); // CSS4
 alert( "CS-4".match(reg) ); // CS-4
+<<<<<<< HEAD
 alert( "CS 4".match(reg) ); // CS 4 (空白も文字です)
 ```
 
@@ -226,3 +407,60 @@ alert( "CS4".match(/CS.4/) ); // null, ドットに対する文字がないの�
 バックスラッシュやドットのような特別な意味を持つ文字を検索したい場合、バックスラッシュ `pattern:\.` でエスケープする必要があります。
 
 正規表現は改行 `\n` と言った特別な文字も含むことに注意してください。 他の文字が使用されているので、文字クラスとの競合はありません。
+=======
+alert( "CS 4".match(reg) ); // CS 4 (space is also a character)
+```
+
+Please note that the dot means "any character", but not the "absense of a character". There must be a character to match it:
+
+```js run
+alert( "CS4".match(/CS.4/) ); // null, no match because there's no character for the dot
+```
+
+### The dotall "s" flag
+
+Usually a dot doesn't match a newline character.
+
+For instance, `pattern:A.B` matches `match:A`, and then `match:B` with any character between them, except a newline.
+
+This doesn't match:
+
+```js run
+alert( "A\nB".match(/A.B/) ); // null (no match)
+
+// a space character would match, or a letter, but not \n
+```
+
+Sometimes it's inconvenient, we really want "any character", newline included.
+
+That's what `s` flag does. If a regexp has it, then the dot `"."` match literally any character:
+
+```js run
+alert( "A\nB".match(/A.B/s) ); // A\nB (match!)
+```
+
+## Summary
+
+There exist following character classes:
+
+- `pattern:\d` -- digits.
+- `pattern:\D` -- non-digits.
+- `pattern:\s` -- space symbols, tabs, newlines.
+- `pattern:\S` -- all but `pattern:\s`.
+- `pattern:\w` -- English letters, digits, underscore `'_'`.
+- `pattern:\W` -- all but `pattern:\w`.
+- `pattern:.` -- any character if with the regexp `'s'` flag, otherwise any except a newline.
+
+...But that's not all!
+
+The Unicode encoding, used by JavaScript for strings, provides many properties for characters, like: which language the letter belongs to (if a letter) it is it a punctuation sign, etc.
+
+Modern JavaScript allows to use these properties in regexps to look for characters, for instance:
+
+- A cyrillic letter is: `pattern:\p{Script=Cyrillic}` or `pattern:\p{sc=Cyrillic}`.
+- A dash (be it a small hyphen `-` or a long dash `—`): `pattern:\p{Dash_Punctuation}` or `pattern:\p{pd}`.
+- A currency symbol, such as `$`, `€` or another: `pattern:\p{Currency_Symbol}` or `pattern:\p{sc}`.
+- ...And much more. Unicode has a lot of character categories that we can select from.
+
+These patterns require `'u'` regexp flag to work. More about that in the chapter [](info:regexp-unicode).
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a

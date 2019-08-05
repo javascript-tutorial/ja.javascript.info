@@ -55,9 +55,13 @@ function makeArmy() {
 
 結果として、すべての `shooter` 関数は外部のレキシカル環境から同じ最後の値 `i=10` を取ります。
 
+<<<<<<< HEAD
 修正はとてもシンプルです。:
+=======
+We can fix it by moving the variable definition into the loop:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
-```js run
+```js run demo
 function makeArmy() {
 
   let shooters = [];
@@ -80,16 +84,21 @@ army[0](); // 0
 army[5](); // 5
 ```
 
+<<<<<<< HEAD
 これで、正しく動きます。なぜなら、`for (..) {...}` で毎回コードブロックが実行され、`i` の値に対応する新しいレキシカル環境が作られるからです。
 
 従って、`i` の値は今は少し近くにあります。`makeArmy` レキシカル環境ではなく、現在のループイテレーションに対応するレキシカル環境の中です。`shooter` は作られたレキシカル環境から値を取り出します。
+=======
+Now it works correctly, because every time the code block in `for (let i=0...) {...}` is executed, a new Lexical Environment is created for it, with the corresponding variable `i`.
+
+So, the value of `i` now lives a little bit closer. Not in `makeArmy()` Lexical Environment, but in the Lexical Environment that corresponds the current loop iteration. That's why now it works.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ![](lexenv-makearmy.svg)
 
 これは、`while` を `for` で書き直しました。
 
 別のトリックでも可能です。この話題をより理解するために次のコードを見てみましょう。:
-
 
 ```js run
 function makeArmy() {

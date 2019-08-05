@@ -6,11 +6,17 @@ DOMの変更は "ライブ" ページを作成するための鍵です。
 
 まず、簡単な例を見てメソッドを説明します。
 
+<<<<<<< HEAD
 [cut]
 
 ## 例: メッセージを表示 
 
 はじめに、`alert` よりも見栄えの良いメッセージをページに追加する方法を見てみましょう。
+=======
+## Example: show a message
+
+For a start, let's see how to add a message on the page that looks nicer than `alert`.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 次のように見えるとしましょう:
 
@@ -32,14 +38,22 @@ DOMの変更は "ライブ" ページを作成するための鍵です。
 */!*
 ```
 
+<<<<<<< HEAD
 これは HTML の例でした。では JavaScript で同じ `div` を作ってみましょう(スタイルは依然として HTML の中、もしくは外部CSSにあると想定します)。
+=======
+That was an HTML example. Now let's create the same `div` with JavaScript (assuming that the styles are still in the HTML or an external CSS file).
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ## 要素の作成 
 
 DOM ノードを作成するためのメソッドが2つあります。:
 
 `document.createElement(tag)`
+<<<<<<< HEAD
 : 与えられたタグの新しい要素を作成します:
+=======
+: Creates a new *element node* with the given tag:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
     ```js
     let div = document.createElement('div');
@@ -62,13 +76,21 @@ div.className = "alert alert-success";
 div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 ```
 
+<<<<<<< HEAD
 これで、準備ができたDOM要素があります。 今は変数に入っていますが、まだページには挿入されていないため見えません。
+=======
+After that, we have our DOM element ready. Right now it is just in a variable and we cannot see it. That is because it's not yet inserted into the page.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ## 挿入メソッド 
 
 `div` を表示するためには、`document` のどこかに挿入する必要があります。例えば、`document.body` です。
 
+<<<<<<< HEAD
 そのための特別なメソッドがあります: `document.body.appendChild(div)`.
+=======
+There's a special method `appendChild` for that: `document.body.appendChild(div)`.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ここに完全なコードを載せます:
 
@@ -136,8 +158,12 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
     */!*
     </script>
     ```
+<<<<<<< HEAD
 
     最初の要素として挿入するには、このようにします:
+=======
+    To insert `newLi` as the first element, we can do it like this:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
     ```js
     list.insertBefore(newLi, list.firstChild);
@@ -148,11 +174,19 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 
 これらすべてのメソッドは挿入したノードを返します。言い換えると、`parentElem.appendChild(node)` は `node` を返します。しかし通常は返却値は使わず、単にメソッドを実行するだけです。
 
+<<<<<<< HEAD
 これらのメソッドは "古い学校" です: これらは古代から存在し、多くの古いスクリプトで見ることができます。残念なことに、それらでは解決するのが難しい作業がいくつかあります。
 
 例えば、文字列として持っている *html* を挿入する方法は？もしくは指定されたノードに対し、その *前* に別のノードを挿入する方法は？ もちろん、すべて実行可能ですが、エレガントな方法ではありません。
 
 したがって、簡単にすべてのケースを処理する2つの挿入メソッドセットが存在します。
+=======
+These methods are "old school": they exist from the ancient times and we can meet them in many old scripts. Unfortunately, they are not flexible enough.
+
+For instance, how to insert *html* if we have it as a string? Or, given a node, without reference to its parent, how to remove it? Of course, that's doable, but not in an elegant way.
+
+So there exist two other sets of insertion methods to handle all cases easily.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ### prepend/append/before/after
 
@@ -164,7 +198,13 @@ div.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
 - `node.after(...nodes or strings)` –- `node` の後にノードまたは文字列を追加します,
 - `node.replaceWith(...nodes or strings)` –- `node` を与えられたノードまたは文字列で置き換えます。
 
+<<<<<<< HEAD
 これらのメソッドを使用して、リストに項目を追加し、項目の前後にテキストを追加する例を次に示します。:
+=======
+All of them accept a list of DOM nodes and/or text strings. If a string is given it's inserted as a text node.
+
+Here's an example of using these methods to add more items to a list and the text before/after it:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```html autorun
 <ol id="ol">
@@ -205,7 +245,11 @@ before
 after
 ```
 
+<<<<<<< HEAD
 これらのメソッドは1回の呼び出しで複数のノードやテキストのリストを挿入できます。
+=======
+These methods can insert multiple lists of nodes and text pieces in a single call.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 例えば、これは文字列と要素が挿入されます:
 
@@ -238,6 +282,7 @@ after
 
 もう1つ、非常に多彩なメソッドがあります: `elem.insertAdjacentHTML（where、html）`。
 
+<<<<<<< HEAD
 最初のパラメータは文字列で、挿入場所を指定し、次のどれかでなければなりません:
 
 - `"beforebegin"` -- `elem` の前に `html` を挿入します,
@@ -246,6 +291,16 @@ after
 - `"afterend"` -- `elem` の後に `html` を挿入します.
 
 2つ目のパラメータは "そのまま" 挿入されるHTML文字列です。
+=======
+The first parameter is a code word, specifying where to insert relative to `elem`. Must be one of the following:
+
+- `"beforebegin"` -- insert `html` immediately before `elem`,
+- `"afterbegin"` -- insert `html` into `elem`, at the beginning,
+- `"beforeend"` -- insert `html` into `elem`, at the end,
+- `"afterend"` -- insert `html` immediately after `elem`.
+
+The second parameter is an HTML string, that is inserted "as HTML".
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 例:
 
@@ -275,10 +330,17 @@ after
 
 メソッドは2つの兄弟がいます:
 
+<<<<<<< HEAD
 - `elem.insertAdjacentText(where, text)` -- 同じ構文ですが、HTML の代わりに "テキストとして" 挿入される `text` の文字列です。
 - `elem.insertAdjacentElement(where, elem)` -- 同じ構文ですが、要素を挿入します。
 
 これらは主に構文を "統一的" にするために存在します。実際にはほぼ `insertAdjacentHTML` だけが使われます。なぜなら、要素やテキストに対しては、`append/prepend/before/after` というメソッドがあるためです -- これらはより短く書くことができ、ノード/テキストの部分を挿入することが可能です。
+=======
+- `elem.insertAdjacentText(where, text)` -- the same syntax, but a string of `text` is inserted "as text" instead of HTML,
+- `elem.insertAdjacentElement(where, elem)` -- the same syntax, but inserts an element.
+
+They exist mainly to make the syntax "uniform". In practice, only `insertAdjacentHTML` is used most of the time. Because for elements and text, we have methods `append/prepend/before/after` -- they are shorter to write and can insert nodes/text pieces.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 したがって、これはメッセージを表示する別の方法です:
 
@@ -304,7 +366,11 @@ after
 
 似たようなメッセージを複数挿入するにはどうすればよいでしょう？
 
+<<<<<<< HEAD
 我々は関数を実行してコードをそこに置くことができました。 しかし、別の方法は、既存の `div` を *クローン* し、その中のテキストを変更することです（必要な場合）。
+=======
+We could make a function and put the code there. But the alternative way would be to *clone* the existing `div` and modify the text inside it (if needed).
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 大きな要素を持っているケースで、この方法がより速くシンプルになる場合があります。
 
@@ -337,6 +403,7 @@ after
 </script>
 ```
 
+<<<<<<< HEAD
 ## 削除メソッド 
 
 ノードを削除するために、次のメソッドがあります:
@@ -344,6 +411,83 @@ after
 
 `parentElem.removeChild(node)`
 : `parentElem` から `node` を削除します(`parentElem` の子と想定)
+=======
+
+## DocumentFragment [#document-fragment]
+
+`DocumentFragment` is a special DOM node that serves as a wrapper to pass around lists of nodes.
+
+We can append other nodes to it, but when we insert it somewhere, then its content is inserted instead.
+
+For example, `getListContent` below generates a fragment with `<li>` items, that are later inserted into `<ul>`:
+
+```html run
+<ul id="ul"></ul>
+
+<script>
+function getListContent() {
+  let fragment = new DocumentFragment();
+
+  for(let i=1; i<=3; i++) {
+    let li = document.createElement('li');
+    li.append(i);
+    fragment.append(li);
+  }
+
+  return fragment;
+}
+
+*!*
+ul.append(getListContent()); // (*)
+*/!*
+</script>
+```
+
+Please note, at the last line `(*)` we append `DocumentFragment`, but it "blends in", so the resulting structure will be:
+
+```html
+<ul>
+  <li>1</li>
+  <li>2</li>
+  <li>3</li>
+</ul>
+```
+
+`DocumentFragment` is rarely used explicitly. Why append to a special kind of node, if we can return an array of nodes instead? Rewritten example:
+
+```html run
+<ul id="ul"></ul>
+
+<script>
+function getListContent() {
+  let result = [];
+
+  for(let i=1; i<=3; i++) {
+    let li = document.createElement('li');
+    li.append(i);
+    result.push(li);
+  }
+
+  return result;
+}
+
+*!*
+ul.append(...getListContent()); // append + "..." operator = friends!
+*/!*
+</script>
+```
+
+We mention `DocumentFragment` mainly because there are some concepts on top of it, like [template](info:template-element) element, that we'll cover much later.
+
+
+## Removal methods
+
+To remove nodes, there are the following methods:
+
+
+`parentElem.removeChild(node)`
+: Removes `node` from  `parentElem` (assuming it's a child).
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 `node.remove()`
 : その場所から `node` を削除します。
@@ -411,9 +555,15 @@ after
 
 `document.write(html)` の呼び出しは `html` を "すぐにその場で" ページに書き込みます。`html` 文字列は動的に生成することができるので、柔軟性があります。JavaScriptを使用して本格的なWebページを作成し、それを書き出すことができます。
 
+<<<<<<< HEAD
 このメソッドは DOMがなく、標準もないときに出来ました... 本当に昔です。それは、それを使っているスクリプトがあるので、まだ生きています。
 
 現代のスクリプトでは、重要な制限があるためほとんど見かけません。
+=======
+The method comes from times when there was no DOM, no standards... Really old times. It still lives, because there are scripts using it.
+
+In modern scripts we can rarely see it, because of the following important limitation:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 **`document.write`の呼び出しはページがロードされている間だけ動作します**
 
@@ -436,7 +586,11 @@ after
 
 それは欠点でした。
 
+<<<<<<< HEAD
 技術的には、ブラウザがまだ HTML を読んでいる間に `document.write` が呼び出されると、それは何かを追加し、ブラウザは最初と同じようにそれを消費します。
+=======
+Technically, when `document.write` is called while the browser is reading ("parsing") incoming HTML, and it writes something, the browser consumes it just as if it were initially there, in the HTML text.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 それは我々に良い面をもたらします -- それは *DOMの修正がないため* 驚くほど速く動作します。DOMがまだビルドされていない間、それは直接ページテキストに書き込み、ブラウザは生成時にそれをDOMを挿入します。
 
@@ -481,4 +635,8 @@ after
 - ロードが完了する前に、ページにHTMLをつかするには:
   - `document.write(html)`
 
+<<<<<<< HEAD
   ページがロードされた後、この呼び出しはドキュメントを削除します。ほぼ古いスクリプトで見られます。
+=======
+  After the page is loaded such a call erases the document. Mostly seen in old scripts.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a

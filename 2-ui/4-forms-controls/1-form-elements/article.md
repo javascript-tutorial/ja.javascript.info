@@ -2,15 +2,23 @@
 
 フォームや `<input>` のようなコントロール要素は多くの特別なプロパティやイベントを持っています。
 
+<<<<<<< HEAD
 それらを知っていると、フォームを使った作業がはるかに便利になります。
 
 [cut]
+=======
+Working with forms will be much more convenient when we learn them.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ## ナビゲーション: フォームと要素 
 
 ドキュメントフォームは特別な集合 `document.forms` のメンバです。
 
+<<<<<<< HEAD
 それは *名付けされた* 集合で、名前と数字の両方を使ってフォームを取得することができます。
+=======
+That's a so-called "named collection": it's both named and ordered. We can use both the name or the number in the document to get the form.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js no-beautify
 document.forms.my - name="my" のフォーム
@@ -155,7 +163,11 @@ alert(ageElems[0].value); // 10, 1つ目の input の値
 
 ### input と textarea
 
+<<<<<<< HEAD
 通常、チェックボックスに対しては `input.value` または `input.checked` で値にアクセスできます。
+=======
+We can access their value as `input.value` (string) or `input.checked` (boolean) for checkboxes.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 このように:
 
@@ -166,17 +178,28 @@ textarea.value = "New text";
 input.checked = true; // チェックボックスやラジオボタンの場合
 ```
 
+<<<<<<< HEAD
 ```warn header="`textarea.innerHTML` ではなく `textarea.value` を使います"
 決して `textarea.innerHTML` は使わないよう注意してください。それは現在の値ではなく、ページの初期時点の HTML のみを保持しています。
+=======
+```warn header="Use `textarea.value`, not `textarea.innerHTML`"
+Please note that even though `<textarea>...</textarea>` holds its value as nested HTML, we should never use `textarea.innerHTML`. It stores only the HTML that was initially on the page, not the current value.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 ```
 
 ### select と option
 
 `<select>` 要素は3つの重要なプロパティを持っています:
 
+<<<<<<< HEAD
 1. `select.options` -- `<option>` 要素の集合です,
 2. `select.value` -- 選ばれた選択肢の値です,
 3. `select.selectedIndex` -- 選ばれた選択肢の番号です.
+=======
+1. `select.options` -- the collection of `<option>` elements,
+2. `select.value` -- the value of the currently selected option,
+3. `select.selectedIndex` -- the number of the currently selected option.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 従って、 `<select>` の値を設定するのに 3つの方法があります。:
 
@@ -224,11 +247,21 @@ input.checked = true; // チェックボックスやラジオボタンの場合
 </script>
 ```
 
+<<<<<<< HEAD
 `<select>` 要素の完全な仕様は <https://html.spec.whatwg.org/multipage/forms.html#the-select-element> にあります。
 
 ### new Option
 
 [option 要素](https://html.spec.whatwg.org/multipage/forms.html#the-option-element)には、`<option>` 要素を作成するための簡単でナイスな構文があります。:
+=======
+The full specification of the `<select>` element is available in the specification <https://html.spec.whatwg.org/multipage/forms.html#the-select-element>.
+
+### new Option
+
+This is rarely used on its own. But there's still an interesting thing.
+
+In the specification of [the option element](https://html.spec.whatwg.org/multipage/forms.html#the-option-element) there's a nice short syntax to create `<option>` elements:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js
 option = new Option(text, value, defaultSelected, selected);
@@ -236,10 +269,17 @@ option = new Option(text, value, defaultSelected, selected);
 
 パラメータ:
 
+<<<<<<< HEAD
 - `text` -- option 内のテキスト,
 - `value` -- option の値,
 - `defaultSelected` -- `true` の場合、`selected` 属性が作られます,
 - `selected` -- `true` の場合、 option が選択されます.
+=======
+- `text` -- the text inside the option,
+- `value` -- the option value,
+- `defaultSelected` -- if `true`, then `selected` HTML-attribute is created,
+- `selected` -- if `true`, then the option is selected.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 例:
 
@@ -264,7 +304,11 @@ Option 要素は追加のプロパティを持っています:
 : その `<select>` の中で何番目の option であるか
 
 `text`
+<<<<<<< HEAD
 : option のテキストコンテンツ
+=======
+: Text content of the option (seen by the visitor).
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 ```
 
 ## サマリ 
@@ -282,6 +326,12 @@ Option 要素は追加のプロパティを持っています:
 
 値は `input.value`, `textarea.value`, `select.value` など、もしくはチェックボックスやラジオボタンに対しては `input.checked` として利用可能です。
 
+<<<<<<< HEAD
 `<select>` の場合、インデックス `select.selectedIndex` や、選択肢の集合 `select.options` を通じて値を取得することもできます。これや他の要素の完全な仕様は <https://html.spec.whatwg.org/multipage/forms.html> にあります。
 
 これらはフォームを使って作業を始めるための基本です。 次のチャプターでは、どの要素でも発生する可能性のある `focus` イベントと `blur` イベントについて説明しますが、ほとんどはフォームで処理されます。
+=======
+For `<select>` we can also get the value by the index `select.selectedIndex` or through the options collection `select.options`. The full specification of this and other elements is in the specification <https://html.spec.whatwg.org/multipage/forms.html>.
+
+These are the basics to start working with forms. We'll meet many examples further in the tutorial. In the next chapter we'll cover `focus` and `blur` events that may occur on any element, but are mostly handled on forms.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a

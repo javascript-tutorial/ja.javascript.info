@@ -1,15 +1,23 @@
 # スタイルとクラス
 
+<<<<<<< HEAD
 JavaScriptでスタイルとクラスを扱う方法を習得する前に、 -- ここには重要なルールがあります。うまくいけばそれは十分明らかですが、それでも言及する必要があります。
+=======
+Before we get into JavaScript's ways of dealing with styles and classes -- here's an important rule. Hopefully it's obvious enough, but we still have to mention it.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 一般的には要素をスタイルする2つの方法があります:
 
 1. CSS でクラスを生成し、それを追加します: `<div class="...">`
 2. `style` に直接プロパティを書きます: `<div style="...">`.
 
+<<<<<<< HEAD
 [cut]
 
 CSS は常に好まれる方法です -- HTML に対してだけではなく JavaScript でも同様です。
+=======
+CSS is always the preferred way -- not only for HTML, but in JavaScript as well.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 クラスが "処理することが出来ない" 場合にのみ、`style` プロパティを操作するべきです。
 
@@ -26,7 +34,11 @@ elem.style.top = top; // e.g '456px'
 
 ## className と classList
 
+<<<<<<< HEAD
 クラスを変更することは、スクリプトで最も頻繁に行われる操作の1つです。
+=======
+Changing a class is one of the most often used actions in scripts.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ずっと昔、JavaScript には制限がありました: `"class"` のような予約語はオブジェクトプロパティにはできませんでした。その制限は今は存在しませんが、その当時は `elem.class` にように `"class"` プロパティを持つことは不可能でした。
 
@@ -43,7 +55,11 @@ elem.style.top = top; // e.g '456px'
 </body>
 ```
 
+<<<<<<< HEAD
 もし何かを `elem.className` に割り当てた場合、クラスの文字列全体を置き換えます。それが必要なときもありますが、多くの場合は1つのクラスの追加/削除がしたいです。
+=======
+If we assign something to `elem.className`, it replaces the whole string of classes. Sometimes that's what we need, but often we want to add/remove a single class.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 そのための別のプロパティもあります: `elem.classList` です。
 
@@ -68,16 +84,24 @@ elem.style.top = top; // e.g '456px'
 
 `classList` のメソッド:
 
+<<<<<<< HEAD
 - `elem.classList.add/remove("class")` -- クラスの追加/削除をします。
 - `elem.classList.toggle("class")` -- もしクラスが存在する場合は削除します。そうでなければ追加します。
 - `elem.classList.contains("class")` -- 指定されたクラスをチェックし、 `true/false` を返します。
 
 それに加え、`classList` は反復可能です。なので、このようにすべてのクラスを列挙する事ができます:
+=======
+- `elem.classList.add/remove("class")` -- adds/removes the class.
+- `elem.classList.toggle("class")` -- adds the class if it doesn't exist, otherwise removes it.
+- `elem.classList.contains("class")` -- returns `true/false`, checks for the given class.
+
+Besides, `classList` is iterable, so we can list all classes with `for..of`, like this:
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```html run
 <body class="main page">
   <script>
-    for(let name of document.body.classList) {
+    for (let name of document.body.classList) {
       alert(name); // main, and then page
     }
   </script>
@@ -119,7 +143,11 @@ button.style.WebkitBorderRadius = '5px';
 
 例えば、要素を隠すために `elem.style.display = "none"` と設定できます。
 
+<<<<<<< HEAD
 そして、後でそれがセットされていなかったかのように、 `style.display` を削除したいかもしれません。`delete elem.style.display` の代わりに空行を割り当てるべきです: `elem.style.display = ""`.
+=======
+Then later we may want to remove the `style.display` as if it were not set. Instead of `delete elem.style.display` we should assign an empty string to it: `elem.style.display = ""`.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ```js run
 // このコードを実行すると、<body> が "点滅" します
@@ -128,7 +156,11 @@ document.body.style.display = "none"; // 隠します
 setTimeout(() => document.body.style.display = "", 1000); // 通常に戻ります
 ```
 
+<<<<<<< HEAD
 `display` を空文字列に設定した場合、ブラウザは通常 CSS クラスと組み込みのスタイルを適用します。まるで `style` プロパティが全くないかのように振る舞います。
+=======
+If we set `display` to an empty string, then the browser applies CSS classes and its built-in styles normally, as if there were no such `display` property at all.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ````smart header="`style.cssText` で完全に書き直す"
 通常、個々のスタイルプロパティを割り当てるために `style.*` を使います。`div.style` はオブジェクトであり、読み取り専用であるため、`div.style="color: red; width: 100px"` のような完全なスタイルを設定することはできません。
@@ -150,7 +182,11 @@ setTimeout(() => document.body.style.display = "", 1000); // 通常に戻りま�
 </script>
 ```
 
+<<<<<<< HEAD
 このような代入は既存のすべてのスタイルを削除するので、めったに使われません。: それは追加ではなく置換です。場合によっては必要なものを削除する可能性があります。しかし、私たちが重要なものを削除しないことを知っているとき、新しい要素に対しては行う事ができます。
+=======
+This property is rarely used, because such assignment removes all existing styles: it does not add, but replaces them. May occasionally delete something needed. But we can safely use it for new elements, when we know we won't delete an existing style.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 属性を設定することで同じことを達成することが出来ます。: `div.setAttribute('style', 'color: red...')`.
 ````
@@ -210,7 +246,11 @@ CSS の単位はスタイルの値の中で指定する必要があります。
 </body>
 ```
 
+<<<<<<< HEAD
 ...しかし仮にマージンを 20px に増加する必要がある場合はどうすればよいでしょう？そのために現在の値がほしいです。 
+=======
+...But what if we need, say, to increase the margin by 20px? We would want the current value of it.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 そのための別のメソッドがあります: `getComputedStyle`.
 
@@ -224,7 +264,11 @@ element
 : 値を読み取る要素
 
 pseudo
+<<<<<<< HEAD
 : 疑似要素(必要な場合)。例えば `::before`。空文字列または引数なしは要素自身を意味します。
+=======
+: A pseudo-element if required, for instance `::before`. An empty string or no argument means the element itself.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 結果は、`elem.style` のようにスタイルプロパティを持つオブジェクトですが、今はすべての CSS クラスに関してのものです。
 
@@ -251,9 +295,16 @@ pseudo
 ```smart header="算出(comupted)と解析(resolved)値"
 [CSS](https://drafts.csswg.org/cssom/#resolved-values) には2つのコンセプトがあります:
 
+<<<<<<< HEAD
 1. *算出* スタイル値(*computed* style value)は、CSS カスケードの結果として、すべての CSS ルールと CSS 継承が適用された後の値です。`height:1em` または `font-size:125%` のように見えます。
 
 2. *解析* スタイル値(*resolved* style value)は要素に最終的に適用される値です。`1em` or `125%` のような値は相対的なものです。ブラウザは計算された値を取り、`height: 20px` や` font-size: 16px` のようにすべての単位を固定し絶対的にします。 幾何学プロパティの場合、解析された値は `width：50.5px`のような浮動小数点を持ちます。
+=======
+1. A *computed* style value is the value after all CSS rules and CSS inheritance is applied, as the  result of the CSS cascade. It can look like `height:1em` or `font-size:125%`.
+2. A *resolved* style value is the one finally applied to the element. Values like `1em` or `125%` are relative. The browser takes the computed value and makes all units fixed and absolute, for instance: `height:20px` or `font-size:16px`. For geometry properties resolved values may have a floating point, like `width:50.5px`.
+
+A long time ago `getComputedStyle` was created to get computed values, but it turned out that resolved values are much more convenient, and the standard changed.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 
 ずっと以前に、`getComputedStyle` は計算された値を取得するために作られましたが、解析された値がはるかに便利であることが分かり、標準が変更されました。
 
@@ -285,7 +336,11 @@ pseudo
 
 しかし、`getComputedStyle` はその色へのアクセスを提供しません。なぜなら、そうでなければ、任意のページが、ページ上でそれを作りスタイルをチェックすることによって、ユーザがリンクを訪れたかどうかを知ることができるためです。
 
+<<<<<<< HEAD
 JavaScriptでは、 `:visited` によって適用されたスタイルは見えません。また、`:visited` にジオメトリの変更スタイルを適用することを禁止するという制限が CSS にはあります。それは、リンクが訪問された場合に悪意のあるページがテストしてプライバシを破る方法がないことを保証するためです。
+=======
+JavaScript may not see the styles applied by `:visited`. And also, there's a limitation in CSS that forbids to apply geometry-changing styles in `:visited`. That's to guarantee that there's no sideway for an evil page to test if a link was visited and hence to break the privacy.
+>>>>>>> fb38a13978f6e8397005243bc13bc1a20a988e6a
 ```
 
 ## サマリ 
