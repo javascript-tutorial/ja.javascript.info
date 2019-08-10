@@ -2,7 +2,7 @@
 
 `XMLHttpRequest` は JavaScript で HTTP リクエストを行うための組み込みのブラウザオブジェクトです。
 
-名前に "XML" という用語を含んでいますが、XML 形式だけでなくあらゆるデータ扱うことができます。ファイルをアップロード/ダウンロードしたり、進捗を追跡など様々なことができます。
+名前に "XML" という用語を含んでいますが、XML 形式だけでなくあらゆるデータ扱うことができます。ファイルをアップロード/ダウンロードしたり、進捗の追跡など様々なことができます。
 
 現在は `XMLHttpRequest` を若干非推奨とする、よりモダンなメソッド `fetch` があります。
 
@@ -12,7 +12,7 @@
 2. 古いブラウザをサポートする必要があるが、 polyfill は使いたくない(e.g. スクリプトのサイズを小さくしたい)場合
 3. `fetch` がまだできないことをしたい場合. e.g アップロードの進捗を追跡するなど
 
-これらを聞いたことがありますか？もしそうなら `XMLHttpRequest` に進んでください。そうでなければ、<info:fetch> に進むのがよいでしょう。
+このような要件を聞いたことがありますか？もしそうなら `XMLHttpRequest` に進んでください。そうでなければ、<info:fetch> に進むのがよいでしょう。
 
 ## 基本
 
@@ -32,7 +32,7 @@ XMLHttpRequest には2つの操作モードがあります: 同期と非同期�
     xhr.open(method, URL, [async, user, password])
     ```
 
-    このメソッドは通常 `new XMLHttpRequest` のすぐ後で呼ばれ、リクエストのメインのパラメータをを指定します。:
+    このメソッドは通常 `new XMLHttpRequest` のすぐ後で呼ばれ、リクエストのメインのパラメータを指定します。:
 
     - `method` -- HTTPメソッド. たいてい `"GET"` か `"POST"` です.
     - `URL` -- リクエストURL。文字列で、[URL](info:url) オブジェクトもOKです。
@@ -53,10 +53,10 @@ XMLHttpRequest には2つの操作モードがあります: 同期と非同期�
 
 4. 応答に対するイベントをリッスンします
 
-    これら3つはもっとも広く使われています:
+    これら3つがもっとも広く使われています:
     - `load` -- 結果が準備できたとき。404 のような HTTP エラーを含みます。
-    - `error` -- リクエストが送信送信できなかったとき e.g. ネットワークダウン or URL不正
-    - `progress` -- ダウンロード中に定期的にトリガーされ、ダウンロードされた量をレポートします。
+    - `error` -- リクエストが送信できなかったとき e.g. ネットワークダウン or URL不正
+    - `progress` -- ダウンロード中に定期的にトリガーされ、ダウンロードされた量が確認できます。
 
     ```js
     xhr.onload = function() {
@@ -144,9 +144,9 @@ xhr.open('GET', url); // https://google.com/search?q=test+me%21
 
 ## レスポンスタイプ
 
-レスポンスの形式を設定するのに `xhr.responseType` を使うことができます。:
+レスポンスの形式を設定するには `xhr.responseType` を使います。:
 
-- `""` (deデフォルトfault) -- 文字列として取得,
+- `""` (デフォルト) -- 文字列として取得,
 - `"text"` -- 文字列として取得,
 - `"arraybuffer"` -- `ArrayBuffer` として取得(バリナリデータに対して, チャプター  <info:arraybuffer-binary-arrays> を参照),
 - `"blob"` -- `Blob`　として取得 (バイナリデータに対して, チャプター <info:blob> を参照),
@@ -248,63 +248,62 @@ try {
 }
 ```
 
-よく見えるかもしれませんが、同期呼び出しはめったに使われません。なぜなら読み込みが完了するまでページ内の JavaScript をブロックするからです。ブラウザによっては、スクロールができなくなります。また、同期呼び出しに時間がかかりすぎると、ブラウザは "ハングしている" web ページを閉じるよう提案することがあります。
+問題なく見えるかもしれませんが、同期呼び出しはめったに使われません。なぜなら読み込みが完了するまでページ内の JavaScript をブロックするからです。ブラウザによっては、スクロールができなくなります。また、同期呼び出しに時間がかかりすぎると、ブラウザは "ハングしている" web ページを閉じるよう提案することがあります。
 
 別ドメインからのリクエストやタイムアウトの指定など、`XMLHttpRequest` の多くの高度な機能は同期リクエストでは使えません。また、ご覧の通り進行状況もありません。
 
-そのため、同期リクエストはあまり使われません。同期リクエストについてはこれ以上取り上げないでしょう。
+したがって、同期リクエストはあまり使われないので、これ以上取り上げないでおきます。
 
 ## HTTP ヘッダ
 
-`XMLHttpRequest` allows both to send custom headers and read headers from the response.
+`XMLHttpRequest` はカスタムヘッダの送信とレスポンスからのヘッダ読み取り、両方が可能です。
 
-There are 3 methods for HTTP-headers:
+HTTP ヘッダに関しては3つのメソッドがあります。:
 
 `setRequestHeader(name, value)`
-: Sets the request header with the given `name` and `value`.
+: 指定された `name` と `value` のリクエストヘッダを設定します。
 
-    For instance:
+    例:
 
     ```js
     xhr.setRequestHeader('Content-Type', 'application/json');
     ```
 
-    ```warn header="Headers limitations"
-    Several headers are managed exclusively by the browser, e.g. `Referer` and `Host`.
-    The full list is [in the specification](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method).
+    ```warn header="ヘッダの制限"
+    いくつかのヘッダはブラウザだけが管理しています。例えば、`Referer` や `Host` です。
+    完全なリストは [仕様](http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader-method) にあります。
 
-    `XMLHttpRequest` is not allowed to change them, for the sake of user safety and correctness of the request.
-    ```
+    ユーザの安全性やリクエストの正当性の観点から、`XMLHttpRequest` ではそれらを変更することは許可されていません。  ```
 
-    ````warn header="Can't remove a header"
-    Another peculiarity of `XMLHttpRequest` is that one can't undo `setRequestHeader`.
+    ````warn header="ヘッダを削除することはできません"
+    `XMLHttpRequest` のもう一つの特徴は `setRequestHeader` を取り消すことはできないということです。
 
-    Once the header is set, it's set. Additional calls add information to the header, don't overwrite it.
+    一度ヘッダを設定すると、それが設定されます。さらなる呼び出しはヘッダへの情報の追加であり、上書きでは有りません。
 
-    For instance:
+    例:
 
     ```js
     xhr.setRequestHeader('X-Auth', '123');
     xhr.setRequestHeader('X-Auth', '456');
 
-    // the header will be:
+    // ヘッダはこうなります:
     // X-Auth: 123, 456
     ```
     ````
 
 `getResponseHeader(name)`
-: Gets the response header with the given `name` (except `Set-Cookie` and `Set-Cookie2`).
+: 指定された `name` (`Set-Cookie` と `Set-Cookie2` は除く) のレスポンスヘッダを取得します。
 
-    For instance:
+    例:
 
     ```js
     xhr.getResponseHeader('Content-Type')
     ```
 
 `getAllResponseHeaders()`
-: Returns all response headers, except `Set-Cookie` and `Set-Cookie2`.
+: `Set-Cookie` と `Set-Cookie2` を除く、すべてのレスポンスヘッダを返します。
 
-    Headers are returned as a single line, e.g.:
+    ヘッダは次のように1行で返却されます。:
 
     ```
     Cache-Control: max-age=31536000
@@ -313,11 +312,11 @@ There are 3 methods for HTTP-headers:
     Date: Sat, 08 Sep 2012 16:53:16 GMT
     ```
 
-    The line break between headers is always `"\r\n"` (doesn't depend on OS), so we can easily split it into individual headers. The separator between the name and the value is always a colon followed by a space `": "`. That's fixed in the specification.
+    ヘッダ間の改行は常に `"\r\n"` です(OSに依存しません)。なので、簡単に個々のヘッダに分割することができます。名前と値のセパレータは常にコロンとそれに続くスペースです `": "`。これは仕様で決められています。
 
-    So, if we want to get an object with name/value pairs, we need to throw in a bit JS.
+    なので、name/value のペアをもつオブジェクトを取得したい場合は少し JS が必要になります。
 
-    Like this (assuming that if two headers have the same name, then the latter one overwrites the former one):
+    例えばこのようになります(2つのヘッダの名前が同じ場合、前者のヘッダが後者のヘッダで上書きされる想定です):
 
     ```js
     let headers = xhr
@@ -332,21 +331,21 @@ There are 3 methods for HTTP-headers:
 
 ## POST, FormData
 
-To make a POST request, we can use the built-in [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object.
+POST リクエストをするには、組み込みの [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) オブジェクトを使います。
 
-The syntax:
+構文:
 
 ```js
-let formData = new FormData([form]); // creates an object, optionally fill from <form>
-formData.append(name, value); // appends a field
+let formData = new FormData([form]); // オブジェクトを作成します。オプションで <form> を指定します
+formData.append(name, value); // フィールドを追加します
 ```
 
-We create it, optionally from a form, `append` more fields if needed, and then:
+オプションでフォームから作成し、必要に応じて "追加" フィールドを追加します。その後:
 
-1. `xhr.open('POST', ...)` – use `POST` method.
-2. `xhr.send(formData)` to submit the form to the server.
+1. `xhr.open('POST', ...)` – `POST` メソッドを使います
+2. `xhr.send(formData)` で、フォームをサーバに送信します
 
-For instance:
+例:
 
 ```html run
 <form name="person">
@@ -369,11 +368,11 @@ For instance:
 </script>
 ```
 
-The form is sent with `multipart/form-data` encoding.
+フォームは `multipart/form-data` エンコーディングで送信されます。
 
-Or, if we like JSON more, then `JSON.stringify` and send as a string.
+あるいは、JSON を好むなら `JSON.stringify` をして、文字列として送信します。
 
-Just don't forget to set the header `Content-Type: application/json`, many server-side frameworks automatically decode JSON with it:
+ヘッダ `Content-Type: application/json` を設定するのを忘れないでください。多くのサーバサイド側のフレームワークはそれで自動的に JSON をデコードしいます。:
 
 ```js
 let xhr = new XMLHttpRequest();
@@ -389,29 +388,30 @@ xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 xhr.send(json);
 ```
 
-The `.send(body)` method is pretty omnivore. It can send almost everything, including `Blob` and `BufferSource` objects.
+`.send(body)` メソッドは非常に雑食です。`Blob` や `BufferSource` オブジェクトを含め、ほぼなんでも送信できます。
 
-## Upload progress
 
-The `progress` event only works on the downloading stage.
+## アップロードの進行状況
 
-That is: if we `POST` something, `XMLHttpRequest` first uploads our data (the request body), then downloads the response.
+`progress` イベントはダウンロードの段階でのみ機能します。
 
-If we're uploading something big, then we're surely more interested in tracking the upload progress. But `xhr.onprogress` doesn't help here.
+つまり: なにかを `POST` したとき、`XMLHttpRequest` は最初にデータ(リクエストボディ)をアップロードし、次にレスポンスをダウンロードします。
 
-There's another object `xhr.upload`, without methods, exclusively for upload events.
+なにか大きなものをアップロードする場合、アップロードの進行状況を追跡することはやりたいことの一つです。ですが、`xhr.onprogress` はここでは役に立ちません。
 
-The event list is similar to `xhr` events, but `xhr.upload` triggers them on uploading:
+別のオブジェクト `xhr.upload` があります。これはアップロードイベント専用でメソッドを持ちません。
 
-- `loadstart` -- upload started.
-- `progress` -- triggers periodically during the upload.
-- `abort` -- upload aborted.
-- `error` -- non-HTTP error.
-- `load` -- upload finished successfully.
-- `timeout` -- upload timed out (if `timeout` property is set).
-- `loadend` -- upload finished with either success or error.
+イベントの一覧は `xhr` イベントに似ていますが、`xhr.upload` アップロード時にそれらを発生させます。:
 
-Example of handlers:
+- `loadstart` -- アップロード開始
+- `progress` -- アップロード中、定期的に発生します
+- `abort` -- アップロード中止
+- `error` -- 非 HTTP エラー
+- `load` -- アップロードが正常に終了
+- `timeout` -- アップロードのタイムアウト(`timeout` プロパティが設定されている場合
+- `loadend` -- アップロードが成功/失敗関係なく終了
+
+ハンドラの例です:
 
 ```js
 xhr.upload.onprogress = function(event) {
@@ -427,7 +427,7 @@ xhr.upload.onerror = function() {
 };
 ```
 
-Here's a real-life example: file upload with progress indication:
+これは実際の例です: 進行状況を示すファイルのアップロードです:
 
 ```html run
 <input type="file" onchange="upload(this.files[0])">
@@ -436,14 +436,14 @@ Here's a real-life example: file upload with progress indication:
 function upload(file) {
   let xhr = new XMLHttpRequest();
 
-  // track upload progress
+  // アップロードの進行状況を追跡します
 *!*
   xhr.upload.onprogress = function(event) {
     console.log(`Uploaded ${event.loaded} of ${event.total}`);
   };
 */!*
 
-  // track completion: both successful or not
+  // 追跡完了: 成功したか失敗した
   xhr.onloadend = function() {
     if (xhr.status == 200) {
       console.log("success");
@@ -458,11 +458,11 @@ function upload(file) {
 </script>
 ```
 
-## Cross-origin requests
+## クロスオリジンリクエスト
 
-`XMLHttpRequest` can make cross-domain requests, using the same CORS policy as [fetch](info:fetch-crossorigin).
+`XMLHttpRequest` は、[fetch](info:fetch-crossorigin) と同じ CORS ポシしーを使用して、クロスドメインリクエストを作ることができます。 
 
-Just like `fetch`, it doesn't send cookies and HTTP-authorization to another origin by default. To enable them, set `xhr.withCredentials` to `true`:
+`fetch` のように、デフォルトでは Cookie と HTTP 認証を別のオリジンへは送信しません。有効にするには、`xhr.withCredentials` を `true` にします:
 
 ```js
 let xhr = new XMLHttpRequest();
@@ -474,12 +474,11 @@ xhr.open('POST', 'http://anywhere.com/request');
 ...
 ```
 
-See the chapter <info:fetch-crossorigin> for details about cross-origin headers.
+クロスオリジンヘッダに関しての詳細はチャプター <info:fetch-crossorigin> を参照してください。
 
+## サマリ
 
-## Summary
-
-Typical code of the GET-request with `XMLHttpRequest`:
+`XMLHttpRequest` を使用した GET リクエストの典型的なコード:
 
 ```js
 let xhr = new XMLHttpRequest();
@@ -490,38 +489,38 @@ xhr.send();
 
 xhr.onload = function() {
   if (xhr.status != 200) { // HTTP error?
-    // handle error
+    // エラー処理
     alert( 'Error: ' + xhr.status);
     return;
   }
 
-  // get the response from xhr.response
+  // xhr.response でレスポンス取得
 };
 
 xhr.onprogress = function(event) {
-  // report progress
+  // 進行状況の報告
   alert(`Loaded ${event.loaded} of ${event.total}`);
 };
 
 xhr.onerror = function() {
-  // handle non-HTTP error (e.g. network down)
+  // 非 HTTP エラーの処理(e.g. ネットワークダウン)
 };
 ```
 
-There are actually more events, the [modern specification](http://www.w3.org/TR/XMLHttpRequest/#events) lists them (in the lifecycle order):
+実施にはより多くのイベントがあり、[現在の仕様](http://www.w3.org/TR/XMLHttpRequest/#events) でリストされています(ライフサイクル順):
 
-- `loadstart` -- the request has started.
-- `progress` -- a data packet of the response has arrived, the whole response body at the moment is in `responseText`.
-- `abort` -- the request was canceled by the call `xhr.abort()`.
-- `error` -- connection error has occurred, e.g. wrong domain name. Doesn't happen for HTTP-errors like 404.
-- `load` -- the request has finished successfully.
-- `timeout` -- the request was canceled due to timeout (only happens if it was set).
-- `loadend` -- triggers after `load`, `error`, `timeout` or `abort`.
+- `loadstart` -- リクエストが開始された
+- `progress` -- レスポンスのデータパケットが到着し、その時点のレスポンス本文全体は `responseText` にあります
+- `abort` -- リクエストが `xhr.abort()` 呼び出しによりキャンセルされた
+- `error` -- 接続エラーが発生。e.g. 間違ったドメイン名など. 404 などのHTTPエラーでは発生しません。
+- `load` -- リクエストが正常に終了した
+- `timeout` -- タイムアウトでリクエストがキャンセルされた(タイムアウトが設定された場合のみ)).
+- `loadend` -- `load`, `error`, `timeout` or `abort` の後に発生します。.
 
-The `error`, `abort`, `timeout`, and `load` events are mutually exclusive. Only one of them may happen.
+`error`, `abort`, `timeout`, と `load` イベントは相互に排他的です。それらの1つだけが発生します。
 
-The most used events are load completion (`load`), load failure (`error`), or we can use a single `loadend` handler and check the response to see what happened.
+最も使われているイベントはロード完了 (`load`), ロード失敗(`error`)です。あるいは、単一の `loadend` ハンドラを使用して何が起こったのかを確認するためにレスポンスをチェックします。
 
-We've already seen another event: `readystatechange`. Historically, it appeared long ago, before the specification settled. Nowadays, there's no need to use it, we can replace it with newer events, but it can often be found in older scripts.
+すでに別のイベント `readystatechange` を見てきました。歴史的には、仕様が定まるずっと前からありました。最近では、これを使う必要はありません。新しいイベントに置き換えることができますが、多くの場合、古いスクリプトにあります。
 
-If we need to track uploading specifically, then we should listen to same events on `xhr.upload` object.
+特にアップロードを追跡する必要がある場合は、`xhr.upload` オブジェクトで同じイベントをリッスンする必要があります。
