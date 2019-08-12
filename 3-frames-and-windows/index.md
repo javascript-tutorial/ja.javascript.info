@@ -1,1 +1,1 @@
-# フレームとウィンドウ
+# Frames and windows

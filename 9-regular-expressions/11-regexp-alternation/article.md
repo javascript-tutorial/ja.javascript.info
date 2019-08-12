@@ -1,16 +1,14 @@
-# 論理和指定子(Alternation) (OR) |
+# Alternation (OR) |
 
-論理和指定子は、実際には単純な "OR" である正規表現の用語です。
+Alternation is the term in regular expression that is actually a simple "OR".
 
-正規表現では、縦線の文字 `pattern:|` で表現されます。
+In a regular expression it is denoted with a vertical line character `pattern:|`.
 
-[cut]
+For instance, we need to find programming languages: HTML, PHP, Java or JavaScript.
 
-例えば、プログラム言語を探す必要があるとします: HTML, PHP, Java, または JavaScript です。
+The corresponding regexp: `pattern:html|php|java(script)?`.
 
-対応する正規表現は次の通りです: `pattern:html|php|java(script)?`.
-
-利用例:
+A usage example:
 
 ```js run
 let reg = /html|php|css|java(script)?/gi;
@@ -20,50 +18,39 @@ let str = "First HTML appeared, then CSS, then JavaScript";
 alert( str.match(reg) ); // 'HTML', 'CSS', 'JavaScript'
 ```
 
-私たちは既に同様のことを知っています -- 角括弧です。`pattern:gr[ae]y` は `match:gray` または `match:grey` にマッチするように、複数の文字から選択することができます。
+We already know a similar thing -- square brackets. They allow to choose between multiple character, for instance `pattern:gr[ae]y` matches `match:gray` or `match:grey`.
 
-論理和指定子は文字レベルで動作するのではなく、式のレベルで動作します。正規表現 `pattern:A|B|C` は `A`, `B` または `C` の式のいずれか、を意味します。 
+Square brackets allow only characters or character sets. Alternation allows any expressions. A regexp `pattern:A|B|C` means one of expressions `A`, `B` or `C`.
 
-例:
+For instance:
 
-- `pattern:gr(a|e)y` はまさに `pattern:gr[ae]y` と同じ意味です。
-- `pattern:gra|ey` は "gra" または "ey" を意味します。
+- `pattern:gr(a|e)y` means exactly the same as `pattern:gr[ae]y`.
+- `pattern:gra|ey` means `match:gra` or `match:ey`.
 
-論理和指定子では、パターンの一部を区切るには通常次のようにカッコで囲みます。: `pattern:before(XXX|YYY)after`.
+To separate a part of the pattern for alternation we usually enclose it in parentheses, like this: `pattern:before(XXX|YYY)after`.
 
-## 時間の正規表現
+## Regexp for time
 
-前のチャプターで、`12:00` のような形式 `hh:mm` の時間を探す正規表現を構築するタスクがありました。しかし、単純な `pattern:\d\d:\d\d` はあまりにも要領を得ません。これは `25:99` も時間として許容します。
+In previous chapters there was a task to build a regexp for searching time in the form `hh:mm`, for instance `12:00`. But a simple `pattern:\d\d:\d\d` is too vague. It accepts `25:99` as the time (as 99 seconds match the pattern).
 
-どうすればより優れた正規表現を作れるでしょうか？
+How can we make a better one?
 
-その方法として、私たちはより慎重なマッチングを適用することができます:
+We can apply more careful matching. First, the hours:
 
-- 最初の数字は `0` か `1` で、その後に任意の数値が続く必要があります。
-- もしくは `2` でその後に `pattern:[0-3]` が続きます。
+- If the first digit is `0` or `1`, then the next digit can by anything.
+- Or, if the first digit is `2`, then the next must be `pattern:[0-3]`.
 
-正規表現としてはこのようになります:  `pattern:[01]\d|2[0-3]`.
+As a regexp: `pattern:[01]\d|2[0-3]`.
 
-その後、コロンと分の部分を追加します。
+Next, the minutes must be from `0` to `59`. In the regexp language that means `pattern:[0-5]\d`: the first digit `0-5`, and then any digit.
 
-分 は `0` から `59` までである必要があり、正規表現では最初の数字 `pattern:[0-5]` でその後に他の数字 `\d` が続くことを意味します。
+Let's glue them together into the pattern: `pattern:[01]\d|2[0-3]:[0-5]\d`.
 
-パターンにそれらを引っ付けましょう: `pattern:[01]\d|2[0-3]:[0-5]\d`.
+We're almost done, but there's a problem. The alternation `pattern:|` now happens to be between `pattern:[01]\d` and `pattern:2[0-3]:[0-5]\d`.
 
-ほとんど完了していますが、まだ問題があります。論理和指定子 `|` は `pattern:[01]\d` と `pattern:2[0-3]:[0-5]\d` の間です。これだと左右どちらかのパターンがマッチするすることになるので間違いです。
+That's wrong, as it should be applied only to hours `[01]\d` OR `2[0-3]`. That's a common mistake when starting to work with regular expressions.
 
-```js run
-let reg = /[01]\d|2[0-3]:[0-5]\d/g;
-
-alert("12".match(reg)); // 12 ([01]\d にマッチ)
-```
-
-それはかなり明らかではありますが、正規表現で作業を開始するときには依然としてよく起きるミスです。
-
-時間の部分 `[01]\d` OR `2[0-3]` へ正確に論理和指定子を適用するために括弧が必要です。
-
-
-正しいバリアントです:
+The correct variant:
 
 ```js run
 let reg = /([01]\d|2[0-3]):[0-5]\d/g;

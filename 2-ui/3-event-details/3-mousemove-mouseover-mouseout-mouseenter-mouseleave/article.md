@@ -2,8 +2,6 @@
 
 マウスが要素間を移動するときに起こるイベントについての詳細を見ていきましょう。
 
-[cut]
-
 ## Mouseover/mouseout, relatedTarget
 
 `mouseoever` イベントはマウスポインタが要素の上に来るときに発生し、`mouseout` は -- そこを離れるときです。
@@ -12,15 +10,29 @@
 
 これらのイベントは `relatedTarget` を持っているという点で特別です。
 
+<<<<<<< HEAD
 `mouseover` の場合:
 
 - `event.target` -- はマウスが来た要素です。
 - `event.relatedTarget` -- は、マウスが来た元の要素です(どこから来たか)。
+=======
+This property complements `target`. When a mouse leaves one element for another, one of them becomes `target`, and the other one `relatedTarget`.
+
+For `mouseover`:
+
+- `event.target` -- is the element where the mouse came over.
+- `event.relatedTarget` -- is the element from which the mouse came (`relatedTarget` -> `target`).
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 `mouseout` の場合はその逆です:
 
+<<<<<<< HEAD
 - `event.target` -- はマウスが離れた要素です。
 - `event.relatedTarget` -- は新たなポインタの下の要素です(マウスが向かった要素)
+=======
+- `event.target` -- is the element that mouse left.
+- `event.relatedTarget` -- is the new under-the-pointer element, that mouse left for (`target` -> `relatedTarget`).
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 ```online
 下の例では、それぞれの顔が要素です。マウスを移動させると、テキストエリアでイベントが見えます。
@@ -52,7 +64,11 @@
 
 実際には、これは間に多くの要素がある場合に役立ちます。 私たちは本当にそれぞれのIn/Outを処理したくはありません。
 
+<<<<<<< HEAD
 その反面、マウスがあるイベントから別のイベントへゆっくり移動することは想定できないことに留意する必要があります。そうではなく、それは "ジャンプ" できます。
+=======
+On the other hand, we should keep in mind that we can't assume that the mouse slowly moves from one event to another. No, it can "jump".
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 特に、ウィンドウの外からページ中央にカーソルが移動することもあり得ます。そして、それは "どこからも" 来ていないので、`relatedTarget=null` です。:
 
@@ -98,7 +114,11 @@ HTMLは2つのネストされた `<div>` 要素です。もしマウスをすば
 
 なので、`target` を考慮しないハンドラでは、`(2)` の `mouseout` で親を離れ、`(3)` の `mouseover` でそこへ戻ってきたように見えます。
 
+<<<<<<< HEAD
 要素の出入りの際にいくつかのアクションを実行する場合、多くの余分な "偽の" 実行が発生します。シンプルな物事に対して気づかない可能性があります。複雑な物事に対しては、望ましくない副作用を引き起こす可能性があります。
+=======
+If we perform some actions on entering/leaving the element, then we'll get a lot of extra "false" runs. For simple stuff that may be unnoticeable. For complex things that may bring unwanted side-effects.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 私たちは、代わりに `mouseenter/mouseleave` イベントを使用して修正できます。
 
@@ -171,7 +191,11 @@ The details are in the [full example](sandbox:mouseenter-mouseleave-delegation-2
 
 [codetabs height=380 src="mouseenter-mouseleave-delegation-2"]
 
+<<<<<<< HEAD
 カーソルを、テーブルセルやその内側の内外に移動させてみてください。以前の例とは異なり、全体として `<td>` だけが強調表示されています。
+=======
+Try to move the cursor in and out of table cells and inside them. Fast or slow -- doesn't matter. Only `<td>` as a whole is highlighted unlike the example before.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 ```
 
 

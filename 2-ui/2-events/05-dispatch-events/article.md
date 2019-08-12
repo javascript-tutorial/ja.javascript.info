@@ -6,24 +6,37 @@
 
 `click`, `mousedown` などのような、組み込みのイベントを生成することもでき、テストをするときに便利です。
 
+<<<<<<< HEAD
 [cut]
 
 ## イベントコンストラクタ 
 
 イベントはDOM 要素クラスと同様、階層を形成します。ルートは組み込みの [Event](http://www.w3.org/TR/dom/#event) クラスです。
+=======
+## Event constructor
+
+Build-in event classes form a hierarchy, similar to DOM element classes. The root is the built-in [Event](http://www.w3.org/TR/dom/#event) class.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 このようにして `Event` オブジェクトを生成できます:
 
 ```js
-let event = new Event(event type[, options]);
+let event = new Event(type[, options]);
 ```
 
 引数:
 
+<<<<<<< HEAD
 - *event type* -- `"click"` や独自の `"hey-ho!"` のような任意の文字列です。
 - *options* -- 2つのオプションのプロパティを持つオブジェクトです:
   - `bubbles: true/false` -- `true` の場合、イベントがバブルします。
   - `cancelable: true/false` -- `true` の場合、"デフォルトアクション" が防がれます。後ほど、 カスタムイベントに対して意味していることを見てきます。
+=======
+- *type* -- event type, a string like `"click"` or our own like `"my-event"`.
+- *options* -- the object with two optional properties:
+  - `bubbles: true/false` -- if `true`, then the event bubbles.
+  - `cancelable: true/false` -- if `true`, then the "default action"  may be prevented. Later we'll see what it means for custom events.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
   デフォルトでは、両方とも false です: `{bubbles: false, cancelable: false}`.
 
@@ -68,10 +81,18 @@ let event = new Event(event type[, options]);
   // ...elem でディスパッチ!
   let event = new Event("hello", {bubbles: true}); // (2)
   elem.dispatchEvent(event);
+
+  // the handler on document will activate and display the message.
+
 </script>
 ```
 
+<<<<<<< HEAD
 補足:
+=======
+
+Notes:
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 1. カスタムイベントに対しては、`addEventListener` を使うべきです。なぜなら、`on<event>` は組み込みイベントに対してのみ存在するからです。`document.onhello` は動作しません。
 2. `bubbles:true` を設定しなければなりません。さもないと、イベントはバブルしません。
@@ -150,7 +171,7 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 *!*
     detail: { name: "John" }
 */!*
-  });
+  }));
 </script>
 ```
 
@@ -162,11 +183,17 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 
 もし `cancelable:true` フラグが指定されている場合、スクリプトで生成されたイベントで `event.preventDefault()` を呼び出すことができます。
 
+<<<<<<< HEAD
 もちろん、イベントが非標準の名前である場合、ブラウザはそれを知らないので、そのための "デフォルトブラウザアクション" はありません。
 
 しかし、イベントを生成するコードは `dispatchEvent` の後にいくつかのアクションを計画するかもしれません。
 
 `event.preventDefault()` の呼び出しは、ハンドラがそれらのアクションを実行すべきではないという信号を送信する方法です。
+=======
+Of course, for custom events, with names unknown for the browser, there are no "default browser actions". But our code may plan its own actions after `dispatchEvent`.
+
+The call of `event.preventDefault()` is a way for the handler to send a signal that those actions should be canceled.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 その場合、`elem.dispatchEvent(event)` への呼び出しは `false` を返します。そして、イベント生成コードは処理は継続すべきでないと知ります。
 
@@ -235,7 +262,7 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```    
 
@@ -243,28 +270,33 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 
 それは `dispatchEvent` についてだけでなく、他のケースも同様です。イベントハンドラ中の JavaScript は別のイベントにつながるメソッドを呼び出すことができます -- それらも同期的に処理されます。
 
+<<<<<<< HEAD
 もしそれが気に入らなければ、`onclick` の末尾に `dispatchEvent` (または他のイベントトリガ呼び出し) を置くか、不便であれば `setTimeout(..., 0)` で囲みます。:
+=======
+If we don't like it, we can either put the `dispatchEvent` (or other event-triggering call) at the end of `onclick` or wrap it in zero-delay `setTimeout`:
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 ```html run
 <button id="menu">Menu (click me)</button>
 
 <script>
-  // 1 -> 2 -> nested
+  // Now the result is: 1 -> 2 -> nested
   menu.onclick = function() {
     alert(1);
 
     // alert(2)
     setTimeout(() => menu.dispatchEvent(new CustomEvent("menu-open", {
       bubbles: true
-    })), 0);
+    })));
 
     alert(2);
   };
 
-  document.addEventListener('menu-open', () => alert('nested'))
+  document.addEventListener('menu-open', () => alert('nested'));
 </script>
 ```    
 
+<<<<<<< HEAD
 ## サマリ 
 
 イベントを生成するためには、最初にイベントオブジェクトを作成する必要があります。
@@ -272,6 +304,17 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 汎用的な `Event(name, options)` コンストラクタは、任意のイベント名と2つのプロパティを持つ `options` オブジェクトを受け取ります。:
   - イベントがバブルするべきであれば、`bubbles: true`。
   - `cancelable: true` は `event.preventDefault()` が動作します。
+=======
+Now `dispatchEvent` runs asynchronously after the current code execution is finished, including `mouse.onclick`, so event handlers are totally separate.
+
+## Summary
+
+To generate an event from code, we first need to create an event object.
+
+The generic `Event(name, options)` constructor accepts an arbitrary event name and the `options` object with two properties:
+  - `bubbles: true` if the event should bubble.
+  - `cancelable: true` if the `event.preventDefault()` should work.
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 他の `MouseEvent`, `KeyboardEvent` などのようなネイティブイベントのコンストラクタはそのイベントタイプに固有のプロパティを受け入れます。例えば、マウスイベントであれば `clientX` です。
 

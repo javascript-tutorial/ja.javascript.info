@@ -45,7 +45,11 @@ for (let key in count) {
 }
 ```
 
+<<<<<<< HEAD
 結果例は次の通りです(V8, 2017/7):
+=======
+An example result (depends on JS engine):
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 ```js
 123: 250706

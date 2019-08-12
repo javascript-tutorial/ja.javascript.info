@@ -2,11 +2,19 @@ importance: 4
 
 ---
 
+<<<<<<< HEAD
 # while でどの値が表示される？
 
 各ループで、どの値が表示されるか、あなたの意見を書きなさい。また、それと答えを見比べてみてください。
 
 両方のループは同じ数だけ `alert` されますか？それとも違いますか？
+=======
+# Which values does the while loop show?
+
+For every loop iteration, write down which value it outputs and then compare it with the solution.
+
+Both loops `alert` the same values, or not?
+>>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
 
 1. プレフィックス形式 `++i`:
 
