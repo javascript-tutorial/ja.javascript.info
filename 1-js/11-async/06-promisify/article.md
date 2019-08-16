@@ -53,7 +53,8 @@ let loadScriptPromise = function(src) {
 function promisify(f) {
   return function (...args) { // ラッパー関数を返します
     return new Promise((resolve, reject) => {
-      function callback(err, result) { // f のためのカスタムコールバック  if (err) {
+      function callback(err, result) { // f のためのカスタムコールバック
+        if (err) {
           return reject(err);
         } else {
           resolve(result);
