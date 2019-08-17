@@ -1,61 +1,61 @@
-# Long polling
+# ロングポーリング
 
-Long polling is the simplest way of having persistent connection with server, that doesn't use any specific protocol like WebSocket or Server Side Events.
+ロングポーリング(Long polling)はサーバと永続的な接続を持つための最も簡単な方法で、WebSocket や Server Side Events などの特定のプロトコルを使いません。
 
-Being very easy to implement, it's also good enough in a lot of cases.
+実装はとても簡単であり、多くのケースもこれで十分です。
 
-## Regular Polling
+## 定期的なポーリング
 
-The simplest way to get new information from the server is polling.
+サーバから新しい情報を取得するための最も簡単な方法は、ポーリングです。
 
-That is, periodical requests to the server: "Hello, I'm here, do you have any information for me?". For example, once in 10 seconds.
+つまり、サーバへの定期的なリクエストです: "こんにちは、私はここにいます。私に関してなにか新しい情報はありますか？"。例えば、10秒毎に。
 
-In response, the server first takes a notice to itself that the client is online, and second - sends a packet of messages it got till that moment.
+応答では、サーバは最初にクライアントがオンラインであること自身に知らせて、次にその時までに受け取ったメッセージのパケットを送信します。
 
-That works, but there are downsides:
-1. Messages are passed with a delay up to 10 seconds (between requests).
-2. Even if there are no messages, the server is bombed with requests every 10 seconds. That's quite a load to handle for backend, speaking performance-wise.
+これは機能しますが、デメリットもあります。:
+1. メッセージは最大10秒(リクエスト間隔)の遅延が発生します
+2. たとえメッセージがない場合でも、サーバは10秒ごとにリクエストを受け取ります。パフォーマンス観点から見えると、これはバックエンドの処理にかなりの負荷がかかります。
 
-So, if we're talking about a very small service, the approach may be viable, but generally, it needs an improvement.
+そのため、非常に小さいサービスに関して話す場合にはこのアプローチは現実的ですが、一般的には改善が必要です。
 
-## Long polling
+## ロングポーリング
 
-So-called "long polling" is a much better way to poll the server.
+いわゆる "ロングポーリング" はサーバにポーリングするための、はるかに優れた方法です。
 
-It's also very easy to implement, and delivers messages without delays.
+これも実装はとても簡単で、遅延なしでメッセージを配信します。
 
-The flow:
+フローです:
 
-1. A request is sent to the server.
-2. The server doesn't close the connection until it has a message.
-3. When a message appears - the server responds to the request with the data.
-4. The browser makes a new request immediately.
+1. リクエストがサーバに送信されます。
+2. サーバはメッセージがあるまで接続を閉じません。
+3. メッセージが現れたら、サーバはそのデータでリクエストに応答します。
+4. ブラウザはすぐに新しいリクエストを作ります。
 
-The situation when the browser sent a request and has a pending connection with the server, is standard for this method. Only when a message is delivered, the connection is reestablished.
+ブラウザがリクエストを送信し、サーバとの接続を保留にしている状況は、このメソッドの普通の状態です。メッセージが配信されたときだけ、接続が再確立されます。
 
 ![](long-polling.svg)
 
-If the connection is lost, because of, say, a network error, the browser immediately sends a new request.
+もしもネットワークエラーなどで接続が失われた場合は、ブラウザはすぐに新しいリクエストを送信します。
 
-A sketch of client-side `subscribe` function that makes long requests:
+長いリクエストを行う、クライアント側の `subscribe` 関数の概要です。:
 
 ```js
 async function subscribe() {
   let response = await fetch("/subscribe");
 
   if (response.status == 502) {
-    // Connection timeout error,
-    // may happen when the connection was pending for too long, and the remote server or a proxy closed it
-    // let's reconnect
+    // 接続タイムアウトエラー
+    // 接続が長時間保留されていて、リモートサーバやプロキシがそれを閉じたときに発生する場合があります
+    // 再接続しましょう
     await subscribe();
   } else if (response.status != 200) {
-    // Show Error
+    // エラーを表示
     showMessage(response.statusText);
-    // Reconnect in one second
+    // 1秒後に再接続します
     await new Promise(resolve => setTimeout(resolve, 1000));
     await subscribe();
   } else {
-    // Got message
+    // メッセージを取得しました
     let message = await response.text();
     showMessage(message);
     await subscribe();
@@ -65,30 +65,30 @@ async function subscribe() {
 subscribe();
 ```
 
-As you can see, `subscribe` function makes a fetch, then waits for the response, handles it and calls itself again.
+ご覧の通り、`subscribe` 関数は fetch を生成し、応答を待ってから処理を行い、その後再び自身を呼び出します。
 
-```warn header="Server should be ok with many pending connections"
-The server architecture must be able to work with many pending connections.
+```warn header="サーバは多数の保留中の接続でもOKである必要があります"
+サーバのアーキテクチャは、多数の保留中の接続があっても問題なく動作できるようにする必要があります。
 
-Certain server architectures run a process per connect. For many connections there will be as many processes, and each process takes a lot of memory. So many connections just consume it all.
+特定のサーバアーキテクチャは、接続毎にプロセスを実行します。多数の接続がある場合、プロセスも多数になり、各プロセスが大量のメモリを消費します。
 
-That's often the case for backends written in PHP, Ruby languages, but technically isn't a language, but rather implementation issue.
+これは、しばしばバックエンドが PHP, Ruby で書かれたバックエンドの場合ですが、技術的には言語ではなく実装の問題です。
 
-Backends written using Node.js usually don't have such problems.
+Node.js で書かれたバックエンドには、通常このような問題は起こりません。
 ```
 
-## Demo: a chat
+## デモ: チャット
 
-Here's a demo:
+デモです:
 
 [codetabs src="longpoll" height=500]
 
 ## Area of usage
 
-Long polling works great in situations when messages are rare.
+ロングポーリングはメッセージがあまり来ないような状況で上手く機能します。
 
-If messages come very often, then the chart of requesting-receiving messages, painted above, becomes saw-like.
+もしメッセージが非常に頻繁にくる場合、メッセージの送受信の図は上で描かれたような、のこぎりのようになります。
 
-Every message is a separate request, supplied with headers, authentication overhead, and so on.
+すべてのメッセージは個別のリクエストであり、それぞれがヘッダや認証のオーバヘッドなどを持ちます。
 
-So, in this case, another method is preferred, such as [Websocket](info:websocket) or [Server Sent Events](info:server-sent-events).
+そのため、この場合は、[Websocket](info:websocket) や [Server Sent Events](info:server-sent-events) のような別の方法が推奨されています。
