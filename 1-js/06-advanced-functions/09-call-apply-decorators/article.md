@@ -3,15 +3,25 @@
 JavaScriptでは関数を扱う際、非常に柔軟性があります。関数は渡され、オブジェクトとして使われます。また、これらの間の呼び出しを *転送* したり、それらを *装飾(デコレータ)* することもできます。ここではそれらの方法を見ていきましょう。
 
 
+<<<<<<< HEAD
 [cut]
 
 ## 透過キャッシュ(Transparent caching) 
+=======
+## Transparent caching
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 CPU負荷は高いが、その結果が不変である関数 `slow(x)` を持っているとします。言い換えると、同じ `x` の場合、常に同じ結果が返ってきます。
 
+<<<<<<< HEAD
 もし関数が頻繁に呼ばれた場合、再計算に余分な時間を費やすことを避けるために、異なる `x` の結果をキャッシュ（覚えておく）して欲しいかもしれません。
 
 その機能を `slow()` に追加する代わりに、ラッパーを作りましょう。これから見ていくように、そうすることで多くのメリットがあります。
+=======
+If the function is called often, we may want to cache (remember) the results to avoid spending extra-time on recalculations.
+
+But instead of adding that functionality into `slow()` we'll create a wrapper function, that adds caching. As we'll see, there are many benefits of doing so.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 コードと説明は次の通りです:
 
@@ -26,6 +36,7 @@ function cachingDecorator(func) {
   let cache = new Map();
 
   return function(x) {
+<<<<<<< HEAD
     if (cache.has(x)) { // 結果が map にあれば
       return cache.get(x); // それを返します
     }
@@ -33,6 +44,15 @@ function cachingDecorator(func) {
     let result = func(x); // なければ func を呼び
 
     cache.set(x, result); // 結果をキャッシュ(覚える)します
+=======
+    if (cache.has(x)) {    // if there's such key in cache
+      return cache.get(x); // read the result from it
+    }
+
+    let result = func(x);  // otherwise call func
+
+    cache.set(x, result);  // and cache (remember) the result
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
     return result;
   };
 }
@@ -52,6 +72,7 @@ alert( "Again: " + slow(2) ); // 前の行と同じ
 
 メインの関数コードからキャッシュ機能を分離することで、コードをシンプルに保つこともできます。
 
+<<<<<<< HEAD
 さて、それがどのように動作するのか詳細を見ていきましょう:
 
 `cachingDecorator(func)` の結果は "ラッパー" です: `func(x)` の呼び出しをキャッシュロジックに "ラップ" する `function(x)` です。:
@@ -59,6 +80,13 @@ alert( "Again: " + slow(2) ); // 前の行と同じ
 ![](decorator-makecaching-wrapper.svg)
 
 上でわかるように、ラッパーは `func(x)` の結果を "そのまま" 返します。外部のコードからは、ラップされた `slow` 関数は、依然として同じことを行い、単にその振る舞いに追加されたキャッシュの側面をもちます。
+=======
+The result of `cachingDecorator(func)` is a "wrapper": `function(x)` that "wraps" the call of `func(x)` into caching logic:
+
+![](decorator-makecaching-wrapper.svg)
+
+From an outside code, the wrapped `slow` function still does the same. It just got a caching aspect added to its behavior.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 要約すると、`slow` 自身のコードを修正する代わりに、分離した `cachingDecorator` を利用することは、いくつかのメリットがあります。:
 
@@ -71,7 +99,11 @@ alert( "Again: " + slow(2) ); // 前の行と同じ
 
 上で言及されたキャッシュデコレータはオブジェクトメソッドで動作するのには適していません。
 
+<<<<<<< HEAD
 例えば、下のコードでは、デコレーションの後、`worker.slow()` は動作を停止します:
+=======
+For instance, in the code below `worker.slow()` stops working after the decoration:
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 ```js run
 // worker.slow のキャッシングを作成する
@@ -235,9 +267,13 @@ let worker = {
 worker.slow = cachingDecorator(worker.slow);
 ```
 
+<<<<<<< HEAD
 ここでは、それを解決するための2つのタスクがあります。
 
 最初は、`cache` マップのキーに、`min` と `max` 両方の引数を使う方法です。以前は、1つの引数 `x` に対し、単に `cache.set(x, result)` として結果を保存し、`cache.get(x)` でそれを取得していました。しかし、今回は *引数の組み合わせ* `(min,max)` で結果を覚える必要があります。ネイティブの `Map` は1つのキーに1つの値のみを取ります。
+=======
+Previously, for a single argument `x` we could just `cache.set(x, result)` to save the result and `cache.get(x)` to retrieve it. But now we need to remember the result for a *combination of arguments* `(min,max)`. The native `Map` takes single value only as the key.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 可能な解決策はたくさんあります:
 
@@ -245,6 +281,7 @@ worker.slow = cachingDecorator(worker.slow);
 2. 入れ子のマップを使います: `cache.set(min)` は `(max, result)` ペアを格納する `Map` になるでしょう。なので、`cache.get(min).get(max)` で `result` を得ることができます。
 3. 2つの値を1つに結合します。今のケースだと、`Map` として文字列 `"min,max"` を使うことができます。柔軟性のために、デコレータに *ハッシュ関数* を提供することもできます。それは多くのものから一つの値を作る方法です。
 
+<<<<<<< HEAD
 実用的な多くのアプリケーションでは、第3の策で十分ですので、それで進めます。
 
 解決するための2つ目のタスクは、多くの引数を `func` に渡す方法です。現在ラッパー `function(x)` は１つの引数を想定しており、`func.call(this, x)` はそれを渡します。
@@ -322,6 +359,13 @@ let wrapper = function() {
 このような `wrapper` を外部コードが呼び出すと、元の関数の呼び出しと区別できなくなります。
 
 今度はそれをもっと強力な `cachingDecorator` にしましょう。:
+=======
+For many practical applications, the 3rd variant is good enough, so we'll stick to it.
+
+Also we need to replace `func.call(this, x)` with `func.call(this, ...arguments)`, to pass all arguments to the wrapped function call, not just the first one.
+
+Here's a more powerful `cachingDecorator`:
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 ```js run
 let worker = {
@@ -342,7 +386,7 @@ function cachingDecorator(func, hash) {
     }
 
 *!*
-    let result = func.apply(this, arguments); // (**)
+    let result = func.call(this, ...arguments); // (**)
 */!*
 
     cache.set(key, result);
@@ -360,13 +404,61 @@ alert( worker.slow(3, 5) ); // works
 alert( "Again " + worker.slow(3, 5) ); // same (cached)
 ```
 
+<<<<<<< HEAD
 これで、ラッパー任意の数の引数で動作します。
+=======
+Now it works with any number of arguments.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 2つの変更をしています:
 
+<<<<<<< HEAD
 - 行 `(*)` では、`arguments` から1つのキーを作成するために `hash` を呼び出しています。ここでは、引数 `(3, 5)` をキー `"3,5"` に変換する単純な "結合" 関数を使います。より複雑なケースでは他のハッシュ関数が必要になる場合もあります。
 - 次に `(**)` でラッパーが取得したコンテキストとすべての引数(どれだけ多くても問題ありません)を元の関数に渡すために `func.apply` を使っています。
+=======
+- In the line `(*)` it calls `hash` to create a single key from `arguments`. Here we use a simple "joining" function that turns arguments `(3, 5)` into the key `"3,5"`. More complex cases may require other hashing functions.
+- Then `(**)` uses `func.call(this, ...arguments)` to pass both the context and all arguments the wrapper got (not just the first one) to the original function.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
+Instead of `func.call(this, ...arguments)` we could use `func.apply(this, arguments)`.
+
+The syntax of built-in method [func.apply](mdn:js/Function/apply) is:
+
+```js
+func.apply(context, args)
+```
+
+It runs the `func` setting `this=context` and using an array-like object `args` as the list of arguments.
+
+The only syntax difference between `call` and `apply` is that `call` expects a list of arguments, while `apply` takes an array-like object with them.
+
+So these two calls are almost equivalent:
+
+```js
+func.call(context, ...args); // pass an array as list with spread operator
+func.apply(context, args);   // is same as using apply
+```
+
+There's only a minor difference:
+
+- The spread operator `...` allows to pass *iterable* `args` as the list to `call`.
+- The `apply` accepts only *array-like* `args`.
+
+So, these calls complement each other. Where we expect an iterable, `call` works, where we expect an array-like, `apply` works.
+
+And for objects that are both iterable and array-like, like a real array, we technically could use any of them, but `apply` will probably be faster, because most JavaScript engines internally optimize it better.
+
+Passing all arguments along with the context to another function is called *call forwarding*.
+
+That's the simplest form of it:
+
+```js
+let wrapper = function() {
+  return func.apply(this, arguments);
+};
+```
+
+When an external code calls such `wrapper`, it is indistinguishable from the call of the original function `func`.
 
 ## メソッドの借用(Borrowing a method) 
 
@@ -452,9 +544,13 @@ hash(1, 2);
 ```js
 let wrapper = function() {
   return original.apply(this, arguments);
-}
+};
 ```
 
+<<<<<<< HEAD
 また、私たちはオブジェクトからメソッドを取得し、別のオブジェクトのコンテキストでそのメソッドを `呼び出す` と言う、 *メソッドの借用* の例も見ました。配列のメソッドを取り、それらを引数に適用するのはよくあることです。代替としては、本当の配列である残りのパラメータオブジェクトを使うこと、があります。
+=======
+We also saw an example of *method borrowing* when we take a method from an object and `call` it in the context of another object. It is quite common to take array methods and apply them to `arguments`. The alternative is to use rest parameters object that is a real array.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 多くのデコレータが世の中に出回っています。このチャプターのタスクを解決することで、いかにデコレータが良いものかを確認してください。

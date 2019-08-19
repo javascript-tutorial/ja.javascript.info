@@ -4,7 +4,11 @@ importance: 4
 
 # 目に見える画像を読み込む
 
+<<<<<<< HEAD
 低速のクライアントがおり、モバイルのトラフィックを節約したいとしましょう。
+=======
+Let's say we have a slow-speed client and want to save their mobile traffic.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 この目的に対し、画像をすぐには表示せず、それらをプレースホルダに置き換えることに決めました。次のようになります:
 

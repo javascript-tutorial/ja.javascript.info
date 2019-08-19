@@ -1,5 +1,6 @@
 # Promisification
 
+<<<<<<< HEAD
 Promisification -- 単純な変換を表す長い単語です。コールバックを受け付ける関数から、Promise を返す関数への変換です。
 
 より正確には、同じことを行い(内部的には元の関数を呼び出す)ますが、Promise を返すラッパー関数を作成します。
@@ -7,6 +8,13 @@ Promisification -- 単純な変換を表す長い単語です。コールバッ�
 多くの関数やライブラリはコールバックベースなので、このような変換は実際しばしば必要とされます。Promise はより便利であるため、このような変換は理にかなっています。
 
 例えば、チャプター <info:callbacks> の `loadScript(src, callback)` を考えてみましょう。
+=======
+Promisification -- is a long word for a simple transform. It's conversion of a function that accepts a callback into a function returning a promise.
+
+Such transforms are often needed in real-life, as many functions and libraries are callback-based. But promises are more convenient. So it makes sense to promisify those.
+
+For instance, we have `loadScript(src, callback)` from the chapter <info:callbacks>.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 ```js run
 function loadScript(src, callback) {
@@ -19,11 +27,19 @@ function loadScript(src, callback) {
   document.head.append(script);
 }
 
+<<<<<<< HEAD
 // 使用例:
 // loadScript('path/script.js', (err, script) => {...})
 ```
 
 Promise 化してみましょう。新しい `loadScriptPromise(src)` 関数は同じことをしますが、`src` のみを受け付け(コールバックなし)、Promise を返します。
+=======
+// usage:
+// loadScript('path/script.js', (err, script) => {...})
+```
+
+Let's promisify it. The new `loadScriptPromise(src)` function will do the same, but accept only `src` (no `callback`) and return a promise.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 
 ```js
 let loadScriptPromise = function(src) {
@@ -35,6 +51,7 @@ let loadScriptPromise = function(src) {
   })
 }
 
+<<<<<<< HEAD
 // 使用例:
 // loadScriptPromise('path/script.js').then(...)
 ```
@@ -54,6 +71,27 @@ function promisify(f) {
   return function (...args) { // ラッパー関数を返します
     return new Promise((resolve, reject) => {
       function callback(err, result) { // f のためのカスタムコールバック
+=======
+// usage:
+// loadScriptPromise('path/script.js').then(...)
+```
+
+Now `loadScriptPromise` fits well in promise-based code.
+
+As we can see, it delegates all the work to the original `loadScript`, providing its own callback that translates to promise `resolve/reject`.
+
+In practice we'll probably need to promisify many functions, it makes sense to use a helper.
+
+We'll call it `promisify(f)`: it accepts a to-promisify function `f` and returns a wrapper function.
+
+That wrapper does the same as in the code above: returns a promise and passes the call to the original `f`, tracking the result in a custom callback:
+
+```js
+function promisify(f) {
+  return function (...args) { // return a wrapper-function
+    return new Promise((resolve, reject) => {
+      function callback(err, result) { // our custom callback for f
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
         if (err) {
           return reject(err);
         } else {
@@ -61,18 +99,29 @@ function promisify(f) {
         }
       }
 
+<<<<<<< HEAD
       args.push(callback); // 引数の末尾にカスタムコールバックを追加
 
       f.call(this, ...args); // 元の関数を呼び出します
+=======
+      args.push(callback); // append our custom callback to the end of f arguments
+
+      f.call(this, ...args); // call the original function
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
     });
   };
 };
 
+<<<<<<< HEAD
 // 使用例:
+=======
+// usage:
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 let loadScriptPromise = promisify(loadScript);
 loadScriptPromise(...).then(...);
 ```
 
+<<<<<<< HEAD
 ここでは、元の関数は2つの引数 `(err, result)` を持つコールバックを期待していると想定しています。これはもっともよく出くわすパターンです。そして、カスタムコールバックはまさに正しい形式であり、`promisify` はこのようなケースで上手く機能します。
 
 しかし、仮に元の `f` がより多くの引数 `callback(err, res1, res2)` を期待しているとしたらどうなるでしょうか？
@@ -89,6 +138,24 @@ function promisify(f, manyArgs = false) {
           return reject(err);
         } else {
           // manyArgs を指定されている場合、すべてのコールバック結果で resolve します
+=======
+Here we assume that the original function expects a callback with two arguments `(err, result)`. That's what we encounter most often. Then our custom callback is in exactly the right format, and `promisify` works great for such a case.
+
+But what if the original `f` expects a callback with more arguments `callback(err, res1, res2, ...)`?
+
+Here's a more advanced version of `promisify`: if called as `promisify(f, true)`, the promise result will be an array of callback results `[res1, res2, ...]`:
+
+```js
+// promisify(f, true) to get array of results
+function promisify(f, manyArgs = false) {
+  return function (...args) {
+    return new Promise((resolve, reject) => {
+      function *!*callback(err, ...results*/!*) { // our custom callback for f
+        if (err) {
+          return reject(err);
+        } else {
+          // resolve with all callback results if manyArgs is specified
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
           *!*resolve(manyArgs ? results : results[0]);*/!*
         }
       }
@@ -100,11 +167,16 @@ function promisify(f, manyArgs = false) {
   };
 };
 
+<<<<<<< HEAD
 // 使用例:
+=======
+// usage:
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 f = promisify(f, true);
 f(...).then(arrayOfResults => ..., err => ...)
 ```
 
+<<<<<<< HEAD
 ケースによっては、`err` はまったくないかもしれません: `callback(result)`, また、コールバックの形式が珍しいような場合には、ヘルパーを使わず、手動でこのような関数たちを Promise 化するのがよいでしょう。
 
 もう少し柔軟な Promisification 関数を持つモジュールもあります。例えば、[es6-promisify](https://github.com/digitaldesignlabs/es6-promisify) です。Node.js では、組み込みの `util.promisify` があります。
@@ -115,4 +187,16 @@ Promisification は素晴らしいアプローチです。特に `async/await` (
 覚えておいてください、Promise は1つの結果のみを持ちますが、コールバックは技術的には何度も呼ぶことができます。
 
 そのため、Promisification はコールバックを1度だけ呼ぶ関数に対してのみ意味があります。それ以降呼び出しをしても無視されます。
+=======
+For more exotic callback formats, like those without `err` at all: `callback(result)`, we can promisify such functions without using the helper, manually.
+
+There are also modules with a bit more flexible promisification functions, e.g. [es6-promisify](https://github.com/digitaldesignlabs/es6-promisify). In Node.js, there's a built-in `util.promisify` function for that.
+
+```smart
+Promisification is a great approach, especially when you use `async/await` (see the next chapter), but not a total replacement for callbacks.
+
+Remember, a promise may have only one result, but a callback may technically be called many times.
+
+So promisification is only meant for functions that call the callback once. Further calls will be ignored.
+>>>>>>> 852ee189170d9022f67ab6d387aeae76810b5923
 ```
