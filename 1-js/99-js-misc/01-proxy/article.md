@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Proxy と Reflect
 
 `Proxy` オブジェクトは別のオブジェクトをラップし、プロパティやその他の読み取り/書き込みなどの操作をインターセプトします。必要に応じて、それらを独自に処理したり、オブジェクトが透過的にそれらを処理できるようにします。
@@ -5,11 +6,21 @@
 Proxy は多くのライブラリや一部のブラウザフレームワークで使われています。このチャプターでは、多くの実践的なアプリケーションを紹介します。
 
 構文:
+=======
+# Proxy and Reflect
+
+A `Proxy` object wraps another object and intercepts operations, like reading/writing properties and others, optionally handling them on its own, or transparently allowing the object to handle them.
+
+Proxies are used in many libraries and some browser frameworks. We'll see many practical applications in this chapter.
+
+The syntax:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```js
 let proxy = new Proxy(target, handler)
 ```
 
+<<<<<<< HEAD
 - `target` -- ラップするオブジェクトです。関数を含め何でもOKです。
 - `handler` -- プロキシ設定: 操作をインターセプトするメソッド "traps" をもつオブジェクトです。例: `get` トラップは `target` のプロパティの読み取り用、`set` トラップは、`target` へのプロパティ書き込み用、など。
 
@@ -59,6 +70,57 @@ Proxy traps はこれらのメソッドの呼び出しをインターセプト�
 | `[[Delete]]` | `deleteProperty` | `delete` 演算子 |
 | `[[Call]]` | `apply` | 関数呼び出し |
 | `[[Construct]]` | `construct` | `new` 演算子 |
+=======
+- `target` -- is an object to wrap, can be anything, including functions.
+- `handler` -- proxy configuration: an object with "traps": methods that intercept operations., e.g. `get` trap is for reading a property of `target`, `set` trap - for writing a property into `target`, etc.
+
+For operations on `proxy`, if there's a corresponding trap in `handler`, then it runs, and the proxy has a chance to handle it, otherwise the operation is performed on `target`.
+
+As a starting example, let's create a proxy without any traps:
+
+```js run
+let target = {};
+let proxy = new Proxy(target, {}); // empty handler
+
+proxy.test = 5; // writing to proxy (1)
+alert(target.test); // 5, the property appeared in target!
+
+alert(proxy.test); // 5, we can read it from proxy too (2)
+
+for(let key in proxy) alert(key); // test, iteration works (3)
+```
+
+As there are no traps, all operations on `proxy` are forwarded to `target`.
+
+1. A writing operation `proxy.test=` sets the value on `target`.
+2. A reading operation `proxy.test` returns the value from `target`.
+3. Iteration over `proxy` returns values from `target`.
+
+As we can see, without any traps, `proxy` is a transparent wrapper around `target`.
+
+![](proxy.svg)  
+
+`Proxy` is a special "exotic object". It doesn't have own properties. With an empty `handler` it transparently forwards operations to `target`.
+
+To activate more capabilities, let's add traps.
+
+What can we intercept with them?
+
+For most operations on objects, there's a so-called "internal method" in JavaScript specificaiton, that describes on the lowest level, how it works. For instance, `[[Get]]` - the internal method to read a property, `[[Set]]` -- the internal method to write a property, and so on. These methods are only used in the specification, we can't call them directly by name.
+
+Proxy traps inercept invocations of these methods. They are listed in [Proxy specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) and in the table below.
+
+For every internal method, there's a trap in this table: the name of the method that we can add to `handler` parameter of `new Proxy` to intercept the operation:
+
+| Internal Method | Handler Method | Triggers when... |
+|-----------------|----------------|-------------|
+| `[[Get]]` | `get` | reading a property |
+| `[[Set]]` | `set` | writing to a property |
+| `[[HasProperty]]` | `has` | `in` operator |
+| `[[Delete]]` | `deleteProperty` | `delete` operator |
+| `[[Call]]` | `apply` | function call |
+| `[[Construct]]` | `construct` | `new` operator |
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 | `[[GetPrototypeOf]]` | `getPrototypeOf` | [Object.getPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf) |
 | `[[SetPrototypeOf]]` | `setPrototypeOf` | [Object.setPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf) |
 | `[[IsExtensible]]` | `isExtensible` | [Object.isExtensible](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible) |
@@ -99,7 +161,11 @@ It triggers when a property is read, with following arguments:
 
 Let's use `get` to implement default values for an object.
 
+<<<<<<< HEAD
 We'll make a numeric array that returns return `0` for non-existant values.
+=======
+We'll make a numeric array that returns `0` for non-existant values.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 Usually when one tries to get a non-existing array item, they get `undefined`, but we'll wrap a regular array into proxy that traps reading and returns `0` if there's no such property:
 

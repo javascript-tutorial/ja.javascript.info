@@ -1,12 +1,20 @@
 # 属性とプロパティ
 
+<<<<<<< HEAD
 ブラウザがページをロードするとき、HTMLテキストを "読み" (別の言葉: "パース")、そこから DOM オブジェクトを生成します。要素ノードの場合、ほとんどの標準のHTML属性は自動的に DOM オブジェクトのプロパティになります。
+=======
+When the browser loads the page, it "reads" (another word: "parses") the HTML and generates DOM objects from it. For element nodes, most standard HTML attributes automatically become properties of DOM objects.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 例えば、もしタグが `<body id="page">` の場合、DOM オブジェクトは `body.id="page"` を持ちます。
 
+<<<<<<< HEAD
 しかし、属性-プロパティのマッピングは1対1ではありません! このチャプターでは、これら2つの概念を分け、それらが同じであるとき、異なるときにそれらがどのように機能するか、見てみましょう。
 
 [cut]
+=======
+But the attribute-property mapping is not one-to-one! In this chapter we'll pay attention to separate these two notions, to see how to work with them, when they are the same, and when they are different.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ## DOM プロパティ 
 
@@ -28,11 +36,15 @@ alert(document.body.myData.title); // Imperator
 同様にメソッドの追加もできます:
 
 ```js run
-document.body.sayHi = function() {
+document.body.sayTagName = function() {
   alert(this.tagName);
 };
 
+<<<<<<< HEAD
 document.body.sayHi(); // BODY (このメソッドの "this" の値は document.body)
+=======
+document.body.sayTagName(); // BODY (the value of "this" in the method is document.body)
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 ```
 
 `Element.prototype` のように組込のプロトタイプを修正し、すべての要素に新しいメソッドを追加することも可能です:
@@ -53,7 +65,11 @@ document.body.sayHi(); // Hello, I'm BODY
 
 ## HTML 属性 
 
+<<<<<<< HEAD
 HTML 言語では、タグは属性を持つことがあります。ブラウザがHTMLテキストを読み込み、タグに対する DOM オブジェクトを作成するとき、それは *標準の* 属性を認識し、それらから DOM プロパティを生成します。
+=======
+In HTML, tags may have attributes. When the browser parses the HTML to create DOM objects for tags, it recognizes *standard* attributes and creates DOM properties from them.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 従って、要素が `id` または別の *標準の* 属性を持っているとき、対応するプロパティは生成されます。しかし、属性が非標準でない場合には、それは起こりません。
 
@@ -85,9 +101,15 @@ HTML 言語では、タグは属性を持つことがあります。ブラウザ
 </body>
 ```
 
+<<<<<<< HEAD
 なので、もし属性が非標準の場合、それに対する DOM プロパティはありません。このような属性にアクセスする方法はあるでしょうか？
 
 もちろんです。すべての属性は次のメソッドを使ってアクセスすることができます。:
+=======
+So, if an attribute is non-standard, there won't be a DOM-property for it. Is there a way to access such attributes?
+
+Sure. All attributes are accessible by using the following methods:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 - `elem.hasAttribute(name)` -- 存在をチェックします。
 - `elem.getAttribute(name)` -- 値を取得します。
@@ -110,10 +132,17 @@ HTML 言語では、タグは属性を持つことがあります。ブラウザ
 </body>
 ```
 
+<<<<<<< HEAD
 HTML属性は次の特徴を持っています:
 
 - それらの名前は大文字小文字を区別しません(それはHTMLです: `id` は `ID` と同じです)
 - それらは常に文字列です。
+=======
+HTML attributes have the following features:
+
+- Their name is case-insensitive (`id` is same as `ID`).
+- Their values are always strings.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ここでは、属性を使った動作の拡張デモを紹介します。:
 
@@ -126,10 +155,17 @@ HTML属性は次の特徴を持っています:
 
     elem.setAttribute('Test', 123); // (2), 書き込み
 
+<<<<<<< HEAD
     alert( elem.outerHTML ); // (3), 参照
 
     for (let attr of elem.attributes) { // (4) すべてをリスト
       alert( attr.name + " = " + attr.value );
+=======
+    alert( elem.outerHTML ); // (3), see if the attribute is in HTML (yes)
+
+    for (let attr of elem.attributes) { // (4) list all
+      alert( `${attr.name} = ${attr.value}` );
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
     }
   </script>
 </body>
@@ -137,16 +173,29 @@ HTML属性は次の特徴を持っています:
 
 注意事項:
 
+<<<<<<< HEAD
 1. `getAttribute('About')` -- 最初の文字はここでは大文字で、HTMLではすべて小文字です。 しかし、それは重要ではありません。: 属性名は大文字と小文字を区別しません。
 2. 属性には何でも割り当てることができますが、それは文字列になります。 だからここでは値として `"123"` があります。
 3. 私たちが設定したものを含むすべての属性は `outerHTML` で見えます。
 4. `attributes` のコレクションは反復可能で、属性は `name` と `value` を持っています。
+=======
+1. `getAttribute('About')` -- the first letter is uppercase here, and in HTML it's all lowercase. But that doesn't matter: attribute names are case-insensitive.
+2. We can assign anything to an attribute, but it becomes a string. So here we have `"123"` as the value.
+3. All attributes including ones that we set are visible in `outerHTML`.
+4. The `attributes` collection is iterable and has all the attributes of the element (standard and non-standard) as objects with `name` and `value` properties.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ## プロパティ-属性 の同期 
 
+<<<<<<< HEAD
 標準の属性を変更するとき、対応するプロパティは自動更新され、(いくつかの例外を除いては)逆もまた然りです。
 
 下の例では、`id` は属性として修正され、我々はそのプロパティの変更も見ることができます。そして後ろも同じです。:
+=======
+When a standard attribute changes, the corresponding property is auto-updated, and (with some exceptions) vice versa.
+
+In the example below `id` is modified as an attribute, and we can see the property changed too. And then the same backwards:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```html run
 <input>
@@ -188,11 +237,19 @@ HTML属性は次の特徴を持っています:
 - 属性 `value` の変更は、プロパティも更新します。
 - しかし、プロパティの変更は属性に影響を与えません。
 
+<<<<<<< HEAD
 この "特徴" は実際には便利な場合があります。なぜなら、ユーザは `value` を変更する可能性があるからです。その後、HTMLから元の値を復元する場合、それは属性の中にあります。
+=======
+That "feature" may actually come in handy, because the user actions may lead to `value` changes, and then after them, if we want to recover the "original" value from HTML, it's in the attribute.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ## DOM プロパティは型付けられています 
 
+<<<<<<< HEAD
 DOM プロパティは常に文字列とは限りません。例えば、`input.checked` プロパティ(チェックボックス用)は真偽値です:
+=======
+DOM properties are not always strings. For instance, the `input.checked` property (for checkboxes) is a boolean:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```html run
 <input id="input" type="checkbox" checked> checkbox
@@ -203,7 +260,11 @@ DOM プロパティは常に文字列とは限りません。例えば、`input.
 </script>
 ```
 
+<<<<<<< HEAD
 他の例があります。`style` 属性は文字列ですが、`style` プロパティはオブジェクトです:
+=======
+There are other examples. The `style` attribute is a string, but the `style` property is an object:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```html run
 <div id="div" style="color:red;font-size:120%">Hello</div>
@@ -218,9 +279,15 @@ DOM プロパティは常に文字列とは限りません。例えば、`input.
 </script>
 ```
 
+<<<<<<< HEAD
 これは重要な違いです。しかし、たとえ DOM プロパティの型が文字列でも、属性とは異なる可能性があります!
 
 例えば `href` DOM プロパティは、たとえ属性に相対URLや単なる `#hash` が含まれていても常に *完全な* URLです。
+=======
+Most properties are strings though.
+
+Quite rarely, even if a DOM property type is a string, it may differ from the attribute. For instance, the `href` DOM property is always a *full* URL, even if the attribute contains a relative URL or just a `#hash`.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 以下、例です:
 
@@ -262,7 +329,7 @@ HTML から JavaScript へカスタムデータを渡す、もしくは JavaScri
   for(let div of document.querySelectorAll('[show-info]')) {
     // フィールドに、対応する情報を挿入します
     let field = div.getAttribute('show-info');
-    div.innerHTML = user[field]; // Pete, then age
+    div.innerHTML = user[field]; // first Pete into "name", then 25 into "age"
   }
 </script>
 ```
@@ -311,9 +378,15 @@ div.setAttribute('order-state', 'canceled');
 
 しかし、カスタム属性には問題がある可能性があります。仮に、我々の目的のために非標準の属性を使い、後に標準がそれを発表し何かをさせるとしたらどうでしょう？HTML言語は生きており、成長し、開発者のニーズに合うようなより多くの属性が登場しています。このような場合に予期しない影響が生じることがあります。
 
+<<<<<<< HEAD
 衝突を避けるために、[data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes) 属性があります。
 
 **"data-" で始まるすべての属性はプログラマのために予約されています。それらは `dataset` プロパティで利用可能です。**
+=======
+To avoid conflicts, there exist [data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes) attributes.
+
+**All attributes starting with "data-" are reserved for programmers' use. They are available in the `dataset` property.**
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 例えば、もし `elem` が `"data-about"` という名前の属性を持っている場合、それは `elem.dataset.about` として利用できます。
 
@@ -382,7 +455,14 @@ data-属性の読み込みだけでなく、変更もできることに注意し
 - `elem.removeAttribute(name)` -- 属性を削除します
 - `elem.attributes` はすべての属性の集合です
 
+<<<<<<< HEAD
 ほとんどのニーズに対して、DOMプロパティはうまく機能します。 次の例ように、正確な属性が必要なとき、DOMプロパティが適切でない場合にのみ属性を参照すべきです。:
 
 - 非標準の属性が必要な場合。ただし、`data-` で始まる場合は `dataset`を使うべきです。
 - HTMLで "書かれている" 値を読みたい場合。 DOMプロパティの値は異なる可能性があります。例えば、 `href` プロパティは常に完全なURLであり、私たちは "オリジナル" の値を取得したい場合があります。
+=======
+For most situations using DOM properties is preferable. We should refer to attributes only when DOM properties do not suit us, when we need exactly attributes, for instance:
+
+- We need a non-standard attribute. But if it starts with `data-`, then we should use `dataset`.
+- We want to read the value "as written" in HTML. The value of the DOM property may be different, for instance the `href` property is always a full URL, and we may want to get the "original" value.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72

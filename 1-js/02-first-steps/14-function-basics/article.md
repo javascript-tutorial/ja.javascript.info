@@ -6,10 +6,14 @@
 
 関数はプログラムのメインの "構成要素" です。これによりコードを繰り返すことなく何度も呼び出すことができます。
 
+<<<<<<< HEAD
 [cut]
 
 私たちは既に組み込み関数の例を見ています。 `alert(message)`, `prompt(message, default)` や `confirm(question)`です。
 同じように私たち自身も関数を作ることができます。
+=======
+We've already seen examples of built-in functions, like `alert(message)`, `prompt(message, default)` and `confirm(question)`. But we can create functions of our own as well.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ## 関数定義 
 
@@ -23,9 +27,17 @@ function showMessage() {
 }
 ```
 
+<<<<<<< HEAD
 `function` キーワードが最初にきて、次に *関数名* がきます、そして括弧の中に *パラメータ* のリストがきて(上の例では空白です)、最後に関数のコード、"関数本体" です。
+=======
+The `function` keyword goes first, then goes the *name of the function*, then a list of *parameters* between the parentheses (comma-separated, empty in the example above) and finally the code of the function, also named "the function body", between curly braces.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
-![](function_basics.png)
+```js
+function name(parameters) {
+  ...body...
+}
+```
 
 作成した関数はその関数名で呼ぶことができます: `showMessage()`
 
@@ -44,7 +56,11 @@ showMessage();
 
 `showMessage()` の呼び出しは、関数のコードを実行します。この例では、2度メッセージが表示されます。
 
+<<<<<<< HEAD
 この例は関数のメインの目的の1つを明確に示しています: コードの複製を回避する、と言うことです。
+=======
+This example clearly demonstrates one of the main purposes of functions: to avoid code duplication.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 もしメッセージ内容、または表示方法を変更する必要がある場合、1箇所のコード(関数)を修正するだけで十分です。
 
@@ -104,7 +120,11 @@ showMessage();
 alert( userName ); // *!*Bob*/!*, 関数によって値が変更されました
 ```
 
+<<<<<<< HEAD
 外部の変数は、ローカル変数が存在しない場合にのみ使われます。そのため、`let` を忘れた場合、意図せず外部の変数を変更してしまう可能性があります。
+=======
+The outer variable is only used if there's no local one.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 同じ名前の変数が関数内に宣言されている場合は、外部変数を *隠します*。例えば、以下のコードでは関数はローカルの `userName` を使います。外部の `userName` は無視されます。
 
@@ -120,7 +140,11 @@ function showMessage() {
   alert(message);
 }
 
+<<<<<<< HEAD
 // 関数は作られ独自の userName を使います
+=======
+// the function will create and use its own userName
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 showMessage();
 
 alert( userName ); // *!*John*/!*, 変更されていません。関数は外部変数へアクセスしませんでした
@@ -131,7 +155,11 @@ alert( userName ); // *!*John*/!*, 変更されていません。関数は外部
 
 グローバル変数はどの関数からも見えます(ローカル変数により隠れていなければ)。
 
+<<<<<<< HEAD
 通常、関数は自身のタスクに必要なすべての変数を宣言します。また、グローバル変数にはプロジェクトレベルのデータのみを保持するため、どこからでも見える事が重要です。現代のコードはほとんどもしくは全くグローバル変数を持ちません。ほぼすべての変数はその関数の中にあります。
+=======
+It's a good practice to minimize the use of global variables. Modern code has few or no globals. Most variables reside in their functions. Sometimes though, they can be useful to store project-level data.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 ```
 
 ## パラメータ 
@@ -206,11 +234,19 @@ function showMessage(from, text = anotherFunction()) {
 }
 ```
 
+<<<<<<< HEAD
 ````smart header="デフォルト値の評価"
 
 JavaScriptでは、デフォルト値はそれぞれのパラメータが与えられずに関数が呼び出されるたびに評価されます。上の例だと `anotherFunction()` は、 `text` のパラメータが与えられずに `showMessage()` が呼び出されるたびに実行されます。これはPythonのような他の言語と対照的で、Pythonはどんなデフォルト値も初期解釈のときに一度だけ評価されます。
 
 ````
+=======
+```smart header="Evaluation of default parameters"
+In JavaScript, a default parameter is evaluated every time the function is called without the respective parameter.
+
+In the example above, `anotherFunction()` is called every time `showMessage()` is called without the `text` parameter.
+```
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ````smart header="デフォルトパラメータの古い形式"
 javascriptの古いエディションは、デフォルトパラメータをサポートしていませんでした。そのため、別の方法で実現していました。これは古いスクリプトの中で見つけることができます。
@@ -270,7 +306,7 @@ function checkAge(age) {
 */!*
   } else {
 *!*
-    return confirm('Got a permission from the parents?');
+    return confirm('Do you have permission from your parents?');
 */!*
   }
 }
@@ -336,12 +372,32 @@ JavaScriptは `return` の後にセミコロンを想定するため、これは
 return*!*;*/!*
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
+<<<<<<< HEAD
 従って、これは事実上空の返却になります。なので、値は同じ行に置く必要があります。
+=======
+
+So, it effectively becomes an empty return.
+
+If we want the returned expression to wrap across multiple lines, we should start it at the same line as `return`. Or at least put the opening parentheses there as follows:
+
+```js
+return (
+  some + long + expression
+  + or +
+  whatever * f(a) + f(b)
+  )
+```
+And it will work just as we expect it to.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 ````
 
 ## 関数の命名 
 
+<<<<<<< HEAD
 関数はアクションです。そのため、それらの名前は通常は動詞です。それは簡潔にすべきですが、関数がすることをできるだけ正確に表現してください。そして、コードを読む人が正しい手がかりを得られるようにします。
+=======
+Functions are actions. So their name is usually a verb. It should be brief, as accurate as possible and describe what the function does, so that someone reading the code gets an indication of what the function does.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 曖昧なアクションを示す動詞のプレフィックスから関数名を始めることは広く行われています。
 プレフィックスの意味についてはチーム内での合意が必要です。
@@ -374,19 +430,33 @@ checkPermission(..) // 権限をチェックし、true/false を返します
 
 このルールを破るいくつかの例です:
 
+<<<<<<< HEAD
 - `getAge` -- 年齢を取得するとともに `警告` を表示します(取得のみをするべきです)
 - `createForm` -- フォームを作成して、ドキュメントに追加します(作成とその返却だけにするべきです)
 - `checkPermission` -- `アクセス許可/拒否` のメッセージを表示するのは良くありません(チェックを実行し、その結果を返すのみにすべきです)
 
 これらの例はプレフィックスの共通の意味を前提としています。これらが意味することは、あなたとあなたのチームで前提を決めるということです。恐らく、コードが異なる振る舞いをするのは普通なことです。しかし、プレフィックスが意味すること、プレフィックスの付いた関数ができること、できないことについてはしっかりとした理解をもっておくべきです。同じプレフィックスの関数はルールに従うべきです。そして、チームはそれを共有するべきです。
+=======
+- `getAge` -- would be bad if it shows an `alert` with the age (should only get).
+- `createForm` -- would be bad if it modifies the document, adding a form to it (should only create it and return).
+- `checkPermission` -- would be bad if it displays the `access granted/denied` message (should only perform the check and return the result).
+
+These examples assume common meanings of prefixes. You and your team are free to agree on other meanings, but usually they're not much different. In any case, you should have a firm understanding of what a prefix means, what a prefixed function can and cannot do. All same-prefixed functions should obey the rules. And the team should share the knowledge.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 ```
 
 ```smart header="究極的に短い関数名"
 *非常に頻繁に* 使われる関数は、究極的に短い名前を持っていることがあります。
 
+<<<<<<< HEAD
 例えば、[jQuery](http://jquery.com) フレームワークは関数 `$` を定義しています。[LoDash](http://lodash.com/) ライブラリは、そのコアな関数として `_` を持っています。
 
 それらは例外です。一般的に関数名は簡潔ではあるが、説明的でなければなりません。
+=======
+For example, the [jQuery](http://jquery.com) framework defines a function with `$`. The [Lodash](http://lodash.com/) library has its core function named `_`.
+
+These are exceptions. Generally functions names should be concise and descriptive.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 ```
 
 ## 関数 == コメント 
@@ -432,7 +502,11 @@ function isPrime(n) {
 }
 ```
 
+<<<<<<< HEAD
 2つ目のパターンのほうが理解しやすいですね。コードの塊の代わりに、アクション(`isPrime`) の名前を見ます。このようなコードは *自己記述的* と呼ばれる場合があります。
+=======
+The second variant is easier to understand, isn't it? Instead of the code piece we see a name of the action (`isPrime`). Sometimes people refer to such code as *self-describing*.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 従って、関数はその再利用を意図していない場合でも作ることがあります。それらはコードを構造化し、読みやすくします。
 
@@ -446,9 +520,15 @@ function name(parameters, delimited, by, comma) {
 }
 ```
 
+<<<<<<< HEAD
 - パラメータとして関数に渡される値は、ローカル変数にコピーされます。
 - 関数は外部の変数にアクセスすることができます。しかし、それは内側からのみ機能します。関数の外側のコードは、関数のローカル変数を見ることはできません。
 - 関数は値を返すことができます。もしもそれをしなかった場合、戻りは `undefined` です。
+=======
+- Values passed to a function as parameters are copied to its local variables.
+- A function may access outer variables. But it works only from inside out. The code outside of the function doesn't see its local variables.
+- A function can return a value. If it doesn't, then its result is `undefined`.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 コードを綺麗で理解しやすいようにするために、その関数内では外部変数ではなく、ローカル変数やパラメータを利用することを推奨します。
 

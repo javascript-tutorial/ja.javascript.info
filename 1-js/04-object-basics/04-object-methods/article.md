@@ -13,11 +13,17 @@ let user = {
 
 アクションは、JavaScriptではプロパティの中で関数で表現されます。
 
+<<<<<<< HEAD
 [cut]
 
 ## メソッド例 
 
 スタートとして、`user` が Hello と言うようにしましょう:
+=======
+## Method examples
+
+For a start, let's teach the `user` to say hello:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```js run
 let user = {
@@ -65,7 +71,11 @@ user.sayHi(); // Hello!
 ```smart header="オブジェクト指向プログラミング"
 エンティティを表現するためにオブジェクトを使ってコードを書くとき、それは、[object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming), 略すと "OOP" とばれます。
 
+<<<<<<< HEAD
 OOPは大きなものであり、それ自体の興味深い科学です。 正しいエンティティを選択するにはどうすればいいですか？ どのようにそれらの間の相互作用を整理しますか？それはアーキテクチャーであり、それらは E.Gamma, R.Helm, R.Johnson, J.Vissides による"Design Patterns: Elements of Reusable Object-Oriented Software" または G.Booch による "Object-Oriented Analysis and Design with Applications" などのような、そのトピックについての素晴らしい本があります。私たちは、チャプター <info:object-oriented-programming> の後半でそのトピックの表面について触れます。
+=======
+OOP is a big thing, an interesting science of its own. How to choose the right entities? How to organize the interaction between them? That's architecture, and there are great books on that topic, like "Design Patterns: Elements of Reusable Object-Oriented Software" by E.Gamma, R.Helm, R.Johnson, J.Vissides or "Object-Oriented Analysis and Design with Applications" by G.Booch, and more.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 ```
 ### メソッドの短縮表現
 
@@ -74,14 +84,19 @@ OOPは大きなものであり、それ自体の興味深い科学です。 正�
 ```js
 // これらのオブジェクトは同じことをします
 
-let user = {
+user = {
   sayHi: function() {
     alert("Hello");
   }
 };
 
+<<<<<<< HEAD
 // メソッド簡略化はスッキリ見えますね
 let user = {
+=======
+// method shorthand looks better, right?
+user = {
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 *!*
   sayHi() { // "sayHi: function()" と同じです
 */!*
@@ -113,6 +128,7 @@ let user = {
 
   sayHi() {
 *!*
+    // "this" is the "current object"
     alert(this.name);
 */!*
   }
@@ -168,7 +184,11 @@ admin.sayHi(); // Whoops! sayHi() の中で古い名前が使われました! �
 
 ## "this" はバインドされていません 
 
+<<<<<<< HEAD
 JavaScriptでは、 "this" キーワードは他のほとんどのプログラミング言語とは異なる振る舞いをします。まず、どの関数にでも使えます。
+=======
+In JavaScript, "this" keyword behaves unlike most other programming languages. It can be used in any function.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 このようなコードも構文エラーにはなりません:
 
@@ -178,9 +198,15 @@ function sayHi() {
 }
 ```
 
+<<<<<<< HEAD
 `this` の値は実行時に評価されます。そしてそれは何にでもなれます。
 
 例えば、異なるオブジェクトから呼ばれた場合、同じ関数でも異なる "this" を持つ可能性があります:
+=======
+The value of `this` is evaluated during the run-time, depending on the context.
+
+For instance, here the same function is assigned to two different objects and has different "this" in the calls:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```js run
 let user = { name: "John" };
@@ -191,7 +217,11 @@ function sayHi() {
 }
 
 *!*
+<<<<<<< HEAD
 // 2つのオブジェクトで同じ関数を使う
+=======
+// use the same function in two objects
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 user.f = sayHi;
 admin.f = sayHi;
 */!*
@@ -204,7 +234,14 @@ admin.f(); // Admin  (this == admin)
 admin['f'](); // Admin (ドットでも角括弧でも問題なくメソッドにアクセスできます)
 ```
 
+<<<<<<< HEAD
 実際、オブジェクトまったくなしで関数を呼び出すこともできます:
+=======
+The rule is simple: if `obj.f()` is called, then `this` is `obj` during the call of `f`. So it's either `user` or `admin` in the example above.
+
+````smart header="Calling without an object: `this == undefined`"
+We can even call the function without an object at all:
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```js run
 function sayHi() {
@@ -216,9 +253,16 @@ sayHi(); // undefined
 
 このケースでは、 strict モードでは `this` は `undefined` になります。もし `this.name` にアクセスしようとするとエラーになります。
 
+<<<<<<< HEAD
 非 strict モード(誰かが `use strict` を忘れた場合)では、このようなケースでは `this` の値は *グローバルオブジェクト* (ブラウザでは `window`, 後ほど学びます)になります。これは `"use strict"` が修正した歴史的な振る舞いです。
 
 一般的に、オブジェクトなしで `this` を使う関数の呼び出しは、普通ではなくプログラム上の誤りであることに注意してください。もし関数が `this` を持っていたら、それは通常オブジェクトコンテキストで呼ばれることを意味しています。
+=======
+In non-strict mode the value of `this` in such case will be the *global object* (`window` in a browser, we'll get to it later in the chapter [](info:global-object)). This is a historical behavior that `"use strict"` fixes.
+
+Usually such call is an programming error. If there's `this` inside a function, it expects to be called in an object context.
+````
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ```smart header="バインドしていない `this` の結果"
 もしあなたが別のプログラミング言語から来ていたら、恐らく "`this` のバインド" の考えに慣れているでしょう。それは、オブジェクトに定義されたメソッドは常にそのオブジェクトを参照する `this` を持っている、と言うものです。
@@ -255,11 +299,19 @@ user.hi(); // John (シンプルな呼び出しは動作します)
 */!*
 ```
 
+<<<<<<< HEAD
 最後の行では、`user.hi` か `user.bye` を選択する三項演算子があります。このケースでは、結果は `user.hi` です。
 
 メソッドは丸括弧 `()` ですぐに呼び出されます。しかし、それは正しく動きません!
 
 呼び出しはエラーになります、なぜなら、呼び出しの内側の `"this"` の値は `undefined` になるからです。
+=======
+On the last line there is a conditional operator that chooses either `user.hi` or `user.bye`. In this case the result is `user.hi`.
+
+Then the method is immediately called with parentheses `()`. But it doesn't work correctly!
+
+As you can see, the call results in an error, because the value of `"this"` inside the call becomes `undefined`.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 これは動きます (オブジェクトドットメソッド):
 ```js
@@ -278,7 +330,11 @@ user.hi();
 1. まず、ドット `'.'` がプロパティ `obj.method` を抽出します。
 2. 次に、丸括弧 `()` でそれを実行します。
 
+<<<<<<< HEAD
 そして、`this` についての情報は最初の処理から２つ目の処理へどのように渡されるでしょう？
+=======
+So, how does the information about `this` get passed from the first part to the second one?
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 それらの操作を別々の行に書いた場合、`this` が失われるのは明らかでしょう:
 
@@ -303,9 +359,15 @@ hi(); // Error, this は undefined なので
 
 参照型の値は、３つの値の組み合わせ `(base, name, strict)` です。ここで:
 
+<<<<<<< HEAD
 - `base` はオブジェクトです。
 - `name` はプロパティです。
 - `strict` は `use strict` が効いている場合は true です。
+=======
+- `base` is the object.
+- `name` is the property name.
+- `strict` is true if `use strict` is in effect.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 `user.hi` へのプロパティアクセスの結果は、関数ではなく参照型です。strict mode での `user.hi` はこうなります:
 
@@ -314,11 +376,21 @@ hi(); // Error, this は undefined なので
 (user, "hi", true)
 ```
 
+<<<<<<< HEAD
 参照型に対して丸括弧 `()` 呼び出しがされると、それらはオブジェクトとそのメソッドについての完全な情報を受け取り、正しい `this` (このケースでは `user`)をセットできます。
+=======
+When parentheses `()` are called on the Reference Type, they receive the full information about the object and its method, and can set the right `this` (`=user` in this case).
+
+Reference type is a special "intermediary" internal type, with the purpose to pass information from dot `.` to calling parentheses `()`.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 代入 `hi = user.hi` のような他の操作は、参照型を破棄し、`user.hi`(関数)の値を渡します。従って、それ以降の操作は全て `this` を "失います"。
 
+<<<<<<< HEAD
 なので、結果として、`this` の値は、関数がドット `obj.method()`、もしくは角括弧 `obj[method]()`構文を使って直接呼び出された場合のみ正しく渡されます。このチュートリアルの後半では、func.bind() など、この問題を解決するためのさまざまな方法を学びます。
+=======
+So, as the result, the value of `this` is only passed the right way if the function is called directly using a dot `obj.method()` or square brackets `obj['method']()` syntax (they do the same here). Later in this tutorial, we will learn various ways to solve this problem such as [func.bind()](/bind#solution-2-bind).
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 ## アロー関数は "this" を持ちません 
 
@@ -347,9 +419,16 @@ user.sayHi(); // Ilya
 - メソッドを使うと、オブジェクトは `object.doSomething()` のように "振る舞う" ことができます。
 - メソッドはオブジェクトを `this` で参照することができます。
 
+<<<<<<< HEAD
 `this` の値は実行時に定義されます。
 - 関数が宣言されている場合、`this` を使うことができますが、その `this` は関数が呼び出されるまで値を持っていません。
 - その関数はオブジェクト間でコピーできます。
 - 関数が "メソッド" 構文で呼び出されたとき: `object.method()`, 呼び出し中の `this` の値は、`object` です。
+=======
+The value of `this` is defined at run-time.
+- When a function is declared, it may use `this`, but that `this` has no value until the function is called.
+- A function can be copied between objects.
+- When a function is called in the "method" syntax: `object.method()`, the value of `this` during the call is `object`.
+>>>>>>> 8c30654f694fe8682f5631809980be931ee4ed72
 
 アロー関数は特別であることに注意してください: それは　`this` を持っていません。`this` がアロー関数の中でアクセスされるとき、それは外側から取得されます。
