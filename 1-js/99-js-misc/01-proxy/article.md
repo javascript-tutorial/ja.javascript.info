@@ -68,40 +68,41 @@ Proxy traps はこれらのメソッドの呼び出しをインターセプト�
 | `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
 
 ```warn header="Invariants"
-JavaScript enforces some invariants -- conditions that must be fulfilled by internal methods and traps.
+JavaScript にはいくつかの不変条件(内部メソッドと traps によって満たされるべき条件)があります。
 
-Most of them are for return values:
-- `[[Set]]` must return `true` if the value was written successfully, otherwise `false`.
-- `[[Delete]]` must return `true` if the value was deleted successfully, otherwise `false`.
-- ...and so on, we'll see more in examples below.
+そのほとんどは戻り値に関してです:
+- `[[Set]]` は値が正常に書き込まれた場合には `true` を、そうでなければ `false` を返す必要があります。
+- `[[Delete]]` は値が正常に削除された場合には `true` を、そうでなければ `false` を返す必要があります。
+- ...などです。以下の例で詳しく見ていきます。
 
-There are some other invariants, like:
-- `[[GetPrototypeOf]]`, applied to the proxy object must return the same value as `[[GetPrototypeOf]]` applied to the proxy object's target object. In other words, reading prototype of a proxy must always return the prototype of the target object.
+他にも以下のようないくつかの不変条件があります:
+- proxy オブジェクトに適用される `[[GetPrototypeOf]]` は proxy オブジェクトのターゲットオブジェクトに適用される `[[GetPrototypeOf]]` と同じ値を返さなければなりません。つまり、proxy のプロトタイプを参照すると、常にターゲットオブジェクトのプロトタイプが返却される必要があります。
 
-Traps can intercept these operations, but they must follow these rules.
+traps はこれらの操作をインターセプトできますが、これらのルールには従う必要があります。
 
-Invariants ensure correct and consistent behavior of language features. The full invariants list is in [the specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots), you probably won't violate them, if not doing something weird.
+不変条件は、言語機能の正しさと一貫した動作を保証するものです。完全な不変条件のリストは [仕様]
+(https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)にありますが、変なことをしない限りは違反することはないでしょう。
 ```
 
-Let's see how that works on practical examples.
+実際の例でそれがどのように動作するのかを見てみましょう。
 
-## Default value with "get" trap
+## "get" トラップでのデフォルト値
 
-The most common traps are for reading/writing properties.
+最も一般的なトラップ(traps)はプロパティの読み書きです。
 
-To intercept the reading, the `handler` should have a method `get(target, property, receiver)`.
+読み取りをインターセプトするには、`handler` に `get(target, property, receiver)` が必要です。
 
-It triggers when a property is read, with following arguments:
+これはプロパティが読み取られたとき、以下の引数で実行されます。:
 
-- `target` -- is the target object, the one passed as the first argument to `new Proxy`,
-- `property` -- property name,
-- `receiver` -- if the target property is a getter, then `receiver` is the object that's going to be used as `this` in its call. Usually that's the `proxy` object itself (or an object that inherits from it, if we inherit from proxy). Right now we don't need this argument, will be explained in more details letter.
+- `target`: `new Proxy` の最初の引数として渡されるターゲットオブジェクトです。
+- `property` -- プロパティ名,
+- `receiver` --ターゲットプロパティが getter の場合、`receiver` はその呼び出しの中で `this` として使われるオブジェクトです。通常、これは `proxy` オブジェクト自身(あるいは、proxy から継承している場合は、継承したオブジェクト)です。現時点ではこの引数は不要です。詳細については後ほど説明します。
 
-Let's use `get` to implement default values for an object.
+オブジェクトのデフォルト値を実装するのに `get` を使ってみましょう。
 
-We'll make a numeric array that returns return `0` for non-existant values.
+存在しない値の場合 `0` を返す数値配列を作ります。
 
-Usually when one tries to get a non-existing array item, they get `undefined`, but we'll wrap a regular array into proxy that traps reading and returns `0` if there's no such property:
+通常、存在しない値を取得しようとすると `undefined` になりますが、ここでは通常の配列に対して、プロパティが存在しない場合に `0` を返すプロキシでラップします。:
 
 ```js run
 let numbers = [0, 1, 2];
@@ -111,22 +112,22 @@ numbers = new Proxy(numbers, {
     if (prop in target) {
       return target[prop];
     } else {
-      return 0; // default value
+      return 0; // デフォルト値
     }
   }
 });
 
 *!*
 alert( numbers[1] ); // 1
-alert( numbers[123] ); // 0 (no such item)
+alert( numbers[123] ); // 0 (このような項目はなし)
 */!*
 ```
 
-As we can see, it's quite easy to do with `get` trap.
+ご覧の通り、`get` トラップを使用するのは非常に簡単です。
 
-We can use `Proxy` to implement any logic for "default" values.
+`Proxy` を利用すると、任意の "デフォルト値" 用のロジックを組むことができます。
 
-Imagine, we have a dictionary with phrases along with translations:
+想像してください、フレーズと一緒に翻訳を持つ辞書があるとします:
 
 ```js run
 let dictionary = {
@@ -138,9 +139,9 @@ alert( dictionary['Hello'] ); // Hola
 alert( dictionary['Welcome'] ); // undefined
 ```
 
-Right now, if there's no phrase, reading from `dictionary` returns `undefined`. But in practice, leaving a phrase non-translated is usually better than `undefined`. So let's make it return a non-translated phrase in that case instead of `undefined`.
+現在、フレーズがない場合、`dictionary` の読み取りは `undefined` を返します。しかし、実際には `undefined` よりも未翻訳のままのフレーズを残すほうがよいです。なので、このような場合に `undefined` ではなく、未翻訳のフレーズを返すようにしましょう。
 
-To achieve that, we'll wrap `dictionary` in a proxy that intercepts reading operations:
+そのためには、`directory` を読み取り操作をインターセプトするプロキシでラップします。:
 
 ```js run
 let dictionary = {
@@ -150,58 +151,58 @@ let dictionary = {
 
 dictionary = new Proxy(dictionary, {
 *!*
-  get(target, phrase) { // intercept reading a property from dictionary
+  get(target, phrase) { // 辞書(dictionary)からのプロパティ読み取りをインターセプト
 */!*
-    if (phrase in target) { // if we have it in the dictionary
-      return target[phrase]; // return the translation
+    if (phrase in target) { // 辞書の中にある場合
+      return target[phrase]; // 翻訳を返します
     } else {
-      // otherwise, return the non-translated phrase
+      // そうでなければフレーズをそのまま返します
       return phrase;
     }
   }
 });
 
-// Look up arbitrary phrases in the dictionary!
-// At worst, they are not translated.
+// 辞書で任意のフレーズを検索します
+// 辞書にない場合は翻訳されません
 alert( dictionary['Hello'] ); // Hola
 *!*
-alert( dictionary['Welcome to Proxy']); // Welcome to Proxy (no translation)
+alert( dictionary['Welcome to Proxy']); // Welcome to Proxy
 */!*
 ```
 
 ````smart
-Please note how the proxy overwrites the variable:
+プロキシがどのように変数を上書きするかに注意してください。:
 
 ```js
 dictionary = new Proxy(dictionary, ...);
 ```
 
-The proxy should totally replace the target object everywhere. No one should ever reference the target object after it got proxied. Otherwise it's easy to mess up.
+プロキシはどこでもターゲットオブジェクトを完全に置き換える必要があります。プロキシされた後はターゲットオブジェクトを参照しないでください。参照すると、簡単に台無しになります。
 ````
 
-## Validation with "set" trap
+## "set" トラップでのバリデーション
 
-Let's say we want an array exclusively for numbers. If a value of another type is added, there should be an error.
+数値専用の配列がほしいとしましょう。別の型の値が追加された場合、エラーにする必要があります。
 
-The `set` trap triggers when a property is written.
+`set` トラップはプロパティが書き込まれたときに発生します。
 
 `set(target, property, value, receiver)`:
 
-- `target` -- is the target object, the one passed as the first argument to `new Proxy`,
-- `property` -- property name,
-- `value` -- property value,
-- `receiver` -- similar to `get` trap, matters only for setter properties.
+- `target`: `new Proxy` の最初の引数として渡されるターゲットオブジェクトです。
+- `property`: プロパティ名
+- `value`: プロパティ値,
+- `receiver`: `get` と同様で、setter プロパティに関係します。
 
-The `set` trap should return `true` if setting is successful, and `false` otherwise (triggers `TypeError`).
+`set` トラップは設定が成功すると `true` を、それ以外の場合は `false` (`TypeError` が発生)を返す必要があります。
 
-Let's use it to validate new values:
+新しい値を検証するのに使って見ましょう:
 
 ```js run
 let numbers = [];
 
 numbers = new Proxy(numbers, { // (*)
 *!*
-  set(target, prop, val) { // to intercept property writing
+  set(target, prop, val) { // プロパティの書き込みをインターセプト
 */!*
     if (typeof val == 'number') {
       target[prop] = val;
@@ -212,24 +213,24 @@ numbers = new Proxy(numbers, { // (*)
   }
 });
 
-numbers.push(1); // added successfully
-numbers.push(2); // added successfully
+numbers.push(1); // 追加成功
+numbers.push(2); // 追加成功
 alert("Length is: " + numbers.length); // 2
 
 *!*
-numbers.push("test"); // TypeError ('set' on proxy returned false)
+numbers.push("test"); // TypeError (プロキシの 'set' が false を返却)
 */!*
 
 alert("This line is never reached (error in the line above)");
 ```
 
-Please note: the built-in functionality of arrays is still working! Values are added by `push`. The `length` property auto-increases when values are added. Our proxy doesn't break anything.
+注目してください: 配列の組み込みの機能は依然として動作します! 値は `push` により追加されました。`length` プロパティは値が追加されたときにオートインクリメントされます。プロキシは何も破壊していません。
 
-We don't have to override value-adding array methods like `push` and `unshift`, and so on, to add checks in there, because internally they use `[[Set]]` operation, that's intercepted by the proxy.
+我々はチェック処理を追加するのに `push` や `unshift` のような、値を追加する配列メソッドを上書きする必要はありません。なぜなら、それらは内部的には `[[Set]]` 操作を使用しており、プロキシによりインターセプトされるからです。
 
-So the code is clean and concise.
+したがって、コードはクリーンであり簡潔です。
 
-```warn header="Don't forget to return `true`"
+```warn header="`true` を返すのを忘れないでください"
 As said above, there are invariants to be held.
 
 For `set`, it must return `true` for a successful write.
