@@ -231,26 +231,26 @@ alert("This line is never reached (error in the line above)");
 したがって、コードはクリーンであり簡潔です。
 
 ```warn header="`true` を返すのを忘れないでください"
-As said above, there are invariants to be held.
+上記のように、維持すべき条件があります。
 
-For `set`, it must return `true` for a successful write.
+`set` の場合、書き込みの成功に対しては `true` を返さなければなりません。
 
-If we forget to do it or return any falsy value, the operation triggers `TypeError`.
+それを忘れたり false を返すと、操作は `TypeError` をトリガーします。
 ```
 
-## Iteration with "ownKeys" and "getOwnPropertyDescriptor"
+## "ownKeys" と "getOwnPropertyDescriptor" によるイテレーション
 
-`Object.keys`, `for..in` loop and most other methods that iterate over object properties use `[[OwnPropertyKeys]]` internal method (intercepted by `ownKeys` trap) to get a list of properties.
+`Object.keys`, `for..in` ループ及びオブジェクトプロパティをイテレートする他のほとんどのメソッドは `[[OwnPropertyKeys]]` 内部メソッド(`ownKeys` トラップによりインターセプトされる)を使用してプロパティのリストを取得しています。
 
-Such methods differ in details:
-- `Object.getOwnPropertyNames(obj)` returns non-symbol keys.
-- `Object.getOwnPropertySymbols(obj)` returns symbol keys.
-- `Object.keys/values()` returns non-symbol keys/values with `enumerable` flag (property flags were explained in the chapter <info:property-descriptors>).
-- `for..in` loops over non-symbol keys with `enumerable` flag, and also prototype keys.
+このようなメソッドの詳細は異なります:
+- `Object.getOwnPropertyNames(obj)` は "非" シンボルキーを返します。
+- `Object.getOwnPropertySymbols(obj)` はシンボルキーを返します。
+- `Object.keys/values()` は `enumerable` フラグ(プロパティフラグについては、チャプター <info:property-descriptors> に説明があります)を持つ非シンボルのキー/バリュー値を返します。
+- `for..in` は `enumerable` フラグを持つ非シンボルキーとプロトタイプキーをループします。
 
-...But all of them start with that list.
+...しかし、これらはすべてその内部メソッドで得られたリストから始まります。
 
-In the example below we use `ownKeys` trap to make `for..in` loop over `user`, and also `Object.keys` and `Object.values`, to skip properties starting with an underscore `_`:
+以下の例では、`ownKeys` トラップを使用して `user` に対する `for..in` ループを行い、また `Object.keys` や `Object.values` を行っています。これらはアンダースコア `_` で始まるプロパティをスキップします。:
 
 ```js run
 let user = {
@@ -267,17 +267,17 @@ user = new Proxy(user, {
   }
 });
 
-// "ownKeys" filters out _password
+// "ownKeys" は _password を除外します
 for(let key in user) alert(key); // name, then: age
 
-// same effect on these methods:
+// これらのメソッドへも同じ影響があります:
 alert( Object.keys(user) ); // name,age
 alert( Object.values(user) ); // John,30
 ```
 
-So far, it works.
+これまでのところ、期待通り動作しています。
 
-Although, if we return a key that doesn't exist in the object, `Object.keys` won't list it:
+ですが、もしオブジェクトに存在しないキーを返した場合、`Object.keys` はそれをリストしません:
 
 ```js run
 let user = { };
@@ -293,21 +293,22 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // <empty>
 ```
 
-Why? The reason is simple: `Object.keys` returns only properties with `enumerable` flag. To check for it, it calls the internal method `[[GetOwnProperty]]` for every property to get [its descriptor](info:property-descriptors). And here, as there's no property, its descriptor is empty, no `enumerable` flag, so it's skipped.
+なぜでしょう？理由は簡単です。: `Object.keys` は `enumerable` フラグを持つプロパティだけを返すからです。それを確かめるため、すべてのメソッドに対し内部メソッド `[[GetOwnProperty]]` を呼び出し,
+[ディスクリプタ](info:property-descriptors) を取得します。すると、ここではプロパティがないので、そのディスクリプタは空であり、`enumerable` フラグがありません。そのため、スキップされます。
 
-For `Object.keys` to return a property, we need it either exist in the object, with `enumerable` flag, or we can intercept calls to `[[GetOwnProperty]]` (the trap `getOwnPropertyDescriptor` does it), and return a descriptor with `enumerable: true`.
+`Object.keys` がプロパティを返すには、`enumerable` 付きでオブジェクトに存在するか、`[[GetOwnProperty]]`(トラップは `getOwnPropertyDescriptor`)の呼び出しをインターセプトし、`enumerable: true` を持つディスクリプタを返します。
 
-Here's a working code:
+これはそのコードです:
 
 ```js run
 let user = { };
 
 user = new Proxy(user, {
-  ownKeys(target) { // called once to get a list of properties
+  ownKeys(target) { // プロパティのリストを取得するために一度だけ呼ばれます
     return ['a', 'b', 'c'];
   },
 
-  getOwnPropertyDescriptor(target, prop) { // called for every property
+  getOwnPropertyDescriptor(target, prop) { // プロパティ毎に呼ばれます
     return {
       enumerable: true,
       configurable: true
@@ -320,13 +321,13 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // a, b, c
 ```
 
-Let's note once again: we only need to intercept `[[GetOwnProperty]]` if the property is absent in the object.
+改めて留意してください: `[[GetOwnProperty]]` をインターセプトする必要があるのは、プロパティがオブジェクトにない場合のみです。
 
-## Protected properties with "deleteProperty" and other traps
+## "deleteProperty" 及び他のトラップで保護されたプロパティ
 
-There's a widespread convention that properties and methods prefixed by an underscore `_` are internal. They shouldn't be accessed from outside the object.
+アンダースコア `_` で始まるプロパティやメソッドは内部的なものであるということは、広く知られた慣習です。それらはオブジェクトの外からアクセスされるべきではありません。
 
-Technically, that's possible though:
+ですが、技術的には可能です:
 
 ```js run
 let user = {
@@ -334,18 +335,18 @@ let user = {
   _password: "secret"
 };
 
-alert(user._password); // secret  
+alert(user._password); // secret
 ```
 
-Let's use proxies to prevent any access to properties starting with `_`.
+プロキシを使用して、`_` で始まるプロパティへのアクセスを防ぎましょう。
 
-We'll need the traps:
-- `get` to throw an error when reading such property,
-- `set` to throw an error when writing,
-- `deleteProperty` to throw an error when deleting,
-- `ownKeys` to exclude properties starting with `_` from `for..in` and methods like `Object.keys`.
+次のトラップが必要です:
+- `get`: そのようなプロパティの読み込み時にエラーをスロー,
+- `set`: 書き込み時にエラーをスロー,
+- `deleteProperty`: 削除時にエラーをスロー,
+- `ownKeys`: `for..in` や `Object.keys` のようなメソッドから `_` で始まるプロパティを除外
 
-Here's the code:
+これがそのコードです:
 
 ```js run
 let user = {
@@ -364,7 +365,7 @@ user = new Proxy(user, {
     return (typeof value === 'function') ? value.bind(target) : value; // (*)
   },
 *!*
-  set(target, prop, val) { // to intercept property writing
+  set(target, prop, val) { // プロパティの書き込みをインターセプト
 */!*
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
@@ -374,7 +375,7 @@ user = new Proxy(user, {
     }
   },
 *!*
-  deleteProperty(target, prop) { // to intercept property deletion
+  deleteProperty(target, prop) { // プロパティの削除をインターセプト
 */!*  
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
@@ -384,32 +385,32 @@ user = new Proxy(user, {
     }
   },
 *!*
-  ownKeys(target) { // to intercept property list
+  ownKeys(target) { // プロパティのリストをインターセプト
 */!*
     return Object.keys(target).filter(key => !key.startsWith('_'));
   }
 });
 
-// "get" doesn't allow to read _password
+// "get" は _password の読み込みを許可しません
 try {
   alert(user._password); // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// "set" doesn't allow to write _password
+// "set" は _password の書き込みを許可しません
 try {
   user._password = "test"; // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// "deleteProperty" doesn't allow to delete _password
+// "deleteProperty" は _password の削除を許可しません
 try {
   delete user._password; // Error: Access denied
 } catch(e) { alert(e.message); }
 
-// "ownKeys" filters out _password
+// "ownKeys" は _password を除外します
 for(let key in user) alert(key); // name
 ```
 
-Please note the important detail in `get` trap, in the line `(*)`:
+`(*)` 行の `get` トラップの重要な点に注意してください:
 
 ```js
 get(target, prop) {
@@ -421,35 +422,34 @@ get(target, prop) {
 }
 ```
 
-Why do we need for a function to call `value.bind(target)`?
+なぜ関数の場合に `value.bind(target)` を呼び出す必要があるのでしょうか？
 
-The reason is that object methods, such as `user.checkPassword()`, must be able to access `_password`:
+理由は `user.checkPassword()` のようなオブジェクトメソッドは `_password` へアクセスできる必要があるからです。:
 
 ```js
 user = {
   // ...
   checkPassword(value) {
-    // object method must be able to read _password
+    // オブジェクトメソッドは _password へアクセスできなければいけません
     return value === this._password;
   }
 }
 ```
 
+`user.checkPassword()` の呼び出しはプロキシされた `user` を `this` (ドットの前のオブジェクトが `this` になります)として取得するため、`this._password` へのアクセスを試みると `get` トラップが機能(これはあらゆるプロパティ読み取りでトリガーされます)し、エラーをスローします。
 
-A call to `user.checkPassword()` call gets proxied `user` as `this` (the object before dot becomes `this`), so when it tries to access `this._password`, the `get` trap activates (it triggers on any property read) and throws an error.
+そのため、`(*)` の通りオブジェクトメソッドのコンテキストを元のオブジェクトである `target` でバインドします。以降、その呼び出しでは `this` としてトラップのない `target` を使用します。
 
-So we bind the context of object methods to the original object, `target`, in the line `(*)`. Then their future calls will use `target` as `this`, without any traps.
+この解決策はたいてい動作しますが、メソッドがプロキシされていないオブジェクトを別の場所に渡す可能性があるため理想的ではありません。すると混乱します: どこにオリジナルのオブジェクトがあり、どれがプロキシされたものなのか。
 
-That solution usually works, but isn't ideal, as a method may pass the unproxied object somewhere else, and then we'll get messed up: where's the original object, and where's the proxied one.
+さらに、オブジェクトが何度もプロキシされる可能性もあります(複数のプロキシがそれぞれ異なる "微調整" をオブジェクトにする場合があります)。また、メソッドにラップされていないオブジェクトを渡した場合、予期しない結果になる可能性もあります。
 
-Besides, an object may be proxied multiple times (multiple proxies may add different "tweaks" to the object), and if we pass an unwrapped object to a method, there may be unexpected consequences.
+したがって、このようなプロキシは使用しないでください。
 
-So, such proxy shouldn't be used everywhere.
+```smart header="クラスの private プロパティ"
+モダンな JavaScript エンジンはクラスの private プロパティをネイティブにサポートします(`#` から始まります)。これについてはチャプター <info:private-protected-properties-methods> で記載しています。プロキシは必要ありません。
 
-```smart header="Private properties of a class"
-Modern JavaScript engines natively support private properties in classes, prefixed with `#`. They are described in the chapter <info:private-protected-properties-methods>. No proxies required.
-
-Such properties have their own issues though. In particular, they are not inherited.
+ただし、このようなプロパティにも問題はあります。特にこれらは継承されません。
 ```
 
 ## "In range" with "has" trap
