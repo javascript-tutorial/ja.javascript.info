@@ -440,11 +440,11 @@ user = {
 
 そのため、`(*)` の通りオブジェクトメソッドのコンテキストを元のオブジェクトである `target` でバインドします。以降、その呼び出しでは `this` としてトラップのない `target` を使用します。
 
-この解決策はたいてい動作しますが、メソッドがプロキシされていないオブジェクトを別の場所に渡す可能性があるため理想的ではありません。すると混乱します: どこにオリジナルのオブジェクトがあり、どれがプロキシされたものなのか。
+この解決策はたいてい動作しますが、メソッドがプロキシされていないオブジェクトを別の場所に渡す可能性があるため理想的ではありません。これは混乱のもとになります: どこにオリジナルのオブジェクトがあり、どれがプロキシされたものなのか。
 
 さらに、オブジェクトが何度もプロキシされる可能性もあります(複数のプロキシがそれぞれ異なる "微調整" をオブジェクトにする場合があります)。また、メソッドにラップされていないオブジェクトを渡した場合、予期しない結果になる可能性もあります。
 
-したがって、このようなプロキシは使用しないでください。
+したがって、このようなプロキシは使用しないことを推奨します。
 
 ```smart header="クラスの private プロパティ"
 モダンな JavaScript エンジンはクラスの private プロパティをネイティブにサポートします(`#` から始まります)。これについてはチャプター <info:private-protected-properties-methods> で記載しています。プロキシは必要ありません。
@@ -452,11 +452,11 @@ user = {
 ただし、このようなプロパティにも問題はあります。特にこれらは継承されません。
 ```
 
-## "In range" with "has" trap
+## "has" トラップを使用した "範囲内"
 
-Let's see more examples.
+他の例を見てみましょう。
 
-We have a range object:
+範囲を持つオブジェクトがあります:
 
 ```js
 let range = {
@@ -465,16 +465,16 @@ let range = {
 };
 ```
 
-We'd like to use `in` operator to check that a number is in `range`.
+`in` 演算子を使って、 数値が `range` の範囲内にあるかを確認します。
 
-The `has` trap intercepts `in` calls.
+`has` トラップは `in` 呼び出しをインターセプトします。
 
 `has(target, property)`
 
-- `target` -- is the target object, passed as the first argument to `new Proxy`,
-- `property` -- property name
+- `target` -- `new Proxy` への最初の引数として渡されるターゲットオブジェクト
+- `property` -- プロパティ名
 
-Here's the demo:
+デモです:
 
 ```js run
 let range = {
@@ -496,27 +496,27 @@ alert(50 in range); // false
 */!*
 ```
 
-A nice syntactic sugar, isn't it? And very simple to implement.
+良い糖衣構文ですね。それに実装もとても簡単です。
 
 ## Wrapping functions: "apply"
 
-We can wrap a proxy around a function as well.
+関数の周りに対しても同様に proxy をラップすることができます。
 
-The `apply(target, thisArg, args)` trap handles calling a proxy as function:
+`apply(target, thisArg, args)` トラップはプロキシを関数として呼び出すよう処理をします:
 
-- `target` is the target object (function is an object in JavaScript),
-- `thisArg` is the value of `this`.
-- `args` is a list of arguments.
+- `target` はターゲットオブジェクトです(JavaScript では関数はオブジェクトです),
+- `thisArg` は `this` の値です
+- `args` は引数のリストです
 
-For example, let's recall `delay(f, ms)` decorator, that we did in the chapter <info:call-apply-decorators>.
+例えば、チャプター <info:call-apply-decorators> で行った `delay(f, ms)` デコレータを思い出してください。
 
-In that chapter we did it without proxies. A call to `delay(f, ms)` returned a function that forwards all calls to `f` after `ms` milliseconds.
+そのチャプターでは、proxy を使わずに実現しました。`delay(f, ms)` の呼び出しは、`ms` ミリ秒後に `f` の呼び出しを行う関数を返しました。
 
-Here's the previous, function-based implementation:
+これは以前の関数ベースの実装です:
 
 ```js run
 function delay(f, ms) {
-  // return a wrapper that passes the call to f after the timeout
+  // タイムアウト後に f への呼び出しを渡すラッパー関数を返します
   return function() { // (*)
     setTimeout(() => f.apply(this, arguments), ms);
   };
@@ -526,15 +526,15 @@ function sayHi(user) {
   alert(`Hello, ${user}!`);
 }
 
-// after this wrapping, calls to sayHi will be delayed for 3 seconds
+// このラップをすると、sahHi 呼び出しは 3秒間遅延します
 sayHi = delay(sayHi, 3000);
 
-sayHi("John"); // Hello, John! (after 3 seconds)
+sayHi("John"); // Hello, John! (3秒後)
 ```
 
-As we've seen already, that mostly works. The wrapper function `(*)` performs the call after the timeout.
+すでにご覧になったように、こはほぼほぼ機能します。ラッパー関数 `(*)` はタイムアウト後に呼び出しを実行します。
 
-But a wrapper function does not forward property read/write operations or anything else. After the wrapping, the access is lost to properties of the original functions, such as `name`, `length` and others:
+しかし、ラッパー関数はプロパティの読み書き操作などは転送しません。ラップした後、`name` や `length` などの元の関数のプロパティへのアクセスは失われます。:
 
 ```js run
 function delay(f, ms) {
@@ -548,19 +548,19 @@ function sayHi(user) {
 }
 
 *!*
-alert(sayHi.length); // 1 (function length is the arguments count in its declaration)
+alert(sayHi.length); // 1 (function.length は宣言された関数の引数の数を返します)
 */!*
 
 sayHi = delay(sayHi, 3000);
 
 *!*
-alert(sayHi.length); // 0 (in the wrapper declaration, there are zero arguments)
+alert(sayHi.length); // 0 (ラッパー後は引数は 0 です)
 */!*
 ```
 
-`Proxy` is much more powerful, as it forwards everything to the target object.
+`Proxy` はすべてをターゲットオブジェクトに転送するので、はるかに強力です。
 
-Let's use `Proxy` instead of a wrapping function:
+関数ラッピングの代わりに `Proxy` を使って見ましょう:
 
 ```js run
 function delay(f, ms) {
@@ -578,17 +578,17 @@ function sayHi(user) {
 sayHi = delay(sayHi, 3000);
 
 *!*
-alert(sayHi.length); // 1 (*) proxy forwards "get length" operation to the target
+alert(sayHi.length); // 1 (*) プロキシは length 操作をターゲットに転送します
 */!*
 
-sayHi("John"); // Hello, John! (after 3 seconds)
+sayHi("John"); // Hello, John! (3秒後)
 ```
 
-The result is the same, but now not only calls, but all operations on the proxy are forwarded to the original function. So `sayHi.length` is returned correctly after the wrapping in the line `(*)`.
+結果は同じですが、呼び出しだけでなく、プロキシ上のすべての操作は元の関数に転送されます。そのため、行 `(*)` で `sayHi.length` はラッピング後も正しい値を返します。
 
-We've got a "richer" wrapper.
+これで "よりリッチな" ラッパーを手に入れました。
 
-There exist other traps: the full list is in the beginning of this chapter. Their usage pattern is similar to the above.
+他にもトラップはあります: 完全なリストはこのチャプーの最初にのせています。それらの使用パターンは上記と同じです。
 
 ## Reflect
 
