@@ -1,23 +1,25 @@
-# 分割代入
+# Destructuring assignment
 
-JavaScriptで最も使われる2つのデータ構造は `Object` と `Array` です。
+The two most used data structures in JavaScript are `Object` and `Array`.
 
-オブジェクトは多くの情報を1つのエンティティにまとめることができ、配列は順序付けされたコレクションを格納することができます。従って、私たちはオブジェクトまたは配列を作り、それを1つのエンティティとして扱うことができます。また、それを関数呼び出しの際に渡すこともできます。
+Objects allow us to create a single entity that stores data items by key, and arrays allow us to gather data items into an ordered collection.
 
-*分割代入(Destructuring assignment)* は、配列またはオブジェクトの中身を複数の変数に代入できる特別な構文です。デストラクタリング(非構造化/構造の分解)は、多くのパラメータとデフォルト値を持つ複雑な関数でもうまく機能します。このチャプターでは、すぐにこれらがどのように処理されているかわかるでしょう。
+But when we pass those to a function, it may need not an object/array as a whole, but rather individual pieces.
 
-[cut]
+*Destructuring assignment* is a special syntax that allows us to "unpack" arrays or objects into a bunch of variables, as sometimes that's more convenient. Destructuring also works great with complex functions that have a lot of parameters, default values, and so on.
 
-## Array の非構造化 
+## Array destructuring
 
-配列を変数に分割する方法の例です:
+An example of how the array is destructured into variables:
 
 ```js
-// 姓名の配列があります
+// we have an array with the name and surname
 let arr = ["Ilya", "Kantor"]
 
 *!*
-// 分割代入
+// destructuring assignment
+// sets firstName = arr[0]
+// and surname = arr[1]
 let [firstName, surname] = arr;
 */!*
 
@@ -25,18 +27,18 @@ alert(firstName); // Ilya
 alert(surname);  // Kantor
 ```
 
-これで、配列要素の代わりに変数を扱うことができます。
+Now we can work with variables instead of array members.
 
-`split` やその他配列を返すメソッドと組み合わせると便利です:
+It looks great when combined with `split` or other array-returning methods:
 
 ```js
 let [firstName, surname] = "Ilya Kantor".split(' ');
 ```
 
-````smart header="\"分割\" は \"破壊的\" を意味しません"
-これは、項目を変数にコピーすることによって "非構造化(destructurizes)" するため、"分割代入(destructuring assignment)" と呼ばれています。 配列自体は変更されません。
+````smart header="\"Destructuring\" does not mean \"destructive\"."
+It's called "destructuring assignment," because it "destructurizes" by copying items into variables. But the array itself is not modified.
 
-これは、より短い書き方になります:
+It's just a shorter way to write:
 ```js
 // let [firstName, surname] = arr;
 let firstName = arr[0];
@@ -44,24 +46,24 @@ let surname = arr[1];
 ```
 ````
 
-````smart header="最初の要素を無視する"
-配列の不要な要素は、余分なカンマをつけることで捨てることができます:
+````smart header="Ignore elements using commas"
+Unwanted elements of the array can also be thrown away via an extra comma:
 
 ```js run
 *!*
-// 1番目、2番目の要素が不要の場合
-let [, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+// second element is not needed
+let [firstName, , title] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
 */!*
 
 alert( title ); // Consul
 ```
 
-上のコードでは、最初の2つの要素がスキップされ、3つ目は `title` に代入され、残りもスキップされています。
+In the code above, the second element of the array is skipped, the third one is assigned to `title`, and the rest of the array items is also skipped (as there are no variables for them).
 ````
 
-````smart header="右辺は任意の反復可能(iterable)に対して動作します"
+````smart header="Works with any iterable on the right-side"
 
-実際には配列だけでなく、任意の反復可能(iterable)に対して使うことができます:
+...Actually, we can use it with any iterable, not only arrays:
 
 ```js
 let [a, b, c] = "abc"; // ["a", "b", "c"]
@@ -71,11 +73,11 @@ let [one, two, three] = new Set([1, 2, 3]);
 ````
 
 
-````smart header="左辺では任意のものに代入することが可能です"
+````smart header="Assign to anything at the left-side"
 
-左辺には任意の "割り当て可能なもの" を指定することができます。
+We can use any "assignables" at the left side.
 
-例えば、オブジェクトのプロパティも指定できます:
+For instance, an object property:
 ```js run
 let user = {};
 [user.name, user.surname] = "Ilya Kantor".split(' ');
@@ -85,11 +87,11 @@ alert(user.name); // Ilya
 
 ````
 
-````smart header=".entries() を使ったループ"
+````smart header="Looping with .entries()"
 
-以前のチャプターで、[Object.entries(obj)](mdn:js/Object/entries) メソッドを見ました。
+In the previous chapter we saw the [Object.entries(obj)](mdn:js/Object/entries) method.
 
-オブジェクトの key-value をループするのに、分割代入を一緒に使うこともできます:
+We can use it with destructuring to loop over keys-and-values of an object:
 
 ```js run
 let user = {
@@ -97,7 +99,7 @@ let user = {
   age: 30
 };
 
-// key-value のループ
+// loop over keys-and-values
 *!*
 for (let [key, value] of Object.entries(user)) {
 */!*
@@ -105,7 +107,7 @@ for (let [key, value] of Object.entries(user)) {
 }
 ```
 
-map も同様です:
+...And the same for a map:
 
 ```js run
 let user = new Map();
@@ -113,17 +115,15 @@ user.set("name", "John");
 user.set("age", "30");
 
 *!*
-for (let [key, value] of user.entries()) {
+for (let [key, value] of user) {
 */!*
   alert(`${key}:${value}`); // name:John, then age:30
 }
 ```
 ````
+### The rest '...'
 
-### 残り '...'
-
-最初の値を取得するだけでなく、それに続くすべての値も集めたい場合、"残りの部分" の取得を意味する 3つのドッド `"..."` をパラメータに追加することで実現できます:
-
+If we want not just to get first values, but also to gather all that follows -- we can add one more parameter that gets "the rest" using three dots `"..."`:
 
 ```js run
 let [name1, name2, *!*...rest*/!*] = ["Julius", "Caesar", *!*"Consul", "of the Roman Republic"*/!*];
@@ -132,17 +132,18 @@ alert(name1); // Julius
 alert(name2); // Caesar
 
 *!*
+// Note that type of `rest` is Array.
 alert(rest[0]); // Consul
 alert(rest[1]); // of the Roman Republic
 alert(rest.length); // 2
 */!*
 ```
 
-`rest` は残りの値が要素として格納されている配列です。 `rest` の代わりに他の変数名を使うこともできます。変数名の前には3つのドットがあり、利用時には分割代入の最後にくるようにしてください。
+The value of `rest` is the array of the remaining array elements. We can use any other variable name in place of `rest`, just make sure it has three dots before it and goes last in the destructuring assignment.
 
-### デフォルト値
+### Default values
 
-代入する変数の数よりも配列の要素数のほうが少ない場合、エラーにはなりません。不足している値は undefined とみなされます:
+If there are fewer values in the array than variables in the assignment, there will be no error. Absent values are considered undefined:
 
 ```js run
 *!*
@@ -150,46 +151,48 @@ let [firstName, surname] = [];
 */!*
 
 alert(firstName); // undefined
+alert(surname); // undefined
 ```
 
-値がなかった場合に "デフォルト" 値を使いたければ、`=` を使ってデフォルト値を指定することができます:
+If we want a "default" value to replace the missing one, we can provide it using `=`:
 
 ```js run
 *!*
-// デフォルト値
+// default values
 let [name = "Guest", surname = "Anonymous"] = ["Julius"];
 */!*
 
-alert(name);    // Julius (配列から)
-alert(surname); // Anonymous (デフォルトが使用されました)
+alert(name);    // Julius (from array)
+alert(surname); // Anonymous (default used)
 ```
 
-デフォルト値はより複雑な式や関数呼び出しにすることもできます。それらは値が提供されなかったときのみ評価されます。
+Default values can be more complex expressions or even function calls. They are evaluated only if the value is not provided.
 
-例えば、ここでは2つのデフォルトに対して `prompt` 関数を使っていますが、値がなかった場合のみ実行されます:
+For instance, here we use the `prompt` function for two defaults. But it will run only for the missing one:
 
 ```js run
-// 姓のプロンプトのみを実行する
+// runs only prompt for surname
 let [name = prompt('name?'), surname = prompt('surname?')] = ["Julius"];
 
-alert(name);    // Julius (配列から)
-alert(surname); // プロンプトが得たもの
+alert(name);    // Julius (from array)
+alert(surname); // whatever prompt gets
 ```
 
 
-## オブジェクトの非構造化 
 
-分割代入はオブジェクトでも動作します。
+## Object destructuring
 
-基本の構文は次の通りです:
+The destructuring assignment also works with objects.
+
+The basic syntax is:
 
 ```js
 let {var1, var2} = {var1:…, var2…}
 ```
 
-右辺には、変数に分割したい既存のオブジェクトがあります。左辺には該当するプロパティの "パターン" を指定します。単純なケースでは、それは `{...}` に変数名を並べたものです。
+We have an existing object at the right side, that we want to split into variables. The left side contains a "pattern" for corresponding properties. In the simple case, that's a list of variable names in `{...}`.
 
-例:
+For instance:
 
 ```js run
 let options = {
@@ -207,16 +210,16 @@ alert(width);  // 100
 alert(height); // 200
 ```
 
-プロパティ `options.title`, `options.width` と `options.height` は、該当する変数に代入されます。順序は関係ありません。これも動作します。:
+Properties `options.title`, `options.width` and `options.height` are assigned to the corresponding variables. The order does not matter. This works too:
 
 ```js
-// let {...} 内のプロパティ順を変えた場合
+// changed the order in let {...}
 let {height, width, title} = { title: "Menu", height: 200, width: 100 }
 ```
 
-左辺のパターンはより複雑で、プロパティと変数の間のマッピングを指定することができます。
+The pattern on the left side may be more complex and specify the mapping between properties and variables.
 
-プロパティを別の名前の変数に代入したい場合、例えば、`options.width` を変数名 `w` にしたい場合、コロンを使うことでセットすることができます:
+If we want to assign a property to a variable with another name, for instance, `options.width` to go into the variable named `w`, then we can set it using a colon:
 
 ```js run
 let options = {
@@ -226,7 +229,7 @@ let options = {
 };
 
 *!*
-// { 元のプロパティ: ターゲットとなる変数 }
+// { sourceProperty: targetVariable }
 let {width: w, height: h, title} = options;
 */!*
 
@@ -239,9 +242,9 @@ alert(w);      // 100
 alert(h);      // 200
 ```
 
-コロンは "何を: どこに" を示します。上の例では、プロパティ `width` は `w`に、プロパティ `height` は `h`, `title` は同じ名前に代入されます。
+The colon shows "what : goes where". In the example above the property `width` goes to `w`, property `height` goes to `h`, and `title` is assigned to the same name.
 
-値がない可能性のあるプロパティについては、次のように `"="` を使ってデフォルト値を設定できます:
+For potentially missing properties we can set default values using `"="`, like this:
 
 ```js run
 let options = {
@@ -257,9 +260,9 @@ alert(width);  // 100
 alert(height); // 200
 ```
 
-配列や関数パラメータのように、デフォルト値は任意の式または関数呼び出しにすることができます。それらは値がない場合に評価されます。
+Just like with arrays or function parameters, default values can be any expressions or even function calls. They will be evaluated if the value is not provided.
 
-下のコードは、 width はプロンプトで尋ねられますが、 title は聞かれません。
+In the code below `prompt` asks for `width`, but not for `title`:
 
 ```js run
 let options = {
@@ -271,10 +274,10 @@ let {width = prompt("width?"), title = prompt("title?")} = options;
 */!*
 
 alert(title);  // Menu
-alert(width);  // (プロンプトの結果)
+alert(width);  // (whatever the result of prompt is)
 ```
 
-コロンと等号の両方を組み合わせることもできます。:
+We also can combine both the colon and equality:
 
 ```js run
 let options = {
@@ -290,13 +293,28 @@ alert(w);      // 100
 alert(h);      // 200
 ```
 
-### 残りの演算子(Rest operator)
+If we have a complex object with many properties, we can extract only what we need:
 
-仮に、指定した変数よりも多くのプロパティをオブジェクトがもっていたらどうなるでしょうか。いくつか設定した後、"残り" をどこかにまとめて代入することはできるでしょうか？
+```js run
+let options = {
+  title: "Menu",
+  width: 100,
+  height: 200
+};
 
-ここで、残りの演算子（3つのドット）を使用するという仕様はほぼ標準ですが、ほとんどのブラウザではまだサポートされていません。
+// only extract title as a variable
+let { title } = options;
 
-このようになります:
+alert(title); // Menu
+```
+
+### The rest pattern "..."
+
+What if the object has more properties than we have variables? Can we take some and then assign the "rest" somewhere?
+
+We can use the rest pattern, just like we did with arrays. It's not supported by some older browsers (IE, use Babel to polyfill it), but works in modern ones.
+
+It looks like this:
 
 ```js run
 let options = {
@@ -306,6 +324,8 @@ let options = {
 };
 
 *!*
+// title = property named title
+// rest = object with the rest of properties
 let {title, ...rest} = options;
 */!*
 
@@ -314,20 +334,18 @@ alert(rest.height);  // 200
 alert(rest.width);   // 100
 ```
 
+````smart header="Gotcha if there's no `let`"
+In the examples above variables were declared right in the assignment: `let {…} = {…}`. Of course, we could use existing variables too, without `let`. But there's a catch.
 
-
-````smart header="Gotcha without `let`"
-上の例で、変数は代入の直前に宣言されています: `let {…} = {…}`。もちろん既存の変数を使うこともできますが、罠もあります。
-
-これは動作しません:
+This won't work:
 ```js run
 let title, width, height;
 
-// この行はエラーです
+// error in this line
 {title, width, height} = {title: "Menu", width: 200, height: 100};
 ```
 
-問題は、JavaScriptがメインコードフローの `{...}' をコードブロックとして扱うことです。このようなコードブロックは、次のように文をグループ化するために使われます。
+The problem is that JavaScript treats `{...}` in the main code flow (not inside another expression) as a code block. Such code blocks can be used to group statements, like this:
 
 ```js run
 {
@@ -338,24 +356,25 @@ let title, width, height;
 }
 ```
 
-コードブロックではないと JavaScript に示すためには、代入全体を括弧 `(...)` で囲む必要があります:
+So here JavaScript assumes that we have a code block, that's why there's an error. We have destructuring instead.
+
+To show JavaScript that it's not a code block, we can wrap the expression in parentheses `(...)`:
 
 ```js run
 let title, width, height;
 
-// これでOKです
+// okay now
 *!*(*/!*{title, width, height} = {title: "Menu", width: 200, height: 100}*!*)*/!*;
 
 alert( title ); // Menu
 ```
-
 ````
 
-## 入れ子構造の非構造化 
+## Nested destructuring
 
-オブジェクトまたは配列に他のオブジェクトや配列が含まれている場合、より複雑な左辺のパターンを使用して、より深い部分を抽出することもできます。
+If an object or an array contain other nested objects and arrays, we can use more complex left-side patterns to extract deeper portions.
 
-下のコードでは、`options` はプロパティ `size` の中に別のオブジェクトを持っており、プロパティ `items` に配列を持っています。ここで、代入する左辺のパターンは同じ構造を持っています。:
+In the code below `options` has another object in the property `size` and an array in the property `items`. The pattern at the left side of the assignment has the same structure to extract values from them:
 
 ```js run
 let options = {
@@ -364,17 +383,17 @@ let options = {
     height: 200
   },
   items: ["Cake", "Donut"],
-  extra: true    // 分割されない何か追加のデータ
+  extra: true   
 };
 
-// わかりやすくするために、複数の行での分割代入
+// destructuring assignment split in multiple lines for clarity
 let {
-  size: { // ここにサイズを格納
+  size: { // put size here
     width,
     height
   },
-  items: [item1, item2], // ここに items を割り当てる
-  title = "Menu" // オブジェクトには存在しない (デフォルト値が使われます)
+  items: [item1, item2], // assign items here
+  title = "Menu" // not present in the object (default value is used)
 } = options;
 
 alert(title);  // Menu
@@ -384,25 +403,19 @@ alert(item1);  // Cake
 alert(item2);  // Donut
 ```
 
-左辺で言及されていなかった `extra` を除いた `options` オブジェクト全体が該当する変数に代入されます。
+The whole `options` object except `extra` that was not mentioned, is assigned to corresponding variables:
 
 ![](destructuring-complex.svg)
 
-最終的には、`width`, `height`, `item1`, `item2` と、デフォルト値から `title` を得ます。
+Finally, we have `width`, `height`, `item1`, `item2` and `title` from the default value.
 
-これは分割代入ではよく起こります。私たちは、多くのプロパティを持つ複雑なオブジェクトを持っており、必要なものだけを抽出したいからです。
+Note that there are no variables for `size` and `items`, as we take their content instead.
 
-このようなことも頻繁にあります。:
-```js
-// 変数全体から size を取り、残りは無視します
-let { size } = options;
-```
+## Smart function parameters
 
-## スマートな関数パラメータ 
+There are times when a function has many parameters, most of which are optional. That's especially true for user interfaces. Imagine a function that creates a menu. It may have a width, a height, a title, items list and so on.
 
-ある関数が多くのパラメータを持っており、ほどんどがオプションであることがあります。特にユーザインタフェースのときに当てはまります。メニューを作る関数を想像してみてください。幅と高さ、タイトル、アイテムのリストなどを持っています。
-
-ここに、良くない関数の書き方があります:
+Here's a bad way to write such function:
 
 ```js
 function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
@@ -410,31 +423,32 @@ function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
 }
 ```
 
-現実の問題の1つは、どうやって引数の順番を覚えるか、です。コードがしっかりドキュメント化されていれば、通常は IDE が助けてくれます。しかし、他にも問題があります。ほとんどのパタメータがデフォルトでOKの場合の関数の呼び方です。
+In real-life, the problem is how to remember the order of arguments. Usually IDEs try to help us, especially if the code is well-documented, but still... Another problem is how to call a function when most parameters are ok by default.
 
-こうなりますか?
+Like this?
 
 ```js
+// undefined where default values are fine
 showMenu("My Menu", undefined, undefined, ["Item1", "Item2"])
 ```
 
-これは見にくく、より多くのパラメータを扱う場合、非常に読みにくいです。
+That's ugly. And becomes unreadable when we deal with more parameters.
 
-このようなケースで非構造化が役に立ちます!
+Destructuring comes to the rescue!
 
-オブエジェクトとしてパラメータを渡し、関数はそれらを変数に分解します:
+We can pass parameters as an object, and the function immediately destructurizes them into variables:
 
 ```js run
-// オブジェクトを関数に渡す
+// we pass object to function
 let options = {
   title: "My menu",
   items: ["Item1", "Item2"]
 };
 
-// ...そしてすぐに変数に展開します
+// ...and it immediately expands it to variables
 function showMenu(*!*{title = "Untitled", width = 200, height = 100, items = []}*/!*) {
-  // title, items – options から取得,
-  // width, height – デフォルト値を利用
+  // title, items – taken from options,
+  // width, height – defaults used
   alert( `${title} ${width} ${height}` ); // My Menu 200 100
   alert( items ); // Item1, Item2
 }
@@ -442,7 +456,7 @@ function showMenu(*!*{title = "Untitled", width = 200, height = 100, items = []}
 showMenu(options);
 ```
 
-また、入れ子のオブジェクトやコロンのマッピング使った複雑な非構造化を使うこともできます:
+We can also use more complex destructuring with nested objects and colon mappings:
 
 ```js run
 let options = {
@@ -453,9 +467,9 @@ let options = {
 *!*
 function showMenu({
   title = "Untitled",
-  width: w = 100,  // width は w に
-  height: h = 200, // height は h に
-  items: [item1, item2] // items の最初の要素は item1 へ、次は item2 へ
+  width: w = 100,  // width goes to w
+  height: h = 200, // height goes to h
+  items: [item1, item2] // items first element goes to item1, second to item2
 }) {
 */!*
   alert( `${title} ${w} ${h}` ); // My Menu 100 200
@@ -466,54 +480,54 @@ function showMenu({
 showMenu(options);
 ```
 
-構文は分割代入と同じです:
+The full syntax is the same as for a destructuring assignment:
 ```js
 function({
-  // 渡されるプロパティ: 内部で利用するパラメータ名 = デフォルト値
-  incomingProperty: parameterName = defaultValue
+  incomingProperty: varName = defaultValue
   ...
 })
 ```
 
-なお、このような分割代入は `showMenu()` に引数があることを前提にしている点に注意してください。もしすべての値をデフォルトにしたい場合には、空のオブジェクトを指定する必要があります:
+Then, for an object of parameters, there will be a variable `varName` for property `incomingProperty`, with `defaultValue` by default.
+
+Please note that such destructuring assumes that `showMenu()` does have an argument. If we want all values by default, then we should specify an empty object:
 
 ```js
-showMenu({});
+showMenu({}); // ok, all values are default
 
-// これはエラーになります
-showMenu();
+showMenu(); // this would give an error
 ```
 
-これについては、非構造化対象全体のデフォルト値に `{}` を指定することで対応することができます:
-
+We can fix this by making `{}` the default value for the whole object of parameters:
 
 ```js run
-// 明快にするためのちょっとしたパラメータの簡略化
-function showMenu(*!*{ title = "Menu", width = 100, height = 200 } = {}*/!*) {
+function showMenu({ title = "Menu", width = 100, height = 200 }*!* = {}*/!*) {
   alert( `${title} ${width} ${height}` );
 }
 
 showMenu(); // Menu 100 200
 ```
 
-上のコードでは、全体の引数オブジェクトがデフォルトで `{}` なので常に分解する何かがあります。
+In the code above, the whole arguments object is `{}` by default, so there's always something to destructurize.
 
-## サマリ 
+## Summary
 
-- 分割代入はオブジェクトや配列を多数の変数に即座にマッピングすることができます。
-- オブジェクト構文:
+- Destructuring assignment allows for instantly mapping an object or array onto many variables.
+- The full object syntax:
     ```js
-    let {prop : varName = default, ...} = object
+    let {prop : varName = default, ...rest} = object
     ```
 
-    これはプロパティ `prop` が変数 `varName` に代入され、もしこのようなプロパティが存在しない場合には `default` が使われることを意味します。
+    This means that property `prop` should go into the variable `varName` and, if no such property exists, then the `default` value should be used.
 
-- 配列構文:
+    Object properties that have no mapping are copied to the `rest` object.
+
+- The full array syntax:
 
     ```js
     let [item1 = default, item2, ...rest] = array
     ```
 
-    最初のアイテムは `item1` に行き、2つ目は `item2` に行きます。残りのすべてのアイテムは配列 `rest` になります。
+    The first item goes to `item1`; the second goes into `item2`, all the rest makes the array `rest`.
 
-- より複雑なケースでは、左辺は右辺と同じ構造を指定します。
+- It's possible to extract data from nested arrays/objects, for that the left side must have the same structure as the right one.

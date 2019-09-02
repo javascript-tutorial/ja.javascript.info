@@ -1,7 +1,11 @@
 
 # イベント移譲(Event delegation)
 
+<<<<<<< HEAD
 キャプチャリングとバブリングにより、 *イベント移譲* と呼ばれる最も強力なイベントハンドリングのパターンの一つを実装することができます。
+=======
+Capturing and bubbling allow us to implement one of most powerful event handling patterns called *event delegation*.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 この考え方は、似たような方法で多くの要素を処理する場合に、それら一つ一つにハンドラを割り当てる代わりに、共通の祖先に１つハンドラを置きます。
 
@@ -105,6 +109,7 @@ table.onclick = function(event) {
 3. ネストしたテーブルでは、`event.target` は現在のテーブルの外側にある `<td>` かもしれません。なので、実際に *テーブルの* `<td>` かどうかをチェックします。
 4. もしそうであれば、強調表示します。
 
+<<<<<<< HEAD
 ## 移譲サンプル: マークアップ内のアクション 
 
 イベント移譲はイベント処理を最適化するために使うことができます。我々は多くの要素で類似のアクションに対し単一のハンドラを使います。`<td>` の強調表示で行ったように。
@@ -112,6 +117,15 @@ table.onclick = function(event) {
 しかし、多くの異なるものに対する入り口としても単一のハンドラを使うことができます、
 
 例えば、"Save" と "Load", "Search" などのボタンをもつメニューを作りたいとします。そしてメソッド `save`, `load`, `search`.... を持つオブジェクトがあります。
+=======
+As the result, we have a fast, efficient highlighting code, that doesn't care about the total number of `<td>` in the table.
+
+## Delegation example: actions in markup
+
+There are other uses for event delegation.
+
+Let's say, we want to make a menu with buttons "Save", "Load", "Search" and so on. And there's an object with methods `save`, `load`, `search`... How to match them?
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 最初の考えは、各ボタンに別々のハンドラを割り当てる事かもしれません。しかし、よりエレガントな方法があります。私たちはメニュー全体に対してハンドラを追加し、呼び出すメソッドを持っているに対して `date-action` 属性を追加します。:
 
@@ -161,7 +175,11 @@ table.onclick = function(event) {
 </script>
 ```
 
+<<<<<<< HEAD
 `this.onClick` は `(*)` で `this` がバインドされていることに注意してください。それは重要です。なぜなら、そうしていなければ `this` はメニューオブジェクトではなく DOM 要素を参照し、`this[action]` は我々が必要とするものではないからです。
+=======
+Please note that `this.onClick` is bound to `this` in `(*)`. That's important, because otherwise `this` inside it would reference the DOM element (`elem`), not the `Menu` object, and `this[action]` would not be what we need.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 したがって、この移譲が我々に与えれくれたものはなんでしょう？
 
@@ -176,13 +194,23 @@ table.onclick = function(event) {
 
 イベントの委譲を使用して、特別な属性やクラスを使用して、*宣言的* に要素に "振る舞い" を追加することもできます。
 
+<<<<<<< HEAD
 このパターンは2つのパートがあります:
 1. 要素に特別な属性を追加します。
 2. ドキュメント全体のハンドラはイベントを追跡し、属性付けされた要素でイベントが発生した場合は、そのアクションを実行します。
+=======
+The pattern has two parts:
+1. We add a custom attribute to an element that describes its behavior.
+2. A document-wide handler tracks events, and if an event happens on an attributed element -- performs the action.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
-### Counter
+### Behavior: Counter
 
+<<<<<<< HEAD
 例えば、ここでは属性 `data-counter` は振る舞いを追加します: ボタンをクリックすると増加します。:
+=======
+For instance, here the attribute `data-counter` adds a behavior: "increase value on click" to buttons:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```html run autorun height=60
 Counter: <input type="button" value="1" data-counter>
@@ -203,15 +231,24 @@ One more counter: <input type="button" value="2" data-counter>
 
 私たちが望むだけ、`data-counter` を持つ多くの属性があります。 私たちはいつでもHTMLに新しいものを加えることができます。 イベントの委任を使用してHTMLを "拡張" し、新しい動作を記述する属性を追加しました。
 
+<<<<<<< HEAD
 ```warn header="ドキュメントレベルハンドラの場合、常に `addEventListener` です"
 `document` オブジェクトにイベントハンドラを割り当てるとき、常に `addEventListener` を使用する必要があります。`document.onclick` ではありません。なぜなら、後者はコンフリクトを起こすためです: 新しいハンドラを古いものを上書きします。
+=======
+```warn header="For document-level handlers -- always `addEventListener`"
+When we assign an event handler to the `document` object, we should always use `addEventListener`, not `document.on<event>`, because the latter will cause conflicts: new handlers overwrite old ones.
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 実際のプロジェクトでは、コードの異なる部分で設定された `document` に多くのハンドラがあるのは普通です。
 ```
 
-### Toggler
+### Behavior: Toggler
 
+<<<<<<< HEAD
 もう１つの例です。属性 `data-toggle-id` を持つ要素をクリックすると、指定された `id` の要素が表示/非表示になります。:
+=======
+One more example of behavior. A click on an element with the attribute `data-toggle-id` will show/hide the element with the given `id`:
+>>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
 
 ```html autorun run height=60
 <button *!*data-toggle-id="subscribe-mail"*/!*>
