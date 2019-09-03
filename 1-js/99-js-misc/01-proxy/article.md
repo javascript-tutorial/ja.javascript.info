@@ -592,15 +592,15 @@ sayHi("John"); // Hello, John! (3秒後)
 
 ## Reflect
 
-`Reflect` is a built-in object that simplifies creation of `Proxy`.
+`Reflect` は `Proxy` の作成を簡単にする組み込みのオブジェクトです。
 
-It was said previously that internal methods, such as `[[Get]]`, `[[Set]]` and others are specifiction only, they can't be called directly.
+以前説明したとおり、`[[Get]]`, `[[Set]]` やその他の内部メソッドは仕様上のものであり、直接呼び出すことはできません。
 
-`Reflect` object makes that somewhat possible. Its methods are minimal wrappers around the internal methods.
+`Reflect` オブジェクトはそれをいくらか可能にします。それのもつメソッドは内部メソッドの最小限のラッパーです。
 
-Here are examples of operations and `Reflect` calls that do the same:
+ここでは、操作と、それと同じことをする `Reflect` 呼び出しの例を示します:
 
-| Operation |  `Reflect` call | Internal method |
+| 操作 |  `Reflect` 呼び出し | 内部メソッド |
 |-----------------|----------------|-------------|
 | `obj[prop]` | `Reflect.get(obj, prop)` | `[[Get]]` |
 | `obj[prop] = value` | `Reflect.set(obj, prop, value)` | `[[Set]]` |
@@ -608,7 +608,7 @@ Here are examples of operations and `Reflect` calls that do the same:
 | `new F(value)` | `Reflect.construct(F, value)` | `[[Construct]]` |
 | ... | ... | ... |
 
-For example:
+例:
 
 ```js run
 let user = {};
@@ -618,13 +618,13 @@ Reflect.set(user, 'name', 'John');
 alert(user.name); // John
 ```
 
-In particular, `Reflect` allows to call operators (`new`, `delete`...) as functions (`Reflect.construct`, `Reflect.deleteProperty`, ...). That's an interesting capability, but here another thing is important.
+特に、`Reflect` では演算子 (`new`, `delete`...) を関数(`Reflect.construct`, `Reflect.deleteProperty`, ...)として呼び出すことができます。これは興味深い機能ですが、ここでは別に重要な部分があります。
 
-**For every internal method, trappable by `Proxy`, there's a corresponding method in `Reflect`, with the same name and arguments as `Proxy` trap.**
+**`Proxy` でトラップ可能なすべての内部メソッドに対し、`Reflect` には `Proxy` トラップと同じ名前、引数を持つ対応するメソッドがあります。**
 
-So we can use `Reflect` to forward an operation to the original object.
+したがって、`Reflect` を使って操作を元のオブジェクトに転送することができます。
 
-In this example both traps `get` and `set` transparently (as if they didn't exist) forward reading/writing operations to the object, showing a message:
+この例では、`get` と `set` の両方のトラップが、読み書き操作をオブジェクトへ透過的(存在しないかのように)に転送し、メッセージを表示します。:
 
 ```js run
 let user = {
@@ -646,18 +646,18 @@ user = new Proxy(user, {
   }
 });
 
-let name = user.name; // shows "GET name"
-user.name = "Pete"; // shows "SET name=Pete"
+let name = user.name; // "GET name" を表示
+user.name = "Pete"; // "SET name=Pete" を表示
 ```
 
 Here:
 
-- `Reflect.get` reads an object property.
-- `Reflect.set` writes an object property and returns `true` if successful, `false` otherwise.
+- `Reflect.get` はオブジェクトプロパティを読み取ります。
+- `Reflect.set` はオブジェクトプロパティの書き込みを行い、成功すれば `true` を返します。それ以外の場合は `false` を返します。
 
-That is, everything's simple: if a trap wants to forward the call to the object, it's enough to call `Reflect.<method>` with the same arguments.
+つまり、すべては単純です: トラップが呼び出しをオブジェクトに転送したい場合、同じ引数で `Reflect.<method>` を呼べばよいです。
 
-In most cases we can do the same without `Reflect`, for instance, reading a property `Reflect.get(target, prop, receiver)` can be replaced by `target[prop]`. There are important nuances though.
+ほとんどの場合で、`Reflect` なしで同じことができます。例えば、プロパティの読み取り `Reflect.get(target, prop, receiver)` は `target[prop]` に置き換えることができます。ですが、重要な意味合いがあります。
 
 ### Proxying a getter
 
