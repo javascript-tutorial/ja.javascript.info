@@ -657,15 +657,15 @@ Here:
 
 つまり、すべては単純です: トラップが呼び出しをオブジェクトに転送したい場合、同じ引数で `Reflect.<method>` を呼べばよいです。
 
-ほとんどの場合で、`Reflect` なしで同じことができます。例えば、プロパティの読み取り `Reflect.get(target, prop, receiver)` は `target[prop]` に置き換えることができます。ですが、重要な意味合いがあります。
+ほとんどの場合で、`Reflect` を使うことなく同じことができます。例えば、プロパティの読み取り `Reflect.get(target, prop, receiver)` は `target[prop]` に置き換えることができます。ですが、重要な意味合いがあります。
 
-### Proxying a getter
+### ゲッター(getter)のプロキシ
 
-Let's see an example that demonstrates why `Reflect.get` is better. And we'll also see why `get/set` have the fourth argument `receiver`, that we didn't use before.
+なぜ `Reflect.get` が優れている理由を示すデモを見てみましょう。合わせて、なぜ `get/set` が４番目の引数 `receiver` を持っているのか(これは以前は使用していませんでした)も見ていきましょう。
 
-We have an object `user` with `_name` property and a getter for it.
+`_name` プロパティをもつ `user` オブジェクトがあり、そのゲッターをします:
 
-Here's a proxy around it:
+これはそのプロキシです:
 
 ```js run
 let user = {
@@ -686,11 +686,11 @@ let userProxy = new Proxy(user, {
 alert(userProxy.name); // Guest
 ```
 
-The `get` trap is "transparent" here, it returns the original property, and doesn't do anything else. That's enough for our example.
+ここでは、`get` トラップは明白です。元のプロパティを返し、他には何もしていません。今回の例ではこれで十分です。
 
-Everything seems to be all right. But let's make the example a little bit more complex.
+今のところすべて問題ありません。では例をもう少し複雑にしてみましょう。
 
-After inheriting another object `admin` from `user`, we can observe the incorrect behavior:
+`user` から別のオブジェクト `admin` を継承すると、正しくない振る舞いが起きます:
 
 ```js run
 let user = {
@@ -712,32 +712,37 @@ let admin = {
   _name: "Admin"
 };
 
-// Expected: Admin
-alert(admin.name); // outputs: Guest (?!?)
+// 期待値: Admin
+alert(admin.name); // 出力: Guest (?!?)
 */!*
 ```
 
-Reading `admin.name` should return `"Admin"`, not `"Guest"`!
+`admin.name` の読み取りは `"Guest"` ではなく `"Admin"` を返すべきです!
 
-What's the matter? Maybe we did something wrong with the inheritance?
+何が起きたのでしょうか？継承になにか問題があったのでしょうか？
 
-But if we remove the proxy, then everything will work as expected.
+ですが、プロキシを削除するとすべて期待通りに動作します。
 
-The problem is actually in the proxy, in the line `(*)`.
+問題は行 `(*)` のプロキシの中にあります。
+
+1. `admin.name` を読み取るとき、`admin` オブジェクトにはそのようなプロパティはないため、検索はそのプロトタイプに進みます。
+2. プロトタイプは `userProxy` です。
+3. プロキシから `name` プロパティを読み取ると、`get` トラップが発生し、行 `(*)` で `target[prop]` により元のオブジェクトから返却されます。
+
 
 1. When we read `admin.name`, as `admin` object doesn't have such own property, the search goes to its prototype.
 2. The prototype is `userProxy`.
 3. When reading `name` property from the proxy, its `get` trap triggers and returns it from the original object as `target[prop]` in the line `(*)`.
 
-    A call to `target[prop]`, when `prop` is a getter, runs its code in the context `this=target`. So the result is `this._name` from the original object `target`, that is: from `user`.
+    `prop` がゲッターである場合、`target[prop]` の呼び出しはコンテキスト `this=target` でコードが実行されます。そのため、結果は元のオブジェクト `target`, つまり `user` からの `this._name` になります。
 
-To fix such situations, we need `receiver`, the third argument of `get` trap. It keeps the correct `this` to be passed to a getter. In our case that's `admin`.
+これを修正するには、`get` トラップの3番目の引数である `receiver` が必要です。これによりゲッターに正しい `this` を渡すことができます。今回のケースだと、`admin` です。
 
-How to pass the context for a getter? For a regular function we could use `call/apply`, but that's a getter, it's not "called", just accessed.
+どうやってゲッターへコンテキストを渡すのでしょう？通常の関数では `call/apply` を使いますが、これはゲッターなので "呼び出される" のではなく、単なるアクセスです。
 
-`Reflect.get` can do that. Everything will work right if we use it.
+`Reflect.get` はそれをすることができます。これを使うことですべてが上手く動きます。
 
-Here's the corrected variant:
+修正されたバリアントです:
 
 ```js run
 let user = {
@@ -766,9 +771,9 @@ alert(admin.name); // Admin
 */!*
 ```
 
-Now `receiver` that keeps a reference to the correct `this` (that is `admin`), is passed to the getter using `Reflect.get` in the line `(*)`.
+上のコードでは、正しい `this` (つまり `admin`) への参照を維持する `reveiver` は、行 `(*)` で `Reflect.get` を使用したゲッターに渡されます。
 
-We can rewrite the trap even shorter:
+トラップをさらに短く書くこともできます:
 
 ```js
 get(target, prop, receiver) {
