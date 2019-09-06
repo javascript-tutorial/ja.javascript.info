@@ -291,7 +291,7 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
-対象的に、`querySelectorAll` は *静的な* コレクションです。これは固定要素配列です。
+対照的に、`querySelectorAll` は *静的な* コレクションです。これは固定要素配列です。
 
 我々が代わりにこれを使った場合、両方のスクリプトは `1` を出力します:
 
