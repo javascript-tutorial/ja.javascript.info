@@ -2,4 +2,8 @@
 
 関数 `counter` と `counter2` は異なる `makeCounter` の呼び出しで作られています。
 
+<<<<<<< HEAD
 なので、それらは独立した外部のレキシカル環境を持っており、それぞれ独自の `count` を持ちます。
+=======
+So they have independent outer Lexical Environments, each one has its own `count`.
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1

@@ -4,7 +4,11 @@ importance: 5
 
 # 比較
 
+<<<<<<< HEAD
 式の結果はどうなるでしょう？
+=======
+What will be the result for these expressions?
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js no-beautify
 5 > 4

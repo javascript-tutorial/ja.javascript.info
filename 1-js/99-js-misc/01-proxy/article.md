@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Proxy と Reflect
 
 `Proxy` オブジェクトは別のオブジェクトをラップし、プロパティやその他の読み取り/書き込みなどの操作をインターセプトします。必要に応じて、それらを独自に処理したり、オブジェクトが透過的にそれらを処理できるようにします。
@@ -5,11 +6,21 @@
 Proxy は多くのライブラリや一部のブラウザフレームワークで使われています。このチャプターでは、多くの実践的なアプリケーションを紹介します。
 
 構文:
+=======
+# Proxy and Reflect
+
+A `Proxy` object wraps another object and intercepts operations, like reading/writing properties and others, optionally handling them on its own, or transparently allowing the object to handle them.
+
+Proxies are used in many libraries and some browser frameworks. We'll see many practical applications in this chapter.
+
+The syntax:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js
 let proxy = new Proxy(target, handler)
 ```
 
+<<<<<<< HEAD
 - `target` -- ラップするオブジェクトです。関数を含め何でもOKです。
 - `handler` -- プロキシ設定: 操作をインターセプトするメソッド "traps" をもつオブジェクトです。例: `get` トラップは `target` のプロパティの読み取り用、`set` トラップは、`target` へのプロパティ書き込み用、など。
 
@@ -59,6 +70,57 @@ Proxy traps はこれらのメソッドの呼び出しをインターセプト�
 | `[[Delete]]` | `deleteProperty` | `delete` 演算子 |
 | `[[Call]]` | `apply` | 関数呼び出し |
 | `[[Construct]]` | `construct` | `new` 演算子 |
+=======
+- `target` -- is an object to wrap, can be anything, including functions.
+- `handler` -- proxy configuration: an object with "traps": methods that intercept operations., e.g. `get` trap is for reading a property of `target`, `set` trap - for writing a property into `target`, etc.
+
+For operations on `proxy`, if there's a corresponding trap in `handler`, then it runs, and the proxy has a chance to handle it, otherwise the operation is performed on `target`.
+
+As a starting example, let's create a proxy without any traps:
+
+```js run
+let target = {};
+let proxy = new Proxy(target, {}); // empty handler
+
+proxy.test = 5; // writing to proxy (1)
+alert(target.test); // 5, the property appeared in target!
+
+alert(proxy.test); // 5, we can read it from proxy too (2)
+
+for(let key in proxy) alert(key); // test, iteration works (3)
+```
+
+As there are no traps, all operations on `proxy` are forwarded to `target`.
+
+1. A writing operation `proxy.test=` sets the value on `target`.
+2. A reading operation `proxy.test` returns the value from `target`.
+3. Iteration over `proxy` returns values from `target`.
+
+As we can see, without any traps, `proxy` is a transparent wrapper around `target`.
+
+![](proxy.svg)  
+
+`Proxy` is a special "exotic object". It doesn't have own properties. With an empty `handler` it transparently forwards operations to `target`.
+
+To activate more capabilities, let's add traps.
+
+What can we intercept with them?
+
+For most operations on objects, there's a so-called "internal method" in JavaScript specificaiton, that describes on the lowest level, how it works. For instance, `[[Get]]` - the internal method to read a property, `[[Set]]` -- the internal method to write a property, and so on. These methods are only used in the specification, we can't call them directly by name.
+
+Proxy traps intercept invocations of these methods. They are listed in [Proxy specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) and in the table below.
+
+For every internal method, there's a trap in this table: the name of the method that we can add to `handler` parameter of `new Proxy` to intercept the operation:
+
+| Internal Method | Handler Method | Triggers when... |
+|-----------------|----------------|-------------|
+| `[[Get]]` | `get` | reading a property |
+| `[[Set]]` | `set` | writing to a property |
+| `[[HasProperty]]` | `has` | `in` operator |
+| `[[Delete]]` | `deleteProperty` | `delete` operator |
+| `[[Call]]` | `apply` | function call |
+| `[[Construct]]` | `construct` | `new` operator |
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 | `[[GetPrototypeOf]]` | `getPrototypeOf` | [Object.getPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf) |
 | `[[SetPrototypeOf]]` | `setPrototypeOf` | [Object.setPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf) |
 | `[[IsExtensible]]` | `isExtensible` | [Object.isExtensible](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible) |
@@ -68,6 +130,7 @@ Proxy traps はこれらのメソッドの呼び出しをインターセプト�
 | `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
 
 ```warn header="Invariants"
+<<<<<<< HEAD
 JavaScript にはいくつかの不変条件(内部メソッドと traps によって満たされるべき条件)があります。
 
 そのほとんどは戻り値に関してです:
@@ -103,6 +166,42 @@ traps はこれらの操作をインターセプトできますが、これら�
 存在しない値の場合 `0` を返す数値配列を作ります。
 
 通常、存在しない値を取得しようとすると `undefined` になりますが、ここでは通常の配列に対して、プロパティが存在しない場合に `0` を返すプロキシでラップします。:
+=======
+JavaScript enforces some invariants -- conditions that must be fulfilled by internal methods and traps.
+
+Most of them are for return values:
+- `[[Set]]` must return `true` if the value was written successfully, otherwise `false`.
+- `[[Delete]]` must return `true` if the value was deleted successfully, otherwise `false`.
+- ...and so on, we'll see more in examples below.
+
+There are some other invariants, like:
+- `[[GetPrototypeOf]]`, applied to the proxy object must return the same value as `[[GetPrototypeOf]]` applied to the proxy object's target object. In other words, reading prototype of a proxy must always return the prototype of the target object.
+
+Traps can intercept these operations, but they must follow these rules.
+
+Invariants ensure correct and consistent behavior of language features. The full invariants list is in [the specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots), you probably won't violate them, if not doing something weird.
+```
+
+Let's see how that works on practical examples.
+
+## Default value with "get" trap
+
+The most common traps are for reading/writing properties.
+
+To intercept the reading, the `handler` should have a method `get(target, property, receiver)`.
+
+It triggers when a property is read, with following arguments:
+
+- `target` -- is the target object, the one passed as the first argument to `new Proxy`,
+- `property` -- property name,
+- `receiver` -- if the target property is a getter, then `receiver` is the object that's going to be used as `this` in its call. Usually that's the `proxy` object itself (or an object that inherits from it, if we inherit from proxy). Right now we don't need this argument, will be explained in more details later.
+
+Let's use `get` to implement default values for an object.
+
+We'll make a numeric array that returns `0` for non-existant values.
+
+Usually when one tries to get a non-existing array item, they get `undefined`, but we'll wrap a regular array into proxy that traps reading and returns `0` if there's no such property:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let numbers = [0, 1, 2];
@@ -112,13 +211,18 @@ numbers = new Proxy(numbers, {
     if (prop in target) {
       return target[prop];
     } else {
+<<<<<<< HEAD
       return 0; // デフォルト値
+=======
+      return 0; // default value
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
     }
   }
 });
 
 *!*
 alert( numbers[1] ); // 1
+<<<<<<< HEAD
 alert( numbers[123] ); // 0 (このような項目はなし)
 */!*
 ```
@@ -128,6 +232,17 @@ alert( numbers[123] ); // 0 (このような項目はなし)
 `Proxy` を利用すると、任意の "デフォルト値" 用のロジックを組むことができます。
 
 想像してください、フレーズと一緒に翻訳を持つ辞書があるとします:
+=======
+alert( numbers[123] ); // 0 (no such item)
+*/!*
+```
+
+As we can see, it's quite easy to do with `get` trap.
+
+We can use `Proxy` to implement any logic for "default" values.
+
+Imagine, we have a dictionary with phrases along with translations:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let dictionary = {
@@ -139,9 +254,15 @@ alert( dictionary['Hello'] ); // Hola
 alert( dictionary['Welcome'] ); // undefined
 ```
 
+<<<<<<< HEAD
 現在、フレーズがない場合、`dictionary` の読み取りは `undefined` を返します。しかし、実際には `undefined` よりも未翻訳のままのフレーズを残すほうがよいです。なので、このような場合に `undefined` ではなく、未翻訳のフレーズを返すようにしましょう。
 
 そのためには、`directory` を読み取り操作をインターセプトするプロキシでラップします。:
+=======
+Right now, if there's no phrase, reading from `dictionary` returns `undefined`. But in practice, leaving a phrase non-translated is usually better than `undefined`. So let's make it return a non-translated phrase in that case instead of `undefined`.
+
+To achieve that, we'll wrap `dictionary` in a proxy that intercepts reading operations:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let dictionary = {
@@ -151,32 +272,54 @@ let dictionary = {
 
 dictionary = new Proxy(dictionary, {
 *!*
+<<<<<<< HEAD
   get(target, phrase) { // 辞書(dictionary)からのプロパティ読み取りをインターセプト
 */!*
     if (phrase in target) { // 辞書の中にある場合
       return target[phrase]; // 翻訳を返します
     } else {
       // そうでなければフレーズをそのまま返します
+=======
+  get(target, phrase) { // intercept reading a property from dictionary
+*/!*
+    if (phrase in target) { // if we have it in the dictionary
+      return target[phrase]; // return the translation
+    } else {
+      // otherwise, return the non-translated phrase
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
       return phrase;
     }
   }
 });
 
+<<<<<<< HEAD
 // 辞書で任意のフレーズを検索します
 // 辞書にない場合は翻訳されません
 alert( dictionary['Hello'] ); // Hola
 *!*
 alert( dictionary['Welcome to Proxy']); // Welcome to Proxy
+=======
+// Look up arbitrary phrases in the dictionary!
+// At worst, they are not translated.
+alert( dictionary['Hello'] ); // Hola
+*!*
+alert( dictionary['Welcome to Proxy']); // Welcome to Proxy (no translation)
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 */!*
 ```
 
 ````smart
+<<<<<<< HEAD
 プロキシがどのように変数を上書きするかに注意してください。:
+=======
+Please note how the proxy overwrites the variable:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js
 dictionary = new Proxy(dictionary, ...);
 ```
 
+<<<<<<< HEAD
 プロキシはどこでもターゲットオブジェクトを完全に置き換える必要があります。プロキシされた後はターゲットオブジェクトを参照しないでください。参照すると、簡単に台無しになります。
 ````
 
@@ -196,13 +339,38 @@ dictionary = new Proxy(dictionary, ...);
 `set` トラップは設定が成功すると `true` を、それ以外の場合は `false` (`TypeError` が発生)を返す必要があります。
 
 新しい値を検証するのに使って見ましょう:
+=======
+The proxy should totally replace the target object everywhere. No one should ever reference the target object after it got proxied. Otherwise it's easy to mess up.
+````
+
+## Validation with "set" trap
+
+Let's say we want an array exclusively for numbers. If a value of another type is added, there should be an error.
+
+The `set` trap triggers when a property is written.
+
+`set(target, property, value, receiver)`:
+
+- `target` -- is the target object, the one passed as the first argument to `new Proxy`,
+- `property` -- property name,
+- `value` -- property value,
+- `receiver` -- similar to `get` trap, matters only for setter properties.
+
+The `set` trap should return `true` if setting is successful, and `false` otherwise (triggers `TypeError`).
+
+Let's use it to validate new values:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let numbers = [];
 
 numbers = new Proxy(numbers, { // (*)
 *!*
+<<<<<<< HEAD
   set(target, prop, val) { // プロパティの書き込みをインターセプト
+=======
+  set(target, prop, val) { // to intercept property writing
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 */!*
     if (typeof val == 'number') {
       target[prop] = val;
@@ -213,17 +381,27 @@ numbers = new Proxy(numbers, { // (*)
   }
 });
 
+<<<<<<< HEAD
 numbers.push(1); // 追加成功
 numbers.push(2); // 追加成功
 alert("Length is: " + numbers.length); // 2
 
 *!*
 numbers.push("test"); // TypeError (プロキシの 'set' が false を返却)
+=======
+numbers.push(1); // added successfully
+numbers.push(2); // added successfully
+alert("Length is: " + numbers.length); // 2
+
+*!*
+numbers.push("test"); // TypeError ('set' on proxy returned false)
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 */!*
 
 alert("This line is never reached (error in the line above)");
 ```
 
+<<<<<<< HEAD
 注目してください: 配列の組み込みの機能は依然として動作します! 値は `push` により追加されました。`length` プロパティは値が追加されたときにオートインクリメントされます。プロキシは何も破壊していません。
 
 我々はチェック処理を追加するのに `push` や `unshift` のような、値を追加する配列メソッドを上書きする必要はありません。なぜなら、それらは内部的には `[[Set]]` 操作を使用しており、プロキシによりインターセプトされるからです。
@@ -251,6 +429,35 @@ alert("This line is never reached (error in the line above)");
 ...しかし、これらはすべてその内部メソッドで得られたリストから始まります。
 
 以下の例では、`ownKeys` トラップを使用して `user` に対する `for..in` ループを行い、また `Object.keys` や `Object.values` を行っています。これらはアンダースコア `_` で始まるプロパティをスキップします。:
+=======
+Please note: the built-in functionality of arrays is still working! Values are added by `push`. The `length` property auto-increases when values are added. Our proxy doesn't break anything.
+
+We don't have to override value-adding array methods like `push` and `unshift`, and so on, to add checks in there, because internally they use `[[Set]]` operation, that's intercepted by the proxy.
+
+So the code is clean and concise.
+
+```warn header="Don't forget to return `true`"
+As said above, there are invariants to be held.
+
+For `set`, it must return `true` for a successful write.
+
+If we forget to do it or return any falsy value, the operation triggers `TypeError`.
+```
+
+## Iteration with "ownKeys" and "getOwnPropertyDescriptor"
+
+`Object.keys`, `for..in` loop and most other methods that iterate over object properties use `[[OwnPropertyKeys]]` internal method (intercepted by `ownKeys` trap) to get a list of properties.
+
+Such methods differ in details:
+- `Object.getOwnPropertyNames(obj)` returns non-symbol keys.
+- `Object.getOwnPropertySymbols(obj)` returns symbol keys.
+- `Object.keys/values()` returns non-symbol keys/values with `enumerable` flag (property flags were explained in the chapter <info:property-descriptors>).
+- `for..in` loops over non-symbol keys with `enumerable` flag, and also prototype keys.
+
+...But all of them start with that list.
+
+In the example below we use `ownKeys` trap to make `for..in` loop over `user`, and also `Object.keys` and `Object.values`, to skip properties starting with an underscore `_`:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = {
@@ -267,17 +474,30 @@ user = new Proxy(user, {
   }
 });
 
+<<<<<<< HEAD
 // "ownKeys" は _password を除外します
 for(let key in user) alert(key); // name, then: age
 
 // これらのメソッドへも同じ影響があります:
+=======
+// "ownKeys" filters out _password
+for(let key in user) alert(key); // name, then: age
+
+// same effect on these methods:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 alert( Object.keys(user) ); // name,age
 alert( Object.values(user) ); // John,30
 ```
 
+<<<<<<< HEAD
 これまでのところ、期待通り動作しています。
 
 ですが、もしオブジェクトに存在しないキーを返した場合、`Object.keys` はそれをリストしません:
+=======
+So far, it works.
+
+Although, if we return a key that doesn't exist in the object, `Object.keys` won't list it:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = { };
@@ -293,22 +513,38 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // <empty>
 ```
 
+<<<<<<< HEAD
 なぜでしょう？理由は簡単です。: `Object.keys` は `enumerable` フラグを持つプロパティだけを返すからです。それを確かめるため、すべてのメソッドに対し内部メソッド `[[GetOwnProperty]]` を呼び出し,
 [ディスクリプタ](info:property-descriptors) を取得します。すると、ここではプロパティがないので、そのディスクリプタは空であり、`enumerable` フラグがありません。そのため、スキップされます。
 
 `Object.keys` がプロパティを返すには、`enumerable` 付きでオブジェクトに存在するか、`[[GetOwnProperty]]`(トラップは `getOwnPropertyDescriptor`)の呼び出しをインターセプトし、`enumerable: true` を持つディスクリプタを返します。
 
 これはそのコードです:
+=======
+Why? The reason is simple: `Object.keys` returns only properties with `enumerable` flag. To check for it, it calls the internal method `[[GetOwnProperty]]` for every property to get [its descriptor](info:property-descriptors). And here, as there's no property, its descriptor is empty, no `enumerable` flag, so it's skipped.
+
+For `Object.keys` to return a property, we need it either exist in the object, with `enumerable` flag, or we can intercept calls to `[[GetOwnProperty]]` (the trap `getOwnPropertyDescriptor` does it), and return a descriptor with `enumerable: true`.
+
+Here's a working code:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = { };
 
 user = new Proxy(user, {
+<<<<<<< HEAD
   ownKeys(target) { // プロパティのリストを取得するために一度だけ呼ばれます
     return ['a', 'b', 'c'];
   },
 
   getOwnPropertyDescriptor(target, prop) { // プロパティ毎に呼ばれます
+=======
+  ownKeys(target) { // called once to get a list of properties
+    return ['a', 'b', 'c'];
+  },
+
+  getOwnPropertyDescriptor(target, prop) { // called for every property
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
     return {
       enumerable: true,
       configurable: true
@@ -321,6 +557,7 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // a, b, c
 ```
 
+<<<<<<< HEAD
 改めて留意してください: `[[GetOwnProperty]]` をインターセプトする必要があるのは、プロパティがオブジェクトにない場合のみです。
 
 ## "deleteProperty" 及び他のトラップで保護されたプロパティ
@@ -328,6 +565,15 @@ alert( Object.keys(user) ); // a, b, c
 アンダースコア `_` で始まるプロパティやメソッドは内部的なものであるということは、広く知られた慣習です。それらはオブジェクトの外からアクセスされるべきではありません。
 
 ですが、技術的には可能です:
+=======
+Let's note once again: we only need to intercept `[[GetOwnProperty]]` if the property is absent in the object.
+
+## Protected properties with "deleteProperty" and other traps
+
+There's a widespread convention that properties and methods prefixed by an underscore `_` are internal. They shouldn't be accessed from outside the object.
+
+Technically, that's possible though:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = {
@@ -335,6 +581,7 @@ let user = {
   _password: "secret"
 };
 
+<<<<<<< HEAD
 alert(user._password); // secret
 ```
 
@@ -347,6 +594,20 @@ alert(user._password); // secret
 - `ownKeys`: `for..in` や `Object.keys` のようなメソッドから `_` で始まるプロパティを除外
 
 これがそのコードです:
+=======
+alert(user._password); // secret  
+```
+
+Let's use proxies to prevent any access to properties starting with `_`.
+
+We'll need the traps:
+- `get` to throw an error when reading such property,
+- `set` to throw an error when writing,
+- `deleteProperty` to throw an error when deleting,
+- `ownKeys` to exclude properties starting with `_` from `for..in` and methods like `Object.keys`.
+
+Here's the code:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = {
@@ -365,7 +626,11 @@ user = new Proxy(user, {
     return (typeof value === 'function') ? value.bind(target) : value; // (*)
   },
 *!*
+<<<<<<< HEAD
   set(target, prop, val) { // プロパティの書き込みをインターセプト
+=======
+  set(target, prop, val) { // to intercept property writing
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 */!*
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
@@ -375,7 +640,11 @@ user = new Proxy(user, {
     }
   },
 *!*
+<<<<<<< HEAD
   deleteProperty(target, prop) { // プロパティの削除をインターセプト
+=======
+  deleteProperty(target, prop) { // to intercept property deletion
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 */!*  
     if (prop.startsWith('_')) {
       throw new Error("Access denied");
@@ -385,32 +654,56 @@ user = new Proxy(user, {
     }
   },
 *!*
+<<<<<<< HEAD
   ownKeys(target) { // プロパティのリストをインターセプト
+=======
+  ownKeys(target) { // to intercept property list
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 */!*
     return Object.keys(target).filter(key => !key.startsWith('_'));
   }
 });
 
+<<<<<<< HEAD
 // "get" は _password の読み込みを許可しません
+=======
+// "get" doesn't allow to read _password
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 try {
   alert(user._password); // Error: Access denied
 } catch(e) { alert(e.message); }
 
+<<<<<<< HEAD
 // "set" は _password の書き込みを許可しません
+=======
+// "set" doesn't allow to write _password
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 try {
   user._password = "test"; // Error: Access denied
 } catch(e) { alert(e.message); }
 
+<<<<<<< HEAD
 // "deleteProperty" は _password の削除を許可しません
+=======
+// "deleteProperty" doesn't allow to delete _password
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 try {
   delete user._password; // Error: Access denied
 } catch(e) { alert(e.message); }
 
+<<<<<<< HEAD
 // "ownKeys" は _password を除外します
 for(let key in user) alert(key); // name
 ```
 
 `(*)` 行の `get` トラップの重要な点に注意してください:
+=======
+// "ownKeys" filters out _password
+for(let key in user) alert(key); // name
+```
+
+Please note the important detail in `get` trap, in the line `(*)`:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js
 get(target, prop) {
@@ -422,20 +715,31 @@ get(target, prop) {
 }
 ```
 
+<<<<<<< HEAD
 なぜ関数の場合に `value.bind(target)` を呼び出す必要があるのでしょうか？
 
 理由は `user.checkPassword()` のようなオブジェクトメソッドは `_password` へアクセスできる必要があるからです。:
+=======
+Why do we need for a function to call `value.bind(target)`?
+
+The reason is that object methods, such as `user.checkPassword()`, must be able to access `_password`:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js
 user = {
   // ...
   checkPassword(value) {
+<<<<<<< HEAD
     // オブジェクトメソッドは _password へアクセスできなければいけません
+=======
+    // object method must be able to read _password
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
     return value === this._password;
   }
 }
 ```
 
+<<<<<<< HEAD
 `user.checkPassword()` の呼び出しはプロキシされた `user` を `this` (ドットの前のオブジェクトが `this` になります)として取得するため、`this._password` へのアクセスを試みると `get` トラップが機能(これはあらゆるプロパティ読み取りでトリガーされます)し、エラーをスローします。
 
 そのため、`(*)` の通りオブジェクトメソッドのコンテキストを元のオブジェクトである `target` でバインドします。以降、その呼び出しでは `this` としてトラップのない `target` を使用します。
@@ -457,6 +761,30 @@ user = {
 他の例を見てみましょう。
 
 範囲を持つオブジェクトがあります:
+=======
+
+A call to `user.checkPassword()` call gets proxied `user` as `this` (the object before dot becomes `this`), so when it tries to access `this._password`, the `get` trap activates (it triggers on any property read) and throws an error.
+
+So we bind the context of object methods to the original object, `target`, in the line `(*)`. Then their future calls will use `target` as `this`, without any traps.
+
+That solution usually works, but isn't ideal, as a method may pass the unproxied object somewhere else, and then we'll get messed up: where's the original object, and where's the proxied one.
+
+Besides, an object may be proxied multiple times (multiple proxies may add different "tweaks" to the object), and if we pass an unwrapped object to a method, there may be unexpected consequences.
+
+So, such proxy shouldn't be used everywhere.
+
+```smart header="Private properties of a class"
+Modern JavaScript engines natively support private properties in classes, prefixed with `#`. They are described in the chapter <info:private-protected-properties-methods>. No proxies required.
+
+Such properties have their own issues though. In particular, they are not inherited.
+```
+
+## "In range" with "has" trap
+
+Let's see more examples.
+
+We have a range object:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js
 let range = {
@@ -465,6 +793,7 @@ let range = {
 };
 ```
 
+<<<<<<< HEAD
 `in` 演算子を使って、 数値が `range` の範囲内にあるかを確認します。
 
 `has` トラップは `in` 呼び出しをインターセプトします。
@@ -475,6 +804,18 @@ let range = {
 - `property` -- プロパティ名
 
 デモです:
+=======
+We'd like to use `in` operator to check that a number is in `range`.
+
+The `has` trap intercepts `in` calls.
+
+`has(target, property)`
+
+- `target` -- is the target object, passed as the first argument to `new Proxy`,
+- `property` -- property name
+
+Here's the demo:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let range = {
@@ -496,6 +837,7 @@ alert(50 in range); // false
 */!*
 ```
 
+<<<<<<< HEAD
 良い糖衣構文ですね。それに実装もとても簡単です。
 
 ## Wrapping functions: "apply"
@@ -517,6 +859,29 @@ alert(50 in range); // false
 ```js run
 function delay(f, ms) {
   // タイムアウト後に f への呼び出しを渡すラッパー関数を返します
+=======
+A nice syntactic sugar, isn't it? And very simple to implement.
+
+## Wrapping functions: "apply" [#proxy-apply]
+
+We can wrap a proxy around a function as well.
+
+The `apply(target, thisArg, args)` trap handles calling a proxy as function:
+
+- `target` is the target object (function is an object in JavaScript),
+- `thisArg` is the value of `this`.
+- `args` is a list of arguments.
+
+For example, let's recall `delay(f, ms)` decorator, that we did in the chapter <info:call-apply-decorators>.
+
+In that chapter we did it without proxies. A call to `delay(f, ms)` returned a function that forwards all calls to `f` after `ms` milliseconds.
+
+Here's the previous, function-based implementation:
+
+```js run
+function delay(f, ms) {
+  // return a wrapper that passes the call to f after the timeout
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
   return function() { // (*)
     setTimeout(() => f.apply(this, arguments), ms);
   };
@@ -526,6 +891,7 @@ function sayHi(user) {
   alert(`Hello, ${user}!`);
 }
 
+<<<<<<< HEAD
 // このラップをすると、sahHi 呼び出しは 3秒間遅延します
 sayHi = delay(sayHi, 3000);
 
@@ -535,6 +901,17 @@ sayHi("John"); // Hello, John! (3秒後)
 すでにご覧になったように、こはほぼほぼ機能します。ラッパー関数 `(*)` はタイムアウト後に呼び出しを実行します。
 
 しかし、ラッパー関数はプロパティの読み書き操作などは転送しません。ラップした後、`name` や `length` などの元の関数のプロパティへのアクセスは失われます。:
+=======
+// after this wrapping, calls to sayHi will be delayed for 3 seconds
+sayHi = delay(sayHi, 3000);
+
+sayHi("John"); // Hello, John! (after 3 seconds)
+```
+
+As we've seen already, that mostly works. The wrapper function `(*)` performs the call after the timeout.
+
+But a wrapper function does not forward property read/write operations or anything else. After the wrapping, the access is lost to properties of the original functions, such as `name`, `length` and others:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 function delay(f, ms) {
@@ -548,12 +925,17 @@ function sayHi(user) {
 }
 
 *!*
+<<<<<<< HEAD
 alert(sayHi.length); // 1 (function.length は宣言された関数の引数の数を返します)
+=======
+alert(sayHi.length); // 1 (function length is the arguments count in its declaration)
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 */!*
 
 sayHi = delay(sayHi, 3000);
 
 *!*
+<<<<<<< HEAD
 alert(sayHi.length); // 0 (ラッパー後は引数は 0 です)
 */!*
 ```
@@ -561,6 +943,15 @@ alert(sayHi.length); // 0 (ラッパー後は引数は 0 です)
 `Proxy` はすべてをターゲットオブジェクトに転送するので、はるかに強力です。
 
 関数ラッピングの代わりに `Proxy` を使って見ましょう:
+=======
+alert(sayHi.length); // 0 (in the wrapper declaration, there are zero arguments)
+*/!*
+```
+
+`Proxy` is much more powerful, as it forwards everything to the target object.
+
+Let's use `Proxy` instead of a wrapping function:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 function delay(f, ms) {
@@ -578,6 +969,7 @@ function sayHi(user) {
 sayHi = delay(sayHi, 3000);
 
 *!*
+<<<<<<< HEAD
 alert(sayHi.length); // 1 (*) プロキシは length 操作をターゲットに転送します
 */!*
 
@@ -601,6 +993,31 @@ sayHi("John"); // Hello, John! (3秒後)
 ここでは、操作と、それと同じことをする `Reflect` 呼び出しの例を示します:
 
 | 操作 |  `Reflect` 呼び出し | 内部メソッド |
+=======
+alert(sayHi.length); // 1 (*) proxy forwards "get length" operation to the target
+*/!*
+
+sayHi("John"); // Hello, John! (after 3 seconds)
+```
+
+The result is the same, but now not only calls, but all operations on the proxy are forwarded to the original function. So `sayHi.length` is returned correctly after the wrapping in the line `(*)`.
+
+We've got a "richer" wrapper.
+
+There exist other traps: the full list is in the beginning of this chapter. Their usage pattern is similar to the above.
+
+## Reflect
+
+`Reflect` is a built-in object that simplifies creation of `Proxy`.
+
+It was said previously that internal methods, such as `[[Get]]`, `[[Set]]` and others are specifiction only, they can't be called directly.
+
+`Reflect` object makes that somewhat possible. Its methods are minimal wrappers around the internal methods.
+
+Here are examples of operations and `Reflect` calls that do the same:
+
+| Operation |  `Reflect` call | Internal method |
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 |-----------------|----------------|-------------|
 | `obj[prop]` | `Reflect.get(obj, prop)` | `[[Get]]` |
 | `obj[prop] = value` | `Reflect.set(obj, prop, value)` | `[[Set]]` |
@@ -608,7 +1025,11 @@ sayHi("John"); // Hello, John! (3秒後)
 | `new F(value)` | `Reflect.construct(F, value)` | `[[Construct]]` |
 | ... | ... | ... |
 
+<<<<<<< HEAD
 例:
+=======
+For example:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = {};
@@ -618,6 +1039,7 @@ Reflect.set(user, 'name', 'John');
 alert(user.name); // John
 ```
 
+<<<<<<< HEAD
 特に、`Reflect` では演算子 (`new`, `delete`...) を関数(`Reflect.construct`, `Reflect.deleteProperty`, ...)として呼び出すことができます。これは興味深い機能ですが、ここでは別に重要な部分があります。
 
 **`Proxy` でトラップ可能なすべての内部メソッドに対し、`Reflect` には `Proxy` トラップと同じ名前、引数を持つ対応するメソッドがあります。**
@@ -625,6 +1047,15 @@ alert(user.name); // John
 したがって、`Reflect` を使って操作を元のオブジェクトに転送することができます。
 
 この例では、`get` と `set` の両方のトラップが、読み書き操作をオブジェクトへ透過的(存在しないかのように)に転送し、メッセージを表示します。:
+=======
+In particular, `Reflect` allows to call operators (`new`, `delete`...) as functions (`Reflect.construct`, `Reflect.deleteProperty`, ...). That's an interesting capability, but here another thing is important.
+
+**For every internal method, trappable by `Proxy`, there's a corresponding method in `Reflect`, with the same name and arguments as `Proxy` trap.**
+
+So we can use `Reflect` to forward an operation to the original object.
+
+In this example both traps `get` and `set` transparently (as if they didn't exist) forward reading/writing operations to the object, showing a message:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = {
@@ -646,12 +1077,18 @@ user = new Proxy(user, {
   }
 });
 
+<<<<<<< HEAD
 let name = user.name; // "GET name" を表示
 user.name = "Pete"; // "SET name=Pete" を表示
+=======
+let name = user.name; // shows "GET name"
+user.name = "Pete"; // shows "SET name=Pete"
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 ```
 
 Here:
 
+<<<<<<< HEAD
 - `Reflect.get` はオブジェクトプロパティを読み取ります。
 - `Reflect.set` はオブジェクトプロパティの書き込みを行い、成功すれば `true` を返します。それ以外の場合は `false` を返します。
 
@@ -666,6 +1103,22 @@ Here:
 `_name` プロパティをもつ `user` オブジェクトがあり、そのゲッターをします:
 
 これはそのプロキシです:
+=======
+- `Reflect.get` reads an object property.
+- `Reflect.set` writes an object property and returns `true` if successful, `false` otherwise.
+
+That is, everything's simple: if a trap wants to forward the call to the object, it's enough to call `Reflect.<method>` with the same arguments.
+
+In most cases we can do the same without `Reflect`, for instance, reading a property `Reflect.get(target, prop, receiver)` can be replaced by `target[prop]`. There are important nuances though.
+
+### Proxying a getter
+
+Let's see an example that demonstrates why `Reflect.get` is better. And we'll also see why `get/set` have the fourth argument `receiver`, that we didn't use before.
+
+We have an object `user` with `_name` property and a getter for it.
+
+Here's a proxy around it:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = {
@@ -686,11 +1139,19 @@ let userProxy = new Proxy(user, {
 alert(userProxy.name); // Guest
 ```
 
+<<<<<<< HEAD
 ここでは、`get` トラップは明白です。元のプロパティを返し、他には何もしていません。今回の例ではこれで十分です。
 
 今のところすべて問題ありません。では例をもう少し複雑にしてみましょう。
 
 `user` から別のオブジェクト `admin` を継承すると、正しくない振る舞いが起きます:
+=======
+The `get` trap is "transparent" here, it returns the original property, and doesn't do anything else. That's enough for our example.
+
+Everything seems to be all right. But let's make the example a little bit more complex.
+
+After inheriting another object `admin` from `user`, we can observe the incorrect behavior:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = {
@@ -712,6 +1173,7 @@ let admin = {
   _name: "Admin"
 };
 
+<<<<<<< HEAD
 // 期待値: Admin
 alert(admin.name); // 出力: Guest (?!?)
 */!*
@@ -729,11 +1191,26 @@ alert(admin.name); // 出力: Guest (?!?)
 2. プロトタイプは `userProxy` です。
 3. プロキシから `name` プロパティを読み取ると、`get` トラップが発生し、行 `(*)` で `target[prop]` により元のオブジェクトから返却されます。
 
+=======
+// Expected: Admin
+alert(admin.name); // outputs: Guest (?!?)
+*/!*
+```
+
+Reading `admin.name` should return `"Admin"`, not `"Guest"`!
+
+What's the matter? Maybe we did something wrong with the inheritance?
+
+But if we remove the proxy, then everything will work as expected.
+
+The problem is actually in the proxy, in the line `(*)`.
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 1. When we read `admin.name`, as `admin` object doesn't have such own property, the search goes to its prototype.
 2. The prototype is `userProxy`.
 3. When reading `name` property from the proxy, its `get` trap triggers and returns it from the original object as `target[prop]` in the line `(*)`.
 
+<<<<<<< HEAD
     `prop` がゲッターである場合、`target[prop]` の呼び出しはコンテキスト `this=target` でコードが実行されます。そのため、結果は元のオブジェクト `target`, つまり `user` からの `this._name` になります。
 
 これを修正するには、`get` トラップの3番目の引数である `receiver` が必要です。これによりゲッターに正しい `this` を渡すことができます。今回のケースだと、`admin` です。
@@ -743,6 +1220,17 @@ alert(admin.name); // 出力: Guest (?!?)
 `Reflect.get` はそれをすることができます。これを使うことですべてが上手く動きます。
 
 修正されたバリアントです:
+=======
+    A call to `target[prop]`, when `prop` is a getter, runs its code in the context `this=target`. So the result is `this._name` from the original object `target`, that is: from `user`.
+
+To fix such situations, we need `receiver`, the third argument of `get` trap. It keeps the correct `this` to be passed to a getter. In our case that's `admin`.
+
+How to pass the context for a getter? For a regular function we could use `call/apply`, but that's a getter, it's not "called", just accessed.
+
+`Reflect.get` can do that. Everything will work right if we use it.
+
+Here's the corrected variant:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js run
 let user = {
@@ -771,9 +1259,15 @@ alert(admin.name); // Admin
 */!*
 ```
 
+<<<<<<< HEAD
 上のコードでは、正しい `this` (つまり `admin`) への参照を維持する `reveiver` は、行 `(*)` で `Reflect.get` を使用したゲッターに渡されます。
 
 トラップをさらに短く書くこともできます:
+=======
+Now `receiver` that keeps a reference to the correct `this` (that is `admin`), is passed to the getter using `Reflect.get` in the line `(*)`.
+
+We can rewrite the trap even shorter:
+>>>>>>> 3dd8ca09c1a7ed7a7b04eefc69898559902478e1
 
 ```js
 get(target, prop, receiver) {
