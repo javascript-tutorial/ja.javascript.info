@@ -1,6 +1,6 @@
 # Proxy と Reflect
 
-`Proxy` オブジェクトは別のオブジェクトをラップし、プロパティやその他の読み取り/書き込みなどの操作をインターセプトします。必要に応じて、それらを独自に処理したり、オブジェクトが透過的にそれらを処理できるようにします。
+`Proxy` オブジェクトは別のオブジェクトをラップし、プロパティやその他の読み取り/書き込みなどの操作をインターセプトします。必要に応じてそれらを独自に処理したり、オブジェクトが透過的にそれらを処理できるようにします。
 
 Proxy は多くのライブラリや一部のブラウザフレームワークで使われています。このチャプターでは、多くの実践的なアプリケーションを紹介します。
 
@@ -15,7 +15,7 @@ let proxy = new Proxy(target, handler)
 
 `proxy` の操作では、`handler` に対応するトラップがある場合はそれが実行されます。それ以外の場合は、操作は `target` で実行されます。
 
-最初の例として、トラップなしで proxy を作ってみましょう。:
+最初の例として、トラップなしでプロキシを作ってみましょう。:
 
 ```js run
 let target = {};
@@ -47,7 +47,7 @@ traps がないので、`proxy` 上のすべての操作は `target` に転送�
 
 オブジェクトに対するほとんどの操作に対しては、JavaScript の仕様で いわゆる "内部メソッド" と呼ばれるものがあり、仕様ではそれらがどのように動作するかを最も低レベルで説明しています。例えば、 `[[Get]]` は、プロパティを読み取るための内部メソッドで、`[[Set]]` はプロパティを書き込むための内部メソッド、などです。これらのメソッドは仕様でのみ使用されており、名前を使ってそれらを直接使用することはできません。
 
-Proxy traps はこれらのメソッドの呼び出しをインターセプトします。これらのメソッドは[Proxy specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) 及び以下の表にリストされています。
+プロキシのトラップはこれらのメソッドの呼び出しをインターセプトします。これらのメソッドは[Proxy specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) 及び以下の表にリストされています。
 
 内部メソッドと trap(操作をインターセプトするために `new Proxy` の `handler` パラメータに追加するメソッド名)の対応表です。
 
@@ -781,26 +781,25 @@ get(target, prop, receiver) {
 }
 ```
 
+`Reflect` 呼び出しはトラップとまったく同じ名前が付けられており、同じ引数を受け付けます。特別にそのように設計されました。
 
-`Reflect` calls are named exactly the same way as traps and accept the same arguments. They were specifically designed this way.
+したがって、`return Reflect...` は安全かつ考えるまでもない分かりやすい手段で操作を転送することができます。
 
-So, `return Reflect...` provides a safe no-brainer to forward the operation and make sure we don't forget anything related to that.
+## プロキシの制限
 
-## Proxy limitations
+プロキシは既存のオブジェクトの動作を最も低いレベルで変更したり微調整する独自の方法を提供します。それでも完璧ではありません。いくつか制限があります。
 
-Proxies provide a unique way to alter or tweak the behavior of the existing objects at the lowest level. Still, it's not perfect. There are limitations.
+### 組み込みオブジェクト: 内部スロット(Internal slots)
 
-### Built-in objects: Internal slots
+`Map`, `Set`, `Date`, `Promise` などの多くの組み込みオブジェクトは、いわゆる "内部スロット" を使用します。
 
-Many built-in objects, for example `Map`, `Set`, `Date`, `Promise` and others make use of so-called "internal slots".
+それらはプロパティに似ていますが、内部で仕様専用の目的で予約されています。例えば、`Map` は内部スロット `[[MapData]]` にアイテムを保存します。組み込みのメソッドは、`[[Get]]/[[Set]]` 内部メソッド経由ではなく、直接アクセスします。そのため、`Proxy` はインターセプトすることができません。
 
-These are like properties, but reserved for internal, specification-only purposes. For instance, `Map` stores items in the internal slot `[[MapData]]`. Built-in methods access them directly, not via `[[Get]]/[[Set]]` internal methods. So `Proxy` can't intercept that.
+内部の話なのに気にする必要はあるのでしょうか？
 
-Why care? They are internal anyway!
+ここに問題があります。このような組み込みのオブジェクトがプロキシされると、プロキシはこれらの内部スロットを持たないため、組み込みのメソッドは失敗します。
 
-Well, here's the issue. After such built-in object gets proxied, the proxy doesn't have these internal slots, so built-in methods will fail.
-
-For example:
+例:
 
 ```js run
 let map = new Map();
@@ -812,9 +811,9 @@ proxy.set('test', 1); // Error
 */!*
 ```
 
-Internally, a `Map` stores all data in its `[[MapData]]` internal slot. The proxy doesn't have such slot. The [built-in method `Map.prototype.set`](https://tc39.es/ecma262/#sec-map.prototype.set) method tries to access the internal property `this.[[MapData]]`, but because `this=proxy`, can't find it in `proxy` and just fails.
+内部的に、`Map` はすべてのデータを `[[MapData]]` 内部スロットに保存します。プロキシはそのようなスロットはありません。[組み込みのメソッド `Map.prototype.set`](https://tc39.es/ecma262/#sec-map.prototype.set) メソッドは内部プロパティ `this.[[MapData]]` にアクセスしようとしますが、`this=proxy` なので `proxy` 内には見つけることができず失敗します。
 
-Fortunately, there's a way to fix it:
+幸いなことに、修正する方法があります:
 
 ```js run
 let map = new Map();
@@ -832,21 +831,21 @@ proxy.set('test', 1);
 alert(proxy.get('test')); // 1 (works!)
 ```
 
-Now it works fine, because `get` trap binds function properties, such as `map.set`, to the target object (`map`) itself.
+上の例では、`get` トラップは `map.set` などの関数プロパティをタートゲットオブジェクト(`map`)自身にバインドするので、問題なく動作します。
 
-Unlike the previous example, the value of `this` inside `proxy.set(...)` will be not `proxy`, but the original `map`. So when the internal implementation of `set` tries to access `this.[[MapData]]` internal slot, it succeeds.
+これまでの例とは違い、`proxy.set(...)` 内での `this` の値は `proxy` ではなく元の  `map` になります。そのため、`set` の内部実装が `this.[[MapData]]` 内部スロットにアクセスするのは成功します。
 
-```smart header="`Array` has no internal slots"
-A notable exception: built-in `Array` doesn't use internal slots. That's for historical reasons, as it appeared so long ago.
+```smart header="`Array` には内部スロットがありません"
+注目すべき例外です: 組み込みの `Array` は内部スロットを使用していません。`Array` はずっと以前から存在していたこともあり、歴史的な理由によるものです。
 
-So there's no such problem when proxying an array.
+したがって配列をプロキシする際にはこのような問題は起こりません。
 ```
 
-### Private fields
+### プライベートフィールド
 
-The similar thing happens with private class fields.
+似たようなことがプライベートクラスフィールドでも起こります。
 
-For example, `getName()` method accesses the private `#name` property and breaks after proxying:
+例えば、`getName()` メソッドはプロキシ後にプライベート `#name` プロパティへアクセスすると壊れます。:
 
 ```js run
 class User {
@@ -866,11 +865,11 @@ alert(user.getName()); // Error
 */!*
 ```
 
-The reason is that private fields are implemented using internal slots. JavaScript does not use `[[Get]]/[[Set]]` when accessing them.
+これは、プライベートフィールドが内部スロットを使用して実装されているからです。JavaScript はそれらにアクセスする際、`[[Get]]/[[Set]]` は使用しません。
 
-In the call `getName()` the value of `this` is the proxied `user`, and it doesn't have the slot with private fields.
+`getName()` の呼び出しでは、`this` の値はプロキシされた `user` であり、プライベートフィールドのスロットを持っていません。
 
-Once again, the solution with binding the method makes it work:
+この場合も、メソッドをバインドする方法で機能させることができます:
 
 ```js run
 class User {
@@ -893,13 +892,13 @@ user = new Proxy(user, {
 alert(user.getName()); // Guest
 ```
 
-That said, the solution has drawbacks, explained previously: it exposes the original object to the method, potentially allowing it to be passed further and breaking other proxied functionality.
+ただし、この解決策にも欠点があります。以前説明したとおり、この方法は元のオブジェクトをメソッドに公開するので、メソッドの処理によってはさらにオブジェクトが渡される可能性があり、他のプロキシされた機能を破壊する可能性があります。
 
 ### Proxy != target
 
-Proxy and the original object are different objects. That's natural, right?
+Proxy と元のオブジェクトは異なるオブジェクトです。これは当然ですね。
 
-So if we use the original object as a key, and then proxy it, then the proxy can't be found:
+なので、元のオブジェクトをキーとして使用し、その後プロキシすると、プロキシは見つかりません。:
 
 ```js run
 let allUsers = new Set();
@@ -922,33 +921,33 @@ alert(allUsers.has(user)); // false
 */!*
 ```
 
-As we can see, after proxying we can't find `user` in the set `allUsers`, because the proxy is a different object.
+ご覧の通り、プロキシ後はセット `allUsers` で `user` を見つけることができません。プロキシは異なるオブジェクトだからです。
 
-```warn header="Proxies can't intercept a strict equality test `===`"
-Proxies can intercept many operators, such as `new` (with `construct`), `in` (with `has`), `delete` (with `deleteProperty`) and so on.
+```warn header="プロキシは厳密等価 `===` をインターセプトすることはできません"
+プロキシは `new`(`construct`), `in`(`has`), `delete`(`deleteProperty`)などの多くの演算子をインターセプトすることができます。
 
-But there's no way to intercept a strict equality test for objects. An object is strictly equal to itself only, and no other value.
+しかし、オブジェクトへの厳密等価テストをインターセプトする方法はありません。オブジェクトは自身にのみ厳密に等しく、他の値とは等しくありません。
 
-So all operations and built-in classes that compare objects for equality will differentiate between the object and the proxy. No transparent replacement here.
+したがって、オブジェクトの等価を比較するすべての演算子と組み込みのクラスはオブジェクトとプロキシを区別します。ここには透過的な替わりはありません。
 ```
 
-## Revocable proxies
+## 取り消し可能(revocable)なプロキシ
 
-A *revocable* proxy is a proxy that can be disabled.
+*取り消し可能(revocable)* なプロキシは、無効にすることのできるプロキシです。
 
-Let's say we have a resource, and would like to close access to it any moment.
+リソースがあり、いつでもアクセスを閉じられるようにしたいとしましょう。
 
-What we can do is to wrap it into a revocable proxy, without any traps. Such proxy will forward operations to object, and we can disable it at any moment.
+できることは、トラップなしで取り消し可能なプロキシにラップすることです。このようなプロキシはオブジェクトへ操作を転送しつつ、いつでもそれを無効にすることができます。
 
-The syntax is:
+構文は次の通りです:
 
 ```js
 let {proxy, revoke} = Proxy.revocable(target, handler)
 ```
 
-The call returns an object with the `proxy` and `revoke` function to disable it.
+この呼び出しは `proxy` と無効にするために `revoke` 関数を持つオブジェクトを返します。
 
-Here's an example:
+例:
 
 ```js run
 let object = {
@@ -957,19 +956,19 @@ let object = {
 
 let {proxy, revoke} = Proxy.revocable(object, {});
 
-// pass the proxy somewhere instead of object...
+// オブジェクトの代わりにプロキシをどこかに渡します
 alert(proxy.data); // Valuable data
 
-// later in our code
+// 後で次のようにします
 revoke();
 
-// the proxy isn't working any more (revoked)
+// すると、プロキシは機能しなくなります(無効化されました)
 alert(proxy.data); // Error
 ```
 
-A call to `revoke()` removes all internal references to the target object from the proxy, so they are no more connected. The target object can be garbage-collected after that.
+`revoke()` 呼び出しは、プロキシからターゲットオブジェクトへのすべての内部参照を削除します。これにより繋がりがなくなります。ターゲットオブジェクトはその後ガベージコレクトできます。
 
-We can also store `revoke` in a `WeakMap`, to be able to easily find it by a proxy object:
+また、プロキシオブジェクトで簡単に見つけられるよう、`WeakMap` に `revoke` を保持することもできます。:
 
 ```js run
 *!*
@@ -991,22 +990,23 @@ revoke();
 alert(proxy.data); // Error (revoked)
 ```
 
+このようなアプローチ
 The benefit of such approach is that we don't have to carry `revoke` around. We can get it from the map by `proxy` when needeed.
 
 Using `WeakMap` instead of `Map` here, because it should not block garbage collection. If a proxy object becomes "unreachable" (e.g. no variable references it any more), `WeakMap` allows it to be wiped from memory together with its `revoke` that we won't need any more.
 
-## References
+## リファレンス
 
-- Specification: [Proxy](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots).
+- 仕様: [Proxy](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots).
 - MDN: [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy).
 
-## Summary
+## サマリ
 
-`Proxy` is a wrapper around an object, that forwards operations on it to the object, optionally trapping some of them.
+`Proxy` はオブジェクトのラッパーであり、操作をオブジェクトへ転送し、必要に応じてその一部をトラップします。
 
-It can wrap any kind of object, including classes and functions.
+クラスや関数を含め、あらゆる種類のオブジェクトをラップすることができます。
 
-The syntax is:
+構文:
 
 ```js
 let proxy = new Proxy(target, {
@@ -1014,23 +1014,23 @@ let proxy = new Proxy(target, {
 });
 ```
 
-...Then we should use `proxy` everywhere instead of `target`. A proxy doesn't have its own properties or methods. It traps an operation if the trap is provided, otherwise forwards it to `target` object.
+...それ以降はどこでも `target` の代わりに `proxy` を使う必要があります。プロキシは独自のプロパティやメソッドは持っていません。トラップが指定されていれば操作をトラップし、そうでなければ `target` オブジェクトに転送します。
 
-We can trap:
-- Reading (`get`), writing (`set`), deleting (`deleteProperty`) a property (even a non-existing one).
-- Calling a function (`apply` trap).
-- The `new` operator (`construct` trap).
-- Many other operations (the full list is at the beginning of the article and in the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)).
+以下をトラップするこができます:
+- プロパティ(存在しないものも含む)の読み取り(`get`)、書き込み(`set`)、削除(`deleteProperty`)
+- 関数呼び出し(`apply` トラップ)
+- `new` 演算子(`construct` トラップ)
+- その他多くのトラップ(完全なリストはこの記事の冒頭と [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)にあります。)
 
-That allows us to create "virtual" properties and methods, implement default values, observable objects, function decorators and so much more.
+これにより、"仮想の" プロパティやメソッドを作成したり、デフォルト値、オブザーバブルオブジェクト、関数デコレータなど様々なものを実装することができます。
 
-We can also wrap an object multiple times in different proxies, decorating it with various aspects of functionality.
+また、異なるプロキシで複数回オブジェクトをラップし、機能の様々な側面でオブジェクトデコレートすることも可能です。
 
-The [Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API is designed to complement [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy). For any `Proxy` trap, there's a `Reflect` call with same arguments. We should use those to forward calls to target objects.
+[Reflect](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) API は [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) を補完するためのものとして設計されています。すべての `Proxy` トラップに対して、同じ引数を持つ `Reflect` 呼び出しがあります。これらを使用してターゲットオブジェクトに転送する必要があります。
 
-Proxies have some limitations:
+プロキシにはいくつか制限があります:
 
-- Built-in objects have "internal slots", access to those can't be proxied. See the workaround above.
-- The same holds true for private class fields, as they are internally implemented using slots. So proxied method calls must have the target object as `this` to access them.
-- Object equality tests `===` can't be intercepted.
-- Performance: benchmarks depend on an engine, but generally accessing a property using a simplest proxy takes a few times longer. In practice that only matters for some "bottleneck" objects though.
+- 組み込みのオブジェクトには "内部スロット" があり、それらへのアクセスはプロキシすることはできません。上記の回避策を参照してください。
+- プライベートクラスフィールドにも同じことが当てはまります。それらは内部的にはスロットを使用して実装されているため、プロキシされたメソッド呼び出しは、それらにアクセスするために `this` としてターゲットオブジェクトをもつ必要があります。
+- オブジェクトの等価評価 `===` はインターセプトできません。
+- パフォーマンス: ベンチマークはエンジンによりますが、通常、最も単純なプロキシを使用したプロパティへのアクセスするにも数倍時間がかかります。しかし実際にそれが問題になるのは一部の "ボトルネック" オブジェクトのみです。
