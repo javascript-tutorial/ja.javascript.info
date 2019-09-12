@@ -76,7 +76,7 @@ let promise = new Promise(function(resolve, reject) {
 
 要約すると、executor はジョブ(通常は時間のかかる何か)を行い、その後、対応する promise オブジェクトの状態を変更するために、`resolve` または `reject` を呼び出します。
 
-解決または拒否されている promise は、 "pending" の promise とは対象的に "settled" と呼ばれます。
+解決または拒否されている promise は、 "pending" の promise とは対照的に "settled" と呼ばれます。
 
 ````smart header="1つの結果またはエラーのみです"
 executor は1つの `resolve` または `reject` だけを呼びだす必要があります。promise の状態の変化は最後のものです。
