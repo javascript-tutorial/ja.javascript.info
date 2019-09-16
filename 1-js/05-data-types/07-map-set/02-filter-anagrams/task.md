@@ -2,11 +2,11 @@ importance: 4
 
 ---
 
-# アナグラムをフィルタする
+# Filter anagrams
 
-[アナグラム](https://en.wikipedia.org/wiki/Anagram) は同じ文字を同じ数だけ持っていますが、異なる順序である単語です。
+[Anagrams](https://en.wikipedia.org/wiki/Anagram) are words that have the same number of same letters, but in different order.
 
-例えば:
+For instance:
 
 ```
 nap - pan
@@ -14,9 +14,9 @@ ear - are - era
 cheaters - hectares - teachers
 ```
 
-アナグラムで整理された配列を返す関数 `aclean(arr)` を書いてください。
+Write a function `aclean(arr)` that returns an array cleaned from anagrams.
 
-例:
+For instance:
 
 ```js
 let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
@@ -24,4 +24,5 @@ let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
 alert( aclean(arr) ); // "nap,teachers,ear" or "PAN,cheaters,era"
 ```
 
-すべてのアナグラム・グループから、どれかは問いませんが1つの単語だけ残してください。
+From every anagram group should remain only one word, no matter which one.
+
