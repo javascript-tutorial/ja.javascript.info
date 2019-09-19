@@ -1,23 +1,23 @@
 
 # Accessing array[-1]
 
-In some programming languages, we can access array elements using negative indexes, counted from the end.
+プログラム言語によっては、負の値を使って配列要素にアクセスすることが可能で、この場合は末尾から数えられます。
 
-Like this:
+このようになります。
 
 ```js
 let array = [1, 2, 3];
 
-array[-1]; // 3, the last element
-array[-2]; // 2, one step from the end
-array[-3]; // 1, two steps from the end
+array[-1]; // 3, 最後の要素
+array[-2]; // 2, 最後から1つ前
+array[-3]; // 1, 最後から2つ前
 ```
 
-In other words, `array[-N]` is the same as `array[array.length - N]`.
+つまり、`array[-N]` は `array[array.length - N]` と同じです。
 
-Create a proxy to implement that behavior.
+この挙動を実装するプロキシを作成しましょう。
 
-That's how it should work:
+次のように動作します:
 
 ```js
 let array = [1, 2, 3];
@@ -29,5 +29,5 @@ array = new Proxy(array, {
 alert( array[-1] ); // 3
 alert( array[-2] ); // 2
 
-// Other array functionality should be kept "as is"
+// 他の配列の機能は "そのまま" 動作すべきです
 ```
