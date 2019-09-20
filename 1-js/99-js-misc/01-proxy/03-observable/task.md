@@ -1,9 +1,9 @@
 
 # Observable
 
-Create a function `makeObservable(target)` that "makes the object observable" by returning a proxy.
+プロキシを返すことで、"オブジェクトを監視可能にする" 関数 `makeObservable(target)` を作成してください。
 
-Here's how it should work:
+このように動作します:
 
 ```js run
 function makeObservable(target) {
@@ -20,8 +20,9 @@ user.observe((key, value) => {
 user.name = "John"; // alerts: SET name=John
 ```
 
-In other words, an object returned by `makeObservable` is just like the original one, but also has the method `observe(handler)` that sets `handler` function to be called on any property change.
+つまり、`makeObservable` により返却されるオブジェクトは元のオブジェクトのように見えますが、任意のプロパティ変更時に呼び出される `handler` 関数をセットするメソッド `observe(handler)` を持ちます。
 
-Whenever a property changes, `handler(key, value)` is called with the name and value of the property.
+プロパティを変更したときはいつでもプロパティの名前と値と一緒に `handler(key, value)` が呼ばれます。
 
-P.S. In this task, please only take care about writing to a property. Other operations can be implemented in a similar way.
+P.S. このタスクでは、プロパティの書き込みにだけ注目してください。他の操作も同様の方法で実装することはできます。
+
