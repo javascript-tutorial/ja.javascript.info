@@ -4,9 +4,13 @@ JavaScriptのメモリ管理は、自動で私たちの目には見えないよ�
 
 何かがもう必要なくなったとき、何が起こるでしょう？JavaScriptエンジンはどのようにそれを検出し、クリーンアップするのでしょうか？
 
+<<<<<<< HEAD
 [cut]
 
 ## 到達性 
+=======
+## Reachability
+>>>>>>> 4d654318ccb6d37d6cefc9b859cf111ff3c96b27
 
 JavaScriptのメモリ管理の主要なコンセプトは、*到達性* です。
 
@@ -210,6 +214,10 @@ JavaScriptエンジンは多くの最適化を適用して実行を高速化し�
 
 もしあなたが低レベルのプログラミングに慣れている場合、V8のガベージコレクションに関するより詳細な情報はこの記事[A tour of V8: Garbage Collection](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection).にあります。
 
+<<<<<<< HEAD
 [V8 blog](http://v8project.blogspot.com/) には、メモリ管理の変更に関する記事も随時掲載されています。 ガベージコレクションを学ぶには、V8の内部について一般的に学習し、V8エンジニアの一人として働いていた [Vyacheslav Egorov](http://mrale.ph) のブログを読むとよいでしょう。 "V8", それはインターネット上の記事で最もよくカバーされるからです。 他のエンジンでは、多くのアプローチは似ていますが、ガベージコレクションは多くの点で異なります。
+=======
+[V8 blog](https://v8.dev/) also publishes articles about changes in memory management from time to time. Naturally, to learn the garbage collection, you'd better prepare by learning about V8 internals in general and read the blog of [Vyacheslav Egorov](http://mrale.ph) who worked as one of V8 engineers. I'm saying: "V8", because it is best covered with articles in the internet. For other engines, many approaches are similar, but garbage collection differs in many aspects.
+>>>>>>> 4d654318ccb6d37d6cefc9b859cf111ff3c96b27
 
 低レベルの最適化が必要な場合は、エンジンに関する深い知識が必要です。 あなたが言語に精通した後の次のステップとしてそれを計画することが賢明でしょう。
