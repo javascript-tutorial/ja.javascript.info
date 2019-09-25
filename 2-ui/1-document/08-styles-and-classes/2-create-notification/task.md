@@ -4,7 +4,7 @@ importance: 5
 
 # 通知を作成する
 
-通知の関数 `showNotification(options)` を書いてください。: `<div class="notification">` と与えられたコンテンツ。通知は1.5秒後に自動的に消える必要があります。
+通知を作成する関数 `showNotification(options)` を書いてください。通知は `<div class="notification">` という要素にしてください。通知の内容などはオプションで指定できるようにしてください。通知は1.5秒後に自動的に消えるようにしてください。
 
 オプションは次の通りです:
 
@@ -13,7 +13,7 @@ importance: 5
 showNotification({
   top: 10, // ウィンドウのトップから 10px (デフォルトは 0px)
   right: 10, // ウィンドウの右端から 10px (デフォルトは 0px)
-  html: "Hello!", // 通知の HTML
+  html: "Hello!", // 通知として表示する HTML
   className: "welcome" // div への追加クラス (任意)
 });
 ```
