@@ -109,7 +109,7 @@ JavaScript では、要素を移動したり配置するときに、座標を正
 
 もし要素(またはその祖先)が `display:none` を持っている、もしくはドキュメント上にない場合、それに応じてすべてのジオメトリプロパティはゼロもしくは `null` になります。
 
-例えば、`offsetParent` が `null` で `offsetWidt`, `offsetHeight` は `0` です。
+例えば、`offsetParent` が `null` で `offsetWidth`, `offsetHeight` は `0` です。
 
 私たちは次のように、これを要素が隠されているかをチェックするための使う事ができます:
 
