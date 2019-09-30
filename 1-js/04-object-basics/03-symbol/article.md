@@ -3,13 +3,21 @@
 
 仕様によると、オブジェクトのプロパティのキーは文字列型、もしくはシンボル型のいずれかです。数値ではなく、真偽値でもなく、文字列またはシンボル、それら2つの型だけです。
 
+<<<<<<< HEAD
 私たちはこれまで文字列だけ見てきました。今シンボルが我々に与えてくれるアドバンテージを見てみましょう。
 
 [cut]
+=======
+Till now we've been using only strings. Now let's see the benefits that symbols can give us.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ## シンボル 
 
+<<<<<<< HEAD
 "シンボル" 値はユニークな識別子を表現します。
+=======
+A "symbol" represents a unique identifier.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 このタイプの値は、`Symbol()` を使って作ることができます:
 
@@ -18,10 +26,17 @@
 let id = Symbol();
 ```
 
+<<<<<<< HEAD
 また、シンボルに説明を与えることもでき(シンボル名と呼びます)、デバッグ目的で便利です。
 
 ```js
 // id は "id" という説明を持つ symbol です
+=======
+Upon creation, we can give symbol a description (also called a symbol name), mostly useful for debugging purposes:
+
+```js run
+// id is a symbol with the description "id"
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 let id = Symbol("id");
 ```
 
@@ -52,7 +67,13 @@ alert(id); // TypeError: Cannot convert a Symbol value to a string
 */!*
 ```
 
+<<<<<<< HEAD
 もし本当にシンボルを表示したい場合は、このように `toString()` を呼ぶ必要があります:
+=======
+That's a "language guard" against messing up, because strings and symbols are fundamentally different and should not accidentally convert one into another.
+
+If we really want to show a symbol, we need to explicitly call `.toString()` on it, like here:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 ```js run
 let id = Symbol("id");
 *!*
@@ -60,19 +81,42 @@ alert(id.toString()); // Symbol(id), これは動作します
 */!*
 ```
 
+<<<<<<< HEAD
 これは、文字列とシンボルが根本的に異なるものであり、それを変換すべきではないため、混乱を避けるための「言語によるガード」です。
+=======
+Or get `symbol.description` property to show the description only:
+```js run
+let id = Symbol("id");
+*!*
+alert(id.description); // id
+*/!*
+```
+
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 ````
 
 ## "隠れた" プロパティ 
 
+<<<<<<< HEAD
 シンボルを使うと、オブジェクトに "隠れた" プロパティを作ることができます。他のコードがアクセスしたり上書きしたりすることはありません。
 
 例えば、オブジェクト `user` に "識別子" を格納したい場合、そのキーとしてシンボルを使うことができます:
+=======
+Symbols allow us to create "hidden" properties of an object, that no other part of code can accidentally access or overwrite.
+
+For instance, if we're working with `user` objects, that belong to a third-party code. We'd like to add identifiers to them.
+
+Let's use a symbol key for it:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js run
-let user = { name: "John" };
+let user = { // belongs to another code
+  name: "John"
+};
+
 let id = Symbol("id");
 
+<<<<<<< HEAD
 user[id] = "ID Value";
 alert( user[id] ); // キーとして symbol を使ってデータにアクセスできます
 ```
@@ -82,6 +126,18 @@ alert( user[id] ); // キーとして symbol を使ってデータにアクセ�
 それを知るため、より深い例を作ってみましょう。
 
 別のスクリプトが、独自の目的のために自身の "id" プロパティを `user` の中に持ちたいとします。それは別のJavaScriptライブラリの場合もあり、スクリプトは完全にお互いを認識していない状況とします。
+=======
+user[id] = 1;
+
+alert( user[id] ); // we can access the data using the symbol as the key
+```
+
+What's the benefit of using `Symbol("id")` over a string `"id"`?
+
+As `user` objects belongs to another code, and that code also works with them, we shouldn't just add any fields to it. That's unsafe. But a symbol cannot be accessed accidentally, the third-party code probably won't even see it, so it's probably all right to do.
+
+Also, imagine that another script wants to have its own identifier inside `user`, for its own purposes. That may be another JavaScript library, so that the scripts are completely unaware of each other.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 そして、そのスクリプトは自身の `Symbol("id")` を作ります。:
 
@@ -92,13 +148,20 @@ let id = Symbol("id");
 user[id] = "Their id value";
 ```
 
+<<<<<<< HEAD
 たとえ同じ名前でもシンボルは常に異なるため、衝突は起こりません。
 
 今、同じ目的のためにシンボルの代わりに文字列 `"id"` を使ったとすると、衝突が発生する *かもしれません*。
+=======
+There will be no conflict between our and their identifiers, because symbols are always different, even if they have the same name.
+
+...But if we used a string `"id"` instead of a symbol for the same purpose, then there *would* be a conflict:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js run
 let user = { name: "John" };
 
+<<<<<<< HEAD
 // 我々のスクリプトは　"id" プロパティを使います
 user.id = "ID Value";
 
@@ -106,12 +169,27 @@ user.id = "ID Value";
 
 user.id = "Their id value"
 // boom! 上書きされます! 同僚に危害を加えるつもりはありませんでした。が、してしまいました!
+=======
+// Our script uses "id" property
+user.id = "Our id value";
+
+// ...Another script also wants "id" for its purposes...
+
+user.id = "Their id value"
+// Boom! overwritten by another script!
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 ```
 
 ### リテラルのシンボル
 
+<<<<<<< HEAD
 オブジェクトリテラルの中でシンボルを使いたい場合は、角括弧で囲む必要があります。
 このように:
+=======
+If we want to use a symbol in an object literal `{...}`, we need square brackets around it.
+
+Like this:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js
 let id = Symbol("id");
@@ -119,7 +197,11 @@ let id = Symbol("id");
 let user = {
   name: "John",
 *!*
+<<<<<<< HEAD
   [id]: 123 // 単に "id: 123" ではありません
+=======
+  [id]: 123 // not "id: 123"
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 */!*
 };
 ```
@@ -147,7 +229,11 @@ for (let key in user) alert(key); // name, age (no symbols)
 alert( "Direct: " + user[id] );
 ```
 
+<<<<<<< HEAD
 これは一般的な "隠れている" というコンセプトの一部です。もし別のスクリプトかライブラリが我々のオブジェクトをループした際に、予期せずシンボリックプロパティにアクセスすることはありません。
+=======
+`Object.keys(user)` also ignores them. That's a part of the general "hiding symbolic properties" principle. If another script or a library loops over our object, it won't unexpectedly access a symbolic property.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 一方で、[Object.assign](mdn:js/Object/assign) は文字列とシンボルプロパティ両方をコピーします;
 
@@ -182,13 +268,21 @@ alert( obj[0] ); // test (同じプロパティ)
 
 ## グローバルシンボル 
 
+<<<<<<< HEAD
 これまで見てきたように、通常はたとえ同じ名前であったとしてもすべてのシンボルは異なります。しかし、時には同じ名前のシンボルを同じエンティティにしたいときがあります。
 
 例えば、我々のアプリケーションの異なる部分が、正確に同じプロパテイを意味するシンボル `"id"` にアクセスしたいとします。
+=======
+As we've seen, usually all symbols are different, even if they have the same name. But sometimes we want same-named symbols to be same entities. For instance, different parts of our application want to access symbol `"id"` meaning exactly the same property.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 それを達成するために、*グローバルシンボルレジストリ* があります。その中でシンボルを作り、後でそれらにアクセスすることができます。同じ名前への繰り返しアクセスは、まったく同じシンボルを返すことが保証されます。
 
+<<<<<<< HEAD
 レジストリ内でシンボルを作ったり読み込むためには、`Symbol.for(key)` を使います。
+=======
+In order to read (create if absent) a symbol from the registry, use `Symbol.for(key)`.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 これは、グローバルレジストリのチェックを呼び出し、もし `key` として記述されたシンボルが存在する場合には、それを返します。そうでない場合には、新しいシンボル `Symbol(key)` を作り、与えられた `key` で、レジストリ内に格納されます。
 
@@ -198,7 +292,11 @@ alert( obj[0] ); // test (同じプロパティ)
 // グローバルレジストリから読む
 let id = Symbol.for("id"); // symbol が存在しない場合、作られます
 
+<<<<<<< HEAD
 // 再度読み込み
+=======
+// read it again (maybe from another part of the code)
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 let idAgain = Symbol.for("id");
 
 // 同じシンボル
@@ -221,22 +319,41 @@ JavaScriptでは、ご覧の通りそれはグローバルシンボルのこと�
 例:
 
 ```js run
+// get symbol by name
 let sym = Symbol.for("name");
 let sym2 = Symbol.for("id");
 
+<<<<<<< HEAD
 // symbol から name を取得
+=======
+// get name by symbol
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 alert( Symbol.keyFor(sym) ); // name
 alert( Symbol.keyFor(sym2) ); // id
 ```
 
 `Symbol.keyFor` は内部ではそのシンボルのキーを探すためにグローバルシンボルレジストリを使っています。従って、非グローバルのものに対しては動作しません。もしシンボルが非グローバルの場合、見つけることはできず、`undefined` を返します。
 
+<<<<<<< HEAD
 例:
+=======
+That said, any symbols have `description` property.
+
+For instance:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js run
-alert( Symbol.keyFor(Symbol.for("name")) ); // name, global symbol
+let globalSymbol = Symbol.for("name");
+let localSymbol = Symbol("name");
 
+alert( Symbol.keyFor(globalSymbol) ); // name, global symbol
+alert( Symbol.keyFor(localSymbol) ); // undefined, not global
+
+<<<<<<< HEAD
 alert( Symbol.keyFor(Symbol("name2")) ); // undefined, 引数はグローバルシンボルではありません
+=======
+alert( localSymbol.description ); // name
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 ```
 
 ## システムシンボル 
@@ -259,17 +376,32 @@ JavaScriptが内部的に使用する多くの "システム" シンボルが存
 
 `Symbol` はプリミティブ型で、ユニークな識別子のためのものです。
 
+<<<<<<< HEAD
 シンボルはオプションの記述と合わせて呼ばれる `Symbol()` で生成されます。
 
 シンボルは、たとえ同じ名前を持ったとしても常に異なった値です。もし同じ名前のシンボルを同じものにしたいなら、グローバルレジストリを使う必要があります: `Symbol.for(key)` は名前として `key` をもつグローバルシンボルを返します(必要なら作ります)。`Symbol.for` の複数回の呼び出しは全く同じシンボルを返します。
+=======
+Symbols are created with `Symbol()` call with an optional description (name).
+
+Symbols are always different values, even if they have the same name. If we want same-named symbols to be equal, then we should use the global registry: `Symbol.for(key)` returns (creates if needed) a global symbol with `key` as the name. Multiple calls of `Symbol.for` with the same `key` return exactly the same symbol.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 シンボルは2つの主なユースケースがあります:
 
+<<<<<<< HEAD
 1. "隠れた" オブジェクトのプロパティ。
     もし別のスクリプト、またはライブラリに "属している" オブジェクトにプロパティを追加したい場合、シンボルを作り、プロパティのキーとしてそれを使うことができます。シンボリックなプロパティは `for..in` には現れないため、リストされることはありません。また、直接アクセスされることもありません。なぜなら、別のスクリプトは我々のシンボルを持っていないため、そのアクションに介入することはできません。
+=======
+1. "Hidden" object properties.
+    If we want to add a property into an object that "belongs" to another script or a library, we can create a symbol and use it as a property key. A symbolic property does not appear in `for..in`, so it won't be accidentally processed together with other properties. Also it won't be accessed directly, because another script does not have our symbol. So the property will be protected from accidental use or overwrite.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
     従って、シンボリックプロパティを使うことで、必要なオブジェクトに何かを "こっそり" 隠すことができます。そしてそれは他人には見えません。
 
 2. `Symbol.*` としてアクセス可能なJavaScriptで使われている多くのシステムシンボルがあります。いくつかの組み込みの振る舞いを変更するためにそれらを使うことができます。例えば、チュートリアルの後半で[iterables](info:iterable)のための `Symbol.iterator`, [object-to-primitive conversion](info:object-toprimitive)を設定するための `Symbol.toPrimitive` などを使います。
 
+<<<<<<< HEAD
 技術的には、シンボルは100%隠れる訳ではありません。全てのシンボルを取得する組み込み関数[Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) があります。また、シンボリックなものも含めてオブジェクトの *全ての* キーを返す[Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys)と呼ばれる関数もあります。なので、それらは本当に隠れてはいません。しかしほとんどのライブラリや組み込み関数、構文構造は共通の合意に忠実です。そして、前述の方法を明示的に呼び出す人は、それらがやっていることをよく理解しているでしょう。
+=======
+Technically, symbols are not 100% hidden. There is a built-in method [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) that allows us to get all symbols. Also there is a method named [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) that returns *all* keys of an object including symbolic ones. So they are not really hidden. But most libraries, built-in functions and syntax constructs don't use these methods.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea

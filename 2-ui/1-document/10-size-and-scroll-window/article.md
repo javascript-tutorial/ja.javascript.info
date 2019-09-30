@@ -1,14 +1,24 @@
 # ウィンドウサイズとスクローリング
 
+<<<<<<< HEAD
 ブラウザウィンドウの幅を知るためには？スクロールアウトされた部分を含め、ドキュメントの高さを取得するには？JavaScript を使用してページをスクロールするにはどうすればよいでしょうか？
 
 DOM の観点からは、ルートドキュメント要素は `document.documentElement` です。その要素は `<html>` に対応し、[前のチャプター](info:size-and-scroll) で説明したジオメトリプロパティを持っています。場合によってはそれを使うことができますが、考慮すべき重要な追加の方法や特性があります。
 
 [cut]
+=======
+How to find out the width and height of the browser window? How to get the full width and height of the document, including the scrolled out part? How to scroll the page using JavaScript?
+
+For most such requests, we can use the root document element `document.documentElement`, that corresponds to `<html>` tag. But there are additional methods and peculiarities important enough to consider.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ## ウィンドウの幅/高さ 
 
+<<<<<<< HEAD
 `document.documentElement` のプロパティ `clientWidth/clientHeight` はまさに私たちがここで欲しいものです:
+=======
+To get window width and height we can use `clientWidth/clientHeight` of `document.documentElement`:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ![](document-client-width-height.svg)
 
@@ -18,6 +28,7 @@ DOM の観点からは、ルートドキュメント要素は `document.document
 <button onclick="alert(document.documentElement.clientHeight)">alert(document.documentElement.clientHeight)</button>
 ```
 
+<<<<<<< HEAD
 ````warn header="`window.innerWidth/Height` ではありません"
 ブラウザはプロパティ `window.innerWidth/innerHeight` もサポートしています。
 それらは私たちがほしいものに見えます。何が違うのでしょう？
@@ -25,6 +36,14 @@ DOM の観点からは、ルートドキュメント要素は `document.document
 もし、スペースを占めるスクロールバーがある場合、`clientWidth/clientHeight` はその中の 幅/高さ を提供します。言い換えれば、ドキュメントの可視部分の幅/高さ、コンテンツで利用可能な値を返します。
 
 そして、`window.innerWidth/innerHeight` はスクロールバーを無視します。
+=======
+````warn header="Not `window.innerWidth/Height`"
+Browsers also support properties `window.innerWidth/innerHeight`. They look like what we want. So why not to use them instead?
+
+If there exists a scrollbar, and it occupies some space, `clientWidth/clientHeight` provide the width/height without it (subtract it). In other words, they return width/height of the visible part of the document, available for the content.
+
+...And `window.innerWidth/innerHeight` include the scrollbar.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 もしスクロールバーがあり、それがあるスペースを占める場合、これら２つの行は異なる値を表示します:
 ```js run
@@ -38,16 +57,28 @@ alert( document.documentElement.clientWidth ); // ウィンドウ幅 - スクロ
 ```warn header="`DOCTYPE` は重要です"
 注意: HTML の中に `<!DOCTYPE HTML>` がないとき、トップレベルのジオメトリプロパティは少し異なって動作する可能性があります。奇妙なことが起こり得ます。
 
+<<<<<<< HEAD
 現代の HTML では、常に `DOCTYPE` を書くべきです。一般的にそれは JavaScript の問題ではありませんが、ここでは JavaScript へも影響します。
+=======
+In modern HTML we should always write `DOCTYPE`.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 ```
 
 ## ドキュメントの幅/高さ 
 
+<<<<<<< HEAD
 理論上は、ルートドキュメント要素は　`documentElement.clientWidth/Height` であり、すべてのコンテンツを囲むので、フルサイズを `documentElement.scrollWidth/scrollHeight` で測定できます。
 
 これらのプロパティは通常の要素に対しては上手く動作します。しかしページ全体の場合、これらのプロパティは意図したとおりには動作しません。Chrome/Safari/Opera では、スクロールが無い場合、`documentElement.scrollHeight` は `documentElement.clientHeight` よりも小さいかもしれません! 通常の要素の場合、それはナンセンスです。
 
 信頼できるウィンドウサイズを取得するために、それらのプロパティの最大を取る必要があります。:
+=======
+Theoretically, as the root document element is `documentElement.clientWidth/Height`, and it encloses all the content, we could measure document full size as `documentElement.scrollWidth/scrollHeight`.
+
+But on that element, for the whole page, these properties do not work as intended. In Chrome/Safari/Opera if there's no scroll, then `documentElement.scrollHeight` may be even less than  `documentElement.clientHeight`! Sounds like a nonsense, weird, right?
+
+To reliably obtain the full document height, we should take the maximum of these properties:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js run
 let scrollHeight = Math.max(
@@ -63,11 +94,19 @@ alert('Full document height, with scrolled out part: ' + scrollHeight);
 
 ## 現在のスクロールを取得する 
 
+<<<<<<< HEAD
 通常の要素は `elem.scrollLeft/scrollTop` に現在のスクロール状態を持っています。
 
 ページではどうでしょう？ほとんどのブラウザはドキュメントのスクロールのための `documentElement.scrollLeft/Top` を提供していますが、Chrome/Safari/Opera はバグ ([157855](https://code.google.com/p/chromium/issues/detail?id=157855), [106133](https://bugs.webkit.org/show_bug.cgi?id=106133) のような) があり、`document.documentElement` の代わりに `document.body` を使用してください。
 
 幸いにも、特別なプロパティ `window.pageXOffset/pageYOffset` により、これらの特殊性を覚える必要は全くありません。:
+=======
+DOM elements have their current scroll state in `elem.scrollLeft/scrollTop`.
+
+For document scroll `document.documentElement.scrollLeft/Top` works in most browsers, except oldler WebKit-based ones, like Safari (bug [5991](https://bugs.webkit.org/show_bug.cgi?id=5991)), where we should use `document.body` instead of `document.documentElement`.
+
+Luckily, we don't have to remember these peculiarities at all, because the scroll is available in the special properties `window.pageXOffset/pageYOffset`:
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```js run
 alert('Current scroll from the top: ' + window.pageYOffset);
@@ -86,6 +125,7 @@ JavaScript からページをスクロールするには、その DOM を完全�
 
 通常の要素は `scrollTop/scrollLeft` を変更することでスクロールすることが出来ます。
 
+<<<<<<< HEAD
 ページに対して同じことができます:
 - Chrome/Safari/Opera を除くすべてのブラウザ: `document.documentElement.scrollTop/Left` を変更します。
 - Chrome/Safari/Opera の場合: 代わりに `document.body.scrollTop/Left` を使います。
@@ -93,13 +133,24 @@ JavaScript からページをスクロールするには、その DOM を完全�
 それは動作しますが、クロスブラウザの非互換の匂いがします。良いことではありません。幸運なことに、よりシンプルでユニバーサルな解決策があります: 特別なメソッド  [window.scrollBy(x,y)](mdn:api/Window/scrollBy) と [window.scrollTo(pageX,pageY)](mdn:api/Window/scrollTo) です。
 
 - メソッド `scrollBy(x,y)` は現在の位置を基準としてページをスクロールします。例えば、`scrollBy(0, 10)` はページを下に `10px` スクロールします。 
+=======
+We can do the same for the page using `document.documentElement.scrollTop/Left` (except Safari, where `document.body.scrollTop/Left` should be used instead).
+
+Alternatively, there's a simpler, universal solution: special methods  [window.scrollBy(x,y)](mdn:api/Window/scrollBy) and [window.scrollTo(pageX,pageY)](mdn:api/Window/scrollTo).
+
+- The method `scrollBy(x,y)` scrolls the page *relative to its current position*. For instance, `scrollBy(0,10)` scrolls the page `10px` down.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
     ```online
     下のボタンはこのデモをします:
 
     <button onclick="window.scrollBy(0,10)">window.scrollBy(0,10)</button>
     ```
+<<<<<<< HEAD
 - メソッド `scrollTo(pageX,pageY)` はドキュメントの左上の角を基準としてページをスクロールします。これは `scrollLeft/scrollTop` の設定に似ています。 
+=======
+- The method `scrollTo(pageX,pageY)` scrolls the page *to absolute coordinates*, so that the top-left corner of the visible part has coordinates `(pageX, pageY)` relative to the document's top-left corner. It's like setting `scrollLeft/scrollTop`.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
     一番先頭にスクロールするには、`scrollTo(0,0)` を使います。
 
@@ -132,7 +183,11 @@ JavaScript からページをスクロールするには、その DOM を完全�
 
 私たちはドキュメントを "スクロール不可" にする必要がある場合があります。例えば、すぐに注意を必要とするようなサイズの大きなメッセージを伝える必要があるとき、訪問者にはドキュメントではなく、そのメッセージとやりとりすることを望みます。
 
+<<<<<<< HEAD
 ドキュメントをスクロール不可にするためには、`document.body.style.overflow = "hidden"` を設定すれば十分です。ページは現在のスクロールで止まります。
+=======
+To make the document unscrollable, it's enough to set `document.body.style.overflow = "hidden"`. The page will freeze on its current scroll.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ```online
 やってみましょう:
@@ -148,7 +203,11 @@ JavaScript からページをスクロールするには、その DOM を完全�
 
 このメソッドの欠点は、スクロールバーが消えることです。もしスクロールバーがスペースを占めていたら、そのスペースは今や解放されているので、コンテンツはそれを埋めるために "ジャンプ" します。
 
+<<<<<<< HEAD
 それは少し変に見えますが、フリーズする前後で `clientWidth` を比較し、スペースが増えた場合(スクロールバーが消えたら)、コンテンツ幅を同じに維持するためにスクロールバーの代わりに `document.body` に `padding` を追加することで回避できます。
+=======
+That looks a bit odd, but can be worked around if we compare `clientWidth` before and after the freeze, and if it increased (the scrollbar disappeared) then add `padding` to `document.body` in place of the scrollbar, to keep the content width the same.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ## サマリ 
 

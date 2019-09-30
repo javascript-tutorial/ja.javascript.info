@@ -14,7 +14,7 @@ function checkAge(age) {
   if (age > 18) {
     return true;
   } else {
-    return confirm('Do you have your parents permission to access this page?');
+    return confirm('Did parents allow you?');
   }
 }
 ```
@@ -23,5 +23,10 @@ function checkAge(age) {
 
 `checkAge` の2つのバリアントを作ってください。:
 
+<<<<<<< HEAD
 1. 疑問符演算子 `'?'` を使うケース
 2. OR `||` を使うケース
+=======
+1. Using a question mark operator `?`
+2. Using OR `||`
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
