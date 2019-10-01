@@ -935,9 +935,9 @@ alert(allUsers.has(user)); // false
 
 *取り消し可能(revocable)* なプロキシは、無効にすることのできるプロキシです。
 
-リソースがあり、いつでもアクセスを閉じられるようにしたいとしましょう。
+リソースに対して、いつでもアクセスを閉じられるようにしたいとしましょう。
 
-できることは、トラップなしで取り消し可能なプロキシにラップすることです。このようなプロキシはオブジェクトへ操作を転送しつつ、いつでもそれを無効にすることができます。
+その方法としては、リソースをトラップをしない取り消し可能なプロキシでラップすることです。このようなプロキシはオブジェクトへ操作を転送しつつ、いつでもそれを無効にすることができます。
 
 構文は次の通りです:
 
@@ -968,7 +968,7 @@ alert(proxy.data); // Error
 
 `revoke()` 呼び出しは、プロキシからターゲットオブジェクトへのすべての内部参照を削除します。これにより繋がりがなくなります。ターゲットオブジェクトはその後ガベージコレクトできます。
 
-また、プロキシオブジェクトで簡単に見つけられるよう、`WeakMap` に `revoke` を保持することもできます。:
+また、プロキシオブジェクトを簡単に見つけられるよう、`WeakMap` に `revoke` を保持することもできます。:
 
 ```js run
 *!*
@@ -990,10 +990,9 @@ revoke();
 alert(proxy.data); // Error (revoked)
 ```
 
-このようなアプローチ
-The benefit of such approach is that we don't have to carry `revoke` around. We can get it from the map by `proxy` when needeed.
+このようなアプローチの利点は `revoke` を持って回る必要がないことです。必要なときに `proxy` を使って map から取得できます。
 
-Using `WeakMap` instead of `Map` here, because it should not block garbage collection. If a proxy object becomes "unreachable" (e.g. no variable references it any more), `WeakMap` allows it to be wiped from memory together with its `revoke` that we won't need any more.
+ここで `Map` の代わりに `WeakMap` を使用しているのは、ガベージコレクションをブロックしないようにするためです。proxy オブジェクトが "到達不可能" になった(e.g それを参照する変数がなくなった)場合、`WeakMap` を利用すると、不要になった `revoke` を一緒にメモリ上から削除することができます。
 
 ## リファレンス
 
