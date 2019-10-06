@@ -75,7 +75,7 @@
 
 [codetabs height=220 src="bubble-target"]
 
-It's possible that `event.target` equals `this` -- when the click is made directly on the `<form>` element.
+`event.target` と `this` が等しい場合があります。つまりクリックを `<form>` 要素に直接行った場合です。
 
 ## バブリングを止める 
 
