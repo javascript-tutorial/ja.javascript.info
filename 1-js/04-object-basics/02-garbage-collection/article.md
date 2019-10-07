@@ -4,9 +4,13 @@ JavaScriptのメモリ管理は、自動で私たちの目には見えないよ�
 
 何かがもう必要なくなったとき、何が起こるでしょう？JavaScriptエンジンはどのようにそれを検出し、クリーンアップするのでしょうか？
 
+<<<<<<< HEAD
 [cut]
 
 ## 到達性 
+=======
+## Reachability
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
 
 JavaScriptのメモリ管理の主要なコンセプトは、*到達性* です。
 
@@ -156,11 +160,19 @@ John と Ann はまだリンクされているのは明らかです。両方は�
 
 次の "ガベージコレクション" のステップは定期的に実行されます:
 
+<<<<<<< HEAD
 - ガベージコレクタはルートを取得し、 それらを "マーク" します(覚えます)。
 - 次に、そこからの全ての参照へ訪れ、"マーク" します。
 - 次に、マークされたオブジェクトへアクセスし、*それらの* 参照をマークします。訪問されたすべてのオブジェクトは記憶されているので、将来同じオブジェクトへは2度訪問しないようにします。
 - ...そしてまだ訪れていない参照(ルートから到達可能)があるまで行います。
 - マークされたオブジェクトを除いた、すべてのオブジェクトが削除されます。
+=======
+- The garbage collector takes roots and "marks" (remembers) them.
+- Then it visits and "marks" all references from them.
+- Then it visits marked objects and marks *their* references. All visited objects are remembered, so as not to visit the same object twice in the future.
+- ...And so on until every reachable (from the roots) references are visited.
+- All objects except marked ones are removed.
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
 
 例えば、我々のオブジェクト構造はこのように見えます:
 
@@ -184,9 +196,15 @@ John と Ann はまだリンクされているのは明らかです。両方は�
 
 ![](garbage-collection-5.svg)
 
+<<<<<<< HEAD
 ガベージコレクションは、このような考え方で実行されます。
 
 JavaScriptエンジンは多くの最適化を適用して実行を高速化し、実行に影響を与えません。
+=======
+We can also imagine the process as spilling a huge bucket of paint from the roots, that flows through all references and marks all reachable objects. The unmarked ones are then removed.
+
+That's the concept of how garbage collection works. JavaScript engines apply many optimizations to make it run faster and not affect the execution.
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
 
 これらは最適化のいくつかです:
 
@@ -194,7 +212,11 @@ JavaScriptエンジンは多くの最適化を適用して実行を高速化し�
 - **インクリメンタルコレクション** -- 多くのオブジェクトがある場合、1度に全てのオブジェクトの集合をマークしようとすると、時間がかかってしまい、実行時に目に見える遅延を引き起こす可能性があります。なので、エンジンはガベージコレクションを小さく分割します。そしてそれらのピースが1つずつ、別々に実行されます。変更を追跡するため、多少の追加の記憶域を必要とはしますが、大きな遅延ではなく多くの小さな遅延になります。
 - **アイドルタイムコレクション** -- ガベージコレクタは、CPUがアイドル状態のときにのみ実行を試み、実行への影響を減らします。
 
+<<<<<<< HEAD
 ガベージコレクションアルゴリズムには他にも最適化や加減があります。ここでそれらも説明したいのですが、止めておかなくてはいけません。なぜなら、エンジンによって、調整方法やテクニックの使い方がバラバラだからです。 そして、さらに重要なのは、エンジンの開発に伴って状況が変化するため、実際に必要がない場合には「先立って」深く進んでいくことはそれほど価値はありません。 もちろん、それが純粋な興味であれば、参照すると良いいくつかのリンクが下にあります。
+=======
+There exist other optimizations and flavours of garbage collection algorithms. As much as I'd like to describe them here, I have to hold off, because different engines implement different tweaks and techniques. And, what's even more important, things change as engines develop, so studying deeper "in advance", without a real need is probably not worth that. Unless, of course, it is a matter of pure interest, then there will be some links for you below.
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
 
 ## サマリ 
 
@@ -210,6 +232,10 @@ JavaScriptエンジンは多くの最適化を適用して実行を高速化し�
 
 もしあなたが低レベルのプログラミングに慣れている場合、V8のガベージコレクションに関するより詳細な情報はこの記事[A tour of V8: Garbage Collection](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection).にあります。
 
+<<<<<<< HEAD
 [V8 blog](http://v8project.blogspot.com/) には、メモリ管理の変更に関する記事も随時掲載されています。 ガベージコレクションを学ぶには、V8の内部について一般的に学習し、V8エンジニアの一人として働いていた [Vyacheslav Egorov](http://mrale.ph) のブログを読むとよいでしょう。 "V8", それはインターネット上の記事で最もよくカバーされるからです。 他のエンジンでは、多くのアプローチは似ていますが、ガベージコレクションは多くの点で異なります。
+=======
+[V8 blog](https://v8.dev/) also publishes articles about changes in memory management from time to time. Naturally, to learn the garbage collection, you'd better prepare by learning about V8 internals in general and read the blog of [Vyacheslav Egorov](http://mrale.ph) who worked as one of V8 engineers. I'm saying: "V8", because it is best covered with articles in the internet. For other engines, many approaches are similar, but garbage collection differs in many aspects.
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
 
 低レベルの最適化が必要な場合は、エンジンに関する深い知識が必要です。 あなたが言語に精通した後の次のステップとしてそれを計画することが賢明でしょう。

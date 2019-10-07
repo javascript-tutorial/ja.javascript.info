@@ -16,7 +16,11 @@ alert(generator.next().value); // 282475249
 alert(generator.next().value); // 1622650073
 ```
 
+<<<<<<< HEAD
 注意してください。次のように通常の関数でも同じことができます:
+=======
+Please note, the same can be done with a regular function, like this:
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
 
 ```js run
 function pseudoRandom(seed) {
@@ -35,4 +39,8 @@ alert(generator()); // 282475249
 alert(generator()); // 1622650073
 ```
 
+<<<<<<< HEAD
 これは、このコンテキストでは問題ありません。しかし、どこかで役立つかのしれない `for..of` を使ったイテレートや、ジェネレータの合成を使うことはできなくなります。
+=======
+That also works. But then we lose ability to iterate with `for..of` and to use generator composition, that may be useful elsewhere.
+>>>>>>> 71ff8f81b05e2438a3c56507888e06c528a71182
