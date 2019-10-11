@@ -109,7 +109,7 @@ JavaScriptの構文は、すべての人のニーズにマッチしている訳�
 
 これは、そのような言語の例です:
 
-- [CoffeeScript](http://coffeescript.org/) はJavaScripの "シンタックスシュガー"です。より短い構文を導入し、より簡潔でクリアなコードを書くことができます。たいてい、Ruby 開発者は好きです。
+- [CoffeeScript](http://coffeescript.org/) はJavaScriptの "シンタックスシュガー"です。より短い構文を導入し、より簡潔でクリアなコードを書くことができます。たいてい、Ruby 開発者は好きです。
 - [TypeScript](http://www.typescriptlang.org/) は "厳密なデータ型指定" の追加に焦点をあてています。それは複雑なシステムの開発とサポートを簡素化するためです。これは Microsoftにより開発されています。
 - [Dart](https://www.dartlang.org/) はブラウザ以外の環境（モバイルアプリのような）で動作する独自のエンジンを持ったスタンドアローンな言語です。最初はGoogleによってJavaScriptの代わりとなる位置づけで提供されましたが、現時点では、上述のようにJavaScriptへトランスパイルする必要があります。
 
