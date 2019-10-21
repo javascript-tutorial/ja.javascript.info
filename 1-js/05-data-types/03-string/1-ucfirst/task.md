@@ -2,7 +2,11 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 最初の文字を大文字にする
+=======
+# Uppercase the first character
+>>>>>>> 30e3fa723721909ee25115562e676db2452cf8d1
 
 最初の文字を大文字化して文字列 `str` を返す関数 `ucFirst(str)` を書いてください。例:
 

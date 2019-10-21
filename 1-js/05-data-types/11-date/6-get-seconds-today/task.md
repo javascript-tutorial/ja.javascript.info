@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# 今日何秒経過しましたか？
+# How many seconds have passed today?
 
-今日の開始から秒数を返す関数 `getSecondsToday()` を書いてください。
+Write a function `getSecondsToday()` that returns the number of seconds from the beginning of today.
 
-例えば、今 `10:00 am` で夏時間のシフトがない場合:
+For instance, if now were `10:00 am`, and there was no daylight savings shift, then:
 
 ```js
 getSecondsToday() == 36000 // (3600 * 10)
 ```
 
-関数は任意の日で動作する必要があります。つまり、"今日" のハードコードを持つべきではありません。
+The function should work in any day. That is, it should not have a hard-coded value of "today".
