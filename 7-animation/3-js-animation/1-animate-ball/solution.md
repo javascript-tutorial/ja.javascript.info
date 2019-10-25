@@ -1,12 +1,12 @@
-To bounce we can use CSS property `top` and `position:absolute` for the ball inside the field with `position:relative`.
+バウンドさせるには、`position:relative` をもつフィールド内のボールに対して、CSS プロパティ `top` と `position:absolute` を使うことで実現できます。
 
-The bottom coordinate of the field is `field.clientHeight`. But the `top` property gives coordinates for the top of the ball, the edge position is `field.clientHeight - ball.clientHeight`.
+フィールドの下部の座標は `field.clientHeight` です。しかし、`top` プロパティはボール上部の座標のため、下端の位置は `field.clientHeight - ball.clientHeight` になります。
 
-So we animate the `top` from `0` to `field.clientHeight - ball.clientHeight`.
+したがって、`top` を `0` から `field.clientHeight - ball.clientHeight` までアニメートします。
 
-Now to get the "bouncing" effect we can use the timing function `bounce` in `easeOut` mode.
+あとは、"バウンド" 効果を行うためにタイミング関数 `bounce` を `easeOut` モードで使います。
 
-Here's the final code for the animation:
+これがアニメーションの最終的なコードです:
 
 ```js
 let to = field.clientHeight - ball.clientHeight;

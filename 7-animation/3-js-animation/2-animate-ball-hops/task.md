@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Animate the ball bouncing to the left
+# 右にバウンドするボールのアニメーション
 
-Make the ball bounce to the left. Like this:
+次のように、ボールを右にバウンドさせます。:
 
 [iframe height=250 src="solution"]
 
-Write the animation code. The distance to the right is `100px`.
+アニメーションコードを記述してください。右への距離は `100px` です。
 
-Take the solution of the previous task <info:task/animate-ball> as the source.
+前のタスク <info:task/animate-ball> の答えをソースとして使ってください。
