@@ -1,7 +1,7 @@
 # 忍者コード
 
 ```quote author="孔子"
-Learning without thought is labor lost; thought without learning is perilous.
+子曰く、学びて思わざれば則ち罔し（くらし）、思いて学ばざれば則ち殆し（あやうし）。
 ```
 
 過去のプログラマ忍者は、コード管理者泣かせのトリックを使いました。
@@ -34,10 +34,10 @@ i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 
 より短いことが常により良いと教えましょう。彼を忍者の道に導きましょう。
 
-## 一文字の変数 
+## 一文字の変数
 
-```quote author="Laozi (Tao Te Ching)"
-The Dao hides in wordlessness. Only the Dao is well begun and well completed.
+```quote author="老子道徳経"
+道は隠れたもので、名も無い。それ唯、道は善くゆとりを与え、且つ、成すものだ。
 ```
 
 より速くコード化するためのもう1つの方法は、あらゆる場所で、`a`, `b` や `c` のように1文字の変数名を使うことです。
@@ -48,7 +48,7 @@ The Dao hides in wordlessness. Only the Dao is well begun and well completed.
 
 ループ本体が 1-2 ページ(できればより長くする)の場合は、ループカウンタとしてのエキゾチックな変数は特に効果があります。そのループを深く見ている人は、変数名 `x` がループカウンタであることはすぐには分からないでしょう。
 
-## 略語を使用する 
+## 略語を使用する
 
 チームのルールで、1文字や曖昧な名前の使用を禁止している場合、それらを短縮して略語を作ってください。
 
@@ -61,13 +61,13 @@ The Dao hides in wordlessness. Only the Dao is well begun and well completed.
 
 本当に感が鋭い人だけがこのような名前を理解することができます。すべてを短くするようにしてください。あなたのコードを支持できるのは、有能な人だけです。
 
-## 高く舞い上がる、抽象的になる 
+## 高く舞い上がる、抽象的になる
 
-```quote author="Laozi (Tao Te Ching)"
-The great square is cornerless<br>
-The great vessel is last complete,<br>
-The great note is rarified sound,<br>
-The great image has no form.
+```quote author="老子道徳経"
+大方は隅（ぐう）無し。<br>
+大器は晩成（ばんせい）す。<br>
+大音聲希（まれ）なり。<br>
+大象（たいしょう）は形無し。
 ```
 
 名前を選ぶときは、最も抽象的な言葉を使ってください。`obj`, `data`, `value`, `item`, `elem` など。
@@ -86,7 +86,7 @@ The great image has no form.
 
 - **...しかし、これ以上このような名前がなかったら？** 単に数値を付け足します: `data1, item2, elem5`...
 
-## 注意力テスト 
+## 注意力テスト
 
 本当に気が利くプログラマだけがあなたのコードを理解できます。しかし、どうやってそれをチェックしましょう？
 
@@ -96,7 +96,7 @@ The great image has no form.
 
 このようなコードを素早く読むことは不可能です。また、タイポがある場合...うーん...私たちは長い時間行き詰まります。
 
-## スマートな同義語 
+## スマートな同義語
 
 ```quote author="孔子"
 最も難しいことは暗い部屋で黒猫を見つけることです。そこに猫がいない場合は特にそうです。
@@ -116,13 +116,13 @@ The great image has no form.
 
 例えば、関数 `printPage(page)` はプリンタを使うでしょう。そして関数 `printText(text)` は画面上にテキストを表示します。使い慣れていない読み手に類似の名前がつけられた関数 `printMessage` について考えさせましょう: "この関数はどこにメッセージを出すの？プリンタ？それとも画面上？" 本当に輝かせるためには `printMessage(message)` は新しいウィンドウに表示するべきです!
 
-## 名前の再利用 
+## 名前の再利用
 
-```quote author="Laozi (Tao Te Ching)"
-Once the whole is divided, the parts<br>
-need names.<br>
-There are already enough names.<br>
-One must know when to stop.
+```quote author="老子道徳経"
+始めて制して名有り。<br>
+名も亦既に有るも、<br>
+それ亦止まることを知らんとす。<br>
+止まることを知るは、殆（あやう）からざる所以なり。
 ```
 
 本当に必要なときにだけ、新しい変数を追加してください。
@@ -165,11 +165,11 @@ function ninjaFunction(elem) {
 
 確かに、変数名には `super..`, `mega..`, `nice..` などが書かれています。が、その一方で -- それらはその詳細を何も示しません。読者はその隠された意味を探すために時間を割くかもしれません。
 
-## 外部の変数と重ね合わせる 
+## 外部の変数と重ね合わせる
 
-```quote author="Guan Yin Zi"
-When in the light, can't see anything in the darkness.<br>
-When in the darkness, can see everything in the light.
+```quote author="関尹子"
+明るい処に身を置く者は、暗闇の中に一つの物を見ることもできないが。<br>
+暗闇に身を置く者は、明るい所の細々とした事を区別することができる。
 ```
 
 関数の内側と外側で同じ変数名を使ってください。簡単で努力は不要です。
@@ -191,7 +191,7 @@ function render() {
 
 そして、外部変数、`authenticateUser()` の結果であるという想定で `user` を使って処理しようと試みるでしょう... トラップが飛び出しました! デバッガーの出番です...
 
-## 至るところで副作用! 
+## 至るところで副作用!
 
 何も変えないように見える関数があります。 `isReady()`, `checkPermission()`, `findTags()`... これらの関数は、外側のものを何も変えることなく、データを計算したり、見つけて返したりすると想定されています。つまり、"副作用" なしです。
 
@@ -205,12 +205,11 @@ function render() {
 
 `if (checkPermission(..))` を書こうとした開発者はなぜ動かないのか不思議に思うでしょう。彼らに教えましょう: "ドキュメントを読みなさい!" そしてこの記事を見せてください。
 
+## 強力な関数!
 
-## 強力な関数! 
-
-```quote author="Laozi (Tao Te Ching)"
-The great Tao flows everywhere,<br>
-both to the left and to the right.
+```quote author="老子道徳経"
+大道は汎として、<br>
+それ左右すべし。
 ```
 
 その名前に書かれていることで関数を制限しないでください。広くあれ。
