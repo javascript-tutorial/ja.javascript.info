@@ -19,7 +19,11 @@ importance: 5
 
 [iframe src="solution" height=200 border=1]
 
+<<<<<<< HEAD
 このタスクでは `data-tooltip` を持つすべての要素は内側にテキストだけと想定します。入れ子のタグはありません。
+=======
+In this task we assume that all elements with `data-tooltip` have only text inside. No nested tags (yet).
+>>>>>>> 70ca842bef2390bc26d13dea2b856838aa890fe0
 
 詳細:
 
@@ -34,4 +38,8 @@ importance: 5
 
 振る舞いが実装できたら、JavaScriptに精通していない人でも注釈付き要素を追加できます。
 
+<<<<<<< HEAD
 P.S. 自然でシンプルなものを保つために、一度に表示できるツールチップは1つだけです。
+=======
+P.S. Only one tooltip may show up at a time.
+>>>>>>> 70ca842bef2390bc26d13dea2b856838aa890fe0
