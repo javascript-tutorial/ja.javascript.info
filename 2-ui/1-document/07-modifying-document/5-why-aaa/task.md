@@ -2,9 +2,15 @@ importance: 1
 
 ---
 
+<<<<<<< HEAD
 # なぜ "aaa" が残るのでしょう?
 
 例を実行してください。なぜ `table.remove()` はテキスト `"aaa"` を削除しないのでしょうか？
+=======
+# Why does "aaa" remain?
+
+Run the example. Why does `table.remove()` not delete the text `"aaa"`?
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b
 
 ```html height=100 run
 <table id="table">

@@ -2,7 +2,10 @@ const Koa = require('koa');
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
 const getRawBody = require('raw-body')
+<<<<<<< HEAD
 const busboy = require('async-busboy');
+=======
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b
 const Router = require('koa-router');
 
 let router = new Router();
@@ -22,6 +25,7 @@ router.post('/image', async (ctx) => {
   };
 });
 
+<<<<<<< HEAD
 router.post('/image-form', async (ctx) => {
 
   let files = [];
@@ -44,6 +48,8 @@ router.post('/image-form', async (ctx) => {
   };
 });
 
+=======
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b
 app
   .use(bodyParser())
   .use(router.routes())

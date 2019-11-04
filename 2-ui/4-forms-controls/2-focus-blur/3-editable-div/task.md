@@ -8,6 +8,10 @@ importance: 5
 
 テキストエリアは `<div>` の HTML を編集することができます。
 
+<<<<<<< HEAD
 ユーザが `key:Enter` を押すかフォーカスを失ったとき、`<textarea>` は `<div>` に戻り、その中身は `<div>` の HTML になります。
+=======
+When the user presses `key:Enter` or it loses focus, the `<textarea>` turns back into `<div>`, and its content becomes HTML in `<div>`.
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b
 
 [demo src="solution"]

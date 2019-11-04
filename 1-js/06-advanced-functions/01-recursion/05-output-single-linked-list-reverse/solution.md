@@ -37,7 +37,11 @@ printReverseList(list);
 
 我々の `list` で最後の値を取得する方法はありません。また、 "戻る" こともできません。
 
+<<<<<<< HEAD
 従って、できることは直接の並びでアイテムを調べて、それらを配列に覚えます。そして逆順で覚えていることを出力していきます。:
+=======
+So what we can do is to first go through the items in the direct order and remember them in an array, and then output what we remembered in the reverse order:
+>>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b
 
 ```js run
 let list = {
