@@ -5,7 +5,7 @@
 
 event loop の動作を理解することは最適化ためには重要であり、適切なアーキテクチャにとっても重要である場合があります。
 
-このチャプターでは、最初にそれがどのように動作するかについて理論的な詳細を説明し、次にその知識の実践的な使用を見ていきます。
+このチャプターでは、最初にそれがどのように動作するかについて理論的な詳細を説明し、次にその知識の実践的な使用例を見ていきます。
 
 ## Event Loop
 
@@ -19,11 +19,11 @@ event loop の動作を理解することは最適化ためには重要であり
 
 これは、ページを閲覧するときに見られることの形式化です。JavaScript エンジンはスクリプト/ハンドラ/イベントがアクティブになった場合にのみ実行され、ほとんどの時間何もしません。
 
-タスクの例です:
+タスクの例:
 
-- 外部スクリプト `<script src="...">` が読み込まれるとき、タスクはそれを実行することです。
-- ユーザがマウスを動かすとき、タスクは `mousemove` イベントをディスパッチし、ハンドラを実行することです。
-- `setTimeout` でスケジュールされた期限がくるとき、タスクはそのコールバックを実行することです。
+- 外部スクリプト `<script src="...">` が読み込まれるとき、"タスク" はそれを実行することです。
+- ユーザがマウスを動かすとき、"タスク" は `mousemove` イベントをディスパッチし、ハンドラを実行することです。
+- `setTimeout` でスケジュールされた期限がくるとき、"タスク" はそのコールバックを実行することです。
 - ...等
 
 タスクが設定され、エンジンがそれらを処理したあと、他のタスクを待機します(スリープ状態で CPU の消費はほぼゼロです)。
@@ -34,15 +34,15 @@ event loop の動作を理解することは最適化ためには重要であり
 
 ![](eventLoop.svg)
 
-例えば、エンジンが `script` の実行でビジーである間に、ユーザがマウスを移動させて `mousemove` を引き起こしたり、`setTimeout` の実行予定が来たりすると、これらのタスクは上の図に示すようにキューを形成します。
+例えば、エンジンが `script` の実行でビジーである間にユーザがマウスを移動させて `mousemove` を引き起こしたり、`setTimeout` の実行予定が来たりすると、これらのタスクは上の図に示すようにキューを形成します。
 
 キューのタスクは "先着順" で処理されます。エンジンが `script` を完了させると、`mousemove` イベントを処理し、次に `setTimeout` ハンドラを実行していきます。
 
 ここまではとても簡単ですね。
 
-Two more details:
+あと2つ詳細です:
 1. エンジンがタスクを実行している間、レンダリングは発生しません。タスクが時間がかかるかどうかは関係ありません。DOM への変更はタスクが完了した後にのみ描画されます。
-2. タスクに時間がかかりすぎる場合、ブラウザは他のタスクを実行やユーザイベントの処理ができないため、しばらくすると "ページが応答していません" といった警告を表示し、ページ全体のタスクを強制終了するかどうかを訪ねます。これは複雑な計算が多数ある場合や、無限ループに陥るようなプログラムミスにより引き起こされます。
+2. タスクに時間がかかりすぎる場合、ブラウザは他のタスクの実行やユーザイベントの処理ができないため、しばらくすると "ページが応答していません" といった警告を表示し、ページ全体のタスクを強制終了するかどうかを訪ねます。これは複雑な計算が多数ある場合や、無限ループに陥るようなプログラムミスにより引き起こされます。
 
 ここまでは理論でした。次からこの知識をどうのように適用できるか見ていきましょう。
 
@@ -54,7 +54,7 @@ Two more details:
 
 エンジンがシンタックスハイライトをするのに忙しい間は、他のDOM関連の処理やユーザイベントの処理などを行うことはできません。また、ブラウザが少しの間 "一時停止" したり "ハング" する可能性もありますが、これは受け入れられません。
 
-これ問題に関しては、大きなタスクを細かく分割することで回避が可能です。最初に 100 行をハイライト処理し、次に `setTimeout` (遅延ゼロで)で次の100行をスケジュールしていきます。
+この問題に関しては、大きなタスクを細かく分割することで回避が可能です。最初に 100 行をハイライト処理し、次に `setTimeout` (遅延ゼロで)で次の100行を処理するようスケジュールしていきます。
 
 このアプローチのデモについては、簡単にするためにシンタックスハイライトではなく、`1` から `1000000000` までをカウントする関数を取り上げます。
 
@@ -271,9 +271,9 @@ alert("code");
 
 これは microtask 間でアプリケーション環境が基本的には同じ(マウス座標の変更、新しいネットワークデータなどがないこと)であることを保証するため重要なことです。
 
-If we'd like to execute a function asynchronously (after the current code), but before changes are rendered or new events handled, we can schedule it with `queueMicrotask`.
+(現在のコードの後に)関数を非同期に実行したいが、変更がレンダリングされたり新しいイベントが処理される前がよい場合は、`queueMicrotask` でスケジューリングすることができます。
 
-Here's an example with "counting progress bar", similar to the one shown previously, but `queueMicrotask` is used instead of `setTimeout`. You can see that it renders at the very end. Just like the synchronous code:
+ここに以前に示したものと類似の "カウントするプログレスバー" の例がありますが、`setTimeout` の代わりに `queueMicrotask` が使用されています。ここでは同期コードのように、レンダリングが最後に行われていることがわかります:
 
 ```html run
 <div id="progress"></div>
@@ -283,7 +283,7 @@ Here's an example with "counting progress bar", similar to the one shown previou
 
   function count() {
 
-    // do a piece of the heavy job (*)
+    // 重い処理の一部を実行 (*)
     do {
       i++;
       progress.innerHTML = i;
@@ -301,39 +301,37 @@ Here's an example with "counting progress bar", similar to the one shown previou
 </script>
 ```
 
-## Summary
+## サマリ
 
-The more detailed algorithm of the event loop (though still simplified compare to the [specification](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)):
+イベントループのより詳細なアルゴリズム([仕様](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)と比べると簡素化されていますが):
 
-1. Dequeue and run the oldest task from the *macrotask* queue (e.g. "script").
-2. Execute all *microtasks*:
-    - While the microtask queue is not empty:
-        - Dequeue and run the oldest microtask.
-3. Render changes if any.
-4. If the macrotask queue is empty, wait till a macrotask appears.
-5. Go to step 1.
+1. *macrotask* キューにある最も古いタスク(e.g "スクリプト")を取り出して実行します。
+2. すべての *microtask* を実行します。
+    - microtask キューが空でない間
+        - 最も古い microtask を取り出して実行します。
+3. 変更がある場合はレンダリングします。
+4. macrotask キューが空であれば、macrotask が現れるまで待ちます。
+5. ステップ1 に戻ります。
 
-To schedule a new *macrotask*:
-- Use zero delayed `setTimeout(f)`.
+新しい *macrotask* をスケジュールするには:
+- 遅延ゼロの `setTimeout(f)` を使用します。
 
-That may be used to split a big calculation-heavy task into pieces, for the browser to be able to react on user events and show progress between them.
+これは、ブラウザがユーザーイベントに反応したり、タスクの進捗状況を表示することができるよう、計算量の多いタスクを小さく分割するために使用されます。
 
-Also, used in event handlers to schedule an action after the event is fully handled (bubbling done).
+また、イベントが完全に処理された(バブリングが完了した)後にアクションを行うようスケジュールするために、イベントハンドラ内でも使われることがあります。
 
-To schedule a new *microtask*
-- Use `queueMicrotask(f)`.
-- Also promise handlers go through the microtask queue.
+新しい *microtask* をスケジュールするには:
+- `queueMicrotask(f)` を使用します。
+- また、promise ハンドラは microtask キューで処理されます。
 
-There's no UI or network event handling between microtasks: they run immediately one after another.
-
-So one may want to `queueMicrotask` to execute a function asynchronously, but within the environment state.
+microtask 間では UI やネットワークイベントの処理はありません: これらはすぐに次々と実行されます。
 
 ```smart header="Web Workers"
-For long heavy calculations that shouldn't block the event loop, we can use [Web Workers](https://html.spec.whatwg.org/multipage/workers.html).
+イベントループをブロックしてはならない長く重い計算に対しては、[Web Workers](https://html.spec.whatwg.org/multipage/workers.html) を利用することができます。
 
-That's a way to run code in another, parallel thread.
+これは並列スレッドでコードを実行する方法です。
 
-Web Workers can exchange messages with the main process, but they have their own variables, and their own event loop.
+Web Worker はメインプロセスとメッセージを交換することができますが、独自の変数とイベントループを持ちます。
 
-Web Workers do not have access to DOM, so they are useful, mainly, for calculations, to use multiplle CPU cores simultaneously.
+Web Worker は DOM にはアクセスできないので、主に計算のために複数のCPUコアを同時に使用するのに役立ちます。
 ```
