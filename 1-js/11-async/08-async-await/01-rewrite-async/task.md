@@ -1,7 +1,11 @@
 
 # async/await を使用して書き直す
 
+<<<<<<< HEAD:1-js/11-async/08-async-await/01-rewrite-async/task.md
 チャプター <info:promise-chaining> にある例の1つを `.then/catch` の代わりに `async/await` を使って書き直してください。: 
+=======
+Rewrite this example code from the chapter <info:promise-chaining> using `async/await` instead of `.then/catch`:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd:1-js/11-async/08-async-await/01-rewrite-async/task.md
 
 ```js run
 function loadJson(url) {

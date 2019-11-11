@@ -1,6 +1,10 @@
 
 私たちは2つのハンドラを使う必要があります: `document.onkeydown` と `document.onkeyup` です。
 
+<<<<<<< HEAD
+=======
+Let's create a set `pressed = new Set()` to keep currently pressed keys.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 Set `pressed` は現在押されているキーを保持する必要があります。
 

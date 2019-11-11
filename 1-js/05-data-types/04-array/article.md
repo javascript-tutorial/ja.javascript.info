@@ -1,14 +1,26 @@
+<<<<<<< HEAD
 # 配列
 
 オブジェクトを使用すると、キー付きの値のコレクションを格納することができます。
 
 しかし、実査には頻繁に *順序付されたコレクション* が必要であることがわかります。それは、1つ目、2つ目、3つ目... と言った要素であり、例えばユーザ、商品、HTML要素など何かのリストを格納します。
+=======
+# Arrays
+
+Objects allow you to store keyed collections of values. That's fine.
+
+But quite often we find that we need an *ordered collection*, where we have a 1st, a 2nd, a 3rd element and so on. For example, we need that to store a list of something: users, goods, HTML elements etc.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ここでオブジェクトを使うのは便利ではありません。なぜなら、オブジェクトには要素の順序を管理するためのメソッドは提供されていないからです。既存のリストの "間に" 新しいプロパティを挿入することはできません。オブジェクトはこのように使うものではありません。
 
+<<<<<<< HEAD
 順序付けされたコレクションを格納するために、`Array` と呼ばれる特別なデータ構造があります。
 
 [cut]
+=======
+There exists a special data structure named `Array`, to store ordered collections.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ## 宣言 
 
@@ -81,8 +93,13 @@ arr[3](); // hello
 ```
 
 
+<<<<<<< HEAD
 ````smart header="末尾のカンマ"
 配列は、オブジェクトのようにカンマで終わる場合があります:
+=======
+````smart header="Trailing comma"
+An array, just like an object, may end with a comma:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 ```js
 let fruits = [
   "Apple",
@@ -97,7 +114,11 @@ let fruits = [
 
 ## pop/push, shift/unshift メソッド 
 
+<<<<<<< HEAD
 [キュー(queue)](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) は配列で最も一般的に使われるものの１つです。コンピュータ・サイエンスでは、これは2つの操作をサポートする要素の順序付きコレクションを意味します。:
+=======
+A [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) is one of the most common uses of an array. In computer science, this means an ordered collection of elements which supports two operations:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 - `push` は要素を末尾に追加します。
 - `shift` は最初から要素を取得し、2番目の要素が1番目になるようにキューを進めます。
@@ -106,9 +127,15 @@ let fruits = [
 
 配列は両方の操作をサポートします。
 
+<<<<<<< HEAD
 実践では、非常に頻繁にこれを見ます。例えば画面に表示が必要なメッセージのキューです。
 
 配列の別のユースケースもあります -- [スタック(stack)](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) と呼ばれるデータ構造です。
+=======
+In practice we need it very often. For example, a queue of messages that need to be shown on-screen.
+
+There's another use case for arrays -- the data structure named [stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)).
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 これは2つの操作をサポートします。
 
@@ -123,7 +150,11 @@ let fruits = [
 
 スタックの場合、最新のプッシュされたアイテムが最初に受け取られます。これはLIFO（Last-In-First-Out）の原則とも呼ばれます。 キューの場合、FIFO（First-In-First-Out）があります。
 
+<<<<<<< HEAD
 JavaScriptの配列は、キューとスタックどちらとしても動作します。これらの要素を使用すると、要素を先頭または最後に追加/削除することができます。
+=======
+Arrays in JavaScript can work both as a queue and as a stack. They allow you to add/remove elements both to/from the beginning or the end.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 コンピュータサイエンスでは、それを許可するデータ構造を[両端キュー/デック(deque)](https://en.wikipedia.org/wiki/Double-ended_queue)と呼びます。
 
@@ -191,11 +222,19 @@ alert( fruits );
 
 ## 内部詳細 
 
+<<<<<<< HEAD
 配列は特別な種類のオブジェクトです。プロパティ `arr[0]` にアクセスするために使う角括弧は、実際にはオブジェクト構文から来ています。数字がキーとして使用されます。
+=======
+An array is a special kind of object. The square brackets used to access a property `arr[0]` actually come from the object syntax. That's essentially the same as `obj[key]`, where `arr` is the object, while numbers are used as keys.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 配列はデータの順序付きコレクションと、`length` プロパティを処理する特別なメソッドを提供するようオブジェクトを拡張します。しかし、コアではまだオブジェクトです。
 
+<<<<<<< HEAD
 JavaScriptには7つの基本タイプしかないことに注意してください。 配列はオブジェクトであるため、オブジェクトのように動作します。
+=======
+Remember, there are only 7 basic types in JavaScript. Array is an object and thus behaves like an object.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 例えば、これは参照としてコピーされます:
 
@@ -205,6 +244,11 @@ let fruits = ["Banana"]
 let arr = fruits; // 参照によるコピー (2つの変数は同じ配列を参照する)
 
 alert( arr === fruits ); // true
+<<<<<<< HEAD
+=======
+
+arr.push("Pear"); // modify the array by reference
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 arr.push("Pear"); // 参照から配列を変更する
 
@@ -231,9 +275,15 @@ fruits.age = 25; // 任意の名前でプロパティを作成します
 
 配列の誤った使い方:
 
+<<<<<<< HEAD
 - `arr.test = 5` のように非数値プロパティを追加する。
 - 穴を作る: `arr[0]` を追加した後、`arr[1000]` を追加する(その間は無し)。
 - 逆順で配列を埋める: `arr[1000]`, `arr[999]` など。
+=======
+- Add a non-numeric property like `arr.test = 5`.
+- Make holes, like: add `arr[0]` and then `arr[1000]` (and nothing between them).
+- Fill the array in the reverse order, like `arr[1000]`, `arr[999]` and so on.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 *順序付きデータ* を処理するための特別な構造として配列があると考えてください。配列はそのための特別なメソッドを提供します。配列は連続した順序付きデータを処理するため、JavaScriptエンジン内部で注意深くチューニングされています。このために配列を使ってください。そして、任意のキーが必要なときは、通常のオブジェクト `{}` が必要な可能性が高いです。
 
@@ -322,7 +372,11 @@ for (let key in arr) {
 
     ブラウザや他の環境では *配列のように見える* いわゆる "配列のような" オブジェクトがあります。つまり、それらは `length` とインデックスプロパティを持っています。しかし、それらは通常は必要のない他の非数値プロパティやメソッドも持っています。`for..in` ループはそれらもリストします。なので、もし配列のようなオブジェクトを処理する必要があるとき、それらの "余分な" プロパティが問題になる場合があります。
 
+<<<<<<< HEAD
 2. `for..in` ループは配列ではなく、汎用オブジェクトに対して最適化されているため、10から100倍遅くなります。もちろんそれでもとても速いです。高速化はボトルネックの場合にのみ問題なり、それ以外ではさほど重要でないこともあります。しかしそれでも私たちは違いに気をつけるべきです。
+=======
+2. The `for..in` loop is optimized for generic objects, not arrays, and thus is 10-100 times slower. Of course, it's still very fast. The speedup may only matter in bottlenecks. But still we should be aware of the difference.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 一般的に、配列に対しては `for..in` は使うべきではありません。
 
@@ -340,7 +394,11 @@ fruits[123] = "Apple";
 alert( fruits.length ); // 124
 ```
 
+<<<<<<< HEAD
 通常、そのように配列を使わないことに注意してください。
+=======
+Note that we usually don't use arrays like that.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 `length` プロパティの別の興味深い点は、書き込み可能と言う点です。
 
@@ -371,7 +429,11 @@ let arr = *!*new Array*/!*("Apple", "Pear", "etc");
 
 もし数値の１つの引数で `new Array` が呼ばれたとき、*アイテムはありませんが、与えられた長さを持った* 配列が作られます。
 
+<<<<<<< HEAD
 それがどのように墓穴を掘るか見てみましょう:
+=======
+Let's see how one can shoot themself in the foot:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 let arr = new Array(2); // [2] の配列を作成しますか？
@@ -387,7 +449,11 @@ alert( arr.length ); // length は 2 です
 
 ## 多次元配列 
 
+<<<<<<< HEAD
 配列は配列も持つことができます。我々は行列を格納するために、それを多次元配列として使うことができます。:
+=======
+Arrays can have items that are also arrays. We can use it for multidimensional arrays, for example to store matrices:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 let matrix = [
@@ -396,7 +462,11 @@ let matrix = [
   [7, 8, 9]
 ];
 
+<<<<<<< HEAD
 alert( matrix[1][1] ); // 中央の要素
+=======
+alert( matrix[1][1] ); // 5, the central element
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 ```
 
 ## toString
@@ -432,7 +502,11 @@ alert( "1,2" + 1 ); // "1,21"
 
 ## サマリ 
 
+<<<<<<< HEAD
 配列はオブジェクトの特別な種類であり、順序付けされたデータ項目を格納するのに適しています。
+=======
+Array is a special kind of object, suited to storing and managing ordered data items.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 - 宣言:
 
@@ -444,21 +518,39 @@ alert( "1,2" + 1 ); // "1,21"
     let arr = new Array(item1, item2...);
     ```
 
+<<<<<<< HEAD
     `new Array(number)` への呼び出しは与えられた長さの配列を作りますが、要素を持ちません。
+=======
+    The call to `new Array(number)` creates an array with the given length, but without elements.
+
+- The `length` property is the array length or, to be precise, its last numeric index plus one. It is auto-adjusted by array methods.
+- If we shorten `length` manually, the array is truncated.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 - `length` プロパティは配列の長さです。正確にはその最後の数値インデックスに1を加えたものです。それは配列のメソッドにより、自動的に調整されます。
 - もし手動で `length` を短くした場合、配列は切り捨てられます。
 
+<<<<<<< HEAD
 以下の操作で配列を両端キュー(deque)として使用できます。:
+=======
+- `push(...items)` adds `items` to the end.
+- `pop()` removes the element from the end and returns it.
+- `shift()` removes the element from the beginning and returns it.
+- `unshift(...items)` adds `items` to the beginning.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 - `push(...items)` は `items` を末尾に追加します。
 - `pop()` は末尾の要素を削除し、それを返します。
 - `shift()` は先頭の要素を削除し、それを返します。
 - `unshift(...items)` はアイテムを先頭に追加します。
 
+<<<<<<< HEAD
 配列の要素をループするために:
   - `for (let i=0; i<arr.length; i++)` -- 最も速く動作し、古いブラウザ互換です。
   - `for (let item of arr)` -- アイテムだけのための、現代の構文です。
   - `for (let i in arr)` -- 決して使いません。
 
 私たちは、チャプター <info:array-methods> で配列に戻り、追加、削除、要素の抽出や配列のソートと言ったより多くのメソッドを学びます。
+=======
+We will return to arrays and study more methods to add, remove, extract elements and sort arrays in the chapter <info:array-methods>.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd

@@ -1,5 +1,6 @@
 # プリミティブのメソッド
 
+<<<<<<< HEAD
 JavaScriptはプリミティブ(文字列、数値など)をオブジェクトのように扱うことができます。
 
 また、それらはメソッドも提供しています。この後すぐに学んでいきますが、最初にどのように動作するのか確認しましょう。なぜなら、プリミティブはオブジェクトではないからです(このチャプターでそれをさらに明確にしていきます)。
@@ -7,9 +8,15 @@ JavaScriptはプリミティブ(文字列、数値など)をオブジェクト�
 [cut]
 
 プリミティブとオブジェクトの主な違いを見ていきましょう。
+=======
+JavaScript allows us to work with primitives (strings, numbers, etc.) as if they were objects. They also provide methods to call as such. We will study those soon, but first we'll see how it works because, of course, primitives are not objects (and here we will make it even clearer).
+
+Let's look at the key distinctions between primitives and objects.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 プリミティブ
 
+<<<<<<< HEAD
 - プリミティブ型の値です。
 - プリミティブ型は6つあります: `string`, `number`, `boolean`, `symbol`, `null`, `undefined`
 
@@ -19,6 +26,17 @@ JavaScriptはプリミティブ(文字列、数値など)をオブジェクト�
 - `{}` で作ることができます。例えば: `{name: "John", age: 30}`。JavaScriptでは他の種類のオブジェクトもあります。関数もオブジェクトです。
 
 オブジェクトの最も良いところの1つは、そのプロパティの1つとして関数を保持することができることです:
+=======
+- Is a value of a primitive type.
+- There are 6 primitive types: `string`, `number`, `boolean`, `symbol`, `null` and `undefined`.
+
+An object
+
+- Is capable of storing multiple values as properties.
+- Can be created with `{}`, for instance: `{name: "John", age: 30}`. There are other kinds of objects in JavaScript: functions, for example, are objects.
+
+One of the best things about objects is that we can store a function as one of its properties.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 let john = {
@@ -33,11 +51,19 @@ john.sayHi(); // Hi buddy!
 
 上の例では、`sayHi` メソッドをもつ `john` オブジェクトを作りました。
 
+<<<<<<< HEAD
 日付、エラー、HTML要素などで動作するような、多くの組み込みのオブジェクトが既に存在し、それらは異なるプロパティとメソッドを持っています。
+=======
+Many built-in objects already exist, such as those that work with dates, errors, HTML elements, etc. They have different properties and methods.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 しかし、これらの機能にはコストがかかります!
 
+<<<<<<< HEAD
 オブジェクトはプリミティブよりも "重い" です。内部の仕組みをサポートするために追加のリソースを必要とします。しかし、プロパティやメソッドはプログラミングをする上で非常に有用であり、JavaScriptエンジンはそれらの負担を減らすために最適化を試みます。
+=======
+Objects are "heavier" than primitives. They require additional resources to support the internal machinery.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ## オブジェクトとしてのプリミティブ 
 
@@ -48,13 +74,23 @@ JavaScriptの作成者が直面するパラドックスは次の通りです。:
 
 解決策は少々野暮ですが次の通りです:
 
+<<<<<<< HEAD
 1. プリミティブは依然としてプリミティブです。要望どおり、単一の値です。
 2. 言語は、文字列、数値、真偽値そしてシンボルのメソッドやプロパティにアクセスすることができます。
 3. 必要に応じて、追加の機能を提供する特別な "オブジェクトラッパー" が作られ、その後破棄されます。
+=======
+1. Primitives are still primitive. A single value, as desired.
+2. The language allows access to methods and properties of strings, numbers, booleans and symbols.
+3. In order for that to work, a special "object wrapper" that provides the extra functionality is created, and then is destroyed.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 "オブジェクトラッパー" はプリミティブ型毎に異なり、`String`, `Number`, `Boolean`, `Symbol` と呼ばれます。従って、それらは異なるメソッドのセットを提供します。
 
+<<<<<<< HEAD
 例えば、大文字化された文字列を返す [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) というメソッドがあります。
+=======
+For instance, there exists a string method [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) that returns a capitalized `str`.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 次のように動作します:
 
@@ -85,26 +121,40 @@ alert( n.toFixed(2) ); // 1.23
 具体的なメソッドはチャプター <info:number> と <info:string> で見ましょう。
 
 
+<<<<<<< HEAD
 ````warn header="コンストラクタ `String/Number/Boolean` は内部でのみ利用します"
 Javaなどの言語は `new Number(1)` または `new Boolean(false)` のような構文を使うことで明示的にプリミティブのための "ラッパーオブジェクト" を作ることが出来ます。
+=======
+````warn header="Constructors `String/Number/Boolean` are for internal use only"
+Some languages like Java allow us to explicitly create "wrapper objects" for primitives using a syntax like `new Number(1)` or `new Boolean(false)`.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 JavaScriptにおいても、歴史的な理由から可能ですが、強く *推奨しません*。いくつかの場所で物事がおかしなことになっていくでしょう。
 
 例:
 
 ```js run
-alert( typeof 1 ); // "number"
+alert( typeof 0 ); // "number"
 
-alert( typeof new Number(1) ); // "object"!
+alert( typeof new Number(0) ); // "object"!
 ```
 
+<<<<<<< HEAD
 続いて、`zero` がオブジェクトなので、alert が実行されます:
+=======
+Objects are always truthy in `if`, so here the alert will show up:
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 
 ```js run
 let zero = new Number(0);
 
+<<<<<<< HEAD
 if (zero) { // zero は true, オブジェクトだからです
   alert( "zero is truthy?!?" );
+=======
+if (zero) { // zero is true, because it's an object
+  alert( "zero is truthy!?!" );
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 }
 ```
 
