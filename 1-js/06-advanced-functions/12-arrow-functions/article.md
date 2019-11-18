@@ -2,11 +2,15 @@
 
 アロー関数について改めて考えてみましょう。
 
-[cut]
+Arrow functions are not just a "shorthand" for writing small stuff. They have some very specific and useful features.
 
+<<<<<<< HEAD
 アロー関数は小さなものを書くための単なる "簡略化" ではありません。
 
 JavaScriptは、小さな関数を書く必要がある状況に満ちており、それはいろんな場所で実行されます。
+=======
+JavaScript is full of situations where we need to write a small function that's executed somewhere else.
+>>>>>>> e515f80a9f076115a6e3fef8a30cd73e6db20054
 
 例えば:
 
@@ -16,7 +20,11 @@ JavaScriptは、小さな関数を書く必要がある状況に満ちており�
 
 関数を作成してどこかに渡すのは、JavaScriptの真髄です。
 
+<<<<<<< HEAD
 そして、このような関数では、私たちは通常現在のコンテキストから離れたくありません。
+=======
+And in such functions we usually don't want to leave the current context. That's where arrow functions come in handy.
+>>>>>>> e515f80a9f076115a6e3fef8a30cd73e6db20054
 
 ## アロー関数は "this" を持っていません 
 
@@ -120,9 +128,18 @@ function defer(f, ms) {
 
 アロー関数:
 
+<<<<<<< HEAD
 - `this` を持ちません。
 - `arguments` を持ちません。
 - `new` で呼び出すことはできません。
 - (`super` も持っていません。が、私たちはまだそれを学んでいませんでした。チャプター <info:class-inheritance> で学習しましょう)。
 
 これは、独自の "コンテキスト" を持たず、むしろ現在のコンテキストで動作するコードの小さい部品を意味するためです。そして、そのようなユースケースで本当に輝きます。
+=======
+- Do not have `this`
+- Do not have `arguments`
+- Can't be called with `new`
+- They also don't have `super`, but we didn't study it yet. We will on the chapter <info:class-inheritance>
+
+That's because they are meant for short pieces of code that do not have their own "context", but rather work in the current one. And they really shine in that use case.
+>>>>>>> e515f80a9f076115a6e3fef8a30cd73e6db20054

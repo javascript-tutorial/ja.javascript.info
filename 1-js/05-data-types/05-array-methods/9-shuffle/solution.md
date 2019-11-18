@@ -45,7 +45,11 @@ for (let key in count) {
 }
 ```
 
+<<<<<<< HEAD
 結果例は次の通りです(V8, 2017/7):
+=======
+An example result (depends on JS engine):
+>>>>>>> e515f80a9f076115a6e3fef8a30cd73e6db20054
 
 ```js
 123: 250706
@@ -67,8 +71,19 @@ for (let key in count) {
 ```js
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
+<<<<<<< HEAD
     let j = Math.floor(Math.random() * (i + 1)); // 0 から i のランダムなインデックス
     [array[i], array[j]] = [array[j], array[i]]; // 要素を入れ替えます
+=======
+    let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+
+    // swap elements array[i] and array[j]
+    // we use "destructuring assignment" syntax to achieve that
+    // you'll find more details about that syntax in later chapters
+    // same can be written as:
+    // let t = array[i]; array[i] = array[j]; array[j] = t
+    [array[i], array[j]] = [array[j], array[i]];
+>>>>>>> e515f80a9f076115a6e3fef8a30cd73e6db20054
   }
 }
 ```

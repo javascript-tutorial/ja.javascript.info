@@ -1,6 +1,4 @@
-
-
-```js run no-beautify
+```js demo
 function debounce(f, ms) {
 
   let isCooldown = false;
@@ -18,7 +16,11 @@ function debounce(f, ms) {
 }
 ```
 
+<<<<<<< HEAD
 `debounce` 呼び出しはラッパーを返します。そこには2つの状態があります:
+=======
+A call to `debounce` returns a wrapper. There may be two states:
+>>>>>>> e515f80a9f076115a6e3fef8a30cd73e6db20054
 
 - `isCooldown = false` -- 実行する準備ができている
 - `isCooldown = true` -- タイムアウトを待っている
