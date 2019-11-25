@@ -34,9 +34,13 @@ ball.style.top = Math.round(field.clientHeight / 2 - ball.offsetHeight / 2) + 'p
 
 ブラウザがイメージの幅/高さを知らないとき(タグ属性またはCSSから)、イメージの読み込みが終了するまで `0` と等しいと仮定します。
 
+<<<<<<< HEAD
 実際には、最初の読み込みの後、ブラウザは通常イメージをキャッシュし、次の読み込みではすぐにサイズを取得します。
 
 しかし、最初の読み込み時、 `ball.offsetWidth` の値は `0` です。それは間違った座標に繋がります。
+=======
+After the first load browser usually caches the image, and on next loads it will have the size immediately. But on the first load the value of `ball.offsetWidth` is `0`. That leads to wrong coordinates.
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
 
 `<img>` に `width/height` を追加し、それを修正する必要があります:
 

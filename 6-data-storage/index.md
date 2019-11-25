@@ -1,2 +1,6 @@
 
+<<<<<<< HEAD
 # ブラウザへのデータの保存
+=======
+# Storing data in the browser
+>>>>>>> 79417c6e73645d37f184f0cc7e4bc3353e85224f
