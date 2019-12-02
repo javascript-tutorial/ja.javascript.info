@@ -20,7 +20,11 @@ alert( rabbit.eats ); // true
 ```
 
 
+<<<<<<< HEAD:1-js/08-prototypes/02-function-prototype/1-changing-prototype/task.md
 1. 1つ文字列を追加しました(強調部分)。今 `alert` は何が表示されるでしょう?
+=======
+1. We added one more string (emphasized). What will `alert` show now?
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a:1-js/08-prototypes/02-function-prototype/1-changing-prototype/task.md
 
     ```js
     function Rabbit() {}
@@ -54,7 +58,11 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
+<<<<<<< HEAD:1-js/08-prototypes/02-function-prototype/1-changing-prototype/task.md
 3. この場合は (1行置き換えました)?
+=======
+3. And like this (replaced one line)?
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a:1-js/08-prototypes/02-function-prototype/1-changing-prototype/task.md
 
     ```js
     function Rabbit() {}
