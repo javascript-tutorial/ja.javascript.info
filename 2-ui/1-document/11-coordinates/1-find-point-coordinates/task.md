@@ -14,10 +14,17 @@ importance: 5
 
 あなたのコードは次のウィンドウ座標を取得するために DOM を使う必要があります:
 
+<<<<<<< HEAD
 1. 左上の外部の角(それはシンプルです)
 2. 右下の外部の角(これもシンプルです)
 3. 左上の内部の角(少し難しいです)
 4. 右下の内部の角(いくつか方法があり、１つを選んでください)
+=======
+1. Upper-left, outer corner (that's simple).
+2. Bottom-right, outer corner (simple too).
+3. Upper-left, inner corner (a bit harder).
+4. Bottom-right, inner corner (there are several ways, choose one).
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 あなたが計算する座標は、マウスクリックで返却されるものと同じであるべきです。
 

@@ -6,7 +6,11 @@ importance: 4
 
 `sum(a)(b) = a+b` のように動作する関数 `sum` を書いてください。
 
+<<<<<<< HEAD
 はい、正確にこの通りダブル括弧で指定します(ミスタイプではありません)。
+=======
+Yes, exactly this way, using double parentheses (not a mistype).
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
 
 例:
 

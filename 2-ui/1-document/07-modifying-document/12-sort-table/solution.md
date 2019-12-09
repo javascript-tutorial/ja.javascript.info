@@ -2,13 +2,13 @@
 
 
 ```js
-let sortedRows = Array.from(table.rows)
-  .slice(1)
-  .sort((rowA, rowB) => rowA.cells[0].innerHTML > rowB.cells[0].innerHTML ? 1 : -1);
+let sortedRows = Array.from(table.tBodies[0].rows) // (1)
+  .sort((rowA, rowB) => rowA.cells[0].innerHTML > rowB.cells[0].innerHTML ? 1 : -1); // (2)
 
-table.tBodies[0].append(...sortedRows);
+table.tBodies[0].append(...sortedRows); // (3)
 ```
 
+<<<<<<< HEAD
 1. `table.querySelectorAll('tr')` のように、すべての `<tr>` を取得し、それらから配列を作ります。なぜなら配列メソッドが必要なためです。
 2. 最初の TR (`table.rows[0]`) は実際にはテーブルのヘッダです、なので `.slice(1) で残りを取ります。
 3. 最初の `<td>` (name フィールド) のコンテンツで比較してソートします。
@@ -17,3 +17,14 @@ table.tBodies[0].append(...sortedRows);
     テーブルは常に暗黙の<tbody>要素を持っているので、それを取り、その中に挿入する必要があります。単純な `table.append(...)` は失敗します。
 
     私たちはそれらを削除する必要がないことに留意してください。単に "再挿入" です。それらは自動的に古い場所を去ります。
+=======
+The step-by-step algorthm:
+
+1. Get all `<tr>`, from `<tbody>`.
+2. Then sort them comparing by the content of the first `<td>` (the name field).
+3. Now insert nodes in the right order by `.append(...sortedRows)`.
+
+Please note: we don't have to remove row elements, just "re-insert", they leave the old place automatically.
+
+Also note: even if the table HTML doesn't have `<tbody>`, the DOM structure always has it. So we must insert elements as `table.tBodes[0].append(...)`: a simple `table.append(...)` would fail.
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd

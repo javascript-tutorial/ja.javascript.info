@@ -31,4 +31,9 @@ army[5](); // また 番号 5 ですが表示は 10...
 // ... すべての射手は 0, 1, 2, 3... の代わりに 10 が表示されます
 ```
 
+<<<<<<< HEAD
 なぜすべての射手(shooters)は同じものが表示されるのでしょう？期待通りに動作するようコードを直してください。
+=======
+Why do all of the shooters show the same value? Fix the code so that they work as intended.
+
+>>>>>>> 5b195795da511709faf79a4d35f9c5623b6dbdbd
