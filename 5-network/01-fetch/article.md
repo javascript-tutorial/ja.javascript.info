@@ -90,7 +90,7 @@ fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commi
 ```js
 let text = await response.text('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
 
-let text = await response.text(); // レスポンスボディをてきすととして読む
+let text = await response.text(); // レスポンスボディをテキストとして読む
 
 alert(text.slice(0, 80) + '...');
 ```
