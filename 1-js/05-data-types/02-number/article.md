@@ -1,8 +1,18 @@
 # 数値
 
+<<<<<<< HEAD
 JavaScript では、全ての数値は "倍精度" として知られる64ビットフォーマット[IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985) で格納されます。
 
 このチャプターでは、数値について現在知っていることをおさらいしならがら、より発展させて行きましょう。
+=======
+In modern JavaScript, there are two types of numbers:
+
+1. Regular numbers in JavaScript are stored in 64-bit format [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision), also known as "double precision floating point numbers". These are numbers that we're using most of the time, and we'll talk about them in this chapter.
+
+2. BigInt numbers, to represent integers of arbitrary length. They are sometimes needed, because a regular number can't exceed <code>2<sup>53</sup></code> or be less than <code>-2<sup>53</sup></code>. As bigints are used in few special areas, we devote them a special chapter <info:bigint>.
+
+So here we'll talk about regular numbers. Let's expand our knowledge of them.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ## 数値を書く多くの方法 
 
@@ -12,7 +22,11 @@ JavaScript では、全ての数値は "倍精度" として知られる64ビッ
 let billion = 1000000000;
 ```
 
+<<<<<<< HEAD
 しかし、実際には間違えやすいので、通常は何度もゼロを書くのを避けます。また我々は怠け者です。10億を `"1bn"` としたり、73億を `"7.3bn"` と書いたりします。大きな数値を表現する場合には大抵これが当てはまります。
+=======
+But in real life, we usually avoid writing a long string of zeroes as it's easy to mistype. Also, we are lazy. We will usually write something like `"1bn"` for a billion or `"7.3bn"` for 7 billion 300 million. The same is true for most large numbers.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 JavaScriptでは、数値に文字 `"e"` を追加し、ゼロの数を指定することで数値を短くします。:
 
@@ -29,17 +43,28 @@ alert( 7.3e9 );  // 73 億 (7,300,000,000)
 1.23e6 = 1.23 * 1000000
 ```
 
+<<<<<<< HEAD
 
 今度は非常に小さい数値を書いてみましょう。1マイクロ秒(100万分の1秒):
+=======
+Now let's write something very small. Say, 1 microsecond (one millionth of a second):
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js
 let ms = 0.000001;
 ```
 
+<<<<<<< HEAD
 先程書いたように、`"e"` が役立ちます。明示的にゼロを書くのを避けたい場合、このように書くことができます:
 
 ```js
 let ms = 1e-6; // 1 から左にゼロを6つ
+=======
+Just like before, using `"e"` can help. If we'd like to avoid writing the zeroes explicitly, we could say the same as:
+
+```js
+let ms = 1e-6; // six zeroes to the left from 1
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 ```
 
 `0.000001` の中のゼロの数は6つです。なので `1e-6` になります。
@@ -152,7 +177,11 @@ alert( num.toString(2) );   // 11111111
     alert( Math.floor(num * 100) / 100 ); // 1.23456 -> 123.456 -> 123 -> 1.23
     ```
 
+<<<<<<< HEAD
 2. メソッド [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) は点の後の数字を "n" 桁に丸め、結果の文字列表現を返します。
+=======
+2. The method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) rounds the number to `n` digits after the point and returns a string representation of the result.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
     ```js run
     let num = 12.34;
@@ -171,14 +200,22 @@ alert( num.toString(2) );   // 11111111
 
     ```js run
     let num = 12.34;
+<<<<<<< HEAD
     alert( num.toFixed(5) ); // "12.34000", 正確に5桁になるよう 0 が追加されます
+=======
+    alert( num.toFixed(5) ); // "12.34000", added zeroes to make exactly 5 digits
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
     ```
 
     単項プラス、または `Number()` 呼び出しを使うことで、数値に変換することができます: `+num.toFixed(5)`
 
 ## 精密でない計算 
 
+<<<<<<< HEAD
 内部的には、数値は 64bit フォーマット[IEEE-754](http://en.wikipedia.org/wiki/IEEE_754-1985)で表現されるため、正確に 64bit で数値を格納できます。: そのうち 52bit が数字の格納のために使われ、11bit が 小数点の位置で(整数値のときゼロです。)、 1bit は符号です。
+=======
+Internally, a number is represented in 64-bit format [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision), so there are exactly 64 bits to store a number: 52 of them are used to store the digits, 11 of them store the position of the decimal point (they are zero for integer numbers), and 1 bit is for the sign.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 もし、数値が長すぎる場合、64bitの記憶域をオーバーフローし、無限大になる可能性があります:
 
@@ -194,7 +231,11 @@ alert( 1e500 ); // Infinity
 alert( 0.1 + 0.2 == 0.3 ); // *!*false*/!*
 ```
 
+<<<<<<< HEAD
 上記の通り、もし `0.1` と `0.2` の合計が `0.3` かどうかをチェックした場合、`false` になります。
+=======
+That's right, if we check whether the sum of `0.1` and `0.2` is `0.3`, we get `false`.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 奇妙です! `0.3` でないのなら、何なのでしょう？
 
@@ -202,19 +243,33 @@ alert( 0.1 + 0.2 == 0.3 ); // *!*false*/!*
 alert( 0.1 + 0.2 ); // 0.30000000000000004
 ```
 
+<<<<<<< HEAD
 なんと! ここには誤った比較よりも多くの驚きがあります。もしもe-ショッピングのサイトを作っており、訪問者が `$0.10` と `$0.20` の商品をカートに入れたと想像してください。注文の総額は `$0.30000000000000004` になります。誰もがそれに驚くでしょう。
+=======
+Ouch! There are more consequences than an incorrect comparison here. Imagine you're making an e-shopping site and the visitor puts `$0.10` and `$0.20` goods into their cart. The order total will be `$0.30000000000000004`. That would surprise anyone.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 しかし、なぜこのようなことが起こるのでしょうか？
 
+<<<<<<< HEAD
 数値はバイナリ形式で、1と0の並びでメモリ上に格納されます。しかし10進数でシンプルに見える `0.1`、` 0.2` のような小数は、バイナリ形式では終わることのない小数です。
 
 言い換えると、`0.1` とは何でしょう？それは 1 を 10 で割った `1/10` です。10進数では、このような数値は簡単に表現できます。 それと `1/3` を比較してみてください。これは無限の小数 `0.33333(3)` になります。
+=======
+A number is stored in memory in its binary form, a sequence of bits - ones and zeroes. But fractions like `0.1`, `0.2` that look simple in the decimal numeric system are actually unending fractions in their binary form.
+
+In other words, what is `0.1`? It is one divided by ten `1/10`, one-tenth. In decimal numeral system such numbers are easily representable. Compare it to one-third: `1/3`. It becomes an endless fraction `0.33333(3)`.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 従って、`10` の累乗による除算は 10進数では上手く動作することが保証されますが、`3` による除算は保証されていません。同じ理由で、2進数では、`2` の累乗による除算は動作することが保証されていますが、 `1/10` は無限の2進数の小数になります。
 
 2進数を使って、 *正確な 0.1* または *正確な 0.2* を格納する方法はありません。ちょうど、10進数で 1/3 を小数で正確に表現できないように。
 
+<<<<<<< HEAD
 数値形式 IEEE-754 は、可能な限り近い数値に丸めてこれを解決します。 これらの丸めルールでは、通常 "小さな精度損失" は見ることができないので、数値は `0.3` と表示されます。 しかし、損失は依然として存在することに注意してください。
+=======
+The numeric format IEEE-754 solves this by rounding to the nearest possible number. These rounding rules normally don't allow us to see that "tiny precision loss", but it exists.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 これは次のようにして見ることができます:
 ```js run
@@ -228,40 +283,66 @@ alert( 0.1.toFixed(20) ); // 0.10000000000000000555
 ```smart header="JavaScript だけではありません"
 同じ問題は多くの他のプログラミング言語で存在します。
 
+<<<<<<< HEAD
 PHP, Java, C, Perl, Ruby は全く同じ結果を返します。なぜならそれらは同じ数値形式に基づいているためです。
 ```
 
 この問題を回避できるのでしょうか？もちろん、幾つかの方法があります;
 
 1. メソッド[toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed)により結果を丸めることができます:
+=======
+PHP, Java, C, Perl, Ruby give exactly the same result, because they are based on the same numeric format.
+```
 
-    ```js run
-    let sum = 0.1 + 0.2;
-    alert( sum.toFixed(2) ); // 0.30
-    ```
+Can we work around the problem? Sure, the most reliable method is to round the result with the help of a method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed):
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
+```js run
+let sum = 0.1 + 0.2;
+alert( sum.toFixed(2) ); // 0.30
+```
+
+<<<<<<< HEAD
     `toFixed` は常に文字列を返すことに注意してください。それは小数点の後2桁となることを保証します。実際、e-ショッピングを持っていて `$0.30` を表示するときに便利です。それ以外のケースでは、数値に変換するために単項プラスを使うことができます。
+=======
+Please note that `toFixed` always returns a string. It ensures that it has 2 digits after the decimal point. That's actually convenient if we have an e-shopping and need to show `$0.30`. For other cases, we can use the unary plus to coerce it into a number:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
-    ```js run
-    let sum = 0.1 + 0.2;
-    alert( +sum.toFixed(2) ); // 0.3
-    ```
+```js run
+let sum = 0.1 + 0.2;
+alert( +sum.toFixed(2) ); // 0.3
+```
 
+<<<<<<< HEAD
 2. 一時的に数値を整数に変換し、その後戻す方法があります。 このように動作します:
+=======
+We also can temporarily multiply the numbers by 100 (or a bigger number) to turn them into integers, do the maths, and then divide back. Then, as we're doing maths with integers, the error somewhat decreases, but we still get it on division:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
-    ```js run
-    alert( (0.1 * 10 + 0.2 * 10) / 10 ); // 0.3
-    ```
+```js run
+alert( (0.1 * 10 + 0.2 * 10) / 10 ); // 0.3
+alert( (0.28 * 100 + 0.14 * 100) / 100); // 0.4200000000000001
+```
 
+<<<<<<< HEAD
     `0.1 * 10 = 1` と `0.2 * 10 = 2` をするとき、両方の数値は整数になり、精度損失がなくなるため、これは正しく動作します。
 
 3. もしもショップを扱っている場合、最も抜本的な解決策はセントで全ての価格を格納し、全く小数を使わないことです。しかし、30% のディスカウントを適用するとどうなるでしょうか？実際には、完全に回避することはほぼ不可能なので、上記の解決法はこの落とし穴を回避するのに役立ちます。
+=======
+So, multiply/divide approach reduces the error, but doesn't remove it totally.
+
+Sometimes we could try to evade fractions at all. Like if we're dealing with a shop, then we can store prices in cents instead of dollars. But what if we apply a discount of 30%? In practice, totally evading fractions is rarely possible. Just round them to cut "tails" when needed.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ````smart header="興味深いこと"
 これを試してみてください:
 
 ```js run
+<<<<<<< HEAD
 // Hello! 自己増加する数値です!
+=======
+// Hello! I'm a self-increasing number!
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 alert( 9999999999999999 ); // shows 10000000000000000
 ```
 
@@ -273,11 +354,16 @@ JavaScriptはこのようなイベントではエラーをトリガーしませ�
 ```smart header="2つのゼロ"
 数値の内部表現のもう一つの面白い結果は、2つのゼロ、すなわち `0` と `-0` の存在です。
 
+<<<<<<< HEAD
 記号は1ビットで表現されるため、すべての数字は、0を含めて正または負になります。
+=======
+That's because a sign is represented by a single bit, so it can be set or not set for any number including a zero.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ほとんどの場合、区別は気になりません。なぜなら演算子はそれらを同じものとして扱うためです。
 ```
 
+<<<<<<< HEAD
 
 ## テスト: isFinite と isNaN 
 
@@ -285,6 +371,14 @@ JavaScriptはこのようなイベントではエラーをトリガーしませ�
 
 - `Infinite` (と `-Infinite`) は何よりも大きい(小さい)特別な数値です。
 - `NaN` はエラーを表現します。
+=======
+## Tests: isFinite and isNaN
+
+Remember these two special numeric values?
+
+- `Infinity` (and `-Infinity`) is a special numeric value that is greater (less) than anything.
+- `NaN` represents an error.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 これらは `number` 型に属しますが、 "通常の" 数値ではないため、それらをチェックするための特別な関数があります:
 
@@ -325,10 +419,17 @@ alert( isFinite(num) );
 
 値を `===` のように比較する特別な組み込みメソッド [Object.is](mdn:js/Object/is) があります。これは2つの特殊なケースではより信頼できます:
 
+<<<<<<< HEAD
 1. `NaN` でうまく動作します: `Object.is(NaN, NaN) === true`、これは良いことです。
 2. 値 `0` と `-0` は異なります: `Object.is(0, -0) === false`、重要ではありませんが、技術的にはそれらは異なる値です。
 
 上記以外の全てのケースでは、`Object.is(a, b)` は `a === b` と同じです。
+=======
+1. It works with `NaN`: `Object.is(NaN, NaN) === true`, that's a good thing.
+2. Values `0` and `-0` are different: `Object.is(0, -0) === false`, technically that's true, because internally the number has a sign bit that may be different even if all other bits are zeroes.
+
+In all other cases, `Object.is(a, b)` is the same as `a === b`.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 この比較の方法は JavaScriptの仕様でしばしば使われます。内部のアルゴリズムが2つの値が正確に同じかを比較する必要があるとき、`Object.is` (内部的には[SameValue](https://tc39.github.io/ecma262/#sec-samevalue)と呼ばれます)を使います。
 ```
@@ -348,7 +449,11 @@ alert( +"100px" ); // NaN
 
 そのために `parseInt` と `parseFloat` があります。
 
+<<<<<<< HEAD
 それらはできるだけ文字列から数値を "読み込み" ます。エラーが起きると、収集された数値が返されます。関数 `parseInt` は整数を返し、一方で、`parseFloat` は浮動小数を返します:
+=======
+They "read" a number from a string until they can't. In case of an error, the gathered number is returned. The function `parseInt` returns an integer, whilst `parseFloat` will return a floating-point number:
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 ```js run
 alert( parseInt('100px') ); // 100
@@ -406,20 +511,41 @@ JavaScript は数学関数と定数の小さなライブラリを含む組み込
     alert( Math.pow(2, 10) ); // 2 in power 10 = 1024
     ```
 
+<<<<<<< HEAD
 [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) にある三角法など、`Math` オブジェクトにはより多くの関数や定数があります。
 
 ## サマリ 
+=======
+There are more functions and constants in `Math` object, including trigonometry, which you can find in the [docs for the Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object.
+
+## Summary
+
+To write numbers with many zeroes:
+
+- Append `"e"` with the zeroes count to the number. Like: `123e6` is the same as `123` with 6 zeroes `123000000`.
+- A negative number after `"e"` causes the number to be divided by 1 with given zeroes. E.g. `123e-6` means `0.000123` (`123` millionths).
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 大きな数値を書く場合:
 
+<<<<<<< HEAD
 - 数値へ加えるゼロの数と一緒に `"e"` を付け加えます。このように: `123e6` は `123` と 6つのゼロです。
 - `"e"` の後の負の値は、1と与えられたゼロの数で数値を除算します。
+=======
+- Can write numbers directly in hex (`0x`), octal (`0o`) and binary (`0b`) systems
+- `parseInt(str, base)` parses the string `str` into an integer in numeral system with given `base`, `2 ≤ base ≤ 36`.
+- `num.toString(base)` converts a number to a string in the numeral system with the given `base`.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 異なる数値体系の場合:
 
+<<<<<<< HEAD
 - 16進数(`0x`)、8進数(`0o`)や2進数(`0b`) で直接数値を書くことが出来ます。
 - `parseInt(str, base)` は `2 ≤ base ≤ 36` の間の任意の数値システムの整数を解析します。
 - `num.toString(base)` は数値を、与えられた `base` を基数とした数値システムの文字列に変換します。
+=======
+- Use `parseInt/parseFloat` for the "soft" conversion, which reads a number from a string and then returns the value they could read before the error.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
 
 `12pt` や `100px` のような値を数値に変換する場合:
 
@@ -427,9 +553,13 @@ JavaScript は数学関数と定数の小さなライブラリを含む組み込
 
 分数の場合:
 
+<<<<<<< HEAD
 - `Math.floor`, `Math.ceil`, `Math.trunc`, `Math.round` または `num.toFixed(precision)` を使って丸めます。
 - 分数を扱う際に精度の低下があることを覚えておいてください。
 
 より多くの算術関数:
 
 - 必要なとき、[Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) を見てください。このライブラリはとても小さいですが、基本で必要なものはカバーしています。
+=======
+- See the [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object when you need them. The library is very small, but can cover basic needs.
+>>>>>>> 524d59884650be539544c34f71d821432b7280fd
