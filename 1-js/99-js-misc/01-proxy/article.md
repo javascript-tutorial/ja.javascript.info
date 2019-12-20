@@ -729,11 +729,6 @@ alert(admin.name); // 出力: Guest (?!?)
 2. プロトタイプは `userProxy` です。
 3. プロキシから `name` プロパティを読み取ると、`get` トラップが発生し、行 `(*)` で `target[prop]` により元のオブジェクトから返却されます。
 
-
-1. When we read `admin.name`, as `admin` object doesn't have such own property, the search goes to its prototype.
-2. The prototype is `userProxy`.
-3. When reading `name` property from the proxy, its `get` trap triggers and returns it from the original object as `target[prop]` in the line `(*)`.
-
     `prop` がゲッターである場合、`target[prop]` の呼び出しはコンテキスト `this=target` でコードが実行されます。そのため、結果は元のオブジェクト `target`, つまり `user` からの `this._name` になります。
 
 これを修正するには、`get` トラップの3番目の引数である `receiver` が必要です。これによりゲッターに正しい `this` を渡すことができます。今回のケースだと、`admin` です。
