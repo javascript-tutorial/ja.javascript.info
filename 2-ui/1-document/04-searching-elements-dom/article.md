@@ -1,13 +1,22 @@
+<<<<<<< HEAD
 # 検索: getElement* と querySelector*
+=======
+# Searching: getElement*, querySelector*
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 要素が互いに近いとき、DOM ナビゲーションプロパティは優れています。仮にそうではなければどうしますか？ページの任意のページはどうすれば取得できるでしょうか？
 
 そのための追加の検索メソッドがあります。
 
+<<<<<<< HEAD
 [cut]
+=======
+There are additional searching methods for that.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ## document.getElementById もしくは 単に id
 
+<<<<<<< HEAD
 もし要素が `id` 属性を持っている場合、その `id` の名前のグローバル変数があります。
 
 次にように、その要素にアクセスするためにそれを使うことができます。:
@@ -42,6 +51,9 @@
 この振る舞いは [仕様書](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem) で説明されていますが、主に互換性のためにサポートされています。ブラウザは JS と DOM の名前空間を混在させることで私達を助けようとします。非常にシンプルなスクリプトに対しては適していますが、名前の衝突が起きる可能性があります。また、JS を見て、ビューの中のHTMLを見なかった場合、変数がどこから来たのかが明白ではありません。
 
 より良い代替の方法は特別なメソッド `document.getElementById(id)` を使うことです。
+=======
+If an element has the `id` attribute, we can get the element using the method `document.getElementById(id)`, no matter where it is.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 例:
 
@@ -51,14 +63,17 @@
 </div>
 
 <script>
+  // get the element
 *!*
   let elem = document.getElementById('elem');
 */!*
 
+  // make its background red
   elem.style.background = 'red';
 </script>
 ```
 
+<<<<<<< HEAD
 このチュートリアルでは、要素を直接参照するために `id` を頻繁に使います。が、それは物事を短く保つためだけです。実際には、`document.getElementById` が好ましい方法です。
 
 ```smart header="1つだけ存在することができます"
@@ -107,18 +122,37 @@ let divs = document.getElementsByTagName('div');
     </td>
   </tr>
 </table>
+=======
+Also, there's a global variable named by `id` that references the element:
+
+```html run
+<div id="*!*elem*/!*">
+  <div id="*!*elem-content*/!*">Element</div>
+</div>
 
 <script>
-*!*
-  let inputs = table.getElementsByTagName('input');
-*/!*
+  // elem is a reference to DOM-element with id="elem"
+  elem.style.background = 'red';
 
-  for (let input of inputs) {
-    alert( input.value + ': ' + input.checked );
-  }
+  // id="elem-content" has a hyphen inside, so it can't be a variable name
+  // ...but we can access it using square brackets: window['elem-content']
 </script>
 ```
 
+...That's unless we declare a JavaScript variable with the same name, then it takes precedence:
+
+```html run untrusted height=0
+<div id="elem"></div>
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
+
+<script>
+  let elem = 5; // now elem is 5, not a reference to <div id="elem">
+
+  alert(elem); // 5
+</script>
+```
+
+<<<<<<< HEAD
 ```warn header="`\"s\"` の文字を忘れないでください!"
 初心者の開発者は文字 `"s"` を忘れることがあります。つまり、<code>getElement<b>s</b>ByTagName</code> の代わりに `getElementByTagName` を呼び出そうとします。
 
@@ -164,13 +198,37 @@ document.getElementsByTagName('input')[0].value = 5;
   let articles = form.getElementsByClassName('article');
   alert(articles.length); // 2, class "article" を持つ要素が2つ見つかります。
 </script>
+=======
+```warn header="Please don't use id-named global variables to access elements"
+This behavior is described [in the specification](http://www.whatwg.org/specs/web-apps/current-work/#dom-window-nameditem), so it's kind of standard. But it is supported mainly for compatibility.
+
+The browser tries to help us by mixing namespaces of JS and DOM. That's fine for simple scripts, inlined into HTML, but generally isn't a good thing. There may be naming conflicts. Also, when one reads JS code and doesn't have HTML in view, it's not obvious where the variable comes from.
+
+Here in the tutorial we use `id` to directly reference an element for brevity, when it's obvious where the element comes from.
+
+In real life `document.getElementById` is the preferred method.
+```
+
+```smart header="The `id` must be unique"
+The `id` must be unique. There can be only one element in the document with the given `id`.
+
+If there are multiple elements with the same `id`, then the behavior of methods that use it is unpredictable, e.g. `document.getElementById` may return any of such elements at random. So please stick to the rule and keep `id` unique.
+```
+
+```warn header="Only `document.getElementById`, not `anyElem.getElementById`"
+The method `getElementById` that can be called only on `document` object. It looks for the given `id` in the whole document.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 ```
 
 ## querySelectorAll 
 
+<<<<<<< HEAD
 今度は重い大砲に進みます。
 
 `elem.querySelectorAll(css)` の呼び出しは、指定された CSS セレクタにマッチする `elem` 内のすべての要素を返します。これは最もよく使われ、強力なメソッドです。
+=======
+By far, the most versatile method, `elem.querySelectorAll(css)` returns all elements inside `elem` matching the given CSS selector.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ここでは最後の子要素であるすべての `<li>` 要素を探します:
 
@@ -200,12 +258,20 @@ document.getElementsByTagName('input')[0].value = 5;
 `:hover` や `:active` のような CSS セレクタの擬似クラスもサポートされています。例えば、`document.querySelectorAll(':hover')` はポインタが現在の要素を含むコレクションを返します（入れ子の順序で: 最も外側の `<html>`から最もネストされたものまで）。
 ```
 
+<<<<<<< HEAD
 
 ## querySelector 
+=======
+## querySelector [#querySelector]
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 `elem.querySelector(css)` への呼び出しは指定された CSS セレクタの最初の要素を返します。
 
+<<<<<<< HEAD
 つまり、`elem.querySelectorAll(css)[0]` と同じ結果になりますが、後者は *すべての* 要素を探し1つをピックアップする一方、`elem.querySelector` は単に1つだけを探します。なので、書くのがより速く短いです。
+=======
+In other words, the result is the same as `elem.querySelectorAll(css)[0]`, but the latter is looking for *all* elements and picking one, while `elem.querySelector` just looks for one. So it's faster and also shorter to write.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ## matches
 
@@ -213,7 +279,11 @@ document.getElementsByTagName('input')[0].value = 5;
 
 [elem.matches(css)](http://dom.spec.whatwg.org/#dom-element-matches) は何も探しません。それは単に `elem` が与えられた CSS セレクタに一致するかをチェックします。それは `true` または `false` を返します。
 
+<<<<<<< HEAD
 このメソッドは、要素(配列か何か)を反復処理し、私たちが興味のあるものをフィルタリングしようとするときに便利です。
+=======
+The method comes in handy when we are iterating over elements (like in an array or something) and trying to filter out those that interest us.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 例えば:
 
@@ -235,9 +305,13 @@ document.getElementsByTagName('input')[0].value = 5;
 
 ## closest
 
+<<<<<<< HEAD
 与えられた要素の直接上にあるすべての要素は、*祖先* と呼ばれます。
 
 言い換えると、祖先は: 親、親の親、その親などです。祖先は共に要素から頂点までの親の連鎖を形成します。
+=======
+*Ancestors* of an element are: parent, the parent of parent, its parent and so on. The ancestors together form the chain of parents from the element to the top.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 メソッド `elem.closest(css)` は CSS セレクタにマッチする最も近い祖先を見ます。`elem` 自身も検索に含まれています。
 
@@ -265,14 +339,111 @@ document.getElementsByTagName('input')[0].value = 5;
 </script>
 ```
 
+## getElementsBy*
+
+There are also other methods to look for nodes by a tag, class, etc.
+
+Today, they are mostly history, as `querySelector` is more powerful and shorter to write.
+
+So here we cover them mainly for completeness, while you can still find them in the old scripts.
+
+- `elem.getElementsByTagName(tag)` looks for elements with the given tag and returns the collection of them. The `tag` parameter can also be a star `"*"` for "any tags".
+- `elem.getElementsByClassName(className)` returns elements that have the given CSS class.
+- `document.getElementsByName(name)` returns elements with the given `name` attribute, document-wide. very rarely used.
+
+For instance:
+```js
+// get all divs in the document
+let divs = document.getElementsByTagName('div');
+```
+
+Let's find all `input` tags inside the table:
+
+```html run height=50
+<table id="table">
+  <tr>
+    <td>Your age:</td>
+
+    <td>
+      <label>
+        <input type="radio" name="age" value="young" checked> less than 18
+      </label>
+      <label>
+        <input type="radio" name="age" value="mature"> from 18 to 50
+      </label>
+      <label>
+        <input type="radio" name="age" value="senior"> more than 60
+      </label>
+    </td>
+  </tr>
+</table>
+
+<script>
+*!*
+  let inputs = table.getElementsByTagName('input');
+*/!*
+
+  for (let input of inputs) {
+    alert( input.value + ': ' + input.checked );
+  }
+</script>
+```
+
+```warn header="Don't forget the `\"s\"` letter!"
+Novice developers sometimes forget the letter `"s"`. That is, they try to call `getElementByTagName` instead of <code>getElement<b>s</b>ByTagName</code>.
+
+The `"s"` letter is absent in `getElementById`, because it returns a single element. But `getElementsByTagName` returns a collection of elements, so there's `"s"` inside.
+```
+
+````warn header="It returns a collection, not an element!"
+Another widespread novice mistake is to write:
+
+```js
+// doesn't work
+document.getElementsByTagName('input').value = 5;
+```
+
+That won't work, because it takes a *collection* of inputs and assigns the value to it rather than to elements inside it.
+
+We should either iterate over the collection or get an element by its index, and then assign, like this:
+
+```js
+// should work (if there's an input)
+document.getElementsByTagName('input')[0].value = 5;
+```
+````
+
+Looking for `.article` elements:
+
+```html run height=50
+<form name="my-form">
+  <div class="article">Article</div>
+  <div class="long article">Long article</div>
+</form>
+
+<script>
+  // find by name attribute
+  let form = document.getElementsByName('my-form')[0];
+
+  // find by class inside the form
+  let articles = form.getElementsByClassName('article');
+  alert(articles.length); // 2, found two elements with class "article"
+</script>
+```
+
 ## Live collections
 
 すべての `"getElementsBy*"` メソッドは *ライブの* コレクションを返します。このようなコレクションは常にドキュメントの現在の状態を反映し、変更があったとき "自動更新" されます。
 
 下の例では、2つのスクリプトがあります。
 
+<<<<<<< HEAD
 1. 最初のスクリプトは `<div>` のコレクションへの参照を生成します。今のところ、その長さは `1` です。
 2. 2つ目のスクリプトはブラウザが1つ以上の `<div>` に会った後に実行するので、その長さは `2` です。
+=======
+1. The first one creates a reference to the collection of `<div>`. As of now, its length is `1`.
+2. The second scripts runs after the browser meets one more `<div>`, so its length is `2`.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 ```html run
 <div>First div</div>
@@ -314,9 +485,13 @@ document.getElementsByTagName('input')[0].value = 5;
 
 今その違いを簡単に見ることができます。静的なコレクションは、ドキュメント上に新たな `div` の登場の後も増加しませんでした。
 
+<<<<<<< HEAD
 ここでは要素の追加がコレクションにどう影響するかを示すために別々のスクリプトを使いましたが、任意の DOM 操作がそれらに影響します。すぐ後にそれらについてより見ていきます。
 
 ## サマリ 
+=======
+## Summary
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 DOM でノードを検索するための6つの主なメソッドがあります:
 
@@ -330,6 +505,18 @@ DOM でノードを検索するための6つの主なメソッドがあります
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>querySelector</code></td>
+<td>CSS-selector</td>
+<td>✔</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>querySelectorAll</code></td>
+<td>CSS-selector</td>
+<td>✔</td>
+<td>-</td>
+</tr>
 <tr>
 <td><code>getElementById</code></td>
 <td><code>id</code></td>
@@ -354,6 +541,7 @@ DOM でノードを検索するための6つの主なメソッドがあります
 <td>✔</td>
 <td>✔</td>
 </tr>
+<<<<<<< HEAD
 <tr>
 <td><code>querySelector</code></td>
 <td>CSSセレクタ</td>
@@ -372,11 +560,25 @@ DOM でノードを検索するための6つの主なメソッドがあります
 メソッド `getElementById` と `getElementsByName` はドキュメントのコンテキストの場合にだけ呼び出すことができることに注意してください: `document.getElementById(...)`。要素上ではできません: `elem.getElementById(...)` はエラーになります。
 
 他のメソッドは、要素上でも呼び出し可能です。例えば、 `elem.querySelectorAll(...)` `elem` の内側を検索します(DOM サブツリーの中)。
+=======
+</tbody>
+</table>
+
+By far the most used are `querySelector` and `querySelectorAll`, but `getElementBy*` can be sporadically helpful or found in the old scripts.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
 
 それ以外に:
 
+<<<<<<< HEAD
 - `elem` が指定された CSS セレクタに一致するかをチェックする `elem.matches(css)` があります。
 - 指定された CSS セレクタに一致する最も近い祖先を探すための `elem.closest(css)` があります。`elem` 自身もまたチェックされます。
 
 また、親子の関係を調べるもう一つの方法をここで言及しましょう:
 -  `elemA.contains(elemB)` は `elemB` が `elemA` の中にある(`elemA` の子孫)または `elemA==elemB` の場合 true を返します。
+=======
+- There is `elem.matches(css)` to check if `elem` matches the given CSS selector.
+- There is `elem.closest(css)` to look for the nearest ancestor that matches the given CSS-selector. The `elem` itself is also checked.
+
+And let's mention one more method here to check for the child-parent relationship, as it's sometimes useful:
+-  `elemA.contains(elemB)` returns true if `elemB` is inside `elemA` (a descendant of `elemA`) or when `elemA==elemB`.
+>>>>>>> e92bb83e995dfea982dcdc5065036646bfca13f0
