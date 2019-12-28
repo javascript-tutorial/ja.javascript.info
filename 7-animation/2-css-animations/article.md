@@ -42,7 +42,7 @@ CSS トランジションの考えはシンプルです。これから、その�
 </script>
 ```
 
-CSS トランジションを記述するのに 5 つのプロパティがあります:
+CSS トランジションを記述するのに 4 つのプロパティがあります:
 
 - `transition-property`
 - `transition-duration`
