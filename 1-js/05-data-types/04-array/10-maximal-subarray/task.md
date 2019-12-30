@@ -8,7 +8,11 @@ importance: 2
 
 タスクは次の通りです: アイテムの最大合計で `arr` の連続した部分配列を探します。
 
+<<<<<<< HEAD
 そのような返却をする関数 `getMaxSubSum(arr)` を書いてください。
+=======
+Write the function `getMaxSubSum(arr)` that will return that sum.
+>>>>>>> 28ed5a3f7df9e015cf81c126423c76c9408d7117
 
 例えば:
 
@@ -27,4 +31,8 @@ getMaxSubSum([*!*1, 2, 3*/!*]) = 6 (すべて)
 getMaxSubSum([-1, -2, -3]) = 0
 ```
 
+<<<<<<< HEAD
 早い解法を考えてみてください。: 可能なら [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation) もしくは O(n) です。
+=======
+Please try to think of a fast solution: [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation) or even O(n) if you can.
+>>>>>>> 28ed5a3f7df9e015cf81c126423c76c9408d7117

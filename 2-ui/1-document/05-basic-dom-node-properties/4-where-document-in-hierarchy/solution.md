@@ -27,7 +27,11 @@ alert(document.constructor.name); // HTMLDocument
 alert(HTMLDocument.prototype.constructor === HTMLDocument); // true
 ```
 
+<<<<<<< HEAD
 すべてのプロトタイプの組み込みクラスは `constructor` 参照があり、`constructor.name` でクラスの名前を得ることができます。 `document`プロトタイプチェーン内のすべてのオブジェクトに対してそれをやってみましょう:
+=======
+To get a name of the class as a string, we can use `constructor.name`. Let's do it for the whole `document` prototype chain, till class `Node`:
+>>>>>>> 28ed5a3f7df9e015cf81c126423c76c9408d7117
 
 ```js run
 alert(HTMLDocument.prototype.constructor.name); // HTMLDocument
@@ -35,4 +39,10 @@ alert(HTMLDocument.prototype.__proto__.constructor.name); // Document
 alert(HTMLDocument.prototype.__proto__.__proto__.constructor.name); // Node
 ```
 
+<<<<<<< HEAD
 `console.dir(document)` を使ってオブジェクトを調べ、 `__proto__` を開くことでこれらの名前を見ることもできます。コンソールは内部的に `constructor` からそれらを取り出します。
+=======
+That's the hierarchy.
+
+We also could examine the object using `console.dir(document)` and see these names by opening `__proto__`. The console takes them from `constructor` internally.
+>>>>>>> 28ed5a3f7df9e015cf81c126423c76c9408d7117

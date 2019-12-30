@@ -1,18 +1,26 @@
 # スクロール
 
+<<<<<<< HEAD
 スクロールイベントは、ページや要素のスクローリングに反応することができます。私たちがここでできることはたくさんあります。
+=======
+The `scroll` event allows to react on a page or element scrolling. There are quite a few good things we can do here.
+>>>>>>> 28ed5a3f7df9e015cf81c126423c76c9408d7117
 
 例えば:
 - ユーザーがドキュメント内のどこにあるかに応じて、追加のコントロールや情報を表示/非表示する。
 - ユーザがページの下までスクロールしたときに追加のデータを読み込む。
 
+<<<<<<< HEAD
 [cut]
 
 ここに現在のスクロールを表示する小さい関数があります:
+=======
+Here's a small function to show the current scroll:
+>>>>>>> 28ed5a3f7df9e015cf81c126423c76c9408d7117
 
 ```js autorun
 window.addEventListener('scroll', function() {
-  document.getElementById('showScroll').innerHTML = pageYOffset + 'px';
+  document.getElementById('showScroll').innerHTML = window.pageYOffset + 'px';
 });
 ```
 
@@ -25,6 +33,7 @@ window.addEventListener('scroll', function() {
 `scroll` イベントは `window` とスクロール可能な要素両方で動作します。
 
 
+<<<<<<< HEAD
 ## スクロールを防止する 
 
 どうやってスクロールをできなくするのでしょう？ `onscroll` リスナの中で、`event.preventDefault()` によってスクロールを防止することはできません。なぜなら、それはスクロールがすでに行われた *後* にトリガされるからです。
@@ -34,6 +43,17 @@ window.addEventListener('scroll', function() {
 例えば:
 - `wheel` イベント -- マウスホイールの回転 ("スクロール" タッチパッドアクションもそれを生成します)
 - `key:pageUp` や `key:pageDown` のための `keydown`
+=======
+How do we make something unscrollable?
+
+We can't prevent scrolling by using `event.preventDefault()` in `onscroll` listener, because it triggers *after* the scroll has already happened.
+
+But we can prevent scrolling by `event.preventDefault()` on an event that causes the scroll, for instance `keydown` event for `key:pageUp` and `key:pageDown`.
+
+If we add an event handler to these events and `event.preventDefault()` in it, then the scroll won't start.
+
+There are many ways to initiate a scroll, so it's more reliable to use CSS, `overflow` property.
+>>>>>>> 28ed5a3f7df9e015cf81c126423c76c9408d7117
 
 これは役立つ場合があります。しかし、他にもスクロールする方法があり、それらすべてを処理するのは非常に難しいです。そのため、何かをスクロールできないようにするには、 `overflow` プロパティのように CSS を使うのが、より信頼できる方法です。
 
