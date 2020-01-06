@@ -88,7 +88,7 @@ fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commi
 
 テキストを取得するには:
 ```js
-let text = await response.text('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
+let response = await fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits');
 
 let text = await response.text(); // レスポンスボディをテキストとして読む
 
