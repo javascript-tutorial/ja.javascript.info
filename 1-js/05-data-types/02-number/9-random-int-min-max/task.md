@@ -11,7 +11,16 @@ importance: 2
 動作例:
 
 ```js
+<<<<<<< HEAD
 alert( random(1, 5) ); // 1
 alert( random(1, 5) ); // 3
 alert( random(1, 5) ); // 5
 ```
+=======
+alert( randomInteger(1, 5) ); // 1
+alert( randomInteger(1, 5) ); // 3
+alert( randomInteger(1, 5) ); // 5
+```
+
+You can use the solution of the [previous task](info:task/random-min-max) as the base.
+>>>>>>> a4a84083a7656f2b25de8b766b2457d3aae17874
