@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # WeakMap と WeakSet 
 
 チャプター <info:garbage-collection> で学んだ通り、JavaScriptエンジンは、それが到達可能な(そして潜在的に利用される可能性がある)間、メモリ上に値を保持しています。
@@ -21,12 +22,38 @@ john = null;
 例えば、あるオブジェクトを配列に入れた場合、その配列が生きている間は、他の参照がなくてもそのオブジェクトは生きていることになります。
 
 例:
+=======
+# WeakMap and WeakSet
+
+As we know from the chapter <info:garbage-collection>, JavaScript engine stores a value in memory while it is reachable (and can potentially be used).
+
+For instance:
+```js
+let john = { name: "John" };
+
+// the object can be accessed, john is the reference to it
+
+// overwrite the reference
+john = null;
+
+*!*
+// the object will be removed from memory
+*/!*
+```
+
+Usually, properties of an object or elements of an array or another data structure are considered reachable and kept in memory while that data structure is in memory.
+
+For instance, if we put an object into an array, then while the array is alive, the object will be alive as well, even if there are no other references to it.
+
+Like this:
+>>>>>>> db3b3f8e7a08c153ad8fa0ae50633cdf95fa8912
 
 ```js
 let john = { name: "John" };
 
 let array = [ john ];
 
+<<<<<<< HEAD
 john = null; // 参照を上書きします
 
 *!*
@@ -38,12 +65,27 @@ john = null; // 参照を上書きします
 また、通常の Map のキーとしてオブジェクトを使うと、Map が存在している間はそのオブジェクトも存在します。これはメモリを占め、ガベージコレクションされないかもしれません。
 
 例:
+=======
+john = null; // overwrite the reference
+
+*!*
+// john is stored inside the array, so it won't be garbage-collected
+// we can get it as array[0]
+*/!*
+```
+
+Similar to that, if we use an object as the key in a regular `Map`, then while the `Map` exists, that object exists as well. It occupies memory and may not be garbage collected.
+
+For instance:
+
+>>>>>>> db3b3f8e7a08c153ad8fa0ae50633cdf95fa8912
 ```js
 let john = { name: "John" };
 
 let map = new Map();
 map.set(john, "...");
 
+<<<<<<< HEAD
 john = null; // 参照を上書きします
 
 *!*
@@ -59,12 +101,30 @@ john = null; // 参照を上書きします
 ## WeakMap
 
 `Map` との最初の違いは、WeakMap のキーはプリミティブな値ではなくオブジェクトでなければならないことです:
+=======
+john = null; // overwrite the reference
+
+*!*
+// john is stored inside the map,
+// we can get it by using map.keys()
+*/!*
+```
+
+`WeakMap` is fundamentally different in this aspect. It doesn't prevent garbage-collection of key objects.
+
+Let's see what it means on examples.
+
+## WeakMap
+
+The first difference from `Map` is that `WeakMap` keys must be objects, not primitive values:
+>>>>>>> db3b3f8e7a08c153ad8fa0ae50633cdf95fa8912
 
 ```js run
 let weakMap = new WeakMap();
 
 let obj = {};
 
+<<<<<<< HEAD
 weakMap.set(obj, "ok"); // 正常に動作します (オブジェクトのキー)
 
 *!*
@@ -73,6 +133,17 @@ weakMap.set("test", "Whoops"); // エラー, "test" はプリミティブだか�
 ```
 
 いま、オブジェクトをキーとして使用し、そのオブジェクトへの参照が他にない場合、自動的にメモリ(と map)から削除されます。
+=======
+weakMap.set(obj, "ok"); // works fine (object key)
+
+*!*
+// can't use a string as the key
+weakMap.set("test", "Whoops"); // Error, because "test" is not an object
+*/!*
+```
+
+Now, if we use an object as the key in it, and there are no other references to that object -- it will be removed from memory (and from the map) automatically.
+>>>>>>> db3b3f8e7a08c153ad8fa0ae50633cdf95fa8912
 
 ```js
 let john = { name: "John" };
@@ -80,6 +151,7 @@ let john = { name: "John" };
 let weakMap = new WeakMap();
 weakMap.set(john, "...");
 
+<<<<<<< HEAD
 john = null; // 参照を上書きします
 
 // john はメモリから削除されます!
@@ -103,6 +175,31 @@ john = null; // 参照を上書きします
 さて、どこでこのようなものが必要なのでしょう？
 
 ## ユースケース: additional data
+=======
+john = null; // overwrite the reference
+
+// john is removed from memory!
+```
+
+Compare it with the regular `Map` example above. Now if `john` only exists as the key of `WeakMap` -- it will be automatically deleted from the map (and memory).
+
+`WeakMap` does not support iteration and methods `keys()`, `values()`, `entries()`, so there's no way to get all keys or values from it.
+
+`WeakMap` has only the following methods:
+
+- `weakMap.get(key)`
+- `weakMap.set(key, value)`
+- `weakMap.delete(key)`
+- `weakMap.has(key)`
+
+Why such a limitation? That's for technical reasons. If an object has lost all other references (like `john` in the code above), then it is to be garbage-collected automatically. But technically it's not exactly specified *when the cleanup happens*.
+
+The JavaScript engine decides that. It may choose to perform the memory cleanup immediately or to wait and do the cleaning later when more deletions happen. So, technically the current element count of a `WeakMap` is not known. The engine may have cleaned it up or not, or did it partially. For that reason, methods that access all keys/values are not supported.
+
+Now where do we need such data structure?
+
+## Use case: additional data
+>>>>>>> db3b3f8e7a08c153ad8fa0ae50633cdf95fa8912
 
 The main area of application for `WeakMap` is an *additional data storage*.
 
@@ -111,8 +208,13 @@ If we're working with an object that "belongs" to another code, maybe even a thi
 We put the data to a `WeakMap`, using the object as the key, and when the object is garbage collected, that data will automatically disappear as well.
 
 ```js
+<<<<<<< HEAD
 weakMap.put(john, "secret documents");
 // もし john がなくなった場合、秘密のドキュメントは破壊されるでしょう
+=======
+weakMap.set(john, "secret documents");
+// if john dies, secret documents will be destroyed automatically
+>>>>>>> db3b3f8e7a08c153ad8fa0ae50633cdf95fa8912
 ```
 
 Let's look at an example.
