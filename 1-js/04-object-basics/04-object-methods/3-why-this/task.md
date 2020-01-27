@@ -4,7 +4,11 @@ importance: 3
 
 # "this" の値を説明してください
 
+<<<<<<< HEAD
 下のコードで、`user.go()` メソッドを4回連続で呼び出すつもりです。
+=======
+In the code below we intend to call `obj.go()` method 4 times in a row.
+>>>>>>> ff042a03191dfad1268219ae78758193a5803b38
 
 しかし、呼び出し `(1)` と `(2)` は `(3)` と `(4)` とは異なっています。なぜでしょう？
 
