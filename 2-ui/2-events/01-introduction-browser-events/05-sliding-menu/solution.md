@@ -2,9 +2,15 @@
 # HTML/CSS
 最初に HTML/CSS を作成しましょう。
 
+<<<<<<< HEAD
 メニューはページ上のスタンドアロンのグラフィカルコンポーネントなので、単一の DOM 要素に配置するのが良いです。
 
 メニュー項目のリストは、リスト `ul/li` として配置することができます。
+=======
+A menu is a standalone graphical component on the page, so it's better to put it into a single DOM element.
+
+A list of menu items can be laid out as a list `ul/li`.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 これはその構造例です:
 
@@ -29,7 +35,11 @@
 
 なので、`onclick` を設定した場合、それはテキストの右側のクリックをキャッチします。
 
+<<<<<<< HEAD
 ...しかし、`<span>` 暗黙の `display: inline` を持っているので、すべてのテキストにフィットするのに十分な場所を占めます。
+=======
+As `<span>` has an implicit `display: inline`, it occupies exactly enough place to fit all the text:
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ```html autorun height=50
 <span style="border: solid red 1px" onclick="alert(1)">Sweeties (click me)!</span>

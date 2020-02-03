@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD:1-js/11-async/08-async-await/02-rewrite-async-2/task.md
 # "再スロー" を async/await で書き直す
+=======
+# Rewrite "rethrow" with async/await
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4:1-js/11-async/08-async-await/02-rewrite-async-2/task.md
 
 下にチャプター <info:promise-chaining> にある "再スロー" の例があります。`.then/catch` の代わりに `async/await` を使って書き直してください。
 

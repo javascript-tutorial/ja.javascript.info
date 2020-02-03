@@ -6,14 +6,22 @@ importance: 5
 
 下のコードで、スケジュールされた `setTimeout` 呼び出しがあります。その後、完了までに 100ms 以上かかる重い計算が実行されます。
 
+<<<<<<< HEAD
 スケジュールされた関数はいつ実行されるでしょう？
+=======
+When will the scheduled function run?
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 1. ループの後
 2. ループの前
 3. ループの最初
 
 
+<<<<<<< HEAD
 `alert` は何を表示するでしょう？
+=======
+What is `alert` going to show?
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ```js
 let i = 0;

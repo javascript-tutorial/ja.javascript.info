@@ -4,7 +4,11 @@ importance: 5
 
 # 入力が正しいまで繰り返す
 
+<<<<<<< HEAD
 `100` より大きい数値を入力するプロンプトを書いてください。もし訪問者が別の数値を入力したら -- 再び入力を訪ねます。
+=======
+Write a loop which prompts for a number greater than `100`. If the visitor enters another number -- ask them to input again.
+>>>>>>> d10b50ae7f67d91606a751926cb06aa06f10c1b4
 
 ループは、訪問者が `100` より大きい値を入力するか、入力をキャンセル/空行の入力をするまで訪ねます。
 
