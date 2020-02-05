@@ -126,15 +126,15 @@ for(let [name, value] of formData) {
     };
 
     async function submit() {
-      let blob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
+      let imageBlob = await new Promise(resolve => canvasElem.toBlob(resolve, 'image/png'));
 
 *!*
       let formData = new FormData();
-      formData.append("name", "myImage");
-      formData.append("image", blob);
+      formData.append("firstName", "John");
+      formData.append("image", imageBlob, "image.png");
 */!*    
 
-      let response = await fetch('/article/fetch-basics/post/image-form', {
+      let response = await fetch('/article/formdata/post/image-form', {
         method: 'POST',
         body: formData
       });
