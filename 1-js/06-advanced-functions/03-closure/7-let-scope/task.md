@@ -2,9 +2,15 @@ importance: 4
 
 ---
 
+<<<<<<< HEAD
 # 変数は参照できますか？
 
 このコードの結果はどうなるでしょう？
+=======
+# Is variable visible?
+
+What will be the result of this code?
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
 
 ```js
 let x = 1;
@@ -18,4 +24,8 @@ function func() {
 func();
 ```
 
+<<<<<<< HEAD
 P.S. このタスクには落とし穴があります。
+=======
+P.S. There's a pitfall in this task. The solution is not obvious.
+>>>>>>> 10c7807f49122f475f7cda5d07a324247091c080
