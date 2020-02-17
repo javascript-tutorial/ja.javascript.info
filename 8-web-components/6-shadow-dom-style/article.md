@@ -48,9 +48,9 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 ## Cascading
 
 シャドウホスト(`<custom-dialog>`)は light DOM の中におり、CSS ルールに影響されます。
-もしローカルに`:host`でスタイルされた両方のプロパティがある場合、ドキュメント内に、それからドキュメントのスタイルが優先されます。
+:host とドキュメントの両方にスタイルされたプロパティがある場合は、ドキュメントのスタイルが優先されます。
 
-例えば、ドキュメント内にある場合は、
+例えば、ドキュメント内に以下が宣言されている場合は
 
 ```html
 <style>
@@ -60,7 +60,7 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 </style>
 ```
 
-...そして`<custom-dialog>`パディングなしになるでしょう。
+...`<custom-dialog>`はパディングなしになるでしょう。
 
 `:host`の中で"default"コンポーネントスタイルを設定することができ、さらに簡単にドキュメント内で上書きできるため、この機能はとても便利です。
 
@@ -117,13 +117,13 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 
 ## :host-context(selector)
 
-`:host`と同様に、シャドウホストあるいはドキュメントの外側の ancestors にマッチする場合のみ`selector`は適用できます。
+`:host`と同様ですが、シャドウホストあるいはドキュメントの外側の祖先にマッチする場合のみ`selector`は適用できます。
 例えば、`:host-context(.dark-theme)`は`<custom-dialog>`上に`dark-theme`クラスがある場合のみマッチします。
 
 ```html
 <body class="dark-theme">
   <!--
-    :host-context(.dark-theme)はdark-themeクラスの中にあるcustom-dialogsタグに適用されます。
+    :host-context(.dark-theme)はdark-themeクラスの中にあるcustom-dialogs要素に適用されます。
   -->
   <custom-dialog>...</custom-dialog>
 </body>
@@ -170,7 +170,7 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 
 結果は bold で赤色ではありません。
 もしコンポーネント内でスロットされた要素をスタイリングしたい場合は、二通りの方法があります。
-一つ目の方法は、`<slot>`自体をスタイリングし、CSS 継承に依存します。
+一つ目の方法は、`<slot>`自体をスタイリングし、CSS 継承を利用します。
 
 ```html run autorun="no-epub" untrusted height=80
 <user-card>
@@ -204,7 +204,7 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 1. 要素自体が、スロット要素であり、light DOM 由来であること。スロット名は重要ではありません。要素自身がスロットされた要素であり、要素の子でなければ構いません。
 2. 要素が`selector`に一致すること。
 
-この場合であれば、`::slotted(div)`は`<div slot="username">`を選択しますが、要素が子ではありません。
+この場合であれば、::slotted(div)は<div slot="username">を選択します。その子要素ではありません。
 
 ```html run autorun="no-epub" untrusted height=80
 <user-card>
@@ -233,7 +233,7 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 </script>
 ```
 
-注意して頂きたい点は、`::slotted`セレクタは  がスロット内で子孫として系統を引かない点です。これらの要素は有効ではありません。
+注意して頂きたい点は、`::slotted`セレクタはスロット内でそれ以上降りていくことができない点です。これらの要素は有効ではありません。
 
 ```css
 ::slotted(div span) {
@@ -249,15 +249,15 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 
 ## カスタムプロパティと CSS フック
 
-メインドキュメントからインターナル要素のコンポーネントはどのようにスタイルするのでしょうか？
+メインドキュメントからコンポーネントの内部の要素はどのようにスタイルするのでしょうか？
 
-`:host`のようなセレクターは`<custom-dialog>`要素あるいは`<user-card>`要素にルールを適用でき、それらの中の shadow DOM にはどのようにスタイリングしましょう？
+`:host`のようなセレクターは`<custom-dialog>`要素あるいは`<user-card>`要素にルールを適用できますが、それらの中の shadow DOM にはどのようにスタイリングしましょう？
 
-ドキュメントから shadow DOM styles に直接影響するセレクタはありません。しかし、コンポーネントに作用するメソッドを露出するように、スタイリングのために CSS 変数（カスタム CSS プロパティ）を露出できます。
+ドキュメントから shadow DOM styles に直接影響するセレクタはありません。しかし、コンポーネントに作用するメソッドを露出するように、スタイリングのために CSS 変数（カスタム CSS プロパティ）を公開できます。
 
 **カスタム CSS プロパティは light とシャドウの両方の内の全てのレベルで存在します。**
 
-例えば、shadow DOM 内でフィールドをスタイリングするために CSS 変数`--user-card-field-color`を使用でき、さらにアウタードキュメントに値を設定することができます。
+例えば、shadow DOM 内でフィールドをスタイリングするために CSS 変数`--user-card-field-color`を使用でき、さらに外側のドキュメントで値を設定することができます。
 
 ```html
 <style>
@@ -341,7 +341,7 @@ Shadow DOM は`<style>`あるいは`<link rel="stylesheet">`のようなスタ�
 
 CSS プロパティが衝突した場合は、通常`!important`ラベル付けされていない限り、ドキュメントスタイルが優先されます。その次にローカルスタイルが優先されます。
 
-CSS カスタムプロパティが shadow DOM を通過します。これらは、コンポーネントをスタイルするために"フック"として使用されます。
+CSS カスタムプロパティは、shadow DOM へも影響を与えます。これらはコンポーネントをスタイルするための "フック" として使用されます。
 
 1. コンポーネントは`var(--component-name-title, <default value>)`のようなキーとなる要素をスタイルするためにカスタム CSS プロパティを使用します。
 2. コンポーネント作成者はこれらのプロパティを開発者にパブリッシュし、これらのプロパティは他のパブリックコンポーネントメソッドと同じくらいに重要です。
