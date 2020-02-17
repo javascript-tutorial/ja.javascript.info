@@ -2,7 +2,7 @@
 
 省略記号に1つのユニコード文字を使っていることに注意してください。3つのドットではありません。
 
-```js run
+```js run demo
 function truncate(str, maxlength) {
   return (str.length > maxlength) ?
     str.slice(0, maxlength - 1) + '…' : str;
