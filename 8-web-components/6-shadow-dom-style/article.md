@@ -28,16 +28,11 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 </template>
 
 <script>
-  customElements.define(
-    "custom-dialog",
-    class extends HTMLElement {
-      connectedCallback() {
-        this.attachShadow({ mode: "open" }).append(
-          tmpl.content.cloneNode(true)
-        );
-      }
-    }
-  );
+customElements.define('custom-dialog', class extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({mode: 'open'}).append(tmpl.content.cloneNode(true));
+  }
+});
 </script>
 
 <custom-dialog>
@@ -74,8 +69,10 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 ```html run autorun="no-epub" untrusted height=80
 <template id="tmpl">
   <style>
-    *!* :host([centered]) {
-      */!*position: fixed;
+*!*
+    :host([centered]) {
+*/!*
+      position: fixed;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
@@ -92,24 +89,20 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 </template>
 
 <script>
-  customElements.define(
-    "custom-dialog",
-    class extends HTMLElement {
-      connectedCallback() {
-        this.attachShadow({ mode: "open" }).append(
-          tmpl.content.cloneNode(true)
-        );
-      }
-    }
-  );
+customElements.define('custom-dialog', class extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({mode: 'open'}).append(tmpl.content.cloneNode(true));
+  }
+});
 </script>
 
+
 <custom-dialog centered>
-  Centered!
+  中央揃えです!
 </custom-dialog>
 
 <custom-dialog>
-  Not centered.
+  中央に揃っていません。
 </custom-dialog>
 ```
 
@@ -139,9 +132,9 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 
 ```html run autorun="no-epub" untrusted height=80
 <style>
-  *!*
-    span { font-weight: bold }
-  */!*
+*!*
+  span { font-weight: bold }
+*/!*
 </style>
 
 <user-card>
@@ -149,12 +142,10 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 </user-card>
 
 <script>
-  customElements.define(
-    "user-card",
-    class extends HTMLElement {
-      connectedCallback() {
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
+customElements.define('user-card', class extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({mode: 'open'});
+    this.shadowRoot.innerHTML = `
       <style>
 *!*
       span { background: red; }
@@ -162,9 +153,8 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
       </style>
       Name: <slot name="username"></slot>
     `;
-      }
-    }
-  );
+  }
+});
 </script>
 ```
 
@@ -178,12 +168,10 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 </user-card>
 
 <script>
-  customElements.define(
-    "user-card",
-    class extends HTMLElement {
-      connectedCallback() {
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
+customElements.define('user-card', class extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({mode: 'open'});
+    this.shadowRoot.innerHTML = `
       <style>
 *!*
       slot[name="username"] { font-weight: bold; }
@@ -191,9 +179,8 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
       </style>
       Name: <slot name="username"></slot>
     `;
-      }
-    }
-  );
+  }
+});
 </script>
 ```
 
@@ -214,12 +201,10 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 </user-card>
 
 <script>
-  customElements.define(
-    "user-card",
-    class extends HTMLElement {
-      connectedCallback() {
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
+customElements.define('user-card', class extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({mode: 'open'});
+    this.shadowRoot.innerHTML = `
       <style>
 *!*
       ::slotted(div) { border: 1px solid red; }
@@ -227,9 +212,8 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
       </style>
       Name: <slot name="username"></slot>
     `;
-      }
-    }
-  );
+  }
+});
 </script>
 ```
 
@@ -285,37 +269,32 @@ user-card {
 
 ```html run autorun="no-epub" untrusted height=80
 <style>
-  *!*
-    user-card {
-      --user-card-field-color: green;
-    }
-  */!*
+*!*
+  user-card {
+    --user-card-field-color: green;
+  }
+*/!*
 </style>
 
 <template id="tmpl">
   <style>
-    *!*
-        .field {
-          color: var(--user-card-field-color, black);
-        }
-    */!*
+*!*
+    .field {
+      color: var(--user-card-field-color, black);
+    }
+*/!*
   </style>
   <div class="field">Name: <slot name="username"></slot></div>
   <div class="field">Birthday: <slot name="birthday"></slot></div>
 </template>
 
 <script>
-  customElements.define(
-    "user-card",
-    class extends HTMLElement {
-      connectedCallback() {
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.append(
-          document.getElementById("tmpl").content.cloneNode(true)
-        );
-      }
-    }
-  );
+customElements.define('user-card', class extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({mode: 'open'});
+    this.shadowRoot.append(document.getElementById('tmpl').content.cloneNode(true));
+  }
+});
 </script>
 
 <user-card>
@@ -324,7 +303,7 @@ user-card {
 </user-card>
 ```
 
-## Summary
+## サマリ
 
 Shadow DOM は`<style>`あるいは`<link rel="stylesheet">`のようなスタイルを含みます。
 
