@@ -13,7 +13,7 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 ```html run autorun="no-epub" untrusted height=80
 <template id="tmpl">
   <style>
-    /* the style will be applied from inside to the custom-dialog element */
+    /* スタイルはcustom-dialog要素の中から適用されます。 */
     :host {
       position: fixed;
       left: 50%;
@@ -123,7 +123,7 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 ```html
 <body class="dark-theme">
   <!--
-    :host-context(.dark-theme) applies to custom-dialogs inside .dark-theme
+    :host-context(.dark-theme)はdark-themeクラスの中にあるcustom-dialogsタグに適用されます。
   -->
   <custom-dialog>...</custom-dialog>
 </body>
@@ -237,11 +237,11 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 
 ```css
 ::slotted(div span) {
-  /* our slotted <div> does not match this */
+  /* スロットになる<div>要素はこれに一致しません。 */
 }
 
 ::slotted(div) p {
-  /* can't go inside light DOM */
+  /* light DOM内に適用されません。 */
 }
 ```
 
@@ -263,7 +263,7 @@ Shadow DOM のスタイリングには `<style>`と`<link rel="stylesheet" href=
 <style>
   .field {
     color: var(--user-card-field-color, black);
-    /* if --user-card-field-color is not defined, use black color */
+    /* --user-card-field-colorが定義されていない場合は、ブラックが適用されます。 */
   }
 </style>
 <div class="field">Name: <slot name="username"></slot></div>
