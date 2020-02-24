@@ -10,7 +10,11 @@
 </div>
 ```
 
+<<<<<<< HEAD
 少し奇妙に見えますよね？ なぜ実際のクリックが `<em>` だった場合に `<div>` 上のハンドラが実行されるでしょう？
+=======
+Isn't it a bit strange? Why does the handler on `<div>` run if the actual click was on `<em>`?
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 ## バブリング(Bubbling) 
 
@@ -18,7 +22,11 @@
 
 **要素上でイベントが起きると、最初にその上のハンドラが実行され、次にその親のハンドラが実行され、他の祖先に到達するまでそれらが行われます。**
 
+<<<<<<< HEAD
 たとえば、3つのネストされた要素 `FORM > DIV > P` があり、それぞれにハンドラがあります:
+=======
+Let's say we have 3 nested elements `FORM > DIV > P` with a handler on each of them:
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 ```html run autorun
 <style>
@@ -68,14 +76,23 @@
 
 `form.onclick` ハンドラの中は:
 
+<<<<<<< HEAD
 - `this` (`=event.currentTarget`) は `<form>` 要素です。なぜなら、ハンドラはそこで動いているからです。
 - `event.target` は実際にクリックされた form の内側にある具体的な要素です。
+=======
+- `this` (=`event.currentTarget`) is the `<form>` element, because the handler runs on it.
+- `event.target` is the actual element inside the form that was clicked.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 見てみましょう:
 
 [codetabs height=220 src="bubble-target"]
 
+<<<<<<< HEAD
 `event.target` と `this` が等しい場合があります。つまりクリックを `<form>` 要素に直接行った場合です。
+=======
+It's possible that `event.target` could equal `this` -- it happens when the click is made directly on the `<form>` element.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 ## バブリングを止める 
 
@@ -101,16 +118,27 @@
 バブリングを止め、現在の要素のハンドラを実行しないようにするために、`event.stopImmediatePropagation()` メソッドがあります。この後は他のハンドラは実行されません。
 ```
 
+<<<<<<< HEAD
 ```warn header="必要なければバブリングは止めないでください!"
 バブリングは便利です。本当に必要な場合を除いて止めないでください。: 明白で構造的によく知られているような場合。
+=======
+```warn header="Don't stop bubbling without a need!"
+Bubbling is convenient. Don't stop it without a real need: obvious and architecturally well thought out.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 `event.stopPropagation()` は後に問題になるかもしれない隠れた落とし穴を作る場合があります。
 
 例えば:
 
+<<<<<<< HEAD
 1. 私たちはネストされたメニューを作ります。各サブメニューはその要素上でクリックを処理し、外部のメニューがトリガされないよう、`stopPropagation` を呼び出します。
 2. 後ほど、ユーザの行動(人々がクリックした場所)を追跡するためにウィンドウ全のクリックをキャッチすることに決めました。いくつかの分析システムはそのようなことをします。通常、すべてのクリックをキャッチするためのコードは `document.addEventListener('click'…)` を使います。
 3. 我々の分析は、クリックが `stopPropagation` で止められた領域上では動作しません。それは "デッドゾーン" になります。
+=======
+1. We create a nested menu. Each submenu handles clicks on its elements and calls `stopPropagation` so that the outer menu won't trigger.
+2. Later we decide to catch clicks on the whole window, to track users' behavior (where people click). Some analytic systems do that. Usually the code uses `document.addEventListener('click'…)` to catch all clicks.
+3. Our analytic won't work over the area where clicks are stopped by `stopPropagation`. Sadly, we've got a "dead zone".
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 通常、本当にバブリングを防がなければならないケースはほとんどありません。必要と思われるタスクは他の手段で解決できる可能性があります。そのうちの１つはカスタムイベントを利用することで、後でそれを説明します。また、データをあるハンドラの `event` オブジェクトに書き込み、別のハンドラでそれを読み込むこともできるので、親のハンドラに下位の処理に関する情報を渡すことができます。
 ```
@@ -130,24 +158,49 @@
 
 ![](eventflow.svg)
 
+<<<<<<< HEAD
 つまり: `<td>` をクリックした場合、イベントは最初に祖先のチェーンを通って要素へ下りていき(キャプチャリング)、ターゲットに到達した後、ハンドラを呼び出しながら上に行き(バブル)ます。
+=======
+That is: for a click on `<td>` the event first goes through the ancestors chain down to the element (capturing phase), then it reaches the target and triggers there (target phase), and then it goes up (bubbling phase), calling handlers on its way.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 **以前バブリングについてのみ話しましたが、それはキャプチャリングフェーズはほとんど使われないためです。通常それは私たちには見えません。**
 
+<<<<<<< HEAD
 `on<event>`プロパティまたは HTML属性、もしくは `addEventListener(event, handler)` を使って追加されたハンドラはキャプチャリングについて何も知りません。それらはフェーズ 2 と 3 でのみ実行されます。
 
 キャプチャリングフェーズでイベントをキャッチするには、`addEventListener` の３つ目の引数を `true` にする必要があります。
 
 最後の引数は２つのとり得る値があります:
+=======
+Handlers added using `on<event>`-property or using HTML attributes or using two-argument `addEventListener(event, handler)` don't know anything about capturing, they only run on the 2nd and 3rd phases.
+
+To catch an event on the capturing phase, we need to set the handler `capture` option to `true`:
+
+```js
+elem.addEventListener(..., {capture: true})
+// or, just "true" is an alias to {capture: true}
+elem.addEventListener(..., true)
+```
+
+There are two possible values of the `capture` option:
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 - `false` (デフォルト) の場合、ハンドラはバブリングフェーズで設定されます。
 - `true` の場合、ハンドラはキャプチャリングフェーズで設定されます。
 
+<<<<<<< HEAD
 正式には３つのフェーズがありますが、２つ目のフェーズ("ターゲットフェーズ": イベントが要素に到達した)は個別に処理されないことに注意してください: キャプチャフェーズとバブリングフェーズの両方のハンドラがそのフェーズでトリガします。
 
 キャプチャリングとバブリングハンドラをターゲット要素に置くと、キャプチャハンドラはキャプチャフェーズの最後にトリガし、バブルハンドラはバブリングフェーズで最初にトリガします。
 
 動作を見てみましょう:
+=======
+
+Note that while formally there are 3 phases, the 2nd phase ("target phase": the event reached the element) is not handled separately: handlers on both capturing and bubbling phases trigger at that phase.
+
+Let's see both capturing and bubbling in action:
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 ```html run autorun height=140 edit
 <style>
@@ -175,13 +228,20 @@
 
 `<p>` をクリックすると、シーケンスは次の通りです:
 
+<<<<<<< HEAD
 1. `HTML` -> `BODY` -> `FORM` -> `DIV` -> `P` (キャプチャリングフェーズ, １つ目のリスナーです)そして、:
 2. `P` -> `DIV` -> `FORM` -> `BODY` -> `HTML` (バブリングフェーズ, 2つ目のリスナーです).
 
 `P` が2回表示されることに注意してください: キャプチャリングの終わりと、バブリングの開始です。
+=======
+1. `HTML` -> `BODY` -> `FORM` -> `DIV` (capturing phase, the first listener):
+2. `P` (target phrase, triggers two times, as we've set two listeners: capturing and bubbling)
+3. `DIV` -> `FORM` -> `BODY` -> `HTML` (bubbling phase, the second listener).
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 イベントが捕捉されたフェーズの番号を示すプロパティ `event.eventPhase` があります。 しかし、私たちは通常ハンドラでそれを知っているので、めったに使用されません。
 
+<<<<<<< HEAD
 ## サマリ 
 
 イベントハンドラプロセスです:
@@ -189,12 +249,41 @@
 - イベントが発生したとき -- それが起きた最もネストされた要素は "ターゲット要素" (`event.target`) としてラベル付けされます。
 - 次にイベントは `addEventListener(...., true)` で割り当てられたハンドラを呼び出しながらドキュメントルートから `event.target` へ下りていきます。
 - その後、イベントは `on<event>` と3つ目の引数がないもしくは `false` の `addEventListener` を使って割り当てられたハンドラを実行しながら `event.target` からルートまで上がっていきます。
+=======
+```smart header="To remove the handler, `removeEventListener` needs the same phase"
+If we `addEventListener(..., true)`, then we should mention the same phase in `removeEventListener(..., true)` to correctly remove the handler.
+```
+
+````smart header="Listeners on same element and same phase run in their set order"
+If we have multiple event handlers on the same phase, assigned to the same element with `addEventListener`, they run in the same order as they are created:
+
+```js
+elem.addEventListener("click", e => alert(1)); // guaranteed to trigger first
+elem.addEventListener("click", e => alert(2));
+```
+````
+
+
+## Summary
+
+When an event happens -- the most nested element where it happens gets labeled as the "target element" (`event.target`).
+
+- Then the event moves down from the document root to `event.target`, calling handlers assigned with `addEventListener(...., true)` on the way (`true` is a shorthand for `{capture: true}`).
+- Then handlers are called on the target element itself.
+- Then the event bubbles up from `event.target` up to the root, calling handlers assigned using `on<event>` and `addEventListener` without the 3rd argument or with the 3rd argument `false/{capture:false}`.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 それぞれのハンドラは `event` オブジェクトのプロパティにアクセスできます:
 
+<<<<<<< HEAD
 - `event.target` -- イベントを発生させた最も深い要素です。
 - `event.currentTarget` (=`this`) -- イベントを処理する現在の要素（ハンドラを持つ要素）
 - `event.eventPhase` -- 現在のフェーズ (キャプチャリング=1, バブリング=3).
+=======
+- `event.target` -- the deepest element that originated the event.
+- `event.currentTarget` (=`this`) -- the current element that handles the event (the one that has the handler on it)
+- `event.eventPhase` -- the current phase (capturing=1, target=2, bubbling=3).
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 どのハンドラも `event.stopPropagation()` を呼び出すことでイベントを止めることができますが、それは推奨しません。
 
