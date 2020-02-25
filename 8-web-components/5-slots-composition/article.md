@@ -1,6 +1,6 @@
 # Shadow DOM スロット, コンポジション
 
-タブ、メニュー、イメージギャラリーなど、多くのコンポーネントはレンダリングするのにコンテンツを必要とします。
+タブ、メニュー、イメージギャラリーなど多くのコンポーネントはレンダリングするのにコンテンツを必要とします。
 
 組み込みのブラウザの `<select>` が `<option>` 項目を期待するように、独自に作った `<custom-tabs>` も実際のタブコンテンツが渡されることを期待することがあります。
 
@@ -15,13 +15,13 @@
 </custom-menu>
 ```
 
-...そして、このコンポーネントはタイトルとアイテムを持つメニューとして、メニューイベントを処理するなど、適切にレンダリングできる必要ががあります。
+...そして、このコンポーネントはタイトルとアイテムを持つメニューとして表示され、かつメニューイベントを処理するなど適切にレンダリングできる必要ががあります。
 
 どうやって実装するのでしょう？
 
-要素の内容を分析し、DOM ノードを動的にコピー,再配置することもできます。ただ、可能ですが要素を shadow DOM に移動している場合、ドキュメントの CSS スタイルは適用されないため視覚的なスタイルが失われる可能性があります。また、ある程度コーディングが必要になります。
+要素の内容を分析し、DOM ノードを動的にコピー/再配置することもできます。ただ、可能ではありますが要素を shadow DOM に移動している場合、ドキュメントの CSS スタイルは適用されないため視覚的なスタイルが失われる可能性があります。また、ある程度コーディングが必要になります。
 
-幸いなことに、これをする必要はありません。Shadow DOM は `<slot>` 要素をサポートしています。これは Light DOM のコンテンツを自動的に入れてくれます。
+幸いなことに、このようなことをする必要はありません。Shadow DOM は `<slot>` 要素をサポートしています。これは Light DOM のコンテンツを自動的に挿入してくれます。
 
 ## 名前付きスロット
 
@@ -58,7 +58,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 Shadow DOM では、`<slot name="X">` で "挿入位置" (`slot="X"` を持つ要素がレンダリングされる場所)を定義します。
 
-次に、ブラウザは "コンポジション(composition)" を実行します。: Light DOM から要素を取得し、Shadow DOM の対応するスローっとにレンダリングしていきます。最後に、まさに必要なもの -- データが挿入されたコンポーネントになります。
+次に、ブラウザは "コンポジション(composition)" を実行します: Light DOM から要素を取得し、Shadow DOM の対応するスロットにレンダリングしていきます。最後にデータが挿入されたコンポーネントになります。
 
 これはスクリプト後の DOM 構造です。コンポジションは考慮されていません。:
 
@@ -76,7 +76,7 @@ Shadow DOM では、`<slot name="X">` で "挿入位置" (`slot="X"` を持つ�
 </user-card>
 ```
 
-Shadow DOM を作成したので、`#shadow-root` の下にそれがあります。今、要素は Light と Shadow DOM 両方を持ってます。
+Shadow DOM を作成したので、`#shadow-root` の下にそれがあります。今、要素には Light DOM と Shadow DOM 両方があります。
 
 レンダリングするために、Shadow DOM 内の各 `<slot name="...">` に対して、ブラウザは Light DOM に同じ名前をもつ `slot="..."` を探します。これらの要素がスロット内でレンダリングされます。:
 
@@ -101,9 +101,9 @@ Shadow DOM を作成したので、`#shadow-root` の下にそれがあります
 </user-card>
 ```
 
-...ですが、フラット化された DOM はレンダリングとイベント処理の目的でのみ存在します。これは一種の "仮想" であり、どのように見えるかを示します。ですが、ドキュメント内のノードは実際には移動していません!
+...ですが、フラット化された DOM はレンダリングとイベント処理の目的でのみ存在します。これは一種の "仮想" であり、どのように見えるかを示していますが、ドキュメント内のノードは実際には移動していません!
 
-`querySelector` を実行することで簡単に確認ができます: ノードはまだその場所にあります。
+`querySelector` を実行することで簡単に確認ができます: ノードは依然として同じ場所にあります。
 
 ```js
 // `<user-card>` の下にある light DOM <span> ノードはまだ同じ場所にいます
@@ -112,10 +112,10 @@ alert( document.querySelector('user-card span').length ); // 2
 
 したがって、フラット化された DOM はスロットを挿入することで Shadow DOM から派生しています。ブラウザはそれをレンダリングし、スタイルの継承やイベントの伝搬(詳細は後ほど)に使用します。ですが、JavaScript は依然としてフラット化する前のドキュメント "そのまま" を見ています。
 
-````warn header="最上位の子だけが slot=\"...\" 属性を持てます"
+````warn header="最上位の子だけが slot=\"...\" 属性を持つことができます"
 `slot="..."` 属性はシャドウホスト(上の例で言うと `<user-card>` 要素)の直接の子に対してのみ有効です。ネストされた要素に対しては無視されます。
 
-例えば、ここでは2つ目の `<span>` は無視されます(`<user-card>｀ の最上位の子ではないため):
+例えば、ここでは2つ目の `<span>` は無視されます(`<user-card>` の最上位の子ではないため):
 ```html
 <user-card>
   <span slot="username">John Smith</span>
@@ -166,7 +166,7 @@ Light DOM に同じスロット名を持つ複数の要素がある場合、そ�
 </div>
 ```
 
-## Default slot: first unnamed
+## デフォルトスロット: 最初の名前のないスロット
 
 Shadow DOM 内の、名前を持たない最初の `<slot>` が "デフォルト" スロットです。Light DOM でどこにもスロットされていなすべてのノードを取得します。
 
@@ -230,8 +230,8 @@ customElements.define('user-card', class extends HTMLElement {
       <legend>About me</legend>
 *!*
       <slot>
-        <div>Hello</div>
-        <div>I am John!</div>
+        <div>I like to swim.</div>
+        <div>...And play volleyball too!</div>
       </slot>
 */!*
     </fieldset>
@@ -242,7 +242,7 @@ customElements.define('user-card', class extends HTMLElement {
 
 ではこのチャプターの冒頭で言及した `<custom-menu>` に戻りましょう。
 
-要素を配置するのはスロットが使えます。
+要素を配置するのにスロットが使えます。
 
 これは `<custom-menu>` のマークアップです:
 
@@ -291,44 +291,44 @@ customElements.define('user-card', class extends HTMLElement {
 </custom-menu>
 ```
 
-One might notice that, in a valid DOM, `<li>` must be a direct child of `<ul>`. But that's flattened DOM, it describes how the component is rendered, such thing happens naturally here.
+1点、お気づきかもしれませんが、有効な DOM では `<li>` は `<ul>` の直接の子でなければなりません。ですが、これはフラット化された DOM でありコンポーネントがどのようにレンダリングされたかを説明しています。ここではこのようなことは自然と起こります。
 
-We just need to add a `click` handler to open/close the list, and the `<custom-menu>` is ready:
+一覧のオープン/クローズのための `click` ハンドラの追加が必要です。これで `<custom-menu>` は準備できました:
 
 ```js
 customElements.define('custom-menu', class extends HTMLElement {
   connectedCallback() {
     this.attachShadow({mode: 'open'});
 
-    // tmpl is the shadow DOM template (above)
+    // tmpl は shadow DOM テンプレートです (上記)
     this.shadowRoot.append( tmpl.content.cloneNode(true) );
 
-    // we can't select light DOM nodes, so let's handle clicks on the slot
+    // light DOM ノードを選択することはできないので、スロット上のクリックを処理しましょう
     this.shadowRoot.querySelector('slot[name="title"]').onclick = () => {
-      // open/close the menu
+      // メニューのオープン/クローズ
       this.shadowRoot.querySelector('.menu').classList.toggle('closed');
     };
   }
 });
 ```
 
-Here's the full demo:
+これは完全なデモです:
 
 [iframe src="menu" height=140 edit]
 
-Of course, we can add more functionality to it: events, methods and so on.
+もちろん、ここからさらに機能を追加することが可能です: イベントやメソッドなど。
 
-## Updating slots
+## スロットの更新
 
-What if the outer code wants to add/remove menu items dynamically?
+外部のコードが動的にメニュー項目を追加/削除したい場合はどのようになるでしょうか？
 
-**The browser monitors slots and updates the rendering if slotted elements are added/removed.**
+**ブラウザはスロットを監視し、スロット要素が追加/削除されるとレンダリングを更新します。**
 
-Also, as light DOM nodes are not copied, but just rendered in slots, the changes inside them immediately become visible.
+また、light DOM ノードはコピーではなく、単にスロットにレンダリングされるだけなので、その内部での変更はすぐに見えます。
 
-So we don't have to do anything to update rendering. But if the component code wants to know about slot changes, then `slotchange` event is available.
+したがって、レンダリングを更新するために必要なことはありません。ですが、コンポーネントのコードがスロットの変更を知りたい場合には `slotchange` イベントが利用できます。
 
-For example, here the menu item is inserted dynamically after 1 second, and the title changes after 2 seconds:
+例えば、ここでは1秒後メニュー項目が挿入され、2秒後にタイトルが変わります。:
 
 ```html run untrusted height=80
 <custom-menu id="menu">
@@ -344,7 +344,7 @@ customElements.define('custom-menu', class extends HTMLElement {
       <ul><slot name="item"></slot></ul>
     </div>`;
 
-    // shadowRoot can't have event handlers, so using the first child
+    // shadowRoot はイベントハンドラを持たないため、最初の子を利用します
     this.shadowRoot.firstElementChild.addEventListener('slotchange',
       e => alert("slotchange: " + e.target.name)
     );
@@ -361,34 +361,34 @@ setTimeout(() => {
 </script>
 ```
 
-The menu rendering updates each time without our intervention.
+メニューのレンダリングは我々の介入なしで毎回更新されます。
 
-There are two `slotchange` events here:
+ここでは 2つの `slotchange` イベントがあります:
 
-1. At initialization:
+1. 初期化:
 
-    `slotchange: title` triggers immediately, as the `slot="title"` from the light DOM gets into the corresponding slot.
-2. After 1 second:
+    light DOM からの `slot="title"` が対応するスロットに入ると、`slotchange: title` が直ちにトリガーされます。
+2. １秒後:
 
-    `slotchange: item` triggers, when a new `<li slot="item">` is added.
+    `<li slot="item">` が追加されたときに `slotchange: item` がトリーがされます。
 
-Please note: there's no `slotchange` event after 2 seconds, when the content of `slot="title"` is modified. That's because there's no slot change. We modify the content inside the slotted element, that's another thing.
+注意してください: 2秒後に `slot="title"` の中身が変更されたとき `slotchange` イベントは発生しません。これはスロットの変更がないためです。スロット要素内のコンテンツを変更していますが、それば別のことです。
 
-If we'd like to track internal modifications of light DOM from JavaScript, that's also possible using a more generic mechanism: [MutationObserver](info:mutation-observer).
+JavaScript で light DOM の内部の変更を追跡したい場合は、より一般的な仕組みを利用することで可能です: [MutationObserver](info:mutation-observer).
 
 ## Slot API
 
-Finally, let's mention the slot-related JavaScript methods.
+最後に、スロットに関連する JavaScript メソッドに触れましょう。
 
-As we've seen before, JavaScript looks at the "real" DOM, without flattening. But, if the shadow tree has `{mode: 'open'}`, then we can figure out which elements assigned to a slot and, vise-versa, the slot by the element inside it:
+以前見たように、JavaScript はフラット化することなく "実際の DOM" を見ます。ですが、shadow ツリーが `{mode: 'open'}` の場合、どの要素がスロットに割り当てられているか、また逆にどのスロットに要素が割り当てられているのかを把握することができます。:
 
-- `node.assignedSlot` -- returns the `<slot>` element that the `node` is assigned to.
-- `slot.assignedNodes({flatten: true/false})` -- DOM nodes, assigned to the slot. The `flatten` option is `false` by default. If explicitly set to `true`, then it looks more deeply into the flattened DOM, returning nested slots in case of nested components and the fallback content if no node assigned.
-- `slot.assignedElements({flatten: true/false})` -- DOM elements, assigned to the slot (same as above, but only element nodes).
+- `node.assignedSlot` -- `node` が割り当てられている `<slot>` 要素を返します。
+- `slot.assignedNodes({flatten: true/false})` -- スロットへ割り当てられている DOM ノードを返します。`flatten` オプションはデフォルトは `false` です。明示的に `true` に設定した場合、フラット化された DOM をより深く調べ、ネストされたコンポーネントの場合はネストされたスロットを返し、ノードが割り当てられていない場合にはフォールバックコンテンツを返します。
+- `slot.assignedElements({flatten: true/false})` -- スロットへ割り当てられている DOM 要素を返します。(要素ノードに対して上記と同じ動作をします)。
 
-These methods are useful when we need not just show the slotted content, but also track it in JavaScript.
+これらのメソッドは、単にスロットコンテンツを表示するだけではなく、JavaScript でそれを追跡する必要があるときに役立ちます。
 
-For example, if `<custom-menu>` component wants to know, what it shows, then it could track `slotchange` and get the items from `slot.assignedElements`:
+例えば、`<custom-menu>` コンポーネントが表示内容を知りたい場合、`slotchange` を追跡し、そこで `slot.assignedElements` をすることで項目を取得することができます:
 
 ```html run untrusted height=120
 <custom-menu id="menu">
@@ -421,7 +421,7 @@ customElements.define('custom-menu', class extends HTMLElement {
   }
 });
 
-// items update after 1 second
+// items を1秒後に更新します
 setTimeout(() => {
   menu.insertAdjacentHTML('beforeEnd', '<li slot="item">Cup Cake</li>')
 }, 1000);
@@ -429,29 +429,29 @@ setTimeout(() => {
 ```
 
 
-## Summary
+## サマリ
 
-Usually, if an element has shadow DOM, then its light DOM is not displayed. Slots allow to show elements from light DOM in specified places of shadow DOM.
+通常、要素に shadow DOM がある場合、その light DOM は表示されません。スロットを使用することで、 shadow DOM の特定の位置に light DOM の要素を表示することができます。
 
-There are two kinds of slots:
+２種類のスロットがあります:
 
-- Named slots: `<slot name="X">...</slot>` -- gets light children with `slot="X"`.
-- Default slot: the first `<slot>` without a name (subsequent unnamed slots are ignored) -- gets unslotted light children.
-- If there are many elements for the same slot -- they are appended one after another.
-- The content of `<slot>` element is used as a fallback. It's shown if there are no light children for the slot.
+- 名前付きスロット: `<slot name="X">...</slot>` は `slot="X"` を持つ light DOM の子を取得します。
+- デフォルトスロット: 名前なしの最初の `<slot>` (後続の名前のないスロットは無視されます)はスロットのない light の子を取得します。
+- 同じスロットに対して複数の要素がある場合、それらは順に追加されます。
+- `<slot>` 要素のコンテンツはフォールバックとして使用されます。そのスロットに対応する light の子がない場合に表示されます。
 
-The process of rendering slotted elements inside their slots is called "composition". The result is called a "flattened DOM".
+スロット内のスロットされた要素をレンダリングするプロセスは "コンポジション(composition)" と呼ばれます。結果は　”フラット化された DOM (flattened DOM)” と呼ばれます。
 
-Composition does not really move nodes, from JavaScript point of view the DOM is still same.
+コンポジションは実際にはノードは移動させておらず、JavaScript から見ると DOM は依然として同じままです。
 
-JavaScript can access slots using methods:
-- `slot.assignedNodes/Elements()` -- returns nodes/elements inside the `slot`.
-- `node.assignedSlot` -- the reverse meethod, returns slot by a node.
+JavaScript は次のメソッドを使用してスロットにアクセスすることができます:
+- `slot.assignedNodes/Elements()` -- `slot` 内のノード/要素をを返します。
+- `node.assignedSlot` -- 上とは逆でノードによりスロットを返します。
 
-If we'd like to know what we're showing, we can track slot contents using:
-- `slotchange` event -- triggers the first time a slot is filled, and on any add/remove/replace operation of the slotted element, but not its children. The slot is `event.target`.
-- [MutationObserver](info:mutation-observer) to go deeper into slot content, watch changes inside it.
+表示されているものが知りたい場合、次を利用してスロットのコンテンツを追跡することができます:
+- `slotchange` イベント -- スロットが最初に埋められたとき、およびスロット要素に対する追加/削除/置換操作でトリガーされます。が、その子ではありません。 スロットは `event.target` です。
+- [MutationObserver](info:mutation-observer) スロットのコンテンツをより深く調べて、その中の変更を監視します。
 
-Now, as we know how to show elements from light DOM in shadow DOM, let's see how to style them properly. The basic rule is that shadow elements are styled inside, and light elements -- outside, but there are notable exceptions.
+これで shadow DOM で light DOM の要素を表示する方法がわかったので、それらを適切にスタイルする方法を見てみましょう。基本的なルールは、shadow 要素は内側で、light 要素は -- 外側でスタイルされますが、例外があります。
 
-We'll see the details in the next chapter.
+詳細については、次のチャプターで説明します。
