@@ -1,14 +1,15 @@
 # Shadow DOM and events
 
 The idea behind shadow tree is to encapsulate internal implementation details of a component.
+shadow ツリーの背後にあるアイデアは、内部のコンポーネントの実装の詳細をカプセル化させることにあります。
 
 Let's say, a click event happens inside a shadow DOM of `<user-card>` component. But scripts in the main document have no idea about the shadow DOM internals, especially if the component comes from a 3rd-party library.  
+例えば、クリックイベントがshadow DOMの`<user-card>`コンポーネント内で発生したとします。しかしメインドキュメント内のスクリプトはshadow DOM内部については何も知りません。特にもしコンポーネントがサードパーティライブラリから来たものであればなおさらです。
 
 So, to keep the details encapsulated, the browser *retargets* the event.
-
+詳細をカプセル化したままにするために、ブラウザはイベントを*リターゲティングします。*
 **Events that happen in shadow DOM have the host element as the target, when caught outside of the component.**
-
-Here's a simple example:
+**shadow DOM内で起こるイベントはコンポーネントの外で取得される時、ターゲットとしてそのホスト要素を持ちます。**
 
 ```html run autorun="no-epub" untrusted height=60
 <user-card></user-card>
@@ -31,16 +32,17 @@ document.onclick =
 ```
 
 If you click on the button, the messages are:
-
+ボタンをクリックした場合、メッセージは
 1. Inner target: `BUTTON` -- internal event handler gets the correct target, the element inside shadow DOM.
+1. 内部ターゲット: `BUTTON` -- 内部イベントハンドラーはshadow DOM内の要素を適切なターゲットを取得します。
 2. Outer target: `USER-CARD` -- document event handler gets shadow host as the target.
-
+2. 外部ターゲット: `USER-CARD` -- ドキュメントイベントハンドラーはターゲットとしてShadow ホストを取得します。
 Event retargeting is a great thing to have, because the outer document doesn't have to know  about component internals. From its point of view, the event happened on `<user-card>`.
-
+イベントリターゲティングは、外部ドキュメントがコンポーネントの内部について知らなくてもいいので、素晴らしいものです。この観点から、イベントは`<user-card>`に起こります。
 **Retargeting does not occur if the event occurs on a slotted element, that physically lives in the light DOM.**
-
+**リターゲティングは、イベントが物理的にlightDOM内に存在するスロットされた要素上で起こった場合には発生しません。**
 For example, if a user clicks on `<span slot="username">` in the example below, the event target is exactly this `span` element, for both shadow and light handlers:
-
+例えば、ユーザーが以下の例の`<span slot="username">`をクリックした場合、シャドウハンドラーとライトハンドラーの両方で、イベントターゲットはまさにこの`span`要素になります。
 ```html run autorun="no-epub" untrusted height=60
 <user-card id="userCard">
 *!*
@@ -66,9 +68,9 @@ userCard.onclick = e => alert(`Outer target: ${e.target.tagName}`);
 ```
 
 If a click happens on `"John Smith"`, for both inner and outer handlers the target is `<span slot="username">`. That's an element from the light DOM, so no retargeting.
-
+クリックが`"John Smith"`で起こった場合は、内部と外部のハンドラーのターゲットは`<span slot="username">`になります。それはlight DOMからの要素なので、リターゲティングはありません。
 On the other hand, if the click occurs on an element originating from shadow DOM, e.g. on `<b>Name</b>`, then, as it bubbles out of the shadow DOM, its `event.target` is reset to `<user-card>`.
-
+一方で、クリックがshadow DOMに由来する要素で発生した場合、例えば`<b>Name</b>`上の場合、それから、shadow DOMの外にバブルするように、その`event.target`は`<user-card>`にリセットします。
 ## Bubbling, event.composedPath()
 
 For purposes of event bubbling, flattened DOM is used.
