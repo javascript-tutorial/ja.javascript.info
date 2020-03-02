@@ -1,5 +1,5 @@
 # Shadow DOM and events
-
+# Shadow DOMとイベント
 The idea behind shadow tree is to encapsulate internal implementation details of a component.
 shadow ツリーの背後にあるアイデアは、内部のコンポーネントの実装の詳細をカプセル化させることにあります。
 
@@ -72,15 +72,16 @@ If a click happens on `"John Smith"`, for both inner and outer handlers the targ
 On the other hand, if the click occurs on an element originating from shadow DOM, e.g. on `<b>Name</b>`, then, as it bubbles out of the shadow DOM, its `event.target` is reset to `<user-card>`.
 一方で、クリックがshadow DOMに由来する要素で発生した場合、例えば`<b>Name</b>`上の場合、それから、shadow DOMの外にバブルするように、その`event.target`は`<user-card>`にリセットします。
 ## Bubbling, event.composedPath()
-
+## バブリング、 event.composedPath()
 For purposes of event bubbling, flattened DOM is used.
-
+イベントバブリングの目的に、フラット化したDOMが使用されます。
 So, if we have a slotted element, and an event occurs somewhere inside it, then it bubbles up to the `<slot>` and upwards.
-
+なので、スロット化された要素があり、イベントがその内部のどこかで起こった場合は、`<slot>`よりも上部に浮上します。
 The full path to the original event target, with all the shadow elements, can be obtained using `event.composedPath()`. As we can see from the name of the method, that path is taken after the composition.
+全てのシャドウ要素と共に、オリジナルのイベントターゲットへのフルパスは、`event.composedPath()`を使用して取得されます。このメソッドの名前から分かる通り、そのパスは合成後に取得されます。
 
 In the example above, the flattened DOM is:
-
+上記の例では、フラット化されたDOMは:
 ```html
 <user-card id="userCard">
   #shadow-root
@@ -95,11 +96,13 @@ In the example above, the flattened DOM is:
 
 
 So, for a click on `<span slot="username">`, a call to `event.composedPath()` returns an array: [`span`, `slot`, `div`, `shadow-root`, `user-card`, `body`, `html`, `document`, `window`]. That's exactly the parent chain from the target element in the flattened DOM, after the composition.
+なので、`<span slot="username">`のクリックで、`event.composedPath()`のコールは配列[`span`, `slot`, `div`, `shadow-root`, `user-card`, `body`, `html`, `document`, `window`]を返します。これがまさに合成後のフラット化DOM内でのターゲット要素から親チェーンのことです。
 
 ```warn header="Shadow tree details are only provided for `{mode:'open'}` trees"
 If the shadow tree was created with `{mode: 'closed'}`, then the composed path starts from the host: `user-card` and upwards.
-
+Shadow ツリーが`{mode: 'closed'}`と作られた場合、その合成パスはホスト: `user-card`とその上部から始まります。
 That's the similar principle as for other methods that work with shadow DOM. Internals of closed trees are completely hidden.
+これはshadow DOMと作用する他のメソッドと同様の原理です。閉じた木の内部は完全に隠されています。
 ```
 
 
