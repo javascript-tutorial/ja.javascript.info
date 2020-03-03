@@ -109,10 +109,12 @@ That's the similar principle as for other methods that work with shadow DOM. Int
 ## event.composed
 
 Most events successfully bubble through a shadow DOM boundary. There are few events that do not.
+ほとんどのイベントはshadow DOMの境界を通して浮上します。しかしいくつかのイベントはこのルールに従わないものもあります。
 
 This is governed by the `composed` event object property. If it's `true`, then the event does cross the boundary. Otherwise, it only can be caught from inside the shadow DOM.
-
+これは`composed`イベントオブジェクトプロパティによって管理されます。`true`の場合は、イベントは境界を超えます。そうでない場合は、shadow DOM内からのみ取得します。
 If you take a look at [UI Events specification](https://www.w3.org/TR/uievents), most events have `composed: true`:
+[UI Events specification](https://www.w3.org/TR/uievents)をご覧いただくと、ほとんどのイベントは`composed: true`：
 
 - `blur`, `focus`, `focusin`, `focusout`,
 - `click`, `dblclick`,
@@ -121,15 +123,18 @@ If you take a look at [UI Events specification](https://www.w3.org/TR/uievents),
 - `beforeinput`, `input`, `keydown`, `keyup`.
 
 All touch events and pointer events also have `composed: true`.
+全てのタッチイベントとポインターは、`composed: true`です。
 
 There are some events that have `composed: false` though:
-
+いくつかのイベントは`composed: false`ですが：
 - `mouseenter`, `mouseleave` (they do not bubble at all),
+- `mouseenter`, `mouseleave` (これらは全く浮上しません),
 - `load`, `unload`, `abort`, `error`,
 - `select`,
 - `slotchange`.
 
 These events can be caught only on elements within the same DOM, where the event target resides.
+これらのイベントはイベントターゲットが属する同じDOM内の要素でのみキャッチされます。
 
 ## Custom events
 
