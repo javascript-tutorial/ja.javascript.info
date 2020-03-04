@@ -137,10 +137,13 @@ These events can be caught only on elements within the same DOM, where the event
 これらのイベントはイベントターゲットが属する同じDOM内の要素でのみキャッチされます。
 
 ## Custom events
+## カスタムイベント
 
 When we dispatch custom events, we need to set both `bubbles` and `composed` properties to `true` for it to bubble up and out of the component.
+カスタムイベントをディスパッチすると、コンポーネントの外に浮上させるために`bubbles`と`composed`の両方のプロパティを`true`に設定する必要があります。
 
 For example, here we create `div#inner` in the shadow DOM of `div#outer` and trigger two events on it. Only the one with `composed: true` makes it outside to the document:
+例えば、`div#inner`をshadow DOMの`div#outer`に作成し、二つのイベントを発火します。`composed: true`をもつイベントのみがドキュメントの外に浮上します。
 
 ```html run untrusted height=0
 <div id="outer"></div>
