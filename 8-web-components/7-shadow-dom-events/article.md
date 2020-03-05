@@ -183,23 +183,30 @@ inner.dispatchEvent(new CustomEvent('test', {
 ## Summary
 
 Events only cross shadow DOM boundaries if their `composed` flag is set to `true`.
-
+`composed`フラグが`true`に設定されている場合、イベントはshadow DOM境界のみをクロスします。
 Built-in events mostly have `composed: true`, as described in the relevant specifications:
-
+ビルトインイベントは、関連する仕様に記載されている通り、ほとんどの場合`composed: true`を持ちます:
 - UI Events <https://www.w3.org/TR/uievents>.
+- UIイベント <https://www.w3.org/TR/uievents>.
 - Touch Events <https://w3c.github.io/touch-events>.
-- Pointer Events <https://www.w3.org/TR/pointerevents>.
-- ...And so on.
+- タッチイベント <https://w3c.github.io/touch-events>.
+- ポインターイベント <https://www.w3.org/TR/pointerevents>.
+- ...など.
 
 Some built-in events that have `composed: false`:
+いくつかのビルトインイベントは`composed: false`を持ちます:
 
 - `mouseenter`, `mouseleave` (also do not bubble),
+- `mouseenter`, `mouseleave` (バブルしません),
 - `load`, `unload`, `abort`, `error`,
 - `select`,
 - `slotchange`.
 
 These events can be caught only on elements within the same DOM.
+これらのイベントは同じDOM内の要素でのみキャッチされます。
 
 If we dispatch a `CustomEvent`, then we should explicitly set `composed: true`.
+`CustomEvent`をディスパッチする場合は、明確に`composed: true`を設定するべきです。
 
 Please note that in case of nested components, one shadow DOM may be nested into another. In that case composed events bubble through all shadow DOM boundaries. So, if an event is intended only for the immediate enclosing component, we can also dispatch it on the shadow host and set `composed: false`. Then it's out of the component shadow DOM, but won't bubble up to higher-level DOM.
+ネストされているコンポーネントの場合は、一つのshadow DOMは互いにネストされてないことに気をつけてください。その場合は、合成されたイベントは全てのshadow DOM境界を通して浮上します。なので、イベントが直近の囲まれているコンポーネントのみを目的として作成されている場合は、`composed: false`を設定してshadow hostをディスパッチすることができます。そしてshadow DOMのコンポーネントに外れますが、高次元DOMへは浮上しないでしょう。
