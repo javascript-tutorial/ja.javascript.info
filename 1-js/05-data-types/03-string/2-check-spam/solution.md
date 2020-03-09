@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 検索で大文字と小文字を区別しないようにするには、文字列を小文字にしてから検索してみましょう:
+=======
+To make the search case-insensitive, let's bring the string to lower case and then search:
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 
-```js run
+```js run demo
 function checkSpam(str) {
   let lowerStr = str.toLowerCase();
 

@@ -2,16 +2,16 @@ importance: 5
 
 ---
 
-# 関数にメソッド "f.defer(ms)" を追加する
+# Add method "f.defer(ms)" to functions
 
-すべての関数プロトタイプにメソッド `defer(ms)` を追加してください。それは `ms` ミリ秒後に関数を実行します。
+Add to the prototype of all functions the method `defer(ms)`, that runs the function after `ms` milliseconds.
 
-その後、このようなコードが動くはずです。:
+After you do it, such code should work:
 
 ```js
 function f() {
   alert("Hello!");
 }
 
-f.defer(1000); // 1秒後に "Hello!" が表示される
+f.defer(1000); // shows "Hello!" after 1 second
 ```
