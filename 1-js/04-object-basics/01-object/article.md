@@ -598,7 +598,7 @@ let user = {
 };
 
 *!*
-let clone = {}; // 新しいからオブジェクト
+let clone = {}; // 新しい空オブジェクト
 
 // すべての user プロパティをその中にコピーしましょう
 for (let key in user) {
