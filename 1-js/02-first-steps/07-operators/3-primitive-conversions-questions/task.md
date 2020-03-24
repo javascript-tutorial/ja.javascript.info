@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 型変換
+# Type conversions
 
-これらの式の結果はどうなるでしょう？
+What are results of these expressions?
 
 ```js no-beautify
 "" + 1 + 0
@@ -24,4 +24,4 @@ undefined + 1
 " \t \n" - 2
 ```
 
-よく考え、書き留めてから答えあわせしてみてください。
+Think well, write down and then compare with the answer.

@@ -2,9 +2,13 @@
 
 *イベント* は何かが起きたと言う信号です。すべての DOM ノードはこのような信号を生成します(ただし、イベントは DOM に限ったものではありません)。
 
+<<<<<<< HEAD
 [cut]
 
 ここでは最も有用なDOMイベントのリストを見てみましょう。:
+=======
+Here's a list of the most useful DOM events, just to take a look at:
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 **マウスイベント:**
 - `click` -- 要素上でマウスをクリックしたとき(タッチスクリーンデバイスでは、タップでこのイベントを生成します)。
@@ -20,8 +24,13 @@
 **キーボードイベント:**
 - `keydown` と `keyup` -- 訪問者がボタンを押したり離したとき。
 
+<<<<<<< HEAD
 **ドキュメントイベント**
 - `DOMContentLoaded` -- HTMLがロードされ処理されたとき、DOM は完全に構築済みです。
+=======
+**Document events:**
+- `DOMContentLoaded` -- when the HTML is loaded and processed, DOM is fully built.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 **CSS イベント:**
 - `transitionend` -- CSS アニメーションが終了したとき。
@@ -32,7 +41,11 @@
 
 イベントに反応するために、*ハンドラ* -- イベント発生時に実行する関数 -- を割り当てることができます。
 
+<<<<<<< HEAD
 ハンドラは、ユーザのアクション時に JavaScript コードを実行する方法です。
+=======
+Handlers are a way to run JavaScript code in case of user actions.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 ハンドラを割り当てる方法はいくつかあります。最も簡単なものから始め、それらを見ていきましょう。
 
@@ -150,7 +163,11 @@ elem.onclick = sayThanks;
 
 ## ありそうなミス 
 
+<<<<<<< HEAD
 イベントを使う場合は、微妙な点に注意してください。
+=======
+If you're starting to work with events -- please note some subtleties.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 **関数は `sayThanks()` ではなく、`sayThanks` で割り当てる必要があります。**
 
@@ -162,17 +179,29 @@ button.onclick = sayThanks;
 button.onclick = sayThanks();
 ```
 
+<<<<<<< HEAD
 もしカッコをつけると、`sayThanks()` 関数の実行 *結果* になるので、最後の行の `onclick` は `undefined` (関数が何も返さない)になります。それは動作しません。
 
 ...しかしマークアップでは、カッコは必要です:
+=======
+If we add parentheses, `sayThanks()` --  is a function call. So the last line actually takes the *result* of the function execution, that is `undefined` (as the function returns nothing), and assigns it to `onclick`. That doesn't work.
+
+...On the other hand, in the markup we do need the parentheses:
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 ```html
 <input type="button" id="button" onclick="sayThanks()">
 ```
 
+<<<<<<< HEAD
 この違いは簡単に説明出来ます。ブラウザが属性を読みとると、その内容から本体を含むハンドラ関数が作成されます。
 
 したがって、最後の例は次と同じです:
+=======
+The difference is easy to explain. When the browser reads the attribute, it creates a handler function with *body from its content*: `sayThanks()`.
+
+So the markup generates this property:
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```js
 button.onclick = function() {
 *!*
@@ -183,7 +212,11 @@ button.onclick = function() {
 
 **文字列ではなく関数を使用します。**
 
+<<<<<<< HEAD
 割り当て `elem.onclick = "alert(1)"` も動作します。これは互換性のために動作しますが、強く推奨されません。
+=======
+The assignment `elem.onclick = "alert(1)"` would work too. It works for compatibility reasons, but is strongly not recommended.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 **ハンドラに対して、`setAttribute` は使わないでください。**
 
@@ -218,7 +251,7 @@ Web標準の開発者はずっと前に理解しており、特別なメソッ�
 ハンドラを追加する構文は次のようになります:
 
 ```js
-element.addEventListener(event, handler[, phase]);
+element.addEventListener(event, handler, [options]);
 ```
 
 `event`
@@ -227,6 +260,7 @@ element.addEventListener(event, handler[, phase]);
 `handler`
 : ハンドラ関数.
 
+<<<<<<< HEAD
 `phase`
 : オプションの引数で、ハンドラが動作する "フェーズ" です。後ほど説明します。通常は使いません。
 
@@ -235,6 +269,19 @@ element.addEventListener(event, handler[, phase]);
 ```js
 // addEventListener とまったく同じ引数です
 element.removeEventListener(event, handler[, phase]);
+=======
+`options`
+: An additional optional object with properties:
+    - `once`: if `true`, then the listener is automatically removed after it triggers.
+    - `capture`: the phase where to handle the event, to be covered later in the chapter <info:bubbling-and-capturing>. For historical reasons, `options` can also be `false/true`, that's the same as `{capture: false/true}`.
+    - `passive`: if `true`, then the handler will not `preventDefault()`, we'll cover that later in <info:default-browser-action>.
+
+
+To remove the handler, use `removeEventListener`:
+
+```js
+element.removeEventListener(event, handler, [options]);
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 ```
 
 ````warn header="削除は同じ関数が必要です"
@@ -289,6 +336,7 @@ input.removeEventListener("click", handler);
 
 上の例で分かる通り、DOMプロパティと `addEventListener` 両方を使ってハンドラを設定することができます。しかし、一般的にどちらかの方法を使います。
 
+<<<<<<< HEAD
 ````warn header="いくつかのイベントでは、ハンドラは `addEventListener`でのみ動作します"
 DOMプロパティ経由では割り当てることができないイベントが存在します。`addEventListener` を使用しなければなりません。
 
@@ -321,7 +369,25 @@ DOMプロパティ経由では割り当てることができないイベント�
   });
 */!*
 </script>
+=======
+````warn header="For some events, handlers only work with `addEventListener`"
+There exist events that can't be assigned via a DOM-property. Must use `addEventListener`.
+
+For instance, the event `DOMContentLoaded`, that triggers when the document is loaded and DOM is built.
+
+```js
+document.onDOMContentLoaded = function() {
+  alert("DOM built"); // will never run
+};
 ```
+
+```js
+document.addEventListener("DOMContentLoaded", function() {
+  alert("DOM built"); // this way it works
+});
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
+```
+So `addEventListener` is more universal. Although, such events are an exception rather than the rule.
 ````
 
 ## イベントオブジェクト 
@@ -350,12 +416,20 @@ DOMプロパティ経由では割り当てることができないイベント�
 : イベントタイプ、ここでは `"click"` です.
 
 `event.currentTarget`
+<<<<<<< HEAD
 : イベントを処理した要素です。これは、あなたが `this` を他の何かにバインドしない限り、`this` とまったく同じであり、`event.currentTarget` は役立ちます。
+=======
+: Element that handled the event. That's exactly the same as `this`, unless the handler is an arrow function, or its `this` is bound to something else, then we can get the element from  `event.currentTarget`.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 `event.clientX / event.clientY`
 : マウスイベントに対するカーソルのウィンドウ相対座標です。
 
+<<<<<<< HEAD
 他にもプロパティがあります。それらはイベントのタイプによって異なりますので、詳細については別のイベントを扱う時にそれらを学びます。
+=======
+There are more properties. They depend on the event type, so we'll study them later when we come to different events in details.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 ````smart header="イベントオブジェクトもまた HTML からアクセス可能です"
 もし HTML でハンドラを割り当てる場合、このようにし `event` オブジェクトを使うことも可能です。:
@@ -370,7 +444,11 @@ DOMプロパティ経由では割り当てることができないイベント�
 
 ## オブジェクトハンドラ: handleEvent 
 
+<<<<<<< HEAD
 `addEventListener` を使用したイベントハンドラとしてオブジェクトを割り当てることも可能です。イベントが発生するとき、その `handleEvent` メソッドが呼ばれます。
+=======
+We can assign not just a function, but an object as an event handler using `addEventListener`. When an event occurs, its `handleEvent` method is called.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 例えば:
 
@@ -387,7 +465,11 @@ DOMプロパティ経由では割り当てることができないイベント�
 </script>
 ```
 
+<<<<<<< HEAD
 言い換えると、`addEventListener` がハンドラとしてオブジェクトを受け取ると、イベント時に `object.handleEvent(event)` を呼び出します。
+=======
+As we can see, when `addEventListener` receives an object as the handler, it calls `object.handleEvent(event)` in case of an event.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 そのためのクラスを使うこともできます:
 
@@ -461,7 +543,11 @@ HTML 属性は控えめに使われます。なぜなら HTML タグ中の JavaS
 
 DOM プロパティは使うのは問題ありませんが、特定のイベントに対して１つ以上のハンドラを割り当てることができません。多くの場合、その制限は切実ではありません。
 
+<<<<<<< HEAD
 最後の方法は最も柔軟ですが、記述が最も長くなります。これでしか動作しないイベントがいくつかあります, 例えば `transtionend` や `DOMContentLoaded` です。`addEventListener` はイベントハンドラとしてオブジェクトもサポートします。この場合、イベント時にはメソッド `handleEvent` が呼ばれます。
+=======
+The last way is the most flexible, but it is also the longest to write. There are few events that only work with it, for instance `transitionend` and `DOMContentLoaded` (to be covered). Also `addEventListener` supports objects as event handlers. In that case the method `handleEvent` is called in case of the event.
+>>>>>>> 162280b6d238ce32bbd8ff7a3f7992be82c2311a
 
 どのようにハンドラを割り当てても -- 最初の引数としてイベントオブジェクトを取得します。オブジェクトには何が起きたかの詳細が含まれています。
 
