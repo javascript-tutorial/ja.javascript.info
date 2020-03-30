@@ -1,6 +1,10 @@
 # 外部の角
 
+<<<<<<< HEAD
 外部の角は基本的に [elem.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/DOM/element.getBoundingClientRect) から取得したものです。
+=======
+Outer corners are basically what we get from [elem.getBoundingClientRect()](https://developer.mozilla.org/en-US/docs/DOM/element.getBoundingClientRect).
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
 
 左上の角 `answer1` と、右下の角 `answer2` の座標は:
 

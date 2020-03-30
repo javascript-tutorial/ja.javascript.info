@@ -27,4 +27,8 @@ for (let args of work.calls) {
 }
 ```
 
+<<<<<<< HEAD
 P.S. このデコレータはユニットテストで役立つ場合があります。その高度な形は [Sinon.JS](http://sinonjs.org/) ライブラリの `sinon.spy` です。
+=======
+P.S. That decorator is sometimes useful for unit-testing. Its advanced form is `sinon.spy` in [Sinon.JS](http://sinonjs.org/) library.
+>>>>>>> 62299ed853674c4fd1427cd310516d5535bce648
