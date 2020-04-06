@@ -2,9 +2,13 @@
 
 配列は多くのメソッドを提供します。分かりやすくするために、このチャプターではグループに分けて説明します。
 
+<<<<<<< HEAD
 [cut]
 
 ## アイテムの追加/削除 
+=======
+## Add/remove items
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 私たちは既に先頭または末尾にアイテムを追加/削除するメソッドを知っています:
 
@@ -13,7 +17,11 @@
 - `shift()` は先頭の要素を削除し、それを返します。
 - `unshift(...items)` はアイテムを先頭に追加します。
 
+<<<<<<< HEAD
 他にもいくつかあります。
+=======
+Here are a few others.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ### splice
 
@@ -38,7 +46,11 @@ alert( arr.length ); // 3
 
 なので、特別なメソッドを使用する必要があります。
 
+<<<<<<< HEAD
 [arr.splice(str)](mdn:js/Array/splice) メソッドは、配列用のスイス製アーミーナイフです。それは何でもすることができます: 追加、削除、また要素の挿入も。
+=======
+The [arr.splice(start)](mdn:js/Array/splice) method is a swiss army knife for arrays. It can do everything: insert, remove and replace elements.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 構文:
 
@@ -121,29 +133,38 @@ alert( arr ); // 1,2,3,4,5
 構文:
 
 ```js
-arr.slice(start, end)
+arr.slice([start], [end])
 ```
 
+<<<<<<< HEAD
 開始インデックス `"start"` から `"end"` (`"end"` は含みません)のすべてのアイテムをコピーした新しい配列を返します。`start` と `end` はともに負値になることができます。そのときは、配列の末尾からの位置が想定されます。
 
 `str.slice` のように動作しますが、部分文字列の代わりに部分配列を作ります。
+=======
+It returns a new array copying to it all items from index `start` to `end` (not including `end`). Both `start` and `end` can be negative, in that case position from array end is assumed.
+
+It's similar to a string method `str.slice`, but instead of substrings it makes subarrays.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 例:
 
 ```js run
-let str = "test";
 let arr = ["t", "e", "s", "t"];
 
-alert( str.slice(1, 3) ); // es
-alert( arr.slice(1, 3) ); // e,s
+alert( arr.slice(1, 3) ); // e,s (copy from 1 to 3)
 
-alert( str.slice(-2) ); // st
-alert( arr.slice(-2) ); // s,t
+alert( arr.slice(-2) ); // s,t (copy from -2 till the end)
 ```
+
+We can also call it without arguments: `arr.slice()` creates a copy of `arr`. That's often used to obtain a copy for further transformations that should not affect the original array.
 
 ### concat
 
+<<<<<<< HEAD
 メソッド [arr.concat](mdn:js/Array/concat) は配列を他の配列またはアイテムと結合します。
+=======
+The method [arr.concat](mdn:js/Array/concat) creates a new array that includes values from other arrays and additional items.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 構文:
 
@@ -155,13 +176,18 @@ arr.concat(arg1, arg2...)
 
 結果は `arr`, 次に `arg1`, `arg2` などのアイテムを含む新しい配列を返します。
 
+<<<<<<< HEAD
 もし、引数が配列、もしくは `Symbol.isConcatSpreadable` プロパティを持っている場合、その全ての要素がコピーされます。そうでない場合、引数自体がコピーされます。
+=======
+If an argument `argN` is an array, then all its elements are copied. Otherwise, the argument itself is copied.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 例:
 
 ```js run
 let arr = [1, 2];
 
+<<<<<<< HEAD
 // arr と [3,4] をマージ
 alert( arr.concat([3, 4])); // 1,2,3,4
 
@@ -173,6 +199,19 @@ alert( arr.concat([3, 4], 5, 6)); // 1,2,3,4,5,6
 ```
 
 通常は、配列から要素をコピーするだけです。それ以外のオブジェクトでは、配列のように見えたとしても、全体として追加されます:
+=======
+// create an array from: arr and [3,4]
+alert( arr.concat([3, 4]) ); // 1,2,3,4
+
+// create an array from: arr and [3,4] and [5,6]
+alert( arr.concat([3, 4], [5, 6]) ); // 1,2,3,4,5,6
+
+// create an array from: arr and [3,4], then add values 5 and 6
+alert( arr.concat([3, 4], 5, 6) ); // 1,2,3,4,5,6
+```
+
+Normally, it only copies elements from arrays. Other objects, even if they look like arrays, are added as a whole:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```js run
 let arr = [1, 2];
@@ -183,10 +222,13 @@ let arrayLike = {
 };
 
 alert( arr.concat(arrayLike) ); // 1,2,[object Object]
-//[1, 2, arrayLike]
 ```
 
+<<<<<<< HEAD
 ...しかし、もし配列のようなオブジェクトが `Symbol.isConcatSpreadable` プロパティを持つ場合、代わりにその要素が追加されます:
+=======
+...But if an array-like object has a special `Symbol.isConcatSpreadable` property, then it's treated as an array by `concat`: its elements are added instead:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```js run
 let arr = [1, 2];
@@ -203,6 +245,7 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,something,else
 ```
 
+<<<<<<< HEAD
 ## イテレート/反復: forEach 
 
 [arr.forEach](mdn:js/Array/forEach) メソッドは配列の全要素に対して関数を実行することができます。
@@ -235,14 +278,54 @@ arr.forEach(function(item, index, array) {
 ## 配列での検索 
 
 これらは、配列で何かを探すためのメソッドです。
+=======
+## Iterate: forEach
+
+The [arr.forEach](mdn:js/Array/forEach) method allows to run a function for every element of the array.
+
+The syntax:
+```js
+arr.forEach(function(item, index, array) {
+  // ... do something with item
+});
+```
+
+For instance, this shows each element of the array:
+
+```js run
+// for each element call alert
+["Bilbo", "Gandalf", "Nazgul"].forEach(alert);
+```
+
+And this code is more elaborate about their positions in the target array:
+
+```js run
+["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
+  alert(`${item} is at index ${index} in ${array}`);
+});
+```
+
+The result of the function (if it returns any) is thrown away and ignored.
+
+
+## Searching in array
+
+Now let's cover methods that search in an array.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ### indexOf/lastIndexOf and includes
 
 メソッド [arr.indexOf](mdn:js/Array/indexOf), [arr.lastIndexOf](mdn:js/Array/lastIndexOf) と [arr.includes](mdn:js/Array/includes) は文字列の場合と同じ構文を持ち、基本的に同じことを行いますが、文字の代わりにアイテムを操作します:
 
+<<<<<<< HEAD
 - `arr.indexOf(item, from)` はインデックス `from` から `item` を探し、見つかった場所のインデックスを返します。そうでない場合は `-1` になります。
 - `arr.lastIndexOf(item, from)` は同じですが、右から左に見ていきます。
 - `arr.includes(item, from)` はインデックス `from` から `item` を探し、見つかった場合、`true` を返します。
+=======
+- `arr.indexOf(item, from)` -- looks for `item` starting from index `from`, and returns the index where it was found, otherwise `-1`.
+- `arr.lastIndexOf(item, from)` -- same, but looks for from right to left.
+- `arr.includes(item, from)` -- looks for `item` starting from index `from`, returns `true` if found.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 例:
 
@@ -260,7 +343,11 @@ alert( arr.includes(1) ); // true
 
 もしも含んでいるかをチェックしたいが、正確なインデックスは不要なときは、`arr.includes` が好ましいです。
 
+<<<<<<< HEAD
 また、`includes` の非常に小さな違いは、`indexOf/lastIndexOf` と違い、`NaN` を正しく処理することができます:
+=======
+Also, a very minor difference of `includes` is that it correctly handles `NaN`, unlike `indexOf/lastIndexOf`:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```js run
 const arr = [NaN];
@@ -272,16 +359,29 @@ alert( arr.includes(NaN) );// true (正しい)
 
 オブジェクトの配列を持っていることを想像してください。特定条件を持つオブジェクトをどのようにして見つけますか？
 
+<<<<<<< HEAD
 ここで [arr.find](mdn:js/Array/find) メソッドが便利です。
+=======
+Here the [arr.find(fn)](mdn:js/Array/find) method comes in handy.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 構文はこうです:
 ```js
 let result = arr.find(function(item, index, array) {
+<<<<<<< HEAD
   // item が探しているものであれば true を返すようにします
 });
 ```
 
 関数は配列の要素毎に繰り返し呼ばれます:
+=======
+  // if true is returned, item is returned and iteration is stopped
+  // for falsy scenario returns undefined
+});
+```
+
+The function is called for elements of the array, one after another:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 - `item` は要素です。
 - `index` はインデックスです。
@@ -305,20 +405,37 @@ alert(user.name); // John
 
 現実の世界では、オブジェクトの配列は一般的なことです。なので、 `find` メソッドは非常に役立ちます。
 
+<<<<<<< HEAD
 例の中では１つの引数、関数 `item => item.id == 1` で `find` を行っている点に注意してください。`find` の他のパラメータは殆ど使われません。
 
 [arr.findIndex](mdn:js/Array/findIndex) メソッドは基本的に同じです。が、要素自体ではなく要素が見つかったインデックスを返します。
+=======
+Note that in the example we provide to `find` the function `item => item.id == 1` with one argument. That's typical, other arguments of this function are rarely used.
+
+The [arr.findIndex](mdn:js/Array/findIndex) method is essentially the same, but it returns the index where the element was found instead of the element itself and `-1` is returned when nothing is found.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ### filter
 
 `find` メソッドは、関数が `true` を返すようにする単一の（最初の）要素を探します。
 もしそれが多い場合、[arr.filter(fn)](mdn:js/Array/filter) を使います。
 
+<<<<<<< HEAD
 構文は大体 `find` と同じですが、マッチした要素の配列を返します:
 
 ```js
 let results = arr.filter(function(item, index, array) {
   // item がフィルタを通過する場合はtrueを返します
+=======
+If there may be many, we can use [arr.filter(fn)](mdn:js/Array/filter).
+
+The syntax is similar to `find`, but `filter` returns an array of all matching elements:
+
+```js
+let results = arr.filter(function(item, index, array) {
+  // if true item is pushed to results and the iteration continues
+  // returns empty array if nothing found
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 });
 ```
 
@@ -337,14 +454,21 @@ let someUsers = users.filter(item => item.id < 3);
 alert(someUsers.length); // 2
 ```
 
+<<<<<<< HEAD
 ## 配列を変換する 
 
 このセクションでは、配列を変換または並び替える方法について説明します。
+=======
+## Transform an array
+
+Let's move on to methods that transform and reorder an array.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ### map
 
 [arr.map](mdn:js/Array/map) メソッドは最も便利なものの1つで、よく使われます。
 
+<<<<<<< HEAD
 構文:
 
 ```js
@@ -356,22 +480,45 @@ let result = arr.map(function(item, index, array) {
 これは、配列の各要素で関数を呼び出し、結果の配列を返します。
 
 例えば、ここでは各要素をその長さに変換します:
+=======
+It calls the function for each element of the array and returns the array of results.
+
+The syntax is:
+
+```js
+let result = arr.map(function(item, index, array) {
+  // returns the new value instead of item
+});
+```
+
+For instance, here we transform each element into its length:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```js run
-let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length)
+let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length);
 alert(lengths); // 5,7,6
 ```
 
 ### sort(fn)
 
+<<<<<<< HEAD
 メソッド [arr.sort](mdn:js/Array/sort) は配列を *決まった位置に* ソートします。
+=======
+The call to [arr.sort()](mdn:js/Array/sort) sorts the array *in place*, changing its element order.
+
+It also returns the sorted array, but the returned value is usually ignored, as `arr` itself is modified.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 例:
 
 ```js run
 let arr = [ 1, 2, 15 ];
 
+<<<<<<< HEAD
 // このメソッドは arr の内容を並べ替え（てそれを返します）
+=======
+// the method reorders the content of arr
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 arr.sort();
 
 alert( arr );  // *!*1, 15, 2*/!*
@@ -383,20 +530,32 @@ alert( arr );  // *!*1, 15, 2*/!*
 
 **アイテムは、デフォルトでは文字列としてソートされます。**
 
+<<<<<<< HEAD
 文字通り、すべての要素は文字列に変換され、比較されます。なので、辞書編集順序が適用され、実際には `"2" > "15"` となります。
 
 私たち独自のソート順を使うためには、`arr.sort()` の引数として、2つの引数をもつ関数を指定する必要があります。
 
 関数はこのように動作する必要があります:
+=======
+Literally, all elements are converted to strings for comparisons. For strings, lexicographic ordering is applied and indeed `"2" > "15"`.
+
+To use our own sorting order, we need to supply a function as the argument of `arr.sort()`.
+
+The function should compare two arbitrary values and return:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 ```js
 function compare(a, b) {
-  if (a > b) return 1;
-  if (a == b) return 0;
-  if (a < b) return -1;
+  if (a > b) return 1; // if the first value is greater than the second
+  if (a == b) return 0; // if values are equal
+  if (a < b) return -1; // if the first value is less than the second
 }
 ```
 
+<<<<<<< HEAD
 例:
+=======
+For instance, to sort as numbers:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```js run
 function compareNumeric(a, b) {
@@ -416,9 +575,15 @@ alert(arr);  // *!*1, 2, 15*/!*
 
 これで意図したとおりに動作します。
 
+<<<<<<< HEAD
 立ち止まって何が起きているのか考えてみましょう。`arr` は何でも配列にすることができます。それは数値や文字列、html要素やその他何でも含まれる可能性があります。私たちは *何かの* セットを持っています。それらをソートするためには、要素を比較する方法を知っている *順序付け関数* が必要です。 デフォルトは文字列です。
 
 `arr.sort(fn)` メソッドは組み込みでソートアルゴリズムの実装を持っています。私たちはそれが正確にどのように動作するかについては気にする必要はありません (殆どの場合、最適化された[クイックソート](https://en.wikipedia.org/wiki/Quicksort) です)。配列の要素を見ていき、提供された関数を使ってその要素を比較し、並べ替えます。私たちに必要なのは、比較を行う `fn` を提供することだけです。
+=======
+Let's step aside and think what's happening. The `arr` can be array of anything, right? It may contain numbers or strings or objects or whatever. We have a set of *some items*. To sort it, we need an *ordering function* that knows how to compare its elements. The default is a string order.
+
+The `arr.sort(fn)` method implements a generic sorting algorithm. We don't need to care how it internally works (an optimized [quicksort](https://en.wikipedia.org/wiki/Quicksort) most of the time). It will walk the array, compare its elements using the provided function and reorder them, all we need is to provide the `fn` which does the comparison.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ところで、もしどの要素が比較されているかを知りたいとき、`alert` をしても問題ありません:
 
@@ -428,7 +593,11 @@ alert(arr);  // *!*1, 2, 15*/!*
 });
 ```
 
+<<<<<<< HEAD
 アルゴリズムは処理の中で複数回要素を比較しますが、できるだけ回数を少なくしようとします。
+=======
+The algorithm may compare an element with multiple others in the process, but it tries to make as few comparisons as possible.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ````smart header="比較関数は任意の数を返すことがあります"
 実際には、比較関数は正の数を「より大きい」、負の数を「より小さい」として返せば十分です。
@@ -444,14 +613,39 @@ alert(arr);  // *!*1, 2, 15*/!*
 ```
 ````
 
+<<<<<<< HEAD
 ````smart header="ベストなアロー関数"
 [アロー関数](info:function-expressions-arrows#arrow-functions) を覚えていますか? すっきりしたソートを書くために使えます。:
+=======
+````smart header="Arrow functions for the best"
+Remember [arrow functions](info:arrow-functions-basics)? We can use them here for neater sorting:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```js
 arr.sort( (a, b) => a - b );
 ```
 
+<<<<<<< HEAD
 これは、他の上で書いているより長いバージョンとまったく同じように動作します。
+=======
+This works exactly the same as the longer version above.
+````
+
+````smart header="Use `localeCompare` for strings"
+Remember [strings](info:string#correct-comparisons) comparison algorithm? It compares letters by their codes by default.
+
+For many alphabets, it's better to use `str.localeCompare` method to correctly sort letters, such as `Ö`.
+
+For example, let's sort a few countries in German:
+
+```js run
+let countries = ['Österreich', 'Andorra', 'Vietnam'];
+
+alert( countries.sort( (a, b) => a > b ? 1 : -1) ); // Andorra, Vietnam, Österreich (wrong)
+
+alert( countries.sort( (a, b) => a.localeCompare(b) ) ); // Andorra,Österreich,Vietnam (correct!)
+```
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 ````
 
 ### reverse
@@ -471,7 +665,11 @@ alert( arr ); // 5,4,3,2,1
 
 ### split と join
 
+<<<<<<< HEAD
 ここでは現実世界でのシチュエーションを考えます。私たちはメッセージングアプリを書いており、利用者はカンマ区切りで受信者のリスト(`John, Pete, Mary`)を入力します。しかし、我々にとっては、１つの文字列よりも名前の配列の方がはるかに扱いやすいです。それを得る方法は？
+=======
+Here's the situation from real life. We are writing a messaging app, and the person enters the comma-delimited list of receivers: `John, Pete, Mary`. But for us an array of names would be much more comfortable than a single string. How to get it?
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 [str.split(delim)](mdn:js/String/split) メソッドは、まさにそれをします。与えられた区切り文字 `delim` で文字列を配列に分割します。
 
@@ -505,21 +703,29 @@ alert( str.split('') ); // t,e,s,t
 ```
 ````
 
+<<<<<<< HEAD
 [arr.join(str)](mdn:js/Array/join) は `split` と逆を行います。`arr` のアイテムを `str` で繋いだ文字列を作ります。
+=======
+The call [arr.join(glue)](mdn:js/Array/join) does the reverse to `split`. It creates a string of `arr` items joined by `glue` between them.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 例:
 
 ```js run
 let arr = ['Bilbo', 'Gandalf', 'Nazgul'];
 
-let str = arr.join(';');
+let str = arr.join(';'); // glue the array into a string using ;
 
 alert( str ); // Bilbo;Gandalf;Nazgul
 ```
 
 ### reduce/reduceRight
 
+<<<<<<< HEAD
 配列に対して繰り返し処理が必要なときは、`forEach` を使うことができます。
+=======
+When we need to iterate over an array -- we can use `forEach`, `for` or `for..of`.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 各要素のデータを反復して返す必要があるときには、`map`を使うことができます。
 
@@ -528,11 +734,12 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 構文:
 
 ```js
-let value = arr.reduce(function(previousValue, item, index, arr) {
+let value = arr.reduce(function(accumulator, item, index, array) {
   // ...
-}, initial);
+}, [initial]);
 ```
 
+<<<<<<< HEAD
 関数は各要素に適用されます。あなたはよく知られている引数に気づくかもしれません。2つ目から始まる引数は次の通りです:
 
 - `item` -- 現在の配列の項目です。
@@ -542,10 +749,30 @@ let value = arr.reduce(function(previousValue, item, index, arr) {
 これまでのところ、`forEach/map` のようです。しかし、もう１つ引数があります:
 
 - `previousValue` -- 前の関数の呼び出し結果です。最初の呼び出しは `initial` です。
+=======
+The function is applied to all array elements one after another and "carries on" its result to the next call.
+
+Arguments:
+
+- `accumulator` -- is the result of the previous function call, equals `initial` the first time (if `initial` is provided).
+- `item` -- is the current array item.
+- `index` -- is its position.
+- `array` -- is the array.
+
+As function is applied, the result of the previous function call is passed to the next one as the first argument.
+
+So, the first argument is essentially the accumulator that stores the combined result of all previous executions. And at the end it becomes the result of `reduce`.
+
+Sounds complicated?
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 これを掴むための最も簡単な方法は、例を見る、です。
 
+<<<<<<< HEAD
 ここでは、１行で配列の合計を取得します。
+=======
+Here we get a sum of an array in one line:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -555,23 +782,40 @@ let result = arr.reduce((sum, current) => sum + current, 0);
 alert(result); // 15
 ```
 
+<<<<<<< HEAD
 ここでは、2つの引数だけを使用する `reduce` の最も一般的なバリアントを使用しました。
+=======
+The function passed to `reduce` uses only 2 arguments, that's typically enough.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 
+<<<<<<< HEAD
 何が起きているか、詳細を見てみましょう。
+=======
+1. On the first run, `sum` is the `initial` value (the last argument of `reduce`), equals `0`, and `current` is the first array element, equals `1`. So the function result is `1`.
+2. On the second run, `sum = 1`, we add the second array element (`2`) to it and return.
+3. On the 3rd run, `sum = 3` and we add one more element to it, and so on...
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 1. 最初の実行で `sum` は initial 値(`reduce` の最後の引数)であり、 `0` と等価です。そして、 `current` は最初の配列要素で `1` になります。従って、結果は `1` です。
 2. ２回目の実行では、`sum = 1` で、2つ目の配列要素(`2`)をそれに足して返します。
 3. ３回目の実行では、`sum = 3` で、それに１つ要素を足します。それが続きます。
 
+<<<<<<< HEAD
 計算のフロー:
 
 ![](reduce.svg)
 
 また、次のテーブルでは、各行は次の配列要素の関数呼び出しを表しています。
+=======
+![](reduce.svg)
 
-|   |`sum`|`current`|`result`|
+Or in the form of a table, where each row represents a function call on the next array element:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
+
+|   |`sum`|`current`|result|
 |---|-----|---------|---------|
+<<<<<<< HEAD
 |最初の呼び出し|`0`|`1`|`1`|
 |2回目の呼び出し|`1`|`2`|`3`|
 |3回目の呼び出し|`3`|`3`|`6`|
@@ -579,6 +823,15 @@ alert(result); // 15
 |5回目の呼び出し|`10`|`5`|`15`|
 
 これらから分かるように、前の呼び出しの結果は次の実行のときの最初の引数になっています。
+=======
+|the first call|`0`|`1`|`1`|
+|the second call|`1`|`2`|`3`|
+|the third call|`3`|`3`|`6`|
+|the fourth call|`6`|`4`|`10`|
+|the fifth call|`10`|`5`|`15`|
+
+Here we can clearly see how the result of the previous call becomes the first argument of the next one.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 また、 initial 値を省略することもできます。:
 
@@ -607,11 +860,20 @@ let arr = [];
 arr.reduce((sum, current) => sum + current);
 ```
 
+<<<<<<< HEAD
 従って、常に初期値を指定することをおすすめします。
 
 [arr.reduceRight](mdn:js/Array/reduceRight) メソッドも同じをことを行いますが、右から左に実行します。
 
 ## Array.isArray 
+=======
+So it's advised to always specify the initial value.
+
+The method [arr.reduceRight](mdn:js/Array/reduceRight) does the same, but goes from right to left.
+
+
+## Array.isArray
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 配列は別の言語の型を形成しません。 それらはオブジェクトに基づいています。
 
@@ -648,35 +910,58 @@ arr.map(func, thisArg);
 
 `thisArg` パラメータの値は `func` での `this` になります。
 
+<<<<<<< HEAD
 例えば、ここではオブジェクトメソッドをフィルタとして使用し、`thisArg` が役立ちます。:
+=======
+For example, here we use a method of `army` object as a filter, and `thisArg` passes the context:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ```js run
-let user = {
-  age: 18,
-  younger(otherUser) {
-    return otherUser.age < this.age;
+let army = {
+  minAge: 18,
+  maxAge: 27,
+  canJoin(user) {
+    return user.age >= this.minAge && user.age < this.maxAge;
   }
 };
 
 let users = [
-  {age: 12},
   {age: 16},
-  {age: 32}
+  {age: 20},
+  {age: 23},
+  {age: 30}
 ];
 
 *!*
+<<<<<<< HEAD
 // user より若いすべてのユーザを見つけます
 let youngerUsers = users.filter(user.younger, user);
+=======
+// find users, for who army.canJoin returns true
+let soldiers = users.filter(army.canJoin, army);
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 */!*
 
-alert(youngerUsers.length); // 2
+alert(soldiers.length); // 2
+alert(soldiers[0].age); // 20
+alert(soldiers[1].age); // 23
 ```
 
+<<<<<<< HEAD
 上の呼び出しでは、フィルタとして `user.younger` を使い、そのコンテキストとして `user` を提供しています。もしもコンテキストを提供しなかった場合、`users.filter(user.younger)` はスタンドアロン関数として `this=undefined` で `user.younger` を呼び出します。それは即時エラーを意味します。
+=======
+If in the example above we used `users.filter(army.canJoin)`, then `army.canJoin` would be called as a standalone function, with `this=undefined`, thus leading to an instant error.
+
+A call to `users.filter(army.canJoin, army)` can be replaced with `users.filter(user => army.canJoin(user))`, that does the same. The former is used more often, as it's a bit easier to understand for most people.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 ## サマリ 
 
+<<<<<<< HEAD
 配列メソッドの チートシート です:
+=======
+A cheat sheet of array methods:
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 - 要素の追加/削除をする場合:
   - `push(...items)` -- アイテムを末尾に追加します,
@@ -693,6 +978,7 @@ alert(youngerUsers.length); // 2
   - `find/filter(func)` -- 関数を介して要素をフィルタリングし、`true` を返す最初の/すべての値を返します。
   - `findIndex` は `find` のようですが、値の代わりにインデックスを返します。
 
+<<<<<<< HEAD
 - 配列を変換するには:
   - `map(func)` -- すべての要素に対して `func` を呼び出した結果から新しい配列を作成します。
   - `sort(func)` -- 配列を適切な位置でソートし、それを返します。
@@ -705,6 +991,20 @@ alert(youngerUsers.length); // 2
 
 - さらに:
   - `Array.isArray(arr)` は `arr` が配列かどうかをチェックします。
+=======
+- To iterate over elements:
+  - `forEach(func)` -- calls `func` for every element, does not return anything.
+
+- To transform the array:
+  - `map(func)` -- creates a new array from results of calling `func` for every element.
+  - `sort(func)` -- sorts the array in-place, then returns it.
+  - `reverse()` -- reverses the array in-place, then returns it.
+  - `split/join` -- convert a string to array and back.
+  - `reduce(func, initial)` -- calculate a single value over the array by calling `func` for each element and passing an intermediate result between the calls.
+
+- Additionally:
+  - `Array.isArray(arr)` checks `arr` for being an array.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 `sort`, `reverse` と `splice` メソッドは、配列自身を変更することに注意してください。
 
@@ -720,8 +1020,16 @@ alert(youngerUsers.length); // 2
 
 完全なリストは [manual](mdn:js/Array) を見てください。
 
+<<<<<<< HEAD
 初めてみたとき、多くのメソッドがあり覚えるのがとても難しいように見えるかもしれません。しかし、実際にはそう見えるよりもはるかに簡単です。
 
 チートシートを見て、それらを認識してください。 それから、このチャプターのタスクで練習してください。そうすれば配列メソッドの経験を積むことができます。
 
 今後、配列で何かをする必要があるとき、どうやればいいか分からないときはいつでもここに来て、 チートシート を見て正しいメソッドを見つけてください。例はあなたが正しくそのメソッドを使うのに役立つでしょう。使っていると自然とそれらのメソッドを覚えていくでしょう。
+=======
+From the first sight it may seem that there are so many methods, quite difficult to remember. But actually that's much easier.
+
+Look through the cheat sheet just to be aware of them. Then solve the tasks of this chapter to practice, so that you have experience with array methods.
+
+Afterwards whenever you need to do something with an array, and you don't know how -- come here, look at the cheat sheet and find the right method. Examples will help you to write it correctly. Soon you'll automatically remember the methods, without specific efforts from your side.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622

@@ -17,6 +17,7 @@ undefined + 1 = NaN // (6)
 " \t \n" - 2 = -2 // (7)
 ```
 
+<<<<<<< HEAD
 1. 文字列の追加 `"" + 1` では `1` を文字列に変換します: `"" + 1 = "1"`, そして `"1" + 0` には同じルールが適用されます。
 2. 減算 `-` (ほとんどの算術演算子と同様)は数値でのみ動作し、空の文字列 `""` を `0` に変換します
 3. 文字列の追加は、数値 `5` を文字列に追加します。
@@ -24,3 +25,12 @@ undefined + 1 = NaN // (6)
 5. `null` は数値変換後は `0` になります。
 6. `undefined` は数値変換後は `NaN` になります。
 7. 文字列の先頭/末尾のスペースは、文字列が数値に変換される際に削除されます。ここでは文字列全体が `\t` や `\n`、"通常" のスペース文字から構成されています。したがって、空文字列のときと同様、`0` になります。
+=======
+1. The addition with a string `"" + 1` converts `1` to a string: `"" + 1 = "1"`, and then we have `"1" + 0`, the same rule is applied.
+2. The subtraction `-` (like most math operations) only works with numbers, it converts an empty string `""` to `0`.
+3. The addition with a string appends the number `5` to the string.
+4. The subtraction always converts to numbers, so it makes `"  -9  "` a number `-9` (ignoring spaces around it).
+5. `null` becomes `0` after the numeric conversion.
+6. `undefined` becomes `NaN` after the numeric conversion.
+7. Space characters, are trimmed off string start and end when a string is converted to a number. Here the whole string consists of space characters, such as `\t`, `\n` and a "regular" space between them. So, similarly to an empty string, it becomes `0`.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622

@@ -9,7 +9,11 @@ let router = new Router();
 
 router.post('/user', async (ctx) => {
   ctx.body = {
+<<<<<<< HEAD
     message: "User saved."
+=======
+    message: "User saved"
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
   };
 });
 
@@ -34,7 +38,11 @@ router.post('/image-form', async (ctx) => {
   });
 
   ctx.body = {
+<<<<<<< HEAD
     message: `Image saved, firstName: ${fields.firstName}, Image size:${files[0].length}, fileName: ${files[0].filename}.`
+=======
+    message: `Image saved, firstName: ${fields.firstName}, Image size:${files[0].length}, fileName: ${files[0].filename}`
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
   };
 });
 
@@ -61,7 +69,11 @@ router.post('/user-avatar', async (ctx) => {
   });
 
   ctx.body = {
+<<<<<<< HEAD
     message: `User with picture, firstName: ${fields.firstName}, picture size:${files[0].length}.`
+=======
+    message: `User with picture, firstName: ${fields.firstName}, picture size:${files[0].length}`
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
   };
 });
 

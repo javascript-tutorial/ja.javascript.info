@@ -4,9 +4,13 @@
 
 これは値を複数のパターンと比較するための、よりわかりやすい方法を提供します。
 
+<<<<<<< HEAD
 [cut]
 
 ## 構文 
+=======
+## The syntax
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 `switch` は1つ以上の `case` ブロックを持ち、 オプションで default を持ちます。
 
@@ -120,7 +124,7 @@ switch (+a) {
 たとえば、`case 3` と `case 5` で同じコードを実行したい場合:
 
 ```js run no-beautify
-let a = 2 + 2;
+let a = 3;
 
 switch (a) {
   case 4:
@@ -128,7 +132,11 @@ switch (a) {
     break;
 
 *!*
+<<<<<<< HEAD
   case 3:                    // (*) 2つのケースをグループ化
+=======
+  case 3: // (*) grouped two cases
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
   case 5:
     alert('Wrong!');
     alert("Why don't you take a math class?");
@@ -152,7 +160,7 @@ switch (a) {
 たとえば、このコードを考えてみましょう:
 
 ```js run
-let arg = prompt("Enter a value?")
+let arg = prompt("Enter a value?");
 switch (arg) {
   case '0':
   case '1':
@@ -167,7 +175,7 @@ switch (arg) {
     alert( 'Never executes!' );
     break;
   default:
-    alert( 'An unknown value' )
+    alert( 'An unknown value' );
 }
 ```
 

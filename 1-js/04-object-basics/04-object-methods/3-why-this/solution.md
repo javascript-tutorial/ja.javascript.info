@@ -3,7 +3,11 @@
 
 1. これは通常のオブジェクトメソッド呼び出しです。
 
+<<<<<<< HEAD
 2. 同じです。ここでは括弧は操作の順番を変更しません。ドットが最初です。
+=======
+2. The same, parentheses do not change the order of operations here, the dot is first anyway.
+>>>>>>> c89ddc5d92195e08e2c32e30526fdb755fec4622
 
 3. ここにより複雑な呼び出し `(expression).method()` があります。この呼出しはまるで2行に分割されたかのようにして動作します。:
 
