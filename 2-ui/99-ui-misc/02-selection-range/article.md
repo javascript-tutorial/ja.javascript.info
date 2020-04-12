@@ -290,37 +290,36 @@ range と同様、選択には始点と終点があり、それぞれ "anchor(�
 - `isCollapsed` -- selection が未選択(空の範囲) あるいは存在しない場合 `true` になります。
 - `rangeCount` -- selection に含まれる range の数です。
 
-````smart header="Selection end may be in the document before start"
-There are many ways to select the content, depending on the user agent: mouse, hotkeys, taps on a mobile etc.
+````smart header="ドキュメント内で Selection の終点が始点の前にくることがあります"
+ユーザエージェントによって、コンテンツを選択する多くの方法があります: マウス、ホットキー、モバイルでのタップなど。
 
-Some of them, such as a mouse, allow the same selection can be created in two directions: "left-to-right" and "right-to-left".
+マウスなど、そのうちのいくつかは同じ選択を "左から右" と "右から左" の2方向で作成できます。
 
-If the start (anchor) of the selection goes in the document before the end (focus), this selection is said to have "forward" direction.
+もしドキュメント内の選択の始点（anchor）が終点(focus)の前にある場合、この選択は "正" 方向と呼ばれます。
 
-E.g. if the user starts selecting with mouse and goes from "Example" to "italic":
+E.g. ユーザがマウスで選択を開始し、"Example" から "italic" まで操作した場合:
 
 ![](selection-direction-forward.svg)
 
-Otherwise, if they go from the end of "italic" to "Example", the selection is directed "backward", its focus will be before the anchor:
+そうでない場合、もし "italic" の終わりから "Example" に進む場合、選択は "後方" に向けられ、その focus は anchor の前になります。:
 
 ![](selection-direction-backward.svg)
 
-That's different from `Range` objects that are always directed forward: the range start can't be after its end.
+これは常に正方向を向く `Range` オブジェクトとは異なります。range の始点を終点の後に置くことはできません。
 ````
 
-## Selection events
+## Selection イベント
 
-There are events on to keep track of selection:
+選択範囲を追跡するためのイベントがあります:
 
-- `elem.onselectstart` -- when a selection starts on `elem`, e.g. the user starts moving mouse with pressed button.
-    - Preventing the default action makes the selection not start.
-- `document.onselectionchange` -- whenever a selection changes.
-    - Please note: this handler can be set only on `document`.
+- `elem.onselectstart` -- `elem` で選択が開始されたとき。e.g. ユーザがボタンを押しながらマウスを動かし始めたとき。
+    - デフォルトアクションを防いだ場合、選択は開始されません。
+- `document.onselectionchange` -- 選択範囲が変更されたとき。
+    - 注意: おのハンドラは `document` に対してのみ設定可能です。
 
-### Selection tracking demo
+### 選択範囲の追跡デモ
 
-Here's a small demo that shows selection boundaries
-dynamically as it changes:
+これは選択境界の変更に応じて動的に選択境界を表示する小さなデモです:
 
 ```html run height=80
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
@@ -336,13 +335,13 @@ From <input id="from" disabled> – To <input id="to" disabled>
 </script>
 ```
 
-### Selection getting demo
+### 選択範囲の取得デモ
 
-To get the whole selection:
-- As text: just call `document.getSelection().toString()`.
-- As DOM nodes: get the underlying ranges and call their `cloneContents()` method (only first range if we don't support Firefox multiselection).
+選択範囲全体を取得するには:
+- テキストとして: `document.getSelection().toString()` を呼ぶだけです。
+- DOM ノードとして: 基底となる範囲を取得し、それらの `cloneContents()` を呼び出します(Firefox のマルチ選択をサポートしてない場合は最初の1つの range に対してのみ)。
 
-And here's the demo of getting the selection both as text and as DOM nodes:
+そして、これはテキストとDOM ノード両方で選択範囲を取得するデモです:
 
 ```html run height=100
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
@@ -357,48 +356,48 @@ As text: <span id="astext"></span>
 
     cloned.innerHTML = astext.innerHTML = "";
 
-    // Clone DOM nodes from ranges (we support multiselect here)
+    // range から DOM ノードをクローンします(ここでは multiselect をサポートしています)
     for (let i = 0; i < selection.rangeCount; i++) {
       cloned.append(selection.getRangeAt(i).cloneContents());
     }
 
-    // Get as text
+    // テキストとして取得
     astext.innerHTML += selection;
   };
 </script>
 ```
 
-## Selection methods
+## Selection メソッド
 
-Selection methods to add/remove ranges:
+range の追加/削除をするための Selection メソッド:
 
-- `getRangeAt(i)` -- get i-th range, starting from `0`. In all browsers except firefox, only `0` is used.
-- `addRange(range)` -- add `range` to selection. All browsers except Firefox ignore the call, if the selection already has an associated range.
-- `removeRange(range)` -- remove `range` from the selection.
-- `removeAllRanges()` -- remove all ranges.
-- `empty()` -- alias to `removeAllRanges`.
+- `getRangeAt(i)` -- `0` から始まる i 番目の range を取得します。firefox 以外のブラウザは `0` だけが使用されます。
+- `addRange(range)` -- 選択範囲に `range` を追加します。すでに range が関連付けられている場合、firefox 以外のブラウザは呼び出しを無視します。
+- `removeRange(range)` -- selection から `range` を削除します。
+- `removeAllRanges()` -- すべての range を削除します。
+- `empty()` -- `removeAllRanges` のエイリアスです。
 
-Also, there are convenience methods to manipulate the selection range directly, without `Range`:
+また、`Range` なしで選択範囲をを直接操作するための便利なメソッドがあります:
 
-- `collapse(node, offset)` -- replace selected range with a new one that starts and ends at the given `node`, at position `offset`.
-- `setPosition(node, offset)` -- alias to `collapse`.
-- `collapseToStart()` - collapse (replace with an empty range) to selection start,
-- `collapseToEnd()` - collapse to selection end,
-- `extend(node, offset)` - move focus of the selection to the given `node`, position `offset`,
-- `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` - replace selection range with the given start `anchorNode/anchorOffset` and end `focusNode/focusOffset`. All content in-between them is selected.
-- `selectAllChildren(node)` -- select all children of the `node`.
-- `deleteFromDocument()` -- remove selected content from the document.
-- `containsNode(node, allowPartialContainment = false)` -- checks whether the selection contains `node` (partially if the second argument is `true`)
+- `collapse(node, offset)` -- 選択された range を、指定された `node` の位置 `offset` で開始及び終了する新しい range に置き換えます。
+- `setPosition(node, offset)` -- `collapse` のエイリアスです。
+- `collapseToStart()` - 選択範囲の始点に折りたたみます(空の range に置き換えます)
+- `collapseToEnd()` - 選択範囲の終点に折りたたみます
+- `extend(node, offset)` - 選択範囲の focus を指定された `node` の位置 `offset` に移動します。 
+- `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` - 選択範囲の range を、指定された始点 `anchorNode/anchorOffset` と終点 `focusNode/focusOffset` に置き換えます。これらの間にあるすべてのコンテンツが選択されます。
+- `selectAllChildren(node)` -- `node` のすべての子を選択します。
+- `deleteFromDocument()` -- ドキュメントから選択されたコンテンツを削除します。
+- `containsNode(node, allowPartialContainment = false)` -- 選択範囲が `node` を含むかチェックします(2番めの引数が `true` の場合は部分的に含む、を許可する)。
 
-So, for many tasks we can call `Selection` methods, no need to access the underlying `Range` object.
+したがって、多くのタスクで `Selection` メソッドを呼び出すことができ、基礎となる `Range` オブジェクトにアクセスする必要はありません。 
 
-For example, selecting the whole contents of the paragraph `<p>`:
+例えば、段落 `<p>` のコンテンツ全体を選択するには次のようにします:
 
 ```html run
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
 
 <script>
-  // select from 0th child of <p> to the last child
+  // <p> の 0 番目の子から最後の子までを選択
   document.getSelection().setBaseAndExtent(p, 0, p, p.childNodes.length);
 </script>
 ```
@@ -410,17 +409,17 @@ The same thing using ranges:
 
 <script>
   let range = new Range();
-  range.selectNodeContents(p); // or selectNode(p) to select the <p> tag too
+  range.selectNodeContents(p); // or selectNode(p) で <p> タグも選択します
 
-  document.getSelection().removeAllRanges(); // clear existing selection if any
+  document.getSelection().removeAllRanges(); // 存在する選択範囲をクリアします
   document.getSelection().addRange(range);
 </script>
 ```
 
-```smart header="To select, remove the existing selection first"
-If the selection already exists, empty it first with `removeAllRanges()`. And then add ranges. Otherwise, all browsers except Firefox ignore new ranges.
+```smart header="選択するには、最初に既存の選択範囲を削除してください"
+選択範囲がすでに存在する場合、`removeAllRanges()` で最初に空にし、その後 range を追加してください。そうでない場合、Firefox 以外のブラウザは新しい range を無視します。
 
-The exception is some selection methods, that replace the existing selection, like `setBaseAndExtent`.
+`setBaseAndExtent` などのいくつかの selection メソッドは例外で、既存の選択範囲を置き換えます。
 ```
 
 ## Selection in form controls
