@@ -61,7 +61,8 @@ userCard.onclick = e => alert(`Outer target: ${e.target.tagName}`);
 ```
 
 クリックが`"John Smith"`で起こった場合は、内部と外部のハンドラーのターゲットは`<span slot="username">`になります。それはlight DOMからの要素なので、リターゲティングはありません。
-その一方で、クリックが`<b>Name</b>`のようなshadow shadow DOMの外にバブルするので、その`event.target`は`<user-card>`にセットし直されます。
+その一方で、クリックが`<b>Name</b>`のような shadow DOMにある要素で発生した場合,
+shadow DOMの外にバブルするので、その`event.target`は`<user-card>`にセットし直されます。
 
 ## バブリング、 event.composedPath()
 イベントバブリングでは、フラット化されたDOMが使用されます。
@@ -95,7 +96,7 @@ Shadow ツリーが`{mode: 'closed'}`で作られた場合、その合成パス�
 ほとんどのイベントはshadow DOMの境界を通してバブルします。しかしイベントの中にはこのルールに従わないものもあります。
 
 これは`composed`イベントオブジェクトプロパティによって管理されます。`true`の場合は、イベントは境界を超えます。そうでない場合は、shadow DOM内からのみ取得できます。
-[UI Events 使用](https://www.w3.org/TR/uievents)をご覧いただくと、ほとんどのイベントは`composed: true`です。：
+[UI Events 仕様](https://www.w3.org/TR/uievents)をご覧いただくと、ほとんどのイベントは`composed: true`です。：
 
 - `blur`, `focus`, `focusin`, `focusout`,
 - `click`, `dblclick`,
@@ -174,4 +175,4 @@ inner.dispatchEvent(new CustomEvent('test', {
 
 `CustomEvent`をディスパッチする場合は、明確に`composed: true`を設定するべきです。
 
-ネストされたコンポーネント、ある shadow DOM が別の shadow DOM にネストされる場合があることに注意してください。この場合、合成されたイベントはすべての shadow DOM 境界をバブルします。したがって、もしイベントが直接囲んでいるコンポーネントだけを意図している場合は、そのイベントを shadow ホストにディスパッチして、`composed: false` にすることもできます。すると、イベントはコンポーネントのシャドウDOMの外にありますが、上位レベルのDOMにバブルアップすることはありません。
+ネストされたコンポーネント、ある shadow DOM が別の shadow DOM にネストされる場合があることに注意してください。この場合、合成されたイベントはすべての shadow DOM 境界をバブルします。したがって、もしイベントが直接囲んでいるコンポーネントだけを意図している場合は、そのイベントを shadow ホストにディスパッチして、`composed: false` にすることもできます。すると、イベントはコンポーネントのシャドウDOMの外にありますが、上位レベルのDOMにバブルすることはありません。
