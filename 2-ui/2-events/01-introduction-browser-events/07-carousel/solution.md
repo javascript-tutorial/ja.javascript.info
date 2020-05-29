@@ -1,6 +1,10 @@
 イメージのリボンは、イメージ `<img>` の `ul/li` リストとして表現できます。
 
+<<<<<<< HEAD
 通常、このようなリボンは幅広ですが、リボンの一部のみが見えるよう、固定サイズの `<div>` を置いて、それを "切り取る" ようにします:
+=======
+Normally, such a ribbon is wide, but we put a fixed-size `<div>` around to "cut" it, so that only a part of the ribbon is visible:
+>>>>>>> cd2c7ce3c8f033e6f7861ed1b126552e41ba3e31
 
 ![](carousel1.svg)
 

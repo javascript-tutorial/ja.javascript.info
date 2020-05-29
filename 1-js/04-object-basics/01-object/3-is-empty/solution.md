@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 単にオブジェクトをループし、少なくとも1つプロパティがある場合にはすぐに `return false` を返します。
 
 ```js
@@ -8,3 +9,6 @@ function isEmpty(obj) {
   return true;
 }
 ```
+=======
+Just loop over the object and `return false` immediately if there's at least one property.
+>>>>>>> cd2c7ce3c8f033e6f7861ed1b126552e41ba3e31
