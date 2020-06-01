@@ -4,6 +4,7 @@ libs:
 
 ---
 
+<<<<<<< HEAD
 # Selection と Range
 
 このチャプターではドキュメントでの選択と、`<input>` などのフォームフィールドでの選択について説明します。
@@ -22,20 +23,49 @@ JavaScript を利用して選択状態を取得したり、全体あるいは一
 何かを選択しましょう。
 
 まず、range　を作成します(コンストラクタにパラメータはありません):
+=======
+# Selection and Range
+
+In this chapter we'll cover selection in the document, as well as selection in form fields, such as `<input>`.
+
+JavaScript can get the existing selection, select/deselect both as a whole or partially, remove the selected part from the document, wrap it into a tag, and so on.
+
+You can get ready to use recipes at the end, in "Summary" section. But you'll get much more if you read the whole chapter. The underlying `Range` and `Selection` objects are easy to grasp, and then you'll need no recipes to make them do what you want.
+
+## Range
+
+The basic concept of selection is [Range](https://dom.spec.whatwg.org/#ranges): basically, a pair of "boundary points": range start and range end.
+
+Each point represented as a parent DOM node with the relative offset from its start. If the parent node is an element node, then the offset is a child number, for a text node it's the position in the text. Examples to follow.
+
+Let's select something.
+
+First, we can create a range (the constructor has no parameters):
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```js
 let range = new Range();
 ```
 
+<<<<<<< HEAD
 次に、`range.setStart(node, offset)` と `range.setEnd(node, offset)` を使用して選択の境界を設定します。
 
 例として、この HTML の一部を考えます:
+=======
+Then we can set the selection boundaries using `range.setStart(node, offset)` and `range.setEnd(node, offset)`.
+
+For example, consider this fragment of HTML:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```html
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
 ```
 
+<<<<<<< HEAD
 DOM構造は次の通りです。ここではテキストノードが重要です。:
+=======
+Here's its DOM structure, note that here text nodes are important for us:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 <div class="select-p-domtree"></div>
 
@@ -73,7 +103,11 @@ let selectPDomtree = {
 drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
 </script>
 
+<<<<<<< HEAD
 `"Example: <i>italic</i>"` を選択しましょう。これは `<p>` の先頭から2つの子です(テキストノードのカウント):
+=======
+Let's select `"Example: <i>italic</i>"`. That's two first children of `<p>` (counting text nodes):
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ![](range-example-p-0-1.svg)
 
@@ -88,18 +122,32 @@ drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
   range.setEnd(p, 2);
 */!*
 
+<<<<<<< HEAD
   // range の toString はそのコンテンツをテキストとして(タグなし)返します
   alert(range); // Example: italic
 
   // この range をドキュメント選択に適用します（後で説明します）
+=======
+  // toString of a range returns its content as text (without tags)
+  alert(range); // Example: italic
+
+  // apply this range for document selection (explained later)
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
   document.getSelection().addRange(range);
 </script>
 ```
 
+<<<<<<< HEAD
 - `range.setStart(p, 0)` -- `<p>` の 0番目の子を始点に設定します(テキストノード `"Example: "` です)。
 - `range.setEnd(p, 2)` -- `<p>` の 2番目の子まで(2番目自体は含まない)広げます(２番目はテキストノード `" and "` ですが、それ自体は含まれないので、最後の選択されたノードは `<i>` です。
 
 これはより柔軟な例で多くのパターンを試せます。:
+=======
+- `range.setStart(p, 0)` -- sets the start at the 0th child of `<p>` (that's the text node `"Example: "`).
+- `range.setEnd(p, 2)` -- spans the range up to (but not including) 2nd child of `<p>` (that's the text node `" and "`, but as the end is not included, so the last selected node is `<i>`).
+
+Here's a more flexible test stand where you try more variants:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```html run autorun
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
@@ -122,6 +170,7 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 </script>
 ```
 
+<<<<<<< HEAD
 例. `1` から `4` を選択した場合の範囲は `<i>italic</i> and <b>bold</b>` です。
 
 ![](range-example-p-1-3.svg)
@@ -139,6 +188,25 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 次のような範囲を作成します:
 - `<p>` の最初の子の位置 2 から開始("Ex<b>ample:</b> " の最初の2文字を除くすべて)
 - `<b>` の最初の子の位置 3 で終了("<b>bol</b>d" の最初の3文字):
+=======
+E.g. selecting from `1` to `4` gives range `<i>italic</i> and <b>bold</b>`.
+
+![](range-example-p-1-3.svg)
+
+We don't have to use the same node in `setStart` and `setEnd`. A range may span across many unrelated nodes. It's only important that the end is after the start.
+
+### Selecting parts of text nodes
+
+Let's select the text partially, like this:
+
+![](range-example-p-2-b-3.svg)
+
+That's also possible, we just need to set the start and the end as a relative offset in text nodes.
+
+We need to create a range, that:
+- starts from position 2 in `<p>` first child (taking all but two first letters of "Ex<b>ample:</b> ")
+- ends at the position 3 in `<b>` first child (taking first three letters of "<b>bol</b>d", but no more):
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```html run
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
@@ -151,11 +219,16 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
   alert(range); // ample: italic and bol
 
+<<<<<<< HEAD
   // 選択にこの範囲を使用します(後ほど説明します)
+=======
+  // use this range for selection (explained later)
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
   window.getSelection().addRange(range);
 </script>
 ```
 
+<<<<<<< HEAD
 range オブジェクトは次のプロパティを持ちます:
 
 ![](range-example-p-2-b-3-range.svg)
@@ -207,6 +280,59 @@ range オブジェクトは次のプロパティを持ちます:
 
 ```html run autorun height=260
 ボタンクリックで選択範囲に対しメソッドを実行し、"resetExample" でリセットします。
+=======
+The range object has following properties:
+
+![](range-example-p-2-b-3-range.svg)
+
+- `startContainer`, `startOffset` -- node and offset of the start,
+  - in the example above: first text node inside `<p>` and `2`.
+- `endContainer`, `endOffset` -- node and offset of the end,
+  - in the example above: first text node inside `<b>` and `3`.
+- `collapsed` -- boolean, `true` if the range starts and ends on the same point (so there's no content inside the range),
+  - in the example above: `false`
+- `commonAncestorContainer` -- the nearest common ancestor of all nodes within the range,
+  - in the example above: `<p>`
+
+## Range methods
+
+There are many convenience methods to manipulate ranges.
+
+Set range start:
+
+- `setStart(node, offset)` set start at: position `offset` in `node`
+- `setStartBefore(node)` set start at: right before `node`
+- `setStartAfter(node)` set start at: right after `node`
+
+Set range end (similar methods):
+
+- `setEnd(node, offset)` set end at: position `offset` in `node`
+- `setEndBefore(node)` set end at: right before `node`
+- `setEndAfter(node)` set end at: right after `node`
+
+**As it was demonstrated, `node` can be both a text or element node: for text nodes `offset` skips that many of characters, while for element nodes that many child nodes.**
+
+Others:
+- `selectNode(node)` set range to select the whole `node`
+- `selectNodeContents(node)` set range to select the whole `node` contents
+- `collapse(toStart)` if `toStart=true` set end=start, otherwise set start=end, thus collapsing the range
+- `cloneRange()` creates a new range with the same start/end
+
+To manipulate the content within the range:
+
+- `deleteContents()` -- remove range content from the document
+- `extractContents()` -- remove range content from the document and return as [DocumentFragment](info:modifying-document#document-fragment)
+- `cloneContents()` -- clone range content and return as [DocumentFragment](info:modifying-document#document-fragment)
+- `insertNode(node)` -- insert `node` into the document at the beginning of the range
+- `surroundContents(node)` -- wrap `node` around range content. For this to work, the range must contain both opening and closing tags for all elements inside it: no partial ranges like `<i>abc`.
+
+With these methods we can do basically anything with selected nodes.
+
+Here's the test stand to see them in action:
+
+```html run autorun height=260
+Click buttons to run methods on the selection, "resetExample" to reset it.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
 
@@ -260,6 +386,7 @@ range オブジェクトは次のプロパティを持ちます:
 </script>
 ```
 
+<<<<<<< HEAD
 範囲を比較するメソッドも存在しますが、めったに使われることはありません。必要になったら、[仕様](https://dom.spec.whatwg.org/#interface-range) や [MDN マニュアル](https://developer.mozilla.org/en-US/docs/Web/API/Range)を参照してください。
 
 
@@ -320,6 +447,68 @@ E.g. ユーザがマウスで選択を開始し、"Example" から "italic" ま�
 ### 選択範囲の追跡デモ
 
 これは選択境界の変更に応じて動的に選択境界を表示する小さなデモです:
+=======
+There also exist methods to compare ranges, but these are rarely used. When you need them, please refer to the [spec](https://dom.spec.whatwg.org/#interface-range) or [MDN manual](https://developer.mozilla.org/en-US/docs/Web/API/Range).
+
+
+## Selection
+
+`Range` is a generic object for managing selection ranges. We may create such objects, pass them around -- they do not visually select anything on their own.
+
+The document selection is represented by `Selection` object, that can be obtained as `window.getSelection()` or `document.getSelection()`.
+
+A selection may include zero or more ranges. At least, the [Selection API specification](https://www.w3.org/TR/selection-api/) says so. In practice though, only Firefox allows to select multiple ranges in the document by using `key:Ctrl+click` (`key:Cmd+click` for Mac).
+
+Here's a screenshot of a selection with 3 ranges, made in Firefox:
+
+![](selection-firefox.svg)
+
+Other browsers support at maximum 1 range. As we'll see, some of `Selection` methods imply that there may be many ranges, but again, in all browsers except Firefox, there's at maximum 1.
+
+## Selection properties
+
+Similar to a range, a selection has a start, called "anchor", and the end, called "focus".
+
+The main selection properties are:
+
+- `anchorNode` -- the node where the selection starts,
+- `anchorOffset` -- the offset in `anchorNode` where the selection starts,
+- `focusNode` -- the node where the selection ends,
+- `focusOffset` -- the offset in `focusNode` where the selection ends,
+- `isCollapsed` -- `true` if selection selects nothing (empty range), or doesn't exist.
+- `rangeCount` -- count of ranges in the selection, maximum `1` in all browsers except Firefox.
+
+````smart header="Selection end may be in the document before start"
+There are many ways to select the content, depending on the user agent: mouse, hotkeys, taps on a mobile etc.
+
+Some of them, such as a mouse, allow the same selection can be created in two directions: "left-to-right" and "right-to-left".
+
+If the start (anchor) of the selection goes in the document before the end (focus), this selection is said to have "forward" direction.
+
+E.g. if the user starts selecting with mouse and goes from "Example" to "italic":
+
+![](selection-direction-forward.svg)
+
+Otherwise, if they go from the end of "italic" to "Example", the selection is directed "backward", its focus will be before the anchor:
+
+![](selection-direction-backward.svg)
+
+That's different from `Range` objects that are always directed forward: the range start can't be after its end.
+````
+
+## Selection events
+
+There are events on to keep track of selection:
+
+- `elem.onselectstart` -- when a selection starts on `elem`, e.g. the user starts moving mouse with pressed button.
+    - Preventing the default action makes the selection not start.
+- `document.onselectionchange` -- whenever a selection changes.
+    - Please note: this handler can be set only on `document`.
+
+### Selection tracking demo
+
+Here's a small demo that shows selection boundaries dynamically as it changes:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```html run height=80
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
@@ -335,6 +524,7 @@ From <input id="from" disabled> – To <input id="to" disabled>
 </script>
 ```
 
+<<<<<<< HEAD
 ### 選択範囲の取得デモ
 
 選択範囲全体を取得するには:
@@ -342,6 +532,15 @@ From <input id="from" disabled> – To <input id="to" disabled>
 - DOM ノードとして: 基底となる範囲を取得し、それらの `cloneContents()` を呼び出します(Firefox のマルチ選択をサポートしてない場合は最初の1つの range に対してのみ)。
 
 そして、これはテキストとDOM ノード両方で選択範囲を取得するデモです:
+=======
+### Selection getting demo
+
+To get the whole selection:
+- As text: just call `document.getSelection().toString()`.
+- As DOM nodes: get the underlying ranges and call their `cloneContents()` method (only first range if we don't support Firefox multiselection).
+
+And here's the demo of getting the selection both as text and as DOM nodes:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```html run height=100
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
@@ -356,17 +555,26 @@ As text: <span id="astext"></span>
 
     cloned.innerHTML = astext.innerHTML = "";
 
+<<<<<<< HEAD
     // range から DOM ノードをクローンします(ここでは multiselect をサポートしています)
+=======
+    // Clone DOM nodes from ranges (we support multiselect here)
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
     for (let i = 0; i < selection.rangeCount; i++) {
       cloned.append(selection.getRangeAt(i).cloneContents());
     }
 
+<<<<<<< HEAD
     // テキストとして取得
+=======
+    // Get as text
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
     astext.innerHTML += selection;
   };
 </script>
 ```
 
+<<<<<<< HEAD
 ## Selection メソッド
 
 range の追加/削除をするための Selection メソッド:
@@ -392,12 +600,43 @@ range の追加/削除をするための Selection メソッド:
 したがって、多くのタスクで `Selection` メソッドを呼び出すことができ、基礎となる `Range` オブジェクトにアクセスする必要はありません。 
 
 例えば、段落 `<p>` のコンテンツ全体を選択するには次のようにします:
+=======
+## Selection methods
+
+Selection methods to add/remove ranges:
+
+- `getRangeAt(i)` -- get i-th range, starting from `0`. In all browsers except firefox, only `0` is used.
+- `addRange(range)` -- add `range` to selection. All browsers except Firefox ignore the call, if the selection already has an associated range.
+- `removeRange(range)` -- remove `range` from the selection.
+- `removeAllRanges()` -- remove all ranges.
+- `empty()` -- alias to `removeAllRanges`.
+
+Also, there are convenience methods to manipulate the selection range directly, without `Range`:
+
+- `collapse(node, offset)` -- replace selected range with a new one that starts and ends at the given `node`, at position `offset`.
+- `setPosition(node, offset)` -- alias to `collapse`.
+- `collapseToStart()` - collapse (replace with an empty range) to selection start,
+- `collapseToEnd()` - collapse to selection end,
+- `extend(node, offset)` - move focus of the selection to the given `node`, position `offset`,
+- `setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset)` - replace selection range with the given start `anchorNode/anchorOffset` and end `focusNode/focusOffset`. All content in-between them is selected.
+- `selectAllChildren(node)` -- select all children of the `node`.
+- `deleteFromDocument()` -- remove selected content from the document.
+- `containsNode(node, allowPartialContainment = false)` -- checks whether the selection contains `node` (partially if the second argument is `true`)
+
+So, for many tasks we can call `Selection` methods, no need to access the underlying `Range` object.
+
+For example, selecting the whole contents of the paragraph `<p>`:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 
 ```html run
 <p id="p">Select me: <i>italic</i> and <b>bold</b></p>
 
 <script>
+<<<<<<< HEAD
   // <p> の 0 番目の子から最後の子までを選択
+=======
+  // select from 0th child of <p> to the last child
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
   document.getSelection().setBaseAndExtent(p, 0, p, p.childNodes.length);
 </script>
 ```
@@ -409,17 +648,30 @@ The same thing using ranges:
 
 <script>
   let range = new Range();
+<<<<<<< HEAD
   range.selectNodeContents(p); // or selectNode(p) で <p> タグも選択します
 
   document.getSelection().removeAllRanges(); // 存在する選択範囲をクリアします
+=======
+  range.selectNodeContents(p); // or selectNode(p) to select the <p> tag too
+
+  document.getSelection().removeAllRanges(); // clear existing selection if any
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
   document.getSelection().addRange(range);
 </script>
 ```
 
+<<<<<<< HEAD
 ```smart header="選択するには、最初に既存の選択範囲を削除してください"
 選択範囲がすでに存在する場合、`removeAllRanges()` で最初に空にし、その後 range を追加してください。そうでない場合、Firefox 以外のブラウザは新しい range を無視します。
 
 `setBaseAndExtent` などのいくつかの selection メソッドは例外で、既存の選択範囲を置き換えます。
+=======
+```smart header="To select, remove the existing selection first"
+If the selection already exists, empty it first with `removeAllRanges()`. And then add ranges. Otherwise, all browsers except Firefox ignore new ranges.
+
+The exception is some selection methods, that replace the existing selection, like `setBaseAndExtent`.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74
 ```
 
 ## Selection in form controls
