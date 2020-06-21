@@ -4,7 +4,7 @@ libs:
 
 ---
 
-# Selection と Range
+# 選択（Selection） と 範囲（Range）
 
 このチャプターではドキュメントでの選択と、`<input>` などのフォームフィールドでの選択について説明します。
 
@@ -422,38 +422,38 @@ The same thing using ranges:
 `setBaseAndExtent` などのいくつかの selection メソッドは例外で、既存の選択範囲を置き換えます。
 ```
 
-## Selection in form controls
+## フォームコントロールでの選択
 
-Form elements, such as `input` and `textarea` provide [special API for selection](https://html.spec.whatwg.org/#textFieldSelection), without `Selection` or `Range` objects. As an input value is a pure text, not HTML, there's no need for such objects, everything's much simpler.
+`input` や `textarea` と行ったフォーム要素は `Selection` や `Range` オブジェクトなしで、[選択のための特別なAPI](https://html.spec.whatwg.org/#textFieldSelection) を提供します。入力値は HTML ではなく純粋なテキストなので、このようなオブジェクトは必要なく、すべてがよりシンプルです。
 
-Properties:
-- `input.selectionStart` -- position of selection start (writeable),
-- `input.selectionEnd` -- position of selection end (writeable),
-- `input.selectionDirection` -- selection direction, one of: "forward", "backward" or "none" (if e.g. selected with a double mouse click),
+プロパティ:
+- `input.selectionStart` -- 選択開始位置（書き込み可能）
+- `input.selectionEnd` -- 選択終了位置（書き込み可能）
+- `input.selectionDirection` -- 選択方向。次のいずれかです: "forward", "backward" あるいは "none" (例 マウスのダブルクリックで選択した場合 ) です。
 
-Events:
-- `input.onselect` -- triggers when something is selected.
+イベント:
+- `input.onselect` -- 何かが選択されたときに発生します。
 
-Methods:
+メソッド:
 
-- `input.select()` -- selects everything in the text control (can be `textarea` instead of `input`),
-- `input.setSelectionRange(start, end, [direction])` -- change the selection to span from position `start` till `end`, in the given direction (optional).
-- `input.setRangeText(replacement, [start], [end], [selectionMode])` -- replace a range of text with the new text.
+- `input.select()` -- テキストコントロール内のすべてを選択します（`input` の代わりに `textarea` も OK です）。
+- `input.setSelectionRange(start, end, [direction])` -- 選択範囲を、`start` 位置から `end` 位置まで、指定された方向(任意)に広げます。
+- `input.setRangeText(replacement, [start], [end], [selectionMode])` -- テキストの範囲を新しいテキストに置き換えます。
 
-    Optional arguments `start` and `end`, if provided, set the range start and end, otherwise user selection is used.
+    任意の引数 `start` と `end` が指定された場合は開始/終了の範囲を設定します。そうでない場合はユーザの選択を使用されます。
 
-    The last argument, `selectionMode`, determines how the selection will be set after the text has been replaced. The possible values are:
+    最後の引数 `selectionMode` はテキストが置換されたあとの選択方法を決定します。次の値が指定できます: 
 
-    - `"select"` -- the newly inserted text will be selected.
-    - `"start"` -- the selection range collapses just before the inserted text (the cursor will be immediately before it).
-    - `"end"` -- the selection range collapses just after the inserted text (the cursor will be right after it).
-    - `"preserve"` -- attempts to preserve the selection. This is the default.
+    - `"select"` -- 新たに挿入されたテキストが選択されます。
+    - `"start"` -- 選択範囲は挿入されたテキストの直前に折りたたまれます(カーソルはその直前になります)。
+    - `"end"` -- 選択範囲は挿入されたテキストの直後に折りたたまれます(カーソルはその直後になります)。
+    - `"preserve"` -- 選択範囲を保とうとします。デフォルトはこの動作になります。
 
-Now let's see these methods in action.
+それでは、これらのメソッドの動作を見てみましょう。
 
-### Example: tracking selection
+### 例: 選択の追跡
 
-For example, this code uses `onselect` event to track selection:
+例えば、このコードは `onselect` イベントを使用して選択を追跡します:
 
 ```html run autorun
 <textarea id="area" style="width:80%;height:60px">
@@ -470,20 +470,19 @@ From <input id="from" disabled> – To <input id="to" disabled>
 </script>
 ```
 
-Please note:
-- `onselect` triggers when something is selected, but not when the selection is removed.
-- `document.onselectionchange` event should not trigger for selections inside a form control, according to the [spec](https://w3c.github.io/selection-api/#dfn-selectionchange), as it's not related to `document` selection and ranges. Some browsers generate it, but we shouldn't rely on it.
+注意してください:
+- `onselect` はなにかが選択されたときに発生しますが、選択が除去されたときには発生しません。
+- `document.onselectionchange` イベントは、[仕様](https://w3c.github.io/selection-api/#dfn-selectionchange)によると `document` の選択や範囲とは関係ないため、フォームコントロール内の選択では発生すべきではありません。一部のブラウザにはイベントを生成しますが、それに頼るべきではありません。
 
+### 例: カーソルの移動
 
-### Example: moving cursor
+選択範囲を設定する `selectionStart` と `selectionEnd` を変更することができます。
 
-We can change `selectionStart` and `selectionEnd`, that sets the selection.
+重要なエッジケースは `selectionStart` と `selectionEnd` が互いに等しい場合です。そのとき、それはまさにカーソル位置になります。あるいは何も選択されていない場合は、選択はカーソル位置で折りたたまれます。
 
-An important edge case is when `selectionStart` and `selectionEnd` equal each other. Then it's exactly the cursor position. Or, to rephrase, when nothing is selected, the selection is collapsed at the cursor position.
+したがって、`selectionStart` と `selectionEnd` を同じ値に設定することでカーソルを移動させることができます。
 
-So, by setting `selectionStart` and `selectionEnd` to the same value, we move the cursor.
-
-For example:
+例:
 
 ```html run autorun
 <textarea id="area" style="width:80%;height:60px">
@@ -492,23 +491,23 @@ Focus on me, the cursor will be at position 10.
 
 <script>
   area.onfocus = () => {
-    // zero delay setTimeout to run after browser "focus" action finishes
+    // ブラウザの "focus" アクションが終了したあとに実行させるためのゼロ遅延の setTimeout
     setTimeout(() => {
-      // we can set any selection
-      // if start=end, the cursor it exactly at that place
+      // 任意の選択を設定できます
+      // 開始 = 終了 の場合、カーソルはまさにその場所です
       area.selectionStart = area.selectionEnd = 10;
     });
   };
 </script>
 ```
 
-### Example: modifying selection
+### 例: 選択の変更
 
-To modify the content of the selection, we can use `input.setRangeText()` method. Of course, we can read `selectionStart/End` and, with the knowledge of the selection, change the corresponding substring of `value`, but `setRangeText` is more powerful and often more convenient.
+選択内容を変更するには、`input.setRangeText()` メソッドが利用できます。もちろん、`selectionStart/End` を読み取り、選択に関する知識があれば `value` の対応する部分文字列を変更することはできますが、`setRangeText` はより強力で、多くの場合より便利です。
 
-That's a somewhat complex method. In its simplest one-argument form it replaces the user selected range and removes the selection.
+これはいくらか複雑なメソッドです。最もシンプルな単一引数のフォームでは、ユーザの選択した範囲を置き換え、選択を削除します。
 
-For example, here the user selection will be wrapped by `*...*`:
+例えば、ここではユーザの選択は `*...*` で囲まれます:
 
 ```html run autorun
 <input id="input" style="width:200px" value="Select here and click the button">
@@ -517,7 +516,7 @@ For example, here the user selection will be wrapped by `*...*`:
 <script>
 button.onclick = () => {
   if (input.selectionStart == input.selectionEnd) {
-    return; // nothing is selected
+    return; // 何も選択されていない
   }
 
   let selected = input.value.slice(input.selectionStart, input.selectionEnd);
@@ -526,9 +525,9 @@ button.onclick = () => {
 </script>
 ```
 
-With more arguments, we can set range `start` and `end`.
+引数を増やすことで、範囲の `start` と `end` を設定することができます。
 
-In this example we find `"THIS"` in the input text, replace it and keep the replacement selected:
+この例では、入力テキストから `"THIS"` を見つけ、それを置き換え、置換された選択範囲を維持します:
 
 ```html run autorun
 <input id="input" style="width:200px" value="Replace THIS in text">
@@ -539,19 +538,19 @@ button.onclick = () => {
   let pos = input.value.indexOf("THIS");
   if (pos >= 0) {
     input.setRangeText("*THIS*", pos, pos + 4, "select");
-    input.focus(); // focus to make selection visible
+    input.focus(); // 選択を見えるようにするための focus
   }
 };
 </script>
 ```
 
-### Example: insert at cursor
+### 例: カーソル位置に挿入
 
-If nothing is selected, or we use equal `start` and `end` in `setRangeText`, then the new text is just inserted, nothing is removed.
+何も選択されていない場合、あるいは `setRangeText` で `start` と `end` を等しくした場合、新しいテキストが単に挿入されるだけで何も削除はされません。
 
-We can also insert something "at the cursor" using `setRangeText`.
+`setRangeText` を使用して "カーソル位置" に挿入することもできます。
 
-Here's a button that inserts `"HELLO"` at the cursor position and puts the cursor immediately after it. If the selection is not empty, then it gets replaced (we can detect it by comparing `selectionStart!=selectionEnd` and do something else instead):
+これはカーソル位置に `"HELLO"` を挿入し、その直後にカーソルを置くボタンです。選択が空でない場合は置き換えられます(`selectionStart!=selectionEnd` を比較することでこれを検知し、代わりになにかを行うことができます):
 
 ```html run autorun
 <input id="input" style="width:200px" value="Text Text Text Text Text">
@@ -566,11 +565,11 @@ Here's a button that inserts `"HELLO"` at the cursor position and puts the curso
 ```
 
 
-## Making unselectable
+## 選択不可にする
 
-To make something unselectable, there are three ways:
+選択不可にするための３つの方法があります:
 
-1. Use CSS property `user-select: none`.
+1. CSS プロパティ `user-select: none` を使用します.
 
     ```html run
     <style>
@@ -581,12 +580,12 @@ To make something unselectable, there are three ways:
     <div>Selectable <div id="elem">Unselectable</div> Selectable</div>
     ```
 
-    This doesn't allow the selection to start at `elem`. But the user may start the selection elsewhere and include `elem` into it.
+    これは `elem` から始まる選択を許可しません。ですが、ユーザは別の場所から選択を開始して、その中に `elem` を含むかもしれません。
 
-    Then `elem` will become a part of `document.getSelection()`, so the selection actually happens, but its content is usually ignored in copy-paste.
+    すると、`elem` は`document.getSelection()` の一部になるので、選択は実際には起こります。が、その中身は通常コピー/貼り付けでは無視されます。
 
 
-2. Prevent default action in `onselectstart` or `mousedown` events.
+2. `onselectstart` または `mousedown` イベントで、デフォルト動作を防止します。
 
     ```html run
     <div>Selectable <div id="elem">Unselectable</div> Selectable</div>
@@ -596,52 +595,52 @@ To make something unselectable, there are three ways:
     </script>
     ```
 
-    This prevents starting the selection on `elem`, but the visitor may start it at another element, then extend to `elem`.
+    これにより `elem` から選択を開始するのことはできなくなりますが、訪問者は別の要素で選択を開始して `elem` まで広げることができます。
 
-    That's convenient when there's another event handler on the same action that triggers the select (e.g. `mousedown`). So we disable the selection to avoid conflict, still allowing `elem` contents to be copied.
+    これは、選択をトリガーする同じアクションに別のイベントハンドラーがある場合に便利です(例. `mousedown`)。そのため、競合を避けるために選択を無効にしつつ、依然として `elem` の内容はコピーできるようにします。
 
-3. We can also clear the selection post-factum after it happens with `document.getSelection().empty()`. That's rarely used, as this causes unwanted blinking as the selection appears-disappears.
+3. `document.getSelection().empty()` が発生したあと、事後の選択をクリアすることもできます。これは選択が表示されて消えるときに不要な点滅を引き起こすため、めったに使われません。
 
-## References
+## リファレンス
 
-- [DOM spec: Range](https://dom.spec.whatwg.org/#ranges)
+- [DOM 仕様: Range](https://dom.spec.whatwg.org/#ranges)
 - [Selection API](https://www.w3.org/TR/selection-api/#dom-globaleventhandlers-onselectstart)
-- [HTML spec: APIs for the text control selections](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#textFieldSelection)
+- [HTML 仕様: テキストコントロール選択用 API](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#textFieldSelection)
 
 
-## Summary
+## サマリ
 
-We covered two different APIs for selections:
+選択のための２つの異なる API について説明しました:
 
-1. For document: `Selection` and `Range` objects.
-2. For `input`, `textarea`: additional methods and properties.
+1. document に対して: `Selection` と `Range` オブジェクト
+2. `input`, `textarea` に対して: 追加のメソッドとプロパティ
 
-The second API is very simple, as it works with text.
+２つ目のAPIはテキストに対してのみ動作するのでとてもシンプルです。
 
-The most used recipes are probably:
+最もよく使用されるレシピはおそらく次のものです:
 
-1. Getting the selection:
+1. 選択を取得する:
     ```js run
     let selection = document.getSelection();
 
-    let cloned = /* element to clone the selected nodes to */;
+    let cloned = /* 選択したノードのクローンを作成する要素 */;
 
-    // then apply Range methods to selection.getRangeAt(0)
-    // or, like here, to all ranges to support multi-select
+    // 次に selection.getRangeAt(0) に対して Range メソッドを適用します。
+    // あるいは、ここのように複数選択をサポートするためにすべての範囲に適用します。
     for (let i = 0; i < selection.rangeCount; i++) {
       cloned.append(selection.getRangeAt(i).cloneContents());
     }
     ```
-2. Setting the selection:
+2. 選択を設定する:
     ```js run
     let selection = document.getSelection();
 
-    // directly:
+    // 直接:
     selection.setBaseAndExtent(...from...to...);
 
-    // or we can create a range and:
+    // あるいは range　を作成し設定します:
     selection.removeAllRanges();
     selection.addRange(range);
     ```
 
-And finally, about the cursor. The cursor position in editable elements, like `<textarea>` is always at the start or the end of the selection. We can use it  to get cursor position or to move the cursor by setting `elem.selectionStart` and `elem.selectionEnd`.
+そして、最後にカーソルについてです。`<textarea>` のような編集可能な要素のカーソル位置は常に選択範囲の先頭あるいは末尾になります。これを使用して、`elem.selectionStart` や `elem.selectionEnd` を設定することでカーソル位置を取得したりカーソルを移動させることができます。
