@@ -1,6 +1,6 @@
-もし `"constructor"` プロパティが正しい値を持っていることが確かであるなら、私たちはこのようなアプローチを使うことができます。
+We can use such approach if we are sure that `"constructor"` property has the correct value.
 
-例えば、デフォルトの `"prototype"` を触らないのであれば、このコードは確実に動作します:
+For instance, if we don't touch the default `"prototype"`, then this code works for sure:
 
 ```js run
 function User(name) {
@@ -13,11 +13,11 @@ let user2 = new user.constructor('Pete');
 alert( user2.name ); // Pete (worked!)
 ```
 
-`User.prototype.constructor == User` であるため、これは動作します。
+It worked, because `User.prototype.constructor == User`.
 
-..しかし、いわば誰かが `User.prototype` を上書きし、`"constructor"` を再作成するのを忘れている場合、それは失敗するでしょう。
+..But if someone, so to speak, overwrites `User.prototype` and forgets to recreate `constructor` to reference `User`, then it would fail.
 
-例:
+For instance:
 
 ```js run
 function User(name) {
@@ -33,12 +33,12 @@ let user2 = new user.constructor('Pete');
 alert( user2.name ); // undefined
 ```
 
-なぜ `user2.name` が `undefined` なのでしょう?
+Why `user2.name` is `undefined`?
 
-ここで、`new user.constructor('Pete')` は次のように動作します:
+Here's how `new user.constructor('Pete')` works:
 
-1. 最初に、`user` の中で `constructor` を探します。ありません。
-2. 次に、プロトタイプチェーンに沿います。`user` のプロトタイプは `User.prototype` で、これも `constructor` を持っていません。
-3. `User.prototype` の値は普通のオブジェクト `{}` であり、そのプロトタイプは `Object.prototype` です。そして、`Object.prototype.constructor == Object` があります。なので、これが使われます。
+1. First, it looks for `constructor` in `user`. Nothing.
+2. Then it follows the prototype chain. The prototype of `user` is `User.prototype`, and it also has nothing.
+3. The value of `User.prototype` is a plain object `{}`, its prototype is `Object.prototype`. And there is `Object.prototype.constructor == Object`. So it is used.
 
-最終的に、`let user2 = new Object('Pete')` となります。組み込みの `Object` コンストラクタは引数を無視し、常に空のオブジェクトを生成します -- これは、結局私たちが `user2` で持っているものです。 
+At the end, we have `let user2 = new Object('Pete')`. The built-in `Object` constructor ignores arguments, it always creates an empty object, similar to `let user2 = {}`, that's what we have in `user2` after all.
