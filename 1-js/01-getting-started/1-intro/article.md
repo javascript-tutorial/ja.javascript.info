@@ -45,7 +45,7 @@ JavaScript が作られたとき, 当初は別の名前を持っていました:
 
 モダンなJavaScriptは "安全な" プログラミング言語です。それは、メモリやCPUのような低レベルのアクセスは提供しません。なぜなら、当初はそれらを必要としないブラウザ用に作成されたものだからです。
 
-JavaScript の機能は、実行される環境に大きく依存します。 例えば、[Node.JS](https://wikipedia.org/wiki/Node.js) では、JavaScriptが任意のファイルを読み書きしたりできる機能をサポートしています。
+JavaScript の機能は、実行される環境に大きく依存します。 例えば、[Node.js](https://wikipedia.org/wiki/Node.js) では、JavaScriptが任意のファイルを読み書きしたりできる機能をサポートしています。
 
 ブラウザ内のJavaScriptは、Webページの操作、ユーザやWebサーバとのやり取りに関する様々ことを実行することができます。
 

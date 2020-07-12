@@ -293,8 +293,8 @@ function pow(x, n) {
 
 例えば、ESLint では次のようなことをします。:
 
-1. [Node.JS](https://nodejs.org/) をインストールします。
-2. `npm install -g eslint` コマンドで ESLint をインストールします(npm は Node.JS パッケージインストーラです)
+1. [Node.js](https://nodejs.org/) をインストールします。
+2. `npm install -g eslint` コマンドで ESLint をインストールします(npm は Node.js パッケージインストーラです)
 3. あなたのJavaScriptプロジェクト(すべてのファイルを含むフォルダ)のルートに `.ellintrc` という名前の設定ファイルを作ります
 
 `.eslintrc` の例です:
