@@ -1,6 +1,6 @@
 解決策はすべての呼び出しでオブジェクト自身を返すことです。
 
-```js run
+```js run demo
 let ladder = {
   step: 0,
   up() {
