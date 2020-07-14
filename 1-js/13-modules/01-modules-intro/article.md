@@ -11,10 +11,10 @@
 例えば:
 
 - [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) -- 最も古いモジュールシステムの1つで、最初はライブラリ[require.js](http://requirejs.org/)で実装されました。
-- [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) -- Node.JS サーバ用に作られたモジュールシステムです。
+- [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) -- Node.js サーバ用に作られたモジュールシステムです。
 - [UMD](https://github.com/umdjs/umd) -- もう1つのモジュールシステムで、ユニバーサルなものとして提案されています。AMD と CommonJS と互換性があります。
 
-今や、これらはゆっくりと歴史の一部になっていますが、依然として古いスクリプトの中で利用されています。言語レベルのモジュールシステムの標準は 2015 年に登場し、それ以来徐々に進化し、今ではすべての主要なブラウザとNode.JS でサポートされています。
+今や、これらはゆっくりと歴史の一部になっていますが、依然として古いスクリプトの中で利用されています。言語レベルのモジュールシステムの標準は 2015 年に登場し、それ以来徐々に進化し、今ではすべての主要なブラウザとNode.js でサポートされています。
 
 ## モジュールとは?
 

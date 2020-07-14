@@ -578,7 +578,7 @@ function func() {
 
 そのような出来事に反応する方法はありますか？ エラーをログに記録したり、ユーザーに何かを見せたり（通常はエラーメッセージが表示されません）。
 
-仕様ではそのようなものはありませんが、通常、環境がそれを提供しています。なぜなら本当に有用だからです。例えば、Node.JS はそのために [process.on('uncaughtException')](https://nodejs.org/api/process.html#process_event_uncaughtexception)を持っています。
+仕様ではそのようなものはありませんが、通常、環境がそれを提供しています。なぜなら本当に有用だからです。例えば、Node.js はそのために [process.on('uncaughtException')](https://nodejs.org/api/process.html#process_event_uncaughtexception)を持っています。
 また、ブラウザでは関数を特別な [window.onerror](mdn:api/GlobalEventHandlers/onerror) プロパティに代入することができます。それはキャッチしていないエラーの場合に実行されます。
 
 構文:
