@@ -1,15 +1,25 @@
 
 # オブジェクト
 
+<<<<<<< HEAD
 チャプター <info:types> で学んだ通り、JavaScriptには７つの型があります。そのうち６つは "プリミティブ" と呼ばれています。なぜなら、それらは１つの値だけを持つからです(文字列、数値、など任意の値になります)。
+=======
+As we know from the chapter <info:types>, there are eight data types in JavaScript. Seven of them are called "primitive", because their values contain only a single thing (be it a string or a number or whatever).
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 一方で、オブジェクトは様々なデータと、より複雑なエンティティのキー付けされた集合を保持するために使われます。JavaScriptでは、オブジェクトは言語のほぼすべての面で関連します。そのため、まず最初にオブジェクトを理解する必要があります。
 
+<<<<<<< HEAD
 [cut]
 
 オブジェクトは波括弧 `{…}`と任意の *プロパティ* の一覧から成ります。プロパティは "key:value" のペアで、`key` は文字列(もしくは"プロパティ名"と呼ばれます)で、`value` は何でも構いません。
 
 オブジェクトは、署名されたファイルを持つキャビネットとしてイメージすることができます。すべてのデータは、キーによってそのファイルの中に格納されます。ファイルを名前で検索したり、ファイルの追加や削除は簡単です。
+=======
+An object can be created with figure brackets `{…}` with an optional list of *properties*. A property is a "key: value" pair, where `key` is a string (also called a "property name"), and `value` can be anything.
+
+We can imagine an object as a cabinet with signed files. Every piece of data is stored in its file by the key. It's easy to find a file by its name or add/remove a file.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ![](object.svg)
 
@@ -51,7 +61,11 @@ let user = {     // オブジェクト
 プロパティ値へは、ドット表記を使ってアクセスすることができます。:
 
 ```js
+<<<<<<< HEAD
 // オブジェクトのフィールドを取得:
+=======
+// get property values of the object:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 alert( user.name ); // John
 alert( user.age ); // 30
 ```
@@ -85,15 +99,46 @@ let user = {
 ![](object-user-props.svg)
 
 
+<<<<<<< HEAD
 ````smart header="末尾のカンマ"
 このリストの最後のプロパティはカンマで終わることがあります:
+=======
+The last property in the list may end with a comma:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 ```js
 let user = {
   name: "John",
   age: 30*!*,*/!*
 }
 ```
+<<<<<<< HEAD
 これは、「末尾」または「ぶら下がり」のカンマと呼ばれます。 これがあると、すべての行が同じ表記になるため、プロパティの追加/削除/移動が簡単になります。
+=======
+That is called a "trailing" or "hanging" comma. Makes it easier to add/remove/move around properties, because all lines become alike.
+
+````smart header="Object with const can be changed"
+Please note: an object declared as `const` *can* be modified.
+
+For instance:
+
+```js run
+const user = {
+  name: "John"
+};
+
+*!*
+user.name = "Pete"; // (*)
+*/!*
+
+alert(user.name); // Pete
+```
+
+It might seem that the line `(*)` would cause an error, but no. The `const` fixes the value of `user`, but not its contents.
+
+The `const` would give an error only if we try to set `user=...` as a whole.
+
+There's another way to make constant object properties, we'll cover it later in the chapter <info:property-descriptors>.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 ````
 
 ## 角括弧 
@@ -105,10 +150,17 @@ let user = {
 user.likes birds = true
 ```
 
+<<<<<<< HEAD
 これは、ドットはキーが有効な変数識別子であることが必要なためです。
 
 代わりに、任意の文字列で動作する "角括弧表記" を使います:
+=======
+JavaScript doesn't understand that. It thinks that we address `user.likes`, and then gives a syntax error when comes across unexpected `birds`.
 
+The dot requires the key to be a valid variable identifier. That implies: contains no spaces, doesn't start with a digit and doesn't include special characters (`$` and `_` are allowed).
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
+
+There's an alternative "square bracket notation" that works with any string:
 
 ```js run
 let user = {};
@@ -134,7 +186,11 @@ let key = "likes birds";
 user[key] = true;
 ```
 
+<<<<<<< HEAD
 ここで、変数 `key` は実行時に計算されるかもしれないし、ユーザの入力に依存するかもしれません。そして、プロパティにアクセスするときにそれを使います。これは素晴らしい柔軟性をもたらします。ドット表記の場合、同じようにはできません。
+=======
+Here, the variable `key` may be calculated at run-time or depend on the user input. And then we use it to access the property. That gives us a great deal of flexibility.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 例:
 
@@ -150,10 +206,25 @@ let key = prompt("What do you want to know about the user?", "name");
 alert( user[key] ); // John ("name" が入力された場合)
 ```
 
+The dot notation cannot be used in a similar way:
+
+```js run
+let user = {
+  name: "John",
+  age: 30
+};
+
+let key = "name";
+alert( user.key ) // undefined
+```
 
 ### 算出プロパティ
 
+<<<<<<< HEAD
 オブジェクトリテラルでは、角括弧を使うことができます。それは *算出プロパティ* と呼ばれます。
+=======
+We can use square brackets in an object literal, when creating an object. That's called *computed properties*.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 例:
 
@@ -195,6 +266,7 @@ let bag = {
 
 そのため、プロパティ名を知っていて単純な場合であれば、ドットが使われます。そして、もしより複雑な何かが必要なとき、角括弧に切り替えます。
 
+<<<<<<< HEAD
 
 
 ````smart header="予約語はプロパティ名として使用可能です"
@@ -233,6 +305,11 @@ alert(obj.__proto__); // [object Object], 期待通りには動作しません�
 ## プロパティの短縮構文 
 
 実際のコードでは、既存の変数をプロパティ名の値として使用することがよくあります。
+=======
+## Property value shorthand
+
+In real code we often use existing variables as values for property names.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 例えば:
 
@@ -240,8 +317,13 @@ alert(obj.__proto__); // [object Object], 期待通りには動作しません�
 function makeUser(name, age) {
   return {
     name: name,
+<<<<<<< HEAD
     age: age
     // ...他のプロパティ
+=======
+    age: age,
+    // ...other properties
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
   };
 }
 
@@ -257,8 +339,13 @@ alert(user.name); // John
 function makeUser(name, age) {
 *!*
   return {
+<<<<<<< HEAD
     name, // name: name と同じ
     age   // age: age と同じ
+=======
+    name, // same as name: name
+    age,  // same as age: age
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
     // ...
   };
 */!*
@@ -274,9 +361,63 @@ let user = {
 };
 ```
 
+<<<<<<< HEAD
 ## 存在チェック 
 
 注目すべきオブジェクトの機能は、どんなプロパティへもアクセスできることです。プロパティが存在しない場合でもエラーにはなりません! 存在しないプロパティへのアクセスは、単に `undefined` を返します。これはプロパティが存在するかどうかを確認する非常に一般的な方法です -- その値を取得し、 undefined と比較します。:
+=======
+
+## Property names limitations
+
+As we already know, a variable cannot have a name equal to one of language-reserved words like "for", "let", "return" etc.
+
+But for an object property, there's no such restriction:
+
+```js run
+// these properties are all right
+let obj = {
+  for: 1,
+  let: 2,
+  return: 3
+};
+
+alert( obj.for + obj.let + obj.return );  // 6
+```
+
+In short, there are no limitations on property names. They can be any strings or symbols (a special type for identifiers, to be covered later).
+
+Other types are automatically converted to strings.
+
+For instance, a number `0` becomes a string `"0"` when used as a property key:
+
+```js run
+let obj = {
+  0: "test" // same as "0": "test"
+};
+
+// both alerts access the same property (the number 0 is converted to string "0")
+alert( obj["0"] ); // test
+alert( obj[0] ); // test (same property)
+```
+
+There's a minor gotcha with a special property named `__proto__`. We can't set it to a non-object value:
+
+```js run
+let obj = {};
+obj.__proto__ = 5; // assign a number
+alert(obj.__proto__); // [object Object] - the value is an object, didn't work as intended
+```
+
+As we see from the code, the assignment to a primitive `5` is ignored.
+
+We'll cover the special nature of `__proto__` in [subsequent chapters](info:prototype-inheritance), and suggest the [ways to fix](info:prototype-methods) such behavior.
+
+## Property existence test, "in" operator
+
+A notable feature of objects in JavaScript, compared to many other languages, is that it's possible to access any property. There will be no error if the property doesn't exist!
+
+Reading a non-existing property just returns `undefined`. So we can easily test whether the property exists:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 let user = {};
@@ -284,7 +425,11 @@ let user = {};
 alert( user.noSuchProperty === undefined ); // true は "そのようなプロパティはありません" を意味する
 ```
 
+<<<<<<< HEAD
 プロパティの存在チェックのための特別な演算子 `"in"` もあります。
+=======
+There's also a special operator `"in"` for that.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 構文は次の通りです:
 ```js
@@ -302,17 +447,30 @@ alert( "blabla" in user ); // false, user.blabla は存在しない
 
 `in` の左側は *プロパティ名* である必要があることに注意してください。通常それは引用符で囲まれた文字列です。
 
+<<<<<<< HEAD
 もし引用符を除いた場合、テストされる実際のプロパティ名を持つ変数であることを意味します。例えば:
+=======
+If we omit quotes, that means a variable, it should contain the actual name to be tested. For instance:
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ```js run
 let user = { age: 30 };
 
 let key = "age";
+<<<<<<< HEAD
 alert( *!*key*/!* in user ); // true, キーから名前を取り、そのプロパティをチェック
 ```
 
 ````smart header="`undefined` を格納しているプロパティに \"in\" を使う"
 通常、厳密等価演算子 `"=== undefined"` チェックは正しく動作します。しかし、それが失敗する特別なケースがあります。 `"in"` は正しく動作します。
+=======
+alert( *!*key*/!* in user ); // true, property "age" exists
+```
+
+Why does the `in` operator exist? Isn't it enough to compare against `undefined`?
+
+Well, most of the time the comparison with `undefined` works fine. But there's a special case when it fails, but `"in"` works correctly.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 それは、オブジェクトのプロパティは存在するが、`undefined` が格納されているときです:
 
@@ -326,11 +484,17 @@ alert( obj.test ); // これは undefined, なので - このようなプロパ�
 alert( "test" in obj ); // true, プロパティは存在します!
 ```
 
+<<<<<<< HEAD
 
 上のコードでは、プロパティ `obj.test` は技術的には存在します。なので、 `in` 演算子は正しく動いています。
 
 このようなシチュエーションは非常にまれです。なぜなら `undefined` は通常代入されないからです。殆どの場合、"不明" または "空" の値として `null` を使います。
 ````
+=======
+In the code above, the property `obj.test` technically exists. So the `in` operator works right.
+
+Situations like this happen very rarely, because `undefined` should not be explicitly assigned. We mostly use `null` for "unknown" or "empty" values. So the `in` operator is an exotic guest in the code.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 
 ## "for..in" ループ 
@@ -340,8 +504,13 @@ alert( "test" in obj ); // true, プロパティは存在します!
 構文:
 
 ```js
+<<<<<<< HEAD
 for(key in object) {
   // オブジェクトプロパティの各キーに対して本体を実行
+=======
+for (key in object) {
+  // executes the body for each key among object properties
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 }
 ```
 
@@ -354,7 +523,7 @@ let user = {
   isAdmin: true
 };
 
-for(let key in user) {
+for (let key in user) {
   // keys
   alert( key );  // name, age, isAdmin
   // values for the keys
@@ -364,12 +533,20 @@ for(let key in user) {
 
 すべての "for" 構造は、ここでの `let key`  のように、ループ内でループする変数を宣言することに留意してください。
 
+<<<<<<< HEAD
 また、ここでの `key` の代わりに、別の変数名を使うこともできます。例えば、`"for(let prop in obj)"` もまた広く使われています。
 
+=======
+Also, we could use another variable name here instead of `key`. For instance, `"for (let prop in obj)"` is also widely used.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 ### オブジェクトの順序付け
 
+<<<<<<< HEAD
 オブジェクトは順序付けられますか？つまり、オブジェクトをループするとき、追加したのと同じ順序ですべてのプロパティを取得しますか？それを保証することはできるでしょうか？
+=======
+Are objects ordered? In other words, if we loop over an object, do we get all properties in the same order they were added? Can we rely on this?
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 回答は、"特別な方法で順序付けられます"。: 整数値のプロパティはソートされます、それ以外は作成した順になります。以下、その詳細です。
 
@@ -385,7 +562,7 @@ let codes = {
 };
 
 *!*
-for(let code in codes) {
+for (let code in codes) {
   alert(code); // 1, 41, 44, 49
 }
 */!*
@@ -406,10 +583,17 @@ for(let code in codes) {
 したがって、"49" は整数のプロパティ名です。なぜなら、整数の数に変換されて戻っても、それは変わらないからです。 しかし、 "+49"と "1.2"はそうではありません:
 
 ```js run
+<<<<<<< HEAD
 // Math.trunc は小数部を取り除く組み込み関数
 alert( String(Math.trunc(Number("49"))) ); // "49", 同じ, 整数プロパティ
 alert( String(Math.trunc(Number("+49"))) ); // "49", 同じではない ⇒ 非整数プロパティ
 alert( String(Math.trunc(Number("1.2"))) ); // "1", 同じではない ⇒ 非整数プロパティ
+=======
+// Math.trunc is a built-in function that removes the decimal part
+alert( String(Math.trunc(Number("49"))) ); // "49", same, integer property
+alert( String(Math.trunc(Number("+49"))) ); // "49", not same "+49" ⇒ not integer property
+alert( String(Math.trunc(Number("1.2"))) ); // "1", not same "1.2" ⇒ not integer property
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 ```
 ````
 
@@ -443,13 +627,14 @@ let codes = {
   "+1": "USA"
 };
 
-for(let code in codes) {
+for (let code in codes) {
   alert( +code ); // 49, 41, 44, 1
 }
 ```
 
 これで意図した通りに動作します。
 
+<<<<<<< HEAD
 ## 参照をコピーする 
 
 オブジェクトとプリミティブの基本的な違いの１つは、オブジェクトは "参照によって" 格納、コピーされることです。
@@ -707,6 +892,9 @@ alert(clone.sizes.width); // 51, 他方から変更した結果が見えます
 
 
 ## サマリ 
+=======
+## Summary
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 オブジェクトはいくつかの特別な機能を持つ連想配列です。
 
@@ -718,6 +906,7 @@ alert(clone.sizes.width); // 51, 他方から変更した結果が見えます
 - ドット表記: `obj.property`
 - 角括弧表記: `obj["property"]`。角括弧は変数からキーを取ることもできます。`obj[varWithKey]` のように。
 
+<<<<<<< HEAD
 追加の演算子:
 - プロパティを削除: `delete obj.prop`
 - 与えられたキーを持つプロパティの存在チェック: `"key" in obj`
@@ -726,6 +915,12 @@ alert(clone.sizes.width); // 51, 他方から変更した結果が見えます
 オブジェクトは、参照によって代入やコピーがされます。つまり、変数は "オブジェクトの値" ではなく、 値への "参照" (メモリ上のアドレス)を格納します。従って、このような変数をコピーしたり、それを関数の引数として渡すと、オブジェクトではなく参照がコピーされます。 コピーされた参照（プロパティの追加/削除など）によるすべての操作は、同じ単一のオブジェクトに対して実行されます。
 
 "本当のコピー" (クローン) をするためには、`Object.assign` または [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) を使います。
+=======
+Additional operators:
+- To delete a property: `delete obj.prop`.
+- To check if a property with the given key exists: `"key" in obj`.
+- To iterate over an object: `for (let key in obj)` loop.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
 
 このチャプターで学んだのは、"普通のオブジェクト"、あるいは単に "オブジェクト" と呼ばれています。
 
@@ -738,4 +933,8 @@ JavaScriptには他にも多くの種類のオブジェクトがあります:
 
 後で勉強しますが、それらは特別な機能を持っています。また、それらは "Array型" もしくは "Data型" と言われることがありますが、形式的には自身の型ではなく、単一の「オブジェクト」データ型に属しています。 そして、それをさまざまな方法で拡張しています。
 
+<<<<<<< HEAD
 Javascript のオブジェクトはとても強力です。ここでは本当に巨大なトピックのほんの始まりを学びました。この後に続くチャプターでは、オブジェクトをより深く見ていき、それらについてもっと学んでいきます。
+=======
+Objects in JavaScript are very powerful. Here we've just scratched the surface of a topic that is really huge. We'll be closely working with objects and learning more about them in further parts of the tutorial.
+>>>>>>> ae1171069c2e50b932d030264545e126138d5bdc
