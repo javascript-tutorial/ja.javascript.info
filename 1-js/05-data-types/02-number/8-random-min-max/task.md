@@ -15,5 +15,8 @@ alert( random(1, 5) ); // 1.2345623452
 alert( random(1, 5) ); // 3.7894332423
 alert( random(1, 5) ); // 4.3435234525
 ```
+<<<<<<< HEAD
 
 ベースとして、[previous task](info:task/random-min-max) の解法が使えます。
+=======
+>>>>>>> cdf382de4cf3ed39ca70cb7df60c4c4886f2d22e

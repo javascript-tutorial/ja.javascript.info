@@ -18,7 +18,11 @@ function printNumbers(from, to) {
 printNumbers(5, 10);
 ```
 
+<<<<<<< HEAD
 再帰的な `setTimeout` を使った場合:
+=======
+Using nested `setTimeout`:
+>>>>>>> cdf382de4cf3ed39ca70cb7df60c4c4886f2d22e
 
 
 ```js run
@@ -38,4 +42,31 @@ function printNumbers(from, to) {
 printNumbers(5, 10);
 ```
 
+<<<<<<< HEAD
 両方の解法において、最初の出力前の初期遅延があることに注意してください。最初の出力をすぐにするために行を追加する必要がある場合もありますが、簡単です。
+=======
+Note that in both solutions, there is an initial delay before the first output. The function is called after `1000ms` the first time.
+
+If we also want the function to run immediately, then we can add an additional call on a separate line, like this:
+
+```js run
+function printNumbers(from, to) {
+  let current = from;
+
+  function go() {
+    alert(current);
+    if (current == to) {
+      clearInterval(timerId);
+    }
+    current++;
+  }
+
+*!*
+  go();
+*/!*
+  let timerId = setInterval(go, 1000);
+}
+
+printNumbers(5, 10);
+```
+>>>>>>> cdf382de4cf3ed39ca70cb7df60c4c4886f2d22e

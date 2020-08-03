@@ -1,33 +1,33 @@
 
-最初のアイデアは `|` の間に言語をリストすることです。
+The first idea can be to list the languages with `|` in-between.
 
-しかし、それは正しく動作しません:
+But that doesn't work right:
 
 ```js run
-let reg = /Java|JavaScript|PHP|C|C\+\+/g;
+let regexp = /Java|JavaScript|PHP|C|C\+\+/g;
 
 let str = "Java, JavaScript, PHP, C, C++";
 
-alert( str.match(reg) ); // Java,Java,PHP,C,C
+alert( str.match(regexp) ); // Java,Java,PHP,C,C
 ```
 
-正規表現演算子は論理和指定子を1つずつ探します。つまり、まず `match:Java` があるかをチェックし、なければ `match:JavaScript` を探します。
+The regular expression engine looks for alternations one-by-one. That is: first it checks if we have  `match:Java`, otherwise -- looks for `match:JavaScript` and so on.
 
-結果として、`match:JavaScript` は見つかりません。`match:Java` が最初にチェックされるからです。
+As a result, `match:JavaScript` can never be found, just because `match:Java` is checked first.
 
-`match:C` と `match:C++` も同じです。
+The same with `match:C` and `match:C++`.
 
-この問題には2つの解法があります:
+There are two solutions for that problem:
 
-1. より長いマッチを最初にチェックするよう順番を変更する: `pattern:JavaScript|Java|C\+\+|C|PHP`.
-2. 同じスタートのバリアントをマージする: `pattern:Java(Script)?|C(\+\+)?|PHP`.
+1. Change the order to check the longer match first: `pattern:JavaScript|Java|C\+\+|C|PHP`.
+2. Merge variants with the same start: `pattern:Java(Script)?|C(\+\+)?|PHP`.
 
-動作:
+In action:
 
 ```js run
-let reg = /Java(Script)?|C(\+\+)?|PHP/g;
+let regexp = /Java(Script)?|C(\+\+)?|PHP/g;
 
 let str = "Java, JavaScript, PHP, C, C++";
 
-alert( str.match(reg) ); // Java,JavaScript,PHP,C,C++
+alert( str.match(regexp) ); // Java,JavaScript,PHP,C,C++
 ```
