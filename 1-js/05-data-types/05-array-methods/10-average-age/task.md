@@ -4,7 +4,11 @@ importance: 4
 
 # 平均年齢の取得
 
+<<<<<<< HEAD
 プロパティ `age` をもつオブジェクtの配列を取得し、その平均を取得する関数 `getAverageAge(users)` を書いてください。
+=======
+Write the function `getAverageAge(users)` that gets an array of objects with property `age` and returns the average age.
+>>>>>>> fbf443e414097e5a3a41dd1273ef9a4a3230e72c
 
 平均の公式は `(age1 + age2 + ... + ageN) / N` です。
 
