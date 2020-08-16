@@ -19,7 +19,7 @@ loadJson('no-such-user.json')
 
 補足:
 
-1. 関数 `loadUrl` は `async` になります。
+1. 関数 `loadJson` は `async` になります。
 2. すべての内側の `.then` は `await` に置き換えられます。
 3. 次のように、await するのではなく、`response.json()` を返すこともできます。:
 
@@ -29,5 +29,5 @@ loadJson('no-such-user.json')
     }
     ```
 
-    そうすると、外側のコードはその promise を解決するために `await` する必要があります。 
+    そうすると、外側のコードはその promise を解決するために `await` する必要があります。
 4. `loadJson` からスローされたエラーは `.catch` で処理されます。そこでは `await loadJson(…)` を使うことができません。なぜなら `async` 関数の中ではないからです。
