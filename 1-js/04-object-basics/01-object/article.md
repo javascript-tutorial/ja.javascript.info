@@ -85,7 +85,6 @@ let user = {
 ![](object-user-props.svg)
 
 
-````smart header="末尾のカンマ"
 このリストの最後のプロパティはカンマで終わることがあります:
 ```js
 let user = {
@@ -93,7 +92,31 @@ let user = {
   age: 30*!*,*/!*
 }
 ```
+
 これは、「末尾」または「ぶら下がり」のカンマと呼ばれます。 これがあると、すべての行が同じ表記になるため、プロパティの追加/削除/移動が簡単になります。
+
+````smart header="Object with const can be changed"
+Please note: an object declared as `const` *can* be modified.
+
+For instance:
+
+```js run
+const user = {
+  name: "John"
+};
+
+*!*
+user.name = "Pete"; // (*)
+*/!*
+
+alert(user.name); // Pete
+```
+
+It might seem that the line `(*)` would cause an error, but no. The `const` fixes the value of `user`, but not its contents.
+
+The `const` would give an error only if we try to set `user=...` as a whole.
+
+There's another way to make constant object properties, we'll cover it later in the chapter <info:property-descriptors>.
 ````
 
 ## 角括弧 
@@ -105,7 +128,9 @@ let user = {
 user.likes birds = true
 ```
 
-これは、ドットはキーが有効な変数識別子であることが必要なためです。
+JavaScript doesn't understand that. It thinks that we address `user.likes`, and then gives a syntax error when comes across unexpected `birds`.
+
+The dot requires the key to be a valid variable identifier. That implies: contains no spaces, doesn't start with a digit and doesn't include special characters (`$` and `_` are allowed).
 
 代わりに、任意の文字列で動作する "角括弧表記" を使います:
 
@@ -150,6 +175,17 @@ let key = prompt("What do you want to know about the user?", "name");
 alert( user[key] ); // John ("name" が入力された場合)
 ```
 
+The dot notation cannot be used in a similar way:
+
+```js run
+let user = {
+  name: "John",
+  age: 30
+};
+
+let key = "name";
+alert( user.key ) // undefined
+```
 
 ### 算出プロパティ
 
@@ -196,40 +232,6 @@ let bag = {
 そのため、プロパティ名を知っていて単純な場合であれば、ドットが使われます。そして、もしより複雑な何かが必要なとき、角括弧に切り替えます。
 
 
-
-````smart header="予約語はプロパティ名として使用可能です"
-変数は "for", "let", "return" といった、予約語と同じものをもつことはできません。
-
-しかし、オブジェクトプロパティではこのような制限はありません。どんな名前でも大丈夫です:
-
-```js run
-let obj = {
-  for: 1,
-  let: 2,
-  return: 3
-}
-
-alert( obj.for + obj.let + obj.return );  // 6
-```
-
-基本的に、任意の名前が使用可能ですが、特別なものが1つあります: `"__proto__"` は歴史的な理由から特別な扱いを受けています。例えば、非オブジェクトにそれをセットすることはできません。:
-
-```js run
-let obj = {};
-obj.__proto__ = 5;
-alert(obj.__proto__); // [object Object], 期待通りには動作しません。
-```
-
-上のコードから分かるように、プリミティブ `5` への代入は無視されます。
-
-もし、オブジェクトに任意の key-value のペアを保持し、訪問者がキーを指定できるようにしたとき、それはバグや脆弱性の元になる可能性があります。
-
-そのケースで訪問者は、キーとして "`__proto__`" を選ぶかもしれません。すると代入のロジックは崩壊するでしょう(上にあるように)。
-
-オブジェクトが、`__proto__` を通常のプロパティとして扱うようにするための方法があります。それは後で説明しますが、まずはそれを理解するためにオブジェクトについてより知る必要があります。
-[Map](info:map-set-weakmap-weakset) と呼ばれる別のデータ構造があり、チャプター <info:map-set-weakmap-weakset> で学びます。それもまた任意のキーをサポートします。
-````
-
 ## プロパティの短縮構文 
 
 実際のコードでは、既存の変数をプロパティ名の値として使用することがよくあります。
@@ -274,7 +276,52 @@ let user = {
 };
 ```
 
-## 存在チェック 
+## プロパティ名の制限
+
+すでにご存知の通り、変数は "for", "let", "return" といった、予約語と同じものをもつことはできません。
+
+しかし、オブジェクトプロパティではこのような制限はありません。どんな名前でも大丈夫です:
+
+```js run
+let obj = {
+  for: 1,
+  let: 2,
+  return: 3
+}
+
+alert( obj.for + obj.let + obj.return );  // 6
+```
+
+In short, there are no limitations on property names. They can be any strings or symbols (a special type for identifiers, to be covered later).
+
+Other types are automatically converted to strings.
+
+For instance, a number `0` becomes a string `"0"` when used as a property key:
+
+```js run
+let obj = {
+  0: "test" // same as "0": "test"
+};
+
+// both alerts access the same property (the number 0 is converted to string "0")
+alert( obj["0"] ); // test
+alert( obj[0] ); // test (same property)
+```
+
+There's a minor gotcha with a special property named `__proto__`. We can't set it to a non-object value:
+
+```js run
+let obj = {};
+obj.__proto__ = 5; // assign a number
+alert(obj.__proto__); // [object Object] - the value is an object, didn't work as intended
+```
+
+As we see from the code, the assignment to a primitive `5` is ignored.
+
+We'll cover the special nature of `__proto__` in [subsequent chapters](info:prototype-inheritance), and suggest the [ways to fix](info:prototype-methods) such behavior.
+
+
+## プロパティ存在チェック, "in" 演算子 
 
 注目すべきオブジェクトの機能は、どんなプロパティへもアクセスできることです。プロパティが存在しない場合でもエラーにはなりません! 存在しないプロパティへのアクセスは、単に `undefined` を返します。これはプロパティが存在するかどうかを確認する非常に一般的な方法です -- その値を取得し、 undefined と比較します。:
 
@@ -311,8 +358,9 @@ let key = "age";
 alert( *!*key*/!* in user ); // true, キーから名前を取り、そのプロパティをチェック
 ```
 
-````smart header="`undefined` を格納しているプロパティに \"in\" を使う"
-通常、厳密等価演算子 `"=== undefined"` チェックは正しく動作します。しかし、それが失敗する特別なケースがあります。 `"in"` は正しく動作します。
+Why does the `in` operator exist? Isn't it enough to compare against `undefined`?
+
+Well, most of the time the comparison with `undefined` works fine. But there's a special case when it fails, but `"in"` works correctly.
 
 それは、オブジェクトのプロパティは存在するが、`undefined` が格納されているときです:
 
@@ -330,7 +378,6 @@ alert( "test" in obj ); // true, プロパティは存在します!
 上のコードでは、プロパティ `obj.test` は技術的には存在します。なので、 `in` 演算子は正しく動いています。
 
 このようなシチュエーションは非常にまれです。なぜなら `undefined` は通常代入されないからです。殆どの場合、"不明" または "空" の値として `null` を使います。
-````
 
 
 ## "for..in" ループ 
@@ -450,261 +497,6 @@ for(let code in codes) {
 
 これで意図した通りに動作します。
 
-## 参照をコピーする 
-
-オブジェクトとプリミティブの基本的な違いの１つは、オブジェクトは "参照によって" 格納、コピーされることです。
-
-プリミティブな値: 文字列、数値、真偽値 -- は "値として" 代入/コピーされます。
-
-例:
-
-```js
-let message = "Hello!";
-let phrase = message;
-```
-
-上記は、結果として2つの独立した変数をもち、それぞれ文字列 `"Hello!"` を保持しています。
-
-![](variable-copy-value.svg)
-
-オブジェクトはそうではありません。
-
-**変数はオブジェクト自体ではなく、その "メモリ内のアドレス"、つまりそれへの "参照" を格納します。**
-
-オブジェクトの絵はこうなります:
-
-```js
-let user = {
-  name: "John"
-};
-```
-
-![](variable-contains-reference.svg)
-
-ここで、オブジェクトはメモリ上のどこかへ格納されています。そして変数 `user` はその "参照" を持っています。
-
-**オブジェクト変数がコピーされるとき、 -- 参照がコピーされます、オブジェクトは複製されません。**
-
-もしオブジェクトをキャビネットとしてイメージするとしたら、変数はそれへの鍵です。変数のコピーは鍵の複製であり、キャビネット自身ではありません。
-
-例:
-
-```js no-beautify
-let user = { name: "John" };
-
-let admin = user; // 参照のコピー
-```
-
-今、私たちは2つの変数を持っており、それぞれ同じオブジェクトへの参照を持っています。:
-
-![](variable-copy-reference.svg)
-
-私たちは任意の変数を使って、キャビネットにアクセスしその中身を変更することができます:
-
-```js run
-let user = { name: 'John' };
-
-let admin = user;
-
-*!*
-admin.name = 'Pete'; // "admin" 参照によって変更される
-*/!*
-
-alert(*!*user.name*/!*); // 'Pete', 変更は "user" 参照から見えます
-```
-
-上の例は1つのオブジェクトしかないことのデモです。私たちがキャビネットと2つの鍵を持っていて、それらの1つ(`admin`)を使ってその中のものを取得し変更します。その後、別の鍵(`user`)を使ったときには、先ほど変更した結果が見えます。
-
-### 参照による比較
-
-オブジェクトの等価 `==` と厳密等価　`===` 演算子は、全く同じように動作します。
-
-**2つのオブジェクトは、同じオブジェクトのときだけ等しくなります。**
-
-例えば、2つの変数が同じオブジェクトを参照しているとき、それらは等しいです:
-
-```js run
-let a = {};
-let b = a; // 参照のコピー
-
-alert( a == b ); // true, 両方の変数は同じオブジェクトを参照しています
-alert( a === b ); // true
-```
-
-また、2つの独立したオブジェクトは等しくありません。たとえそれらが空だとしても:
-
-```js run
-let a = {};
-let b = {}; // 2つの独立したオブジェクト
-
-alert( a == b ); // false
-```
-
-`obj1 > obj2` のような比較、もしくは反対にプリミティブ `obj == 5` のような比較では、オブジェクトはプリミティブに変換されます。私たちはオブジェクト変換がどのように動作するのか、この後すぐに学ぶでしょう。ただし、真実を言うと、このような比較はほとんど必要とされず、通常はコードの誤りです。
-
-### Const オブジェクト
-
-`const` として宣言されたオブジェクトは変更 *できます* 。
-
-例:
-
-```js run
-const user = {
-  name: "John"
-};
-
-*!*
-user.age = 25; // (*)
-*/!*
-
-alert(user.age); // 25
-```
-
-行 `(*)` はエラーを起こすように見えるかもしれませんが、それらは全く問題ありません。`const` は `user` 自身の値を固定するからです。そしてここで `user` は常に同じオブジェクトへの参照を保持します。行　`(*)` はオブジェクトの *内側* へ行っており、`user` の再代入ではありません。
-
-`const` は、もし `user` に他の何かをセットしようとしたときにエラーになります。例えば:
-
-```js run
-const user = {
-  name: "John"
-};
-
-*!*
-// エラー (user の再代入ができない)
-*/!*
-user = {
-  name: "Pete"
-};
-```
-
-...そうすると、もしオブジェクトのプロパティを定数にしたい場合はどうすればいいでしょう？ `user.age = 25` がエラーになるように。そうすることも可能です。 これについては、チャプター <info:property-descriptors> で説明します。
-
-## クローンとマージ, Object.assign 
-
-これまでの通り、オブジェクト変数のコピーは、同じオブジェクトへの参照をもう1つ作ります。
-
-しかし、もしオブジェクトの複製が必要な場合はどうしましょう？独立したコピー、クローンを作るには？
-
-それは可能ですが、JavaScriptには組み込みのメソッドがないため多少難しいです。実際、それはめったに必要ありません。参照によるコピーはたいていの場合で問題ありません。
-
-しかし、もし本当にそうしたい場合は、新しいオブジェクトを作り、プリミティブなレベルでそのプロパティを繰り返しコピーしていくことで、既存のものの構造を複製する必要があります。
-
-このようになります:
-
-```js run
-let user = {
-  name: "John",
-  age: 30
-};
-
-*!*
-let clone = {}; // 新しい空オブジェクト
-
-// すべての user プロパティをその中にコピーしましょう
-for (let key in user) {
-  clone[key] = user[key];
-}
-*/!*
-
-// 今、clone は完全に独立したクローンです
-clone.name = "Pete"; // その中のデータを変更
-
-alert( user.name ); // 依然としてオリジナルのオブジェクトは John
-```
-
-また、そのために、[Object.assign](mdn:js/Object/assign) 関数を使うことができます。
-
-構文はこうです:
-
-```js
-Object.assign(dest[, src1, src2, src3...])
-```
-
-- 引数 `dest`, そして `src1, ..., srcN` (必要なだけ) はオブジェクトです。
-- すべてのオブジェクト `src1, ..., srcN` のプロパティを `dest` にコピーします。言い換えると、2つ目から始まる全ての引数のプロパティは、最初の引数のオブジェクトにコピーされます。そして `dest` を返します。
-
-例えば、いくつかのオブジェクトを1つにマージするために使います:
-```js
-let user = { name: "John" };
-
-let permissions1 = { canView: true };
-let permissions2 = { canEdit: true };
-
-*!*
-// permissions1 and permissions2 のすべてのプロパティを user にコピー
-Object.assign(user, permissions1, permissions2);
-*/!*
-
-// now user = { name: "John", canView: true, canEdit: true }
-```
-
-もし、受け取ったオブジェクト (`user`) が既に同じプロパティ名のものをもっていたら、上書きします:
-
-```js
-let user = { name: "John" };
-
-// name を上書き, isAdmin を追加
-Object.assign(user, { name: "Pete", isAdmin: true });
-
-// now user = { name: "Pete", isAdmin: true }
-```
-
-また、単純なクローンをする場合のループ処理を置き換えるために、`Object.assign` を使うこともできます。
-
-```js
-let user = {
-  name: "John",
-  age: 30
-};
-
-*!*
-let clone = Object.assign({}, user);
-*/!*
-```
-
-これは `user` のすべてのプロパティを空のオブジェクトにコピーし、返します。ループの場合と同じことをしますが、より短い記載になります。
-
-今まで、`user` のすべてのプロパティがプリミティブであると仮定していましたが、プロパティは他のオブジェクトの参照になることもあります。それらはどうなるでしょう？
-
-このような:
-```js run
-let user = {
-  name: "John",
-  sizes: {
-    height: 182,
-    width: 50
-  }
-};
-
-alert( user.sizes.height ); // 182
-```
-
-今、`user.sizes` はオブジェクトであり、参照によるコピーがされるため、`clone.sizes = user.sizes` というコピーでは不十分です。なので、`clone` と `user` は同じ sizes を共有します:
-
-このようになります:
-```js run
-let user = {
-  name: "John",
-  sizes: {
-    height: 182,
-    width: 50
-  }
-};
-
-let clone = Object.assign({}, user);
-
-alert( user.sizes === clone.sizes ); // true, 同じオブジェクト
-
-// user と clone は sizes を共有します
-user.sizes.width++;       // 一方からプロパティを変更します
-alert(clone.sizes.width); // 51, 他方から変更した結果が見えます
-```
-
-これを修正するには、`user[key]` の各値を調べ、それがオブジェクトの場合はその構造も複製するクローンのループを使用する必要があります。 これは "ディープクローン(ディープコピー)" と呼ばれます。
-
-上記のケースやより複雑なケースを処理するディープクローン作成のための標準的なアルゴリズムがあります、それは[Structured cloning algorithm](https://w3c.github.io/html/infrastructure.html#internal-structured-cloning-algorithm) と呼ばれています。
-車輪の再発明をしないために、JavaScript ライブラリ[lodash](https://lodash.com) にある処理を利用することができます。そのメソッドは [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) と呼ばれています。
-
 
 ## サマリ 
 
@@ -723,11 +515,7 @@ alert(clone.sizes.width); // 51, 他方から変更した結果が見えます
 - 与えられたキーを持つプロパティの存在チェック: `"key" in obj`
 - オブジェクトのイテレート: `for(let key in obj)` ループ
 
-オブジェクトは、参照によって代入やコピーがされます。つまり、変数は "オブジェクトの値" ではなく、 値への "参照" (メモリ上のアドレス)を格納します。従って、このような変数をコピーしたり、それを関数の引数として渡すと、オブジェクトではなく参照がコピーされます。 コピーされた参照（プロパティの追加/削除など）によるすべての操作は、同じ単一のオブジェクトに対して実行されます。
-
-"本当のコピー" (クローン) をするためには、`Object.assign` または [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) を使います。
-
-このチャプターで学んだのは、"普通のオブジェクト"、あるいは単に "オブジェクト" と呼ばれています。
+What we've studied in this chapter is called a "plain object", or just `Object`.
 
 JavaScriptには他にも多くの種類のオブジェクトがあります:
 
