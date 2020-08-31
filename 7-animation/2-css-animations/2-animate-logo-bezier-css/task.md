@@ -2,10 +2,12 @@ importance: 5
 
 ---
 
-# 飛んでいる飛行機をアニメーションする (CSS)
+# Animate the flying plane (CSS)
 
-前のタスク <info:task/animate-logo-css> の解答を修正して、元のサイズ 400x240px よりも大きくなり(飛び出し)、その後元のサイズに戻るようにしてください。
+Modify the solution of the previous task <info:task/animate-logo-css> to make the plane grow more than its original size 400x240px (jump out), and then return to that size.
 
-次のように見えるようにします(飛行機をクリックしてください):
+Here's how it should look (click on the plane):
 
 [iframe src="solution" height=350]
+
+Take the solution of the previous task as the source.
