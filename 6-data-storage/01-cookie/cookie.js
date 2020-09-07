@@ -13,7 +13,11 @@ function setCookie(name, value, options = {}) {
     ...options
   };
 
+<<<<<<< HEAD
   if (options.expires.toUTCString) {
+=======
+  if (options.expires instanceof Date) {
+>>>>>>> 58f6599df71b8d50417bb0a52b1ebdc995614017
     options.expires = options.expires.toUTCString();
   }
 
