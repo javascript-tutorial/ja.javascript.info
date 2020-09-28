@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # NULL合体演算子(Nullish coalescing operator) '??'
 
 [recent browser="new"]
@@ -21,18 +22,73 @@ x = (a !== null && a !== undefined) ? a : b;
 ユーザ名を表示します: 3つの変数のいずれか、あるいは設定されていない場合は "Anonymous" とします。
 
 `??` 演算子を使って最初に定義されたものを選択しましょう。:
+=======
+# Nullish coalescing operator '??'
+
+[recent browser="new"]
+
+Here, in this article, we'll say that an expression is "defined" when it's neither `null` nor `undefined`.
+
+The nullish coalescing operator is written as two question marks `??`.
+
+The result of `a ?? b` is:
+- if `a` is defined, then `a`,
+- if `a` isn't defined, then `b`.
+
+
+In other words, `??` returns the first argument if it's defined. Otherwise, the second one.
+
+The nullish coalescing operator isn't anything completely new. It's just a nice syntax to get the first "defined" value of the two.
+
+We can rewrite `result = a ?? b` using the operators that we already know, like this:
+
+```js
+result = (a !== null && a !== undefined) ? a : b;
+```
+
+The common use case for `??` is to provide a default value for a potentially undefined variable.
+
+For example, here we show `Anonymous` if `user` isn't defined:
+
+```js run
+let user;
+
+alert(user ?? "Anonymous"); // Anonymous
+```
+
+Of course, if `user` had any value except `null/undefined`, then we would see it instead:
+
+```js run
+let user = "John";
+
+alert(user ?? "Anonymous"); // John
+```
+
+We can also use a sequence of `??` to select the first defined value from a list.
+
+Let's say we have a user's data in variables `firstName`, `lastName` or `nickName`. All of them may be undefined, if the user decided not to enter a value.
+
+We'd like to display the user name using one of these variables, or show "Anonymous" if all of them are undefined.
+
+Let's use the `??` operator for that:
+>>>>>>> f489145731a45df6e369a3c063e52250f3f0061d
 
 ```js run
 let firstName = null;
 let lastName = null;
 let nickName = "Supercoder";
 
+<<<<<<< HEAD
 // 最初の null/undefined でない値を表示します
+=======
+// shows the first defined value:
+>>>>>>> f489145731a45df6e369a3c063e52250f3f0061d
 *!*
 alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder
 */!*
 ```
 
+<<<<<<< HEAD
 ## || との比較
 
 OR `||` 演算子は `??` と同じ方法で利用することができます。[前のチャプター](info:logical-operators#or-finds-the-first-truthy-value) で説明したように、実際、上のコードでは `??` を `||` に置き換えることができ、同じ結果を得ることができます。
@@ -52,6 +108,38 @@ height = height ?? 100;
 `height` が未定義であれば、`100` が設定されます。
 
 `||` と比較してみましょう:
+=======
+## Comparison with ||
+
+The OR `||` operator can be used in the same way as `??`, as it was described in the [previous chapter](info:logical-operators#or-finds-the-first-truthy-value).
+
+For example, in the code above we could replace `??` with `||` and still get the same result:
+
+```js run
+let firstName = null;
+let lastName = null;
+let nickName = "Supercoder";
+
+// shows the first truthy value:
+*!*
+alert(firstName || lastName || nickName || "Anonymous"); // Supercoder
+*/!*
+```
+
+The OR `||` operator exists since the beginning of JavaScript, so developers were using it for such purposes for a long time.
+
+On the other hand, the nullish coalescing operator `??` was added only recently, and the reason for that was that people weren't quite happy with `||`.
+
+The subtle, yet important difference is that:
+- `||` returns the first *truthy* value.
+- `??` returns the first *defined* value.
+
+In other words, `||` doesn't distinguish between `false`, `0`, an empty string `""` and `null/undefined`. They are all the same -- falsy values. If any of these is the first argument of `||`, then we'll get the second argument as the result.
+
+In practice though, we may want to use default value only when the variable is `null/undefined`. That is, when the value is really unknown/not set.
+
+For example, consider this:
+>>>>>>> f489145731a45df6e369a3c063e52250f3f0061d
 
 ```js run
 let height = 0;
@@ -60,6 +148,7 @@ alert(height || 100); // 100
 alert(height ?? 100); // 0
 ```
 
+<<<<<<< HEAD
 ここでは、`height || 100` は 高さゼロを `null` や `undefined` あるいは他の偽の値と同様に未定義として扱っています。そのため、結果は `100` です。
 
 `height ?? 100` は `height` がまさに `null` あるいは `undefined` の場合にのみ `100` を返します。したがって、`alert` は高さの値 `0` を "そのまま" 表示します。
@@ -73,17 +162,38 @@ alert(height ?? 100); // 0
 したがって、`??` は他の多くの演算子の後で、`=` と `?` の前に評価されます。
 
 複雑な式で `??` を用いて値を選択する必要がある場合は括弧を用いることを検討してください:
+=======
+Here, we have a zero height.
+
+- The `height || 100` checks `height` for being a falsy value, and it really is.
+    - so the result is the second argument, `100`.
+- The `height ?? 100` checks `height` for being `null/undefined`, and it's not,
+    - so the result is `height` "as is", that is `0`.
+
+If we assume that zero height is a valid value, that shouldn't be replaced with the default, then `??` does just the right thing.
+
+## Precedence
+
+The precedence of the `??` operator is rather low: `5` in the [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table). So `??` is evaluated before `=` and `?`, but after most other operations, such as `+`, `*`.
+
+So if we'd like to choose a value with `??` in an expression with other operators, consider adding parentheses:
+>>>>>>> f489145731a45df6e369a3c063e52250f3f0061d
 
 ```js run
 let height = null;
 let width = null;
 
+<<<<<<< HEAD
 // 重要: 括弧を使用します
+=======
+// important: use parentheses
+>>>>>>> f489145731a45df6e369a3c063e52250f3f0061d
 let area = (height ?? 100) * (width ?? 50);
 
 alert(area); // 5000
 ```
 
+<<<<<<< HEAD
 そうでない場合、括弧を省略すると `*` は `??` よりも優先度が高いため、最初に実行されます。
 
 これば次のように動くことを意味します:
@@ -98,11 +208,29 @@ let area = height ?? (100 * width) ?? 50;
 **安全上の理由により、`&&` や `||` 演算子と一緒に `??` を用いることは禁止されています。**
 
 次のコードは構文エラーになります:
+=======
+Otherwise, if we omit parentheses, then as `*` has the higher precedence than `??`, it would execute first, leading to incorrect results.
+
+```js
+// without parentheses
+let area = height ?? 100 * width ?? 50;
+
+// ...works the same as this (probably not what we want):
+let area = height ?? (100 * width) ?? 50;
+```
+
+### Using ?? with && or ||
+
+Due to safety reasons, JavaScript forbids using `??` together with `&&` and `||` operators, unless the precedence is explicitly specified with parentheses.
+
+The code below triggers a syntax error:
+>>>>>>> f489145731a45df6e369a3c063e52250f3f0061d
 
 ```js run
 let x = 1 && 2 ?? 3; // Syntax error
 ```
 
+<<<<<<< HEAD
 この制限には当然議論の余地がありますが、人々が `||` から `??` に切り替え始めるときに、プログラミングのミスを避ける目的で言語仕様に追加されました。
 
 回避するには明示的に括弧を使用します:
@@ -110,11 +238,21 @@ let x = 1 && 2 ?? 3; // Syntax error
 ```js run
 *!*
 let x = (1 && 2) ?? 3; // 動作します
+=======
+The limitation is surely debatable, but it was added to the language specification with the purpose to avoid programming mistakes, when people start to switch to `??` from `||`.
+
+Use explicit parentheses to work around it:
+
+```js run
+*!*
+let x = (1 && 2) ?? 3; // Works
+>>>>>>> f489145731a45df6e369a3c063e52250f3f0061d
 */!*
 
 alert(x); // 2
 ```
 
+<<<<<<< HEAD
 ## サマリ
 
 - Null合体演算子 `??` は一覧から "定義済み" の値を選択するための簡単な方法を提供します。
@@ -128,3 +266,18 @@ alert(x); // 2
 
 - 演算子 `??` は優先度が低く、`?` や `=` よりも少し高い程度です。
 - 明示的な括弧なしに  `||` や `&&` と一緒に利用することは禁止されています。
+=======
+## Summary
+
+- The nullish coalescing operator `??` provides a short way to choose a "defined" value from the list.
+
+    It's used to assign default values to variables:
+
+    ```js
+    // set height=100, if height is null or undefined
+    height = height ?? 100;
+    ```
+
+- The operator `??` has a very low precedence, a bit higher than `?` and `=`, so consider adding parentheses when using it in an expression.
+- It's forbidden to use it with `||` or `&&` without explicit parentheses.
+>>>>>>> f489145731a45df6e369a3c063e52250f3f0061d

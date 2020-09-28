@@ -2,14 +2,15 @@ importance: 1
 
 ---
 
-# 関数 min(a, b)
+# Function min(a, b)
 
-2つの数値 `a` と `b` で小さい方を返す関数 `min(a,b)` を書きなさい。
+Write a function `min(a,b)` which returns the least of two numbers `a` and `b`.
 
-例:
+For instance:
 
 ```js
 min(2, 5) == 2
 min(3, -1) == -1
 min(1, 1) == 1
 ```
+
