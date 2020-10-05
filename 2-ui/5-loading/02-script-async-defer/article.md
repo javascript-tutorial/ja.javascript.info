@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # スクリプト: async, defer
 
 最近の web サイトでは、スクリプトは HTML よりも "重い" ことがしばしばです: ダウンロードサイズはより大きく、処理時間も長くなります。
@@ -9,12 +10,25 @@
 
 1. スクリプトは、それ以降の DOM要素は認識することができないため、ハンドラーを追加したりすることはできません。
 2. ページの先頭に重いスクリプトがあると、"ページをブロック" します。利用者はそれがダウンロードされ実行されるまでページコンテンツを見ることができません:
+=======
+# Scripts: async, defer
+
+In modern websites, scripts are often "heavier" than HTML: their download size is larger, and processing time is also longer.
+
+When the browser loads HTML and comes across a `<script>...</script>` tag, it can't continue building the DOM. It must execute the script right now. The same happens for external scripts `<script src="..."></script>`: the browser must wait until the script downloads, execute it, and only after process the rest of the page.
+
+That leads to two important issues:
+
+1. Scripts can't see DOM elements below them, so they can't add handlers etc.
+2. If there's a bulky script at the top of the page, it "blocks the page". Users can't see the page content till it downloads and runs:
+>>>>>>> 181cc781ab6c55fe8c43887a0c060db7f93fb0ca
 
 ```html run height=100
 <p>...content before script...</p>
 
 <script src="https://javascript.info/article/script-async-defer/long.js?speed=1"></script>
 
+<<<<<<< HEAD
 <!-- スクリプトがロードされるまで表示されません -->
 <p>...content after script...</p>
 ```
@@ -22,6 +36,15 @@
 回避策はいくつかあります。例えば、ページの末尾にスクリプトを置きます。すると要素を表示でき、ページコンテンツの表示をブロックしません:
 
 ```html run
+=======
+<!-- This isn't visible until the script loads -->
+<p>...content after script...</p>
+```
+
+There are some workarounds to that. For instance, we can put a script at the bottom of the page. Then it can see elements above it, and it doesn't block the page content from showing:
+
+```html
+>>>>>>> 181cc781ab6c55fe8c43887a0c060db7f93fb0ca
 <body>
   ...all content is above the script...
 
@@ -29,6 +52,7 @@
 </body>
 ```
 
+<<<<<<< HEAD
 ですが、この方法は完璧には程遠いです。例えば、ブラウザが完全なHTMLドキュメントをダウンロードした後にのみスクリプトに気づき（、ダウロードが開始でき）ます。HTML ドキュメントが長いと、かなりの遅延になる可能性があります。
 
 このようなことは、十分に早い接続を使用している人々には見えませんが、世界中の多くの人は依然として低速のインターネットを利用しており、完璧とはほど遠いモバイルインターネット接続を使用しています。
@@ -40,12 +64,26 @@
 `defer` 属性はブラウザにスクリプトを待たないよう指示します。代わりに、ブラウザは HTML の処理を継続し、DOM を構築します。スクリプトは "バックグラウンド" でロードされ、DOM が完全に構築されたときに実行されます。
 
 これは上記と同じ例ですが、`defer` を指定しています:
+=======
+But this solution is far from perfect. For example, the browser notices the script (and can start downloading it) only after it downloaded the full HTML document. For long HTML documents, that may be a noticeable delay.
+
+Such things are invisible for people using very fast connections, but many people in the world still have slow internet speeds and use a far-from-perfect mobile internet connection.
+
+Luckily, there are two `<script>` attributes that solve the problem for us: `defer` and `async`.
+
+## defer
+
+The `defer` attribute tells the browser not to wait for the script. Instead, the browser will continue to process the HTML, build DOM. The script loads "in the background", and then runs when the DOM is fully built. 
+
+Here's the same example as above, but with `defer`:
+>>>>>>> 181cc781ab6c55fe8c43887a0c060db7f93fb0ca
 
 ```html run height=100
 <p>...content before script...</p>
 
 <script defer src="https://javascript.info/article/script-async-defer/long.js?speed=1"></script>
 
+<<<<<<< HEAD
 <!-- すぐに表示されます -->
 <p>...content after script...</p>
 ```
@@ -56,6 +94,18 @@
 - `defer` をもつスクリプトは常に DOM は準備できた(ただし、`DOMContentLoaded` イベントの前です)ときに実行されます。
 
 次の例は2つ目の部分の例です:
+=======
+<!-- visible immediately -->
+<p>...content after script...</p>
+```
+
+In other words:
+
+- Scripts with `defer` never block the page.
+- Scripts with `defer` always execute when the DOM is ready (but before `DOMContentLoaded` event).
+
+The following example demonstrates the second part:
+>>>>>>> 181cc781ab6c55fe8c43887a0c060db7f93fb0ca
 
 ```html run height=100
 <p>...content before scripts...</p>
@@ -69,18 +119,28 @@
 <p>...content after scripts...</p>
 ```
 
+<<<<<<< HEAD
 1. ページコンテンツはすぐに表示されます。
 2. `DOMContentLoaded` イベントハンドラは遅延スクリプトを待ちます。スクリプトがダウンロードされ実行されたときに実行されます。
 
 **遅延スクリプトは通常のスクリプトのように、相対的な順序を維持します。**
 
 2つの遅延スクリプトがあるとしましょう: `long.js` と `small.js` です:
+=======
+1. The page content shows up immediately.
+2. `DOMContentLoaded` event handler waits for the deferred script. It only triggers when the script is downloaded and executed.
+
+**Deferred scripts keep their relative order, just like regular scripts.**
+
+Let's say, we have two deferred scripts: the `long.js` and then `small.js`:
+>>>>>>> 181cc781ab6c55fe8c43887a0c060db7f93fb0ca
 
 ```html
 <script defer src="https://javascript.info/article/script-async-defer/long.js"></script>
 <script defer src="https://javascript.info/article/script-async-defer/small.js"></script>
 ```
 
+<<<<<<< HEAD
 ブラウザはページをスキャンしてスクリプトを探し、それらを並列にダウンロードしてパフォーマンスを向上させます。そのため、上の例では両方のスクリプトが並列でダウンロードされます。おそらく `small.js` が最初に終了します。
 
 ...ですが、`defer` 属性は ブラウザに "ブロックしない" ように指示することに加え、相対的な順序を維持することを保証します。したがって、たとえ `small.js` が最初にロードされた場合でも、`long.js` が実行されるまで待ってから実行します。
@@ -89,6 +149,16 @@
 
 ```smart header="`defer` 属性は外部スクリプト専用です"
 `src` がない `<script>` タグの場合、`defer` 属性は無視されます。
+=======
+Browsers scan the page for scripts and download them in parallel, to improve performance. So in the example above both scripts download in parallel. The `small.js` probably finishes first.
+
+...But the `defer` atribute, besides telling the browser "not to block", ensures that the relative order is kept. So even though `small.js` loads first, it still waits and runs after `long.js` executes.
+
+That may be important for cases when we need to load a JavaScript library and then a script that depends on it.
+
+```smart header="The `defer` attribute is only for external scripts"
+The `defer` attribute is ignored if the `<script>` tag has no `src`.
+>>>>>>> 181cc781ab6c55fe8c43887a0c060db7f93fb0ca
 ```
 
 ## async
@@ -153,7 +223,11 @@ That is:
 - They don't wait for anything, nothing waits for them.
 - The script that loads first -- runs first ("load-first" order).
 
+<<<<<<< HEAD
 This can be changed if we explicitly set `script.async=true`. Then scripts will be executed in the document order, just like `defer`.
+=======
+This can be changed if we explicitly set `script.async=false`. Then scripts will be executed in the document order, just like `defer`.
+>>>>>>> 181cc781ab6c55fe8c43887a0c060db7f93fb0ca
 
 In this example, `loadScript(src)` function adds a script and also sets `async` to `false`.
 
