@@ -93,21 +93,21 @@
 
 ## async
 
-The `async` attribute is somewhat like `defer`. It also makes the script non-blocking. But it has important differences in the behavior.
+`async` 属性は `defer` に似ています。これもスクリプトをブロックしませんが、振る舞いに重要な違いがあります。
 
-The `async` attribute means that a script is completely independent:
+`async` 属性はスクリプトが完全に独立していることを意味します。:
 
-- The browser doesn't block on `async` scripts (like `defer`). 
-- Other scripts don't wait for `async` scripts, and `async` scripts don't wait for them. 
-- `DOMContentLoaded` and async scripts don't wait for each other:
-    - `DOMContentLoaded` may happen both before an async script (if an async script finishes loading after the page is complete)
-    - ...or after an async script (if an async script is short or was in HTTP-cache)
+- ブラウザは `async` スクリプトをブロックしません(`defer` と同じように)。
+- 他のスクリプトは `async` スクリプトを待たず、`async` スクリプトもそれらを待ちません。
+- `DOMContentLoaded` と `async` スクリプトは互いを待ちません:
+    - `DOMContentLoaded` は `async` スクリプトの前で発生する可能性があります（ページが完了した後に `async` スクリプトの読み込みが終了した場合）
+    - ...あるいは、`async` スクリプトの後です（非同期スクリプトが短いか HTTPキャッシュにあった場合）。
 
-In other words, `async` scripts load in the background and run when ready. The DOM and other scripts don't wait for them, and they don't wait for anything. A fully independent script that runs when loaded. As simple, at it can get, right? 
+つまり、`async` スクリプトはバックグラウンドで読み込まれ、準備ができたら実行されます。DOM と他のスクリプトはそれらを待たず、それらも何も待ちません。読み込まれたときに実行される完全に独立したスクリプトです。
 
-Here's an example similar to what we've seen with `defer`: two scripts `long.js` and `small.js`, but now with `async` instead of `defer`.
+これは `defer` で見たものと同様の例です。:2つのスクリプト `long.js` と `small.js` がありますが、今回は `defer` の代わりに `async` です。
 
-They don't wait for each other. Whatever loads first (probably `small.js`) -- runs first:
+これらは互いを待ちません。最初に読み込まれたもの（おそらく `small.js`）が最初に実行されます:
 
 ```html run height=100
 <p>...content before scripts...</p>
@@ -122,22 +122,22 @@ They don't wait for each other. Whatever loads first (probably `small.js`) -- ru
 <p>...content after scripts...</p>
 ```
 
-- The page content shows up immediately: `async` doesn't block it.
-- `DOMContentLoaded` may happen both before and after `async`, no guarantees here.
-- A smaller script `small.js` goes second, but probably loads before `long.js`, so `small.js` runs first. Although, it might be that `long.js` loads first, if cached, then it runs first. In other words, async scripts run in the "load-first" order.
+- ページのコンテンツはすぐに表示されます: `async` はブロックしません。
+- `DOMContentLoaded` は `asyn` の前後の両方で発生する可能性があり、ここでは保証されません。
+- より小さいスクリプト `small.js` が2番目にありますが、おそらく `long.js` の前に読み込まれるので、`small.js` が最初に実行されます。ですが、キャッシュされている場合は、`long.js` が最初に読み込まれ、最初に実行されることもあります。つまり、非同期スクリプトは "ロードファースト" 順で実行します。
 
-Async scripts are great when we integrate an independent third-party script into the page: counters, ads and so on, as they don't depend on our scripts, and our scripts shouldn't wait for them:
+非同期スクリプトは独立したサードパーティのスクリプトをページに組み込む際に便利です。:カウンター、広告など。それらは我々のスクリプトには依存しないので、我々のスクリプトを待つべきではありません。:
 
 ```html
-<!-- Google Analytics is usually added like this -->
+<!-- Google Analytics は通常このように追加されます -->
 <script async src="https://google-analytics.com/analytics.js"></script>
 ```
 
-## Dynamic scripts
- 
-There's one more important way of adding a script to the page.
+## ダイナミックスクリプト
 
-We can create a script and append it to the document dynamically using JavaScript:
+ページにスクリプトを追加する、もう1つの重要な方法があります。 
+
+JavaScript を利用して動的にスクリプトを作成しドキュメントを追加することが可能です:
 
 ```js run
 let script = document.createElement('script');
@@ -145,19 +145,20 @@ script.src = "/article/script-async-defer/long.js";
 document.body.append(script); // (*)
 ```
 
-The script starts loading as soon as it's appended to the document `(*)`.
+スクリプトはドキュメントに追加されるとすぐに読み込みを開始します`(*)`。
 
-**Dynamic scripts behave as "async" by default.**
+**ダイナミックスクリプトはデフォルトで "非同期" として動作します。**
 
-That is:
-- They don't wait for anything, nothing waits for them.
-- The script that loads first -- runs first ("load-first" order).
+つまり:
+- これらは何も待たず、逆に何もこれらを待ちません。
+- 最初に読み込まれたスクリプトが最初に実行されます("ロードファースト" 順)。
 
-This can be changed if we explicitly set `script.async=true`. Then scripts will be executed in the document order, just like `defer`.
 
-In this example, `loadScript(src)` function adds a script and also sets `async` to `false`.
+`script.async=true` を明示的に設定することで変更できます。スクリプトは `defer` のようにドキュメント順に実行されます。
 
-So `long.js` always runs first (as it's added first):
+この例では、`loadScript(src)` 関数はスクリプトを追加し、`async` を `false` にしています。
+
+そのため、`long.js` が常に最初に実行されます（最初に追加されているので）:
 
 ```js run
 function loadScript(src) {
@@ -167,35 +168,35 @@ function loadScript(src) {
   document.body.append(script);
 }
 
-// long.js runs first because of async=false
+// async=false なので long.js が最初に実行されます
 loadScript("/article/script-async-defer/long.js");
 loadScript("/article/script-async-defer/small.js");
 ```
 
-Without `script.async=false`, scripts would execute in default, load-first order (the `small.js` probably first).
+`script.async=false` がなければ、スクリプトはデフォルトであるロードファースト順（おそらく `small.js` が最初）で実行されます。
 
-Again, as with the `defer`, the order matters if we'd like to load a library and then another script that depends on it.
+繰り返しますが、`defer` と同じように、ライブラリを読み込み、それに依存する別のスクリプトを読み込むような場合は、順序が重要になります。
 
 
-## Summary
+## サマリ
 
-Both `async` and `defer` have one common thing: downloading of such scripts doesn't block page rendering. So the user can read page content and get acquainted with the page immediately.
+`async` と `defer` には共通点が1つあります: これらのスクリプトのダウンロードはページのレンダリングをブロックしません。なので、ユーザはページコンテンツを見ることができ、すぎにそのページのことを知ることができます。
 
-But there are also essential differences between them:
+ですが、それらの間にも本質的な違いがあります:
 
-|         | Order | `DOMContentLoaded` |
+|         | 順序 | `DOMContentLoaded` |
 |---------|---------|---------|
-| `async` | *Load-first order*. Their document order doesn't matter -- which loads first |  Irrelevant. May load and execute while the document has not yet been fully downloaded. That happens if scripts are small or cached, and the document is long enough. |
-| `defer` | *Document order* (as they go in the document). |  Execute after the document is loaded and parsed (they wait if needed), right before `DOMContentLoaded`. |
+| `async` | *ロードファースト順*. どちらが最初に読み込まれるか、ドキュメントでの順序は関係ありません |  無関係。ドキュメントがまだ完全にダウンロードされていないときにロードして実行する場合があります。これはスクリプトが小さいまたはキャッシュされていて、ドキュメントが十分に長い場合に発生します。|
+| `defer` | *ドキュメント順* (ドキュメントに書かれている順). |  ドキュメントがロードされ、パースされた後（必要に応じて待機します）、`DOMContentLoaded` の直前に実行されます。|
 
-In practice, `defer` is used for scripts that need the whole DOM and/or their relative execution order is important. 
+実際には、`defer` は DOM全体が必要、かつ（または）それらの相対的な実行順序が重要なスクリプトに対して使用されます。
 
-And  `async` is used for independent scripts, like counters or ads. And their relative execution order does not matter.
+`async` はカウンターや広告など独立したスクリプトに対し使用されます。それらの相対的な実行順序は重要ではありません。
 
-```warn header="Page without scripts should be usable"
-Please note: if you're using `defer` or `async`, then user will see the the page *before* the script loads.
+```warn header="スクリプトのないページが使用可能である必要があります"
+注意してください: `defer` や `async` を使用している場合、ユーザはスクリプトがロードされる *前* にページを見ます。
 
-In such case, some graphical components are probably not initialized yet.
+このようなケースでは、グラフィカルなコンポーネントのいくつかはおそらくまだ初期化されていません。
 
-Don't forget to put "loading" indication and disable buttons that aren't functional yet. Let the user clearly see what he can do on the page, and what's still getting ready.
+"ロード中" のインジケータを表示し、まだ機能していないボタンを無効にするのを忘れないでください。ユーザがページで何ができるのか、そして何がまだ準備中であるかを明確に分かるようにする必要があります。
 ```
