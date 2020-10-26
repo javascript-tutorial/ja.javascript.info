@@ -1,6 +1,10 @@
 # setTimeout でのエラー
 
+<<<<<<< HEAD:1-js/11-async/04-promise-error-handling/01-error-async/task.md
 `.catch` はトリガされると思いますか？またその理由を説明できますか？
+=======
+What do you think? Will the `.catch` trigger? Explain your answer.
+>>>>>>> 2d5be7b7307b0a4a85e872d229e0cebd2d8563b5:1-js/11-async/04-promise-error-handling/01-error-async/task.md
 
 ```js
 new Promise(function(resolve, reject) {
