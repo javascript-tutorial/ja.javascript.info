@@ -62,7 +62,7 @@ Blob はその内容を表示するのに、`<a>`, `<img>` や他のタグの UR
 簡単例から始めてみましょう。リンクをクリックすると、`hello world` の内容をもつ、動的に生成された blob をファイルとしてダウンロードします。:
 
 ```html run
-<!-- download 属性は、ブラウザは移動する代わりにダウンローを行います -->
+<!-- download 属性は、ブラウザは移動する代わりにダウンロードを行います -->
 <a download="hello.txt" href='#' id="link">Download</a>
 
 <script>
