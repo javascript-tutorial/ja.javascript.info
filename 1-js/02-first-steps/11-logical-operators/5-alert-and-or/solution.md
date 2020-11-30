@@ -12,4 +12,9 @@ AND `&&` の優先順位は `||` よりも高いので、最初に実行され�
 null || 3 || 4
 ```
 
+<<<<<<< HEAD
 これの最初の真値の結果なので、`3` です。
+=======
+Now the result is the first truthy value: `3`.
+
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5

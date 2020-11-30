@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 破壊的なバックトラック(Catastrophic backtracking)
 
 一部の正規表現は、単純に見えますが非常に実行時間が長く、JavaScript エンジンを "ハング" させることがあります。
@@ -17,6 +18,27 @@
 これで、正規表現 `pattern:^(\w+\s?)*$` ができ、先頭 `pattern:^` から始まり、行末で終わる `pattern:$`、ゼロ個以上の単語を指します。
 
 動作:
+=======
+# Catastrophic backtracking
+
+Some regular expressions are looking simple, but can execute a veeeeeery long time, and even "hang" the JavaScript engine.
+
+Sooner or later most developers occasionally face such behavior. The typical symptom -- a regular expression works fine sometimes, but for certain strings it "hangs", consuming 100% of CPU.
+
+In such case a web-browser suggests to kill the script and reload the page. Not a good thing for sure.
+
+For server-side JavaScript such a regexp may hang the server process, that's even worse. So we definitely should take a look at it.
+
+## Example
+
+Let's say we have a string, and we'd like to check if it consists of words `pattern:\w+` with an optional space `pattern:\s?` after each.
+
+An obvious way to construct a regexp would be to take a word followed by an optional space `pattern:\w+\s?` and then repeat it with `*`.
+
+That leads us to the regexp `pattern:^(\w+\s?)*$`, it specifies zero or more such words, that start at the beginning `pattern:^` and finish at the end `pattern:$` of the line.
+
+In action:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
 ```js run
 let regexp = /^(\w+\s?)*$/;
@@ -25,14 +47,21 @@ alert( regexp.test("A good string") ); // true
 alert( regexp.test("Bad characters: $@#") ); // false
 ```
 
+<<<<<<< HEAD
 正規表現は動作しているように見え、結果も正しいです。ですが、特定の文字列の場合には非常に時間がかかります。それはJavaScript エンジンが CPU 100% 消費で "ハング" するほどの長さです。
 
 以下の例を実行した場合、JavaScript が "ハング" し恐らくなにも表示されないでしょう。Webブラウザがイベントへ反応するのをやめ、UI は機能しなくなります（ほとんどのブラウザはスクロールだけ許可します）。しばらくすると、ページのリロードを提案するでしょう。なので、これには気をつけてください。
+=======
+The regexp seems to work. The result is correct. Although, on certain strings it takes a lot of time. So long that JavaScript engine "hangs" with 100% CPU consumption.
+
+If you run the example below, you probably won't see anything, as JavaScript will just "hang". A web-browser will stop reacting on events, the UI will stop working (most browsers allow only scrolling). After some time it will suggest to reload the page. So be careful with this:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
 ```js run
 let regexp = /^(\w+\s?)*$/;
 let str = "An input string that takes a long time or even makes this regexp to hang!";
 
+<<<<<<< HEAD
 // 非常に時間がかかります
 alert( regexp.test(str) );
 ```
@@ -46,12 +75,28 @@ alert( regexp.test(str) );
 これを理解するために、分かりやすい例にしましょう: スペース v`pattern:\s?` を除きます。すると、`pattern:^(\w+)*$` になります。
 
 そして、より物事を明確にするために、`pattern:\w` を `pattern:\d` に置き換えます。結果の正規表現は依然としてハングします。たとえば:
+=======
+// will take a very long time
+alert( regexp.test(str) );
+```
+
+To be fair, let's note that some regular expression engines can handle such a search effectively. But most of them can't. Browser engines usually hang.
+
+## Simplified example
+
+What's the matter? Why the regular expression hangs?
+
+To understand that, let's simplify the example: remove spaces `pattern:\s?`. Then it becomes `pattern:^(\w+)*$`.
+
+And, to make things more obvious, let's replace `pattern:\w` with `pattern:\d`. The resulting regular expression still hangs, for instance:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
 ```js run
 let regexp = /^(\d+)*$/;
 
 let str = "012345678901234567890123456789z";
 
+<<<<<<< HEAD
 // 非常に時間がかかります (注意してください!)
 alert( regexp.test(str) );
 ```
@@ -67,17 +112,42 @@ alert( regexp.test(str) );
 これは、正規表現エンジンが行っていることです:
 
 1. 最初に、正規表現エンジンは括弧の内容を見つけようとします: 数値 `pattern:\d+` です。プラス `pattern:+` はデフォルトでは貪欲なので、これはすべての数値を消費します:
+=======
+// will take a very long time (careful!)
+alert( regexp.test(str) );
+```
+
+So what's wrong with the regexp?
+
+First, one may notice that the regexp `pattern:(\d+)*` is a little bit strange. The quantifier `pattern:*` looks extraneous. If we want a number, we can use `pattern:\d+`.
+
+Indeed, the regexp is artificial, we got it by simplifying the previous example. But the reason why it is slow is the same. So let's understand it, and then the previous example will become obvious.
+
+What happens during the search of `pattern:^(\d+)*$` in the line `subject:123456789z` (shortened a bit for clarity, please note a non-digit character `subject:z` at the end, it's important), why does it take so long?
+
+Here's what the regexp engine does:
+
+1. First, the regexp engine tries to find the content of the parentheses: the number `pattern:\d+`. The plus `pattern:+` is greedy by default, so it consumes all digits:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
     ```
     \d+.......
     (123456789)z
     ```
 
+<<<<<<< HEAD
     すべての数値が消費された後、`pattern:\d+` は見つけられたと判断されます（`match:123456789`）。
     
     次に、アスタリスク量指定子 `pattern:(\d+)*`  が適用されます。が、テキストにはもう数値はないので、アスタリスクは何もとりません。
 
     パターンの次の文字は文字列の終わり `pattern:$` です。しかし、テキストには代わりに `subject:z` があるのでマッチしません。
+=======
+    After all digits are consumed, `pattern:\d+` is considered found (as `match:123456789`).
+    
+    Then the star quantifier `pattern:(\d+)*` applies. But there are no more digits in the text, so the star doesn't give anything.
+
+    The next character in the pattern is the string end `pattern:$`. But in the text we have `subject:z` instead, so there's no match:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
     ```
                X
@@ -85,16 +155,28 @@ alert( regexp.test(str) );
     (123456789)z
     ```
 
+<<<<<<< HEAD
 2. 一致しなかったので、貪欲量指定子 `pattern:+` は繰り返しの数を減らし、1文字戻ります。
 
     いま、 `pattern:\d+` は最後の1つを除いた全ての数値を取ります (`match:12345678`):
+=======
+2. As there's no match, the greedy quantifier `pattern:+` decreases the count of repetitions, backtracks one character back.
+
+    Now `pattern:\d+` takes all digits except the last one (`match:12345678`):
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
     ```
     \d+.......
     (12345678)9z
     ```
+<<<<<<< HEAD
 3. 次に、エンジンは次の位置(`match:12345678`の直後)から検索を続けようとします。
 
     アスタリスク `pattern:(\d+)*` が適用されます -- `pattern:\d+` のもう1つの一致、数値 `match:9` が与えられます。:
+=======
+3. Then the engine tries to continue the search from the next position (right after `match:12345678`).
+
+    The star `pattern:(\d+)*` can be applied -- it gives one more match of `pattern:\d+`, the number `match:9`:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
     ```
 
@@ -102,7 +184,11 @@ alert( regexp.test(str) );
     (12345678)(9)z
     ```
 
+<<<<<<< HEAD
     エンジンは 再び `pattern:$` への一致を試みますが、代わりに `subject:z` があるので失敗します。:
+=======
+    The engine tries to match `pattern:$` again, but fails, because it meets `subject:z` instead:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
     ```
                  X
@@ -111,12 +197,20 @@ alert( regexp.test(str) );
     ```
 
 
+<<<<<<< HEAD
 4. 一致しないので、エンジンはバックトラッキングを続け、繰り返しの回数を減らしていきます。バックトラッキングは一般的にはこのように機能します: 最後の貪欲量指定子が、可能な限り繰り返し回数を減らします。次に、前の貪欲な量指定子が減少していきます。
 
 
     可能なすべての組み合わせが試行されます。これがその例です。
 
     最初の数値 `pattern:\d+` は7桁で、次は2桁の数値です:
+=======
+4. There's no match, so the engine will continue backtracking, decreasing the number of repetitions. Backtracking generally works like this: the last greedy quantifier decreases the number of repetitions until it can. Then the previous greedy quantifier decreases, and so on.
+
+    All possible combinations are attempted. Here are their examples.
+
+    The first number `pattern:\d+` has 7 digits, and then a number of 2 digits:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
     ```
                  X
@@ -124,7 +218,11 @@ alert( regexp.test(str) );
     (1234567)(89)z
     ```
 
+<<<<<<< HEAD
     最初の数値は7桁で、次にそれぞれ1桁の数値が2つです:
+=======
+    The first number has 7 digits, and then two numbers of 1 digit each:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
     ```
                    X
@@ -132,7 +230,11 @@ alert( regexp.test(str) );
     (1234567)(8)(9)z
     ```
 
+<<<<<<< HEAD
     最初の数値は6桁で、次の数値は3桁です:
+=======
+    The first number has 6 digits, and then a number of 3 digits:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
     ```
                  X
@@ -140,7 +242,11 @@ alert( regexp.test(str) );
     (123456)(789)z
     ```
 
+<<<<<<< HEAD
     最初の数値は6桁で、次は2つの数値です:
+=======
+    The first number has 6 digits, and then 2 numbers:
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
     ```
                    X
@@ -148,6 +254,7 @@ alert( regexp.test(str) );
     (123456)(78)(9)z
     ```
 
+<<<<<<< HEAD
     ...etc
 
 
@@ -159,6 +266,18 @@ alert( regexp.test(str) );
 
 
 それらを1つずつを試みることが、検索に時間がかかる理由です。
+=======
+    ...And so on.
+
+
+There are many ways to split a sequence of digits `123456789` into numbers. To be precise, there are <code>2<sup>n</sup>-1</code>, where `n` is the length of the sequence.
+
+- For `123456789` we have `n=9`, that gives 511 combinations.
+- For a longer sequence with `n=20` there are about one million (1048575) combinations.
+- For `n=30` - a thousand times more (1073741823 combinations).
+
+Trying each of them is exactly the reason why the search takes so long.
+>>>>>>> e1a3f634a47c119cf1ec7420c49fc0fc7172c0b5
 
 ## Back to words and strings
 
