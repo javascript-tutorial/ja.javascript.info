@@ -1,8 +1,8 @@
 # 破壊的なバックトラック(Catastrophic backtracking)
 
-一部の正規表現は、単純に見えますが非常に実行時間が長く、JavaScript エンジンを "ハング" させることがあります。
+一部の正規表現は、一見すると単純に見えますが、実行時間が非常に長く JavaScript エンジンを "ハング" させることがあります。
 
-遅かれ早かれ、多くの開発者はたまにこのような振る舞いに直面します。典型的な症状は、正規表現はときどきうまく機能しますが、特定の文字の場合 "ハング" し、CPUを 100% 消費します。
+遅かれ早かれ、多くの開発者はこのような振る舞いに直面することがあります。典型的な症状は、正規表現は概ねうまく機能しますが、特定の文字の場合 "ハング" し、CPUを 100% 消費します。
 
 このような場合、Webブラウザはスクリプトを停止し、ページをリロードするよう提案します。これは確かに良いことではありません。
 
@@ -27,7 +27,7 @@ alert( regexp.test("Bad characters: $@#") ); // false
 
 正規表現は動作しているように見え、結果も正しいです。ですが、特定の文字列の場合には非常に時間がかかります。それはJavaScript エンジンが CPU 100% 消費で "ハング" するほどの長さです。
 
-以下の例を実行した場合、JavaScript が "ハング" し恐らくなにも表示されないでしょう。Webブラウザがイベントへ反応するのをやめ、UI は機能しなくなります（ほとんどのブラウザはスクロールだけ許可します）。しばらくすると、ページのリロードを提案するでしょう。なので、これには気をつけてください。
+以下の例を実行した場合、JavaScript が "ハング" し恐らくなにも表示されないでしょう。Webブラウザがイベントへ反応するのをやめ、UI は機能しなくなります（ほとんどのブラウザはスクロールだけ許可します）。しばらくすると、ページのリロードを提案するでしょう。そのため、この実行には気をつけてください。
 
 ```js run
 let regexp = /^(\w+\s?)*$/;
@@ -43,7 +43,7 @@ alert( regexp.test(str) );
 
 何がおきているのでしょう。なぜ正規表現がハングするのでしょう？
 
-これを理解するために、分かりやすい例にしましょう: スペース v`pattern:\s?` を除きます。すると、`pattern:^(\w+)*$` になります。
+これを理解するために、分かりやすい例にしましょう: スペース `pattern:\s?` を除きます。すると、`pattern:^(\w+)*$` になります。
 
 そして、より物事を明確にするために、`pattern:\w` を `pattern:\d` に置き換えます。結果の正規表現は依然としてハングします。たとえば:
 
@@ -160,11 +160,11 @@ alert( regexp.test(str) );
 
 それらを1つずつを試みることが、検索に時間がかかる理由です。
 
-## Back to words and strings
+## 単語と文字に戻ります
 
-The similar thing happens in our first example, when we look words by pattern `pattern:^(\w+\s?)*$` in the string `subject:An input that hangs!`.
+最初の例、文字列 `subject:An input that hangs!` に対してパターン `pattern:^(\w+\s?)*$` で文字を探すときにも同様のことが起こっています。
 
-The reason is that a word can be represented as one `pattern:\w+` or many:
+理由は単語は１つ以上の `pattern:\w+` で表現されるためです。:
 
 ```
 (input)
@@ -174,27 +174,27 @@ The reason is that a word can be represented as one `pattern:\w+` or many:
 ...
 ```
 
-For a human, it's obvious that there may be no match, because the string ends with an exclamation sign `!`, but the regular expression expects a wordly character `pattern:\w` or a space `pattern:\s` at the end. But the engine doesn't know that.
+人間の場合、文字列は感嘆符 `!` で終わっているので一致しないことは明らかですが、正規表現では末尾に単語の文字 `pattern:\w` あるいはスペース `pattern:\s` を期待し、エンジンはその有無を知りません。
 
-It tries all combinations of how the regexp `pattern:(\w+\s?)*` can "consume" the string, including variants with spaces `pattern:(\w+\s)*` and without them `pattern:(\w+)*` (because spaces `pattern:\s?` are optional). As there are many such combinations (we've seen it with digits), the search takes a lot of time.
+正規表現 `pattern:(\w+\s?)*` が文字列を "消費" しうるすべての組み合わせを試みます。それには、スペース `pattern:(\w+\s?)*` があるパターン、スペースがない `pattern:(\w+)*` パターン（スペース `pattern:\s?` は任意なので）が含まれます。（数字でみてきたように）多くの組み合わせがあるので、検索には時間がかかります。
 
-What to do?
+何をすべきでしょう？
 
-Should we turn on the lazy mode?
+怠惰モード(lazy mode)を有効にすべきですか？
 
-Unfortunately, that won't help: if we replace `pattern:\w+` with `pattern:\w+?`, the regexp will still hang. The order of combinations will change, but not their total count.
+残念ながら、それは役に立ちません: もし `pattern:\w+` を `pattern:\w+?` に置き換えても、正規表現は依然としてハングするでしょう。組み合わせ順は変わりますが、トータルの数は変わらないからです。
 
-Some regular expression engines have tricky tests and finite automations that allow to avoid going through all combinations or make it much faster, but most engines don't, and it doesn't always help.
+正規表現エンジンによっては、巧妙なテストや有限の仕組みがあり、すべての組み合わせの実施を回避したり、はるかに高速にすることができますが、ほとんどのエンジンはそうではなく、また常にその仕組みが有効に働くとは限りません。
 
-## How to fix?
+## 修正方法は?
 
-There are two main approaches to fixing the problem.
+問題を解決するために、大きく２つのアプローチがあります。
 
-The first is to lower the number of possible combinations.
+１つ目は、可能な組み合わせ数を減らすことです。
 
-Let's make the space non-optional by rewriting the regular expression as `pattern:^(\w+\s)*\w*$` - we'll look for any number of words followed by a space `pattern:(\w+\s)*`, and then (optionally) a final word `pattern:\w*`.
+正規表現を `pattern:^(\w+\s)*\w*$` と書き換えて、スペースを任意ではなくしましょう。これは任意の数の単語文字のあとにスペースが続き `pattern:(\w+\s)*`、任意で最後の単語文字 `pattern:\w*` が続きます。
 
-This regexp is equivalent to the previous one (matches the same) and works well:
+この正規表現は前のものと同等（同じものと一致します）であり、うまく動作します:
 
 ```js run
 let regexp = /^(\w+\s)*\w*$/;
@@ -203,34 +203,34 @@ let str = "An input string that takes a long time or even makes this regex to ha
 alert( regexp.test(str) ); // false
 ```
 
-Why did the problem disappear?
+なぜ問題が解消されたのでしょう？
 
-That's because now the space is mandatory.
+それは、スペースが必須になっているためです。
 
-The previous regexp, if we omit the space, becomes `pattern:(\w+)*`, leading to many combinations of `\w+` within a single word
+前の正規表現は、スペースを省略すると `pattern:(\w+)*` となり、1つの単語内で `\w+` の多くの組み合わせになります。
 
-So `subject:input` could be matched as two repetitions of `pattern:\w+`, like this:
+したがって、`subject:input` は次のように `pattern:\w+` の2つの繰り返しとして一致することになります。:
 
 ```
 \w+  \w+
 (inp)(ut)
 ```
 
-The new pattern is different: `pattern:(\w+\s)*` specifies repetitions of words followed by a space! The `subject:input` string can't be matched as two repetitions of `pattern:\w+\s`, because the space is mandatory.
+新しいパターンは違います: `pattern:(\w+\s)*` は単語文字の繰返にスペースが続きます! スペースは必須なので、`subject:input` 文字列は `pattern:\w+\s` の2つの繰り返しとしては一致しません。
 
-The time needed to try a lot of (actually most of) combinations is now saved.
+多くの（実際にはほとんどの）組み合わせを試みるために必要な時間はこれで節約されました。
 
-## Preventing backtracking
+## バックトラッキングの防止
 
-It's not always convenient to rewrite a regexp though. In the example above it was easy, but it's not always obvious how to do it. 
+ですが、正規表現の書き直しが常にやりやすいとは限りません。上の例では簡単でしたが、その方法が常に明らかなわけではありません。
 
-Besides, a rewritten regexp is usually more complex, and that's not good. Regexps are complex enough without extra efforts.
+その上、書き直した正規表現はたいていより複雑になりがちです。正規表現はただでさえ十分に複雑です。
 
-Luckily, there's an alternative approach. We can forbid backtracking for the quantifier.
+幸いなことに、別のアプローチがあります。量指定子のバックトラッキングを禁止することができます。
 
-The root of the problem is that the regexp engine tries many combinations that are obviously wrong for a human.
+問題の本質は、正規表現エンジンが人間にとっては明らかに間違っている多くの組み合わせを試行することです。
 
-E.g. in the regexp `pattern:(\d+)*$` it's obvious for a human, that `pattern:+` shouldn't backtrack. If we replace one `pattern:\d+` with two separate `pattern:\d+\d+`, nothing changes:
+例. 正規表現 `pattern:(\d+)*$` では、 `pattern:+` がバックトラックすべきでないことは人間にとっては明らかです。単一の `pattern:\d+` を2つの `pattern:\d+\d+` に置き換えても何も変わりません。: 
 
 ```
 \d+........
@@ -240,55 +240,56 @@ E.g. in the regexp `pattern:(\d+)*$` it's obvious for a human, that `pattern:+` 
 (1234)(56789)!
 ```
 
-And in the original example `pattern:^(\w+\s?)*$` we may want to forbid backtracking in `pattern:\w+`. That is: `pattern:\w+` should match a whole word, with the maximal possible length. There's no need to lower the repetitions count in `pattern:\w+`, try to split it into two words `pattern:\w+\w+` and so on.
+また、元の例 `pattern:^(\w+\s?)*$` では、`pattern:\w+` ではバックトラックを禁止したい場合があります。つまり: `pattern:\w+` は可能な最大長で単語全体にマッチする必要があります。`pattern:\w+` では繰り返し数を減らしたり、それを2つの単語 `pattern:\w+\w+` に分割したりする必要はありません。
 
-Modern regular expression engines support possessive quantifiers for that. Regular quantifiers become possessive if we add `pattern:+` after them. That is, we use `pattern:\d++` instead of `pattern:\d+` to stop `pattern:+` from backtracking.
+モダンな正規表現エンジンはそのための所有量指定子（強欲な量指定子、または絶対最大量指定子、possessive quantifiers ）をサポートしています。通常の量指定子のあとに `pattern:+` を追加すると、強欲になります。つまり、`pattern:\d+` の代わりに `pattern:\d++` を使い、`pattern:+` のバックトラックを停止します。
 
-Possessive quantifiers are in fact simpler than "regular" ones. They just match as many as they can, without any backtracking. The search process without bracktracking is simpler.
+所有量指定子は実際には "通常の" 量指定子よりもシンプルです。それらはバックトラックなしでできるだけ多く一致するだけです。バックトラックなしの検索処理はよりシンプルです。
 
-There are also so-called "atomic capturing groups" - a way to disable backtracking inside parentheses.
+また、いわゆる "アトミックグループ (atomic capturing groups)"、括弧内でのバックトラックを無効にする方法もあります。
 
-...But the bad news is that, unfortunately, in JavaScript they are not supported. 
+...ですが、残念ながら JavaScript ではサポートされていません。
 
-We can emulate them though using a "lookahead transform".
+"先読み変換" を使用してそれらをエミュレートすることができます。
 
-### Lookahead to the rescue!
+### 救うための先読み!
 
-So we've come to real advanced topics. We'd like a quantifier, such as `pattern:+` not to backtrack, because sometimes backtracking makes no sense.
+高度なトピックに到達しました。バックトラックは意味をなさないことがあるため、`pattern:+` のような量指定子をバックトラックしないようにします。
 
-The pattern to take as much repetitions of `pattern:\w` as possible without backtracking is: `pattern:(?=(\w+))\1`. Of course, we could take another pattern instead of `pattern:\w`.
+バックトラックなしで、できるだけ多くの `pattern:\w` の繰り返しをとるパターンは `pattern:(?=(\w+))\1` です。もちろん、`pattern:\w` の代わりに別のパターンを取ることも可能です。
 
-That may seem odd, but it's actually a very simple transform.
+一見すると奇妙に見えるかもしれませんが、実際には非常に単純な変換です。
 
-Let's decipher it:
+それでは読み解いていきましょう:
 
-- Lookahead `pattern:?=` looks forward for the longest word `pattern:\w+` starting at the current position.
-- The contents of parentheses with `pattern:?=...` isn't memorized by the engine, so wrap `pattern:\w+` into parentheses. Then the engine will memorize their contents
-- ...And allow us to reference it in the pattern as `pattern:\1`.
+- 先読み `pattern:?=` は現在の位置から開始して、最も長い単語 `pattern:\w+` を期待します。
+- `pattern:?=...` の括弧の内容はエンジンには記憶されません。そのため、`pattern:\w+` を括弧で囲みます。すると、エンジンはその内容を記憶します。
+- ...そして、パターン内で `pattern:\1` として参照できるようにします。
 
-That is: we look ahead - and if there's a word `pattern:\w+`, then match it as `pattern:\1`.
+つまり: 先をみすえて、単語  `pattern:\w+` があれば、 `pattern:\1` として一致させます。
 
-Why? That's because the lookahead finds a word `pattern:\w+` as a whole and we capture it into the pattern with `pattern:\1`. So we essentially implemented a possessive plus `pattern:+` quantifier. It captures only the whole word `pattern:\w+`, not a part of it.
+なぜでしょうか？これは、先読みで単語 `pattern:\w+` を全体として検出し、それを `pattern:\1` でパターンにキャプチャするためです。したがって、本質的には所有の `pattern:+` 量指定子を実装しました。これは単語 `pattern:\w+` 全体のみをキャプチャし、部分はキャプチャしません。
 
-For instance, in the word `subject:JavaScript` it may not only match `match:Java`, but leave out `match:Script` to match the rest of the pattern.
+例えば、単語 `subject:JavaScript` では、`match:Java` に一致するだけでなく、パターンの残りに一致するための `match:Script` も除外します。
 
-Here's the comparison of two patterns:
+2つのパターンの比較です:
 
 ```js run
 alert( "JavaScript".match(/\w+Script/)); // JavaScript
 alert( "JavaScript".match(/(?=(\w+))\1Script/)); // null
 ```
 
-1. In the first variant `pattern:\w+` first captures the whole word `subject:JavaScript` but then `pattern:+` backtracks character by character, to try to match the rest of the pattern, until it finally succeeds (when `pattern:\w+` matches `match:Java`).
-2. In the second variant `pattern:(?=(\w+))` looks ahead and finds the word  `subject:JavaScript`, that is included into the pattern as a whole by `pattern:\1`, so there remains no way to find `subject:Script` after it.
+1. 1つ目のパターンでは、`pattern:\w+` が最初に単語全体 `subject:JavaScript` をキャプチャしますが、`pattern:+` は1文字ずつバックトラックし、最終的に成功するまで（`pattern:\w+` が `match:Java` に一致するまで）パターンの残りの部分との一致を試みます。
+2. 2つ目のパターンでは、`pattern:(?=(\w+))` は先読みし、単語 `subject:JavaScript` を見つけます。これは `pattern:\1` によってパターン全体が含まれます。そのため、その後に `subject:Script` を探す方法はありません。
+ 
+`pattern:+` の後にバックトラックを禁止する必要がある場合、`pattern:\w` の代わりに、より複雑な正規表現を `pattern:(?=(\w+))\1` に置くことも可能です。
 
-We can put a more complex regular expression into `pattern:(?=(\w+))\1` instead of `pattern:\w`, when we need to forbid backtracking for `pattern:+` after it.
 
 ```smart
-There's more about the relation between possessive quantifiers and lookahead in articles [Regex: Emulate Atomic Grouping (and Possessive Quantifiers) with LookAhead](http://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead) and [Mimicking Atomic Groups](http://blog.stevenlevithan.com/archives/mimic-atomic-groups).
+所有量指定子と先読みとの関係については記事 [Regex: Emulate Atomic Grouping (and Possessive Quantifiers) with LookAhead](http://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead) と [Mimicking Atomic Groups](http://blog.stevenlevithan.com/archives/mimic-atomic-groups) で詳しく説明しています。
 ```
 
-Let's rewrite the first example using lookahead to prevent backtracking:
+最初の例をバックトラックを防止するために、先読みを利用して書き直してみましょう:
 
 ```js run
 let regexp = /^((?=(\w+))\2\s?)*$/;
@@ -297,13 +298,13 @@ alert( regexp.test("A good string") ); // true
 
 let str = "An input string that takes a long time or even makes this regex to hang!";
 
-alert( regexp.test(str) ); // false, works and fast!
+alert( regexp.test(str) ); // false, うまく動作し、かつ早いです!
 ```
 
-Here `pattern:\2` is used instead of `pattern:\1`, because there are additional outer parentheses. To avoid messing up with the numbers, we can give the parentheses a name, e.g. `pattern:(?<word>\w+)`.
+ここで `pattern:\2` は `pattern:\1` の代わりに使用しています。理由は、追加の外部の括弧があるためです。数字を間違えるのを避けるために、括弧に名前をつけることができます。例: `pattern:(?<word>\w+)`
 
 ```js run
-// parentheses are named ?<word>, referenced as \k<word>
+//括弧は ?<word> で名前付けされ、\k<word> で参照できます。
 let regexp = /^((?=(?<word>\w+))\k<word>\s?)*$/;
 
 let str = "An input string that takes a long time or even makes this regex to hang!";
@@ -313,8 +314,8 @@ alert( regexp.test(str) ); // false
 alert( regexp.test("A correct string") ); // true
 ```
 
-The problem described in this article is called "catastrophic backtracking".
+この記事で説明している問題は、"catastrophic backtracking (破壊的なバックトラック)" と呼ばれるものです。
 
-We covered two ways how to solve it:
-- Rewrite the regexp to lower the possible combinations count.
-- Prevent backtracking.
+その問題を解決する2つの方法を取り上げました:
+- できるだけ組み合わせ数を減らすよう正規表現を書き直す
+- バックトラックを防止する
