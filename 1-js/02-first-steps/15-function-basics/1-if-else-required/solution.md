@@ -1,1 +1,1 @@
-違いはありません。
+No difference.
