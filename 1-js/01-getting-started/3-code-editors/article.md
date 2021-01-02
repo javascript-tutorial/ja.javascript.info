@@ -4,11 +4,9 @@
 
 大きく2つのタイプがあります: IDE(統合開発環境)と軽量なエディタです。多くの人々はそれぞれのタイプのツールを1つ選んで使うことが多いです。
 
-[cut]
-
 ## IDE
 
-[IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) (統合開発環境)は通常 "プロジェクト全体" での操作をする多くの機能を持ったパワフルなエディタを意味します。つまり、ただのエディタではなく、本格的な "開発環境" です。
+[IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) (統合開発環境)は通常 "プロジェクト全体" での操作をする多くの機能を持ったパワフルなエディタを意味します。つまり、名前が示すように単なるエディタではなく、本格的な "開発環境" です。
 
 IDEはプロジェクト(多くのファイル)をロードし、ファイル間のナビゲーションを可能とし、プロジェクト全体に基づいた自動補完を提供、バージョン管理システム([git](https://git-scm.com/) のような)、テスト環境や他の "プロジェクトレベル" のものと統合します。
 
@@ -17,7 +15,7 @@ IDEはプロジェクト(多くのファイル)をロードし、ファイル間
 - [Visual Studio Code](https://code.visualstudio.com/) (クロスプラットフォーム, フリー).
 - [WebStorm](http://www.jetbrains.com/webstorm/) (クロスプラットフォーム, 有料).
 
-Windows には、"Visual Studio"もあります。"Visual Studio Code" と混同しないでください。"Visual Studio" は、.NET プラットフォームに最適な、有料で強力なWindows専用エディタです。JavaScriptも得意です。無料版[Visual Studio Community]（https://www.visualstudio.com/vs/community/）もあります。
+Windows には、"Visual Studio"もあります。"Visual Studio Code" と混同しないでください。"Visual Studio" は、.NET プラットフォームに最適な、有料で強力なWindows専用エディタです。JavaScriptも得意です。無料版[Visual Studio Community](https://www.visualstudio.com/vs/community/)もあります。
 
 多くのIDEは有料ですが、トライアル期間を持っています。それらのコストはたいてい資格をもつ開発者の給料と比べわずかなので、あなたにとってベストなものを選んでください。
 
@@ -34,6 +32,7 @@ Windows には、"Visual Studio"もあります。"Visual Studio Code" と混同
 注目に値するものとしては次のような選択肢があります:
 
 - [Atom](https://atom.io/) (クロスプラットフォーム、フリー).
+- [Visual Studio Code](https://code.visualstudio.com/) (クロスプラットフォーム、フリー).
 - [Sublime Text](http://www.sublimetext.com) (クロスプラットフォーム、シェアウェア).
 - [Notepad++](https://notepad-plus-plus.org/) (Windows, フリー).
 - [Vim](http://www.vim.org/) や [Emacs](https://www.gnu.org/software/emacs/)も使い方を知っているなら良い選択肢です。
