@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # フォームの送信: submit のイベントとメソッド
+=======
+# Forms: event and method submit
+>>>>>>> 039716de8a96f49b5fccd7aed5effff2e719dfe5
 
 `submit` イベントはフォームが送信されたときにトリガされます。通常、フォームをサーバーに送信する前に検証したり、送信を中止したり、JavaScriptで処理したりするために使用されます。
 
@@ -6,9 +10,13 @@
 
 それらの詳細を見てみましょう。
 
+<<<<<<< HEAD
 [cut]
 
 ## イベント: submit
+=======
+## Event: submit
+>>>>>>> 039716de8a96f49b5fccd7aed5effff2e719dfe5
 
 フォームを送信する方法として、主に2つあります。:
 
