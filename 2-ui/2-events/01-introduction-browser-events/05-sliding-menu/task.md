@@ -2,7 +2,11 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # スライドするメニューを作る
+=======
+# Create a sliding menu
+>>>>>>> 3a0b3f4e31d4c4bbe90ed4c9c6e676a888ad8311
 
 クリック時に 開く/閉じる メニューを作成してください:
 

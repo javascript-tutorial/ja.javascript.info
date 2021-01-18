@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 非負の整数を探す
 
 整数の文字列があります。
@@ -5,6 +6,15 @@
 非負のものだけを探す正規表現を作成してください(ゼロも許可します)。
 
 使用例:
+=======
+# Find non-negative integers
+
+There's a string of integer numbers.
+
+Create a regexp that looks for only non-negative ones (zero is allowed).
+
+An example of use:
+>>>>>>> 3a0b3f4e31d4c4bbe90ed4c9c6e676a888ad8311
 ```js
 let regexp = /your regexp/g;
 
