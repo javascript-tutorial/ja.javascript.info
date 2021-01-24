@@ -103,7 +103,7 @@ let deleteRequest = indexedDB.deleteDatabase(name)
 
 **複雑なオブジェクト含め、ほぼどんな値でも格納することができます。**
 
-IndexedDB は [standard serialization algorithm](https://www.w3.org/TR/html53/infrastructure.html#section-structuredserializeforstorage) を使用してオブジェクトを複製し格納します。これは `JSON>stringify` に似ていますが、より強力で遥かに多くのデータタイプを格納することができます。
+IndexedDB は [standard serialization algorithm](https://www.w3.org/TR/html53/infrastructure.html#section-structuredserializeforstorage) を使用してオブジェクトを複製し格納します。これは `JSON.stringify` に似ていますが、より強力で遥かに多くのデータタイプを格納することができます。
 
 格納できないオブジェクトの例は、循環参照を持つオブジェクトです。このようなオブジェクトはシリアライズ可能ではありません。`JSON.stringify` も失敗します。
 
@@ -172,7 +172,7 @@ db.deleteObjectStore('books')
 1. 口座からお金を引き落とします。
 2. 購入者の持ち物に購入した商品を追加します。
 
-もしも最初の処理が完了し、その後、例えば停電などで上手く処理できず次の処理が失敗すると、非常にまずいでしょう。どちらも成功する(購入完了)もしくは失敗する(少なくとも購入者はお金は引かれておらず、リトリできる)べきです。
+もしも最初の処理が完了し、その後、例えば停電などで上手く処理できず次の処理が失敗すると、非常にまずいでしょう。どちらも成功する(購入完了)もしくは失敗する(少なくとも購入者はお金は引かれておらず、リトライできる)べきです。
 
 トランザクションはそれを保証します。
 
@@ -180,7 +180,7 @@ db.deleteObjectStore('books')
 
 トランザクションを開始するには:
 
-```js run
+```js
 db.transaction(store[, type]);
 ```
 
@@ -248,27 +248,21 @@ request.onerror = function() {
 
 ## トランザクションの自動コミット
 
-上の例では、トランザクションを開始して、`add` リクエストを行いました。より多くのリクエストを行うことも可能です。トランザクションをどのようにして終了 ("コミット")するでしょうか？
+上の例では、トランザクションを開始して、`add` リクエストを行いましたが、前に述べたように、トランザクションには複数のリクエストを関連付けることも可能です。そしてそれらはすべて成功か失敗かのどちらかでないといけません。トランザクションを終了としてマークする（これ以上リクエストがない）にはどのようにしたらよいでしょうか。
 
-一言で言うと: そうではありません。
+一言で言うと: そのようなことはしません。
 
-仕様の次のバージョン 3.0 では、おそらくトランザクションを手動で終了させる方法があるでしょう。しかし、今のところ、2.0 にはありません。
+仕様の次のバージョン 3.0 では、おそらくトランザクションを手動で終了させる方法があるでしょうが、今のところ、2.0 にはありません。
 
 **すべてのトランザクションの要求が終了し、[microtasks queue](info:microtask-queue) が空になると、自動的にコミットされます。**
 
-```smart header="What's an \"empty microtask queue\"?"
-The microtask queue is explained in [another chapter](info:async-await#microtask-queue). In short, an empty microtask queue means that for all settled promises their `.then/catch/finally` handlers are executed.
+通常、トランザクションはすべてのリクエストが完了し、現在のコードが終了したときにコミットすると想定できます。
 
-In other words, handling of finished promises and resuming "awaits" is done before closing the transaction.
+なので、上の例ではトランザクションを終了させるための特別な呼び出しは必要ありません。
 
-That's a minor technical detail. If we're using `async/await` instead of low-level promise calls, then we can assume that a transaction commits when all its requests are done, and the current code finishes.
-```
+トランザクション自動コミットの原則には重要な副作用があります。トランザクションの途中で `fetch`, `setTimeout` といった非同期操作を挿入することができません。IndexedDB はそれらが終わるまでトランザクションを待機させません。
 
-So, in the example above no special code is needed to finish the transaction.
-
-Transactions auto-commit principle has an important side effect. We can't insert an async operation like `fetch`, `setTimeout` in the middle of transaction. IndexedDB will not keep the transaction waiting till these are done.
-
-In the code below `request2` in line `(*)` fails, because the transaction is already committed, can't make any request in it:
+以下のコードでは、行 `(*)` の `request2` は失敗します。トランザクションはすでにコミットされており、ここではどんなリクエストも行うことができないためです: 
 
 ```js
 let request1 = books.add(book);
@@ -285,42 +279,41 @@ request1.onsuccess = function() {
 };
 ```
 
-That's because `fetch` is an asynchronous operation, a macrotask. Transactions are closed before the browser starts doing macrotasks.
+これは `fetch` が非同期操作、macrotask であるためです。トランザクションはブラウザが macrotask の実行を開始する前にクローズされます。
 
-Authors of IndexedDB spec believe that transactions should be short-lived. Mostly for performance reasons.
+IndexedDB 仕様の作成者は、トランザクションは短命であるべきだと考えています。主にパフォーマンス上の理由からです。
 
-Notably, `readwrite` transactions "lock" the stores for writing. So if one part of application initiated `readwrite` on `books` object store, then another part that wants to do the same has to wait: the new transaction "hangs" till the first one is done. That can lead to strange delays if transactions take a long time.
+特に、`readwrite` トランザクションは書き込みのためにストアを "ロック" します。したがって、アプリケーションの一部が `books` オブジェクトストア上で `readwrite` を開始した場合、同じことがしたかったアプリケーションの別の部分は待機しなければなりません。新たなトランザクションは、最初のトランザクションが終了するまで "ハング" します。 トランザクションに時間がかかると、奇妙な遅延につながる可能性があります。
 
-So, what to do?
+では何をすればよいでしょうか？
 
-In the example above we could make a new `db.transaction` right before the new request `(*)`.
+上の例では、新たなリクエスト `(*)` の直前に新しい `db.transaction` を作成することができます。
 
-But it will be even better, if we'd like to keep the operations together, in one transaction, to split apart IndexedDB transactions and "other" async stuff.
+ですが、１つのトランザクション内で操作をまとめたい場合には、IndexedDB トランザクション部分と "その他" の非同期部分に分割するのがさらに良い方法でしょう。
 
-First, make `fetch`, prepare the data if needed, afterwards create a transaction and perform all the database requests, it'll work then.
+まず、`fetch` をして必要に応じてデータを準備します。その後、トランザクションを作成しすべてのデータベースリクエストを実行すると、うまく機能します。
 
-To detect the moment of successful completion, we can listen to `transaction.oncomplete` event:
+正常に完了した瞬間を検知するには、`transaction.oncomplete`  イベントをリッスンします:
 
 ```js
 let transaction = db.transaction("books", "readwrite");
 
-// ...perform operations...
+// ...操作を実行します...
 
 transaction.oncomplete = function() {
   console.log("Transaction is complete");
 };
 ```
 
-Only `complete` guarantees that the transaction is saved as a whole. Individual requests may succeed, but the final write operation may go wrong (e.g. I/O error or something).
+`complete` だけがトランザクション全体が保存されたことを保証します。個々のリクエストは成功したかもしれませんが、最終的な書き込み操作は失敗する可能性があります（例. I/O エラーなど）
 
-To manually abort the transaction, call:
+トランザクションを手動で停止するには、以下を呼び出します:
 
 ```js
 transaction.abort();
 ```
 
-That cancels all modification made by the requests in it and triggers `transaction.onabort` event.
-
+これにより、その中のリクエストにより行われたすべての変更をキャンセルし、`transaction.onabort` イベントをトリガーします。
 
 ## Error handling
 
@@ -330,9 +323,9 @@ That's to be expected, not only because of possible errors at our side, but also
 
 **A failed request automatically aborts the transaction, canceling all its changes.**
 
-Sometimes a request may fail with a non-critical error. We'd like to handle it in `request.onerror` and continue the transaction. Then, to prevent the transaction abort, we should call `event.preventDefault()`.
+In some situations, we may want to handle the failure (e.g. try another request), without canceling existing changes, and continue the transaction. That's possible. The `request.onerror` handler is able to prevent the transaction abort by calling `event.preventDefault()`.
 
-In the example below a new book is added with the same key (`id`). The `store.add` method generates a `"ConstraintError"` in that case. We handle it without canceling the transaction:
+In the example below a new book is added with the same key (`id`) as the existing one. The `store.add` method generates a `"ConstraintError"` in that case. We handle it without canceling the transaction:
 
 ```js
 let transaction = db.transaction("books", "readwrite");
@@ -346,6 +339,7 @@ request.onerror = function(event) {
   if (request.error.name == "ConstraintError") {
     console.log("Book with such id already exists"); // handle the error
     event.preventDefault(); // don't abort the transaction
+    // use another key for the book?
   } else {
     // unexpected error, can't handle it
     // the transaction will abort
@@ -395,9 +389,9 @@ request.onerror = function(event) {
 
 ## Searching by keys
 
-There are two main ways to search in an object store:
+There are two main types of search in an object store:
 1. By a key or a key range. That is: by `book.id` in our "books" storage.
-2. By another object field, e.g. `book.price`. We need an index for that.
+2. By another object field, e.g. `book.price`.
 
 First let's deal with the keys and key ranges `(1)`.
 
@@ -405,9 +399,9 @@ Methods that involve searching support either exact keys or so-called "range que
 
 Ranges are created using following calls:
 
-- `IDBKeyRange.lowerBound(lower, [open])` means: `>lower` (or `≥lower` if `open` is true)
-- `IDBKeyRange.upperBound(upper, [open])` means: `<upper` (or `≤upper` if `open` is true)
-- `IDBKeyRange.bound(lower, upper, [lowerOpen], [upperOpen])` means: between `lower` and `upper`, with optional equality if the corresponding `open` is true.
+- `IDBKeyRange.lowerBound(lower, [open])` means: `≥lower` (or `>lower` if `open` is true)
+- `IDBKeyRange.upperBound(upper, [open])` means: `≤upper` (or `<upper` if `open` is true)
+- `IDBKeyRange.bound(lower, upper, [lowerOpen], [upperOpen])` means: between `lower` and `upper`. If the open flags is true, the corresponding key is not included in the range.
 - `IDBKeyRange.only(key)` -- a range that consists of only one `key`, rarely used.
 
 All searching methods accept a `query` argument that can be either an exact key or a key range:
@@ -426,16 +420,16 @@ Request examples:
 // get one book
 books.get('js')
 
-// get books with 'css' < id < 'html'
+// get books with 'css' <= id <= 'html'
 books.getAll(IDBKeyRange.bound('css', 'html'))
 
-// get books with 'html' <= id
-books.getAll(IDBKeyRange.lowerBound('html', true))
+// get books with id < 'html'
+books.getAll(IDBKeyRange.upperBound('html', true))
 
 // get all books
 books.getAll()
 
-// get all keys: id >= 'js'
+// get all keys: id > 'js'
 books.getAllKeys(IDBKeyRange.lowerBound('js', true))
 ```
 
@@ -462,7 +456,7 @@ objectStore.createIndex(name, keyPath, [options]);
 - **`keyPath`** -- path to the object field that the index should track (we're going to search by that field),
 - **`option`** -- an optional object with properties:
   - **`unique`** -- if true, then there may be only one object in the store with the given value at the `keyPath`. The index will enforce that by generating an error if we try to add a duplicate.
-  - **`multiEntry`** -- only used if there value on `keyPath` is an array. In that case, by default, the index will treat the whole array as the key. But if `multiEntry` is true, then the index will keep a list of store objects for each value in that array. So array members become index keys.
+  - **`multiEntry`** -- only used if the value on `keyPath` is an array. In that case, by default, the index will treat the whole array as the key. But if `multiEntry` is true, then the index will keep a list of store objects for each value in that array. So array members become index keys.
 
 In our example, we store books keyed by `id`.
 
@@ -475,7 +469,7 @@ openRequest.onupgradeneeded = function() {
   // we must create the index here, in versionchange transaction
   let books = db.createObjectStore('books', {keyPath: 'id'});
 *!*
-  let index = inventory.createIndex('price_idx', 'price');
+  let index = books.createIndex('price_idx', 'price');
 */!*
 };
 ```
@@ -515,7 +509,7 @@ request.onsuccess = function() {
 We can also use `IDBKeyRange` to create ranges and looks for cheap/expensive books:
 
 ```js
-// find books where price < 5
+// find books where price <= 5
 let request = priceIndex.getAll(IDBKeyRange.upperBound(5));
 ```
 
@@ -523,7 +517,7 @@ Indexes are internally sorted by the tracked object field, `price` in our case. 
 
 ## Deleting from store
 
-The `delete` method looks up values to delete by a query, just like `getAll`.
+The `delete` method looks up values to delete by a query, the call format is similar to `getAll`:
 
 - **`delete(query)`** -- delete matching values by query.
 
@@ -554,9 +548,7 @@ books.clear(); // clear the storage.
 
 Methods like `getAll/getAllKeys` return an array of keys/values.
 
-But an object storage can be huge, bigger than the available memory.
-
-Then `getAll` will fail to get all records as an array.
+But an object storage can be huge, bigger than the available memory. Then `getAll` will fail to get all records as an array.
 
 What to do?
 
@@ -607,15 +599,15 @@ request.onsuccess = function() {
 The main cursor methods are:
 
 - `advance(count)` -- advance the cursor `count` times, skipping values.
-- `continue([key])` -- advance the cursor to the next value in range matching or after key.
+- `continue([key])` -- advance the cursor to the next value in range matching (or immediately after `key` if given).
 
 Whether there are more values matching the cursor or not -- `onsuccess` gets called, and then in `result` we can get the cursor pointing to the next record, or `undefined`.
 
 In the example above the cursor was made for the object store.
 
-But we also can make a cursor over an index. As we remember, indexes allow to search by an object field. Cursors over indexes to precisely the same as over object stores -- they save memory by returning one value at a timee.
+But we also can make a cursor over an index. As we remember, indexes allow to search by an object field. Cursors over indexes do precisely the same as over object stores -- they save memory by returning one value at a time.
 
-For cursors over indexes, `cursor.key` is the index key (e.g. price), and we should use `cursor.primaryKey` property the object key:
+For cursors over indexes, `cursor.key` is the index key (e.g. price), and we should use `cursor.primaryKey` property for the object key:
 
 ```js
 let request = priceIdx.openCursor(IDBKeyRange.upperBound(5));
@@ -624,7 +616,7 @@ let request = priceIdx.openCursor(IDBKeyRange.upperBound(5));
 request.onsuccess = function() {
   let cursor = request.result;
   if (cursor) {
-    let key = cursor.primaryKey; // next object store key (id field)
+    let primaryKey = cursor.primaryKey; // next object store key (id field)
     let value = cursor.value; // next object store object (book object)
     let key = cursor.key; // next index key (price)
     console.log(key, value);
@@ -644,7 +636,7 @@ Let's use a thin promise wrapper <https://github.com/jakearchibald/idb> further 
 Then, instead of `onsuccess/onerror` we can write like this:
 
 ```js
-let db = await idb.openDb('store', 1, db => {
+let db = await idb.openDB('store', 1, db => {
   if (db.oldVersion == 0) {
     // perform the initialization
     db.createObjectStore('books', {keyPath: 'id'});
@@ -671,7 +663,7 @@ So we have all the sweet "plain async code" and "try..catch" stuff.
 
 ### Error handling
 
-If we don't catch the error, then it falls through, just as usual.
+If we don't catch an error, then it falls through, till the closest outer `try..catch`.
 
 An uncaught error becomes an "unhandled promise rejection" event on `window` object.
 
@@ -687,7 +679,9 @@ window.addEventListener('unhandledrejection', event => {
 
 ### "Inactive transaction" pitfall
 
-A we know already, a transaction auto-commits as soon as the browser is done with the current code and microtasks. So if we put an *macrotask* like `fetch` in the middle of a transaction, then the transaction won't wait for it to finish. It just auto-commits. So the next request in it fails.
+
+As we already know, a transaction auto-commits as soon as the browser is done with the current code and microtasks. So if we put a *macrotask* like `fetch` in the middle of a transaction, then the transaction won't wait for it to finish. It just auto-commits. So the next request in it would fail.
+
 
 For a promise wrapper and `async/await` the situation is the same.
 
@@ -714,7 +708,7 @@ The workaround is same as when working with native IndexedDB: either make a new 
 
 Internally, the wrapper performs a native IndexedDB request, adding `onerror/onsuccess` to it, and returns a promise that rejects/resolves with the result.
 
-That works most fine of the time. The examples are at the lib page <https://github.com/jakearchibald/idb>.
+That works fine most of the time. The examples are at the lib page <https://github.com/jakearchibald/idb>.
 
 In few rare cases, when we need the original `request` object, we can access it as `promise.request` property of the promise:
 
@@ -733,14 +727,13 @@ let result = await promise; // if still needed
 
 IndexedDB can be thought of as a "localStorage on steroids". It's a simple key-value database, powerful enough for offline apps, yet simple to use.
 
-The best manual is the specification, [the current one](https://w3c.github.io/IndexedDB) is 2.0, but few methods from [3.0](https://w3c.github.io/IndexedDB/) (it's not much different) are partially supported.
+The best manual is the specification, [the current one](https://www.w3.org/TR/IndexedDB-2/) is 2.0, but few methods from [3.0](https://w3c.github.io/IndexedDB/) (it's not much different) are partially supported.
 
-The usage can be described with a few phrases:
+The basic usage can be described with a few phrases:
 
 1. Get a promise wrapper like [idb](https://github.com/jakearchibald/idb).
 2. Open a database: `idb.openDb(name, version, onupgradeneeded)`
-    - Create object storages in indexes in `onupgradeneeded` handlers.
-    - Update version if needed - either by comparing numbers or just checking what exists.
+    - Create object storages and indexes in `onupgradeneeded` handler or perform version update if needed.
 3. For requests:
     - Create transaction `db.transaction('books')` (readwrite if needed).
     - Get the object store `transaction.objectStore('books')`.
