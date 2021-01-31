@@ -315,17 +315,17 @@ transaction.abort();
 
 これにより、その中のリクエストにより行われたすべての変更をキャンセルし、`transaction.onabort` イベントをトリガーします。
 
-## Error handling
+## エラーハンドリング
 
-Write requests may fail.
+書き込みリクエストは失敗する可能性があります。
 
-That's to be expected, not only because of possible errors at our side, but also for reasons not related to the transaction itself. For instance, the storage quota may be exceeded. So we must be ready to handle such case.
+これは、われわれ側で発生しうるエラーだけでなく、トランザクション自体とは関連しない理由から発生することも予想されます。例えば、ストレージ容量を超えた場合です。そのため、このようなケースを処理する準備ができている必要があります。
 
-**A failed request automatically aborts the transaction, canceling all its changes.**
+**リクエストが失敗すると、トランザクションは自動的に中止され、すべての変更がキャンセルされます。**
 
-In some situations, we may want to handle the failure (e.g. try another request), without canceling existing changes, and continue the transaction. That's possible. The `request.onerror` handler is able to prevent the transaction abort by calling `event.preventDefault()`.
+ケースによっては、既存の変更をキャンセルせずに失敗を処理（例えば別のリクエストを試みる）し、トランザクションを継続したいことがあります。これは可能です。`request.onerror` ハンドラでは、`event.preventDefault()` 呼び出しをすることで、トランザクションを中止しないようにすることができます。
 
-In the example below a new book is added with the same key (`id`) as the existing one. The `store.add` method generates a `"ConstraintError"` in that case. We handle it without canceling the transaction:
+以下の例は、すでに存在するキーと同じキー（`id`）で新しい本が追加されています。この場合、`store.add` メソッドは `"ConstraintError"` を生成します。この例ではトランザクションをキャンセルせずに処理しています。:
 
 ```js
 let transaction = db.transaction("books", "readwrite");
@@ -335,14 +335,14 @@ let book = { id: 'js', price: 10 };
 let request = transaction.objectStore("books").add(book);
 
 request.onerror = function(event) {
-  // ConstraintError occurs when an object with the same id already exists
+  // 同じ id のオブジェクトが既に存在する場合、ConstraintError が発生します
   if (request.error.name == "ConstraintError") {
-    console.log("Book with such id already exists"); // handle the error
-    event.preventDefault(); // don't abort the transaction
-    // use another key for the book?
+    console.log("Book with such id already exists"); // エラー処理
+    event.preventDefault(); // トランザクションを中止しません
+    // 別のキーを利用する？など
   } else {
-    // unexpected error, can't handle it
-    // the transaction will abort
+    // unexpected error
+    // 処理できないので、トランザクションは中止します
   }
 };
 
@@ -351,112 +351,112 @@ transaction.onabort = function() {
 };
 ```
 
-### Event delegation
+### イベント委譲（delegation）
 
-Do we need onerror/onsuccess for every request? Not every time. We can use event delegation instead.
+すべてのリクエストに対して onerror/onsuccess が必要でしょうか？毎回ではありません。ので、代わりにイベント委譲が利用できます。
 
-**IndexedDB events bubble: `request` -> `transaction` -> `database`.**
+**IndexedDB のイベントバブル: `request` -> `transaction` -> `database`.**
 
-All events are DOM events, with capturing and bubbling, but usually only bubbling stage is used.
+すべてのイベントは キャプチャリングとバブリングを持つ DOM イベントで、通常はバブリングステージだけが利用されます。
 
-So we can catch all errors using `db.onerror` handler, for reporting or other purposes:
+したがって、レポートや他の目的のために `db.onerror` ハンドラを使用してすべてのエラーをキャッチすることが可能です。
+
 
 ```js
 db.onerror = function(event) {
-  let request = event.target; // the request that caused the error
+  let request = event.target; // エラーが発生したリクエスト
 
   console.log("Error", request.error);
 };
 ```
 
-...But what if an error is fully handled? We don't want to report it in that case.
-
-We can stop the bubbling and hence `db.onerror` by using `event.stopPropagation()` in `request.onerror`.
+...ですが、仮にエラーが完全に処理されたら？この場合はレポートしたくはありません。
+`request.onerror` で `event.stopPropagation()` を利用することでバブリング、つまり `db.onerror` を停止することができます。
 
 ```js
 request.onerror = function(event) {
   if (request.error.name == "ConstraintError") {
-    console.log("Book with such id already exists"); // handle the error
-    event.preventDefault(); // don't abort the transaction
-    event.stopPropagation(); // don't bubble error up, "chew" it
+    console.log("Book with such id already exists"); // エラー処理
+    event.preventDefault(); // トランザクションを中止したくない
+    event.stopPropagation(); // エラーをバブルしません、よく考えてください
   } else {
-    // do nothing
-    // transaction will be aborted
-    // we can take care of error in transaction.onabort
+    // 何もしません
+    // トランザクションは中止されます
+    // transaction.onabort でエラーを扱うことができます
   }
 };
 ```
 
-## Searching by keys
+## キーで検索する
 
-There are two main types of search in an object store:
-1. By a key or a key range. That is: by `book.id` in our "books" storage.
-2. By another object field, e.g. `book.price`.
+オブジェクトストアの検索には主に２つの種類があります。:
+1. キー or キー範囲によるもの。つまり、"books" ストレージでは `book.id` です。
+2. 別のオブジェクトフィールドによるもの。例えば、`book.price`。
 
-First let's deal with the keys and key ranges `(1)`.
+最初に、キーとキー範囲 `(1)` を取り扱いましょう。
 
-Methods that involve searching support either exact keys or so-called "range queries" -- [IDBKeyRange](https://www.w3.org/TR/IndexedDB/#keyrange) objects that specify a "key range".
+検索を伴うメソッドは、正確なキー あるいはいわゆる "範囲クエリ"（"キー範囲" を指定する [IDBKeyRange](https://www.w3.org/TR/IndexedDB/#keyrange)オブジェクト） のいずれかをサポートします。
 
-Ranges are created using following calls:
+範囲は次の呼び出しを使用して生成されます:
 
-- `IDBKeyRange.lowerBound(lower, [open])` means: `≥lower` (or `>lower` if `open` is true)
-- `IDBKeyRange.upperBound(upper, [open])` means: `≤upper` (or `<upper` if `open` is true)
-- `IDBKeyRange.bound(lower, upper, [lowerOpen], [upperOpen])` means: between `lower` and `upper`. If the open flags is true, the corresponding key is not included in the range.
-- `IDBKeyRange.only(key)` -- a range that consists of only one `key`, rarely used.
+- `IDBKeyRange.lowerBound(lower, [open])` 意味: `≥lower` (`open` が true なら `>lower`)
+- `IDBKeyRange.upperBound(upper, [open])` 意味: `≤upper` (`open` が true なら `<upper`)
+- `IDBKeyRange.bound(lower, upper, [lowerOpen], [upperOpen])` 意味: `lower` と `upper` の間. open フラグが true の場合、対応するキーは範囲に含まれません。
+- `IDBKeyRange.only(key)` -- 単一の `key` のみで構成される範囲で、めったに使われません。
 
-All searching methods accept a `query` argument that can be either an exact key or a key range:
+すべての検索メソッドは正確なキーまたはキー範囲のいずれかの `query` 引数を受け付けます。:
 
-- `store.get(query)` -- search for the first value by a key or a range.
-- `store.getAll([query], [count])` -- search for all values, limit by `count` if given.
-- `store.getKey(query)` -- search for the first key that satisfies the query, usually a range.
-- `store.getAllKeys([query], [count])` -- search for all keys that satisfy the query, usually a range, up to `count` if given.
-- `store.count([query])` -- get the total count of keys that satisfy the query, usually a range.
+- `store.get(query)` -- キー or 範囲で、最初の値を検索します。
+- `store.getAll([query], [count])` -- すべての値を検索します。`count` が指定されている場合はその数で制限されます。
+- `store.getKey(query)` -- クエリを満たす最初のキーを検索します。通常は範囲です。
+- `store.getAllKeys([query], [count])` -- クエリを満たすすべてのキーを検索します。通常は範囲で、`count` が指定されている場合はその数までです。
+- `store.count([query])` -- クエリを満たすキーの総数を取得しまｓ．通常は範囲です。
 
-For instance, we have a lot of books in our store. Remember, the `id` field is the key, so all these methods can search by `id`.
+例えば、ストアに大量の本(books)があるとします。`id` フィールドはキーなので、これらすべてのメソッドは `id` で検索ができること、忘れないでください。
 
-Request examples:
+リクエスト例:
 
 ```js
-// get one book
+// 単一の本を取得
 books.get('js')
 
-// get books with 'css' <= id <= 'html'
+// 'css' <= id <= 'html' の本を取得
 books.getAll(IDBKeyRange.bound('css', 'html'))
 
-// get books with id < 'html'
+// id < 'html' の本を取得
 books.getAll(IDBKeyRange.upperBound('html', true))
 
-// get all books
+// すべての本を取得
 books.getAll()
 
-// get all keys: id > 'js'
+// id > 'js' のすべてのキーを取得
 books.getAllKeys(IDBKeyRange.lowerBound('js', true))
 ```
 
-```smart header="Object store is always sorted"
-Object store sorts values by key internally.
+```smart header="オブジェクトストアは常にソートされています。"
+オブジェクトストアは内部的に、キーにより値をソートしています。
 
-So requests that return many values always return them in sorted by key order.
+そのため、多くの値を返すリクエストは、常にキー順にソートされた結果を返します。
 ```
 
 
-## Searching by any field with an index
+## index 付きの任意のフィールドで検索する
 
-To search by other object fields, we need to create an additional data structure named "index".
+他のオブジェクトフィールドで検索するには、"index" と呼ばれる追加のデータ構造を生成する必要があります。
 
-An index is an "add-on" to the store that tracks a given object field. For each value of that field, it stores a list of keys for objects that have that value. There will be a more detailed picture below.
+index は特定のオブジェクトフィールドを追跡するストアへの "アドオン" です。そのフィールドの値ごとに、その値を持つオブジェクトのキーのリストを格納します。以下により詳細な図があります。
 
-The syntax:
+構文:
 
 ```js
 objectStore.createIndex(name, keyPath, [options]);
 ```
 
-- **`name`** -- index name,
-- **`keyPath`** -- path to the object field that the index should track (we're going to search by that field),
-- **`option`** -- an optional object with properties:
-  - **`unique`** -- if true, then there may be only one object in the store with the given value at the `keyPath`. The index will enforce that by generating an error if we try to add a duplicate.
-  - **`multiEntry`** -- only used if the value on `keyPath` is an array. In that case, by default, the index will treat the whole array as the key. But if `multiEntry` is true, then the index will keep a list of store objects for each value in that array. So array members become index keys.
+- **`name`** -- index 名,
+- **`keyPath`** -- index が追跡すべきオブジェクトフィールドのパス（将来そのフィールドで検索します）
+- **`option`** -- 次のプロパティをもつオプションのオブジェクト:
+  - **`unique`** -- true の場合、ストアには `keyPath` で指定された値をもつオブジェクトが1つしかないことを示します。重複を追加しようとした場合、index はエラーを生成することでそれを強制します。
+  - **`multiEntry`** -- `keyPath` の値が配列の場合にのみ使われます。この場合、デフォルトでは index は配列全体をキーとして扱いますが、`multiEntry` が true の場合は、index は配列内の各値のストアオブジェクトのリストを維持します。したがって、配列要素は index キーになります。
 
 In our example, we store books keyed by `id`.
 
