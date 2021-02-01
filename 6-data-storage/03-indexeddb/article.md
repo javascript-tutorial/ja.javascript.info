@@ -5,6 +5,7 @@ libs:
 
 # IndexedDB
 
+<<<<<<< HEAD
 InexedDB は組み込みのデータベースで、`localStorage` よりも遥かに強力です。
 
 - key/value ストレージ: 値は何でもよく、複数のキーの型があります。
@@ -23,11 +24,32 @@ InexedDB は組み込みのデータベースで、`localStorage` よりも遥�
 IndexedDB を使い始めるには、データベースを open します。
 
 構文:
+=======
+IndexedDB is a database that is built into browser, much more powerful than `localStorage`.
+
+- Stores almost any kind of values by keys, multiple key types.
+- Supports transactions for reliability.
+- Supports key range queries, indexes.
+- Can store much bigger volumes of data than `localStorage`.
+
+That power is usually excessive for traditional client-server apps. IndexedDB is intended for offline apps, to be combined with ServiceWorkers and other technologies.
+
+The native interface to IndexedDB, described in the specification <https://www.w3.org/TR/IndexedDB>, is event-based.
+
+We can also use `async/await` with the help of a promise-based wrapper, like <https://github.com/jakearchibald/idb>. That's pretty convenient, but the wrapper is not perfect, it can't replace events for all cases. So we'll start with events, and then, after we gain an understanding of IndexedDb, we'll use the wrapper.
+
+## Open database
+
+To start working with IndexedDB, we first need to `open` (connect to) a database.
+
+The syntax:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 let openRequest = indexedDB.open(name, version);
 ```
 
+<<<<<<< HEAD
 - `name` -- 文字列。データベースの名前です。
 - `version` -- 正の整数で表現されるバージョン。デフォルトは `1` (後述).
 
@@ -47,11 +69,35 @@ let openRequest = indexedDB.open(name, version);
 このイベントはデータベースがまだ存在しなかった場合にも起こるので、初期化の実行をすることもできます。
 
 例えば、最初にアプリを公開するときには、バージョン `1` で open し、`upgradeneeded` ハンドラで初期化を実行します。:
+=======
+- `name` -- a string, the database name.
+- `version` -- a positive integer version, by default `1` (explained below).
+
+We can have many databases with different names, but all of them exist within the current origin (domain/protocol/port). Different websites can't access each other's databases.
+
+The call returns `openRequest` object, we should listen to events on it:
+- `success`: database is ready, there's the "database object" in `openRequest.result`, we should use it for further calls.
+- `error`: opening failed.
+- `upgradeneeded`: database is ready, but its version is outdated (see below).
+
+**IndexedDB has a built-in mechanism of "schema versioning", absent in server-side databases.**
+
+Unlike server-side databases, IndexedDB is client-side, the data is stored in the browser, so we, developers, don't have full-time access to it. So, when we have published a new version of our app, and the user visits our webpage, we may need to update the database.
+
+If the local database version is less than specified in `open`, then a special event `upgradeneeded` is triggered, and we can compare versions and upgrade data structures as needed.
+
+The `upgradeneeded` event also triggers when the database doesn't yet exist (technically, it's version is `0`), so we can perform the initialization.
+
+Let's say we published the first version of our app.
+
+Then we can open the database with version `1` and perform the initialization in an `upgradeneeded` handler like this:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 let openRequest = indexedDB.open("store", *!*1*/!*);
 
 openRequest.onupgradeneeded = function() {
+<<<<<<< HEAD
   // クライアントがデータベースを持っていない場合にトリガーされます
   // ...初期化を行います...
 };
@@ -67,10 +113,30 @@ openRequest.onsuccess = function() {
 ```
 
 次のバージョンをリリースした時:
+=======
+  // triggers if the client had no database
+  // ...perform initialization...
+};
+
+openRequest.onerror = function() {
+  console.error("Error", openRequest.error);
+};
+
+openRequest.onsuccess = function() {
+  let db = openRequest.result;
+  // continue working with database using db object
+};
+```
+
+Then, later, we publish the 2nd version.
+
+We can open it with version `2` and perform the upgrade like this:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 let openRequest = indexedDB.open("store", *!*2*/!*);
 
+<<<<<<< HEAD
 // 既存のデータベースのバージョンをチェックし、必要なら更新する:
 openRequest.onupgradeneeded = function() {
   let db = openRequest.result;
@@ -81,10 +147,23 @@ openRequest.onupgradeneeded = function() {
     case 1:
       // クライアントはバージョン 1
       // 最新版に更新します
+=======
+openRequest.onupgradeneeded = function(event) {
+  // the existing database version is less than 2 (or it doesn't exist)
+  let db = openRequest.result;
+  switch(event.oldVersion) { // existing db version
+    case 0:
+      // version 0 means that the client had no database
+      // perform initialization
+    case 1:
+      // client had version 1
+      // update
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
   }
 };
 ```
 
+<<<<<<< HEAD
 `openRequest.onsuccess` の後、データベースオブジェクトは `openRequest.result` にあります。以降の操作でこれを使っていきます。
 
 データベースを削除するには:
@@ -116,10 +195,118 @@ IndexedDB は [standard serialization algorithm](https://www.w3.org/TR/html53/in
 `localStorage` と同様、ストアに値を追加するときにキーを指定できます。これはプリミティブ値を格納するのに適しています。 しかし、オブジェクトを格納するとき、IndexedDB はオブジェクトプロパティをキーとして設定することを可能にし、それはとても便利です。もしくは、キーを自動生成することもできます。
 
 オブジェクトストアを作成する構文:
+=======
+Please note: as our current version is `2`, `onupgradeneeded` handler has a code branch for version `0`, suitable for users that are accessing for the first time and have no database, and also for version `1`, for upgrades.
+
+And then, only if `onupgradeneeded` handler finishes without errors, `openRequest.onsuccess` triggers, and the database is considered successfully opened.
+
+To delete a database:
+
+```js
+let deleteRequest = indexedDB.deleteDatabase(name)
+// deleteRequest.onsuccess/onerror tracks the result
+```
+
+```warn header="We can't open an older version of the database"
+If the current user database has a higher version than in the `open` call, e.g. the existing DB version is `3`, and we try to `open(...2)`, then that's an error, `openRequest.onerror` triggers.
+
+That's rare, but such a thing may happen when a visitor loads outdated JavaScript code, e.g. from a proxy cache. So the code is old, but his database is new.
+
+To protect from errors, we should check `db.version` and suggest a page reload. Use proper HTTP caching headers to avoid loading the old code, so that you'll never have such problems.
+```
+
+### Parallel update problem
+
+As we're talking about versioning, let's tackle a small related problem.
+
+Let's say:
+1. A visitor opened our site in a browser tab, with database version `1`.
+2. Then we rolled out an update, so our code is newer.
+3. And then the same visitor opens our site in another tab.
+
+So there's a tab with an open connection to DB version `1`, while the second one attempts to update it to version `2` in its `upgradeneeded` handler.
+
+The problem is that a database is shared between two tabs, as it's the same site, same origin. And it can't be both version `1` and `2`. To perform the update to version `2`, all connections to version 1 must be closed, including the one in the first tab.
+
+In order to organize that, the `versionchange` event triggers on the "outdated" database object. We should listen for it and close the old database connection (and probably suggest a page reload, to load the updated code).
+
+If we don't listen for the `versionchange` event and don't close the old connection, then the second, new connection won't be made. The `openRequest` object will emit the `blocked` event instead of `success`. So the second tab won't work.
+
+Here's the code to correctly handle the parallel upgrade.
+
+It installs an `onversionchange` handler after the database is opened, that closes the old connection:
+
+```js
+let openRequest = indexedDB.open("store", 2);
+
+openRequest.onupgradeneeded = ...;
+openRequest.onerror = ...;
+
+openRequest.onsuccess = function() {
+  let db = openRequest.result;
+
+  *!*
+  db.onversionchange = function() {
+    db.close();
+    alert("Database is outdated, please reload the page.")
+  };
+  */!*
+
+  // ...the db is ready, use it...
+};
+
+*!*
+openRequest.onblocked = function() {
+  // this event shouldn't trigger if we handle onversionchange correctly
+
+  // it means that there's another open connection to same database
+  // and it wasn't closed after db.onversionchange triggered for it
+};
+*/!*
+```
+
+Here we do two things:
+
+1. Add `db.onversionchange` listener after a successful opening, to be informed about a parallel update attempt.
+2. Add `openRequest.onblocked` listener to handle the case when an old connection wasn't closed. This doesn't happen if we close it in `db.onversionchange`.
+
+There are other variants. For example, we can take the time to close things gracefully in `db.onversionchange`, and prompt the visitor to save the data before the connection is closed. The new updating connection will be blocked immediately after `db.onversionchange` has finished without closing, and we can ask the visitor in the new tab to close other tabs for the update.
+
+These update collisions happen rarely, but we should at least have some handling for them, e.g. `onblocked` handler, so that our script doesn't surprise the user by dying silently.
+
+## Object store
+
+To store something in IndexedDB, we need an *object store*.
+
+An object store is a core concept of IndexedDB. Counterparts in other databases are called "tables" or "collections". It's where the data is stored. A database may have multiple stores: one for users, another one for goods, etc.
+
+Despite being named an "object store", primitives can be stored too.
+
+**We can store almost any value, including complex objects.**
+
+IndexedDB uses the [standard serialization algorithm](https://www.w3.org/TR/html53/infrastructure.html#section-structuredserializeforstorage) to clone-and-store an object. It's like `JSON.stringify`, but more powerful, capable of storing much more datatypes.
+
+An example of an object that can't be stored: an object with circular references. Such objects are not serializable. `JSON.stringify` also fails for such objects.
+
+**There must be a unique `key` for every value in the store.**     
+
+A key must be one of the these types - number, date, string, binary, or array. It's a unique identifier, so we can search/remove/update values by the key.
+
+![](indexeddb-structure.svg)
+
+
+As we'll see very soon, we can provide a key when we add a value to the store, similar to `localStorage`. But when we store objects, IndexedDB allows setting up an object property as the key, which is much more convenient. Or we can auto-generate keys.
+
+But we need to create an object store first.
+
+
+The syntax to create an object store:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 ```js
 db.createObjectStore(name[, keyOptions]);
 ```
 
+<<<<<<< HEAD
 操作は同期であり、`await` は必要ないことに留意してください。
 
 - `name` はストア名です。e.g. 本用に `"books"` など
@@ -130,10 +317,23 @@ db.createObjectStore(name[, keyOptions]);
 何もオプションを指定しない場合は、あとでオブジェクトを格納するときに明示的にキーを指定する必要があります。
 
 例えば、このオブジェクトストアはキーとして `id` プロパティを使用します。:
+=======
+Please note, the operation is synchronous, no `await` needed.
+
+- `name` is the store name, e.g. `"books"` for books,
+- `keyOptions` is an optional object with one of two properties:
+  - `keyPath` -- a path to an object property that IndexedDB will use as the key, e.g. `id`.
+  - `autoIncrement` -- if `true`, then the key for a newly stored object is generated automatically, as an ever-incrementing number.
+
+If we don't supply `keyOptions`, then we'll need to provide a key explicitly later, when storing an object.
+
+For instance, this object store uses `id` property as the key:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 ```js
 db.createObjectStore('books', {keyPath: 'id'});
 ```
 
+<<<<<<< HEAD
 **オブジェクトストアは `upgradeneeded` ハンドラ内で DB バージョンを更新している間にだけ、生成/変更することができます。**
 
 これは技術的な制限によるものです。ハンドラの外側ではデータの追加/削除/更新が可能ですが、オブジェクトストアの変更はバージョンの更新中だけです。
@@ -152,16 +352,44 @@ openRequest.onupgradeneeded = function() {
   let db = openRequest.result;
   if (!db.objectStoreNames.contains('books')) {
     db.createObjectStore('books', {keyPath: 'id'});
+=======
+**An object store can only be created/modified while updating the DB version, in `upgradeneeded` handler.**
+
+That's a technical limitation. Outside of the handler we'll be able to add/remove/update the data, but object stores can only be created/removed/altered during a version update.
+
+To perform a database version upgrade, there are two main approaches:
+1. We can implement per-version upgrade functions: from 1 to 2, from 2 to 3, from 3 to 4 etc. Then, in `upgradeneeded` we can compare versions (e.g. old 2, now 4) and run per-version upgrades step by step, for every intermediate version (2 to 3, then 3 to 4).
+2. Or we can just examine the database: get a list of existing object stores as `db.objectStoreNames`. That object is a [DOMStringList](https://html.spec.whatwg.org/multipage/common-dom-interfaces.html#domstringlist) that provides `contains(name)` method to check for existance. And then we can do updates depending on what exists and what doesn't.
+
+For small databases the second variant may be simpler.
+
+Here's the demo of the second approach:
+
+```js
+let openRequest = indexedDB.open("db", 2);
+
+// create/upgrade the database without version checks
+openRequest.onupgradeneeded = function() {
+  let db = openRequest.result;
+  if (!db.objectStoreNames.contains('books')) { // if there's no "books" store
+    db.createObjectStore('books', {keyPath: 'id'}); // create it
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
   }
 };
 ```
 
+<<<<<<< HEAD
 オブジェクトストアを削除するには:
+=======
+
+To delete an object store:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 db.deleteObjectStore('books')
 ```
 
+<<<<<<< HEAD
 ## トランザクション
 
 "トランザクション" という用語は一般的で、多くのデータベースで使われています。
@@ -179,11 +407,31 @@ db.deleteObjectStore('books')
 **IndexedDB でのすべてのデータ操作はトランザクション内で行わなければなりません。**
 
 トランザクションを開始するには:
+=======
+## Transactions
+
+The term "transaction" is generic, used in many kinds of databases.
+
+A transaction is a group operations, that should either all succeed or all fail.
+
+For instance, when a person buys something, we need to:
+1. Subtract the money from their account.
+2. Add the item to their inventory.
+
+It would be pretty bad if we complete the 1st operation, and then something goes wrong, e.g. lights out, and we fail to do the 2nd. Both should either succeed (purchase complete, good!) or both fail (at least the person kept their money, so they can retry).
+
+Transactions can guarantee that.
+
+**All data operations must be made within a transaction in IndexedDB.**
+
+To start a transaction:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 db.transaction(store[, type]);
 ```
 
+<<<<<<< HEAD
 - `store` はトランザクションがアクセスするストア名です。e.g. `"books"`。複数のストアにアクセスする場合は、ストア名の配列を指定します。
 - `type` はトランザクションのタイプです。以下のいずれかです:
   - `readonly`: 参照のみ。デフォルトです。
@@ -198,11 +446,31 @@ db.transaction(store[, type]);
 ```
 
 トランザクションが作成されたら、次のようにしてストアにアイテムを追加することができます:
+=======
+- `store` is a store name that the transaction is going to access, e.g. `"books"`. Can be an array of store names if we're going to access multiple stores.
+- `type` – a transaction type, one of:
+  - `readonly` -- can only read, the default.
+  - `readwrite` -- can only read and write the data, but not create/remove/alter object stores.
+
+There's also `versionchange` transaction type: such transactions can do everything, but we can't create them manually. IndexedDB automatically creates a `versionchange` transaction when opening the database, for `updateneeded` handler. That's why it's a single place where we can update the database structure, create/remove object stores.
+
+```smart header="Why are there different types of transactions?"
+Performance is the reason why transactions need to be labeled either `readonly` and `readwrite`.
+
+Many `readonly` transactions are able to access the same store concurrently, but `readwrite` transactions can't. A `readwrite` transaction "locks" the store for writing. The next transaction must wait before the previous one finishes before accessing the same store.
+```
+
+After the transaction is created, we can add an item to the store, like this:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 let transaction = db.transaction("books", "readwrite"); // (1)
 
+<<<<<<< HEAD
 // 操作するためにオブジェクトストアを取得
+=======
+// get an object store to operate on it
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 *!*
 let books = transaction.objectStore("books"); // (2)
 */!*
@@ -226,6 +494,7 @@ request.onerror = function() {
 };
 ```
 
+<<<<<<< HEAD
 基本的に4つのステップがあります。:
 
 1. トランザクションを作成し、`(1)` でアクセスしようとしているすべてのストアについて言及します。
@@ -263,6 +532,45 @@ request.onerror = function() {
 トランザクション自動コミットの原則には重要な副作用があります。トランザクションの途中で `fetch`, `setTimeout` といった非同期操作を挿入することができません。IndexedDB はそれらが終わるまでトランザクションを待機させません。
 
 以下のコードでは、行 `(*)` の `request2` は失敗します。トランザクションはすでにコミットされており、ここではどんなリクエストも行うことができないためです: 
+=======
+There were basically four steps:
+
+1. Create a transaction, mentioning all the stores it's going to access, at `(1)`.
+2. Get the store object using `transaction.objectStore(name)`, at `(2)`.
+3. Perform the request to the object store `books.add(book)`, at `(3)`.
+4. ...Handle request success/error `(4)`, then we can make other requests if needed, etc.
+
+Object stores support two methods to store a value:
+
+- **put(value, [key])**
+    Add the `value` to the store. The `key` is supplied only if the object store did not have `keyPath` or `autoIncrement` option. If there's already a value with the same key, it will be replaced.
+
+- **add(value, [key])**
+    Same as `put`, but if there's already a value with the same key, then the request fails, and an error with the name `"ConstraintError"` is generated.
+
+Similar to opening a database, we can send a request: `books.add(book)`, and then wait for `success/error` events.
+
+- The `request.result` for `add` is the key of the new object.
+- The error is in `request.error` (if any).
+
+## Transactions' autocommit
+
+In the example above we started the transaction and made `add` request. But as we stated previously, a transaction may have multiple associated requests, that must either all succeed or all fail. How do we mark the transaction as finished, with no more requests to come?
+
+The short answer is: we don't.
+
+In the next version 3.0 of the specification, there will probably be a manual way to finish the transaction, but right now in 2.0 there isn't.
+
+**When all transaction requests are finished, and the [microtasks queue](info:microtask-queue) is empty, it is committed automatically.**
+
+Usually, we can assume that a transaction commits when all its requests are complete, and the current code finishes.
+
+So, in the example above no special call is needed to finish the transaction.
+
+Transactions auto-commit principle has an important side effect. We can't insert an async operation like `fetch`, `setTimeout` in the middle of transaction. IndexedDB will not keep the transaction waiting till these are done.
+
+In the code below, `request2` in line `(*)` fails, because the transaction is already committed, and can't make any request in it:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 let request1 = books.add(book);
@@ -279,6 +587,7 @@ request1.onsuccess = function() {
 };
 ```
 
+<<<<<<< HEAD
 これは `fetch` が非同期操作、macrotask であるためです。トランザクションはブラウザが macrotask の実行を開始する前にクローズされます。
 
 IndexedDB 仕様の作成者は、トランザクションは短命であるべきだと考えています。主にパフォーマンス上の理由からです。
@@ -294,25 +603,53 @@ IndexedDB 仕様の作成者は、トランザクションは短命であるべ�
 まず、`fetch` をして必要に応じてデータを準備します。その後、トランザクションを作成しすべてのデータベースリクエストを実行すると、うまく機能します。
 
 正常に完了した瞬間を検知するには、`transaction.oncomplete`  イベントをリッスンします:
+=======
+That's because `fetch` is an asynchronous operation, a macrotask. Transactions are closed before the browser starts doing macrotasks.
+
+Authors of IndexedDB spec believe that transactions should be short-lived. Mostly for performance reasons.
+
+Notably, `readwrite` transactions "lock" the stores for writing. So if one part of application initiated `readwrite` on `books` object store, then another part that wants to do the same has to wait: the new transaction "hangs" till the first one is done. That can lead to strange delays if transactions take a long time.
+
+So, what to do?
+
+In the example above we could make a new `db.transaction` right before the new request `(*)`.
+
+But it will be even better, if we'd like to keep the operations together, in one transaction, to split apart IndexedDB transactions and "other" async stuff.
+
+First, make `fetch`, prepare the data if needed, afterwards create a transaction and perform all the database requests, it'll work then.
+
+To detect the moment of successful completion, we can listen to `transaction.oncomplete` event:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 let transaction = db.transaction("books", "readwrite");
 
+<<<<<<< HEAD
 // ...操作を実行します...
+=======
+// ...perform operations...
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 transaction.oncomplete = function() {
   console.log("Transaction is complete");
 };
 ```
 
+<<<<<<< HEAD
 `complete` だけがトランザクション全体が保存されたことを保証します。個々のリクエストは成功したかもしれませんが、最終的な書き込み操作は失敗する可能性があります（例. I/O エラーなど）
 
 トランザクションを手動で停止するには、以下を呼び出します:
+=======
+Only `complete` guarantees that the transaction is saved as a whole. Individual requests may succeed, but the final write operation may go wrong (e.g. I/O error or something).
+
+To manually abort the transaction, call:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 transaction.abort();
 ```
 
+<<<<<<< HEAD
 これにより、その中のリクエストにより行われたすべての変更をキャンセルし、`transaction.onabort` イベントをトリガーします。
 
 ## エラーハンドリング
@@ -326,6 +663,22 @@ transaction.abort();
 ケースによっては、既存の変更をキャンセルせずに失敗を処理（例えば別のリクエストを試みる）し、トランザクションを継続したいことがあります。これは可能です。`request.onerror` ハンドラでは、`event.preventDefault()` 呼び出しをすることで、トランザクションを中止しないようにすることができます。
 
 以下の例は、すでに存在するキーと同じキー（`id`）で新しい本が追加されています。この場合、`store.add` メソッドは `"ConstraintError"` を生成します。この例ではトランザクションをキャンセルせずに処理しています。:
+=======
+That cancels all modification made by the requests in it and triggers `transaction.onabort` event.
+
+
+## Error handling
+
+Write requests may fail.
+
+That's to be expected, not only because of possible errors at our side, but also for reasons not related to the transaction itself. For instance, the storage quota may be exceeded. So we must be ready to handle such case.
+
+**A failed request automatically aborts the transaction, canceling all its changes.**
+
+In some situations, we may want to handle the failure (e.g. try another request), without canceling existing changes, and continue the transaction. That's possible. The `request.onerror` handler is able to prevent the transaction abort by calling `event.preventDefault()`.
+
+In the example below a new book is added with the same key (`id`) as the existing one. The `store.add` method generates a `"ConstraintError"` in that case. We handle it without canceling the transaction:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 let transaction = db.transaction("books", "readwrite");
@@ -335,6 +688,7 @@ let book = { id: 'js', price: 10 };
 let request = transaction.objectStore("books").add(book);
 
 request.onerror = function(event) {
+<<<<<<< HEAD
   // 同じ id のオブジェクトが既に存在する場合、ConstraintError が発生します
   if (request.error.name == "ConstraintError") {
     console.log("Book with such id already exists"); // エラー処理
@@ -343,6 +697,16 @@ request.onerror = function(event) {
   } else {
     // unexpected error
     // 処理できないので、トランザクションは中止します
+=======
+  // ConstraintError occurs when an object with the same id already exists
+  if (request.error.name == "ConstraintError") {
+    console.log("Book with such id already exists"); // handle the error
+    event.preventDefault(); // don't abort the transaction
+    // use another key for the book?
+  } else {
+    // unexpected error, can't handle it
+    // the transaction will abort
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
   }
 };
 
@@ -351,6 +715,7 @@ transaction.onabort = function() {
 };
 ```
 
+<<<<<<< HEAD
 ### イベント委譲（delegation）
 
 すべてのリクエストに対して onerror/onsuccess が必要でしょうか？毎回ではありません。ので、代わりにイベント委譲が利用できます。
@@ -365,17 +730,39 @@ transaction.onabort = function() {
 ```js
 db.onerror = function(event) {
   let request = event.target; // エラーが発生したリクエスト
+=======
+### Event delegation
+
+Do we need onerror/onsuccess for every request? Not every time. We can use event delegation instead.
+
+**IndexedDB events bubble: `request` -> `transaction` -> `database`.**
+
+All events are DOM events, with capturing and bubbling, but usually only bubbling stage is used.
+
+So we can catch all errors using `db.onerror` handler, for reporting or other purposes:
+
+```js
+db.onerror = function(event) {
+  let request = event.target; // the request that caused the error
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
   console.log("Error", request.error);
 };
 ```
 
+<<<<<<< HEAD
 ...ですが、仮にエラーが完全に処理されたら？この場合はレポートしたくはありません。
 `request.onerror` で `event.stopPropagation()` を利用することでバブリング、つまり `db.onerror` を停止することができます。
+=======
+...But what if an error is fully handled? We don't want to report it in that case.
+
+We can stop the bubbling and hence `db.onerror` by using `event.stopPropagation()` in `request.onerror`.
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 request.onerror = function(event) {
   if (request.error.name == "ConstraintError") {
+<<<<<<< HEAD
     console.log("Book with such id already exists"); // エラー処理
     event.preventDefault(); // トランザクションを中止したくない
     event.stopPropagation(); // エラーをバブルしません、よく考えてください
@@ -383,10 +770,20 @@ request.onerror = function(event) {
     // 何もしません
     // トランザクションは中止されます
     // transaction.onabort でエラーを扱うことができます
+=======
+    console.log("Book with such id already exists"); // handle the error
+    event.preventDefault(); // don't abort the transaction
+    event.stopPropagation(); // don't bubble error up, "chew" it
+  } else {
+    // do nothing
+    // transaction will be aborted
+    // we can take care of error in transaction.onabort
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
   }
 };
 ```
 
+<<<<<<< HEAD
 ## キーで検索する
 
 オブジェクトストアの検索には主に２つの種類があります。:
@@ -447,16 +844,86 @@ books.getAllKeys(IDBKeyRange.lowerBound('js', true))
 index は特定のオブジェクトフィールドを追跡するストアへの "アドオン" です。そのフィールドの値ごとに、その値を持つオブジェクトのキーのリストを格納します。以下により詳細な図があります。
 
 構文:
+=======
+## Searching by keys
+
+There are two main types of search in an object store:
+1. By a key or a key range. That is: by `book.id` in our "books" storage.
+2. By another object field, e.g. `book.price`.
+
+First let's deal with the keys and key ranges `(1)`.
+
+Methods that involve searching support either exact keys or so-called "range queries" -- [IDBKeyRange](https://www.w3.org/TR/IndexedDB/#keyrange) objects that specify a "key range".
+
+Ranges are created using following calls:
+
+- `IDBKeyRange.lowerBound(lower, [open])` means: `≥lower` (or `>lower` if `open` is true)
+- `IDBKeyRange.upperBound(upper, [open])` means: `≤upper` (or `<upper` if `open` is true)
+- `IDBKeyRange.bound(lower, upper, [lowerOpen], [upperOpen])` means: between `lower` and `upper`. If the open flags is true, the corresponding key is not included in the range.
+- `IDBKeyRange.only(key)` -- a range that consists of only one `key`, rarely used.
+
+All searching methods accept a `query` argument that can be either an exact key or a key range:
+
+- `store.get(query)` -- search for the first value by a key or a range.
+- `store.getAll([query], [count])` -- search for all values, limit by `count` if given.
+- `store.getKey(query)` -- search for the first key that satisfies the query, usually a range.
+- `store.getAllKeys([query], [count])` -- search for all keys that satisfy the query, usually a range, up to `count` if given.
+- `store.count([query])` -- get the total count of keys that satisfy the query, usually a range.
+
+For instance, we have a lot of books in our store. Remember, the `id` field is the key, so all these methods can search by `id`.
+
+Request examples:
+
+```js
+// get one book
+books.get('js')
+
+// get books with 'css' <= id <= 'html'
+books.getAll(IDBKeyRange.bound('css', 'html'))
+
+// get books with id < 'html'
+books.getAll(IDBKeyRange.upperBound('html', true))
+
+// get all books
+books.getAll()
+
+// get all keys: id > 'js'
+books.getAllKeys(IDBKeyRange.lowerBound('js', true))
+```
+
+```smart header="Object store is always sorted"
+Object store sorts values by key internally.
+
+So requests that return many values always return them in sorted by key order.
+```
+
+
+## Searching by any field with an index
+
+To search by other object fields, we need to create an additional data structure named "index".
+
+An index is an "add-on" to the store that tracks a given object field. For each value of that field, it stores a list of keys for objects that have that value. There will be a more detailed picture below.
+
+The syntax:
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js
 objectStore.createIndex(name, keyPath, [options]);
 ```
 
+<<<<<<< HEAD
 - **`name`** -- index 名,
 - **`keyPath`** -- index が追跡すべきオブジェクトフィールドのパス（将来そのフィールドで検索します）
 - **`option`** -- 次のプロパティをもつオプションのオブジェクト:
   - **`unique`** -- true の場合、ストアには `keyPath` で指定された値をもつオブジェクトが1つしかないことを示します。重複を追加しようとした場合、index はエラーを生成することでそれを強制します。
   - **`multiEntry`** -- `keyPath` の値が配列の場合にのみ使われます。この場合、デフォルトでは index は配列全体をキーとして扱いますが、`multiEntry` が true の場合は、index は配列内の各値のストアオブジェクトのリストを維持します。したがって、配列要素は index キーになります。
+=======
+- **`name`** -- index name,
+- **`keyPath`** -- path to the object field that the index should track (we're going to search by that field),
+- **`option`** -- an optional object with properties:
+  - **`unique`** -- if true, then there may be only one object in the store with the given value at the `keyPath`. The index will enforce that by generating an error if we try to add a duplicate.
+  - **`multiEntry`** -- only used if the value on `keyPath` is an array. In that case, by default, the index will treat the whole array as the key. But if `multiEntry` is true, then the index will keep a list of store objects for each value in that array. So array members become index keys.
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 In our example, we store books keyed by `id`.
 
@@ -743,4 +1210,8 @@ The basic usage can be described with a few phrases:
 
 Here's a small demo app:
 
+<<<<<<< HEAD
 [codetabs src="books" current="index.html"]
+=======
+[codetabs src="books" current="index.html"]
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
