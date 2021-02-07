@@ -1,5 +1,5 @@
 
-# Promises チェーン
+# Promise チェーン
 
 チャプター <info:callbacks> で言及した問題に戻りましょう。
 

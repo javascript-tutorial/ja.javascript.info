@@ -259,7 +259,7 @@ new Promise((resolve, reject) => {
 
 3. 大事なことを言い忘れていましたが、`finally(f)` は `.then(f, f)` よりも便利な構文です。: 関数 `f` を複製する必要はありません。
 
-````smart header="完了済みの promises の `then` はすぐに実行されます"
+````smart header="完了済みの promise の `then` はすぐに実行されます"
 promise が pending の場合、`.then/catch` ハンドラは結果を待ちます。そうではなく、promise がすでに settled である場合は直ちに実行されます。:
 
 ```js run
@@ -325,7 +325,7 @@ promise.then(script => alert('One more handler to do something else!'));
 
 コールバックベースのパターンと比べると利点がすぐにわかります。:
 
-| Promises | コールバック |
+| Promise | コールバック |
 |----------|-----------|
 | Promise を使うことで、自然な順序で処理を記述することができます。まず、`loadScript(script)` を実行し、`.then` を使ってその結果をどうするかを書きます。| `loadScript(script, callback)` を呼び出すときには、`callback` 関数が必要です。つまり、`locadScript` が呼ばれる *前に* 結果をどう処理するのかを知っておく必要があります。|
 | Promise では `.then` を何度でも呼び出すことができます。毎回、新しい "ファン" を "購読リスト" に追加しています。 これについては次のチャプターで詳しく説明します: [](info：promise-chaining)。| コールバックは1つだけです |
