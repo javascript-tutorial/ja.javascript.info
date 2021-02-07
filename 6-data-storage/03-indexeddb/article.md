@@ -458,15 +458,15 @@ objectStore.createIndex(name, keyPath, [options]);
   - **`unique`** -- true の場合、ストアには `keyPath` で指定された値をもつオブジェクトが1つしかないことを示します。重複を追加しようとした場合、index はエラーを生成することでそれを強制します。
   - **`multiEntry`** -- `keyPath` の値が配列の場合にのみ使われます。この場合、デフォルトでは index は配列全体をキーとして扱いますが、`multiEntry` が true の場合は、index は配列内の各値のストアオブジェクトのリストを維持します。したがって、配列要素は index キーになります。
 
-In our example, we store books keyed by `id`.
+われわれの例では、`id` でキー設定された本を格納しています。
 
-Let's say we want to search by `price`.
+ここで、`price` で検索したいとしましょう。
 
-First, we need to create an index. It must be done in `upgradeneeded`, just like an object store:
+まず、index を作成する必要があります。オブジェクトストア同様、`upgradeneeded` で行わなければなりません。:
 
 ```js
 openRequest.onupgradeneeded = function() {
-  // we must create the index here, in versionchange transaction
+  // index はここ、バージョン変更のトランザクションの中で作成する必要があります
   let books = db.createObjectStore('books', {keyPath: 'id'});
 *!*
   let index = books.createIndex('price_idx', 'price');
@@ -474,19 +474,19 @@ openRequest.onupgradeneeded = function() {
 };
 ```
 
-- The index will track `price` field.
-- The price is not unique, there may be multiple books with the same price, so we don't set `unique` option.
-- The price is not an array, so `multiEntry` flag is not applicable.
+- index は `price` フィールドを追跡します。
+- price（価格）はユニークではないので、同じ価格で複数の本が存在する可能性があります。そのため、`unique` オプションは設定しません。
+- price（価格）は配列ではないので、`multiEntry` フラグは適用されません。
 
-Imagine that our `inventory` has 4 books. Here's the picture that shows exactly what the `index` is:
+`inventory` が4冊の本があるとします。これは `index` が何であるかを正確に示す図です:
 
 ![](indexeddb-index.svg)
 
-As said, the index for each value of `price` (second argument) keeps the list of keys that have that price.
+既に述べた通り、`price` （2つ目の引数）の各値の index は、その 価格 をもつキーの一覧を保持します。
 
-The index keeps itself up to date automatically, we don't have to care about it.
+index は自動で最新状態が維持されるので、気にする必要は有りません。
 
-Now, when we want to search for a given price, we simply apply the same search methods to the index:
+いま、特定の価格で検索がしたい場合、単に index に対して同じ検索方メソッドを適用するだけです。:
 
 ```js
 let transaction = db.transaction("books"); // readonly
@@ -499,38 +499,38 @@ let request = priceIndex.getAll(10);
 
 request.onsuccess = function() {
   if (request.result !== undefined) {
-    console.log("Books", request.result); // array of books with price=10
+    console.log("Books", request.result); // price=10 の本の配列
   } else {
     console.log("No such books");
   }
 };
 ```
 
-We can also use `IDBKeyRange` to create ranges and looks for cheap/expensive books:
+`IDBKeyRange` で範囲を作成し、安い/高い本を探すこともできます:
 
 ```js
-// find books where price <= 5
+// price <= 5 の本を見つける
 let request = priceIndex.getAll(IDBKeyRange.upperBound(5));
 ```
 
-Indexes are internally sorted by the tracked object field, `price` in our case. So when we do the search, the results are also sorted by `price`.
+index は内部的には追跡されているオブジェクトフィールド（このケースでは `price`）でソートされています。なので、検索するとき、結果もまた `price` でソートされています。
 
-## Deleting from store
+## ストアから削除する
 
-The `delete` method looks up values to delete by a query, the call format is similar to `getAll`:
+`delete` メソッドはクエリによって削除する値を調べます。呼び出し形式は `getAll` と同じです:
 
-- **`delete(query)`** -- delete matching values by query.
+- **`delete(query)`** -- クエリにマッチする値を削除します
 
-For instance:
+例:
 ```js
-// delete the book with id='js'
+// id='js' の本を削除します
 books.delete('js');
 ```
 
-If we'd like to delete books based on a price or another object field, then we should first find the key in the index, and then call `delete`:
+価格 あるいは別のオブジェクトフィールドを元に本を削除したい場合は、最初に index でキーを見つけ、その後に `delete` を呼び出します。:
 
 ```js
-// find the key where price = 5
+// price = 5 のキーを見つける
 let request = priceIndex.getKey(5);
 
 request.onsuccess = function() {
@@ -539,42 +539,42 @@ request.onsuccess = function() {
 };
 ```
 
-To delete everything:
+すべての削除するには:
 ```js
-books.clear(); // clear the storage.
+books.clear(); // ストレージをクリアします
 ```
 
-## Cursors
+## カーソル（Cursors）
 
-Methods like `getAll/getAllKeys` return an array of keys/values.
+`getAll/getAllKeys` のようなメソッドは キー/値 の配列を返します。
 
-But an object storage can be huge, bigger than the available memory. Then `getAll` will fail to get all records as an array.
+ですが、オブジェクトストレージは巨大になり、利用可能なメモリよりも大きくなる可能性があります。`getAll` はすべてのレコードを配列として取得することはできないでしょう。
 
-What to do?
+何をしたらよいでしょう？
 
-Cursors provide the means to work around that.
+カーソルはそれを回避する手段を提供します。
 
-**A *cursor* is a special object that traverses the object storage, given a query, and returns one key/value at a time, thus saving memory.**
+***カーソル* は与えられたクエリでオブジェクトストレージを横断する特別なオブジェクトで、一度に1つのキー/値を返すため、メモリを節約します。**
 
-As an object store is sorted internally by key, a cursor walks the store in key order (ascending by default).
+オブジェクトストアは内部的にはキーでソートされているので、カーソルはキー順（デフォルトでは昇順）でストアを移動します。
 
-The syntax:
+構文:
 ```js
-// like getAll, but with a cursor:
+// getAll と似ていますが カーソルに対してです:
 let request = store.openCursor(query, [direction]);
 
-// to get keys, not values (like getAllKeys): store.openKeyCursor
+// 値ではなくキーを得るには（getAllKeysのような）: store.openKeyCursor
 ```
 
-- **`query`** is a key or a key range, same as for `getAll`.
-- **`direction`** is an optional argument, which order to use:
-  - `"next"` -- the default, the cursor walks up from the record with the lowest key.
-  - `"prev"` -- the reverse order: down from the record with the biggest key.
-  - `"nextunique"`, `"prevunique"` -- same as above, but skip records with the same key (only for cursors over indexes, e.g. for multiple books with price=5 only the first one will be returned).
+- **`query`** はキーまたはキー範囲で、`getAll` と同じです。
+- **`direction`** はオプションの引数で、使用する順序です:
+  - `"next"` -- デフォルトで, カーソルは最も小さいキーのレコードから上に移動します。
+  - `"prev"` -- 逆順です: 最も大きなキーを持つレコードから下に移動します。
+  - `"nextunique"`, `"prevunique"` -- 上と同じですが、同じキーを持つレコードをスキップします（index 上のカーソルのみ。例: price=5 の複数の本の場合、最初の1冊だけが返却されます）。
 
-**The main difference of the cursor is that `request.onsuccess` triggers multiple times: once for each result.**
+**カーソルの主な違いは `request.onsuccess` が複数回トリガーされることです: 各結果に対し1度トリガーされます。**
 
-Here's an example of how to use a cursor:
+これは、カーソルの使用例です:
 
 ```js
 let transaction = db.transaction("books");
@@ -582,12 +582,12 @@ let books = transaction.objectStore("books");
 
 let request = books.openCursor();
 
-// called for each book found by the cursor
+// カーソルで見つかった各本に対して呼び出されます
 request.onsuccess = function() {
   let cursor = request.result;
   if (cursor) {
-    let key = cursor.key; // book key (id field)
-    let value = cursor.value; // book object
+    let key = cursor.key; // book key (id フィールド)
+    let value = cursor.value; // book オブジェクト
     console.log(key, value);
     cursor.continue();
   } else {
@@ -596,10 +596,10 @@ request.onsuccess = function() {
 };
 ```
 
-The main cursor methods are:
+主なカーソルメソッドは以下です:
 
-- `advance(count)` -- advance the cursor `count` times, skipping values.
-- `continue([key])` -- advance the cursor to the next value in range matching (or immediately after `key` if given).
+- `advance(count)` -- カーソルを `count` 数進め、値をスキップします。
+- `continue([key])` -- マッチした範囲の次の値にカーソルを進めます（あるいは指定された場合は、その `key` の直後）
 
 Whether there are more values matching the cursor or not -- `onsuccess` gets called, and then in `result` we can get the cursor pointing to the next record, or `undefined`.
 
