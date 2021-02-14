@@ -601,13 +601,13 @@ request.onsuccess = function() {
 - `advance(count)` -- カーソルを `count` 数進め、値をスキップします。
 - `continue([key])` -- マッチした範囲の次の値にカーソルを進めます（あるいは指定された場合は、その `key` の直後）
 
-Whether there are more values matching the cursor or not -- `onsuccess` gets called, and then in `result` we can get the cursor pointing to the next record, or `undefined`.
+カーソルに一致する値がもっとあるか否かは、`onsuccess` を呼び出した後 `result` を見ることで、次のレコードを指すカーソルあるいは `undefined` が取得できます。
 
-In the example above the cursor was made for the object store.
+上記の例では、オブジェクトストア用のカーソルが作成されました。
 
-But we also can make a cursor over an index. As we remember, indexes allow to search by an object field. Cursors over indexes do precisely the same as over object stores -- they save memory by returning one value at a time.
+しかし、index 上にカーソルを作成することもできます。御存知の通り、index を利用することでオブジェクトフィールドで検索することができます。index 上のカーソルはオブジェクトストア上のカーソルとまったく同じように機能します、つまり、一度に１つの値を返すことでメモリを節約します。
 
-For cursors over indexes, `cursor.key` is the index key (e.g. price), and we should use `cursor.primaryKey` property for the object key:
+index 上のカーソルの場合、`cursor.key` は index キー（例, price ）であり、オブジェクトキーに対しては `cursor.primaryKey` プロパティを使用する必要があります:
 
 ```js
 let request = priceIdx.openCursor(IDBKeyRange.upperBound(5));
@@ -616,9 +616,9 @@ let request = priceIdx.openCursor(IDBKeyRange.upperBound(5));
 request.onsuccess = function() {
   let cursor = request.result;
   if (cursor) {
-    let primaryKey = cursor.primaryKey; // next object store key (id field)
-    let value = cursor.value; // next object store object (book object)
-    let key = cursor.key; // next index key (price)
+    let primaryKey = cursor.primaryKey; // 次のオブジェクトストアキー(id フィールド)
+    let value = cursor.value; // 次のオブジェクトストアオブジェクト (book オブジェクト)
+    let key = cursor.key; // 次の index キー (price)
     console.log(key, value);
     cursor.continue();
   } else {
@@ -627,18 +627,19 @@ request.onsuccess = function() {
 };
 ```
 
-## Promise wrapper
+## Promise ラッパー
 
-Adding `onsuccess/onerror` to every request is quite a cumbersome task. Sometimes we can make our life easier by using event delegation, e.g. set handlers on the whole transactions, but `async/await` is much more convenient.
+すべてのリクエストに `onsuccess/onerror` を追加するのはとても面倒な作業です。イベント委譲を使用することで、楽にできる場合があることがあります。例えば、トランザクション全体にハンドラを設定しますが、`async/await` ははるかに便利です。
 
-Let's use a thin promise wrapper <https://github.com/jakearchibald/idb> further in this chapter. It creates a global `idb` object with [promisified](info:promisify) IndexedDB methods.
+このチャプターでは、薄いPromise ラッパー <https://github.com/jakearchibald/idb> を使ってみましょう。これは [promise 化](info:promisify) された IndexedDB メソッドを持つ、グローバルな `idb` オブジェクトを生成します。
 
-Then, instead of `onsuccess/onerror` we can write like this:
+
+すると、`onsuccess/onerror` の代わりに、次のように記述することができます:
 
 ```js
 let db = await idb.openDB('store', 1, db => {
   if (db.oldVersion == 0) {
-    // perform the initialization
+    // 初期化の実行
     db.createObjectStore('books', {keyPath: 'id'});
   }
 });
@@ -659,33 +660,31 @@ try {
 
 ```
 
-So we have all the sweet "plain async code" and "try..catch" stuff.
+"通常の async コード" と "try...catch" だけになります。
 
-### Error handling
+### エラーハンドリング
 
-If we don't catch an error, then it falls through, till the closest outer `try..catch`.
+エラーをキャッチしない場合、最も近い外側の `try...catch` までエラーがきます。
 
-An uncaught error becomes an "unhandled promise rejection" event on `window` object.
+キャッチされなかったエラーは `window` オブジェクトの"未処理の prmise 拒否" イベントになります。
 
-We can handle such errors like this:
+次のようにして、このようなエラーを処理することができます:
 
 ```js
 window.addEventListener('unhandledrejection', event => {
-  let request = event.target; // IndexedDB native request object
-  let error = event.reason; //  Unhandled error object, same as request.error
+  let request = event.target; // IndexedDB ネイティブのリクエストオブジェクト
+  let error = event.reason; //  未処理のエラーオブジェクト。request.error と同じ
   ...report about the error...
 });
 ```
 
-### "Inactive transaction" pitfall
+### "非アクティブなトランザクション" の落とし穴
 
+すでにご存知のように、ブラウザが現在のコードと microtask を実行するとすぐにトランザクションは自動コミットされます。そのため、トランザクション中に `fetch` のような *macrotask* を置いた場合、トランザクションはその終了を待たず自動コミットします。したがって、次のリクエストは失敗するでしょう。
 
-As we already know, a transaction auto-commits as soon as the browser is done with the current code and microtasks. So if we put a *macrotask* like `fetch` in the middle of a transaction, then the transaction won't wait for it to finish. It just auto-commits. So the next request in it would fail.
+promise ラッパーや `async/await` の場合も同じです。
 
-
-For a promise wrapper and `async/await` the situation is the same.
-
-Here's an example of `fetch` in the middle of the transaction:
+これはトランザクションの途中に `fetch` がある例です:
 
 ```js
 let transaction = db.transaction("inventory", "readwrite");
@@ -698,49 +697,48 @@ await fetch(...); // (*)
 await inventory.add({ id: 'js', price: 10, created: new Date() }); // Error
 ```
 
-The next `inventory.add` after `fetch` `(*)` fails with an "inactive transaction" error, because the transaction is already committed and closed at that time.
+`fetch` `(*)` の後にある次の `inventory.add` は "非アクティブなトランザクション" エラーで失敗します。その時点でトランザクションは既にコミットされクローズされているためです。
 
-The workaround is same as when working with native IndexedDB: either make a new transaction or just split things apart.
-1. Prepare the data and fetch all that's needed first.
-2. Then save in the database.
+回避策はネイテイブのIndexedDB を使用する場合と同じです。新たなトランザクションを作るか、単に物事を分割するか、です。
+1. データを準備し、最初に必要なものをすべて取得します。
+2. 次に、データベースに保存します。
 
-### Getting native objects
+### ネイティブオブジェクトを取得する
 
-Internally, the wrapper performs a native IndexedDB request, adding `onerror/onsuccess` to it, and returns a promise that rejects/resolves with the result.
+内部的には、ラッパーは `onerror/onsuccess` が追加されたネイテイブの IndexedDB リクエストを実行し、その結果を reject/resolve する promise を返します。
 
-That works fine most of the time. The examples are at the lib page <https://github.com/jakearchibald/idb>.
+ほとんどの場合、これで問題なく動作します。例はライブラリのページ <https://github.com/jakearchibald/idb> にあります。
 
-In few rare cases, when we need the original `request` object, we can access it as `promise.request` property of the promise:
+レアケースですが、オリジナルの `request` オブジェクトが必要なときは、promise の `promise.request` プロパティでアクセスすることができます:
 
 ```js
-let promise = books.add(book); // get a promise (don't await for its result)
+let promise = books.add(book); // promise を取得します (await は不要)
 
-let request = promise.request; // native request object
-let transaction = request.transaction; // native transaction object
+let request = promise.request; // ネイティブのリクエストオブジェクト
+let transaction = request.transaction; // ネイティブのトランザクションオブジェクト
 
 // ...do some native IndexedDB voodoo...
 
-let result = await promise; // if still needed
+let result = await promise; // 必要であれば
 ```
 
-## Summary
+## サマリ
 
-IndexedDB can be thought of as a "localStorage on steroids". It's a simple key-value database, powerful enough for offline apps, yet simple to use.
+IndexedDB はシンプルな key-value データベースであり、オフラインアプリケーションには十分強力なものでありつつ、使いやすいものです。
 
-The best manual is the specification, [the current one](https://www.w3.org/TR/IndexedDB-2/) is 2.0, but few methods from [3.0](https://w3c.github.io/IndexedDB/) (it's not much different) are partially supported.
+最良のマニュアルは仕様です。[現在のもの](https://www.w3.org/TR/IndexedDB-2/) は  2.0 ですが、[3.0](https://w3c.github.io/IndexedDB/) のいくつかのメソッド（大きな違いはありません）は部分的にサポートされています。
 
-The basic usage can be described with a few phrases:
+基本的な使用方法は次のフェーズで説明できます:
 
-1. Get a promise wrapper like [idb](https://github.com/jakearchibald/idb).
-2. Open a database: `idb.openDb(name, version, onupgradeneeded)`
-    - Create object storages and indexes in `onupgradeneeded` handler or perform version update if needed.
-3. For requests:
-    - Create transaction `db.transaction('books')` (readwrite if needed).
-    - Get the object store `transaction.objectStore('books')`.
-4. Then, to search by a key, call methods on the object store directly.
-    - To search by an object field, create an index.
-5. If the data does not fit in memory, use a cursor.
+1. [idb](https://github.com/jakearchibald/idb) のような promise ラッパーを取得します。
+2. データベースをオープンします `idb.openDb(name, version, onupgradeneeded)`
+3. リクエストの場合:
+    - トランザクションを作成します `db.transaction('books')` (必要に応じて読み書き)。
+    - オブジェクトストアを取得します `transaction.objectStore('books')`。
+4. 次に、キーで検索するためにオブジェクトストアのメソッドを直接呼び出します。
+    - オブジェクトフィールドで検索する場合には index を作成します。
+5. データがメモリに収まらない場合には、カーソルを使用します。
 
-Here's a small demo app:
+これは小さなデモアプリです:
 
 [codetabs src="books" current="index.html"]
