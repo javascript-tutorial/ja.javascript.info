@@ -1,7 +1,11 @@
 
 # アロー関数を使った書き換え
 
+<<<<<<< HEAD:1-js/02-first-steps/17-arrow-functions-basics/1-rewrite-arrow/task.md
 次のコードで、関数式をアロー関数に置き換えてください。:
+=======
+Replace Function Expressions with arrow functions in the code below:
+>>>>>>> 7533c719fbf62ba57188d6d51fe4c038b282bd0c:1-js/02-first-steps/17-arrow-functions-basics/1-rewrite-arrow/task.md
 
 ```js run
 function ask(question, yes, no) {

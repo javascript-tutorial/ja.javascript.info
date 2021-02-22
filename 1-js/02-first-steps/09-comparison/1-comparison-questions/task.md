@@ -4,7 +4,11 @@ importance: 5
 
 # 比較
 
+<<<<<<< HEAD:1-js/02-first-steps/09-comparison/1-comparison-questions/task.md
 式の結果はどうなるでしょう？
+=======
+What will be the result for these expressions?
+>>>>>>> 7533c719fbf62ba57188d6d51fe4c038b282bd0c:1-js/02-first-steps/09-comparison/1-comparison-questions/task.md
 
 ```js no-beautify
 5 > 4
