@@ -6,8 +6,6 @@
 
 関数はプログラムのメインの "構成要素" です。これによりコードを繰り返すことなく何度も呼び出すことができます。
 
-[cut]
-
 私たちは既に組み込み関数の例を見ています。 `alert(message)`, `prompt(message, default)` や `confirm(question)`です。
 同じように私たち自身も関数を作ることができます。
 
@@ -25,7 +23,11 @@ function showMessage() {
 
 `function` キーワードが最初にきて、次に *関数名* がきます、そして括弧の中に *パラメータ* のリストがきて(上の例では空白です)、最後に関数のコード、"関数本体" です。
 
-![](function_basics.png)
+```js
+function name(parameters) {
+  ...body...
+}
+```
 
 作成した関数はその関数名で呼ぶことができます: `showMessage()`
 
