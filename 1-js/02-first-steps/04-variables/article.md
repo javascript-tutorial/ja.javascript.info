@@ -6,8 +6,6 @@
 
 変数は情報を保持するために使われます。
 
-[cut]
-
 ## 変数 
 
 [変数](https://en.wikipedia.org/wiki/Variable_(computer_science)) はデータのための "名前付けされた格納場所" です。私たちは商品や訪問者、その他のデータを格納するために変数が利用できます。
@@ -82,7 +80,6 @@ let user = 'John'
 
 技術的にはこれらすべてのパターンは同じです。なので、これは個人の好みと美学の問題です。
 
-
 ````smart header="`let` の代わりに `var`"
 古いスクリプトには、別のキーワードがあるかもしれません: `let` の代わりに `var` です:
 
@@ -106,7 +103,6 @@ let user = 'John'
 箱の中にはどんな値でも入れることができます。
 
 また、それを変えることもできます。値は必要なだけ何度でも変更することができます。
-
 ```js run
 let message;
 
@@ -138,6 +134,20 @@ alert(hello); // Hello world!
 alert(message); // Hello world!
 ```
 
+````warn header="2回宣言すると、エラーが発生します"
+変数は一度だけ宣言する必要があります。
+
+同じ変数の繰り替えし宣言はエラーになります:
+
+```js run
+let message = "This";
+
+// 'let' の繰り返しはエラーになります
+let message = "That"; // SyntaxError: 'message' has already been declared
+```
+そのため、変数は1度だけ宣言し、その後は `let` なしで参照する必要があります。
+````
+
 ```smart header="関数型言語"
 変数の値の変更を禁止する[関数型プログラミング言語](https://ja.wikipedia.org/wiki/関数型言語)と呼ばれる言語も存在することを知っておくと良いかもしれません。関数型言語の例として[Scala](http://www.scala-lang.org/) や[Erlang](http://www.erlang.org/)が挙げられます。
 
@@ -160,7 +170,7 @@ let userName;
 let test123;
 ```
 
-名前に複数の単語を含む場合、[camelCase](https://en.wikipedia.org/wiki/CamelCase) が一般的に使われます。 つまり: 単語が続々と続き, 各単語は大文字で始まります。: `myVeryLongName`.
+名前に複数の単語を含む場合、[camelCase](https://en.wikipedia.org/wiki/CamelCase) が一般的に使われます。 つまり、単語が続々と続き、各単語は大文字で始まります: `myVeryLongName`.
 
 興味深いことに -- ドル `'$'` や アンダースコア `'_'` も名前に使うことができます。それらは単に文字のように特別な意味をもたない普通の記号です。
 
@@ -197,7 +207,7 @@ let 我 = '...';
 ````
 
 ````warn header="予約された名前"
-予約語の一覧があります。これらは言語自身によって使用されるため、変数名として使用することはできません。
+[予約語の一覧](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords)があります。これらは言語自身によって使用されるため、変数名として使用することはできません。
 
 たとえば、単語 `let`, `class`, `return`, `function` は予約されています。
 
@@ -230,7 +240,6 @@ alert(num); // 5
 num = 5; // エラー: num が未定義です
 */!*
 ```
-
 ````
 
 ## 定数 
@@ -258,7 +267,7 @@ myBirthday = '01.01.2001'; // エラー, 定数の再代入はできません!
 
 このような定数は大文字とアンダースコアを使って名前がつけられます。
 
-このように:
+例えば、いわゆる "web"(16進数) 形式での色の定数を作りましょう:
 
 ```js run
 const COLOR_RED = "#F00";
