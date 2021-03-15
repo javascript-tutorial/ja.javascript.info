@@ -1,4 +1,10 @@
 
+<<<<<<< HEAD
 # 型付き配列を連結する
 
 `Uint8Array` の配列を引数として、それらを連結した単一の配列を返す関数 `concat(arrays)` を書いてください。
+=======
+# Concatenate typed arrays
+
+Given an array of `Uint8Array`, write a function `concat(arrays)` that returns a concatenation of them into a single array.
+>>>>>>> e01998baf8f85d9d6cef9f1add6c81b901f16d69
