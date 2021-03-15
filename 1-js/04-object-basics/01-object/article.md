@@ -95,10 +95,10 @@ let user = {
 
 これは、「末尾」または「ぶら下がり」のカンマと呼ばれます。 これがあると、すべての行が同じ表記になるため、プロパティの追加/削除/移動が簡単になります。
 
-````smart header="Object with const can be changed"
-Please note: an object declared as `const` *can* be modified.
+````smart header="const のオブジェクトは変更することができます"
+注意: `const` で宣言されたオブジェクトは変更することが*できます*。
 
-For instance:
+例:
 
 ```js run
 const user = {
@@ -112,11 +112,11 @@ user.name = "Pete"; // (*)
 alert(user.name); // Pete
 ```
 
-It might seem that the line `(*)` would cause an error, but no. The `const` fixes the value of `user`, but not its contents.
+`(*)` の行はエラーが発生すると思うかもしれませんが、実際にはエラーになりません。`const` は `user` の値を変更不可にしますが、その中身までは変更不可にしません。
 
-The `const` would give an error only if we try to set `user=...` as a whole.
+`const` は `user=...` のように、全体を変更しようとした場合のみエラーを返します。
 
-There's another way to make constant object properties, we'll cover it later in the chapter <info:property-descriptors>.
+定数のオブジェクトのプロパティを作成する方法は別に存在します。<info:property-descriptors> のチャプターの後半で説明します。
 ````
 
 ## 角括弧 
@@ -128,9 +128,9 @@ There's another way to make constant object properties, we'll cover it later in 
 user.likes birds = true
 ```
 
-JavaScript doesn't understand that. It thinks that we address `user.likes`, and then gives a syntax error when comes across unexpected `birds`.
+JavaScript はこれを理解することができません。`user.likes` に対して何か処理をするものと解釈され、その後思いがけない `bird` によって構文エラーが発生します。
 
-The dot requires the key to be a valid variable identifier. That implies: contains no spaces, doesn't start with a digit and doesn't include special characters (`$` and `_` are allowed).
+ドットを使用したアクセスを使用するには、有効なプロパティ名である必要があります。具体的には、スペースが含まれていない、数値から始まっていない、特殊文字が含まれていないなどです(ただし、`$` と `_` は有効です)。
 
 代わりに、任意の文字列で動作する "角括弧表記" を使います:
 
@@ -175,7 +175,7 @@ let key = prompt("What do you want to know about the user?", "name");
 alert( user[key] ); // John ("name" が入力された場合)
 ```
 
-The dot notation cannot be used in a similar way:
+ドット表記は、同じように使用することはできません:
 
 ```js run
 let user = {
@@ -292,38 +292,38 @@ let obj = {
 alert( obj.for + obj.let + obj.return );  // 6
 ```
 
-In short, there are no limitations on property names. They can be any strings or symbols (a special type for identifiers, to be covered later).
+つまり、プロパティ名には制限がありません。 任意の文字列またはシンボル (後で説明する識別子の特別なタイプ) を使用することができます。
 
-Other types are automatically converted to strings.
+他のタイプの場合は、自動的に文字列に変換されます。
 
-For instance, a number `0` becomes a string `"0"` when used as a property key:
+例えば、`0` という数値をプロパティに使用すると、文字列の `"0"` になります。
 
 ```js run
 let obj = {
   0: "test" // same as "0": "test"
 };
 
-// both alerts access the same property (the number 0 is converted to string "0")
+// 両方とも同じプロパティにアクセスします (数値の 0 は文字列の "0" に変換されます)
 alert( obj["0"] ); // test
-alert( obj[0] ); // test (same property)
+alert( obj[0] ); // test (同じプロパティ)
 ```
 
-There's a minor gotcha with a special property named `__proto__`. We can't set it to a non-object value:
+`__proto__` という特殊なプロパティには落とし穴があります。オブジェクトではない値を設定することができません:
 
 ```js run
 let obj = {};
-obj.__proto__ = 5; // assign a number
-alert(obj.__proto__); // [object Object] - the value is an object, didn't work as intended
+obj.__proto__ = 5; // 数値を設定
+alert(obj.__proto__); // [object Object] - 値はオブジェクトで、意図した通りに動作しません
 ```
 
-As we see from the code, the assignment to a primitive `5` is ignored.
+コードから分かるように、`5` の設定は無視されました。
 
-We'll cover the special nature of `__proto__` in [subsequent chapters](info:prototype-inheritance), and suggest the [ways to fix](info:prototype-methods) such behavior.
+ `__proto__` の特殊な性質は [subsequent chapters](info:prototype-inheritance) で説明します。また、このような [動作の修正方法](info:prototype-methods) も提案します。
 
 
 ## プロパティ存在チェック, "in" 演算子 
 
-注目すべきオブジェクトの機能は、どんなプロパティへもアクセスできることです。プロパティが存在しない場合でもエラーにはなりません! 存在しないプロパティへのアクセスは、単に `undefined` を返します。これはプロパティが存在するかどうかを確認する非常に一般的な方法です -- その値を取得し、 undefined と比較します。:
+注目すべきオブジェクトの機能は、どんなプロパティへもアクセスできることです。プロパティが存在しない場合でもエラーにはなりません! 存在しないプロパティへのアクセスは、単に `undefined` を返します。これはプロパティが存在するかどうかを確認する非常に一般的な方法です -- その値を取得し、 `undefined` と比較します。:
 
 ```js run
 let user = {};
@@ -358,9 +358,9 @@ let key = "age";
 alert( *!*key*/!* in user ); // true, キーから名前を取り、そのプロパティをチェック
 ```
 
-Why does the `in` operator exist? Isn't it enough to compare against `undefined`?
+なぜ、`in` 演算子が存在するのでしょうか？ `undefined` と比較するだけで十分ではないでしょうか？
 
-Well, most of the time the comparison with `undefined` works fine. But there's a special case when it fails, but `"in"` works correctly.
+確かに、多くの場合 `undefined` と比較するだけで正しく動作します。しかし、この方法は特殊なケースで失敗します。一方で、`"in"` は特殊なケースでも正しく動作します。
 
 それは、オブジェクトのプロパティは存在するが、`undefined` が格納されているときです:
 
@@ -515,7 +515,7 @@ for(let code in codes) {
 - 与えられたキーを持つプロパティの存在チェック: `"key" in obj`
 - オブジェクトのイテレート: `for(let key in obj)` ループ
 
-What we've studied in this chapter is called a "plain object", or just `Object`.
+このチャプターで学習したものは、"plain object" または単に `Object` と呼ばれます。
 
 JavaScriptには他にも多くの種類のオブジェクトがあります:
 
