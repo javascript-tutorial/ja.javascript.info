@@ -6,8 +6,7 @@
 
 関数はプログラムのメインの "構成要素" です。これによりコードを繰り返すことなく何度も呼び出すことができます。
 
-私たちは既に組み込み関数の例を見ています。 `alert(message)`, `prompt(message, default)` や `confirm(question)`です。
-同じように私たち自身も関数を作ることができます。
+私たちは既に組み込み関数の例を見ています。 `alert(message)`, `prompt(message, default)` や `confirm(question)`です。これと同じように私たち自身も関数を作ることができます。
 
 ## 関数定義 
 
@@ -155,7 +154,8 @@ showMessage('Ann', "What's up?"); // Ann: What's up? (**)
 
 行 `(*)` と `(**)` で関数が呼ばれたとき、与えられた値はローカル変数 `from` と `text` にコピーされます。そして関数はそれらを使います。
 
-ここにもう1つ例があります: 私たちは変数 `from` を持っており、それを関数に渡します。注意してください：関数は常に値のコピーを取得するため、関数の中の処理は `from` を変更していますが、その変更は外には見えません。
+ここにもう1つ例があります: 私たちは変数 `from` を持っており、それを関数に渡します。注意してください：関数は常に値のコピーを取得するため、関数の中の処理は `from` を変更していますが、その変更は外には見えません:
+
 
 ```js run
 function showMessage(from, text) {
@@ -208,42 +208,54 @@ function showMessage(from, text = anotherFunction()) {
 }
 ```
 
-````smart header="デフォルト値の評価"
+```smart header="デフォルト値の評価"
+JavaScriptでは、デフォルト値はそれぞれのパラメータが与えられずに関数が呼び出されるたびに評価されます。
 
-JavaScriptでは、デフォルト値はそれぞれのパラメータが与えられずに関数が呼び出されるたびに評価されます。上の例だと `anotherFunction()` は、 `text` のパラメータが与えられずに `showMessage()` が呼び出されるたびに実行されます。これはPythonのような他の言語と対照的で、Pythonはどんなデフォルト値も初期解釈のときに一度だけ評価されます。
+上の例だと `anotherFunction()` は、 `text` のパラメータが与えられずに `showMessage()` が呼び出されるたびに実行されます。
+```
 
-````
+### 代替のデフォルトパラメータ
 
-````smart header="デフォルトパラメータの古い形式"
-javascriptの古いエディションは、デフォルトパラメータをサポートしていませんでした。そのため、別の方法で実現していました。これは古いスクリプトの中で見つけることができます。
+パラメータのデフォルト値を関数宣言ではなく、後の段階で実行中に設定することが理にかなっている場合があります。
 
-例えば、`undefined` の明示的なチェック:
+省略されたパラメータをチェックするために、`undefined` と比較できます:
 
-```js
-function showMessage(from, text) {
+```js run
+function showMessage(text) {
 *!*
   if (text === undefined) {
-    text = 'no text given';
+    text = 'empty message';
   }
 */!*
 
-  alert( from + ": " + text );
+  alert(text);
 }
+
+showMessage(); // empty message
 ```
 
 ...もしくは `||` 演算子:
 
 ```js
-function showMessage(from, text) {
-  // text が偽の場合、text は "デフォルト" 値を取得します
-  text = text || 'no text given';
+// パラメータが省略 or  "" の場合, 'empty' を設定
+function showMessage(text) {
+  text = text || 'empty';
   ...
 }
 ```
 
+モダンな JavaScript エンジンは [NULL合体演算子](info:nullish-coalescing-operator) `??` をサポートしており、`0` などの偽値を通常とみなす場合に適しています:
 
-````
+```js run
+// count パラメータがない場合は "unknown"
+function showCount(count) {
+  alert(count ?? "unknown");
+}
 
+showCount(0); // 0
+showCount(null); // unknown
+showCount(); // unknown
+```
 
 ## 値の返却 
 
@@ -338,15 +350,26 @@ JavaScriptは `return` の後にセミコロンを想定するため、これは
 return*!*;*/!*
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
+
 従って、これは事実上空の返却になります。なので、値は同じ行に置く必要があります。
+
+もし複数行にまたがった式を返却したい場合は、`return` と同じ行から開始する必要があります。あるいは、少なくとも次のように開始括弧を置きます:
+
+```js
+return (
+  some + long + expression
+  + or +
+  whatever * f(a) + f(b)
+  )
+```
+これは期待する通りに動作するでしょう。
 ````
 
 ## 関数の命名 
 
 関数はアクションです。そのため、それらの名前は通常は動詞です。それは簡潔にすべきですが、関数がすることをできるだけ正確に表現してください。そして、コードを読む人が正しい手がかりを得られるようにします。
 
-曖昧なアクションを示す動詞のプレフィックスから関数名を始めることは広く行われています。
-プレフィックスの意味についてはチーム内での合意が必要です。
+曖昧なアクションを示す動詞のプレフィックスから関数名を始めることは広く行われています。プレフィックスの意味についてはチーム内での合意が必要です。
 
 例えば、`"show"` で始まる関数は、通常何かを表示します。
 
