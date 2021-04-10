@@ -125,25 +125,25 @@ function addJuice(container) {
 関数の使用方法を文書化する
 : 関数の文書化のための特別な構文 [JSDoc](http://en.wikipedia.org/wiki/JSDoc) があります。: 使用方法、パラメータ、返却値
 
-    例:
-    ```js
-    /**
-     * Returns x raised to the n-th power.
-     *
-     * @param {number} x The number to raise.
-     * @param {number} n The power, must be a natural number.
-     * @return {number} x raised to the n-th power.
-     */
-    function pow(x, n) {
-      ...
-    }
-    ```
+例:
+```js
+/**
+  * Returns x raised to the n-th power.
+  *
+  * @param {number} x The number to raise.
+  * @param {number} n The power, must be a natural number.
+  * @return {number} x raised to the n-th power.
+  */
+function pow(x, n) {
+  ...
+}
+```
 
-    このようなコメントにより、関数の目的を理解し、コードの中を見ることなく正しい方法で利用することができます。
+このようなコメントにより、関数の目的を理解し、コードの中を見ることなく正しい方法で利用することができます。
 
-    ちなみに、[WebStorm](https://www.jetbrains.com/webstorm/) のような多くのエディタも同様にそれらを解釈することができ、それらを使ってオートコンプリートや自動コードチェックを提供します。
+ちなみに、[WebStorm](https://www.jetbrains.com/webstorm/) のような多くのエディタも同様にそれらを解釈することができ、それらを使ってオートコンプリートや自動コードチェックを提供します。
 
-    また、コメントからHTMLドキュメントを生成することができる [JSDoc 3](https://github.com/jsdoc3/jsdoc) のようなツールもあります。JSDocに関するより多くの情報は <http://usejsdoc.org/> で読むことができます。
+また、コメントからHTMLドキュメントを生成することができる [JSDoc 3](https://github.com/jsdoc3/jsdoc) のようなツールもあります。JSDocに関するより多くの情報は <http://usejsdoc.org/> で読むことができます。
 
 タスクがこのように解決されるのはなぜか？
 : 書かれていることは重要です。が、何が起こっていることを理解するためには、*書かれていないこと* がより重要かもしれません。なぜそのタスクがこの方法で正しく解決されるのか？コードは回答しません。
