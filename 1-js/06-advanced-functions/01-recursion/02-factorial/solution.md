@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 定義によると、階乗 `n!` は `n * (n-1)!` と書くことができます。
+=======
+By definition, a factorial `n!` can be written as `n * (n-1)!`.
+>>>>>>> 6ab384f2512902d74e4b0ff5a6be60e48ab52e96
 
 つまり、`factorial(n)` の結果は `n` を `factorial(n-1)` の結果で掛けたものとして計算することができます。
 

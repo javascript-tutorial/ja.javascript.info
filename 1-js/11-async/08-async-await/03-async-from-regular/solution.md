@@ -1,7 +1,13 @@
 
+<<<<<<< HEAD
 
 `async` 呼び出しを Promise として扱い、それに `.then` をつけるだけです。
 
+=======
+That's the case when knowing how it works inside is helpful.
+
+Just treat `async` call as promise and attach `.then` to it:
+>>>>>>> 6ab384f2512902d74e4b0ff5a6be60e48ab52e96
 ```js run
 async function wait() {
   await new Promise(resolve => setTimeout(resolve, 1000));
@@ -10,7 +16,11 @@ async function wait() {
 }
 
 function f() {
+<<<<<<< HEAD
   // 1秒後に 10を表示
+=======
+  // shows 10 after 1 second
+>>>>>>> 6ab384f2512902d74e4b0ff5a6be60e48ab52e96
 *!*
   wait().then(result => alert(result));
 */!*
