@@ -33,11 +33,11 @@ JavaScript が作られたとき、すべてのグローバル変数と関数を
       alert(phrase);
     }
 
-    // windows から読める
+    // window から読める
     alert( window.phrase ); // Hello (グローバル var)
     alert( window.sayHi ); // function (グローバル関数宣言)
 
-    // windows へ書き込める (新しいグローバル変数作成)
+    // window へ書き込める (新しいグローバル変数作成)
     window.test = 5;
 
     alert(test); // 5
