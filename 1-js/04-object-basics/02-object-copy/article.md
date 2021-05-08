@@ -1,25 +1,29 @@
-# Object copying, references
+# オブジェクト参照とコピー
 
-One of the fundamental differences of objects vs primitives is that they are stored and copied "by reference".
+オブジェクトとプリミティブの基本的な違いの１つは、オブジェクトは "参照によって" 格納されたりコピーされることです。それに対して、プリミティブ値(文字列、数値、真偽値 など)は、常に "値" としてコピーされます。
 
-Primitive values: strings, numbers, booleans -- are assigned/copied "as a whole value".
+値をコピーするときに何が起きているのか少し詳しくみることで、簡単に理解できます。
 
-For instance:
+文字列のような、プリミティブから始めましょう。
+
+ここでは、`message` のコピーを `phrase` に格納します。:
 
 ```js
 let message = "Hello!";
 let phrase = message;
 ```
 
-As a result we have two independent variables, each one is storing the string `"Hello!"`.
+結果、2つの独立した変数ができます。それぞれが文字列 `"Hello!"` を格納しています。
 
 ![](variable-copy-value.svg)
 
-Objects are not like that.
+とても明白な結果ですね。
 
-**A variable stores not the object itself, but its "address in memory", in other words "a reference" to it.**
+オブジェクトはそうではありません。
 
-Here's the picture for the object:
+**オブジェクトに割り当てられた変数は、オブジェクト自体ではなく、"メモリ上のアドレス"、言い換えるとオブジェクトへの "参照" を格納します。**
+
+このような変数の例を見てみましょう:
 
 ```js
 let user = {
@@ -27,25 +31,35 @@ let user = {
 };
 ```
 
+そして、これはメモリ上に実際にどのように格納されているかを示します:
+
 ![](variable-contains-reference.svg)
 
-Here, the object is stored somewhere in memory. And the variable `user` has a "reference" to it.
+オブジェクトはメモリ上のどこか（図の右側）に格納され、`user` 変数（図の左側）は、そこへの "参照" を持ちます。
 
-**When an object variable is copied -- the reference is copied, the object is not duplicated.**
+`user` のようなオブジェクト変数は、オブジェクトのアドレスが記載された用紙と考えることができます。
 
-For instance:
+オブジェクトへのアクションを行う際（例えば プロパティ `user.name` を取得する）JavaScript エンジンはそのアドレスにあるものを見て、実際のオブジェクト上で操作を実行します。
+
+これが重要な理由です。
+
+**オブジェクト変数がコピーされた場合、参照はコピーされます。が、オブジェクト自体は複製されません。**
+
+例:
 
 ```js no-beautify
 let user = { name: "John" };
 
-let admin = user; // copy the reference
+let admin = user; // 参照のコピー
 ```
 
-Now we have two variables, each one with the reference to the same object:
+今、２つの変数があり、それぞれが同じオブジェクトへの参照を保持しています:
 
 ![](variable-copy-reference.svg)
 
-We can use any variable to access the object and modify its contents:
+ご覧の通り、依然として1つのオブジェクトですが、今はそのオブジェクトを参照している変数は2つです。
+
+どちらの変数を使用しても、オブジェクトにアクセスでき、その内容を変更することができます:
 
 ```js run
 let user = { name: 'John' };
@@ -53,19 +67,17 @@ let user = { name: 'John' };
 let admin = user;
 
 *!*
-admin.name = 'Pete'; // changed by the "admin" reference
+admin.name = 'Pete'; // "admin" の参照で変更されました
 */!*
 
-alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
+alert(*!*user.name*/!*); // 'Pete', "user" の参照からも変更が確認できます
 ```
 
-The example above demonstrates that there is only one object. As if we had a cabinet with two keys and used one of them (`admin`) to get into it. Then, if we later use another key (`user`) we can see changes.
+これは、２つの鍵があるキャビネットで、そのうちの1つ（`admin`）を使用して中身を取得したり変更したかのように捉えることができます。その後、別の鍵（`user`）を使って、同じキャビネットを開き、変更されたコンテンツにアクセスできます。
 
 ### 参照による比較
 
-オブジェクトの等価 `==` と厳密等価　`===` 演算子は、全く同じように動作します。
-
-**2つのオブジェクトは、同じオブジェクトのときだけ等しくなります。**
+２つのオブジェクトは、同じオブジェクトのときだけ等しくなります。
 
 例えば、2つの変数が同じオブジェクトを参照しているとき、それらは等しいです:
 
@@ -87,43 +99,6 @@ alert( a == b ); // false
 ```
 
 `obj1 > obj2` のような比較、もしくは反対にプリミティブ `obj == 5` のような比較では、オブジェクトはプリミティブに変換されます。私たちはオブジェクト変換がどのように動作するのか、この後すぐに学ぶでしょう。ただし、真実を言うと、このような比較はほとんど必要とされず、通常はコードの誤りです。
-
-### Const オブジェクト
-
-`const` として宣言されたオブジェクトは変更 *できます* 。
-
-例:
-
-```js run
-const user = {
-  name: "John"
-};
-
-*!*
-user.age = 25; // (*)
-*/!*
-
-alert(user.age); // 25
-```
-
-行 `(*)` はエラーを起こすように見えるかもしれませんが、それらは全く問題ありません。`const` は `user` 自身の値を固定するからです。そしてここで `user` は常に同じオブジェクトへの参照を保持します。行　`(*)` はオブジェクトの *内側* へ行っており、`user` の再代入ではありません。
-
-`const` は、もし `user` に他の何かをセットしようとしたときにエラーになります。例えば:
-
-```js run
-const user = {
-  name: "John"
-};
-
-*!*
-// エラー (user の再代入ができない)
-*/!*
-user = {
-  name: "Pete"
-};
-```
-
-...そうすると、もしオブジェクトのプロパティを定数にしたい場合はどうすればいいでしょう？ `user.age = 25` がエラーになるように。そうすることも可能です。 これについては、チャプター <info:property-descriptors> で説明します。
 
 ## クローンとマージ, Object.assign 
 
@@ -166,8 +141,10 @@ alert( user.name ); // 依然としてオリジナルのオブジェクトは Jo
 Object.assign(dest[, src1, src2, src3...])
 ```
 
-- 引数 `dest`, そして `src1, ..., srcN` (必要なだけ) はオブジェクトです。
-- すべてのオブジェクト `src1, ..., srcN` のプロパティを `dest` にコピーします。言い換えると、2つ目から始まる全ての引数のプロパティは、最初の引数のオブジェクトにコピーされます。そして `dest` を返します。
+- 最初の引数 `dest` はターゲットとなるオブジェクトです。
+- つづく引数 `src1, ..., srcN` (必要なだけ) は元となるオブジェクトです。
+- すべてのオブジェクト `src1, ..., srcN` のプロパティを `dest` にコピーします。言い換えると、2つ目から始まる全ての引数のプロパティは、最初の引数のオブジェクトにコピーされます。
+- `dest` を返します。
 
 例えば、いくつかのオブジェクトを1つにマージするために使います:
 ```js
@@ -184,18 +161,17 @@ Object.assign(user, permissions1, permissions2);
 // now user = { name: "John", canView: true, canEdit: true }
 ```
 
-もし、受け取ったオブジェクト (`user`) が既に同じプロパティ名のものをもっていたら、上書きします:
+もし、既に同じプロパティ名のものをもっていた場合、上書きします:
 
-```js
+```js run
 let user = { name: "John" };
 
-// name を上書き, isAdmin を追加
-Object.assign(user, { name: "Pete", isAdmin: true });
+Object.assign(user, { name: "Pete" });
 
-// now user = { name: "Pete", isAdmin: true }
+alert(user.name); // now user = { name: "Pete" }
 ```
 
-また、単純なクローンをする場合のループ処理を置き換えるために、`Object.assign` を使うこともできます。
+また、単純なクローンをする場合の `for..in`  ループ処理を置き換えるために、`Object.assign` を使うこともできます。
 
 ```js
 let user = {
@@ -208,11 +184,15 @@ let clone = Object.assign({}, user);
 */!*
 ```
 
-これは `user` のすべてのプロパティを空のオブジェクトにコピーし、返します。ループの場合と同じことをしますが、より短い記載になります。
+これは `user` のすべてのプロパティを空のオブジェクトにコピーし、返します。
 
-今まで、`user` のすべてのプロパティがプリミティブであると仮定していましたが、プロパティは他のオブジェクトの参照になることもあります。それらはどうなるでしょう？
+例えば、[spread syntax](info:rest-parameters-spread) `clone = {...user}` を使用するなど、オブジェクトをクローンする方法は他にもあります。これらはチュートリアルの後半で説明します。
 
-このような:
+## ネストされたクローン
+
+今までは、`user` のすべてのプロパティがプリミティブであると仮定していましたが、プロパティは他のオブジェクトの参照になることもあります。それらはどうなるでしょう？
+
+このような場合です:
 ```js run
 let user = {
   name: "John",
@@ -228,6 +208,7 @@ alert( user.sizes.height ); // 182
 今、`user.sizes` はオブジェクトであり、参照によるコピーがされるため、`clone.sizes = user.sizes` というコピーでは不十分です。なので、`clone` と `user` は同じ sizes を共有します:
 
 このようになります:
+
 ```js run
 let user = {
   name: "John",
@@ -248,20 +229,36 @@ alert(clone.sizes.width); // 51, 他方から変更した結果が見えます
 
 これを修正するには、`user[key]` の各値を調べ、それがオブジェクトの場合はその構造も複製するクローンのループを使用する必要があります。 これは "ディープクローン(ディープコピー)" と呼ばれます。
 
-上記のケースやより複雑なケースを処理するディープクローン作成のための標準的なアルゴリズムがあります、それは[Structured cloning algorithm](https://w3c.github.io/html/infrastructure.html#internal-structured-cloning-algorithm) と呼ばれています。
-車輪の再発明をしないために、JavaScript ライブラリ[lodash](https://lodash.com) にある処理を利用することができます。そのメソッドは [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) と呼ばれています。
+その実現のためには、再帰を使用する、あるいは、車輪の再発明をしないために、例えば既存の JavaScript ライブラリ[lodash](https://lodash.com) にある[_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) を利用することができます。
+
+````smart header="Const オブジェクトは変更可能です"
+オブジェクトを参照として格納する重要な副作用は、`const` として宣言されたオブジェクトは変更 *できます* 。
+
+例:
+
+```js run
+const user = {
+  name: "John"
+};
+
+*!*
+user.name = "Pete"; // (*)
+*/!*
+
+alert(user.name); // Pete
+```
+
+行 `(*)` はエラーを起こすように見えるかもしれませんが、それらは全く問題ありません。`const` は `user` 自身の値を固定するからです。そしてここで `user` は常に同じオブジェクトへの参照を保持します。行　`(*)` はオブジェクトの *内側* へ行っており、`user` の再代入ではありません。
+
+つまり、`const user` は `user=...` のように全体を設定しようとした場合にのみエラーになります。
+
+そうすると、もしオブジェクトのプロパティを定数にしたい場合、それも可能です。ですが全く異なるメソッドを使用します。これについては、チャプター <info:property-descriptors> で説明します。
+````
 
 ## Summary
 
-オブジェクトは、参照によって代入やコピーがされます。つまり、変数は "オブジェクトの値" ではなく、 値への "参照" (メモリ上のアドレス)を格納します。従って、このような変数をコピーしたり、それを関数の引数として渡すと、オブジェクトではなく参照がコピーされます。 コピーされた参照（プロパティの追加/削除など）によるすべての操作は、同じ単一のオブジェクトに対して実行されます。
+オブジェクトは、参照によって代入やコピーがされます。つまり、変数は "オブジェクトの値" ではなく、 値への "参照" (メモリ上のアドレス)を格納します。従って、このような変数をコピーしたり、それを関数の引数として渡すと、オブジェクトではなく参照がコピーされます。
 
-"本当のコピー" (クローン) をするためには、`Object.assign` または [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) を使います。
+コピーされた参照（プロパティの追加/削除など）によるすべての操作は、同じ単一のオブジェクトに対して実行されます。
 
-このチャプターで学んだのは、"普通のオブジェクト"、あるいは単に "オブジェクト" と呼ばれています。
-
-
-Objects are assigned and copied by reference. In other words, a variable stores not the "object value", but a "reference" (address in memory) for the value. So copying such a variable or passing it as a function argument copies that reference, not the object.
-
-All operations via copied references (like adding/removing properties) are performed on the same single object.
-
-To make a "real copy" (a clone) we can use `Object.assign` for the so-called "shallow copy" (nested objects are copied by reference) or a "deep cloning" function, such as [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
+"本当のコピー" (クローン) をするためには、いわゆる "shallow copy"（ネストされたオブジェクトは参照がコピーされる）`Object.assign` または [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) のような "deep cloning" 関数を使います。
