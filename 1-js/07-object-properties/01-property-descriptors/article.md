@@ -161,7 +161,7 @@ let user = {
 for (let key in user) alert(key); // name, toString
 ```
 
-もしもそれが好きじゃない場合には、`enumerable:false` をセットすることができます。そうすると、組み込みのものと同じように、`for..in` ループで表示されなくなります。:
+もし列挙されたくなければ、`enumerable:false` をセットすることができます。そうすると、組み込みのものと同じように、`for..in` ループで表示されなくなります。:
 
 ```js run
 let user = {
