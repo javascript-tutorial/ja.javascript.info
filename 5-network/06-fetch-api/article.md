@@ -149,7 +149,7 @@ fetch('https://another.com/page', {
 
 ```js
 fetch('http://site.com/file', {
-  integrity: 'sha256-abd'
+  integrity: 'sha256-abc'
 });
 ```
 
