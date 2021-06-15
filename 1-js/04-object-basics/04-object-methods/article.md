@@ -13,9 +13,15 @@ let user = {
 
 アクションは、JavaScriptではプロパティの中で関数で表現されます。
 
+<<<<<<< HEAD
 ## メソッド例 
 
 スタートとして、`user` が Hello と言うようにしましょう:
+=======
+## Method examples
+
+For a start, let's teach the `user` to say hello:
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ```js run
 let user = {
@@ -32,11 +38,19 @@ user.sayHi = function() {
 user.sayHi(); // Hello!
 ```
 
+<<<<<<< HEAD
 ここでは関数を作るために関数式を使い、それをオブジェクトの `user.sayHi` プロパティに代入しました。
 
 その後、関数を呼ぶことができます。ユーザは今話すことができます!
 
 オブジェクトのプロパティの関数は、*メソッド* と呼ばれます。
+=======
+Here we've just used a Function Expression to create a function and assign it to the property `user.sayHi` of the object.
+
+Then we can call it as `user.sayHi()`. The user can now speak!
+
+A function that is a property of an object is called its *method*.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 従って、ここではオブジェクト `user` のメソッド `sayHi` を作りました。
 
@@ -60,10 +74,17 @@ user.sayHi = sayHi;
 user.sayHi(); // Hello!
 ```
 
+<<<<<<< HEAD
 ```smart header="オブジェクト指向プログラミング"
 エンティティを表現するためにオブジェクトを使ってコードを書くとき、それは、[object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming), 略すと "OOP" とばれます。
 
 OOPは大きなものであり、それ自体の興味深い科学です。 正しいエンティティを選択するにはどうすればいいですか？ どのようにそれらの間の相互作用を整理しますか？それはアーキテクチャーであり、それらは E.Gamma, R.Helm, R.Johnson, J.Vissides による"Design Patterns: Elements of Reusable Object-Oriented Software" または G.Booch による "Object-Oriented Analysis and Design with Applications" などのような、そのトピックについての素晴らしい本があります。私たちは、チャプター <info:object-oriented-programming> の後半でそのトピックの表面について触れます。
+=======
+```smart header="Object-oriented programming"
+When we write our code using objects to represent entities, that's called [object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming), in short: "OOP".
+
+OOP is a big thing, an interesting science of its own. How to choose the right entities? How to organize the interaction between them? That's architecture, and there are great books on that topic, like "Design Patterns: Elements of Reusable Object-Oriented Software" by E. Gamma, R. Helm, R. Johnson, J. Vissides or "Object-Oriented Analysis and Design with Applications" by G. Booch, and more.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 ```
 ### メソッドの短縮表現
 
@@ -72,16 +93,23 @@ OOPは大きなものであり、それ自体の興味深い科学です。 正�
 ```js
 // これらのオブジェクトは同じことをします
 
-let user = {
+user = {
   sayHi: function() {
     alert("Hello");
   }
 };
 
+<<<<<<< HEAD
 // メソッド簡略化はスッキリ見えますね
 let user = {
 *!*
   sayHi() { // "sayHi: function()" と同じです
+=======
+// method shorthand looks better, right?
+user = {
+*!*
+  sayHi() { // same as "sayHi: function(){...}"
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 */!*
     alert("Hello");
   }
@@ -111,7 +139,11 @@ let user = {
 
   sayHi() {
 *!*
+<<<<<<< HEAD
     // "this" は "現在のオブジェクト"
+=======
+    // "this" is the "current object"
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
     alert(this.name);
 */!*
   }
@@ -161,7 +193,11 @@ let admin = user;
 user = null; // 明らかにするために上書きします
 
 *!*
+<<<<<<< HEAD
 admin.sayHi(); // Whoops! sayHi() の中で古い名前が使われました! エラーです!
+=======
+admin.sayHi(); // TypeError: Cannot read property 'name' of null
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 */!*
 ```
 
@@ -169,9 +205,15 @@ admin.sayHi(); // Whoops! sayHi() の中で古い名前が使われました! �
 
 ## "this" はバインドされていません 
 
+<<<<<<< HEAD
 JavaScriptでは、 "this" キーワードは他のほとんどのプログラミング言語とは異なる振る舞いをします。まず、どの関数にでも使えます。
 
 このようなコードも構文エラーにはなりません:
+=======
+In JavaScript, keyword `this` behaves unlike most other programming languages. It can be used in any function, even if it's not a method of an object.
+
+There's no syntax error in the following example:
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ```js
 function sayHi() {
@@ -179,9 +221,15 @@ function sayHi() {
 }
 ```
 
+<<<<<<< HEAD
 `this` の値は実行時に評価されます。そしてそれは何にでもなれます。
 
 例えば、異なるオブジェクトから呼ばれた場合、同じ関数でも異なる "this" を持つ可能性があります:
+=======
+The value of `this` is evaluated during the run-time, depending on the context.
+
+For instance, here the same function is assigned to two different objects and has different "this" in the calls:
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ```js run
 let user = { name: "John" };
@@ -192,7 +240,11 @@ function sayHi() {
 }
 
 *!*
+<<<<<<< HEAD
 // 2つのオブジェクトで同じ関数を使う
+=======
+// use the same function in two objects
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 user.f = sayHi;
 admin.f = sayHi;
 */!*
@@ -205,10 +257,17 @@ admin.f(); // Admin  (this == admin)
 admin['f'](); // Admin (ドットでも角括弧でも問題なくメソッドにアクセスできます)
 ```
 
+<<<<<<< HEAD
 ルールはシンプルです。`obj.f()` が呼び出されると、`this` は `f` の呼び出し中は `obj` です。なので、上の例では `user` あるいは `admin` です。
 
 ````smart header="オブジェクトなしでの呼び出し: `this == undefined`"
 オブジェクトまったくなしで関数を呼び出すこともできます:
+=======
+The rule is simple: if `obj.f()` is called, then `this` is `obj` during the call of `f`. So it's either `user` or `admin` in the example above.
+
+````smart header="Calling without an object: `this == undefined`"
+We can even call the function without an object at all:
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ```js run
 function sayHi() {
@@ -218,6 +277,7 @@ function sayHi() {
 sayHi(); // undefined
 ```
 
+<<<<<<< HEAD
 このケースでは、 strict モードでは `this` は `undefined` になります。もし `this.name` にアクセスしようとするとエラーになります。
 
 非 strict モード(誰かが `use strict` を忘れた場合)では、このようなケースでは `this` の値は *グローバルオブジェクト* (ブラウザでは `window`, 後ほど学びます)になります。これは `"use strict"` が修正した歴史的な振る舞いです。
@@ -236,6 +296,26 @@ JavaScriptでは、 `this` は "自由" です。その値は実行時に評価�
 ```
 
 ## アロー関数は "this" を持ちません 
+=======
+In this case `this` is `undefined` in strict mode. If we try to access `this.name`, there will be an error.
+
+In non-strict mode the value of `this` in such case will be the *global object* (`window` in a browser, we'll get to it later in the chapter [](info:global-object)). This is a historical behavior that `"use strict"` fixes.
+
+Usually such call is a programming error. If there's `this` inside a function, it expects to be called in an object context.
+````
+
+```smart header="The consequences of unbound `this`"
+If you come from another programming language, then you are probably used to the idea of a "bound `this`", where methods defined in an object always have `this` referencing that object.
+
+In JavaScript `this` is "free", its value is evaluated at call-time and does not depend on where the method was declared, but rather on what object is "before the dot".
+
+The concept of run-time evaluated `this` has both pluses and minuses. On the one hand, a function can be reused for different objects. On the other hand, the greater flexibility creates more possibilities for mistakes.
+
+Here our position is not to judge whether this language design decision is good or bad. We'll understand how to work with it, how to get benefits and avoid problems.
+```
+
+## Arrow functions have no "this"
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 アロー関数は特別です: それらは "自身の" `this` を持ちません。もしこのような関数で `this` を参照した場合、外部の "通常の" 関数から取得されます。
 
@@ -262,9 +342,16 @@ user.sayHi(); // Ilya
 - メソッドを使うと、オブジェクトは `object.doSomething()` のように "振る舞う" ことができます。
 - メソッドはオブジェクトを `this` で参照することができます。
 
+<<<<<<< HEAD
 `this` の値は実行時に定義されます。
 - 関数が宣言されている場合、`this` を使うことができますが、その `this` は関数が呼び出されるまで値を持っていません。
 - その関数はオブジェクト間でコピーできます。
 - 関数が "メソッド" 構文で呼び出されたとき: `object.method()`, 呼び出し中の `this` の値は、`object` です。
+=======
+The value of `this` is defined at run-time.
+- When a function is declared, it may use `this`, but that `this` has no value until the function is called.
+- A function can be copied between objects.
+- When a function is called in the "method" syntax: `object.method()`, the value of `this` during the call is `object`.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 アロー関数は特別であることに注意してください: それは　`this` を持っていません。`this` がアロー関数の中でアクセスされるとき、それは外側から取得されます。

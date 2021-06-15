@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # mocha による自動テスト
 
 多くのタスクがある場合、自動テストが使用され、実際のプロジェクトでも広く利用されています。
@@ -7,6 +8,13 @@
 関数を書くとき、通常それが何をすべきかをイメージできます: どのパラメータがどのような結果を与えるか。
 
 開発中、私たちは関数を実行し、その結果と期待値を比較することで確認を行うことができます。例えば、コンソール上でそれを行うことができます。
+=======
+# Automated testing with Mocha
+
+Automated testing will be used in further tasks, and it's also widely used in real projects.
+
+## Why do we need tests?
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 もし何かが間違っていたら -- コードを直し、再度実行し結果を確認 -- を期待通り動くまで行います。
 
@@ -22,21 +30,41 @@
 
 ## ビヘイビア駆動開発(BDD) 
 
+<<<<<<< HEAD
 [ビヘイビア駆動開発](http://en.wikipedia.org/wiki/Behavior-driven_development),もしくは BDD と呼ばれるテクニックを使ってみましょう。そのアプローチは多くのプロジェクトで使われています。なお、BDDは単なるテストについてのものではありません。それ以上です。
+=======
+**Automated testing means that tests are written separately, in addition to the code. They run our functions in various ways and compare results with the expected.**
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 **BDD には3つのことがあります。テスト、ドキュメント、そして例です。**
 
+<<<<<<< HEAD
 BDD を理解するために、実際の開発ケースを検討していきましょう。
+=======
+Let's start with a technique named [Behavior Driven Development](http://en.wikipedia.org/wiki/Behavior-driven_development) or, in short, BDD.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ## "pow" の開発: 仕様 
 
+<<<<<<< HEAD
 `x` の `n` 乗をする関数 `pow(x, n)` を作りたいとしましょう。`n≥0` と仮定します。
+=======
+To understand BDD, we'll examine a practical case of development.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 このタスクは例です: JavaScriptでは既にそれをするための `**` 演算子があります。が、ここではより複雑なタスクに対しても同様に適応が可能な *開発フロー* に集中します。
 
 私たちは、`pow` のコードを作成する前に、関数が何をすべきかを考えます。
 
+<<<<<<< HEAD
 このようなことに関する記述は *仕様*、もしくはスペックと呼ばれ、次のようになります:
+=======
+That task is just an example: there's the `**` operator in JavaScript that can do that, but here we concentrate on the development flow that can be applied to more complex tasks as well.
+
+Before creating the code of `pow`, we can imagine what the function should do and describe it.
+
+Such description is called a *specification* or, in short, a spec, and contains descriptions of use cases together with tests for them, like this:
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ```js
 describe("pow", function() {
@@ -51,19 +79,32 @@ describe("pow", function() {
 上記の通り、仕様は三つの主要な構成要素を持っています:
 
 `describe("title", function() { ... })`
+<<<<<<< HEAD
 : 何の機能を記述しているか。"ワーカー" -- `it` のブロックのことです、をグループ化するために使います。このケースでは、関数 `pow` について記述しています。
 
 `it("title", function() { ... })`
 : `it` のタイトルでは、特定のユースケースを人間が読めるように記述し、２つ目の引数は、それをテストするための関数です。
+=======
+: What functionality we're describing. In our case we're describing the function `pow`. Used to group "workers" -- the `it` blocks.
+
+`it("use case description", function() { ... })`
+: In the title of `it` we *in a human-readable way* describe the particular use case, and the second argument is a function that tests it.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 `assert.equal(value1, value2)`
 : `it` ブロックの中のコードです。もし実装が正しければエラーなく実行されます。
 
     関数 `assert.*` は`pow`が期待通り動作するかをチェックするために使われます。ここでは、その1つを使っています -- `assert.equal`。それは引数を比較し、等しくない場合にエラーを返します。ここでは `pow(2, 3)` の結果が `8` と等しいかをチェックします。
 
+<<<<<<< HEAD
     他のタイプの比較やチェックもたくさんあります。
 
 ## 開発フロー 
+=======
+    Functions `assert.*` are used to check whether `pow` works as expected. Right here we're using one of them -- `assert.equal`, it compares arguments and yields an error if they are not equal. Here it checks that the result of `pow(2, 3)` equals `8`. There are other types of comparisons and checks, that we'll add later.
+
+The specification can be executed, and it will run the test specified in `it` block. We'll see that later.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 開発フローは通常このようになります:
 
@@ -75,11 +116,27 @@ describe("pow", function() {
 6. 3に戻り、テストのエラーが無くなるまで実装を更新します。
 7. 機能が完成するまで3-6のステップを繰り返します。
 
+<<<<<<< HEAD
 上で分かる通り、開発は *反復* です。仕様を書き、それを実装し、テストが通ることを確認し、さらにテストを書いて、それらが動作することを確認します。最終的に、動作する実装とテストができ上がります。
+=======
+1. An initial spec is written, with tests for the most basic functionality.
+2. An initial implementation is created.
+3. To check whether it works, we run the testing framework [Mocha](http://mochajs.org/) (more details soon) that runs the spec. While the functionality is not complete, errors are displayed. We make corrections until everything works.
+4. Now we have a working initial implementation with tests.
+5. We add more use cases to the spec, probably not yet supported by the implementations. Tests start to fail.
+6. Go to 3, update the implementation till tests give no errors.
+7. Repeat steps 3-6 till the functionality is ready.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 実践的なケースでこの開発フローをみていきましょう。
 
+<<<<<<< HEAD
 最初のステップはすでに完了です: `pow` の初期仕様を持っています。では、実装を行う前に、テストを実行するためのいくつかの JavaScript ライブラリを利用してそれらが動作することを見ててみましょう(テスト自体は失敗します)。
+=======
+Let's see this development flow in our practical case.
+
+The first step is already complete: we have an initial spec for `pow`. Now, before making the implementation, let's use few JavaScript libraries to run the tests, just to see that they are working (they will all fail).
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ## アクションの仕様 
 
@@ -96,7 +153,11 @@ describe("pow", function() {
 ```html src="index.html"
 ```
 
+<<<<<<< HEAD
 ページは４つのパートに分かれています:
+=======
+The page can be divided into five parts:
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 1. `<head>` -- テストのためのサードパーティーのライブラリやスタイルの追加
 2. テストするための関数の `<script>`、このケースでは -- `pow` のコードです。
@@ -110,14 +171,18 @@ describe("pow", function() {
 
 現時点ではテストは失敗しエラーが起きます。それは当然です: `pow` のコードは空なので、`pow(2, 3)` は `8` ではなく `undefined` を返します。
 
+<<<<<<< HEAD
 なお、将来的には、[karma](https://karma-runner.github.io/) のような高度なテストランナーがあることを心に留めておきましょう。一般的には、それらを利用することで多数の異なるテストのセットアップは問題にはなりません。
+=======
+For the future, let's note that there are more high-level test-runners, like [karma](https://karma-runner.github.io/) and others, that make it easy to autorun many different tests.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ## 初期の実装 
 
 テストを通すため、`pow` を実装しましょう:
 
 ```js
-function pow() {
+function pow(x, n) {
   return 8; // :) we cheat!
 }
 ```
@@ -132,7 +197,11 @@ function pow() {
 
 ...テストは通るが、関数は誤った動作するという状況は非常に典型的で、実践で起こります。私たちの仕様は不完全であり、ユースケースの追加が必要です。
 
+<<<<<<< HEAD
 `pow(3, 4) = 81` を確認するテストを追加しましょう。
+=======
+Let's add one more test to check that `pow(3, 4) = 81`.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ここで、テストを整理するために、次のいずれかの方法を選ぶことができます:
 
@@ -159,8 +228,8 @@ function pow() {
         assert.equal(pow(2, 3), 8);
       });
 
-      it("3 raised to power 3 is 27", function() {
-        assert.equal(pow(3, 3), 27);
+      it("3 raised to power 4 is 81", function() {
+        assert.equal(pow(3, 4), 81);
       });
 
     });
@@ -182,7 +251,11 @@ function pow() {
 
 [iframe height=250 src="pow-2" edit border="1"]
 
+<<<<<<< HEAD
 予想通り、2つ目のテストは失敗しました。もちろん、`assert` が `27` を期待する一方、関数は常に `8` を返します。
+=======
+As we could expect, the second test failed. Sure, our function always returns `8`, while the `assert` expects `81`.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 ## 実装を改善する 
 
@@ -233,7 +306,7 @@ describe("pow", function() {
 describe("pow", function() {
 
 *!*
-  describe("raises x to power n", function() {
+  describe("raises x to power 3", function() {
 */!*
 
     function makeTest(x) {
@@ -296,7 +369,11 @@ Testing finished – after all tests (after)
 
 [edit src="beforeafter" title="Open the example in the sandbox."]
 
+<<<<<<< HEAD
 通常、`beforeEach/afterEach` (`before/each`) は初期化の実行のために使われ、カウンタをゼロにしたり、テストの間で何かをするときに使われます。
+=======
+Usually, `beforeEach/afterEach` and `before/after` are used to perform initialization, zero out counters or do something else between the tests (or test groups).
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 ````
 
 ## 仕様を拡張する 
@@ -335,11 +412,18 @@ describe("pow", function() {
 
 現時点の実装はそれらをサポートしていないので、新たに追加されたテストは失敗します。それが BDD の仕組みです: 最初に失敗するテストを書き、次にそれらのための実装を作ります。
 
+<<<<<<< HEAD
 ```smart header="他のアサーション"
 
 `assert.isNaN` のアサーションに注目してください: `NaN` のチェックです。
 
 Chaiには他にもアサーションがあります、例えば:
+=======
+```smart header="Other assertions"
+Please note the assertion `assert.isNaN`: it checks for `NaN`.
+
+There are other assertions in [Chai](http://chaijs.com) as well, for instance:
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 - `assert.equal(value1, value2)` -- 等しいかどうかをチェックします  `value1 == value2`.
 - `assert.strictEqual(value1, value2)` -- 厳密な等価チェックをします `value1 === value2`.
@@ -377,7 +461,13 @@ function pow(x, n) {
 
 BDDでは、仕様が最初で実装はそれに従います。最終的に仕様とコードを持つ事になります。
 
+<<<<<<< HEAD
 仕様は３つの方法で使うことが出来ます:
+=======
+1. As **Tests** - they guarantee that the code works correctly.
+2. As **Docs** -- the titles of `describe` and `it` tell what the function does.
+3. As **Examples** -- the tests are actually working examples showing how a function can be used.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 1. **テスト** コードが正しく動作するこをと保証します。
 2. **ドキュメント** -- `describe` と `it` のタイトルはその関数がすることを示します。
@@ -387,23 +477,40 @@ BDDでは、仕様が最初で実装はそれに従います。最終的に仕�
 
 関数が多くの場所で使われる場合、大規模なプロジェクトではそれが特に重要になります。このような関数を変更するとき、それを使う全ての箇所で正しく動作するかを手動で確認する方法はありません。
 
+<<<<<<< HEAD
 テストがない場合、2つの道があります:
 
 1. たとえ何が起ころうと関係なく、変更(修正)を行います。そして、恐らく手動では何かをチェックしそこない、ユーザがバグに遭遇します。
 2. もしくは、エラーへの罰が厳しい場合、人々はこのような関数を変更することを恐れるようになります。そして関数は古くなり、クモの巣が生い茂り誰もその中に入りたくなくなります。それは良いことではありません。
 
 **自動テストコードはその反対です!**
+=======
+1. To perform the change, no matter what. And then our users meet bugs, as we probably fail to check something manually.
+2. Or, if the punishment for errors is harsh, as there are no tests, people become afraid to modify such functions, and then the code becomes outdated, no one wants to get into it. Not good for development.
+
+**Automatic testing helps to avoid these problems!**
+
+If the project is covered with tests, there's just no such problem. After any changes, we can run tests and see a lot of checks made in a matter of seconds.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 もしプロジェクトがテストでカバーされていれば、このような問題はありません。私たちはテストを走らせ、あっという間に多くの確認結果を知ることができます。
 
+<<<<<<< HEAD
 **さらに、よくテストされたコードは、より良いアーキテクチャを持っています。**
+=======
+Naturally, that's because auto-tested code is easier to modify and improve. But there's also another reason.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 もちろん、自動テストされたコードは修正や改善が容易だからです。が、他の理由もあります。
 
 テストを書くためには、すべての関数が明確に記述されたタスク、よく定義された入力と出力を持つようにコードを編成する必要があります。それは最初からよいアーキテクチャであることを意味します。
 
+<<<<<<< HEAD
 実際にはそう簡単なことではありません。どのような挙動をするべきかまだ明確でない場合、実際のコードの前に仕様を書くのが難しいときもあります。しかし、一般的には、テストを書くことは開発を速く、より安定させます。
 
 チュートリアルの後半では、テストが組み込まれた多くのタスクに出会います。なのでより実用的な例が見られるでしょう。
+=======
+Later in the tutorial you will meet many tasks with tests baked-in. So you'll see more practical examples.
+>>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
 
 テストを書くには、JavaScript に関する十分な知識が必要です。しかし、まだそれらを学び始めたばかりなので、いま時点ではテストを書くのは必須ではありませんが、このチャプターよりも少し複雑な例であってもすでテストを読むことができるはずです。
