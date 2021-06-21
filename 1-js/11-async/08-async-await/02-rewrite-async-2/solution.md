@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD:1-js/11-async/08-async-await/02-rewrite-async-2/solution.md
 ここには細工はありません。単に `demoGithubUser` の中の `.catch` を `try...catch` に置き換え、必要な場所に  `async/await` を追加しています:
+=======
+There are no tricks here. Just replace `.catch` with `try..catch` inside `demoGithubUser` and add `async/await` where needed:
+>>>>>>> 8558fa8f5cfb16ef62aa537d323e34d9bef6b4de:1-js/11-async/08-async-await/02-rewrite-async-2/solution.md
 
 ```js run
 class HttpError extends Error {
