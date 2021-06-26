@@ -2,8 +2,6 @@
 
 配列は多くのメソッドを提供します。分かりやすくするために、このチャプターではグループに分けて説明します。
 
-[cut]
-
 ## アイテムの追加/削除 
 
 私たちは既に先頭または末尾にアイテムを追加/削除するメソッドを知っています:
@@ -131,15 +129,14 @@ arr.slice(start, end)
 例:
 
 ```js run
-let str = "test";
 let arr = ["t", "e", "s", "t"];
 
-alert( str.slice(1, 3) ); // es
-alert( arr.slice(1, 3) ); // e,s
+alert( arr.slice(1, 3) ); // e,s (1 から 3 をコピー)
 
-alert( str.slice(-2) ); // st
-alert( arr.slice(-2) ); // s,t
+alert( arr.slice(-2) ); // s,t (-2 から末尾まで)
 ```
+
+引数なし `arr.slice()` でも呼び出すことができ、これは `arr` のコピーを生成します。これは、オリジナルの配列に影響を与えない形でさらに変換するためのためのコピーを取得するのによく使用されます。
 
 ### concat
 
@@ -183,10 +180,9 @@ let arrayLike = {
 };
 
 alert( arr.concat(arrayLike) ); // 1,2,[object Object]
-//[1, 2, arrayLike]
 ```
 
-...しかし、もし配列のようなオブジェクトが `Symbol.isConcatSpreadable` プロパティを持つ場合、代わりにその要素が追加されます:
+...しかし、もし配列のようなオブジェクトが `Symbol.isConcatSpreadable` プロパティを持つ場合、`concat` は配列として扱います。つまり、代わりにその要素が追加されます:
 
 ```js run
 let arr = [1, 2];
@@ -208,7 +204,6 @@ alert( arr.concat(arrayLike) ); // 1,2,something,else
 [arr.forEach](mdn:js/Array/forEach) メソッドは配列の全要素に対して関数を実行することができます。
 
 構文:
-
 ```js
 arr.forEach(function(item, index, array) {
   // ... item に対して何か処理をする
@@ -231,6 +226,7 @@ arr.forEach(function(item, index, array) {
 ```
 
 関数の結果(もし何かを返す場合)は捨てられ、無視されます。
+
 
 ## 配列での検索 
 
@@ -277,7 +273,8 @@ alert( arr.includes(NaN) );// true (正しい)
 構文はこうです:
 ```js
 let result = arr.find(function(item, index, array) {
-  // item が探しているものであれば true を返すようにします
+  // true が返却されると、item が返却され、イテレーションは停止します
+  // 偽の場合は undefined です
 });
 ```
 
@@ -312,13 +309,15 @@ alert(user.name); // John
 ### filter
 
 `find` メソッドは、関数が `true` を返すようにする単一の（最初の）要素を探します。
-もしそれが多い場合、[arr.filter(fn)](mdn:js/Array/filter) を使います。
 
-構文は大体 `find` と同じですが、マッチした要素の配列を返します:
+もし複数になる可能性がある場合、[arr.filter(fn)](mdn:js/Array/filter) を使います。
+
+構文は大体 `find` と同じですが、`filter` はマッチしたすべて要素の配列を返します:
 
 ```js
 let results = arr.filter(function(item, index, array) {
-  // item がフィルタを通過する場合はtrueを返します
+  // true の場合、item は results にプッシュされ、イテレーションは継続します
+  // 何も見つからない場合は、空配列を返します
 });
 ```
 
@@ -345,15 +344,15 @@ alert(someUsers.length); // 2
 
 [arr.map](mdn:js/Array/map) メソッドは最も便利なものの1つで、よく使われます。
 
-構文:
+これは、配列の各要素に対して関数を呼び出し、結果の配列を返します。
+
+構文は次の通りです:
 
 ```js
 let result = arr.map(function(item, index, array) {
   // item の代わりに新しい値を返します
 })
 ```
-
-これは、配列の各要素で関数を呼び出し、結果の配列を返します。
 
 例えば、ここでは各要素をその長さに変換します:
 
@@ -364,7 +363,9 @@ alert(lengths); // 5,7,6
 
 ### sort(fn)
 
-メソッド [arr.sort](mdn:js/Array/sort) は配列を *決まった位置に* ソートします。
+メソッド [arr.sort](mdn:js/Array/sort) は配列を *決まった位置に* ソートし、要素の順番を変更します。
+
+これもソートされた配列を返しますが、`arr` 自身が変更されるので、返却値は通常無視されます。
 
 例:
 
@@ -425,6 +426,7 @@ alert(arr);  // *!*1, 2, 15*/!*
 ```js run
 [1, -2, 15, 2, 0, 8].sort(function(a, b) {
   alert( a + " <> " + b );
+  return a - b;
 });
 ```
 
@@ -452,6 +454,22 @@ arr.sort( (a, b) => a - b );
 ```
 
 これは、他の上で書いているより長いバージョンとまったく同じように動作します。
+````
+
+````smart header="文字列には `localeCompare` を使用します"
+[strings](info:string#correct-comparisons)の比較アルゴリズムを思い出してください。デフォルトではコードで文字比較を行います。
+
+多くのアルファベットでは、`Ö` などの文字のソートを正しく行うためのメソッド `str.localeCompare` を使用するのがよいです。
+
+例えば、ドイツ語でいくつかの国をソートしてみましょう:
+
+```js run
+let countries = ['Österreich', 'Andorra', 'Vietnam'];
+
+alert( countries.sort( (a, b) => a > b ? 1 : -1) ); // Andorra, Vietnam, Österreich (間違い)
+
+alert( countries.sort( (a, b) => a.localeCompare(b) ) ); // Andorra,Österreich,Vietnam (正しい!)
+```
 ````
 
 ### reverse
@@ -519,7 +537,7 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 
 ### reduce/reduceRight
 
-配列に対して繰り返し処理が必要なときは、`forEach` を使うことができます。
+配列に対して繰り返し処理が必要なときは、`forEach`, `for` あるいは `for..if` を使うことができます。
 
 各要素のデータを反復して返す必要があるときには、`map`を使うことができます。
 
@@ -528,20 +546,25 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 構文:
 
 ```js
-let value = arr.reduce(function(previousValue, item, index, arr) {
+let value = arr.reduce(function(accumulator, item, index, arr) {
   // ...
 }, initial);
 ```
 
-関数は各要素に適用されます。あなたはよく知られている引数に気づくかもしれません。2つ目から始まる引数は次の通りです:
+関数は各要素に順番に適用され、その結果を次の呼び出しに "引き継ぎ" ます:
 
+引数: 
+
+- `accumulator` - 前の関数呼び出しの結果で、初回は `initial` と等価です（`initial` が指定されている場合）
 - `item` -- 現在の配列の項目です。
-- `index` -- その位置です。
+- `index` -- 位置です。
 - `arr` -- 配列です。
 
-これまでのところ、`forEach/map` のようです。しかし、もう１つ引数があります:
+関数が適用されると、前の関数呼び出しの結果が、次の関数呼び出しの最初の引数として渡されます。
 
-- `previousValue` -- 前の関数の呼び出し結果です。最初の呼び出しは `initial` です。
+したがって、最初の引数は基本的に、以前のすべての実行の結合結果を格納するアキュムレータです。そして、最後にそれは `reduce` の結果になります。
+
+複雑に見えますか？
 
 これを掴むための最も簡単な方法は、例を見る、です。
 
