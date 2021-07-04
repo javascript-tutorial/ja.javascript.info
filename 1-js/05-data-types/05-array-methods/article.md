@@ -578,12 +578,11 @@ let result = arr.reduce((sum, current) => sum + current, 0);
 alert(result); // 15
 ```
 
-ここでは、2つの引数だけを使用する `reduce` の最も一般的なバリアントを使用しました。
-
+ここでは、2つの引数だけを使用する `reduce` の最も一般的なパターンを使用しました。
 
 何が起きているか、詳細を見てみましょう。
 
-1. 最初の実行で `sum` は initial 値(`reduce` の最後の引数)であり、 `0` と等価です。そして、 `current` は最初の配列要素で `1` になります。従って、結果は `1` です。
+1. 最初の実行で `sum` は `initial` 値(`reduce` の最後の引数)であり、 `0` です。そして、`current` は最初の配列要素で `1` になります。従って、結果は `1` です。
 2. ２回目の実行では、`sum = 1` で、2つ目の配列要素(`2`)をそれに足して返します。
 3. ３回目の実行では、`sum = 3` で、それに１つ要素を足します。それが続きます。
 
@@ -634,6 +633,7 @@ arr.reduce((sum, current) => sum + current);
 
 [arr.reduceRight](mdn:js/Array/reduceRight) メソッドも同じをことを行いますが、右から左に実行します。
 
+
 ## Array.isArray 
 
 配列は別の言語の型を形成しません。 それらはオブジェクトに基づいています。
@@ -671,31 +671,37 @@ arr.map(func, thisArg);
 
 `thisArg` パラメータの値は `func` での `this` になります。
 
-例えば、ここではオブジェクトメソッドをフィルタとして使用し、`thisArg` が役立ちます。:
+例えば、ここでは filter で `army` オブジェクトのメソッドを使用し、`thisArg` はそのコンテキストを渡します。:
 
 ```js run
-let user = {
-  age: 18,
-  younger(otherUser) {
-    return otherUser.age < this.age;
+let army = {
+  minAge: 18,
+  maxAge: 27,
+  canJoin(user) {
+    return user.age >= this.minAge && user.age < this.maxAge;
   }
 };
 
 let users = [
-  {age: 12},
   {age: 16},
-  {age: 32}
+  {age: 20},
+  {age: 23},
+  {age: 30}
 ];
 
 *!*
-// user より若いすべてのユーザを見つけます
-let youngerUsers = users.filter(user.younger, user);
+// army.canJoin が true となるユーザを見つけます
+let soldiers = users.filter(army.canJoin, army);
 */!*
 
-alert(youngerUsers.length); // 2
+alert(soldiers.length); // 2
+alert(soldiers[0].age); // 20
+alert(soldiers[1].age); // 23
 ```
 
-上の呼び出しでは、フィルタとして `user.younger` を使い、そのコンテキストとして `user` を提供しています。もしもコンテキストを提供しなかった場合、`users.filter(user.younger)` はスタンドアロン関数として `this=undefined` で `user.younger` を呼び出します。それは即時エラーを意味します。
+もし上の例で `users.filter(army.canJoin)` としていた場合、`army.canJoin` はスタンドアローンの関数として呼び出されるため、`this=undefined` であり、即時エラーになります。
+
+呼び出し `users.filter(army.canJoin, army)` は `users.filter(user => army.canJoin(user))` に置き換え可能であり、同じことをします。多くの人にとってより理解しやすいので、後者の方がよく利用されます。
 
 ## サマリ 
 
@@ -716,15 +722,15 @@ alert(youngerUsers.length); // 2
   - `find/filter(func)` -- 関数を介して要素をフィルタリングし、`true` を返す最初の/すべての値を返します。
   - `findIndex` は `find` のようですが、値の代わりにインデックスを返します。
 
+- 要素を反復処理するには:
+  - `forEach(func)` -- すべての要素に対して `func`を呼び出し、何も返しません。
+
 - 配列を変換するには:
   - `map(func)` -- すべての要素に対して `func` を呼び出した結果から新しい配列を作成します。
   - `sort(func)` -- 配列を適切な位置でソートし、それを返します。
   - `reverse()` -- 配列を反転してそれを返します。
   - `split/join` -- 文字列を配列に変換したり、戻します。
-  - `reduce(func, initial)` -- 各要素に対して `func`を呼び出し、呼び出しの間に中間結果を渡すことで配列全体の単一の値を計算します。
-
-- 要素を反復処理するには:
-  - `forEach(func)` -- すべての要素に対して `func`を呼び出し、何も返しません。
+  - `reduce/reduceRight(func, initial)` -- 各要素に対して `func`を呼び出し、呼び出しの間に中間結果を渡すことで配列全体の単一の値を計算します。
 
 - さらに:
   - `Array.isArray(arr)` は `arr` が配列かどうかをチェックします。
@@ -737,9 +743,22 @@ alert(youngerUsers.length); // 2
 
   関数 `fn` は `map` と同じように配列の各要素で呼ばれます。もし どれか/すべて の結果が `true` であれば `true`, それ以外は `false` になります。
 
+  これらのメソッドは `||` や `&&` 演算子のように振る舞います。もし `fn` が真の値を返す場合、`arr.some()` はすぐに `true` を返し、残りの項目に対するイテレーションを停止します。`fn` が偽の値を返す場合は、`arr.every()` はすぐに `false` を返し、同様に残りの項目のイテレーションは停止します。
+
+  `every` は配列を比較するのに使えます:
+  ```js run
+  function arraysEqual(arr1, arr2) {
+    return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+  }
+
+  alert( arraysEqual([1, 2], [1, 2])); // true
+  ```
+
 - [arr.fill(value, start, end)](mdn:js/Array/fill) -- インデックス `start` から `end` まで `value` で配列を埋めます。
 
 - [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- 位置 `start` から `end` までの要素を、*自身* の `target` の位置にコピーします (既存のものを上書きします)。
+
+- [arr.flat(depth)](mdn:js/Array/flat)/[arr.flatMap(fn)](mdn:js/Array/flatMap) は多次元配列からフラットな配列を生成します。
 
 完全なリストは [manual](mdn:js/Array) を見てください。
 
