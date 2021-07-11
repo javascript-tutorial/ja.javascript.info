@@ -41,6 +41,12 @@ alert( map.size ); // 3
 
 上の通り、オブジェクトとは違い、キーは文字列には変換されません。任意の型のキーが利用可能です。
 
+```smart header="`map[key]` は `Map` を使用する正しい方法ではありません"
+例えば、`map[key] = 2` のように、`map[key]` でも動作しますが、これは `map` を通常の JavaScript オブジェクトとして扱っているので、対応するすべての制限（文字列/シンボルキーのみなど）があることを意味します。
+
+なので、`map` メソッドを使用するべきです: `set`, `get` など.
+```
+
 **Map はキーとしてオブジェクトを使うこともできます。**
 
 例:
@@ -57,25 +63,26 @@ visitsCountMap.set(john, 123);
 alert( visitsCountMap.get(john) ); // 123
 ```
 
-オブジェクトをキーとして使用することは、最も注目に値する重要な `Map` の機能の1つです。文字列キーの場合、`Object` で問題ありませんが、オブジェクトキーの場合はそうではありません。
+オブジェクトをキーとして使用することは、最も注目に値する重要な `Map` の機能の1つです。同じことは `Object` ではカウントされません。`Object` ではキーとして文字列使用は問題ありませんが、キーとして別のオブジェクトを使用することはできません。
 
 やってみましょう:
 
 ```js run
 let john = { name: "John" };
+let ben = { name: "Ben" };
 
-let visitsCountObj = {}; // オブジェクトを用意
+let visitsCountObj = {}; // オブジェクトを使用
 
-visitsCountObj[john] = 123; // john オブジェクトをキーとして使用
+visitsCountObj[ben] = 234; // ben オブジェクトをキーに使用
+visitsCountObj[john] = 123; // john オブジェクトをキーに使用。ben オブジェクトは置換されます
 
 *!*
 // That's what got written!
-alert( visitsCountObj["[object Object]"] ); // 123
+alert( visitsCountObj["[object Object]"] ); // 123 
 */!*
 ```
 
 `visitsCountObj` はオブジェクトなので、`john` などのすべてのキーを文字列に変換します。そのため、文字列キー `"[object Object]"` となります。間違いなくこれは望むものではありません。
-
 
 ```smart header="`Map` はどのようにキーを比較するか"
 等価のテストをするために、`Map` は [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero) アルゴリズムを使います。大雑把には厳密等価 `===` と同じですが、違いは `NaN` は `NaN` と等しいとみなされる点です。なので、`NaN` も同様にキーとして使うことができます。
@@ -83,10 +90,8 @@ alert( visitsCountObj["[object Object]"] ); // 123
 このアルゴリズムは変更したりカスタマイズすることはできません。
 ```
 
-
 ````smart header="チェーン"
-
-`map.set` 呼び出しは map 自身を返すので、呼び出しを "チェーン" することができます:
+すべての `map.set` 呼び出しは map 自身を返すので、呼び出しを "チェーン" することができます:
 
 ```js
 map.set('1', 'str1')
@@ -94,6 +99,7 @@ map.set('1', 'str1')
   .set(true, 'bool1');
 ```
 ````
+
 
 ## Map での繰り返し/ループ
 
@@ -135,6 +141,7 @@ for (let entry of recipeMap) { // recipeMap.entries() と同じ
 それに加えて、`Map` は `Array` と同じように、組み込みの `forEach` メソッドを持っています。
 
 ```js
+// 各 (key, value) ペアに対して関数を実行
 recipeMap.forEach( (value, key, map) => {
   alert(`${key}: ${value}`); // cucumber: 500 etc
 });
@@ -155,7 +162,7 @@ let map = new Map([
 alert( map.get('1') ); // str1
 ```
 
-オブジェクトのキー/値のペアの配列を、その形式で返す組み込みのメソッド [Object.entries(obj)](mdn:js/Object/entries) があります。
+通常のオブジェクトがあり、そこから `Map` を生成したい場合は、オブジェクトのキー/値のペアの配列を、その形式で返す組み込みのメソッド [Object.entries(obj)](mdn:js/Object/entries) を使用できます。
 
 なので、次のようにオブジェクトから map の初期化をすることができます:
 
@@ -173,6 +180,7 @@ alert( map.get('name') ); // John
 ```
 
 ここで、`Object.entries` はキー/値のペアの配列を返します: `[ ["name","John"], ["age", 30] ]`。これは `Map` が必要とするものです。
+
 
 ## Object.fromEntries: Map から オブジェクト
 
@@ -225,7 +233,7 @@ let obj = Object.fromEntries(map); // omit .entries()
 
 ## Set
 
-`Set` -- は値の集まりで、それぞれの値は一度しか現れません。
+`Set` は、特別タイプのコレクションで、"値の集合" （キーなし）です。それぞれの値は一度しか現れません。
 
 主なメソッドは次の通りです:
 
@@ -235,6 +243,8 @@ let obj = Object.fromEntries(map); // omit .entries()
 - `set.has(value)` -- set の中に値が存在すれば `true` を返し、それ以外は `false` です。
 - `set.clear()` -- set から全てを削除します。
 - `set.size` -- set の要素数です。
+
+主な特徴は同じ値での `set.add(value)` の繰り返しの呼び出しでは何もしないことです。`Set` では各値は一度しか現れないためです。
 
 例えば、訪問者全員を覚えておきたいです。が、繰り返し訪問しても重複しないようにしたいです。訪問者は一度だけ "カウント" される必要があります。
 
@@ -281,7 +291,9 @@ set.forEach((value, valueAgain, set) => {
 
 面白い点に注意してください。`Set` の中の `forEach` 関数は３つの引数を持っています: 値(value), 次に *再び値(valueAgain)*, 次にターゲットのオブジェクトです。実際、引数には同じ値が2回出現します。
 
-これは `forEach` が3つの引数をもつ `Map` との互換性のために作られています。
+これは `forEach` が3つの引数をもつ `Map` との互換性のために作られています。少しおかしく見えるかもしれません。が、特定ケースにおいて簡単に `Map` を `Set` に、またその逆を行うのに役立ちます。
+
+`Map` がイテレーションのために持っているメソッドと同じメソッドもサポートしています:
 
 - `set.keys()` -- 値に対する iterable なオブジェクトを返します。
 - `set.values()` -- `set.keys` と同じで、`Map` との互換性のためです。
