@@ -30,14 +30,16 @@ let array = [ john ];
 john = null; // 参照を上書きします
 
 *!*
-// john は配列内に格納されているので、ガベージコレクションされません。
-// array[0] としてそれを取得することが可能です
+// 以前 john で参照されていたオブジェクトは配列内に格納されています
+// そのため、ガベージコレクションされません。
+// array[0] で取得することが可能です
 */!*
 ```
 
-また、通常の Map のキーとしてオブジェクトを使うと、Map が存在している間はそのオブジェクトも存在します。これはメモリを占め、ガベージコレクションされないかもしれません。
+また、通常の `Map` のキーとしてオブジェクトを使うと、`Map` が存在している間はそのオブジェクトも存在します。これはメモリを占め、ガベージコレクションされないかもしれません。
 
 例:
+
 ```js
 let john = { name: "John" };
 
@@ -68,7 +70,8 @@ let obj = {};
 weakMap.set(obj, "ok"); // 正常に動作します (オブジェクトのキー)
 
 *!*
-weakMap.set("test", "Whoops"); // エラー, "test" はプリミティブだからです
+// キーに文字列は使えません
+weakMap.set("test", "Whoops"); // エラー, "test" はオブジェクトではないため
 */!*
 ```
 
@@ -104,80 +107,79 @@ john = null; // 参照を上書きします
 
 ## ユースケース: additional data
 
-The main area of application for `WeakMap` is an *additional data storage*.
+`WeakMap` のアプリケーションの主な領域は、 *追加のデータ格納* です。
 
-If we're working with an object that "belongs" to another code, maybe even a third-party library, and would like to store some data associated with it, that should only exist while the object is alive - then `WeakMap` is exactly what's needed.
+別のコード、おそらくサードパーティライブラリに "属する" オブジェクトを操作していて、それに関連付けられたデータをいくつか保存したい場合、それは元のオブジェクトが生きている間だけ存在している必要があります。このとき、`WeakMap` はまたさに必要とされるものです。
 
-We put the data to a `WeakMap`, using the object as the key, and when the object is garbage collected, that data will automatically disappear as well.
+キーとしてオブジェクトを使用して、`WeakMap` にデータを格納し、オブジェクトがガベージコレクションされたとき、データも同様自動的に消えます。
 
 ```js
 weakMap.put(john, "secret documents");
 // もし john がなくなった場合、秘密のドキュメントは破壊されるでしょう
 ```
 
-Let's look at an example.
+例を見てみましょう。
 
-For instance, we have code that keeps a visit count for users. The information is stored in a map: a user object is the key and the visit count is the value. When a user leaves (its object gets garbage collected), we don't want to store their visit count anymore.
+例えば、ユーザの訪問カウントを保持するコードがあるとします。情報は map に保持されています。ユーザオブジェクトがキーであり、訪問カウントがその値です。ユーザが離れたとき（そのオブジェクトがガベージコレクションされる）、もうそのユーザの訪問カウントは保持する必要はありません。
 
-Here's an example of a counting function with `Map`:
+これは、 `Map` を使用したカウント関数の例です:
 
 ```js
 // 📁 visitsCount.js
 let visitsCountMap = new Map(); // map: user => visits count
 
-// increase the visits count
+// 訪問カウントを増やす
 function countUser(user) {
   let count = visitsCountMap.get(user) || 0;
   visitsCountMap.set(user, count + 1);
 }
 ```
 
-And here's another part of the code, maybe another file using it:
+また、これはコードの別の部分で、おそらく上の関数を使用する別のファイルです:
 
 ```js
 // 📁 main.js
 let john = { name: "John" };
 
-countUser(john); // count his visits
-countUser(john);
+countUser(john); // 訪問をカウント
 
-// later john leaves us
+// あとで john が離脱したとき
 john = null;
 ```
 
-Now `john` object should be garbage collected, but remains in memory, as it's a key in `visitsCountMap`.
+このとき、`john` オブジェクトはガベージコレクションされるべきですが、`visitsCountMap` のキーなので、メモリに残ったままです。
 
-We need to clean `visitsCountMap` when we remove users, otherwise it will grow in memory indefinitely. Such cleaning can become a tedious task in complex architectures.
+ユーザが削除されたとき、`visitsCountMap` をクリーンアップする必要があります。そうしないと、メモリ内で無限に大きくなります。このようなクリーニングは複雑なアーキテクチャでは面倒な作業になりえます。
 
-We can avoid it by switching to `WeakMap` instead:
+代わりに `WeakMap` に切り替えることで回避できます:
 
 ```js
 // 📁 visitsCount.js
 let visitsCountMap = new WeakMap(); // weakmap: user => visits count
 
-// increase the visits count
+// 訪問数を増加
 function countUser(user) {
   let count = visitsCountMap.get(user) || 0;
   visitsCountMap.set(user, count + 1);
 }
 ```
 
-Now we don't have to clean `visitsCountMap`. After `john` object becomes unreachable by all means except as a key of `WeakMap`, it gets removed from memory, along with the information by that key from `WeakMap`.
+これで、`visitsCountMap` をクリーンアップする必要はありません。`WeakMap` のキーを除いたすべての手段で `john` オブジェクトが到達不可能になった後、`WeakMap` からそのキーによる情報とともに、メモリからは削除されます。
 
-## Use case: caching
+## ユースケース: キャッシュ
 
-Another common example is caching: when a function result should be remembered ("cached"), so that future calls on the same object reuse it.
+もう一つの一般的な例はキャッシュです。関数からの結果を保持（"キャッシュ"）できるので、同じオブジェクトに対する将来の呼び出しで再利用することができます。 
 
-We can use `Map` to store results, like this:
+これを実現するために、`Map`（最適ではないシナリオ）が利用できます:
 
 ```js run
 // 📁 cache.js
 let cache = new Map();
 
-// calculate and remember the result
+// 計算し結果を覚える
 function process(obj) {
   if (!cache.has(obj)) {
-    let result = /* calculations of the result for */ obj;
+    let result = obj /* に対する計算結果 */;
 
     cache.set(obj, result);
   }
@@ -186,26 +188,26 @@ function process(obj) {
 }
 
 *!*
-// Now we use process() in another file:
+// ここで、別のファイルで process() を使用します。
 */!*
 
 // 📁 main.js
-let obj = {/* let's say we have an object */};
+let obj = {/* オブジェクトがあるとします */};
 
-let result1 = process(obj); // calculated
+let result1 = process(obj); // 計算します
 
-// ...later, from another place of the code...
-let result2 = process(obj); // remembered result taken from cache
+// ...その後、別の場所で呼ばれるとします...
+let result2 = process(obj); // キャッシュから取得した、記憶された結果が使われます
 
-// ...later, when the object is not needed any more:
+// ...後ほど、オブジェクトがこれ以上は不要になったとき
 obj = null;
 
-alert(cache.size); // 1 (Ouch! The object is still in cache, taking memory!)
+alert(cache.size); // 1 (なんと! オブジェクトは依然としてキャッシュされており、メモリを食っています!)
 ```
 
-For multiple calls of `process(obj)` with the same object, it only calculates the result the first time, and then just takes it from `cache`. The downside is that we need to clean `cache` when the object is not needed any more.
+同じオブジェクトので `process(obj)` の複数回の呼び出しに対して、初回だけ結果の計算を行い、その後は `cache` から値を取ります。デメリットは、オブジェクトがこれ以上不要になったとき、`cache` のクリーンアップが必要なことです。
 
-If we replace `Map` with `WeakMap`, then this problem disappears: the cached result will be removed from memory automatically after the object gets garbage collected.
+`Map` を `WeakMap` に置き換えた場合、この問題は消えます。キャッシュされた結果はオブジェクトのガベージコレクト後、自動的にメモリから削除されます。
 
 ```js run
 // 📁 cache.js
@@ -213,10 +215,10 @@ If we replace `Map` with `WeakMap`, then this problem disappears: the cached res
 let cache = new WeakMap();
 */!*
 
-// calculate and remember the result
+// 計算し結果を覚える
 function process(obj) {
   if (!cache.has(obj)) {
-    let result = /* calculate the result for */ obj;
+    let result = obj /* に対する計算結果 */;
 
     cache.set(obj, result);
   }
@@ -230,25 +232,25 @@ let obj = {/* some object */};
 let result1 = process(obj);
 let result2 = process(obj);
 
-// ...later, when the object is not needed any more:
+// ...後ほど、オブジェクトがこれ以上は不要になったとき
 obj = null;
 
-// Can't get cache.size, as it's a WeakMap,
-// but it's 0 or soon be 0
-// When obj gets garbage collected, cached data will be removed as well
+// WeakMap なので cache.size は取得できません
+// が、0 あるいはすぐに 0 になります
+// オブジェクトがガベージコレクトされると、キャッシュされたデータも同様に削除されます。
 ```
 
 ## WeakSet
 
-`WeakSet` behaves similarly:
+`WeakSet` も同様に動作します:
 
-- It is analogous to `Set`, but we may only add objects to `WeakSet` (not primitives).
-- An object exists in the set while it is reachable from somewhere else.
-- Like `Set`, it supports `add`, `has` and `delete`, but not `size`, `keys()` and no iterations.
+- `Set` に似ていますが、`WeakSet` へはオブジェクトのみ追加できます（プリミティブではありません）
+- オブジェクトは、別の場所から到達可能である間、`Set` に存在します。
+- `Set` 同様、`add`, `has`, `delete` をサポートしますが、`size`, `keys()` とイテレーションはサポートしません。
 
-Being "weak", it also serves as an additional storage. But not for an arbitrary data, but rather for "yes/no" facts. A membership in `WeakSet` may mean something about the object.
+"弱い" ので、追加の格納場所としても使えます。ですが、任意のデータではなく、むしろ "はい/いいえ" の事実のためです。`WeakSet` のメンバーはオブジェクトについてなにかを意味する場合があります。
 
-For instance, we can add users to `WeakSet` to keep track of those who visited our site:
+例えば、ユーザを `WeakSet` に追加して、サイトにアクセスしたユーザを追跡できます。:
 
 ```js run
 let visitedSet = new WeakSet();
@@ -257,31 +259,33 @@ let john = { name: "John" };
 let pete = { name: "Pete" };
 let mary = { name: "Mary" };
 
-visitedSet.add(john); // John visited us
-visitedSet.add(pete); // Then Pete
-visitedSet.add(john); // John again
+visitedSet.add(john); // John が訪問
+visitedSet.add(pete); // 次に Pete
+visitedSet.add(john); // John 再び
 
-// visitedSet has 2 users now
+// visitedSet は 2 ユーザいます
 
-// check if John visited?
+// John が訪問したかどうかをチェック
 alert(visitedSet.has(john)); // true
 
-// check if Mary visited?
+// Mary が訪問したかをチェック
 alert(visitedSet.has(mary)); // false
 
 john = null;
 
-// visitedSet will be cleaned automatically
+// visitedSet は自動的にクリーンアップされます。
 ```
 
-The most notable limitation of `WeakMap` and `WeakSet` is the absence of iterations, and inability to get all current content. That may appear inconvenient, but does not prevent `WeakMap/WeakSet` from doing their main job -- be an "additional" storage of data for objects which are stored/managed at another place.
+最も注目すべき `WeakMap` と `WeakSet` の制限は、イテレーションの欠如と現在のすべてのコンテンツを取得することができないことです。これは不便に見えるかもしれませんが、`WeakMap/WeakSet` がこれらの主要なジョブ -- 別の場所に保存/管理されているオブジェクトのデータの "追加の" 保管場所になること -- をするのを妨げることはありません。
 
-## Summary
+## サマリ
 
-`WeakMap` is `Map`-like collection that allows only objects as keys and removes them together with associated value once they become inaccessible by other means.
+`WeakMap` は `Map` ライクなコレクションであり、オブジェクトのみがキーとして許可され、他の手段でそのオブジェクトが到達不可能になると、関連付けされた値と一緒に削除されます。
 
-`WeakSet` is `Set`-like collection that stores only objects and removes them once they become inaccessible by other means.
+`WeakSet` は `Set` ライクなコレクションであり、オブジェクトのみが保管でき、他の手段でそのオブジェクトが到達不可能になると、それらも削除されます。
 
-Both of them do not support methods and properties that refer to all keys or their count. Only individual operations are allowed.
+これらの主なアドバンテージは、オブジェクトに対して弱い参照を持っていることです。なので、ガベージコレクションで容易に削除できます。
 
-`WeakMap` and `WeakSet` are used as "secondary" data structures in addition to the "main" object storage. Once the object is removed from the main storage, if it is only found as the key of `WeakMap` or in a `WeakSet`, it will be cleaned up automatically.
+なお、これには `clear`, `size`, `keys`, `values` などのサポートがないという代償が伴います。 
+
+`WeakMap` と `WeakSet` は "主要な" オブジェクト保管場所に加え、"2つ目の" データ構造として使用されます。一旦オブジェクトが主要な保管場所から削除されると、それが `WeakMap` のキーまたは `WeakSet` でのみ見つかった場合、オブジェクトは自動的にクリーンアップされます。
