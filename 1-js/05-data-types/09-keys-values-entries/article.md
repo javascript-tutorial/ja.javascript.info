@@ -11,7 +11,7 @@
 
 - `Map`
 - `Set`
-- `Array` (`arr.values()` を除く)
+- `Array`
 
 通常のオブジェクトも同様のメソッドをサポートしますが、構文は少し異なります。
 
@@ -63,8 +63,40 @@ for (let value of Object.values(user)) {
 }
 ```
 
-## Object.keys/values/entries は Symbol を使っているプロパティを無視します
-
+```warn header="Object.keys/values/entries は Symbol プロパティを無視します"
 `for..in` ループのように、これらのメソッドはキーとして `Symbol(...)` を使っているプロパティを無視します。
 
 通常それは便利です。しかし、もしもこのようなキーも同様に扱いたい場合は、別のメソッド [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols)  があります。これは Symbol を使っているキーのみの配列を返します。また、メソッド [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) は *すべての* キーを返します。
+```
+
+
+## オブジェクトの変換
+
+オブジェクトには、配列に存在する多くのメソッドがありません。例えば `map`, `filter` など。
+
+それらを適用したい場合は、`Object.fromEntries` に続いて、`Object.entries` が使用できます。:
+
+1. `Object.entries(obj)` を使用して `obj` からキー/値ペアの配列を取得します。
+2. その配列で、配列のメソッドを使用します。例えば `map`
+3. 結果の配列で `Object.fromEntries(array)` を使用して、配列をオブジェクトに戻します。
+
+例えば、価格をもつオブジェクトがあり、それらを2倍したいとします。:
+
+```js run
+let prices = {
+  banana: 1,
+  orange: 2,
+  meat: 4,
+};
+
+*!*
+let doublePrices = Object.fromEntries(
+  // 配列に変換して map を実行、その後 fromEntries でオブジェクトに戻します
+  Object.entries(prices).map(([key, value]) => [key, value * 2])
+);
+*/!*
+
+alert(doublePrices.meat); // 8
+```   
+
+一見難しく見えますが、1,2回使うと簡単に理解できます。このようにして協力な変換のチェーンを作ることができます。
