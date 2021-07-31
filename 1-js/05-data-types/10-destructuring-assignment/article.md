@@ -2,11 +2,14 @@
 
 JavaScriptで最も使われる2つのデータ構造は `Object` と `Array` です。
 
-オブジェクトは多くの情報を1つのエンティティにまとめることができ、配列は順序付けされたコレクションを格納することができます。従って、私たちはオブジェクトまたは配列を作り、それを1つのエンティティとして扱うことができます。また、それを関数呼び出しの際に渡すこともできます。
+- オブジェクトを使用すると、データ項目をキーごとに格納する単一のエンティティを作成できます。
+- 配列は順序付けされたリストにデータ項目を集めることができます。
 
-*分割代入(Destructuring assignment)* は、配列またはオブジェクトの中身を複数の変数に代入できる特別な構文です。デストラクタリング(非構造化/構造の分解)は、多くのパラメータとデフォルト値を持つ複雑な関数でもうまく機能します。このチャプターでは、すぐにこれらがどのように処理されているかわかるでしょう。
+ですが、これらを関数にわたすとき、オブジェクト／配列全体は必要としない場合があります。個々の部分が必要な場合です。
 
-[cut]
+*分割代入(Destructuring assignment)* は、配列またはオブジェクトの中身を複数の変数に *アンパック* できるようにする特別な構文であり、非常に便利な場合があります。
+
+分割代入(非構造化/構造の分解)は、多くのパラメータとデフォルト値を持つ複雑な関数でもうまく機能します。この後すぐにそれらを見ていきます。
 
 ## Array の非構造化 
 
@@ -14,24 +17,30 @@ JavaScriptで最も使われる2つのデータ構造は `Object` と `Array` �
 
 ```js
 // 姓名の配列があります
-let arr = ["Ilya", "Kantor"]
+let arr = ["John", "Smith"]
 
 *!*
 // 分割代入
+// sets firstName = arr[0]
+// and surname = arr[1]
 let [firstName, surname] = arr;
 */!*
 
-alert(firstName); // Ilya
-alert(surname);  // Kantor
+alert(firstName); // John
+alert(surname);  // Smith
 ```
 
 これで、配列要素の代わりに変数を扱うことができます。
 
 `split` やその他配列を返すメソッドと組み合わせると便利です:
 
-```js
-let [firstName, surname] = "Ilya Kantor".split(' ');
+```js run
+let [firstName, surname] = "John Smith".split(' ');
+alert(firstName); // John
+alert(surname);  // Smith
 ```
+
+ご覧の通り、構文はシンプルです。ですがいくつかの独特な部分があります。より理解するために他の例も見ていきましょう。
 
 ````smart header="\"分割\" は \"破壊的\" を意味しません"
 これは、項目を変数にコピーすることによって "非構造化(destructurizes)" するため、"分割代入(destructuring assignment)" と呼ばれています。 配列自体は変更されません。
@@ -61,32 +70,31 @@ alert( title ); // Consul
 
 ````smart header="右辺は任意の反復可能(iterable)に対して動作します"
 
-実際には配列だけでなく、任意の反復可能(iterable)に対して使うことができます:
+...実際には配列だけでなく、任意の反復可能(iterable)に対して使うことができます:
 
 ```js
 let [a, b, c] = "abc"; // ["a", "b", "c"]
 let [one, two, three] = new Set([1, 2, 3]);
 ```
-
+内部的には分割代入は右辺の値に対してイテレーションすることで動作するため、これも動作します。これは `=` の右側の値に対して `for..of` を呼び出し、値を代入するためのシンタックスシュガーの一種です。
 ````
 
 
 ````smart header="左辺では任意のものに代入することが可能です"
-
 左辺には任意の "割り当て可能なもの" を指定することができます。
 
 例えば、オブジェクトのプロパティも指定できます:
 ```js run
 let user = {};
-[user.name, user.surname] = "Ilya Kantor".split(' ');
+[user.name, user.surname] = "John Smith".split(' ');
 
-alert(user.name); // Ilya
+alert(user.name); // John
+alert(user.surname); // Smith
 ```
 
 ````
 
 ````smart header=".entries() を使ったループ"
-
 以前のチャプターで、[Object.entries(obj)](mdn:js/Object/entries) メソッドを見ました。
 
 オブジェクトの key-value をループするのに、分割代入を一緒に使うこともできます:
@@ -105,7 +113,7 @@ for (let [key, value] of Object.entries(user)) {
 }
 ```
 
-map も同様です:
+`Map` を使用した同様のコードは、反復可能なのでよりシンプルです:
 
 ```js run
 let user = new Map();
@@ -113,32 +121,69 @@ user.set("name", "John");
 user.set("age", "30");
 
 *!*
-for (let [key, value] of user.entries()) {
+// Map は [key, value] ペアで反復します
+for (let [key, value] of user) {
 */!*
   alert(`${key}:${value}`); // name:John, then age:30
 }
 ```
 ````
 
+````smart header="変数を入れ替えるトリック"
+分割代入を使用して２つの変数の値を入れ替える、広く知られたトリックがあります:
+
+```js run
+let guest = "Jane";
+let admin = "Pete";
+
+// 値を入れかえましょう: guest=Pete, admin=Jane
+*!*
+[guest, admin] = [admin, guest];
+*/!*
+
+alert(`${guest} ${admin}`); // Pete Jane (successfully swapped!)
+```
+
+ここでは、2つの変数の一時的な配列を作り、その直後、入れ替えた順番で分割しました。
+
+この方法で２つ以上の変数を入れ替えることも可能です。
+````
+
 ### 残り '...'
 
-最初の値を取得するだけでなく、それに続くすべての値も集めたい場合、"残りの部分" の取得を意味する 3つのドッド `"..."` をパラメータに追加することで実現できます:
+通常、代入する変数の数よりも配列の要素数のほうが多い場合、"余分な" 項目は省略されます。
 
+例えば、ここでは2つの項目が取得され、残りは無視されています:
+
+```js run
+let [name1, name2] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+
+alert(name1); // Julius
+alert(name2); // Caesar
+// その以降の項目はどこにも代入されていません
+```
+
+続く項目もすべて取得したい場合は、３つのドット `"..."` を使用して "残り" を取得するパラメータを１つ追加します。:
 
 ```js run
 let [name1, name2, *!*...rest*/!*] = ["Julius", "Caesar", *!*"Consul", "of the Roman Republic"*/!*];
 
-alert(name1); // Julius
-alert(name2); // Caesar
-
 *!*
+// rest は３つ目の項目からの配列です
 alert(rest[0]); // Consul
 alert(rest[1]); // of the Roman Republic
 alert(rest.length); // 2
 */!*
 ```
 
-`rest` は残りの値が要素として格納されている配列です。 `rest` の代わりに他の変数名を使うこともできます。変数名の前には3つのドットがあり、利用時には分割代入の最後にくるようにしてください。
+`rest `の値は、残りの配列要素の配列です。
+
+`rest` の代わりに他の変数名を使用できます。その前に3つのドットがあり、分割代入の最後にくるようにしてください。
+
+```js run
+let [name1, name2, *!*...titles*/!*] = ["Julius", "Caesar", "Consul", "of the Roman Republic"];
+// now titles = ["Consul", "of the Roman Republic"]
+```
 
 ### デフォルト値
 
@@ -150,6 +195,7 @@ let [firstName, surname] = [];
 */!*
 
 alert(firstName); // undefined
+alert(surname); // undefined
 ```
 
 値がなかった場合に "デフォルト" 値を使いたければ、`=` を使ってデフォルト値を指定することができます:
@@ -176,6 +222,7 @@ alert(name);    // Julius (配列から)
 alert(surname); // プロンプトが得たもの
 ```
 
+注意: `prompt` は値がない場合（`surname`）にのみ実行されます。
 
 ## オブジェクトの非構造化 
 
@@ -207,7 +254,9 @@ alert(width);  // 100
 alert(height); // 200
 ```
 
-プロパティ `options.title`, `options.width` と `options.height` は、該当する変数に代入されます。順序は関係ありません。これも動作します。:
+プロパティ `options.title`, `options.width` と `options.height` は、該当する変数に代入されます。順序は関係ありません。
+
+順番は関係ありません。これも動作します。:
 
 ```js
 // let {...} 内のプロパティ順を変えた場合
@@ -290,11 +339,26 @@ alert(w);      // 100
 alert(h);      // 200
 ```
 
-### 残りの演算子(Rest operator)
+多くのプロパティをもつ複雑なオブジェクトがあったとしても、必要なものだけを抽出することができます:
+
+```js run
+let options = {
+  title: "Menu",
+  width: 100,
+  height: 200
+};
+
+// title だけ変数として抽出
+let { title } = options;
+
+alert(title); // Menu
+```
+
+### 残りのパターン "..."
 
 仮に、指定した変数よりも多くのプロパティをオブジェクトがもっていたらどうなるでしょうか。いくつか設定した後、"残り" をどこかにまとめて代入することはできるでしょうか？
 
-ここで、残りの演算子（3つのドット）を使用するという仕様はほぼ標準ですが、ほとんどのブラウザではまだサポートされていません。
+配列でしたのと同じように、残りのパターンを使用することができます。いくつかの古いブラウザ（IE、polyfill するために Babel を使用）ではサポートされていませんが、モダンブラウザでは動作します。
 
 このようになります:
 
@@ -306,6 +370,8 @@ let options = {
 };
 
 *!*
+// title = title と名前付けられたプロパティ
+// rest = オブジェクトのプロパティの残り
 let {title, ...rest} = options;
 */!*
 
@@ -314,10 +380,8 @@ alert(rest.height);  // 200
 alert(rest.width);   // 100
 ```
 
-
-
 ````smart header="Gotcha without `let`"
-上の例で、変数は代入の直前に宣言されています: `let {…} = {…}`。もちろん既存の変数を使うこともできますが、罠もあります。
+上の例で、変数は代入の直前に宣言されています: `let {…} = {…}`。もちろん `let` なしで既存の変数を使うこともできますが、罠もあります。
 
 これは動作しません:
 ```js run
@@ -327,7 +391,7 @@ let title, width, height;
 {title, width, height} = {title: "Menu", width: 200, height: 100};
 ```
 
-問題は、JavaScriptがメインコードフローの `{...}' をコードブロックとして扱うことです。このようなコードブロックは、次のように文をグループ化するために使われます。
+問題は、JavaScriptがメインコードフローの `{...}` をコードブロックとして扱うことです。このようなコードブロックは、次のように文をグループ化するために使われます。
 
 ```js run
 {
@@ -337,6 +401,8 @@ let title, width, height;
   alert( message );
 }
 ```
+
+そのため、ここでは JavaScript はコードブロックがあることを前提としています。したがってエラーになりますが、本当は分割代入がしたいです。
 
 コードブロックではないと JavaScript に示すためには、代入全体を括弧 `(...)` で囲む必要があります:
 
@@ -348,7 +414,6 @@ let title, width, height;
 
 alert( title ); // Menu
 ```
-
 ````
 
 ## 入れ子構造の非構造化 
@@ -364,7 +429,7 @@ let options = {
     height: 200
   },
   items: ["Cake", "Donut"],
-  extra: true    // 分割されない何か追加のデータ
+  extra: true 
 };
 
 // わかりやすくするために、複数の行での分割代入
