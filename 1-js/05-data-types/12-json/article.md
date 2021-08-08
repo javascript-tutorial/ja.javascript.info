@@ -25,8 +25,6 @@ alert(user); // {name: "John", age: 30}
 
 幸いにも、これらの処理を行うためにコードを書く必要はありません。この課題は既に解決されています。
 
-[cut]
-
 ## JSON.stringify
 
 [JSON](http://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) は値とオブジェクトを表現する一般的な形式です。[RFC 4627](http://tools.ietf.org/html/rfc4627) で標準として記述されています。当初はJavaScriptのために作られたものでしたが、多くの他の言語も同様に JSON を処理するライブラリを持っています。従って、クライアントが JavaScript を使い、サーバが Ruby/PHP/Java/その他 で書かれている場合に、データ交換としてJSONを使うのは簡単です。
@@ -104,10 +102,10 @@ alert( JSON.stringify([1, 2, 3]) ); // [1,2,3]
 
 JSONはデータのみのマルチ言語仕様なので、JavaScript固有のオブジェクトプロパティの一部は `JSON.stringify` ではスキップされます。
 
-つまり、次のようなプロパティは無視されます:
+つまり:
 
 - 関数プロパティ(メソッド)
-- シンボルプロパティ
+- シンボルキーと値
 - `undefined` を格納しているプロパティ
 
 ```js run
@@ -258,17 +256,17 @@ let room = {
 let meetup = {
   title: "Conference",
   participants: [{name: "John"}, {name: "Alice"}],
-  place: room // meetup が room を参照する
+  place: room // meetup は room を参照
 };
 
-room.occupiedBy = meetup; // room が meetup を参照する
+room.occupiedBy = meetup; // room は meetup を参照
 
 alert( JSON.stringify(meetup, function replacer(key, value) {
-  alert(`${key}: ${value}`); // replacer が取得しているものを見るために
+  alert(`${key}: ${value}`);
   return (key == 'occupiedBy') ? undefined : value;
 }));
 
-/* replacer に来た key:value ペア:
+/* key:value pairs that come to replacer:
 :             [object Object]
 title:        Conference
 participants: [object Object],[object Object]
@@ -278,6 +276,7 @@ name:         John
 name:         Alice
 place:        [object Object]
 number:       23
+occupiedBy: [object Object]
 */
 ```
 
@@ -329,6 +328,8 @@ alert(JSON.stringify(user, null, 2));
 }
 */
 ```
+
+3番目の引数も文字列にすることができます。 この場合、文字列はスペースの数の代わりにインデントに使用されます。
 
 `spaces` パラメータは単にロギングや見やすい出力のためだけに使われます。
 
@@ -396,6 +397,7 @@ alert( JSON.stringify(meetup) );
 ```
 
 上の通り、`toJSON` は `JSON.stringify(room)` の直接呼び出しとネストされたオブジェクト両方で使われます。
+
 
 ## JSON.parse
 
@@ -516,6 +518,7 @@ schedule = JSON.parse(schedule, function(key, value) {
 alert( schedule.meetups[1].date.getDate() ); // これも動作します!
 */!*
 ```
+
 
 
 ## サマリ 
