@@ -455,13 +455,7 @@ alert(item2);  // Donut
 
 最終的には、`width`, `height`, `item1`, `item2` と、デフォルト値から `title` を得ます。
 
-これは分割代入ではよく起こります。私たちは、多くのプロパティを持つ複雑なオブジェクトを持っており、必要なものだけを抽出したいからです。
-
-このようなことも頻繁にあります。:
-```js
-// 変数全体から size を取り、残りは無視します
-let { size } = options;
-```
+代わりに中身を取得しているので、`size` と `items` の変数はないことに注意してください。
 
 ## スマートな関数パラメータ 
 
@@ -480,6 +474,7 @@ function showMenu(title = "Untitled", width = 200, height = 100, items = []) {
 こうなりますか?
 
 ```js
+// デフォルト値で良い場合は undefined にする
 showMenu("My Menu", undefined, undefined, ["Item1", "Item2"])
 ```
 
@@ -534,27 +529,25 @@ showMenu(options);
 構文は分割代入と同じです:
 ```js
 function({
-  // 渡されるプロパティ: 内部で利用するパラメータ名 = デフォルト値
-  incomingProperty: parameterName = defaultValue
+  incomingProperty: varName = defaultValue
   ...
 })
 ```
 
+パラメータのオブジェクトに対して、プロパティ `incomingProperty` に対応する変数 `varName` があり、デフォルトでは `defaultValue` になります。
+
 なお、このような分割代入は `showMenu()` に引数があることを前提にしている点に注意してください。もしすべての値をデフォルトにしたい場合には、空のオブジェクトを指定する必要があります:
 
 ```js
-showMenu({});
+showMenu({}); // OK, すべての値はデフォルト値になります
 
-// これはエラーになります
-showMenu();
+showMenu(); // これはエラーになります
 ```
 
 これについては、非構造化対象全体のデフォルト値に `{}` を指定することで対応することができます:
 
-
 ```js run
-// 明快にするためのちょっとしたパラメータの簡略化
-function showMenu(*!*{ title = "Menu", width = 100, height = 200 } = {}*/!*) {
+function showMenu({ title = "Menu", width = 100, height = 200 }*!* = {}*/!*) {
   alert( `${title} ${width} ${height}` );
 }
 
@@ -568,10 +561,12 @@ showMenu(); // Menu 100 200
 - 分割代入はオブジェクトや配列を多数の変数に即座にマッピングすることができます。
 - オブジェクト構文:
     ```js
-    let {prop : varName = default, ...} = object
+    let {prop : varName = default, ...rest} = object
     ```
 
     これはプロパティ `prop` が変数 `varName` に代入され、もしこのようなプロパティが存在しない場合には `default` が使われることを意味します。
+
+    マッピングがないオブジェクトプロパティは、`rest` オブジェクトへコピーされます。
 
 - 配列構文:
 
@@ -581,4 +576,4 @@ showMenu(); // Menu 100 200
 
     最初のアイテムは `item1` に行き、2つ目は `item2` に行きます。残りのすべてのアイテムは配列 `rest` になります。
 
-- より複雑なケースでは、左辺は右辺と同じ構造を指定します。
+- ネストされた配列/オブジェクトからデータを抽出することも可能で、その場合、左辺は右辺と同じ構造を指定する必要があります。
