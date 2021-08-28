@@ -433,7 +433,7 @@ counter++;
 - RIGHT SHIFT ( `>>` )
 - ZERO-FILL RIGHT SHIFT ( `>>>` )
 
-これらの演算子はめったに使われません。それらを理解するためには、低レベルの数値表現について掘り下げるべきであり、それは現時点では最適ではないでしょう。すぐには必要ないからです。もし興味がある場合は、MDNの[ビット演算子 ](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators)の記事を参照してください。実際に必要になったときにそれをするのが現実的でしょう。
+これらの演算子はめったに使われません。それらを理解するためには、低レベルの数値表現について掘り下げるべきであり、それは現時点では最適ではないでしょう。すぐには必要ないからです。もし興味がある場合は、MDNの[ビット演算子 ](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators#binary_bitwise_operators)の記事を参照してください。実際に必要になったときにそれをするのが現実的でしょう。
 
 ## カンマ 
 
