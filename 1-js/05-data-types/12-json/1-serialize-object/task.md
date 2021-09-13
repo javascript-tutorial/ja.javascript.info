@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# オブジェクトを JSON に変換して戻す
+# Turn the object into JSON and back
 
-`user` を JSON に変換し、別の変数に読み戻します。
+Turn the `user` into JSON and then read it back into another variable.
 
 ```js
 let user = {
