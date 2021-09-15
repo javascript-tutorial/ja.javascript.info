@@ -6,7 +6,7 @@ importance: 5
 
 ここにオブジェクトを返す `makeUser` 関数があります。
 
-その `ref` へのアクセス結果なんでしょう？それはなぜでしょう？
+その `ref` へのアクセス結果は何でしょうか？それはなぜでしょう？
 
 ```js
 function makeUser() {
@@ -18,5 +18,5 @@ function makeUser() {
 
 let user = makeUser();
 
-alert( user.ref.name ); // 結果はなに？
+alert( user.ref.name ); // 結果は何？
 ```
