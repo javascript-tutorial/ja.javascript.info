@@ -6,6 +6,10 @@ importance: 5
 
 関数プロパティには値があります。`bind` 後それは変わるでしょうか？なぜ？詳細に述べてください。
 
+<<<<<<< HEAD
+=======
+There's a value in the property of a function. Will it change after `bind`? Why, or why not?
+>>>>>>> 4d01fc20d4d82358e61518a31efe80dec9bb2602
 
 ```js run
 function sayHi() {
