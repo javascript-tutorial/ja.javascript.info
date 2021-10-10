@@ -61,9 +61,9 @@ user.sayHi(); // Hello!
 ```
 
 ```smart header="オブジェクト指向プログラミング"
-エンティティを表現するためにオブジェクトを使ってコードを書くとき、それは、[object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming), 略すと "OOP" とばれます。
+エンティティを表現するためにオブジェクトを使ってコードを書くことを、それは、[オブジェクト指向プログラミング(object-oriented programming)](https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0), 略して "OOP" と呼ばれます。
 
-OOPは大きなものであり、それ自体の興味深い科学です。 正しいエンティティを選択するにはどうすればいいですか？ どのようにそれらの間の相互作用を整理しますか？それはアーキテクチャーであり、それらは E.Gamma, R.Helm, R.Johnson, J.Vissides による"Design Patterns: Elements of Reusable Object-Oriented Software" または G.Booch による "Object-Oriented Analysis and Design with Applications" などのような、そのトピックについての素晴らしい本があります。私たちは、チャプター <info:object-oriented-programming> の後半でそのトピックの表面について触れます。
+OOPは大きなものであり、それ自体が興味深い科学です。 どうやって適切なエンティティを選択し、それらの間の相互作用を整理するのか？ それがアーキテクチャであり、このトピックについては素晴らしい本があります。 E.Gamma, R.Helm, R.Johnson, J.Vissides による "Design Patterns: Elements of Reusable Object-Oriented Software" や、 G.Booch による "Object-Oriented Analysis and Design with Applications" などです。
 ```
 ### メソッドの短縮表現
 
@@ -88,9 +88,9 @@ let user = {
 };
 ```
 
-上の通り、`"function"` を除き、単に `sayHi()` と書くことができます。
+上の通り、`"function"` を省き、単に `sayHi()` と書くことができます。
 
-実を言うと、この表記は完全に同一ではありません。オブジェクトの継承(後で説明します)に関して微妙な違いがあります。が、今のところは問題ありません。ほぼ全てのケースでこの短縮構文は好まれます。
+実を言うと、両者の表記は完全に同一ではありません。オブジェクトの継承(後で説明します)に関して微妙な違いがありますが、今のところは問題ありません。ほとんどの場合、短い構文の方が好まれます。
 
 ## メソッド中の "this" 
 
