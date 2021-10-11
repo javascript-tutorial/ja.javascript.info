@@ -38,5 +38,10 @@ askPassword(user.loginOk.bind(user), user.loginFail.bind(user));
 askPassword(() => user.loginOk(), () => user.loginFail());
 ```
 
+<<<<<<< HEAD
 通常は動作しますが、`user` が要求して `() => user.loginOk()` を実行する間に上書きされる可能性のあるようなより複雑な状況の場合に失敗する可能性があります。
+=======
+Usually that also works and looks good.
+>>>>>>> 193319c963b9ba86ac7d9590f7261a36ecdcc4d2
 
+It's a bit less reliable though in more complex situations where `user` variable might change *after* `askPassword` is called, but *before* the visitor answers and calls `() => user.loginOk()`. 
