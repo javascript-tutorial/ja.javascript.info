@@ -6,7 +6,11 @@ importance: 5
 
 これらの `alert` で実行されるのはどれでしょう？
 
+<<<<<<< HEAD
 `if(...)` の内側の式の結果はどうなるでしょう？
+=======
+What will the results of the expressions be inside `if(...)`?
+>>>>>>> eda333d423db8ade41f75d2e2d30ea06c7d997ef
 
 ```js
 if (-1 || 0) alert( 'first' );
