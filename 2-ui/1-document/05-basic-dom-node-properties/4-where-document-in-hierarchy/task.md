@@ -4,7 +4,11 @@ importance: 4
 
 # "document" は階層の中でどんなところでしょう？
 
+<<<<<<< HEAD
 `document` が属しているのはどのクラスでしょうか？
+=======
+Which class does the `document` belong to?
+>>>>>>> 3699f73b4ccb2a57ac5ef990d2687bf31ccf564c
 
 DOM 階層内でのその場所は何でしょう？
 What's its place in the DOM hierarchy?

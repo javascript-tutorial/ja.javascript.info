@@ -1,2 +1,6 @@
 
+<<<<<<< HEAD
 # ジェネレータ, 高度なイテレーション
+=======
+# Generators, advanced iteration
+>>>>>>> 3699f73b4ccb2a57ac5ef990d2687bf31ccf564c
