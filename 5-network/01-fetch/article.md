@@ -276,7 +276,7 @@ let response = await fetch(url, options); // レスポンスヘッダで resolve
 let result = await response.json(); // 本文を json として読む
 ```
 
-もしくは、primise を使った書き方:
+もしくは、promise を使った書き方:
 ```js
 fetch(url, options)
   .then(response => response.json())
