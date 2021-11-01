@@ -25,7 +25,11 @@ alert( usersMapped[0].id ); // 1
 alert( usersMapped[0].fullName ); // John Smith
 ```
 
+<<<<<<< HEAD
 アロー関数の場合、追加の括弧が必要であることに注意してください。
+=======
+Please note that in the arrow functions we need to use additional brackets. 
+>>>>>>> 6989312841d843f2350803ab552d9082437be569
 
 このように書くことはできません:
 ```js
