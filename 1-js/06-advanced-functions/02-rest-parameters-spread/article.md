@@ -1,6 +1,6 @@
 # 残りのパラメータ(Rest parameters)とスプレッド演算子(Spread operator)
 
-JavaScript の組み込み関数の多くはは、任意の数の引数をサポートしています。
+JavaScript の組み込み関数の多くは、任意の数の引数をサポートしています。
 
 例:
 
