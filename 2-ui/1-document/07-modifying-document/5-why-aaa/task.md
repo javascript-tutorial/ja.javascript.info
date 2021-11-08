@@ -2,9 +2,19 @@ importance: 1
 
 ---
 
+<<<<<<< HEAD
 # なぜ "aaa" が残るのでしょう?
 
 例を実行してください。なぜ `table.remove()` はテキスト `"aaa"` を削除しないのでしょうか？
+=======
+# Why does "aaa" remain?
+
+In the example below, the call `table.remove()` removes the table from the document.
+
+But if you run it, you can see that the text `"aaa"` is still visible.
+
+Why does that happen?
+>>>>>>> 4541b7af7584014a676da731f6e8774da5e059f6
 
 ```html height=100 run
 <table id="table">
