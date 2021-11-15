@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# バウンドするボールのアニメーション
+# Animate the bouncing ball
 
-バウンドするボールを作ってください。ボールをクリックすると動きを確認できます。:
+Make a bouncing ball. Click to see how it should look:
 
 [iframe height=250 src="solution"]
