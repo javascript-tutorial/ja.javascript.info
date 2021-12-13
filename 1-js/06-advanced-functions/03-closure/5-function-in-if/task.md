@@ -1,7 +1,11 @@
 
 # if の中の関数
 
+<<<<<<< HEAD:1-js/06-advanced-functions/03-closure/5-function-in-if/task.md
 このコードを見てください。最後の行の呼び出しの結果は何でしょうか？
+=======
+Look at the code. What will be the result of the call at the last line?
+>>>>>>> c5358c59494b53efb832c81a5338e0a23b22c269:1-js/06-advanced-functions/03-closure/5-function-in-if/task.md
 
 ```js run
 let phrase = "Hello";
