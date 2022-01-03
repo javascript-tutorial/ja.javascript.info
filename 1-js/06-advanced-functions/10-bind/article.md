@@ -5,15 +5,27 @@ libs:
 
 # 関数バインディング
 
+<<<<<<< HEAD
 オブジェクトメソッドで `setTimeout` 使ったり、オブジェクトメソッドを渡すような場合、"`this` を失う" という既知の問題があります。
 
 突然、`this` が正しく動作するのをやめます。この状況は初心者の開発者には典型的ですが、経験者でも同様に起こりえます。
 
 ## "this" を失う 
+=======
+When passing object methods as callbacks, for instance to `setTimeout`, there's a known problem: "losing `this`".
+
+In this chapter we'll see the ways to fix it.
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 
 私たちはすでに、JavaScriptでは `this` を失うことが容易であることを知っています。 あるメソッドがオブジェクトから別の場所に渡されると、`this` は失われます。
 
+<<<<<<< HEAD
 ここで `setTimeout` を利用してどのように起こるのかを示します:
+=======
+We've already seen examples of losing `this`. Once a method is passed somewhere separately from the object -- `this` is lost.
+
+Here's how it may happen with `setTimeout`:
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 
 ```js run
 let user = {
@@ -37,13 +49,21 @@ let f = user.sayHi;
 setTimeout(f, 1000); // user コンテキストを失います
 ```
 
+<<<<<<< HEAD
 ブラウザにおいて、メソッド `setTimeout` は少し特別です: 関数呼び出しでは `this=window` を設定します(Node.js では、`this` はタイマーオブジェクトになりますが、ここではほとんど関係ありません)。従って、`this.firstName` は、存在しない `window.firstName` を取得しようとします。他の同様のケースでは、通常 `this` は `undefined` になります。
+=======
+The method `setTimeout` in-browser is a little special: it sets `this=window` for the function call (for Node.js, `this` becomes the timer object, but doesn't really matter here). So for `this.firstName` it tries to get `window.firstName`, which does not exist. In other similar cases, usually `this` just becomes `undefined`.
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 
 このタスクは非常に典型的です -- オブジェクトメソッドをどこか別の場所（ここではスケジューラに渡して）から呼び出したい場合です。それが適切なコンテキストで呼び出されることはどのように確認すればよいでしょう？
 
 ## 解決策 1: 囲む 
 
+<<<<<<< HEAD
 最もシンプルな解決策はラップされた関数を使うことです:
+=======
+The simplest solution is to use a wrapping function:
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 
 ```js run
 let user = {
@@ -83,12 +103,16 @@ let user = {
 
 setTimeout(() => user.sayHi(), 1000);
 
+<<<<<<< HEAD
 // ...1秒以内に次が行われると
+=======
+// ...the value of user changes within 1 second
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 user = {
   sayHi() { alert("Another user in setTimeout!"); }
 };
 
-// Another user in setTimeout?!?
+// Another user in setTimeout!
 ```
 
 次の解決策はこのようなことが起きないことを保証します。
@@ -100,7 +124,11 @@ user = {
 基本の構文は次の通りです:
 
 ```js
+<<<<<<< HEAD
 // より複雑な構文はもう少し後で
+=======
+// more complex syntax will come a little later
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 let boundFunc = func.bind(context);
 ```
 
@@ -161,13 +189,22 @@ let user = {
 let sayHi = user.sayHi.bind(user); // (*)
 */!*
 
+<<<<<<< HEAD
 // オブジェクトなしで実行可能
+=======
+// can run it without an object
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 sayHi(); // Hello, John!
 
 setTimeout(sayHi, 1000); // Hello, John!
 
+<<<<<<< HEAD
 // 1秒以内に user の値が変わったとしても
 // sayHi は古い user オブジェクトを参照しているバインド前の値を使用します
+=======
+// even if the value of user changes within 1 second
+// sayHi uses the pre-bound value which is reference to the old user object
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 user = {
   sayHi() { alert("Another user in setTimeout!"); }
 };
@@ -187,8 +224,13 @@ let user = {
 
 let say = user.say.bind(user);
 
+<<<<<<< HEAD
 say("Hello"); // Hello, John ("Hello" 引数は say に渡されます)
 say("Bye"); // Bye, John ("Bye" は say に渡されます)
+=======
+say("Hello"); // Hello, John! ("Hello" argument is passed to say)
+say("Bye"); // Bye, John! ("Bye" is passed to say)
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 ```
 
 ````smart header="便利なメソッド: `bindAll`"
@@ -202,7 +244,11 @@ for (let key in user) {
 }
 ```
 
+<<<<<<< HEAD
 JavaScriptライブラリはまた、便利な大量バインディングのための機能も提供しています。e.g. [_.bindAll(obj)](http://lodash.com/docs#bindAll) in lodash.
+=======
+JavaScript libraries also provide functions for convenient mass binding , e.g. [_.bindAll(object, methodNames)](http://lodash.com/docs#bindAll) in lodash.
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 ````
 
 ## Partial functions
@@ -317,12 +363,23 @@ So easy to do it with the spread syntax, right?
 
 Also there's a ready [_.partial](https://lodash.com/docs#partial) implementation from lodash library.
 
+<<<<<<< HEAD
 ## サマリ 
 
 メソッド `func.bind(context, ...args)` はコンテキスト `this` を固定した関数 `func` の "束縛されたバリアント" を返します。
 
 通常は、オブジェクトメソッドで `this` を固定するために `bind` を適用し、どこかに渡すことができるようにします。たとえば、`setTimeout` に。 
+=======
+## Summary
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 
 When we fix some arguments of an existing function, the resulting (less universal) function is called *partially applied* or *partial*.
 
+<<<<<<< HEAD
+=======
+Usually we apply `bind` to fix `this` for an object method, so that we can pass it somewhere. For example, to `setTimeout`.
+
+When we fix some arguments of an existing function, the resulting (less universal) function is called *partially applied* or *partial*.
+
+>>>>>>> 3c934b5a46a76861255e3a4f29da6fd54ab05c8c
 Partials are convenient when we don't want to repeat the same argument over and over again. Like if we have a `send(from, to)` function, and `from` should always be the same for our task, we can get a partial and go on with it.
