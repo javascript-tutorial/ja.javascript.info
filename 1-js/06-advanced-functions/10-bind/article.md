@@ -202,24 +202,24 @@ for (let key in user) {
 }
 ```
 
-JavaScriptライブラリはまた、便利な大量バインディングのための機能も提供しています。e.g. [_.bindAll(obj)](http://lodash.com/docs#bindAll) in lodash.
+JavaScriptライブラリは、便利な多数のバインドを行うための機能も提供しています。e.g. [_.bindAll(obj)](http://lodash.com/docs#bindAll) in lodash.
 ````
 
-## Partial functions
+## 部分関数
 
-Until now we have only been talking about binding `this`. Let's take it a step further.
+これまでは、`this` のバインドについてのみ説明してきました。次のステップにいきましょう。
 
-We can bind not only `this`, but also arguments. That's rarely done, but sometimes can be handy.
+`this` だけでなく、引数もバインドすることが可能です。これはめったにされませんが、便利な場合があります。
 
-The full syntax of `bind`:
+`bind` の完全な構文は次の通りです:
 
 ```js
 let bound = func.bind(context, [arg1], [arg2], ...);
 ```
 
-It allows to bind context as `this` and starting arguments of the function.
+context を `this`　とし、関数の開始引数をバインドすることができます。
 
-For instance, we have a multiplication function `mul(a, b)`:
+例えば、乗算関数 `mul(a, b)` があるとします:
 
 ```js
 function mul(a, b) {
@@ -227,7 +227,7 @@ function mul(a, b) {
 }
 ```
 
-Let's use `bind` to create a function `double` on its base:
+これをベースに、`bind` を使用して、`double` 関数を作成しましょう。:
 
 ```js run
 function mul(a, b) {
@@ -243,13 +243,13 @@ alert( double(4) ); // = mul(2, 4) = 8
 alert( double(5) ); // = mul(2, 5) = 10
 ```
 
-The call to `mul.bind(null, 2)` creates a new function `double` that passes calls to `mul`, fixing `null` as the context and `2` as the first argument. Further arguments are passed "as is".
+`mul.bind(null, 2)` の呼び出しで新しい関数 `double` を作成し、これはコンテキストを `null`、最初の引数を `2` で固定した `mul` を呼び出します。それ以降の引数は "そのまま" 渡されます。
 
-That's called [partial function application](https://en.wikipedia.org/wiki/Partial_application) -- we create a new function by fixing some parameters of the existing one.
+これは [部分関数アプリケーション](https://en.wikipedia.org/wiki/Partial_application) と呼ばれ、既存のパラメータのいくつかを固定にすることで新しい関数を作成します。
 
-Please note that we actually don't use `this` here. But `bind` requires it, so we must put in something like `null`.
+実際にはここでは `this` は使用しないことに留意してください。ですが、`bind` で指定が必要なので `null` など何かしらを置く必要があります。
 
-The function `triple` in the code below triples the value:
+以下のコードの関数 `triple` は値を3倍します。:
 
 ```js run
 function mul(a, b) {
@@ -265,23 +265,23 @@ alert( triple(4) ); // = mul(3, 4) = 12
 alert( triple(5) ); // = mul(3, 5) = 15
 ```
 
-Why do we usually make a partial function?
+なぜ部分関数を作るのでしょうか？
 
-The benefit is that we can create an independent function with a readable name (`double`, `triple`). We can use it and not provide the first argument every time as it's fixed with `bind`.
+メリットは、読みやすい名前（`double`, `triple`）で独立した関数を作ることができることです。`bind` で固定されているため、毎回最初の引数を指定する必要がありません。
 
-In other cases, partial application is useful when we have a very generic function and want a less universal variant of it for convenience.
+他のケースでは、非常に一般的な関数がある状態で、便利さのために特定用途のパターンが欲しい場合に部分関数は役立ちます。
 
-For instance, we have a function `send(from, to, text)`. Then, inside a `user` object we may want to use a partial variant of it: `sendTo(to, text)` that sends from the current user.
+例えば、関数 `send(from, to, text)` があるとします。`user` オブジェクトの中で、その部分パターンを使用したい場合、現在のユーザから送信をする関数 `sendTo(to, text)` 。
 
 ## Going partial without context
 
-What if we'd like to fix some arguments, but not the context `this`? For example, for an object method.
+仮に引数のいくつかを固定したいけど、コンテキスト `this` は固定したくない場合はどうしますか？例えば、オブジェクトメソッドです。
 
-The native `bind` does not allow that. We can't just omit the context and jump to arguments.
+ネイティブの `bind` はそれは許可しません。コンテキストを省略して引数だけ指定することはできません。
 
-Fortunately, a function `partial` for binding only arguments can be easily implemented.
+幸いなことに、引数だけをバインドするための関数 `partial` は簡単に実装できます。
 
-Like this:
+次のようになります:
 
 ```js run
 *!*
@@ -300,7 +300,7 @@ let user = {
   }
 };
 
-// add a partial method with fixed time
+// 固定時間で部分メソッドを追加
 user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
 
 user.sayNow("Hello");
@@ -308,14 +308,14 @@ user.sayNow("Hello");
 // [10:00] John: Hello!
 ```
 
-The result of `partial(func[, arg1, arg2...])` call is a wrapper `(*)` that calls `func` with:
-- Same `this` as it gets (for `user.sayNow` call it's `user`)
-- Then gives it `...argsBound` -- arguments from the `partial` call (`"10:00"`)
-- Then gives it `...args` -- arguments given to the wrapper (`"Hello"`)
+`partial(func[, arg1, arg2...])`呼び出しの結果は以下をもつ `func` を呼び出すラッパー `(*)`です。
+- 取得したものと同じ `this`（`user.sayNow` 呼び出しの場合、`user`）
+- 次に `...argsBound` を指定します。`partial` 呼び出しからの引数 (`"10:00"`)
+- 次に `...args`。ラッパーに与えられた引数(`"Hello"`)
 
-So easy to do it with the spread syntax, right?
+なので、スプレッド構文で簡単に行うことができます。
 
-Also there's a ready [_.partial](https://lodash.com/docs#partial) implementation from lodash library.
+また、lodash ライブラリでは、[_.partial](https://lodash.com/docs#partial) 実装が用意されています。
 
 ## サマリ 
 
