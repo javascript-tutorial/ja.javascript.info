@@ -47,7 +47,7 @@ JavaScript が作られたとき, 当初は別の名前を持っていました:
 
 JavaScript の機能は、実行される環境に大きく依存します。 例えば、[Node.js](https://wikipedia.org/wiki/Node.js) では、JavaScriptが任意のファイルを読み書きしたりできる機能をサポートしています。
 
-ブラウザ内のJavaScriptは、Webページの操作、ユーザやWebサーバとのやり取りに関する様々ことを実行することができます。
+ブラウザ内のJavaScriptは、Webページの操作、ユーザやWebサーバとのやり取りに関する様々なことを実行できます。
 
 たとえば、ブラウザ内のJavaScriptは次のようなことが可能です:
 
