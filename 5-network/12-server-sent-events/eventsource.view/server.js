@@ -1,6 +1,11 @@
 let http = require('http');
 let url = require('url');
 let querystring = require('querystring');
+<<<<<<< HEAD
+=======
+let static = require('node-static');
+let fileServer = new static.Server('.');
+>>>>>>> a6fdfda09570a8ce47bb0b83cd7a32a33869cfad
 
 function onDigits(req, res) {
   res.writeHead(200, {
@@ -36,7 +41,10 @@ function accept(req, res) {
   }
 
   fileServer.serve(req, res);
+<<<<<<< HEAD
 
+=======
+>>>>>>> a6fdfda09570a8ce47bb0b83cd7a32a33869cfad
 }
 
 

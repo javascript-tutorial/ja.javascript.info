@@ -6,7 +6,11 @@ class Uploader {
 
     // create fileId that uniquely identifies the file
     // we could also add user session identifier (if had one), to make it even more unique
+<<<<<<< HEAD
     this.fileId = file.name + '-' + file.size + '-' + +file.lastModifiedDate;
+=======
+    this.fileId = file.name + '-' + file.size + '-' + file.lastModified;
+>>>>>>> a6fdfda09570a8ce47bb0b83cd7a32a33869cfad
   }
 
   async getUploadedBytes() {
