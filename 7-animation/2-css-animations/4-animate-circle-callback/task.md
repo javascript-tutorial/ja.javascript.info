@@ -1,15 +1,15 @@
 
-# コールバック付きのアニメーション化された円
+# Animated circle with callback
 
-タスク <info:task/animate-circle> には、アニメーションで大きくなる円があります。
+In the task <info:task/animate-circle> an animated growing circle is shown.
 
-今、ただの円ではなくその中にメッセージを表示する必要があるとしましょう。メッセージはアニメーションが完了した(円が完全に大きくなった) *後* に出現させたほうが良いです。そうでないと醜いためです。
+Now let's say we need not just a circle, but to show a message inside it. The message should appear *after* the animation is complete (the circle is fully grown), otherwise it would look ugly.
 
-このタスクの解答では、関数 `showCircle(cx, cy, radius)` が円を描きます。が、いつ準備ができたかを追跡する方法は提供していません。
+In the solution of the task, the function `showCircle(cx, cy, radius)` draws the circle, but gives no way to track when it's ready.
 
-アニメーションが完了したときに呼ばれるコールバック引数を追加してください: `showCircle(cx, cy, radius, callback)`。 `callback` は引数として円の `<div>` を受け取ります。
+Add a callback argument: `showCircle(cx, cy, radius, callback)` to be called when the animation is complete. The `callback` should receive the circle `<div>` as an argument.
 
-例:
+Here's the example:
 
 ```js
 showCircle(150, 150, 100, div => {
@@ -18,8 +18,8 @@ showCircle(150, 150, 100, div => {
 });
 ```
 
-デモ:
+Demo:
 
 [iframe src="solution" height=260]
 
-タスク <info:task/animate-circle>　の解答を、このタスクのベースに使ってください。
+Take the solution of the task <info:task/animate-circle> as the base.
