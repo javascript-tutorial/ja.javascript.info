@@ -22,7 +22,7 @@ let promise = fetch(url, {
   redirect: "follow", // manual, error
   integrity: "", // "sha256-abcdef1234567890" のようなハッシュ
   keepalive: false, // true
-  signal: undefined, // リクスとを中止するための AbortController
+  signal: undefined, // リクエストを中止するための AbortController
   window: window // null
 });
 ```
