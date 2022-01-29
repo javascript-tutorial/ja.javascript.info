@@ -129,7 +129,7 @@ alert( Boolean(" ") ); // スペースもまた true です (任意の非空文�
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
-|<code>true&nbsp;と&nbsp;false</code> | `1` and `0` |
+|<code>true&nbsp;と&nbsp;false</code> | `1` と `0` |
 | `string` | 前後の連続した空白は取り除かれます。そして、残った文字列が空の場合は結果は 0 になります。そうでなければ、文字列から "読んだ" 数値です。 エラーでは `NaN` が与えられます。|
 
 **`真偽値変換`** -- 論理演算で発生するか、`Boolean(value)` で実行できます。
