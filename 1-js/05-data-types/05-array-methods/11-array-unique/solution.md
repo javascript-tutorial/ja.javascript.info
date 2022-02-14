@@ -2,7 +2,7 @@
 - 各アイテムに対して、返却する配列がすでにそれを持っているかをチェックします。
 - もしそうであれば無視し、持っていなければ結果に追加します。
 
-```js run
+```js run demo
 function unique(arr) {
   let result = [];
 
@@ -36,4 +36,8 @@ JavaScriptエンジンは非常に高速なので、それ自体は問題では�
 
 従って、この解答は小さい配列の場合にのみ良いです。
 
+<<<<<<< HEAD
 さらにチャプター <info:map-set-weakmap-weakset> では、それを最適化する方法を見ていきます。
+=======
+Further in the chapter <info:map-set> we'll see how to optimize it.
+>>>>>>> 29216730a877be28d0a75a459676db6e7f5c4834

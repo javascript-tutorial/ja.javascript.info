@@ -5,8 +5,13 @@ let array = [1, 2, 3];
 array = new Proxy(array, {
   get(target, prop, receiver) {
     if (prop < 0) {
+<<<<<<< HEAD
       // arr[1] のようにアクセスしても
       // prop は文字列なので、数値に変換する必要があります
+=======
+      // even if we access it like arr[1]
+      // prop is a string, so need to convert it to number
+>>>>>>> 29216730a877be28d0a75a459676db6e7f5c4834
       prop = +prop + target.length;
     }
     return Reflect.get(target, prop, receiver);
