@@ -1,25 +1,23 @@
 
 # プロパティフラグとディスクリプタ
 
-ご存知の通り、オブジェクトはプロパティを格納することができます。
+ご存知の通り、オブジェクトはプロパティを格納できます。
 
-今まで、プロパティは単純な "key-value" ペアでしたが、実際にはオブジェクトプロパティはより柔軟で強力なものです。
+これまで、プロパティは単純な "key-value" ペアでしたが、実際にはオブジェクトプロパティはより柔軟で強力なものです。
 
-このチャプターでは、追加の設定オプションについて説明します。
-
-[cut]
+この章では、追加の設定オプションについて説明し、次の章では、それらを見えない形、getter/setter 関数にする方法について見ていきます。
 
 ## プロパティフラグ 
 
-オブジェクトプロパティには、 **`value`** の他に、3つの特別な属性があります(いわゆる "フラグ" と呼ばれています)。
+オブジェクトプロパティには、 **`value`** の他に、3つの特別な属性があります("フラグ" と呼ばれています)。
 
-- **`writable`** -- `true` の場合は変更可能です。それ以外の場合は読み取り専用です。
-- **`enumerable`** -- `true` だとループで列挙されます。それ以外の場合は列挙されません。
-- **`configurable`** -- `true` の場合、プロパティを削除したり、これらの属性を変更することができます。
+- **`writable`** -- `true` の場合、変更可能です。それ以外の場合は読み取り専用です。
+- **`enumerable`** -- `true` の場合、ループで列挙されます。それ以外の場合は列挙されません。
+- **`configurable`** -- `true` の場合、プロパティを削除したり属性の変更ができます。
 
-一般的にはこれらは姿を見せることが少ないため、まだ見ていませんでした。"通常の方法" でプロパティを作成するとき、これらはすべて `true` です。が、いつでもそれを変更することができます。
+一般的にこれらは姿を見せることがないため、まだ見ていませんでした。"通常の方法" でプロパティを作成するとき、これらはすべて `true` です。が、いつでもそれを変更することができます。
 
-まず、それらのフラグを取得する方法を見てみましょう。
+まず、フラグを取得する方法を見てみましょう。
 
 メソッド [Object.getOwnPropertyDescriptor](mdn:js/Object/getOwnPropertyDescriptor) で、プロパティの *完全な* 情報を参照することができます。
 
@@ -56,7 +54,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 */
 ```
 
-[Object.defineProperty](mdn:js/Object/defineProperty) を使うことでフラグを変更することができます。
+[Object.defineProperty](mdn:js/Object/defineProperty) でフラグの変更ができます。
 
 構文:
 
@@ -70,9 +68,9 @@ Object.defineProperty(obj, propertyName, descriptor)
 `descriptor`
 : 適用するプロパティディスクリプタです。
 
-もし、プロパティが存在する場合、`defineProperty` はそのフラグを更新します。そうでなければ、与えられた値とフラグでプロパティを作ります。その場合に、もしフラグが指定されていなければ `false` とみなされます。
+プロパティが存在する場合、`defineProperty` はそのフラグを更新します。存在しない場合は指定された値とフラグでプロパティを作ります。その場合に、もしフラグが指定されていなければ `false` とみなされます。
 
-例えば、ここではプロパティ `name` はすべて偽のフラグで作られます。:
+例えば、ここではプロパティ `name` はすべて `false` のフラグで作られます。:
 
 ```js run
 let user = {};
@@ -98,13 +96,13 @@ alert( JSON.stringify(descriptor, null, 2 ) );
  */
 ```
 
-上で "通常の方法で" 作成された `user.name` と比較してください: 今やすべてのフラグは false です。もしそのようにしたくなければ、`descriptor` で `true` をセットするのがよいでしょう。
+"通常の方法で" 作成された `user.name` と上記を比較してください。今すべてのフラグは `false` です。このようにしたくなければ、`descriptor` で `true` をセットするのがよいでしょう。
 
 では、例を使ってフラグの影響を見てみましょう。
 
-## 読み取り専用(Read-only) 
+## 書き込み不可(Non-writable) 
 
-`writable` フラグを変更して `user.name` を読み取り専用にしてみましょう:
+`writable` フラグを変更して `user.name` を書き込み不可（再代入不可）にしてみましょう:
 
 ```js run
 let user = {
@@ -122,9 +120,13 @@ user.name = "Pete"; // Error: Cannot assign to read only property 'name'...
 */!*
 ```
 
-これで、`defineProperty` で上書きをしない限りは、誰も私たちの user.name を変えることはできません。
+これで、`defineProperty` で上書きをしない限りは、誰も user.name を変えることはできません。
 
-これは先程と同じ操作ですが、プロパティが存在しない場合です:
+```smart header="strict mode の場合にのいエラーが表示されます"
+非 strict mode の場合、書き込み不可プロパティへの書き込みをしてもエラーは発生しません。ですが、操作は依然として成功はしません。非 strict 下では、フラグ違反の操作は単に無視されます。
+```
+
+これは先程と同じ例ですが、スクラッチでプロパティを作成します:
 
 ```js run
 let user = { };
@@ -142,10 +144,9 @@ alert(user.name); // Pete
 user.name = "Alice"; // Error
 ```
 
-
 ## 列挙可能でない(Non-enumerable) 
 
-今、カスタムの `toString` を `user` に追加しましょう。
+カスタムの `toString` を `user` に追加しましょう。
 
 通常、オブジェクトが持つ組み込みの `toString` は列挙可能ではありません。それは `for..in` では表示されません。しかし私たちが自身の `toString` を追加した場合、デフォルトではこのように `for..in` で表示されます。:
 
@@ -161,7 +162,7 @@ let user = {
 for (let key in user) alert(key); // name, toString
 ```
 
-もし列挙されたくなければ、`enumerable:false` をセットすることができます。そうすると、組み込みのものと同じように、`for..in` ループで表示されなくなります。:
+列挙されたくなければ、`enumerable:false` をセットします。すると、組み込みの関数同様、`for..in` ループで列挙されなくなります。:
 
 ```js run
 let user = {
@@ -191,11 +192,11 @@ alert(Object.keys(user)); // name
 
 ## 変更できない(Non-configurable)
 
-組み込みオブジェクトやプロパティに対しては、変更不能フラグ（`configurable:false`）がプリセットされることがあります。
+組み込みオブジェクトやプロパティに対しては、変更不可フラグ（`configurable:false`）がプリセットされることがあります。
 
-変更できないプロパティは `defineProperty` で削除したり変更することができません。
+変更できないプロパティは削除したり変更することができません。
 
-例えば、`Math.PI` は読み取り専用で、列挙不可であり、変更不能です。:
+例えば、`Math.PI` は書き込み不可で、列挙不可であり、変更不可です:
 
 ```js run
 let descriptor = Object.getOwnPropertyDescriptor(Math, 'PI');
@@ -210,7 +211,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 }
 */
 ```
-したがって、プログラマーは `Math.PI` の値を変えることも上書きすることもできません。
+したがって、プログラマは `Math.PI` の値を変えることも上書きすることもできません。
 
 ```js run
 Math.PI = 3; // Error
@@ -218,31 +219,57 @@ Math.PI = 3; // Error
 // delete Math.PI もまた動作しません
 ```
 
-変更不能なプロパティを作ることは一方通行です。それを戻すことはできません。なぜなら `defineProperty` は変更不能なプロパティでは動作しないためです。
-
-ここでは、 `user.name` を "永遠に密封された" 定数にしています:
+`Math.PI` を再度 `writable` にすることもできません。:
 
 ```js run
-let user = { };
+// Error, configurable: false なので
+Object.defineProperty(Math, "PI", { writable: true });
+```
+
+`Math.PI` についてはは何もできません。
+
+変更不可なプロパティの作成は一方通行であり、それを `defineProperty` 戻すことはできません。
+
+**注意: `configurable: false` はプロパティフラグの変更や削除を禁止しますが、値を変更することは可能です**
+
+ここでは、 `user.name` は変更不可ですが、依然として変更はできます（書き込み可なので）:
+
+```js run
+let user = {
+  name: "John"
+};
 
 Object.defineProperty(user, "name", {
-  value: "John",
+  configurable: false
+});
+
+user.name = "Pete"; // 動作します
+delete user.name; // Error
+```
+
+また、以下は組み込みの`Math.PI` のように `user.name` を "永遠に封印された定数" にしています。
+
+```js run
+let user = {
+  name: "John"
+};
+
+Object.defineProperty(user, "name", {
   writable: false,
   configurable: false
 });
 
-*!*
-// user.name またはそのフラグを変更することはできません
-// これらすべて動作しません:
-//   user.name = "Pete"
-//   delete user.name
-//   defineProperty(user, "name", ...)
-Object.defineProperty(user, "name", {writable: true}); // Error
-*/!*
+// user.name とフラグは変更できません
+// これらはすべて動作しません:
+user.name = "Pete";
+delete user.name;
+Object.defineProperty(user, "name", { value: "Pete" });
 ```
 
-```smart header="use strict の場合にのみエラーとなります"
-非 strict mode では、読み取り専用プロパティなどに書き込むときにエラーは発生しません。 しかし、操作は成功しません。フラグ違反の操作は、非 strict では無視されます。
+```smart header="唯一可能な属性変更: writable true -> false"
+フラグ変更に関する小さな例外があります。
+
+変更不可プロパティに対して、`writable: true` を `false` に変更し、値の変更を防ぐことができます。しかし、その逆はできません。
 ```
 
 ## Object.defineProperties
@@ -273,15 +300,15 @@ Object.defineProperties(user, {
 
 ## Object.getOwnPropertyDescriptors
 
-一度にすべてのプロパティのディスクリプタを取得するには、[Object.getOwnPropertyDescriptors(obj)](mdn:js/Object/getOwnPropertyDescriptors) を使うことができます。
+一度にすべてのプロパティのディスクリプタを取得するには、[Object.getOwnPropertyDescriptors(obj)](mdn:js/Object/getOwnPropertyDescriptors) が使用できます。
 
-`Object.defineProperties` と合わせて、オブジェクトをクローンする "フラグを意識した" 方法として使うことができます。:
+`Object.defineProperties` と合わせて、"フラグを意識して" オブジェクトをクローンする方法として使うことができます。:
 
 ```js
 let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
 ```
 
-通常、私たちがオブジェクトをクローンするとき、次のようにプロパティをコピーするために代入を使います。:
+通常、オブジェクトをクローンするとき、次のようにプロパティをコピーするために代入を使います。:
 
 ```js
 for (let key in user) {
@@ -289,7 +316,7 @@ for (let key in user) {
 }
 ```
 
-...ですが、これはフラグはコピーしません。なので、"より良い" クローンを望むなら、 `Object.defineProperties` が優先されます。
+...ですが、これはフラグはコピーしません。そのため、"より良い" クローンを望むなら、 `Object.defineProperties` が好まれます。
 
 もう１つの違いは、`for..in` はシンボルプロパティを無視しますが、`Object.getOwnPropertyDescriptors` はシンボリックなものを含む *すべての* プロパティディスクリプタを返します。
 
@@ -299,24 +326,24 @@ for (let key in user) {
 
 そこには、オブジェクト *全体* へのアクセスを制限するメソッドもあります。:
 
-[Object.preventExtensions(obj)](mdn:js/Object/preventExtensions)
+[Object.preventExtensions(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/preventExtensions)
 : オブジェクトにプロパティを追加するのを禁止します。
 
-[Object.seal(obj)](mdn:js/Object/seal)
+[Object.seal(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal)
 : プロパティの追加、削除を禁止し、既存のすべてのプロパティに `configurable: false` をセットします。
 
-[Object.freeze(obj)](mdn:js/Object/freeze)
+[Object.freeze(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)
 : プロパティの追加、削除、変更を禁止し、既存のすべてのプロパティに `configurable: false, writable: false` をセットします。
 
 また、それらを確認する方法もあります:
 
-[Object.isExtensible(obj)](mdn:js/Object/isExtensible)
+[Object.isExtensible(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible)
 : プロパティの追加が禁止されている場合に `false` を返します。それ以外は `true` です。
 
-[Object.isSealed(obj)](mdn:js/Object/isSealed)
+[Object.isSealed(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isSealed)
 : プロパティの追加、削除が禁止されており、すべての既存のプロパティが `configurable: false` を持っている場合に `true` を返します。
 
-[Object.isFrozen(obj)](mdn:js/Object/isFrozen)
+[Object.isFrozen(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isFrozen)
 : プロパティの追加、削除、変更が禁止されており、すべての現在のプロパティが `configurable: false, writable: false` の場合に `true` を返します。
 
 これらのメソッドは実際にはめったに使われません。
