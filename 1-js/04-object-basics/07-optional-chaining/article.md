@@ -63,7 +63,7 @@ alert(user.address ? user.address.street ? user.address.street.name : null : nul
 ```js run
 let user = {}; // user は address を持っていません
 
-alert( user && user.address && user.address.street ); // undefined (エラーは起きません)
+alert( user.address && user.address.street && user.address.street.name ); // undefined (エラーは起きません)
 ```
 
 プロパティへのパス全体を AND することで、すべてのコンポーネントが確実に存在することが保証されますが(存在しない場合は評価が停止されます)、理想的ではありません。
