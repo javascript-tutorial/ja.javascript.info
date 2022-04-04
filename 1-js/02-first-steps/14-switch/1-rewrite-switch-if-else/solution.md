@@ -1,6 +1,6 @@
-`switch` の機能に正確にマッチさせるためには、`if` は厳密な比較 `'==='` を使わなければなりません。
+To precisely match the functionality of `switch`, the `if` must use a strict comparison `'==='`.
 
-が、与えられた文字列に対しては、単純な `'=='` も使えます。
+For given strings though, a simple `'=='` works too.
 
 ```js no-beautify
 if(browser == 'Edge') {
@@ -15,6 +15,6 @@ if(browser == 'Edge') {
 }
 ```
 
-注意してください: 構造 `browser == 'Chrome' || browser == 'Firefox' …` はより良い可読性のために複数行に分割されています。
+Please note: the construct `browser == 'Chrome' || browser == 'Firefox' …` is split into multiple lines for better readability.
 
-しかし、`switch` 構造は以前としてより洗練されており、説明的です。
+But the `switch` construct is still cleaner and more descriptive.

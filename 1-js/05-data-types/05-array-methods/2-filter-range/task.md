@@ -4,7 +4,11 @@ importance: 4
 
 # 範囲でフィルタする
 
+<<<<<<< HEAD
 配列 `arr` を取得し、`a` と `b` の間で要素を探し、それらの配列を返す関数 `filterRange(arr, a, b)` を書いてください。
+=======
+Write a function `filterRange(arr, a, b)` that gets an array `arr`, looks for elements with values higher or equal to `a` and lower or equal to `b` and return a result as an array.
+>>>>>>> 45934debd9bb31376ea5da129e266df5b43e545f
 
 この関数は配列を変更するべきではありません。新しい配列を返すべきです。
 
