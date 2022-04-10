@@ -1,9 +1,13 @@
 
 # クラスの継承
 
-2つのクラスがあるとしましょう。
+クラスの継承は、あるクラスが別のクラスを拡張するための方法です。
 
-`Animal`:
+つまり、既存の機能の上に、新たな機能を作ることができます。
+
+## "extends" キーワード
+
+クラス `Animal` があるとします:
 
 ```js
 class Animal {
@@ -24,52 +28,19 @@ class Animal {
 let animal = new Animal("My animal");
 ```
 
+これは、`animal` オブジェクトと `Animal` クラスを、グラフィカルに表現したものです。:
+
 ![](rabbit-animal-independent-animal.svg)
 
+...そしてもう１つの `class Rabbit` を作成します。
 
-...そして `Rabbit`:
+うさぎ(rabbit)は動物(animal)なので、`Rabbit` クラスは `Animal` がベースとなり、animal メソッドへアクセスできます。これで、"一般的な" 動物が実行できることをうさぎも実行できます。
+
+別のクラスを拡張する構文は `class Child extends Parent` です。
+
+`Animal` を継承した `class Rabbit` を作成しましょう。:
 
 ```js
-class Rabbit {
-  constructor(name) {
-    this.name = name;
-  }
-  hide() {
-    alert(`${this.name} hides!`);
-  }
-}
-
-let rabbit = new Rabbit("My rabbit");
-```
-
-![](rabbit-animal-independent-rabbit.svg)
-
-
-現時点では、完全に独立しています。
-
-ですが、`Rabbit` は `Animal` を拡張したものにしたいです。言い換えると、うさぎ(rabbit)は動物(animal)をベースにするべきであり、`Animal` のメソッドへのアクセスを持ち、自身のメソッドでそれらを拡張するべきです。
-
-他のクラスから継承するには、括弧 `{..}` の前に `"extends"` と親のクラスを指定します。
-
-ここでは、`Rabbit` は `Animal` を継承しています。:
-
-```js run
-class Animal {
-  constructor(name) {
-    this.speed = 0;
-    this.name = name;
-  }
-  run(speed) {
-    this.speed += speed;
-    alert(`${this.name} runs with speed ${this.speed}.`);
-  }
-  stop() {
-    this.speed = 0;
-    alert(`${this.name} stopped.`);
-  }
-}
-
-// "extends Animal" を指定してAnimalから継承する
 *!*
 class Rabbit extends Animal {
 */!*
@@ -84,15 +55,18 @@ rabbit.run(5); // White Rabbit runs with speed 5.
 rabbit.hide(); // White Rabbit hides!
 ```
 
-これで `Rabbit` は `Animal` のコンストラクタをデフォルトで利用するので、コードは少し短くなりました。そして、`run` をすることもできます。
+`Rabbit` クラスのオブジェクトは、`rabbit.hide()` のように `Rabbit` のメソッドと、`rabbit.run()` のように `Animal` メソッド両方が利用できます。
 
-内部では、`extends` キーワードは、`Rabbit.prototype` から `Animal.prototype` へとの `[[Prototype]]` 参照を追加しています:
+内部では、`extends` キーワードは、以前からあるプロトタイプの仕組みを使用して動作しています。`Rabbit.prototype.[[Prototype]]` を `Animal.prototype` にセットします。そのため、`Rabbit.prototype` でメソッドが見つからない場合には、JavaScript は `Animal.prototype` から取得します。
 
 ![](animal-rabbit-extends.svg)
 
-したがって、`Rabbit.prototype` にメソッドが見つからない場合、JavaScript は `Animal.prototype` から取ります。
+例えば、`rabbit.run` メソッドを見つけるために、エンジンは次のようにチェックします（図の下から上）:
+1. `rabbit` オブジェクト(`run` はありません)。
+2. そのプロトタイプ、つまり `Rabbit.prototype`(`hide` はありますが、`run`はありません)。
+3. そのプロトタイプ、つまり (`extends` しているため) `Animal.prototype`, (最終的に `run` メソッドを持ちます)。
 
-チャプター <info:native-prototypes> から想起できるように、JavaScript は同じプロトタイプ継承を組み込みオブジェクトに対しても使います。E.g. `Date.prototype.[[Prototype]]` は `Object.prototype` なので、date は一般的なオブジェクトメソッドを持っています。
+<info:native-prototypes> の章から想起できるように、JavaScript は同じプロトタイプ継承を組み込みオブジェクトに対しても使います。E.g. `Date.prototype.[[Prototype]]` は `Object.prototype` なので、date は一般的なオブジェクトメソッドを持っています。
 
 ````smart header="`extends` の後では任意の式が指定できます"
 クラス構文では単にクラスではなく、`extends` の後に任意の式を指定することができます。
@@ -114,32 +88,32 @@ new User().sayHi(); // Hello
 ```
 ここでは、 `class User` は `f("Hello")` の結果を継承しています。
 
-多くの条件に依存したクラスを生成するための関数を使用し、それらから継承できるような高度なプログラミングパターンに対して、これは役立つ場合があります。
+多くの条件に依存したクラスを生成するために関数を使用し、それを継承するといった高度なプログラミングパターンに対して役立つ場合があります。
 ````
 
 ## メソッドのオーバーライド 
 
-では、前に進めてメソッドをオーバライドをしてみましょう。今のところ、`Rabbit` は `Animal` から `this.speed = 0` をセットする `stop` メソッドを継承しています。
+では、前に進めてメソッドをオーバライドをしてみましょう。デフォルトでは、`class Rabbit` では指定されておらず、`class Animal` から直接 "そのまま" 取得しています。
 
-もし `Rabbit` で自身の `stop` を指定すると、代わりにそれが使われるようになります。:
+ですが、`Rabbit` で自身の `stop` を指定すると、代わりにそれが使われます。:
 
 ```js
 class Rabbit extends Animal {
   stop() {
-    // ...これは rabbit.stop() のために使われる
+    // ...class Animal の stop() の代わりに
+    // rabbit.stop() で利用されます
   }
 }
 ```
 
-
-...しかし、通常は親メソッドを完全に置き換えるのではなく、その上に組み立てて、その機能の微調整または拡張を行うことを望んできます。私たちはメソッド内で何かをしますが、その前後またはその処理の中で親メソッドを呼び出します。
+通常は親メソッドを完全に置き換えるのではなく、その上に機能の微調整または拡張を行うことを望みます。メソッド内で何かをしますが、その前後または処理中に親メソッドを呼び出します。
 
 クラスはそのために `"super"` キーワードを提供しています。
 
 - `super.method(...)` は親メソッドを呼び出します。
-- `super(...)` は親のコンストラクタを呼び出します(我々のコンストラクタの内側でのみ)。
+- `super(...)` は親のコンストラクタを呼び出します(コンストラクタの内側でのみ)。
 
-例えば、私たちのうさぎが止まったとき自動的に隠れさせましょう。:
+例えば、うさぎ(rabbit)が止まったとき自動的に隠れさせます。:
 
 ```js run
 class Animal {
@@ -180,21 +154,21 @@ rabbit.run(5); // White Rabbit runs with speed 5.
 rabbit.stop(); // White Rabbit stopped. White rabbit hides!
 ```
 
-これで `Rabbit` は処理の中で親 `super.stop()` を呼び出す `stop` メソッドを持っています。
+今、 `Rabbit` は処理の中で親 `super.stop()` を呼び出す `stop` メソッドを持ちます。
 
 ````smart header="アロー関数は `super` を持っていません"
-チャプター <info:arrow-functions> で述べた通り、アロー関数には `super` がありません。
+<info:arrow-functions> の章で述べた通り、アロー関数には `super` がありません。
 
 もしアクセスすると、外部の関数から取得されます。例えば:
 ```js
 class Rabbit extends Animal {
   stop() {
-    setTimeout(() => super.stop(), 1000); // 1秒後親の stop 実行
+    setTimeout(() => super.stop(), 1000); // 1秒後、親の stop を実行
   }
 }
 ```
 
-アロー関数での `super` は `stop()` での `super` と同じです。なので、意図通りに動きます。ここのように "通常の" 関数を指定すると、エラーになります。:
+アロー関数での `super` は、 `stop()` 内での `super` と同じです。なので、意図通りに動きます。以下のように "通常の" 関数を指定するとエラーになります。:
 
 ```js
 // Unexpected super
@@ -208,7 +182,6 @@ setTimeout(function() { super.stop() }, 1000);
 コンストラクタに対しては、少し用心が必要です。
 
 今まで、`Rabbit` は自身の `constructor` を持っていませんでした。
-
 
 [仕様(specification)](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation)によると、クラスが別のクラスを拡張し、`constructor` を持たない場合、次のような `constructor` が生成されます。
 
@@ -224,6 +197,7 @@ class Rabbit extends Animal {
 ```
 
 ご覧の通り、基本的にはすべての引数を渡して親の `constructor` を呼び出します。それは自身のコンストラクタを書いていない場合に起こります。
+
 では、カスタムのコンストラクタを `Rabbit` に追加してみましょう。それは `name` に加えて `earLength` を指定します。:
 
 ```js run
@@ -256,22 +230,24 @@ let rabbit = new Rabbit("White Rabbit", 10); // Error: this は定義されて�
 
 おっと! エラーになりました。これではうさぎを作ることができません。何が間違っていたのでしょう？
 
-簡単な回答: 継承したクラスのコンストラクタは `super(...)` を呼び出し、(!) `this` を使う前にそれを行わなければなりません。
+簡単な回答: 
 
-...しかしなぜ？ ここで何が起きているのでしょう？ 確かにこの要件は奇妙に見えます。
+- **継承したクラスのコンストラクタは `super(...)` を呼び出し、(!) `this` を使う前にそれを行わなければなりません。**
 
-もちろん、それへの説明があります。詳細を見てみましょう。それであなたは何が起こっているのかを本当に理解するでしょう。
+...しかしなぜでしょうか？ ここで何が起きているのでしょう？ 確かにこの要件は奇妙に見えます。
 
-JavaScriptでは、"継承しているクラスのコンストラクタ関数" とその他すべてで区別があります。継承しているクラスでは、該当するコンストラクタ関数は特別な内部プロパティ `[[ConstructorKind]]:"derived"` が付けられます。
+もちろん、これに対する説明がありますので詳細を見てみましょう。これで何が起こっているのかを理解するでしょう。
 
-違いは:
+JavaScriptでは、継承しているクラスのコンストラクタ関数(いわゆる "派生コンストラクタ(derived constructor)") とその他の関数で区別があります。派生コンストラクタ関数は特別な内部プロパティ `[[ConstructorKind]]:"derived"` が付けられ、特別な内部のラベルです。
 
-- 通常のコンストラクタを実行するとき、`this` として空のオブジェクトを作り、それを続けます。
-- しかし、派生したコンストラクタが実行されると、そうは実行されません。親のコンストラクタがこのジョブを実行することを期待しています。
+このラベルは `new` の振る舞いに影響を与えます、
 
-なので、もし独自のコンスタクタを作っている場合には、`super` を呼ばないといけません。なぜなら、そうしないとそれを参照する `this` を持つオブジェクトは生成されないからです。 結果、エラーになるでしょう。
+- 通常の関数が `new` で実行される際、空のオブジェクトを作成し、 `this` に割り当てます。
+- ですが、派生コンストラクタが実行されるとき、そうは実行されません。親のコンストラクタがこのジョブを実行することを期待します。
 
-`Rabbit` を動作させるために、`this` を使う前に `super()` を呼ぶ必要があります。:
+なので、親(元になる)コンストラクタを実行するために、派生コンスタクタは `super` の呼び出しが必要になります。そうしないと、`this` のオブジェクトは生成されないからです。結果、エラーになるでしょう。
+
+`Rabbit` コンストラクタを動作させるために、`this` を使う前に `super()` を呼びます。:
 
 ```js run
 class Animal {
@@ -297,7 +273,7 @@ class Rabbit extends Animal {
 }
 
 *!*
-// 今は問題ありませんｎ
+// 今は問題ありません
 let rabbit = new Rabbit("White Rabbit", 10);
 alert(rabbit.name); // White Rabbit
 alert(rabbit.earLength); // 10
@@ -305,7 +281,109 @@ alert(rabbit.earLength); // 10
 ```
 
 
+
+### クラスフィールドのオーバーライド: a tricky note
+
+```warn header="高度な内容です"
+ここの内容は、他のプログラミング言語でのクラスに対してある程度経験あること前提としています。
+
+言語へのよりよい洞察を提供し、バグの原因になりうる(ただし頻度はそれほど頻繁ではありません)振る舞いについても説明します。
+
+理解するのが難しい場合は、先に進んで読み続けてから、しばらくしてから戻ってください。
+```
+
+メソッドだけではなく、クラスフィールドもオーバーライドすることができます。
+
+ですが、親のコンストラクタでオーバーライドされたフィールドにアクセスする際、多くの他他のプログラミング言語とは大きく異る、トリッキーな振る舞いがあります。
+
+この例を考えます:
+
+```js run
+class Animal {
+  name = 'animal';
+
+  constructor() {
+    alert(this.name); // (*)
+  }
+}
+
+class Rabbit extends Animal {
+  name = 'rabbit';
+}
+
+new Animal(); // animal
+*!*
+new Rabbit(); // animal
+*/!*
+```
+
+ここでは、クラス `Rabbit` は `Animal` を拡張しており、`name` フィールドを自身の値としてオーバーライドしています。
+
+`Rabbit` には自身のコンストラクタはないので、`Animal` コンストラクタが呼ばれます。
+
+興味深いことは、`new Animal()` と `new Rabbit()` 両方のケースで、行 `(*)` の `alert` は `animal` を表示することです。
+
+**言い換えると、親コンストラクタは常にオーバーライドされたものではなく、自身のフィールド値を利用します。**
+
+何がおかしいでしょうか?
+
+まだはっきりしない場合は、メソッドの場合と比較してみてください。
+
+ここには同じコードがありますが、`this.name` フィールドの代わりに `this.showName()` メソッドを呼んでいます。:
+
+```js run
+class Animal {
+  showName() {  // this.name = 'animal' の代わり
+    alert('animal');
+  }
+
+  constructor() {
+    this.showName(); // alert(this.name); の代わり
+  }
+}
+
+class Rabbit extends Animal {
+  showName() {
+    alert('rabbit');
+  }
+}
+
+new Animal(); // animal
+*!*
+new Rabbit(); // rabbit
+*/!*
+```
+
+注目してください: 出力結果は異なります。
+
+そして、これは自然に期待しているものです。親コンストラクタが派生クラスで呼び出されるとき、オーバーライドされたメソッドが使用されます。
+
+...ですが、クラスフィールドの場合はそうではありません。前述のように、親コンストラクタは常に親フィールドを使用します。
+
+なぜ差異があるのでしょうか？
+
+理由は、フィールドの初期化順です。クラスフィールドは次のタイミングで初期化されます:
+- ベースクラスのコンストラクタ(何も拡張していない)の前
+- 派生クラスの `super()` の直後
+
+今回のケースでは、`Rabbit` は派生クラスで、`constructor()` はありません。以前言った通り、これは`super(...args)` だけがある空のコンストラクタと同じです。
+
+そのため、`new Rabbit()` は `super()` を呼び出し、親コンストラクタを実行し、(派生クラスのルールに従い)その後クラスフィールドが初期化されます。親コンストラクタが実行された時点では、まだ `Rabbit` クラスフィールドはないため、`Animal` フィールドが使用されます。
+
+フィールドとメソッドのこの微妙な違いは、JavaScript 固有のものです。
+
+幸い、この振る舞いはオーバーライドされたフィールドが親コンストラクタの中で使用されている場合にのみです。出くわすと何が起こっているのか理解するのが難しいかもしれないので、ここで説明しています。
+
+問題担った場合には、フィールドの代わりにメソッドあるいは getter/setter を使用して修正できます。
+
+
 ## Super: internals, [[HomeObject]]
+
+```warn header="Advanced information"
+If you're reading the tutorial for the first time - this section may be skipped.
+
+It's about the internal mechanisms behind inheritance and `super`.
+```
 
 `super` の内部をもう少し深く見てみましょう。ここで面白いことがいくつか見られます。
 
