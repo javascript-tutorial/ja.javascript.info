@@ -1,9 +1,8 @@
+# 静的(static)プロパティとメソッド
 
-# 静的プロパティとメソッド
+クラス全体にメソッドを割り当てることもできます。このようなメソッドは _static(静的)_ と呼ばれます。
 
-`"prototype"` ではなく、クラス関数にメソッドを代入することもできます。このようなメソッドは *static(静的)* と呼ばれます。
-
-例:
+クラス宣言の中では、次のように `static` キーワードを付けます。
 
 ```js run
 class User {
@@ -17,21 +16,25 @@ class User {
 User.staticMethod(); // true
 ```
 
-これは実際には、関数プロパティとして割り当てるのと同じことをします。:
+これは、実際にはプロパティとして直接割り当てるのと同じことをします。:
 
 ```js
-function User() { }
+class User {}
 
-User.staticMethod = function() {
+User.staticMethod = function () {
   alert(this === User);
 };
+
+User.staticMethod(); // true
 ```
 
 `User.staticMethod()` 内の `this` の値はクラスコンストラクタ `User` 自身("ドットの前のオブジェクト" ルール)です。
 
 通常 static メソッドは、クラスには属するが、特定のオブジェクトには属さない関数を実装するのに使用されます。
 
-例えば、`Article` オブジェクトを持っており、それらを比較するための関数が必要です。自然な選択は、次のような `Article.compare` です。:
+例えば、`Article` オブジェクトがあり、それらを比較するための関数が必要とします。
+
+自然な解決策は、静的メソッド `Article.compare` を追加することです。:
 
 ```js run
 class Article {
@@ -61,17 +64,19 @@ articles.sort(Article.compare);
 alert( articles[0].title ); // Body
 ```
 
-ここでは、`Article.compare` は記事を比較する手段として記事の “上に” 立っています。それは記事のメソッドではなく、むしろクラス全体のメソッドです。
+ここでは、`Article.compare` は記事を比較する手段として、記事の “上位” にいます。記事のメソッドと言うよりはクラス全体のメソッドです。
 
-別の例は、いわゆる “ファクトリー” メソッドです。想像してください、記事を作成する方法はいくつか必要です。:
+別の例は、いわゆる “ファクトリー” メソッドです。
 
-1. 与えられたパラメータ(title, date など)による作成
+記事の作成には複数の方法が必要です:
+
+1. 与えられたパラメータ(`title`, `date` など)による作成
 2. 今日の日付の空の記事の作成
 3. ...
 
-最初の方法はコンストラクタで実装することができます。また2つ目の方法としてクラスの静的メソッドを作ることができます。
+最初の方法はコンストラクタで実装することができます。そして、2 つ目の方法としてはクラスの静的メソッドを作ることができます。
 
-ここでの `Article.createTodays()` のように:
+ここでの `Article.createTodays()` を見てください:
 
 ```js run
 class Article {
@@ -93,28 +98,28 @@ let article = Article.createTodays();
 alert( article.title ); // Todays digest
 ```
 
-これで今日のダイジェストを作成する必要があるたびに、`Article.createTodays()` を呼ぶことができます。改めて言いますが、これは記事のメソッドではなく、クラス全体のメソッドです。
+これで今日のダイジェストを作成する必要があるたびに、`Article.createTodays()` を呼べます。改めて言いますが、これは記事のメソッドではなく、クラス全体のメソッドです。
 
 静的メソッドは、次のように、データベース関連のクラスでデータベースの検索/保存/削除のためにも使用されます。:
 
 ```js
 // Article は記事を管理するための特別なクラスと仮定します
 // 記事を削除するための static メソッド:
-Article.remove({id: 12345});
+Article.remove({ id: 12345 });
 ```
 
 ## 静的プロパティ
 
 [recent browser=Chrome]
 
-通常のクラスプロパティと同じように、静的プロパティも可能です。
+静的プロパティも可能で、通常のクラスプロパティと同じように見えますが、先頭に `static` が付きます。
 
 ```js run
 class Article {
   static publisher = "Ilya Kantor";
 }
 
-alert( Article.publisher ); // Ilya Kantor
+alert(Article.publisher); // Ilya Kantor
 ```
 
 これは直接 `Article` に代入するのと同じです。:
@@ -123,14 +128,15 @@ alert( Article.publisher ); // Ilya Kantor
 Article.publisher = "Ilya Kantor";
 ```
 
-## 静的(Statics)と継承
+## 静的プロパティとメソッドの継承 [#statics-and-inheritance]
 
-静的なものは継承され、`Child.method` として `Parent.method` にアクセスできます。
+静的プロパティとメソッドは継承されます。
 
-例えば、以下のコードの `Animal.compare` は継承され、`Rabbit.compare` としてアクセス可能です。
+例えば、以下のコードの `Animal.compare` と `Animal.planet` は継承され、`Rabbit.compare` と `Rabbit.planet` としてアクセス可能です。
 
 ```js run
 class Animal {
+  static planet = "Earth";
 
   constructor(name, speed) {
     this.speed = speed;
@@ -150,7 +156,7 @@ class Animal {
 
 }
 
-// Animal から継承
+// Inherit from Animal
 class Rabbit extends Animal {
   hide() {
     alert(`${this.name} hides!`);
@@ -167,15 +173,22 @@ rabbits.sort(Rabbit.compare);
 */!*
 
 rabbits[0].run(); // Black Rabbit runs with speed 5.
+
+alert(Rabbit.planet); // Earth
 ```
 
-いま、継承された `Animal.compare` が呼び出されると想定して `Rabbit.compare` を呼ぶことができます。
+`Rabbit.compare` を呼び出すと、継承された `Animal.compare` が呼び出されます。
 
-これはどのように機能しているでしょう？改めて言いますが、プロトタイプを使用して、です。すでに推測したかもしれませんが、extends もまた `Rabbit` に `Animal` への参照を持つ `[[Prototype]]` を与えます。
+これはどのように機能しているでしょう？すでに推測したかもしれませんが、`extends` もまた `Rabbit` に `Animal` への参照を持つ `[[Prototype]]` を与えます。
 
 ![](animal-rabbit-static.svg)
 
-したがって、`Rabbit` 関数は `Animal` 関数を継承しています。そして `Animal` 関数は通常 `Function.prototype` を参照する `[[Prototype]]` を持ちます。なぜなら、何も  `extend` していないからです。
+したがって, `Rabbit extends Animal` は 2 つの `[[Prototype]]` の参照を作成します:
+
+1. `Rabbit` 関数は プロトタイプ的に `Animal` 関数を継承しています。
+2. `Rabbit.prototype` はプロトタイプ的に `Animal.prototype` を継承しています。
+
+結果、継承は通常のものと静的なメソッド両方で機能します。
 
 ここで、それを確認しましょう:
 
@@ -183,23 +196,22 @@ rabbits[0].run(); // Black Rabbit runs with speed 5.
 class Animal {}
 class Rabbit extends Animal {}
 
-// 静的プロパティとメソッド用
+// 静的
 alert(Rabbit.__proto__ === Animal); // true
 
-// そして、次のステップは Function.prototype です。
-alert(Animal.__proto__ === Function.prototype); // true
-
-// that's in addition to the "normal" prototype chain for object methods
-alert(Rabbit.prototype.__proto__ === Animal.prototype);
+// 通常のメソッド
+alert(Rabbit.prototype.__proto__ === Animal.prototype); // true
 ```
-
-このようにして、`Rabbit` は `Animal` のすべての静的メソッドにアクセスすることができます。
 
 ## サマリ
 
-静的メソッドは、具体的なクラスインスタンスに関連する機能やインスタンスが存在することを必要する機能ではなく、むしろクラス全体に属している機能のために使用されます。例えば、`Article.compare` のような、2つの記事を比較する汎用メソッド。
+静的メソッドは、具体的なクラスインスタンスに関連する機能やインスタンスが存在することを必要する機能ではなく、むしろクラス全体に属している機能のために使用されます。
 
-静的プロパティは、クラスレベルのデータを格納するときに使用されます。これもインスタンスにバインドされません。
+例えば、比較用のメソッド `Article.compare(article1, article2)` や、ファクトリーメソッド `Article.createTodays()` です。
+
+これらはクラス宣言の中で `static` と言うキーワードでラベル付けされます。
+
+静的プロパティは、クラスレベルのデータを格納するときに使用され、インスタンスにバインドされません。
 
 構文は次の通りです:
 
@@ -222,4 +234,4 @@ MyClass.method = ...
 
 静的プロパティは継承されます。
 
-技術的には、`class B extends A` の場合、クラス `B` 自体のプロトタイプは `A` を指します、: `B.[[Prototype]] = A`。したがって、`B` の中にフィールドが見つからない場合は、検索は `A` の中で続行されます。
+`class B extends A` の場合、クラス `B` 自体のプロトタイプは `A` を指します、: `B.[[Prototype]] = A`。したがって、`B` の中にフィールドが見つからない場合は、検索は `A` の中で続行されます。
