@@ -1,7 +1,6 @@
-
 # Private / protected プロパティとメソッド
 
-オブジェクト指向プログラミングの最も重要な原則の1つは、内部インタフェースを外部インタフェースから切り離すことです。
+オブジェクト指向プログラミングの最も重要な原則の 1 つは、内部インタフェースを外部インタフェースから切り離すことです。
 
 これは、"hello world" アプリケーションよりも複雑なものを作るすべての開発において "必須" です。
 
@@ -21,10 +20,9 @@
 
 多くの構成要素があります。しかし、何も知らなくても私たちは使うことができます。
 
-
 コーヒーメーカーはとても信頼性が高いですね。何年も使え、調子が悪い場合にだけ修正に持っていきます。
 
-コーヒーメーカーの信頼性とシンプルさの秘密は、すべての構成要素がよく調整され、内部に *隠れている* ことです。
+コーヒーメーカーの信頼性とシンプルさの秘密は、すべての構成要素がよく調整され、内部に _隠れている_ ことです。
 
 もしコーヒーメーカーの保護カバーを外すと、使うのが非常に複雑になり(どこを押せばよい？)、危険です(感電するかもしれません)。
 
@@ -34,10 +32,10 @@
 
 ## 内部 / 外部インタフェース
 
-オブジェクト指向プログラミングでは、プロパティとメソッドは2つのグループに分けられます:
+オブジェクト指向プログラミングでは、プロパティとメソッドは 2 つのグループに分けられます:
 
-- *内部インタフェース*: クラスの他のメソッドからアクセス可能だが、外側からはアクセスできないメソッドやプロパティ。
-- *外部インタフェース*: 外部のクラスからもアクセス可能なメソッドやプロパティ。
+- _内部インタフェース_: クラスの他のメソッドからアクセス可能だが、外側からはアクセスできないメソッドやプロパティ。
+- _外部インタフェース_: 外部のクラスからもアクセス可能なメソッドやプロパティ。
 
 コーヒーメーカーで例えるなら、内部に隠されているもの: ボイラーチューブや発熱体など、は内部インタフェースです。
 
@@ -49,7 +47,7 @@
 
 ここまでは一般的な前置きでした。
 
-JavaScript には、3種類のプロパティとメンバがあります。
+JavaScript には、3 種類のプロパティとメンバがあります。
 
 - パブリック(public): どこからでもアクセス可能です。これらは外部インタフェースになります。今まで、私たちはパブリックなプロパティとメソッドのみを使用していました。
 - プライベート(private): クラス内部からのみアクセスできます。これらは内部インタフェース用です。
@@ -70,9 +68,8 @@ class CoffeeMachine {
 
   constructor(power) {
     this.power = power;
-    alert( `Created a coffee-machine, power: ${power}` );
+    alert(`Created a coffee-machine, power: ${power}`);
   }
-
 }
 
 // コーヒーメーカーを生成
@@ -97,7 +94,9 @@ class CoffeeMachine {
   _waterAmount = 0;
 
   set waterAmount(value) {
-    if (value < 0) throw new Error("Negative water");
+    if (value < 0) {
+      value = 0;
+    }
     this._waterAmount = value;
   }
 
@@ -108,17 +107,16 @@ class CoffeeMachine {
   constructor(power) {
     this._power = power;
   }
-
 }
 
 // コーヒーメーカーを生成
 let coffeeMachine = new CoffeeMachine(100);
 
 // 水を追加
-coffeeMachine.waterAmount = -10; // Error: Negative water
+coffeeMachine.waterAmount = -10; // _waterAmount は -10 ではなく、 0 になります
 ```
 
-これでアクセスが制御されたので、ゼロより小さい値へ設定しようとしても失敗します。
+これでアクセスが制御されたので、ゼロより小さい値へ設定は不可能です。
 
 ## 読み取り専用(Read-only)の "power"
 
@@ -139,7 +137,6 @@ class CoffeeMachine {
   get power() {
     return this._power;
   }
-
 }
 
 // コーヒーメーカーを作成
@@ -187,36 +184,27 @@ new CoffeeMachine().setWaterAmount(100);
 
 [recent browser=none]
 
-プライベートなプロパティやメソッドに対する言語レベルのサポートを提供する、ほぼ標準的な完成したJavaScriptの提案があります。
+プライベートなプロパティやメソッドに対する言語レベルのサポートを提供する、ほぼ標準的な完成した JavaScript の提案があります。
 
 プライベートは `#` から始める必要があります。それらはクラス内部からのみアクセス可能です。
 
 例えば、ここではプライベートな `#waterLimit` プロパティを追加し、水量をチェックするロジックを別のメソッドに抜き出しています:
 
-```js
+```js run
 class CoffeeMachine {
 *!*
   #waterLimit = 200;
 */!*
 
 *!*
-  #checkWater(water) {
-    if (value < 0) throw new Error("Negative water");
-    if (value > this.#waterLimit) throw new Error("Too much water");
+  #fixWaterAmount(value) {
+    if (value < 0) return 0;
+    if (value > this.#waterLimit) return this.#waterLimit;
   }
 */!*
 
-  _waterAmount = 0;
-
-  set waterAmount(value) {
-*!*
-    this.#checkWater(value);
-*/!*
-    this._waterAmount = value;
-  }
-
-  get waterAmount() {
-    return this.waterAmount;
+  setWaterAmount(value) {
+    this.#waterLimit = this.#fixWaterAmount(value);
   }
 
 }
@@ -224,11 +212,10 @@ class CoffeeMachine {
 let coffeeMachine = new CoffeeMachine();
 
 *!*
-coffeeMachine.#checkWater(); // Error
+// can't access privates from outside of the class
+coffeeMachine.#fixWaterAmount(123); // Error
 coffeeMachine.#waterLimit = 1000; // Error
 */!*
-
-coffeeMachine.waterAmount = 100; // Works
 ```
 
 言語レベルで、`#` はフィールドがプライベートであることを示す特別な記号です。その外側や継承したクラスからアクセスすることはできません。
@@ -239,7 +226,6 @@ coffeeMachine.waterAmount = 100; // Works
 
 ```js run
 class CoffeeMachine {
-
   #waterAmount = 0;
 
   get waterAmount() {
@@ -247,7 +233,7 @@ class CoffeeMachine {
   }
 
   set waterAmount(value) {
-    if (value < 0) throw new Error("Negative water");
+    if (value < 0) value = 0;
     this.#waterAmount = value;
   }
 }
@@ -260,8 +246,7 @@ alert(machine.#waterAmount); // Error
 
 protected なものとは異なり、private フィールドは言語レベルで強制されます。
 
-なお、`CoffeeMachine` を継承した場合、`#waterAmount` へアクセスはできません。アクセスするには、`waterAmount` の getter/setter を経由する必要があります。
-:
+なお、`CoffeeMachine` を継承した場合、`#waterAmount` へアクセスはできません。アクセスするには、`waterAmount` の getter/setter を経由する必要があります。:
 
 ```js
 class CoffeeMachine extends CoffeeMachine() {
@@ -295,7 +280,7 @@ class User {
 
 ## サマリ
 
-OOP の用語では、外部インタフェースと内部インタフェースを切り離すことを、[カプセル化]("https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)") と呼びます。
+OOP の用語では、外部インタフェースと内部インタフェースを切り離すことを、[カプセル化](<"https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)">) と呼びます。
 
 これには次のような利点があります:
 
