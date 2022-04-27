@@ -1,12 +1,10 @@
 # クラスのチェック: "instanceof"
 
-`instanceof` 演算子でオブジェクトが特定のクラスに属しているのかを確認することができます。また、継承も考慮に入れます。
+`instanceof` 演算子でオブジェクトが特定のクラスに属しているのかを確認することができます。また、継承も考慮されます。
 
 このようなチェックが必要なケースは多々あるかもしれません。ここでは、その型に応じて引数を別々に扱う *多形(ポリモーフィック)* 関数を構築するために使用します。
 
-[cut]
-
-## instanceof 演算子 
+## instanceof 演算子  [#ref-instanceof]
 
 構文は次の通りです:
 ```js
@@ -27,7 +25,7 @@ alert( rabbit instanceof Rabbit ); // true
 */!*
 ```
 
-それはコンストラクタ関数でも動作します。:
+コンストラクタ関数でも動作します。:
 
 ```js run
 *!*
@@ -48,14 +46,17 @@ alert( arr instanceof Object ); // true
 
 `arr` は `Object` クラスにも属していることに留意してください。`Array` はプロトタイプ的に `Object` を継承しているためです。
 
-`instanceof` 演算子は確認のためにプロトタイプチェーンを検査し、それは静的メソッド `Symbol.hasInstance` を使って微調整することが可能です。
+通常、`instanceof` 演算子はチェックのためにプロトタイプチェーンを検査します。この動きに対して、静的メソッド `Symbol.hasInstance` でカスタムロジックが設定できます。
 
 `obj instanceof Class` のアルゴリズムはおおまかに次のように動作します。:
 
-1. もし静的メソッド `Symbol.hasInstance` があれば、それを使います。このようになります。:
+1. もし静的メソッド `Symbol.hasInstance` があれば、それ（`Class[Symbol.hasInstance](obj)`）を使います。これは `true` または `false` を返す必要があり、これで `instanceof` の振る舞いがカスタマイズできます。:
+
+    例:
 
     ```js run
-    // canEat は animal と仮定
+    // catEat プロパティをもつものは animal と想定する
+    // instanceOf チェックを設定
     class Animal {
       static [Symbol.hasInstance](obj) {
         if (obj.canEat) return true;
@@ -63,10 +64,11 @@ alert( arr instanceof Object ); // true
     }
 
     let obj = { canEat: true };
+
     alert(obj instanceof Animal); // true: Animal[Symbol.hasInstance](obj)が呼ばれます
     ```
 
-2. ほとんどのクラスは `Symbol.hasInstance` を持っていません。このケースでは、`Class.prototype` が `obj` のプロトタイプチェーンうちの1つと等しいかをチェックします。
+2. ほとんどのクラスは `Symbol.hasInstance` を持っていません。このケースでは、通常のロジックが使用されます: `obj instanceOf Class` は `Class.prototype` が `obj` のプロトタイプチェーンうちの1つと等しいかをチェックします。
 
     言い換えると、以下のような比較を行います:
     ```js
@@ -74,11 +76,13 @@ alert( arr instanceof Object ); // true
     obj.__proto__.__proto__ == Class.prototype
     obj.__proto__.__proto__.__proto__ == Class.prototype
     ...
+    // いずれかが true の場合、 true が返却されます
+    // そうでない場合、チェーンの末尾に到達すると false を返します
     ```
 
-    上の例では、`Rabbit.prototype == rabbit.__proto__` なので、すぐに回答が得られます。
+    上の例では、``rabbit.__proto__ === Rabbit.prototype` なので、すぐに回答が得られます。
 
-    継承のケースでは、`rabbit` も同様に親クラスのインスタンスです。:
+    継承のケースでは、2つめのステップでマッチします:
 
     ```js run
     class Animal {}
@@ -88,15 +92,18 @@ alert( arr instanceof Object ); // true
     *!*
     alert(rabbit instanceof Animal); // true
     */!*
+
     // rabbit.__proto__ == Rabbit.prototype
-    // rabbit.__proto__.__proto__ == Animal.prototype (match!)
+    *!*
+    // rabbit.__proto__.__proto__ === Animal.prototype (match!)
+    */!*
     ```
 
 これは、`rabbit instanceof Animal` と `Animal.prototype` を比較したものです。:
 
 ![](instanceof.svg)
 
-ところで、[objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf) というメソッドもあります。それは `objA` が `objB` のプロトタイプチェーンのどこかにあれば `true` を返します。なので、`obj instanceof Class` のテストは `Class.prototype.isPrototypeOf(obj)` と言い換えることができます。
+ところで、[objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf) というメソッドもあります。これは `objA` が `objB` のプロトタイプチェーンのどこかにあれば `true` を返します。なので、`obj instanceof Class` のテストは `Class.prototype.isPrototypeOf(obj)` と言い換えることができます。
 
 面白いことに、`Class` コンストラクタ自身はチェックには参加しません! プロトタイプと `Class.prototype`のチェーンだけです。
 
@@ -117,8 +124,6 @@ alert( rabbit instanceof Rabbit ); // false
 */!*
 ```
 
-これが `prototype` の変更を避ける理由の1つです。安全を保つためです。
-
 ## おまけ: 型のための Object toString
 
 私たちは通常の文字列は `[object Object]` という文字列に変換されることをすでに知っています。:
@@ -134,7 +139,7 @@ alert(obj.toString()); // 同じ
 
 奇妙に聞こえますか？たしかに。分かりやすく説明しましょう。
 
-[仕様(specification)](https://tc39.github.io/ecma262/#sec-object.prototype.tostring)によって、組み込みの `toString` はオブジェクトから抽出し、任意の値のコンテキストで実行することができます。そして、その結果はその値に依存します。
+[スペック(specification)](https://tc39.github.io/ecma262/#sec-object.prototype.tostring)によって、組み込みの `toString` はオブジェクトから抽出し、任意の値のコンテキストで実行することができます。そして、その結果はその値に依存します。
 
 - 数値の場合、それは `[object Number]` になります。
 - 真偽値の場合、`[object Boolean]` になります。
@@ -155,7 +160,7 @@ let arr = [];
 alert( objectToString.call(arr) ); // [object Array]
 ```
 
-ここでは、コンテキスト `this=arr` で関数 `objectToString` を実行するため、チャプター [デコレータと転送, call/apply](info:call-apply-decorators) で説明した [call](mdn:js/function/call) を使いました。
+ここでは、コンテキスト `this=arr` で関数 `objectToString` を実行するため、[デコレータと転送, call/apply](info:call-apply-decorators) の章で説明した [call](mdn:js/function/call) を使いました。
 
 内部的には、`toString` アルゴリズムは `this` を検査し、対応する結果を返します。ほかの例です。:
 
@@ -169,7 +174,7 @@ alert( s.call(alert) ); // [object Function]
 
 ### Symbol.toStringTag
 
-Object `toString` の振る舞いは特別なオブジェクトプロパテ `Symbol.toStringTag` を使ってカスタマイズすることができます。
+Object `toString` の振る舞いは特別なオブジェクトプロパティ `Symbol.toStringTag` を使用してカスタマイズできます。
 
 例:
 
@@ -181,7 +186,7 @@ let user = {
 alert( {}.toString.call(user) ); // [object User]
 ```
 
-ほとんどの環境固有のオブジェクトには、そのようなプロパティがあります。 ブラウザ固有の例はほとんどありません。:
+ほとんどの環境固有のオブジェクトには、このようなプロパティがあります。これはいくつかのブラウザ固有の例です。:
 
 ```js run
 // 環境固有のオブジェクトとクラスのtoStringTag:
