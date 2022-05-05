@@ -1,14 +1,11 @@
 
 # Promise チェーン
 
-チャプター <info:callbacks> で言及した問題に戻りましょう。
+<info:callbacks> の章で言及した問題に戻りましょう。私たちは順次実行される一連の非同期タスクを持っています。例えば、スクリプトの読み込みです。上手くコード化するにはどうすればよいでしょう？
 
-- 私たちは次々に実行される一連の非同期タスクを持っています。例えば、スクリプトの読み込みです。
-- 上手くコード化するにはどうすればよいでしょう？
+Promise はそのためのいくつかの方法を提供します。
 
-Promise はそれをするためのいくつかの方法を提供します。
-
-このチャプターでは promise チェーンを説明します。
+この章では promise チェーンを説明します。
 
 次のようになります:
 
@@ -49,27 +46,9 @@ new Promise(function(resolve, reject) {
 
 `promise.then` の呼び出しは promise を返すので、続けて次の `.then` を呼び出すことができます。そのためすべてのコードが機能します。
 
-ハンドラが値を返すとき、それは promise の結果になります。なので、次の `.then` はそれと一緒に呼ばれます。
+ハンドラが値を返すとき、それは promise の結果になります。なので、次の `.then` はその結果と一緒に呼ばれます。
 
-これらの言葉をより明確にするために、ここではチェーンの始まりがあります:
-
-```js run
-new Promise(function(resolve, reject) {
-
-  setTimeout(() => resolve(1), 1000);
-
-}).then(function(result) {
-
-  alert(result);
-  return result * 2; // <-- (1)
-
-}) // <-- (2)
-// .then…
-```
-
-`.then` により返却される値は promise であるため、`(2)` で別の `.then` を追加することができます。`(1)` で値が返却されるとき、その promise は解決されるため、次のハンドラはその値で実行されます。
-
-**よくある初心者向けの誤り: 技術的には単一の Promise に複数の `.then` を追加することもできます。これはチェーンではありません**
+**よくある初心者が行う誤り: 技術的には単一の Promise に複数の `.then` を追加することもできます。これはチェーンではありません**
 
 例:
 ```js run
@@ -93,19 +72,21 @@ promise.then(function(result) {
 });
 ```
 
-...しかし、これは完全に別物です。ここに図があります(上記のチェーンと比較してください):
+ここで行ったことは、1つの promise に対して複数のハンドラの設定です。これらは結果を相互に渡しません。代わりにそれぞれが独立して処理をします。
+
+ここに図があります(上記のチェーンと比較してください):
 
 ![](promise-then-many.svg)
 
-同一の promise 上のすべての `.then` は同じ結果を得ます -- その promise の結果です。従って、上のコードでは、すべての `alert` は同じ `1` を表示します。それらの間での結果渡しはありません。
+同一の promise 上のすべての `.then` は同じ結果を得ます -- その promise の結果です。従って、上のコードでは、すべての `alert` は同じ `1` を表示します。
 
 実際には、単一の promise に対し複数のハンドラが必要なケースはほとんどありません。チェーンの方がはるかに多く利用されます。
 
 ## promise の返却　
 
-通常、`.then` ハンドラにより返却された値は、直ちに次のハンドラに渡されます。しかし例外もあります。
+`.then(handler)` で使用されるハンドラは promise を作成し返却する可能性があります。
 
-もし返却された値が promise である場合、それ以降の実行はその promise が解決するまで中断されます。その後、promise の結果が次の `.then` ハンドラに渡されます。
+この場合、さらなるハンドラはその promise が完了するまで待ち、結果を得ます。
 
 例:
 
@@ -141,13 +122,13 @@ new Promise(function(resolve, reject) {
 
 ここで最初の `.then` は `1` を表示し、行 `(*)` で `new Promise(…)` を返します。1秒後、それは解決され、結果(`resolve` の引数, ここでは `result*2`) は行 `(**)` にある2番目の `.then` のハンドラに渡されます。それは `2` を表示し、同じことをします。
 
-したがって、出力は再び 1 -> 2 > 4 ですが、今は `alert` 呼び出しの間に 1秒の遅延があります。
+したがって、出力は前の例と同様 1 -> 2 > 4 ですが、今は `alert` 呼び出しの間に 1秒の遅延があります。
 
 promise を返却することで、非同期アクションのチェーンを組み立てることができます。
 
 ## 例: loadScript 
 
-`loadScript` でこの機能を使って、スクリプトを1つずつ順番にロードしてみましょう。:
+[以前の章](info:promise-basics#loadscript)にあった `loadScript` で対し、この機能を使ってスクリプトを1つずつ順番にロードしてみましょう。:
 
 ```js run
 loadScript("/article/promise-chaining/one.js")
@@ -158,18 +139,34 @@ loadScript("/article/promise-chaining/one.js")
     return loadScript("/article/promise-chaining/three.js");
   })
   .then(function(script) {
-    // それらがロードされていることを表示するために、スクリプトで宣言されている関数を使用
+    // それらがロードされていることを表示するために、
+    // スクリプトで宣言されている関数を使用
     one();
     two();
     three();
   });
 ```
 
-ここで、各 `loadScript` 呼び出しは promise を返し、次の `.then` はそれが解決されたときに実行されます。その後、次のスクリプトのロードを開始します。そのため、スクリプトは次々にロードされます。
+アロー関数を使用すると多少短くなります:
 
-私たちは、このチェーンにより多くの非同期アクションを追加することができます。ここで、このコードは依然として "フラット" であり、右にではなく、下に成長していることに注目してください。"破滅のピラミッド" の兆候はありません。
+```js run
+loadScript("/article/promise-chaining/one.js")
+  .then(script => loadScript("/article/promise-chaining/two.js"))
+  .then(script => loadScript("/article/promise-chaining/three.js"))
+  .then(script => {
+    // scripts are loaded, we can use functions declared there
+    one();
+    two();
+    three();
+  });
+```
 
-技術的にはそれぞれの promise の後に、次のように promise を返却することなく直接 `.then` を書くことも可能であることに留意してください。:
+
+ここで、各 `loadScript` 呼び出しは promise を返し、次の `.then` はそれが解決されたときに実行されます。その後、次のスクリプトの読み込みを開始します。そのため、スクリプトは次々にロードされます。
+
+このチェーンにより多くの非同期アクションが追加できます。ここで、このコードは依然として "フラット" であり、右にではなく、下に成長していることに注目してください。"破滅のピラミッド" の兆候はありません。
+
+技術的にはそれぞれお `loadScript` に直接 `.then` を書くことも可能でです:
 
 ```js run
 loadScript("/article/promise-chaining/one.js").then(function(script1) {
@@ -184,15 +181,15 @@ loadScript("/article/promise-chaining/one.js").then(function(script1) {
 });
 ```
 
-このコードは同じことをします: 順番に3つのスクリプトをロードします。しかし、"右に大きくなります"。そのため、コールバックと同じ問題があります。それを避けるためにチェーン(`.then` から promise を返す)を使用してください。
+このコードは同じことをします: 順番に3つのスクリプトをロードします。しかし、"右に大きくなります"。そのため、コールバックと同じ問題があります。
 
-ネストされた関数が外側のスコープ(ここでは最もネストしているコールバックはすべての変数 `scriptX` へアクセスできます)にアクセスできるため、 `.then` を直接書くこともできますが、それはルールではなく例外です。
+promise を使い始めた人の中には、チェーンを知らない人もいます。そのような人はこの書き方をしますが、一般的にはチェーンの方が好ましいです。
+
+ネストされた関数が外側のスコープをもつため、`.then` を直接書いても問題ない場合があります。上記の例では、最もネストされたコールバックは`script1`, `script2`, `script3` すべての変数にアクセスできます。ですが、これはルールというよりは例外です。
 
 
-````smart header="Thenables"
-正確には、`.then` は任意の "thenable" オブジェクトを返す可能性があり、それは promise として同じように扱われます。
-
-"thenable" オブジェクトとは、メソッド `.then` を持つオブジェクトです。
+````smart header="Thenable"
+正確には、ハンドラは promise ではなく、"thenable" と呼ばれるオブジェクトを返す可能性があります。"thenable" オブジェクトとは、メソッド `.then` を持つオブジェクトです。これは promise と同じように扱われます。
 
 この思想は、サードパーティライブラリが彼ら自身の "promise 互換な" オブジェクトを実装できるというものです。それらは拡張されたメソッドのセットを持つことができますが、`.then` を実装しているため、ネイティブの promise とも互換があります。
 
@@ -212,9 +209,11 @@ class Thenable {
 
 new Promise(resolve => resolve(1))
   .then(result => {
+*!*
     return new Thenable(result); // (*)
+*/!*
   })
-  .then(alert); // 1000ms 後に 2　を表示
+  .then(alert); // 1000ms 後に 2 を表示
 ```
 
 JavaScript は行 `(*)` で `.then` ハンドラによって返却されたオブジェクトをチェックします: もし `then` という名前のメソッドが呼び出し可能であれば、ネイティブ関数 `resolve`, `reject` を引数として(executor に似ています)それを呼び出し、それらのいずれかが呼び出されるまで待ちます。上の例では、`resolve(2)` が1秒後に `(**)` で呼ばれます。その後、結果はチェーンのさらに下に渡されます。
@@ -225,9 +224,9 @@ JavaScript は行 `(*)` で `.then` ハンドラによって返却されたオ�
 
 ## より大きな例: fetch 
 
-フロントエンドのプログラミングでは、promise はネットワークリクエストの場合にしばしば使われます。なので、その拡張された例を見てみましょう。
+フロントエンドのプログラミングでは、promise はネットワークリクエストで頻繁に使われます。その例も見てみましょう。
 
-私たちは、リモートサーバからユーザに関する情報をロードするために [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) メソッドを使います。メソッドは非常に複雑で、多くの任意パラメータがありますが、基本の使い方はとてもシンプルです:
+リモートサーバからユーザに関する情報をロードすのに [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) メソッドを使います。メソッドは[別の章](info:fetch)で説明するように多くの任意パラメータがありますが、基本の使い方はとてもシンプルです:
 
 ```js
 let promise = fetch(url);
@@ -253,7 +252,7 @@ fetch('/article/promise-chaining/user.json')
   });
 ```
 
-リモートデータを読んで、JSON としてパースするメソッド `response.json()` もあります。我々のケースでは、より一層便利なのでそれに置き換えてみます。
+`fetch` から返却された `response` オブジェクトは、リモートデータを読み込んでJSON としてパースするメソッド `response.json()` も含んでいます。このケースでは、便利なのでそれに置き換えてみます。
 
 わかりやすくするために、アロー関数も使います:
 
@@ -322,9 +321,7 @@ fetch('/article/promise-chaining/user.json')
 
 今、`setTimeout` は `img.resolve()` を実行した直後に `resolve(githubUser)` を呼び出します。なので、チェーン内の次の `.then` に制御を渡し、ユーザデータを転送します。
 
-ルールとして、非同期アクションは常に promise を返すべきです。
-
-これは、あるアクションの後に別のアクションを実行させることができます。たとえ現時点ではチェーンの拡張予定はなくても、後で必要になるかもしれません。
+良いプラクティスとして、非同期アクションは常に promise を返すべきです。例え現時点ではチェーンの拡張予定がなくても、将来必要になった場合に何らかのアクションを行わせることができます。
 
 最後に、先程のコードは再利用可能な関数に分割できます:
 
@@ -335,8 +332,7 @@ function loadJson(url) {
 }
 
 function loadGithubUser(name) {
-  return fetch(`https://api.github.com/users/${name}`)
-    .then(response => response.json());
+  return loadJson(`https://api.github.com/users/${name}`);
 }
 
 function showAvatar(githubUser) {
@@ -353,7 +349,7 @@ function showAvatar(githubUser) {
   });
 }
 
-// 上記を使う:
+// Use them:
 loadJson('/article/promise-chaining/user.json')
   .then(user => loadGithubUser(user.name))
   .then(showAvatar)
@@ -363,7 +359,7 @@ loadJson('/article/promise-chaining/user.json')
 
 ## サマリ
 
-もし `.then` (あるいは `catch/finally`)ハンドラが Promise を返した場合、チェーンの残りの部分はそれが確定するまで待ちます。その後、その結果(あるいはエラー)はさらに渡されていきます。
+`.then` (あるいは `catch/finally`)ハンドラが Promise を返した場合、チェーンの残りの部分はそれが確定するまで待ちます。その後、その結果(あるいはエラー)はさらに渡されていきます。
 
 これは完全な図です:
 
