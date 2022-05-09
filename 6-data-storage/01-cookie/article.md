@@ -354,7 +354,7 @@ function deleteCookie(name) {
 
     ![](cookie-third-party-2.svg)
 
-4. さらに重要なことは、ユーザ `site.com` から同じくバナーをもつ別のサイト `other.coom` に移動するとき、`ads.coom` に属しているので、`ads.com` は Cookie を受け取ります。このように、訪問者を認識し、彼らがサイト間を移動するのを追跡します。:
+4. さらに重要なことは、ユーザ `site.com` から同じくバナーをもつ別のサイト `other.com` に移動するとき、`ads.com` に属しているので、`ads.com` は Cookie を受け取ります。このように、訪問者を認識し、彼らがサイト間を移動するのを追跡します。:
 
     ![](cookie-third-party-3.svg)
 
