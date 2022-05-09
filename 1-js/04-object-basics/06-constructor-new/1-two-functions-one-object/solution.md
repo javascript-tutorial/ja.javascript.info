@@ -2,7 +2,11 @@
 
 もし関数がオブジェクトを返す場合、`new` は `this` の代わりにそれを返します。
 
+<<<<<<< HEAD
 なので、例えば、同じ外部で定義されたオブジェクト `obj` を返すことで実現できます。:
+=======
+So they can, for instance, return the same externally defined object `obj`:
+>>>>>>> 206485fc3a5465f961608b6e7303fae2e1a0e0b5
 
 ```js run no-beautify
 let obj = {};
