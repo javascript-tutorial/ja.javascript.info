@@ -1,25 +1,25 @@
-# bbタグのペアを見つける
+# Find bbtag pairs
 
-"bbタグ" は `[tag]...[/tag]` のように見えるもので、ここでは `tag` は `b`, `url` または `quote` のいずれかです。
+A "bb-tag" looks like `[tag]...[/tag]`, where `tag` is one of: `b`, `url` or `quote`.
 
-例:
+For instance:
 ```
 [b]text[/b]
 [url]http://google.com[/url]
 ```
 
-BBタグはネストできます。しかし次の例のように、自身の中でネストすることはできません。:
+BB-tags can be nested. But a tag can't be nested into itself, for instance:
 
 ```
-通常:
+Normal:
 [url] [b]http://google.com[/b] [/url]
 [quote] [b]text[/b] [/quote]
 
-不可:
+Can't happen:
 [b][b]text[/b][/b]
 ```
 
-タグは改行を含むことができ、それは普通のことです:
+Tags can contain line breaks, that's normal:
 
 ```
 [quote]
@@ -27,22 +27,22 @@ BBタグはネストできます。しかし次の例のように、自身の中
 [/quote]
 ```
 
-それらの内容をもつすべての BBタグを見つける正規表現を作成してください。
+Create a regexp to find all BB-tags with their contents.
 
-例:
+For instance:
 
 ```js
-let reg = /your regexp/g;
+let regexp = /your regexp/flags;
 
 let str = "..[url]http://google.com[/url]..";
-alert( str.match(reg) ); // [url]http://google.com[/url]
+alert( str.match(regexp) ); // [url]http://google.com[/url]
 ```
 
-タグがネストしている場合は外側のタグを必要とします(コンテンツ内で検索を続けたい場合):
+If tags are nested, then we need the outer tag (if we want we can continue the search in its content):
 
 ```js
-let reg = /your regexp/g;
+let regexp = /your regexp/flags;
 
 let str = "..[url][b]http://google.com[/b][/url]..";
-alert( str.match(reg) ); // [url][b]http://google.com[/b][/url]
+alert( str.match(regexp) ); // [url][b]http://google.com[/b][/url]
 ```

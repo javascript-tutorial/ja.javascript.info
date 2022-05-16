@@ -1,7 +1,7 @@
-はい、確かに奇妙に見えます。
+Yeah, looks strange indeed.
 
-しかし、`instanceof` は関数を気にするのではなく、プロトタイプチェーンに対してマッチする `prototype` について気にします。
+But `instanceof` does not care about the function, but rather about its `prototype`, that it matches against the prototype chain.
 
-そして、ここでは `a.__proto__ == B.prototype` なので、`instanceof` が `true` を返します。
+And here `a.__proto__ == B.prototype`, so `instanceof` returns `true`.
 
-従って、`instanceof` のロジックに基づいて、`prototype` は実際にはコンストラクタ関数ではなく型を定義します。
+So, by the logic of `instanceof`, the `prototype` actually defines the type, not the constructor function.
