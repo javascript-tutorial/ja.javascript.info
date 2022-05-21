@@ -122,20 +122,37 @@ showAvatar();
 非常にスッキリし、読みやすいですよね？前よりもはるかに良いです。
 
 ````smart header="`await` はトップレベルのコードでは動作しません"
-`await` を使い始めたばかりの人は忘れる傾向がありますが、トップレベルのコードで `await` を書くことはできません。それはうまく行きません:
+最近のブラウザは、モジュールの内側ではトップレベルの `await` は問題なく動作します。モジュールに関しては <info:modules-intro> の記事で説明します。
 
-```js run
-// トップレベルのコードでは構文エラー
+例:
+
+```js run module
+// モジュールのトップレベルでコードが実行される想定です
 let response = await fetch('/article/promise-chaining/user.json');
 let user = await response.json();
+
+console.log(user);
 ```
 
-なので、await をするコードに対しては async 関数をラップする必要があります。ちょうど上の例で示しているように。
+モジュール未使用、あるいは[古いブラウザ](https://caniuse.com/mdn-javascript_operators_await_top_level)でサポートが必要な場合、無名の async 関数でラップする方法があります。
+
+次のようになります:
+
+```js
+(async () => {
+  let response = await fetch('/article/promise-chaining/user.json');
+  let user = await response.json();
+  ...
+})();
+```
+
 ````
+
 ````smart header="`await` は thenable を許容します"
 `promise.then` のように、`await` は thenable オブジェクト(`then` メソッドを呼ぶことができるもの)を使うことができます。繰り返しになりますが、このアイデアは、サードパーティオブジェクトは promise ではなく、promise 互換である場合があるということです(`.then` をサポートしている場合、`await` で使えます)。
 
 例えば、ここで `await` は `new Thenable(1)` を許容します:
+
 ```js run
 class Thenable {
   constructor(num) {
@@ -158,13 +175,10 @@ f();
 ```
 
 もし `await` が `.then` で非promise オブジェクトを得た場合、引数としてネイティブ関数 `resolve`, `reject` を提供しているメソッドを呼び出します。次に `await` はいずれかが呼ばれるまで待ち(上の例では、行 `(*)` です)、その結果で進みます。
-
 ````
 
 ````smart header="Async メソッド"
 クラスメソッドもまた async になれます。ただ前に `async` を置くだけです。
-
-Like here:
 
 ```js run
 class Waiter {
@@ -261,9 +275,7 @@ f().catch(alert); // TypeError: failed to fetch // (*)
 ```smart header="`async/await` と `promise.then/catch`"
 `async/await` を使用するとき、`.then` はほとんど必要がありません。なぜなら `await` は私たちを待っているからです。そして `.catch` の代わりに通常の `try..catch` を使うことができます。それは通常（常にではないですが）より便利です。
 
-しかし、コードの最上位のレベルでは、`async` 関数の外にいるときは構文的に `await` を使うことができないため、最終的な結果または落ちるようなエラーを処理するために `.then/catch` を追加するのが普通です。
-
-上の例の行 `(*)` のように。
+しかし、コードの最上位のレベルでは、`async` 関数の外にいるときは構文的に `await` を使うことができないため、最終的な結果または落ちるようなエラーを処理するために `.then/catch` を追加するのが普通です。上の例の行 `(*)` のように。
 ```
 
 ````smart header="`async/await` は `Promise.all` とうまく動作します"
