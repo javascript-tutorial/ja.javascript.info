@@ -23,9 +23,9 @@ Promise は最初から確実に終わっているので、これは奇妙です
 
 ## Microtasks キュー
 
-非同期タスクには適切な管理が必要です。そのために、"標準" では内部キュー `PromiseJobs` について述べています。これは "microtask キュー"(v8 用語)と呼ばれることが多いです。
+非同期タスクには適切な管理が必要です。そのために、ECMA 標準では内部キュー `PromiseJobs` について述べています。これは "microtask キュー"(v8 用語)と呼ばれることが多いです。
 
-[仕様](https://tc39.github.io/ecma262/#sec-jobs-and-job-queues)で述べられているように:
+[スペック](https://tc39.github.io/ecma262/#sec-jobs-and-job-queues)では次のように述べられています:
 
 - キューは先入れ先出し(first-in-first-out)です: 先にキューに入れられたタスクが最初に実行されます。
 - タスクの実行は他になにも実行されていないときにだけ開始されます。
@@ -54,7 +54,7 @@ Promise.resolve()
 
 ## 未処理の拒否(Unhandled rejection)
 
-チャプター  <info:promise-error-handling> の `unhandledrejection` イベントを覚えていますか？
+<info:promise-error-handling> の章の `unhandledrejection` イベントを覚えていますか？
 
 今や、我々は JavaScript が未処理の拒否があったことをどのように見つけるのかを正確に知ることができます。
 
