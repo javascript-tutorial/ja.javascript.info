@@ -2,8 +2,13 @@
 
 2つのステージでそれができます:
 
+<<<<<<< HEAD
 1. `max - min` と 0..1 からのランダム値を掛けると、取りうる値の範囲は 0..1 から 0..max - min まで増加します。
 2. ここで、`min` を足すと、取りうる範囲は `min` から `max` になります。
+=======
+1. If we multiply a random number from 0..1 by `max-min`, then the interval of possible values increases `0..1` to `0..max-min`.
+2. Now if we add `min`, the possible interval becomes from `min` to `max`.
+>>>>>>> d5e8b6d308869738bd1f08dde62b64c969b0673e
 
 関数:
 
