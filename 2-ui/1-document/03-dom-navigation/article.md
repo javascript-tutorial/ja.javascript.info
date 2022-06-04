@@ -5,39 +5,37 @@ libs:
 ---
 
 
-# DOM を歩く
+# DOM ナビゲーション
 
-DOM は要素やそれらのコンテンツに対して何でもすることができますが、最初に対応する DOM オブジェクトに到達して、変数に入れる必要があります。それから要素やコンテンツを変更することができます。
+DOM は要素やコンテンツに対して様々なことができますが、最初に対応する DOM オブジェクトに到達する必要があります。
 
 DOM 上のすべての操作は `document` オブジェクトから始まります。そこから任意のノードにアクセスできます。
-
-[cut]
 
 これは DOM ノード間を移動できるリンクの図です。:
 
 ![](dom-links.svg)
 
-それらについてより深く議論しましょう。
+これらについてより深く議論しましょう。
 
 ## トップ: documentElement と body 
 
-一番上のツリーノードは `documet` のプロパティとして直接利用可能です:
+最上位のツリーノードは `documet` プロパティとして直接利用可能です:
 
 `<html>` = `document.documentElement`
-: 一番上のドキュメントノードは `document.documentElement` です。 それは `<html>` タグの DOM ノードです。
+: 最上位のドキュメントノードは `document.documentElement` で、`<html>` タグの DOM ノードです。
 
 `<body>` = `document.body`
-: 別の広く使われている DOM ノードは `<body>` 要素です --  `document.body`.
+: もう１つの広く使われている DOM ノードは `<body>` 要素です --  `document.body`.
 
 `<head>` = `document.head`
 : `<head>` タグは `document.head` で利用可能です。
 
 ````warn header="落とし穴があります: `document.body` は `null` になる場合があります"
-スクリプトは実行中に存在しない要素へアクセスすることができません。
+スクリプトは実行時に存在しない要素へアクセスできません。
 
-特に、もしスクリプトが `<head>` の内側にある場合、`document.body` は利用できません。なぜならブラウザはまだ body を呼んでいないからです。
+特に、スクリプトが `<head>` の内側にいる場合、ブラウザはまだ body を読み込んでいないため、`document.body` は利用できません。
 
-従って、下の例では最初の `alert` は `null` を表示します:
+従って、以下の例では最初の `alert` は `null` を表示します:
 
 ```html run
 <html>
@@ -67,9 +65,9 @@ DOM では、`null` 値は "存在しない" もしくは "このようなノー
 
 ## 子: childNodes, firstChild, lastChild 
 
-我々がこれから使う2つの用語があります。:
+これから使う2つの用語があります。:
 
-- **子ノード (または子)** -- 直接の子要素です。言い換えると、それらは与えられた要素の中にネストされています。例えば `<head>` と `<body>` は `<html>` 要素の子です。
+- **子ノード (または子)** -- 直接の子要素です。つまり、与えられた要素にネストされています。例えば `<head>` と `<body>` は `<html>` 要素の子です。
 - **子孫** -- 子要素、子要素など、指定された要素にネストされたすべての要素です。
 
 例えば、ここで `<body>` は子 `<div>` と `<ul>` (といくつかの空のテキストノード)を持ちます。:
@@ -88,11 +86,11 @@ DOM では、`null` 値は "存在しない" もしくは "このようなノー
 </html>
 ```
 
-...また、 `<body>` のすべての子孫について尋ねられた場合、直接の子 `<div>`, `<ul>` と `<li>` (`<ul>` の子) や `<b>` (`<li>` の子)のような、よりネストされた要素を取得 -- サブツリー全体です。
+...また、 `<body>` のすべての子孫は、直接の子 `<div>`, `<ul>` だけでなく、`<li>` (`<ul>` の子) や `<b>` (`<li>` の子)のような、さらにネストされた要素を含む -- サブツリー全体です。
 
-**`子ノード` のコレクションは、テキストノードを含むすべての子ノードへのアクセスを提供します。**
+**`childNodes` のコレクションは、テキストノードを含むすべての子ノードを持ちます。**
 
-下の例は、`document.body` の子を表示します:
+以下は `document.body` の子を表示します:
 
 ```html run
 <html>
@@ -117,11 +115,11 @@ DOM では、`null` 値は "存在しない" もしくは "このようなノー
 </html>
 ```
 
-ここでの興味深い詳細について注意してください。上の例を実行するとき、表示される最後の要素は `<script>` です。実際には、ドキュメントは下により多くのものを持っていますが、スクリプト実行時点でブラウザはまだそれを読んでいないため、スクリプトはそれを見ません。
+ここで興味深い点に注目してください。上の例を実行すると、表示される最後の要素は `<script>` です。実際には、ドキュメントはそれ以降により多くのものを持ちますが、スクリプト実行時点でブラウザはまだそれらは読み込んでいないため、スクリプトにそれらは見えません。
 
 **プロパティ `firstChild` と `lastChild` で最初と最後の子への高速なアクセスができます**
 
-それらは単なる簡略表記です。子ノードが存在する場合は、常に次のようになります:
+これらは単なる簡略表記です。子ノードが存在する場合は、常に次のようになります:
 ```js
 elem.childNodes[0] === elem.firstChild
 elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
@@ -131,11 +129,11 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 
 ### DOM コレクション 
 
-ご覧の通り、`childNodes` は配列のように見えます。しかし実際には配列ではなくむしろ *コレクション* -- 特別な配列ライクで反復可能なオブジェクトです。
+ご覧の通り、`childNodes` は配列のように見えます。が、実際には配列ではなくむしろ *コレクション* -- 特別な配列ライクで反復可能なオブジェクトです。
 
-2つの重要な結果があります:
+2つの重要な点があります:
 
-1. それを反復するために `for..of` を使うことができます:
+1. 反復する際 `for..of` が使えます:
   ```js
   for (let node of document.body.childNodes) {
     alert(node); // コレクションのすべてのノードを表示する
@@ -143,36 +141,35 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
   ```
   これは反復可能(必須で `Symbol.iterator` プロパティを提供する)のためです。
 
-2. 配列メソッドは動作しません、なぜなら配列ではないからです:
+2. 配列ではないため、配列メソッドは動作しません:
   ```js run
   alert(document.body.childNodes.filter); // undefined (フィルタメソッドを持っていません!)
   ```
 
-最初の1つ目は良いです。2つ目は許容できます。なぜなら、配列メソッドが必要な場合、コレクションから "本当の" 配列を作るために `Array.from` を使うことができるからです。:
+最初の1つ目は良いです。2つ目も、配列メソッドが必要な場合は、`Array.from` でコレクションから "本当の" 配列を作ることができるので許容できます。:
 
   ```js run
   alert( Array.from(document.body.childNodes).filter ); // これで使えます
   ```
 
 ```warn header="DOM コレクションは読み取り専用です"
-DOM コレクションやさらに -- このチャプターにリストされている *すべての* ナビゲーションプロパティは読み取り専用です。
+DOM コレクションやさらに -- この章でリストされている *すべての* ナビゲーションプロパティは読み取り専用です。
 
-代入 `childNodes[i] = ...` などにより子ノードを置き換えることはできません。
+代入 `childNodes[i] = ...` などで子ノードを置き換えることはできません。
 
-DOM の変更は他のメソッドを必要とします。それらについては次のチャプターで見ていきましょう。
+DOM の変更は他のメソッドを必要とします。それらについては次の章で見ていきましょう。
 ```
 
 ```warn header="DOM コレクションはライブです"
-マイナーな例外を伴うほとんどすべての DOM コレクションは *ライブ* です 。つまり、それらは DOM の現在の状態を反映しています。
+一部の例外を除き、ほぼすべての DOM コレクションは *ライブ* です 。つまり、それらは DOM の現在の状態を反映しています。
 
 もし　`elem.childNodes` への参照を維持し、DOM にノードを追加/削除すると、コレクションの中に自動的に反映されます。
 ```
 
-````warn header="コレクションをループするために、`for..in` を使わないでください"
-Collections are iterable using `for..of`. Sometimes people try to use `for..in` for that.
+````warn header="コレクションのループで、`for..in` を使わないでください"
+コレクションは `for..of` で反復可能です。時々 `for..in` を使おうとする人がいます。
 
-使わないでください。`for..in` ループはすべての列挙可能なプロパティを反復します。そしてコレクションは,
-通常取得したいと思わないいくつかの "余分な" ほとんど使われないプロパティを持っています。: 
+`for..in` は使わないでください。`for..in` ループはすべての列挙可能なプロパティを反復します。コレクションは、通常は取得不要ないくつかの "余分な" ほとんど使われないプロパティを持っています: 
 
 ```html run
 <body>
@@ -185,21 +182,26 @@ Collections are iterable using `for..of`. Sometimes people try to use `for..in` 
 
 ## 兄弟と親 
 
-*兄弟(Siblings)* は同じ親(parent)の子ノードです。例えば、`<head>` と `<body>` は兄弟です:
+*兄弟(Siblings)* は同じ親(parent)の子ノードです。
+
+例えば、`<head>` と `<body>` は兄弟です:
+
+```html
+<html>
+  <head>...</head><body>...</body>
+</html>
+```
 
 - `<body>` は `<head>` の "次の" または "右の" 兄弟と言われます。 
 - `<head>` `<body>` の "前の" または "左の" 兄弟と言われます。
 
-親は `parentNode` として利用可能です。
+次のノード(次の兄弟) は `nextSibling` であり、前のノードは `previousSibling` です。
 
-同じ親において、次のノード(次の兄弟) は `nextSibling` であり、前のノードは `previousSibling` です。
+親は `parentNode` として利用可能です。
 
 例えば:
 
-```html run
-<html><head></head><body><script>
-  // HTML は余分な "ブランクの" テキストノードを避けるために密集しています。
-
+```js run
   // <body> の親は <html> です。
   alert( document.body.parentNode === document.documentElement ); // true
 
@@ -208,14 +210,13 @@ Collections are iterable using `for..of`. Sometimes people try to use `for..in` 
 
   // <body> の前は <head> です。
   alert( document.body.previousSibling ); // HTMLHeadElement
-</script></body></html>
 ```
 
 ## Element-only navigation
 
-上でリストされているナビゲーションプロパティは *すべての* ノードを参照しています。例えば、`childNodes` では、テキストノード、要素ノードの両方を、存在する場合にはコメントノードも見ることができます。
+上でリストされているナビゲーションプロパティは *すべての* ノードを参照します。例えば、`childNodes` では、テキストノード、要素ノードの両方を、さらに存在する場合にはコメントノードも見ることができます。
 
-しかし、多くのタスクでは、テキストノードやコメントノードは必要ありません。 タグを表し、ページの構造を形成する要素ノードを操作したいです。
+しかし、多くのタスクでは、テキストノードやコメントノードは必要ありません。タグを表し、ページの構造を形成する要素ノードを操作したいです。
 
 なので、*要素ノード* だけを考慮にいれたナビゲーションリンクをもっと見てみましょう:
 
@@ -238,8 +239,14 @@ alert( document.documentElement.parentNode ); // document
 alert( document.documentElement.parentElement ); // null
 ```
 
-言い換えると、`documentElement` (`<html>`) はルートノードです。公式にはその親として `document` を持っています。しかし、`document` は要素ノードではないので、`parentNode` はそれを返し、`parentElement` はそうではありません。
+言い換えると、`documentElement` (`<html>`) はルートノードです。公式にはその親として `document` を持っています。しかし、`document` は要素ノードではないので、`parentNode` はそれを返し、`parentElement` は返しません。
 
+これは、任意の要素 `elem` から `<html>` に移動したいが、`document` には移動したくな場合に役立ちます:
+```js
+while(elem = elem.parentElement) { // go up till <html>
+  alert( elem );
+}
+```
 ````
 
 上の例の1つを修正してみましょう: `childNodes` を `children` に置き換えます。これで要素のみが表示されます。:
@@ -304,8 +311,9 @@ alert( document.documentElement.parentElement ); // null
 </table>
 
 <script>
-  // 最初の行の2つ目のセルのコンテンツを取得
-  alert( table.*!*rows[0].cells[1]*/!*.innerHTML ) // "two"
+  // "two" の td を取得
+  let td = table.*!*rows[0].cells[1]*/!*;
+  td.style.backgroundColor = "red"; // ハイライト
 </script>
 ```
 
