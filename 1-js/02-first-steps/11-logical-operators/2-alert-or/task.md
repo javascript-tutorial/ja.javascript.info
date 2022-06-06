@@ -4,7 +4,11 @@ importance: 3
 
 # OR されたアラートの結果は何ですか？
 
+<<<<<<< HEAD
 下のコードは何を出力するでしょう？
+=======
+What will the code below output?
+>>>>>>> 2efe0dce18a57f2b6121ed6656d6fe10b0ee8f96
 
 ```js
 alert( alert(1) || 2 || alert(3) );
