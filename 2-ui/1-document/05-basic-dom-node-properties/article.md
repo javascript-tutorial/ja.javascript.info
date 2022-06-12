@@ -2,13 +2,11 @@
 
 DOM ノードをより深く見ていきましょう。
 
-このチャプターでは、それらが何者であるか、最もよく使われるプロパティについて詳しく見ていきます。
-
-[cut]
+この章ではそれらが何者であるか、そしてよく使われるプロパティについて見ていきます。
 
 ## DOM ノードクラス 
 
-DOM ノードはそれらのクラスに応じて異なるプロパティを持っています。例えば、タグ `<a>` に対応する要素ノードはリンク関連のプロパティを持っており、`<input>` に対応する要素ノードは入力関連のプロパティを持っています。テキストノードは要素ノードとは違います。しかし、すべての DOM ノードのクラスは単一の階層を形成するため、すべてのノードの間で共通のプロパティやメソッドを持っています。
+異なる DOM ノードは異なるプロパティを持ちます。例えば、タグ `<a>` に対応する要素ノードはリンク関連のプロパティを持っており、`<input>` に対応する要素ノードは入力関連のプロパティを持っています。テキストノードは要素ノードとは違いますが、すべての DOM ノードのクラスは1つのの階層を形成するため、すべてのノードで共通のプロパティやメソッドがあります。
 
 各 DOM ノードは対応する組み込みクラスに属しています。
 
@@ -18,20 +16,24 @@ DOM ノードはそれらのクラスに応じて異なるプロパティを持�
 
 ![](dom-class-hierarchy.svg)
 
-The classes are:
+クラスは次の通りです:
 
-- [EventTarget](https://dom.spec.whatwg.org/#eventtarget) -- はルートの "抽象" クラスです。そのクラスのオブジェクトは決して生成されません。これはベースとして機能し、すべての DOM ノードはいわゆる "イベント" をサポートします。イベントについては後ほど学びます。
-- [Node](http://dom.spec.whatwg.org/#interface-node) -- もまた "抽象" クラスで、DOM ノードの基底として機能します。これはコアなツリー機能を提供します。: `parentNode`, `nextSibling`, `childNodes` など(これらは getter です)。`Node` クラスのオブジェクトは決して生成されません。しかし、それを継承した具体的なノードクラス、即ち: テキストノードの `Text`, 要素ノードの `Element` やコメントノードの `Comment` のようによりエキゾチックなものもあります。
-- [Element](http://dom.spec.whatwg.org/#interface-element) -- は DOM 要素のベースクラスです。それは、`nextElementSibling`, `children` や `getElementsByTagName`, `querySelector` のような検索メソッドといった要素レベルのナビゲーションを提供します。ブラウザでは、HTML だけでなく、XML や SVG のドキュメントがある場合もあります。`Element` クラスは ` SVGElement`、`XMLElement`、`HTMLElement` といったより具体的なクラスのベースとして機能します。
+- [EventTarget](https://dom.spec.whatwg.org/#eventtarget) -- はルートの "抽象" クラスです。このクラスのオブジェクトは生成されません。これはベースとして機能し、すべての DOM ノードはいわゆる "イベント" をサポートします。イベントについては後ほど学びます。
+- [Node](http://dom.spec.whatwg.org/#interface-node) -- もまた "抽象" クラスで、DOM ノードの基底として機能します。これはコアなツリー機能を提供します。: `parentNode`, `nextSibling`, `childNodes` など(これらは getter です)。`Node` クラスのオブジェクトは決して生成されません。しかし、それを継承した具体的なノードクラス、即ち: テキストノードの `Text`, 要素ノードの `Element` や、コメントノードのための `Comment` などもあります。
+- [Element](http://dom.spec.whatwg.org/#interface-element) -- は DOM 要素のベースクラスです。`nextElementSibling`, `children` や `getElementsByTagName`, `querySelector` 等の検索メソッドといった、要素レベルのナビゲーションを提供します。ブラウザでは、HTML だけでなく、XML や SVG のドキュメントがある場合もあります。`Element` クラスは ` SVGElement`、`XMLElement`、`HTMLElement` といったより具体的なクラスのベースとして機能します。
 - [HTMLElement](https://html.spec.whatwg.org/multipage/dom.html#htmlelement) -- は最終的にすべてのHTML要素のベースクラスです。色々な HTML要素 がこれを継承しています。:
     - [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) -- `<input>` 要素のためのクラス,
     - [HTMLBodyElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlbodyelement) -- `<body>` 要素のためのクラス,
     - [HTMLAnchorElement](https://html.spec.whatwg.org/multipage/semantics.html#htmlanchorelement) -- `<a>`　要素のためのクラス
     - ...など、各タグは固有のプロパティやメソッドを提供する独自のクラスを持っています。
 
-従って、指定されたノードのプロパティとメソッドのフルセットは継承の結果として得られます。
+`<span>`, `<section>`, `<article>` のようなプロパティは固有のプロパティを持たない一方で、固有のプロパティやメソッドをもつ独自のクラスを持つ他の多くのタグがあります。
 
-例えば、`<input>` 要素の DOM オブジェクトを考えてみましょう。これは [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) クラスに属しています。それは、次の重ね合わせとしてプロパティとメソッドを取得します。:
+そのため、指定されたノードのプロパティとメソッドのフルセットは継承の結果として得られます。
+
+例えば、`<input>` 要素の DOM オブジェクトを考えてみましょう。これは [HTMLInputElement](https://html.spec.whatwg.org/multipage/forms.html#htmlinputelement) クラスに属しています。
+
+それは、次の重ね合わせとしてプロパティとメソッドを取得します(継承順でリストしています):
 
 - `HTMLInputElement` -- このクラスは入力固有のプロパティを提供し、次を継承しています。
 - `HTMLElement` -- 共通のHTML要素メソッド (とgetter/setter)を提供し、次を継承しています。
@@ -67,7 +69,7 @@ alert( document.body instanceof EventTarget ); // true
 ブラウザ、`console.dir(elem)` を使った要素の出力でも簡単に見ることができます。コンソールでは、`HTMLElement.prototype`, `Element.prototype` などを見ることができます。
 
 ```smart header="`console.dir(elem)` VS `console.log(elem)`"
-ほとんどのブラウザは、その開発者ツールで2つのコマンドをサポートしています。`console.log` と `console.dir` です。それらは引数をコンソールに出力します。JavaScript オブジェクトに対して、それらは通常同じ動作をします。
+ほとんどのブラウザは、開発者ツールで2つのコマンドをサポートしています。`console.log` と `console.dir` です。それらは引数をコンソールに出力します。JavaScript オブジェクトに対しては通常同じ動作をします。
 
 しかし、DOM 要素に対しては異なります。:
 
@@ -78,7 +80,7 @@ alert( document.body instanceof EventTarget ); // true
 ```
 
 ````smart header="仕様での IDL"
-仕様では、クラスは JavaScript ではなく、特別な [Interface description language](https://en.wikipedia.org/wiki/Interface_description_language) (IDL) を使って説明されています。これは通常理解しやすいです。
+スペックでは、クラスは JavaScript ではなく、特別な [Interface description language](https://en.wikipedia.org/wiki/Interface_description_language) (IDL) を使って説明されています。これは理解しやすいです。
 
 IDL では、すべてのプロパティの型が前についています。例えば `DOMString`, `boolean` などです。
 
@@ -112,19 +114,17 @@ interface HTMLInputElement: HTMLElement {
   ...
 }
 ```
-
-他のクラスもいくらか似ています。
 ````
 
 ## "nodeType" プロパティ
 
-`nodeType` プロパティは DOM ノードの "タイプ" を取得する昔ながらの方法を提供します。
+`nodeType` プロパティは DOM ノードの "タイプ" を取得する昔ながらの方法です。
 
-それは次の数値を持っています:
+次の数値を持っています:
 - `elem.nodeType == 1` は要素ノード,
 - `elem.nodeType == 3` はテキストノード,
 - `elem.nodeType == 9` はドキュメントオブジェクト,
-- [仕様](https://dom.spec.whatwg.org/#node) ではもういくつかの値があります。
+- [スペック](https://dom.spec.whatwg.org/#node) ではもういくつかの値があります。
 
 例えば:
 
@@ -145,7 +145,7 @@ interface HTMLInputElement: HTMLElement {
 </body>
 ```
 
-現代のスクリプトでは、`instanceof` と他のクラスベースのテストを使ってノードタイプを見ることができますが、`nodeType` の方がシンプルなときもあります。`nodeType` は参照のみで変更はできません。
+現在のスクリプトでは、`instanceof` と他のクラスベースのテストを使ってノードタイプを見ることができますが、`nodeType` の方がシンプルなときもあります。`nodeType` は参照のみで変更はできません。
 
 ## タグ: nodeName と tagName 
 
@@ -158,7 +158,7 @@ alert( document.body.nodeName ); // BODY
 alert( document.body.tagName ); // BODY
 ```
 
-tagName と nodeName に違いはあるでしょうか？
+tagName と nodeName の違いはなにでしょうか？
 
 もちろん、その違いはそれらの名前に反映されていますが、実際は少し微妙です。
 
@@ -186,10 +186,10 @@ tagName と nodeName に違いはあるでしょうか？
 </body>
 ```
 
-もし要素だけを扱う場合、`tagName` だけを使うべきです。
+要素だけを扱う場合、`tagName` と `nodeName` どちらも利用でき、そこに差はありません。
 
 
-```smart header="タグ名は XHTML を除いて常に大文字です"
+```smart header="タグ名は XML モードを除いて常に大文字です"
 ブラウザはドキュメントを処理する2つのモードを持っています。: HTML と XML です。通常webページではHTMLモードが使われます。XMLモードは、ブラウザがヘッダでXMLドキュメントを受け取ったときに有効になります。: `Content-Type: application/xml+xhtml`。
 
 HTMLモードでは、`tagName/nodeName` は常に大文字です: `<body>` または `<BoDy>` は `BODY` です。
@@ -198,13 +198,13 @@ XMLモードでは、文字の大小は "そのまま" 維持されます。最�
 ```
 
 
-## innerHTML: そのコンテンツ 
+## innerHTML: コンテンツ 
 
 [innerHTML](https://w3c.github.io/DOM-Parsing/#widl-Element-innerHTML)プロパティは要素内の HTML を文字列として取得することができます。
 
-我々はそれを変更することもできます。なので、ページを変更する最も強力な方法の1つです。
+それを変更することもできます。なので、ページを変更する最も強力な方法の1つです。
 
-この例は `document.body` のコンテンツを表示し、その後それを完全に置き換えます:
+この例は `document.body` のコンテンツを表示し、その後、コンテンツを完全に置き換えます:
 
 ```html run
 <body>
@@ -233,9 +233,7 @@ XMLモードでは、文字の大小は "そのまま" 維持されます。最�
 ```
 
 ```smart header="スクリプトは実行しません"
-もし `innerHTML` が `<script>` タグをドキュメントに挿入した場合、-- それは実行しません。
-
-それはすでに実行したスクリプトとして HTML の一部になります。
+もし `innerHTML` が `<script>` タグをドキュメントに挿入した場合、-- HMLT の一部にはなりますが、実行されません。
 ```
 
 ### 注意: "innerHTML+=" は完全な置き換えをします
@@ -266,7 +264,6 @@ elem.innerHTML = elem.innerHTML + "..."
 1. 古いコンテンツは削除されます。
 2. 代わりに新しい `innerHTML` が書かれます(古いものと新しいものの連結)。
 
-
 **コンテンツが "完全に取り除かれ" 、最初から書き直されると、すべての画像やその他のリソースはリロードされます**。
 
 上の `chatDiv` の例では、行 `chatDiv.innerHTML+="How goes?"` は HTML コンテンツを再作成し、 `smile.gif` をリロードします(キャッシュされていることを望みます)。もし `chatDiv` が多くのテキストや画像を持っている場合、リロードがはっきり見えます。
@@ -289,9 +286,9 @@ elem.innerHTML = elem.innerHTML + "..."
 </script>
 ```
 
-**注意: `innerHTML` とは違い、`outerHTML` への書き込みは要素を変更しません。代わりに、それは外部のコンテキストでそれを全体として置き換えます。**
+**注意: `innerHTML` とは違い、`outerHTML` への書き込みは要素を変更しません。代わりに、DOM で置き換えられます。**
 
-ええ、奇妙に聞こえ、それは確かに奇妙です。なのでそれについて別々のメモをします。見てみましょう:
+ええ、奇妙に聞こえ、それは確かに奇妙です。それについて補足します。見てみましょう:
 
 例を考えてみましょう:
 
@@ -313,23 +310,28 @@ elem.innerHTML = elem.innerHTML + "..."
 </script>
 ```
 
-行 `(*)` では、`<div>...</div>` の完全な HTML を取り、`<p>...</p>` によって置き換えます。外側のドキュメントでは、`<div>` の代わりに新しいコンテンツを見ることができます。しかし、古い `div` 変数は以前として同じです。
+奇妙に見えませんか？
+
+行 `(*)` では、`<div>` を `<p>A new element</p>` に置き換えます。外側のドキュメント(DOM)では、`<div>` の代わりに新しいコンテンツが見るます。しかし、行 `(**)` では、古い `div` 変数は変更されていません。
  
-`outerHTML` の代入は DOM 要素を変更するのではなく、外側のコンテキストからそれを抽出し、代わりに新しい HTML の一部を挿入します。
+`outerHTML` の代入は DOM 要素（参照されているオブジェクト、今回のケースでは変数 'div'）を変更するのではなく、DOM からそれを削除し、新しいHTMLをその場所へ挿入します。
 
-初心者の開発者は時々ここで間違いをします: 彼らは `div.outerHTML` を修正し、`div` がまるで新しいコンテンツを持っているかのように処理を続けます。
+なので、`div.outerHTML=...` で起きていることは以下の通りです:
+- `div` がドキュメントから削除されます。
+- 別の HTML のピース `<p>A new element</p>` がその場に挿入されます。
+- `div` は古い値を持ったままです。新しいHTMLはどこにも保存されていません。
 
-それは `innerHTML` では可能ですが、`outerHTML` ではできません。
+`div.outerHTML` を変更し、`div` が新しいコンテンツかのように扱い処理を続けると、すぐにエラーになるでしょう。このようなことは `innerHTML` なら問題ありませんが、`outerHTML` ではうまくいきません。
 
-私達は `outerHTML` へ書き込みはできますが、書き込んでいる要素は変更されないことについて留意しておくべきです。代わりにその場所に新しいコンテンツを作成します。DOM に問い合わせることで新しい要素を参照することができます。
+`elem.outerHTML` で書き込みはできますが、'elem' に書き込んでいるものは変わらないことについて留意しておく必要があります。代わりにその場所に新しいコンテンツを作成します。DOM に問い合わせることで新しい要素を参照することができます。
 
 ## nodeValue/data: テキストノードのコンテンツ
 
 `innerHTML` プロパティは要素ノードに対してのみ有効です。
 
-他のノードタイプはそれらに対応するものを持っています: `nodeValue` と `data` プロパティです。これら2つは実際の利用ではほとんど同じで、仕様上少し違いがあるだけです。なので、より短い `data` を使います。
+他のノードタイプにはそれに対応するものがあります: `nodeValue` と `data` プロパティです。これら2つは実際の利用においてはほとんど同じで、仕様上少し違いがあるだけです。なので、より短い `data` を使います。
 
-次のようにして `data` を読むことができます:
+テキストノードのコンテンツとコメントを読む例です:
 
 ```html run height="50"
 <body>
@@ -349,7 +351,9 @@ elem.innerHTML = elem.innerHTML + "..."
 </body>
 ```
 
-テキストノードに対しては、それらが読めたり修正できる理由が想像できます。しかしなぜコメントも？通常それらは全く興味ありませんが、次のように開発者が HTML の中に情報を埋め込むことがあります。:
+テキストノードに対しては、それらが読み込んだり修正できる理由が想像できます。しかしなぜコメントも？
+
+次のように開発者が HTML の中に情報やテンプレートの説明を埋め込むことがあります。:
 
 ```html
 <!-- if isAdmin -->
@@ -377,15 +381,15 @@ elem.innerHTML = elem.innerHTML + "..."
 </script>
 ```
 
-ご覧の通り、すべての `<tags>` が切り取られたがその中のテキストは残っているような形でテキストのみが返却されます。
+ご覧の通り、すべての `<tags>` が取り除かれ、テキストだけが残る形でテキストのみが返却されます。
 
 実際、このようなテキストを読み込むことはめったにありません。
 
 **`textContent` への書き込みはとても役立ちます。なぜならテキストを "安全な方法" で書くことができるからです。**
 
-例えばユーザによって入力された任意の文字列を持っていて、それを表示したいとしましょう。
+例えばユーザによって入力された任意の文字列を表示したいとしましょう。
 
-- `innerHTML` を使うと、すべての HTML タグを共に、"HTML として" 挿入されます。
+- `innerHTML` を使うと、すべての HTML タグと一緒に、"HTML として" 挿入されます。
 - `textContent` では、すべてのシンボルは文字通り扱われ、"テキスト として" 挿入されます。
 
 2つを比べてみます:
@@ -411,7 +415,7 @@ elem.innerHTML = elem.innerHTML + "..."
 
 "hidden" 属性と DOM プロパティは要素が見えるかどうかを指定します。
 
-私たちは次のように HTML の中、もしくは JavaScript を使った代入で使うことができます。:
+次のように HTML の中、もしくは JavaScript を使った代入で使用できます。:
 
 ```html run height="80"
 <div>Both divs below are hidden</div>
@@ -438,9 +442,9 @@ elem.innerHTML = elem.innerHTML + "..."
 </script>
 ```
 
-## More properties
+## その他のプロパティ
 
-DOM 要素は追加のプロパティも持っており、それらの多くはクラスによって提供されています。:
+DOM 要素には追加のプロパティ、特にクラスに依存するプロパティもあります:
 
 - `value` -- `<input>`, `<select>` や `<textarea>` (`HTMLInputElement`, `HTMLSelectElement`...) のための値。
 - `href` -- `<a href="...">` (`HTMLAnchorElement`) の `href`.
@@ -459,32 +463,32 @@ DOM 要素は追加のプロパティも持っており、それらの多くは�
 </script>
 ```
 
-ほとんどの一般的な HTML 属性は対応する DOM プロパティを持っており、このようにしてアクセスすることができます。
+ほとんどの標準の HTML 属性は対応する DOM プロパティを持っており、このようにしてアクセスすることができます。
 
-もし指定したクラスに対して、サポートされているすべてのプロパティのリストが知りたい場合、仕様でそれを見つけることができます。例えば、HTMLInputElemen は <https://html.spec.whatwg.org/#htmlinputelement> でドキュメント化されています。
+指定したクラスがサポートされているすべてのプロパティのリストはスペックにあります。例えば、HTMLInputElemen は <https://html.spec.whatwg.org/#htmlinputelement> でドキュメント化されています。
 
-あるいは、速くそれを知りたい場合や具体的なブラウザで関心がある場合には、-- いつでも `console.dir(elem)` を使って要素を出力しプロパティを読むことができます。もしくはブラウザ開発者ツールの Elements タブで "DOM プロパティ" を参照してください。
+あるいは、速くそれを知りたい場合や、具体的なブラウザでのスペックが知りたい場合には、-- いつでも `console.dir(elem)` で要素を出力しプロパティを確認することができます。もしくはブラウザ開発者ツールの Elements タブで "DOM プロパティ" を参照してください。
 
 ## サマリ 
 
 各 DOM ノードは特定のクラスに属します。クラスは階層を形成します。プロパティとメソッドの完全なセットは継承の結果として得られます。
 
-メインの DOM ノードプロパティは次の通りです:
+主な DOM ノードプロパティは次の通りです:
 
 `nodeType`
-: ノードタイプ。DOM オブジェクトクラスから取得することができますが、それがテキストノードか要素ノードかを単に知りたいだけであることがしばしばです。 `nodeType` プロパティはそれに適しています。これは数値で最も重要なのは: 要素の場合 `1` と、テキストノードの場合 `3` です。読み取り専用です。
+: ノードがテキストノードか要素ノードかが確認できます。要素の場合 `1` と、テキストノードの場合 `3` 、その他いくつか種類があります。読み取り専用です。
 
 `nodeName/tagName`
-: 要素の場合、タグ名です(XMLモードを除いて大文字)。非要素ノードの場合、`nodeName` それが何であるかを説明します。読み取り専用。
+: 要素の場合、タグ名です(XMLモードを除き大文字)。非要素ノードの場合、`nodeName` はそれが何かを説明します。読み取り専用です。
 
 `innerHTML`
-: 要素のHTMLコンテンツ。変更可能。
+: 要素のHTMLコンテンツ。変更可能です。
 
 `outerHTML`
-: 要素の完全なHTMLです。`elem.outerHTML` への書き込み操作は `elem` 自体に触れません。代わりに、外部のコンテキストにおいて、新しいHTMLで置き換えます。
+: 要素の完全なHTMLです。`elem.outerHTML` への書き込み操作は `elem` 自体には触れません。代わりに、外部のコンテキストで新しいHTMLで置き換えます。
 
 `nodeValue/data`
-: 非要素ノード(テキスト、コメント)のコンテンツです。これら2つはほとんど同じで通常は `data` を使います。変更可能。
+: 非要素ノード(テキスト、コメント)のコンテンツです。これら2つはほとんど同じで通常は `data` を使います。変更可能です。
 
 `textContent`
 : 要素中のテキストで、基本的には HTML からすべての `<タグ>` を除いたものです。それに書き込むと、要素内にテキストが配置され、すべての特殊文字とタグがテキストとして正確に扱われます。 ユーザーが作成したテキストを安全に挿入し、不要なHTMLの挿入を防ぐことができます。
@@ -494,4 +498,4 @@ DOM 要素は追加のプロパティも持っており、それらの多くは�
 
 DOM ノードはクラスに応じて他のプロパティも持っています。例えば `<input>` 要素(`HTMLInputElement`) は `value`, `type` をサポートし、 `<a>` 要素 (`HTMLAnchorElement`) は `href` などです。ほとんどの標準HTML属性は対応する DOM プロパティを持っています。
 
-しかし、HTML属性とDOMプロパティは必ずしも同じではありません。これについては次のチャプターで説明します。
+しかし、HTML属性とDOMプロパティは必ずしも同じではありません。これについては次の章で説明します。
