@@ -1,6 +1,10 @@
 function getCookie(name) {
   let matches = document.cookie.match(new RegExp(
+<<<<<<< HEAD
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+=======
+    "(?:^|; )" + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + "=([^;]*)"
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e
   ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
@@ -13,7 +17,11 @@ function setCookie(name, value, options = {}) {
     ...options
   };
 
+<<<<<<< HEAD
   if (options.expires.toUTCString) {
+=======
+  if (options.expires instanceof Date) {
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e
     options.expires = options.expires.toUTCString();
   }
 

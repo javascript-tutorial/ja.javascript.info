@@ -12,7 +12,11 @@
   alert( selectedOption.value );
 
   // 2)
+<<<<<<< HEAD
   let newOption = new Option("classic", "Classic");
+=======
+  let newOption = new Option("Classic", "classic");
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e
   genres.append(newOption);
 
   // 3)

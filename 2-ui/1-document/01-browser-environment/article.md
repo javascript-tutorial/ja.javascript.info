@@ -1,5 +1,6 @@
 # ブラウザ環境, スペック
 
+<<<<<<< HEAD
 当初、JavaScript言語は web ブラウザのために作られました。それ以降、言語は進化し、多くの用途やプラットフォームをもつ言語になりました。
 
 プラットフォームは、ブラウザ、Webサーバ、あるいは別の *ホスト*、JavaScirpt が実行可能であれば "スマートな" コーヒーマシンかもしれません。これらはプラットフォーム固有の機能を提供します。JavaScript スペックではこれを *ホスト環境* と呼んでいます。
@@ -11,18 +12,33 @@
 ![](windowObjects.svg)
 
 `window` と呼ばれる "ルート" オブジェクトがあります。これは2つの役割を持ちます。:
+=======
+The JavaScript language was initially created for web browsers. Since then it has evolved and become a language with many uses and platforms.
+
+A platform may be a browser, or a web-server or another *host*, even a "smart" coffee machine, if it can run JavaScript. Each of them provides platform-specific functionality. The JavaScript specification calls that a *host environment*.
+
+A host environment provides own objects and functions additional to the language core. Web browsers give a means to control web pages. Node.js provides server-side features, and so on.
+
+Here's a bird's-eye view of what we have when JavaScript runs in a web browser:
+
+![](windowObjects.svg)
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e
 
 1. 1つ目は、これはJavaScriptコードのグローバルオブジェクトであり、<info:global-object> の章で説明するとおりです。
 2. 2つ目は、これは "ブラウザウィンドウ" を表し、ウィンドウを制御するためのメソッドを提供します。
 
 例えば、ここではグローバルオブジェクトとして使います:
 
-```js run
+```js run global
 function sayHi() {
   alert("Hello");
 }
 
+<<<<<<< HEAD
 // グローバル関数は window のプロパティとしてアクセス可能
+=======
+// global functions are methods of the global object:
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e
 window.sayHi();
 ```
 
@@ -36,12 +52,21 @@ window固有のメソッドやプロパティはたくさんあります。後�
 
 ## DOM（ドキュメントオブジェクトモデル）
 
+<<<<<<< HEAD
 ドキュメントオブジェクトモデル、略して DOM は、ページ全体のコンテンツを変更可能なオブジェクトとして表現します。
 
 `document` オブジェクトはページのメインの "エントリーポイント" です。これを使って、ページ上のものを変更したり作成することができます。
+=======
+## DOM (Document Object Model)
+
+Document Object Model, or DOM for short, represents all page content as objects that can be modified.
+
+The `document` object is the main "entry point" to the page. We can change or create anything on the page using it.
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e
 
 例:
 ```js run
+<<<<<<< HEAD
 // 背景色を赤に変える
 document.body.style.background = 'red';
 
@@ -66,15 +91,47 @@ CSSOM は document のスタイルルールを変更するとき、DOM と一緒
 ## BOM (HTML仕様の一部) 
 
 ブラウザオブジェクトモデル(BOM)は document 以外のすべてと連携するブラウザ(ホスト環境)により提供される追加オブジェクトです。
+=======
+// change the background color to red
+document.body.style.background = "red";
+
+// change it back after 1 second
+setTimeout(() => document.body.style.background = "", 1000);
+```
+
+Here we used `document.body.style`, but there's much, much more. Properties and methods are described in the specification: [DOM Living Standard](https://dom.spec.whatwg.org).
+
+```smart header="DOM is not only for browsers"
+The DOM specification explains the structure of a document and provides objects to manipulate it. There are non-browser instruments that use DOM too.
+
+For instance, server-side scripts that download HTML pages and process them can also use DOM. They may support only a part of the specification though.
+```
+
+```smart header="CSSOM for styling"
+There's also a separate specification, [CSS Object Model (CSSOM)](https://www.w3.org/TR/cssom-1/) for CSS rules and stylesheets, that explains how they are represented as objects, and how to read and write them.
+
+CSSOM is used together with DOM when we modify style rules for the document. In practice though, CSSOM is rarely required, because we rarely need to modify CSS rules from JavaScript (usually we just add/remove CSS classes, not modify their CSS rules), but that's also possible.
+```
+
+## BOM (Browser Object Model)
+
+The Browser Object Model (BOM) represents additional objects provided by the browser (host environment) for working with everything except the document.
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e
 
 例えば:
 
+<<<<<<< HEAD
 - [navigator](mdn:api/Window/navigator) オブジェクトはブラウザとオペレーティングシステムのバックグラウンドの情報を提供します。多くのプロパティを持っていますが、最も広く知られている2つのプロパティはこれです: `navigator.userAgent` -- 現在のブラウザについて, `navigator.platform` -- プラットフォームについて(Windows/Linux/Macなどを分ける)
 - [location](mdn:api/Window/location) オブジェクトは現在のURLを読み、ブラウザを新しいURLへリダイレクトできます。
+=======
+- The [navigator](mdn:api/Window/navigator) object provides background information about the browser and the operating system. There are many properties, but the two most widely known are: `navigator.userAgent` -- about the current browser, and `navigator.platform` -- about the platform (can help to differ between Windows/Linux/Mac etc).
+- The [location](mdn:api/Window/location) object allows us to read the current URL and can redirect the browser to a new one.
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e
 
 これは、`location` オブジェクトを使う方法です:
 
 ```js run
+<<<<<<< HEAD
 alert(location.href); // 現在のURLを表示
 if (confirm("Go to wikipedia?")) {
   location.href = 'https://wikipedia.org'; // 別のURLへリダイレクト
@@ -87,6 +144,20 @@ if (confirm("Go to wikipedia?")) {
 BOM は一般的な [HTML スペック](https://html.spec.whatwg.org)の一部です。
 
 <https://html.spec.whatwg.org> のHTMLスペックは "HTML言語" (タグ、属性) についてだけでなく、多くのオブジェクトやメソッド、ブラウザ固有のDOM拡張をカバーします。それは "広義のHTML" です。また、いくつかのパートは <https://spec.whatwg.org> にリストされている追加のスペックがあります。
+=======
+alert(location.href); // shows current URL
+if (confirm("Go to Wikipedia?")) {
+  location.href = "https://wikipedia.org"; // redirect the browser to another URL
+}
+```
+
+Functions `alert/confirm/prompt` are also a part of BOM: they are directly not related to the document, but represent pure browser methods of communicating with the user.
+
+```smart header="Specifications"
+BOM is the part of the general [HTML specification](https://html.spec.whatwg.org).
+
+Yes, you heard that right. The HTML spec at <https://html.spec.whatwg.org> is not only about the "HTML language" (tags, attributes), but also covers a bunch of objects, methods and browser-specific DOM extensions. That's "HTML in broad terms". Also, some parts have additional specs listed at <https://spec.whatwg.org>.
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e
 ```
 
 ## サマリ 
@@ -104,6 +175,7 @@ HTML スペック
 
 加えて、いくつかのクラスは <https://spec.whatwg.org/> で個別に説明があります。
 
+<<<<<<< HEAD
 これらのリンクをメモしておいてください。学ぶことがたくさんあるので、すべてをカバーして覚えるのは不可能です。
 
 プロパティまたはメソッドについて読みたくなったとき、<https://developer.mozilla.org/en-US/search> にある Mozilla のマニュアルも優れたリソースですが、対応するスペックを読む方がよいかもしれません: 複雑で長いかもしれませんが、基本の知識は健全で完全なものになります。
@@ -111,3 +183,17 @@ HTML スペック
 何かを見つけるには、インターネット検索で "WHATWG [term]" あるいは "MDN [term]" を使用すると便利なことがよくあります。例: <https://google.com?q=whatwg+localstorage>, <https://google.com?q=mdn+localstorage>。
 
 次に、ドキュメントが UI の中心的な役割を果たすので、DOM の学習を勧めていきます。
+=======
+HTML specification
+: Describes the HTML language (e.g. tags) and also the BOM (browser object model) -- various browser functions: `setTimeout`, `alert`, `location` and so on, see <https://html.spec.whatwg.org>. It takes the DOM specification and extends it with many additional properties and methods.
+
+Additionally, some classes are described separately at <https://spec.whatwg.org/>.
+
+Please note these links, as there's so much stuff to learn it's impossible to cover and remember everything.
+
+When you'd like to read about a property or a method, the Mozilla manual at <https://developer.mozilla.org/en-US/search> is also a nice resource, but the corresponding spec may be better: it's more complex and longer to read, but will make your fundamental knowledge sound and complete.
+
+To find something, it's often convenient to use an internet search "WHATWG [term]" or "MDN [term]", e.g <https://google.com?q=whatwg+localstorage>, <https://google.com?q=mdn+localstorage>.
+
+Now we'll get down to learning DOM, because the document plays the central role in the UI.
+>>>>>>> 7bb6066eb6ea3a030b875cdc75433c458f80997e

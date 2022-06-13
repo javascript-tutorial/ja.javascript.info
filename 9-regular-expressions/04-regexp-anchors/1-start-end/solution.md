@@ -1,6 +1,5 @@
+An empty string is the only match: it starts and immediately finishes.
 
-空文字列だけがマッチします: 開始後すぐに終了するため。
+The task once again demonstrates that anchors are not characters, but tests.
 
-このタスクはアンカーが文字ではなくテスト(評価)であることを改めて実証します。
-
-文字列は空 `""` です。エンジンは最初に `pattern:^` (入力の開始) にマッチし、すぐに終わり `pattern:$` です。そのためマッチします。
+The string is empty `""`. The engine first matches the `pattern:^` (input start), yes it's there, and then immediately the end `pattern:$`, it's here too. So there's a match.
