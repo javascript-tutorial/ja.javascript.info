@@ -43,7 +43,11 @@ function printList(list) {
 }
 ```
 
+<<<<<<< HEAD
 ...しかし、それは賢くありません。将来、リストに何かをするよう、関数を拡張する必要があるかもしれません。もし `list` を変えると、このような能力を失います。
+=======
+...But that would be unwise. In the future we may need to extend a function, do something else with the list. If we change `list`, then we lose such ability.
+>>>>>>> 7964b11b8fa2c314d9a09a82ea4b585cda618c80
 
 良い変数名について言うと、`list` はここではリスト自身です。その最初の要素です。そして、それはそのままでいるべきです。それは明らかで信頼できるものです。
 
