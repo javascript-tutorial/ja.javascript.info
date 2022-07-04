@@ -27,7 +27,11 @@ alert( randomInteger(1, 3) );
 
 # 正しい解法
 
+<<<<<<< HEAD
 このタスクを正しく解く方法はたくさんあります。一例は、区間の端を調整することです。同じ区間となるように、値を `0.5 から 3.5` の間で生成します。そうすると境界値の発生確率が上がります:
+=======
+There are many correct solutions to the task. One of them is to adjust interval borders. To ensure the same intervals, we can generate values from `0.5 to 3.5`, thus adding the required probabilities to the edges:
+>>>>>>> fe1c4a241f12a0939d1e0977cec6504ccd67201f
 
 ```js run
 *!*

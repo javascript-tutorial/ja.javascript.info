@@ -4,11 +4,21 @@ importance: 5
 
 # 改善されたツールチップ動作
 
+<<<<<<< HEAD
 属性 `data-tooltip` を持つ要素にツールチップを表示する JavaScript を書いてください。
+=======
+Write JavaScript that shows a tooltip over an element with the attribute `data-tooltip`. The value of this attribute should become the tooltip text.
+>>>>>>> fe1c4a241f12a0939d1e0977cec6504ccd67201f
 
 それは、タスク <info:task/behavior-tooltip> と似ていますが、ここでは注釈付き要素はネストできます。最も深くネストしたツールチップが表示されます。
 
+<<<<<<< HEAD
 例えば:
+=======
+Only one tooltip may show up at the same time.
+
+For instance:
+>>>>>>> fe1c4a241f12a0939d1e0977cec6504ccd67201f
 
 ```html
 <div data-tooltip="Here – is the house interior" id="house">
@@ -21,5 +31,8 @@ importance: 5
 iframe での結果です:
 
 [iframe src="solution" height=300 border=1]
+<<<<<<< HEAD
 
 P.S. ヒント: 同時に1つのツールチップだけ表示します。
+=======
+>>>>>>> fe1c4a241f12a0939d1e0977cec6504ccd67201f
