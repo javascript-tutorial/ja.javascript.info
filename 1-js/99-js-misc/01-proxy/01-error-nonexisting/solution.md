@@ -19,5 +19,9 @@ function wrap(target) {
 user = wrap(user);
 
 alert(user.name); // John
+<<<<<<< HEAD
 alert(user.age); // Error: Property doesn't exist
+=======
+alert(user.age); // ReferenceError: Property doesn't exist: "age"
+>>>>>>> 82ed8f11b40bd40797427a5dd1763edbe1fca523
 ```

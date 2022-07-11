@@ -1,3 +1,3 @@
-結果は **エラー** です。
+The result is **an error**.
 
-関数 `sayHi` は `if` の内側で宣言されているので、その中でのみ生きています。外部に `sayHi` はありません。
+The function `sayHi` is declared inside the `if`, so it only lives inside it. There is no `sayHi` outside.
