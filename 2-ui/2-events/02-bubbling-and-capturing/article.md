@@ -83,7 +83,7 @@
 
 しかし、どのハンドラも、イベントが完全に処理されたと判断し、バブリングを止めることができます。
 
-そのためのメソッドは `event.stopPropagation()` です.
+そのためのメソッドは `event.stopPropagation()` です。
 
 例えば、ここで `<button>` をクリックしても `body.onclick` は動作しません。
 
