@@ -13,5 +13,11 @@ importance: 5
 
 [iframe border="1" src="solution" height=180]
 
+<<<<<<< HEAD
 P.S. このタスクでは、リスト項目はテキストのみを想定します。ネストされたタグはありません。
 P.P.S. クリック時のテキストのネイティブブラウザ選択を防ぎます。
+=======
+P.S. For this task we can assume that list items are text-only. No nested tags.
+
+P.P.S. Prevent the native browser selection of the text on clicks.
+>>>>>>> 1edb0a38330b54d2e1916f5193fc043e6fbbea78
