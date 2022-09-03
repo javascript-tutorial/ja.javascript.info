@@ -49,19 +49,19 @@ observer.observe(node, config);
 例えば、ここには `contentEditable` 属性をもつ `<div>` があります。この属性を指定すると、フォーカスすると編集することができます。
 
 ```html run
-<div contenteditable id="elem">Click and <b>edit</b>, please</div>
+<div contentEditable id="elem">Click and <b>edit</b>, please</div>
 
 <script>
-  let observer = new MutationObserver((mutationRecords) => {
-    console.log(mutationRecords); // console.log(the changes)
-  });
+let observer = new MutationObserver(mutationRecords => {
+  console.log(mutationRecords); // console.log(the changes)
+});
 
-  // 属性以外のすべてを監視する
-  observer.observe(elem, {
-    childList: true, // 直接の子を監視する
-    subtree: true, // 子孫たちも
-    characterDataOldValue: true, // コールバックに古い値も渡す
-  });
+// 属性以外のすべてを監視する
+observer.observe(elem, {
+  childList: true, // 直接の子を監視する
+  subtree: true, // 子孫たちも
+  characterDataOldValue: true // コールバックに古い値も渡す
+});
 </script>
 ```
 
