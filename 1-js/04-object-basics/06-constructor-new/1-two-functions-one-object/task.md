@@ -4,7 +4,11 @@ importance: 2
 
 # 2つの関数 - 1つのオブジェクト
 
+<<<<<<< HEAD
 `new A()==new B()` のような関数 `A` と `B` を作ることはできるでしょうか？
+=======
+Is it possible to create functions `A` and `B` so that `new A() == new B()`?
+>>>>>>> ff4ef57c8c2fd20f4a6aa9032ad37ddac93aa3c4
 
 ```js no-beautify
 function A() { ... }
