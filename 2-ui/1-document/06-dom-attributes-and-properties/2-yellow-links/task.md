@@ -6,9 +6,15 @@ importance: 3
 
 `style` プロパティを変更することで、すべての外部リンクをオレンジにしてください。
 
+<<<<<<< HEAD
 次のものが外部リンクです:
 - `href` の中に `://` がある場合
 - しかし、`http://internal.com` から始まらない場合
+=======
+A link is external if:
+- Its `href` has `://` in it
+- But doesn't start with `http://internal.com`.
+>>>>>>> 18b1314af4e0ead5a2b10bb4bacd24cecbb3f18e
 
 例:
 
