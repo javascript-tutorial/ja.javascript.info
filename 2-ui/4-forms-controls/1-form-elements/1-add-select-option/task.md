@@ -15,6 +15,14 @@ importance: 5
 
 次をするために JavaScript を使います:
 
+<<<<<<< HEAD
 1. 選択された option の値とテキストを表示します。
 2. option `<option value="classic">Classic</option>` を追加します。
 3. 選択状態にします.
+=======
+1. Show the value and the text of the selected option.
+2. Add an option: `<option value="classic">Classic</option>`.
+3. Make it selected.
+
+Note, if you've done everything right, your alert should show `blues`.
+>>>>>>> bf7d8bb1af3b416d393af1c15b03cb1352da1f9c

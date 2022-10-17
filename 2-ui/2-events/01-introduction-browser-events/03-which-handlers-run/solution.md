@@ -13,4 +13,8 @@ button.addEventListener("click", handler);
 button.removeEventListener("click", handler);
 ```
 
+<<<<<<< HEAD
 ハンドラ `button.onclick` は `addEventListener` に加えて、独立して動作します。
+=======
+The handler `button.onclick` works independently and in addition to `addEventListener`.
+>>>>>>> bf7d8bb1af3b416d393af1c15b03cb1352da1f9c
