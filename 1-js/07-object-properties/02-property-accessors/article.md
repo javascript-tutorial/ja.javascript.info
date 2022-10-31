@@ -1,40 +1,40 @@
 
-# プロパティ getters と setters
+# Property getters and setters
 
-オブジェクトプロパティには2種類あります。
+There are two kinds of object properties.
 
-１つ目は *データプロパティ* です。我々は既にそれがどのように動作するのか知っています。実際、これまで使ってきたすべてのプロパティはデータプロパティでした。
+The first kind is *data properties*. We already know how to work with them. All properties that we've been using until now were data properties.
 
-2つ目のプロパティの種類は新しいものです。それは *アクセサプロパティ* です。これらは基本的には値の取得やセットをする関数ですが、外部コードからは通常のプロパティのように見えます。
+The second type of property is something new. It's an *accessor property*. They are essentially functions that execute on getting and setting a value, but look like regular properties to an external code.
 
-## Getters と setters
+## Getters and setters
 
-アクセサプロパティは "getter" と "setter" メソッドで表現されます。オブジェクトリテラルでは、`get` と `set` で表されます:
+Accessor properties are represented by "getter" and "setter" methods. In an object literal they are denoted by `get` and `set`:
 
 ```js
 let obj = {
   *!*get propName()*/!* {
-    // getter, obj.propName を取得するときにコードが実行されます
+    // getter, the code executed on getting obj.propName
   },
 
   *!*set propName(value)*/!* {
-    // setter, obj.propName = value 時にコードが実行されます
+    // setter, the code executed on setting obj.propName = value
   }
 };
 ```
 
-`obj.propName` が読まれたときに getter は動作し、setter は割り当てられたときに動作します。
+The getter works when `obj.propName` is read, the setter -- when it is assigned.
 
-例えば、`name` と `surname` を持つ `user` オブジェクトがあります。:
+For instance, we have a `user` object with `name` and `surname`:
 
-```js run
+```js
 let user = {
   name: "John",
   surname: "Smith"
 };
 ```
 
-今、"John Smith" という値を持つ "fullName" プロパティを追加したいとします。もちろん、既存の情報のコピーペーストはしたくありません。ここで、アクセサを使用して実装することができます。:
+Now we want to add a `fullName` property, that should be `"John Smith"`. Of course, we don't want to copy-paste existing information, so we can implement it as an accessor:
 
 ```js run
 let user = {
@@ -53,9 +53,9 @@ alert(user.fullName); // John Smith
 */!*
 ```
 
-外部からは、アクセサプロパティは通常の変数に見えます。それがアクセサプロパティの考え方です。関数として `user.fullName` を *呼び出すのではなく*、通常通り *読み込みます*。: getter は背後で実行されます。  
+From the outside, an accessor property looks like a regular one. That's the idea of accessor properties. We don't *call* `user.fullName` as a function, we *read* it normally: the getter runs behind the scenes.
 
-今のところ、`fullName` は getter しか持っていません。`user.fullName =` を指定しようとすると、エラーになります。
+As of now, `fullName` has only a getter. If we attempt to assign `user.fullName=`, there will be an error:
 
 ```js run
 let user = {
@@ -69,7 +69,7 @@ user.fullName = "Test"; // Error (property has only a getter)
 */!*
 ```
 
-`user.fullName` の setter を追加して修正しましょう。:
+Let's fix it by adding a setter for `user.fullName`:
 
 ```js run
 let user = {
@@ -87,29 +87,29 @@ let user = {
 */!*
 };
 
-// set fullName は指定された値で実行されます
+// set fullName is executed with the given value.
 user.fullName = "Alice Cooper";
 
 alert(user.name); // Alice
 alert(user.surname); // Cooper
 ```
 
-結果、"仮想" プロパティ `fullName` を持っており、これは読み書き可能です。
+As the result, we have a "virtual" property `fullName`. It is readable and writable.
 
-## アクセサディスクリプタ 
+## Accessor descriptors
 
-アクセサプロパティのディスクリプタは、データプロパティと比べて異なります。
+Descriptors for accessor properties are different from those for data properties.
 
-アクセサプロパティには、`value` も `writable` もありませんが、代わりに、`get` と `set` があります。
+For accessor properties, there is no `value` or `writable`, but instead there are `get` and `set` functions.
 
-したがって、アクセサディスクリプタには次のものがあります:
+That is, an accessor descriptor may have:
 
-- **`get`** -- 引数なしの関数で、プロパティが読まれたときに動作します。
-- **`set`** -- 1つの引数をもつ関数で、プロパティがセットされたときに呼ばれます。
-- **`enumerable`** -- データプロパティと同じです。
-- **`configurable`** -- データプロパティと同じです。
+- **`get`** -- a function without arguments, that works when a property is read,
+- **`set`** -- a function with one argument, that is called when the property is set,
+- **`enumerable`** -- same as for data properties,
+- **`configurable`** -- same as for data properties.
 
-例えば、アクセサ `fullName` を `defineProperty` で作るとき、`get` と `set` をディスクリプタに渡すことができます。:
+For instance, to create an accessor `fullName` with `defineProperty`, we can pass a descriptor with `get` and `set`:
 
 ```js run
 let user = {
@@ -134,9 +134,9 @@ alert(user.fullName); // John Smith
 for(let key in user) alert(key); // name, surname
 ```
 
-プロパティはアクセサ（`get/set` メソッドを持つ）かデータプロパティ（`value`を持つ）のいずれかになれますが、両方にはなれないことに注意してください。
+Please note that a property can be either an accessor (has `get/set` methods) or a data property (has a `value`), not both.
 
-`get` と `value` を同じディスクリプタで指定すると、エラーになります。:
+If we try to supply both `get` and `value` in the same descriptor, there will be an error:
 
 ```js run
 *!*
@@ -151,11 +151,11 @@ Object.defineProperty({}, 'prop', {
 });
 ```
 
-## スマートな getters/setters 
+## Smarter getters/setters
 
-Getter/setter は、"実際の" プロパティ値のラッパーとして使用することで、それらをより詳細に制御することができます。
+Getters/setters can be used as wrappers over "real" property values to gain more control over operations with them.
 
-例えば、`user` で短すぎる名前を禁止したい場合、`name` を特別なプロパティ `_name` に格納することができます。そして、setter で値をフィルタします。:
+For instance, if we want to forbid too short names for `user`, we can have a setter `name` and keep the value in a separate property `_name`:
 
 ```js run
 let user = {
@@ -178,16 +178,16 @@ alert(user.name); // Pete
 user.name = ""; // Name is too short...
 ```
 
-そのため、 名前は `_name` プロパティに格納され、アクセスは getter/setter と通して行われます。
+So, the name is stored in `_name` property, and the access is done via getter and setter.
 
-技術的には、外部コードは `user._name` を使うことで、直接 name にアクセスできるかもしれません。しかし、アンダースコア `"_"` で始まるプロパティは内部のもので、外部のオブジェクトから触るべきではないということは広く知られています。
+Technically, external code is able to access the name directly by using `user._name`. But there is a widely known convention that properties starting with an underscore `"_"` are internal and should not be touched from outside the object.
 
 
-## 互換性のために使用する 
+## Using for compatibility
 
-getter と setter の裏にある素晴らしいアイデアの1つは、それらは "通常の" データプロパティを制御し、それをいつでも調整することができることです。
+One of the great uses of accessors is that they allow to take control over a "regular" data property at any moment by replacing it with a getter and a setter and tweak its behavior.
 
-例えば、データプロパティ `name` と `age` を使って user オブジェクトを実装し始めました。:
+Imagine we started implementing user objects using data properties `name` and `age`:
 
 ```js
 function User(name, age) {
@@ -200,7 +200,7 @@ let john = new User("John", 25);
 alert( john.age ); // 25
 ```
 
-...しかし、遅かれ早かれそれを変更するかもしれません。より正確にするために、`age` の代わりに `birthday` を格納することに決めるかもしれません。:
+...But sooner or later, things may change. Instead of `age` we may decide to store `birthday`, because it's more precise and convenient:
 
 ```js
 function User(name, birthday) {
@@ -211,13 +211,13 @@ function User(name, birthday) {
 let john = new User("John", new Date(1992, 6, 1));
 ```
 
-さて、まだ `age` プロパティを使っている古いコードはどうすればよいでしょうか？
+Now what to do with the old code that still uses `age` property?
 
-そのような箇所をすべて見つけて直していくこともできますが、時間がかかったり別の人が書いているコードであれば直すのが難しいかもしれません。その上、`age` は　`user` が持っていても良いものですよね？
+We can try to find all such places and fix them, but that takes time and can be hard to do if that code is used by many other people. And besides, `age` is a nice thing to have in `user`, right?
 
-そのままにしておきましょう。
+Let's keep it.
 
-`age` の getter を追加することで問題が解消できます:
+Adding a getter for `age` solves the problem:
 
 ```js run no-beautify
 function User(name, birthday) {
@@ -225,7 +225,7 @@ function User(name, birthday) {
   this.birthday = birthday;
 
 *!*
-  // age は現在の日付と誕生日から計算されます
+  // age is calculated from the current date and birthday
   Object.defineProperty(this, "age", {
     get() {
       let todayYear = new Date().getFullYear();
@@ -237,8 +237,8 @@ function User(name, birthday) {
 
 let john = new User("John", new Date(1992, 6, 1));
 
-alert( john.birthday ); // birthday は利用可能です
-alert( john.age );      // ...age も同様です
+alert( john.birthday ); // birthday is available
+alert( john.age );      // ...as well as the age
 ```
 
-これで古いコードも機能しつつ、追加のプロパティも追加できました。
+Now the old code works too and we've got a nice additional property.

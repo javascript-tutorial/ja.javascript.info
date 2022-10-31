@@ -1,2 +1,6 @@
 
+<<<<<<< HEAD
 # ドキュメントとリソースの読み込み
+=======
+# Document and resource loading
+>>>>>>> 5dff42ba283bce883428c383c080fa9392b71df8

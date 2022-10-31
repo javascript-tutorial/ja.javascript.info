@@ -4,7 +4,11 @@ importance: 3
 
 # コメントの中のタグ
 
+<<<<<<< HEAD
 このコードは何を表示するでしょう？
+=======
+What does this code show?
+>>>>>>> 5dff42ba283bce883428c383c080fa9392b71df8
 
 ```html
 <script>
