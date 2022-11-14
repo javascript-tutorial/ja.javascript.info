@@ -2,7 +2,11 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD:1-js/08-prototypes/04-prototype-methods/3-compare-calls/task.md
 # 呼び出し感の差異
+=======
+# The difference between calls
+>>>>>>> 8d9ecb724c7df59774d1e5ffb5e5167740b7d321:1-js/08-prototypes/04-prototype-methods/3-compare-calls/task.md
 
 新しい `rabbit` オブジェクトを作りましょう:
 

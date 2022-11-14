@@ -16,10 +16,19 @@ importance: 5
 これはそのコードのデモです:
 
 ```js
+<<<<<<< HEAD
 let accumulator = new Accumulator(1); // 初期値 1
 accumulator.read(); // ユーザの入力値の加算
 accumulator.read(); // ユーザの入力値の加算
 alert(accumulator.value); // それらの値の合計を表示
+=======
+let accumulator = new Accumulator(1); // initial value 1
+
+accumulator.read(); // adds the user-entered value
+accumulator.read(); // adds the user-entered value
+
+alert(accumulator.value); // shows the sum of these values
+>>>>>>> 8d9ecb724c7df59774d1e5ffb5e5167740b7d321
 ```
 
 [demo]
