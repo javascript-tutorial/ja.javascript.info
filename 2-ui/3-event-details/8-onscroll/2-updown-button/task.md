@@ -11,6 +11,10 @@ importance: 5
 - ページがウィンドウの高さよりもスクロールされたとき、-- 左上端に "上向き" の矢印が表示されます。ページがスクロールで上に戻されると消えます。
 - 矢印をクリックすると、ページはトップへスクロールします。
 
+<<<<<<< HEAD
 このようになります:
+=======
+Like this (top-left corner, scroll to see):
+>>>>>>> 746ad803c878e33182e7fab1578c0d15b9b75ca0
 
 [iframe border="1" height="200" link src="solution"]

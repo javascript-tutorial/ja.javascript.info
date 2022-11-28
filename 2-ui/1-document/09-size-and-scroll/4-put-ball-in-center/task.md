@@ -10,7 +10,11 @@ importance: 5
 
 フィールドの中心の座標は何でしょうか？
 
+<<<<<<< HEAD
 それを計算し、フィールドの中心にボールを置いてください。:
+=======
+Calculate them and use to place the ball into the center of the green field:
+>>>>>>> 746ad803c878e33182e7fab1578c0d15b9b75ca0
 
 [iframe src="solution" height=180]
 

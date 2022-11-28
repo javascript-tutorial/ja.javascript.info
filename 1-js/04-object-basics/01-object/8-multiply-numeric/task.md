@@ -2,9 +2,15 @@ importance: 3
 
 ---
 
+<<<<<<< HEAD
 # 数値プロパティに2を掛ける
 
 `obj` のすべての数値プロパティに `2` を掛ける関数 `multiplyNumeric(obj)` を作成しなさい。
+=======
+# Multiply numeric property values by 2
+
+Create a function `multiplyNumeric(obj)` that multiplies all numeric property values of `obj` by `2`.
+>>>>>>> 746ad803c878e33182e7fab1578c0d15b9b75ca0
 
 例:
 
