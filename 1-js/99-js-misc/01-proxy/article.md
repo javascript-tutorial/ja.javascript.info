@@ -2,7 +2,9 @@
 
 `Proxy` オブジェクトは別のオブジェクトをラップし、プロパティやその他の読み取り/書き込みなどの操作をインターセプトします。必要に応じてそれらを独自に処理したり、オブジェクトが透過的にそれらを処理できるようにします。
 
-Proxy は多くのライブラリや一部のブラウザフレームワークで使われています。このチャプターでは、多くの実践的なアプリケーションを紹介します。
+Proxy は多くのライブラリや一部のブラウザフレームワークで使われています。この章では、多くの実践的なアプリケーションを紹介します。
+
+## Proxy
 
 構文:
 
@@ -10,8 +12,8 @@ Proxy は多くのライブラリや一部のブラウザフレームワーク�
 let proxy = new Proxy(target, handler)
 ```
 
-- `target` -- ラップするオブジェクトです。関数を含め何でもOKです。
-- `handler` -- プロキシ設定: 操作をインターセプトするメソッド "traps" をもつオブジェクトです。例: `get` トラップは `target` のプロパティの読み取り用、`set` トラップは、`target` へのプロパティ書き込み用、など。
+- `target` -- ラップするオブジェクトです。関数含め何でもOKです。
+- `handler` -- プロキシ設定: 操作をインターセプトするメソッドである "トラップ" をもつオブジェクトです。例: `get` トラップは `target` のプロパティの読み取り用、`set` トラップは、`target` へのプロパティ書き込み用、など。
 
 `proxy` の操作では、`handler` に対応するトラップがある場合はそれが実行されます。それ以外の場合は、操作は `target` で実行されます。
 
@@ -29,19 +31,19 @@ alert(proxy.test); // 5, proxy からの読み取ることができます (2)
 for(let key in proxy) alert(key); // test, イテレーションも機能します (3)
 ```
 
-traps がないので、`proxy` 上のすべての操作は `target` に転送されます。
+トラップがないので、`proxy` 上のすべての操作は `target` に転送されます。
 
 1. 書き込み操作 `proxy.test=` は `target` に値を設定します。
 2. 読み込み操作 `proxy.test` は `target` からの値を返します。
 3. `proxy` のイテレートは、`target` からの値を返します。
 
-ご覧の通り、traps がない場合は `proxy` は `target` に対する透過的なラッパーです。
+ご覧の通り、トラップがない場合は `proxy` は `target` に対する透過的なラッパーです。
 
 ![](proxy.svg)  
 
 `Proxy` は特別な "エキゾチックオブジェクト(exotic object)" です。`Proxy` は独自のプロパティは持っていません。空の `handler` の場合は、透過的に `target` へ操作を転送します。
 
-さらに機能を有効にするために、traps を追加しましょう。
+さらに機能を有効にするために、トラップを追加しましょう。
 
 これによって、何がインターセプトできるでしょう？
 
@@ -49,7 +51,7 @@ traps がないので、`proxy` 上のすべての操作は `target` に転送�
 
 プロキシのトラップはこれらのメソッドの呼び出しをインターセプトします。これらのメソッドは[Proxy specification](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots) 及び以下の表にリストされています。
 
-内部メソッドと trap(操作をインターセプトするために `new Proxy` の `handler` パラメータに追加するメソッド名)の対応表です。
+このテーブルに、すべての内部ソッドに対するトラップがあります: 操作をインターセプトするために `new Proxy` の `handler` パラメータに追加できるメソッド名です:
 
 | 内部メソッド | ハンドラメソッド | いつ発生するか |
 |-----------------|----------------|-------------|
@@ -59,16 +61,16 @@ traps がないので、`proxy` 上のすべての操作は `target` に転送�
 | `[[Delete]]` | `deleteProperty` | `delete` 演算子 |
 | `[[Call]]` | `apply` | 関数呼び出し |
 | `[[Construct]]` | `construct` | `new` 演算子 |
-| `[[GetPrototypeOf]]` | `getPrototypeOf` | [Object.getPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf) |
-| `[[SetPrototypeOf]]` | `setPrototypeOf` | [Object.setPrototypeOf](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf) |
-| `[[IsExtensible]]` | `isExtensible` | [Object.isExtensible](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible) |
-| `[[PreventExtensions]]` | `preventExtensions` | [Object.preventExtensions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/preventExtensions) |
-| `[[DefineOwnProperty]]` | `defineProperty` | [Object.defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty), [Object.defineProperties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties) |
-| `[[GetOwnProperty]]` | `getOwnPropertyDescriptor` | [Object.getOwnPropertyDescriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor), `for..in`, `Object.keys/values/entries` |
-| `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object/keys/values/entries` |
+| `[[GetPrototypeOf]]` | `getPrototypeOf` | [Object.getPrototypeOf](mdn:/JavaScript/Reference/Global_Objects/Object/getPrototypeOf) |
+| `[[SetPrototypeOf]]` | `setPrototypeOf` | [Object.setPrototypeOf](mdn:/JavaScript/Reference/Global_Objects/Object/setPrototypeOf) |
+| `[[IsExtensible]]` | `isExtensible` | [Object.isExtensible](mdn:/JavaScript/Reference/Global_Objects/Object/isExtensible) |
+| `[[PreventExtensions]]` | `preventExtensions` | [Object.preventExtensions](mdn:/JavaScript/Reference/Global_Objects/Object/preventExtensions) |
+| `[[DefineOwnProperty]]` | `defineProperty` | [Object.defineProperty](mdn:/JavaScript/Reference/Global_Objects/Object/defineProperty), [Object.defineProperties](mdn:/JavaScript/Reference/Global_Objects/Object/defineProperties) |
+| `[[GetOwnProperty]]` | `getOwnPropertyDescriptor` | [Object.getOwnPropertyDescriptor](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor), `for..in`, `Object.keys/values/entries` |
+| `[[OwnPropertyKeys]]` | `ownKeys` | [Object.getOwnPropertyNames](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames), [Object.getOwnPropertySymbols](mdn:/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols), `for..in`, `Object.keys/values/entries` |
 
 ```warn header="Invariants"
-JavaScript にはいくつかの不変条件(内部メソッドと traps によって満たされるべき条件)があります。
+JavaScript にはいくつかの不変条件(内部メソッドと トラップによって満たされるべき条件)があります。
 
 そのほとんどは戻り値に関してです:
 - `[[Set]]` は値が正常に書き込まれた場合には `true` を、そうでなければ `false` を返す必要があります。
@@ -80,8 +82,7 @@ JavaScript にはいくつかの不変条件(内部メソッドと traps によ�
 
 traps はこれらの操作をインターセプトできますが、これらのルールには従う必要があります。
 
-不変条件は、言語機能の正しさと一貫した動作を保証するものです。完全な不変条件のリストは [仕様]
-(https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)にありますが、変なことをしない限りは違反することはないでしょう。
+不変条件は、言語機能の正しさと一貫した動作を保証するものです。完全な不変条件のリストは [仕様](https://tc39.es/ecma262/#sec-proxy-object-internal-methods-and-internal-slots)にありますが、変なことをしない限りは違反することはないでしょう。
 ```
 
 実際の例でそれがどのように動作するのかを見てみましょう。
@@ -90,7 +91,7 @@ traps はこれらの操作をインターセプトできますが、これら�
 
 最も一般的なトラップ(traps)はプロパティの読み書きです。
 
-読み取りをインターセプトするには、`handler` に `get(target, property, receiver)` が必要です。
+読み取りをインターセプトするには、`handler` に `get(target, property, receiver)` が必要です。
 
 これはプロパティが読み取られたとき、以下の引数で実行されます。:
 
@@ -293,8 +294,7 @@ user = new Proxy(user, {
 alert( Object.keys(user) ); // <empty>
 ```
 
-なぜでしょう？理由は簡単です。: `Object.keys` は `enumerable` フラグを持つプロパティだけを返すからです。それを確かめるため、すべてのメソッドに対し内部メソッド `[[GetOwnProperty]]` を呼び出し,
-[ディスクリプタ](info:property-descriptors) を取得します。すると、ここではプロパティがないので、そのディスクリプタは空であり、`enumerable` フラグがありません。そのため、スキップされます。
+なぜでしょう？理由は簡単です。: `Object.keys` は `enumerable` フラグを持つプロパティだけを返すからです。それを確かめるため、すべてのメソッドに対し内部メソッド `[[GetOwnProperty]]` を呼び出し,[ディスクリプタ](info:property-descriptors) を取得します。すると、ここではプロパティがないので、そのディスクリプタは空であり、`enumerable` フラグがありません。そのため、スキップされます。
 
 `Object.keys` がプロパティを返すには、`enumerable` 付きでオブジェクトに存在するか、`[[GetOwnProperty]]`(トラップは `getOwnPropertyDescriptor`)の呼び出しをインターセプトし、`enumerable: true` を持つディスクリプタを返します。
 
@@ -435,6 +435,7 @@ user = {
   }
 }
 ```
+
 
 `user.checkPassword()` の呼び出しはプロキシされた `user` を `this` (ドットの前のオブジェクトが `this` になります)として取得するため、`this._password` へのアクセスを試みると `get` トラップが機能(これはあらゆるプロパティ読み取りでトリガーされます)し、エラーをスローします。
 
@@ -776,6 +777,7 @@ get(target, prop, receiver) {
 }
 ```
 
+
 `Reflect` 呼び出しはトラップとまったく同じ名前が付けられており、同じ引数を受け付けます。特別にそのように設計されました。
 
 したがって、`return Reflect...` は安全かつ考えるまでもない分かりやすい手段で操作を転送することができます。
@@ -961,9 +963,13 @@ revoke();
 alert(proxy.data); // Error
 ```
 
-`revoke()` 呼び出しは、プロキシからターゲットオブジェクトへのすべての内部参照を削除します。これにより繋がりがなくなります。ターゲットオブジェクトはその後ガベージコレクトできます。
+`revoke()` 呼び出しは、プロキシからターゲットオブジェクトへのすべての内部参照を削除します。これにより繋がりがなくなります。
 
-また、プロキシオブジェクトを簡単に見つけられるよう、`WeakMap` に `revoke` を保持することもできます。:
+初期状態で、`revoke` は `proxy` とは別なので、現在のスコープに `revoke` を残したまま、`proxy` を渡すことが可能です。 
+
+`proxy.revoke = revoke` と設定することで、proxy に `revoke` メソッドをバインドすることもできます。
+
+別の選択肢は、`WeakMap` を作成し、キーとして `proxy` を、値として対応する `revoke` をもたせることです。これで、簡単に proxy に対する `revoke` を見つけることができます。
 
 ```js run
 *!*
@@ -984,8 +990,6 @@ revoke();
 
 alert(proxy.data); // Error (revoked)
 ```
-
-このようなアプローチの利点は `revoke` を持って回る必要がないことです。必要なときに `proxy` を使って map から取得できます。
 
 ここで `Map` の代わりに `WeakMap` を使用しているのは、ガベージコレクションをブロックしないようにするためです。proxy オブジェクトが "到達不可能" になった(e.g それを参照する変数がなくなった)場合、`WeakMap` を利用すると、不要になった `revoke` を一緒にメモリ上から削除することができます。
 
