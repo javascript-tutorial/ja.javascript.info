@@ -537,7 +537,7 @@ alert( str ); // Bilbo;Gandalf;Nazgul
 
 ### reduce/reduceRight
 
-配列に対して繰り返し処理が必要なときは、`forEach`, `for` あるいは `for..if` を使うことができます。
+配列に対して繰り返し処理が必要なときは、`forEach`, `for` あるいは `for..of` を使うことができます。
 
 各要素のデータを反復して返す必要があるときには、`map`を使うことができます。
 
