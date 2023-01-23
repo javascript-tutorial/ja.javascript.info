@@ -4,6 +4,7 @@
 
    function showmesg(t, form) {
 
+<<<<<<< HEAD
       if (timer == 0) {
          timer = new Date();
       }
@@ -21,6 +22,32 @@
 
       timer = tm;
    }
+=======
+     if (timer == 0) {
+       timer = new Date();
+     }
+
+     let tm = new Date();
+
+     if (tm - timer > 300) {
+       t = '------------------------------\n' + t;
+     }
+
+     let area = document.forms[form + 'form'].getElementsByTagName('textarea')[0];
+
+     area.value += t + '\n';
+     area.scrollTop = area.scrollHeight;
+
+     timer = tm;
+  }
+
+  function logMouse(e) {
+     let evt = e.type;
+     while (evt.length < 11) evt += ' ';
+     showmesg(evt + " button=" + e.button, 'test')
+     return false;
+  }
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
    function logMouse(e) {
       let evt = e.type;

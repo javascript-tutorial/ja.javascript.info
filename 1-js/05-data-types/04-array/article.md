@@ -1,14 +1,26 @@
+<<<<<<< HEAD
 # 配列
 
 オブジェクトを使用すると、キー付きの値のコレクションを格納することができます。
 
 しかし、実際には多くの頻度で *順序付されたコレクション* が必要であることがわかります。それは、1つ目、2つ目、3つ目... と言った要素であり、例えばユーザ、商品、HTML要素など何かのリストを格納します。
+=======
+# Arrays
+
+Objects allow you to store keyed collections of values. That's fine.
+
+But quite often we find that we need an *ordered collection*, where we have a 1st, a 2nd, a 3rd element and so on. For example, we need that to store a list of something: users, goods, HTML elements etc.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ここでオブジェクトを使うのは便利ではありません。なぜなら、オブジェクトには要素の順序を管理するためのメソッドは提供されていないからです。既存のリストの "間に" 新しいプロパティを挿入することはできません。オブジェクトはこのように使うものではありません。
 
+<<<<<<< HEAD
 順序付けされたコレクションを格納するために、`Array` と呼ばれる特別なデータ構造があります。
 
 ## 宣言 
+=======
+There exists a special data structure named `Array`, to store ordered collections.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 空の配列を作る2つの構文があります:
 
@@ -79,8 +91,13 @@ arr[3](); // hello
 ```
 
 
+<<<<<<< HEAD
 ````smart header="末尾のカンマ"
 配列は、オブジェクトのようにカンマで終わる場合があります:
+=======
+````smart header="Trailing comma"
+An array, just like an object, may end with a comma:
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 ```js
 let fruits = [
   "Apple",
@@ -92,10 +109,46 @@ let fruits = [
 すべての行が同じようになるので、"末尾のカンマ" は項目の挿入や削除が容易になります。
 ````
 
+## Get last elements with "at"
+
+[recent browser="new"]
+
+Let's say we want the last element of the array.
+
+Some programming languages allow to use negative indexes for the same purpose, like `fruits[-1]`.
+
+Although, in JavaScript it won't work. The result will be `undefined`, because the index in square brackets is treated literally.
+
+We can explicitly calculate the last element index and then access it: `fruits[fruits.length - 1]`.
+
+```js run
+let fruits = ["Apple", "Orange", "Plum"];
+
+alert( fruits[fruits.length-1] ); // Plum
+```
+
+A bit cumbersome, isn't it? We need to write the variable name twice.
+
+Luckily, there's a shorter syntax: `fruits.at(-1)`:
+
+```js run
+let fruits = ["Apple", "Orange", "Plum"];
+
+// same as fruits[fruits.length-1]
+alert( fruits.at(-1) ); // Plum
+```
+
+In other words, `arr.at(i)`:
+- is exactly the same as `arr[i]`, if `i >= 0`.
+- for negative values of `i`, it steps back from the end of the array.
 
 ## pop/push, shift/unshift メソッド 
 
+<<<<<<< HEAD
 [キュー(queue)](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) は配列で最も一般的に使われるものの１つです。コンピュータ・サイエンスでは、これは2つの操作をサポートする要素の順序付きコレクションを意味します。:
+=======
+A [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) is one of the most common uses of an array. In computer science, this means an ordered collection of elements which supports two operations:
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 - `push` は要素を末尾に追加します。
 - `shift` は最初から要素を取得し、2番目の要素が1番目になるようにキューを進めます。
@@ -104,9 +157,15 @@ let fruits = [
 
 配列は両方の操作をサポートします。
 
+<<<<<<< HEAD
 実践では、非常に頻繁にこれを見ます。例えば画面に表示が必要なメッセージのキューです。
 
 配列の別のユースケースもあります -- [スタック(stack)](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)) と呼ばれるデータ構造です。
+=======
+In practice we need it very often. For example, a queue of messages that need to be shown on-screen.
+
+There's another use case for arrays -- the data structure named [stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)).
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 これは2つの操作をサポートします。
 
@@ -121,9 +180,15 @@ let fruits = [
 
 スタックの場合、最新のプッシュされたアイテムが最初に受け取られます。これはLIFO（Last-In-First-Out）の原則とも呼ばれます。 キューの場合、FIFO（First-In-First-Out）があります。
 
+<<<<<<< HEAD
 JavaScriptの配列は、キューとスタックどちらとしても動作します。これらの要素を使用すると、要素を先頭または最後に追加/削除することができます。
 
 コンピュータサイエンスでは、それを許可するデータ構造を[両端キュー/デック(deque)](https://en.wikipedia.org/wiki/Double-ended_queue)と呼びます。
+=======
+Arrays in JavaScript can work both as a queue and as a stack. They allow you to add/remove elements, both to/from the beginning or the end.
+
+In computer science, the data structure that allows this, is called [deque](https://en.wikipedia.org/wiki/Double-ended_queue).
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 **配列の末尾で動作するメソッド:**
 
@@ -137,6 +202,8 @@ JavaScriptの配列は、キューとスタックどちらとしても動作し�
 
     alert( fruits ); // Apple, Orange
     ```
+
+    Both `fruits.pop()` and `fruits.at(-1)` return the last element of the array, but `fruits.pop()` also modifies the array by removing it.
 
 `push`
 : 配列の末尾に要素を追加します。:
@@ -156,7 +223,7 @@ JavaScriptの配列は、キューとスタックどちらとしても動作し�
 `shift`
 : 配列の先頭の要素を抽出して返します。:
 
-    ```js
+    ```js run
     let fruits = ["Apple", "Orange", "Pear"];
 
     alert( fruits.shift() ); // Apple を削除し alert する
@@ -167,7 +234,7 @@ JavaScriptの配列は、キューとスタックどちらとしても動作し�
 `unshift`
 : 配列の先頭に要素を追加します。:
 
-    ```js
+    ```js run
     let fruits = ["Orange", "Pear"];
 
     fruits.unshift('Apple');
@@ -189,11 +256,19 @@ alert( fruits );
 
 ## 内部詳細 
 
+<<<<<<< HEAD
 配列は特別な種類のオブジェクトです。プロパティ `arr[0]` にアクセスするために使う角括弧は、実際にはオブジェクト構文から来ています。数字がキーとして使用されます。
+=======
+An array is a special kind of object. The square brackets used to access a property `arr[0]` actually come from the object syntax. That's essentially the same as `obj[key]`, where `arr` is the object, while numbers are used as keys.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 配列はデータの順序付きコレクションと、`length` プロパティを処理する特別なメソッドを提供するようオブジェクトを拡張します。しかし、コアではまだオブジェクトです。
 
+<<<<<<< HEAD
 JavaScriptには7つの基本タイプしかないことに注意してください。 配列はオブジェクトであるため、オブジェクトのように動作します。
+=======
+Remember, there are only eight basic data types in JavaScript (see the [Data types](info:types) chapter for more info). Array is an object and thus behaves like an object.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 例えば、これは参照としてコピーされます:
 
@@ -203,13 +278,22 @@ let fruits = ["Banana"]
 let arr = fruits; // 参照によるコピー (2つの変数は同じ配列を参照する)
 
 alert( arr === fruits ); // true
+<<<<<<< HEAD
+=======
+
+arr.push("Pear"); // modify the array by reference
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 arr.push("Pear"); // 参照から配列を変更する
 
 alert( fruits ); // Banana, Pear - 2 つの項目になっています
 ```
 
+<<<<<<< HEAD
 ...しかし配列を本当に特別にするのは、その内部表現です。エンジンは、このチャプターの図に示されているように連続したメモリ領域に要素を格納しようとします。そして配列を非常に高速にするために、他の最適化も行われます。
+=======
+...But what makes arrays really special is their internal representation. The engine tries to store its elements in the contiguous memory area, one after another, just as depicted on the illustrations in this chapter, and there are other optimizations as well, to make arrays work really fast.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 しかし、"順序付けられたコレクション" として配列を処理するのをやめ、普通のオブジェクトのように扱い始めると、それらはすべて壊れます。
 
@@ -229,9 +313,15 @@ fruits.age = 25; // 任意の名前でプロパティを作成します
 
 配列の誤った使い方:
 
+<<<<<<< HEAD
 - `arr.test = 5` のように非数値プロパティを追加する。
 - 穴を作る: `arr[0]` を追加した後、`arr[1000]` を追加する(その間は無し)。
 - 逆順で配列を埋める: `arr[1000]`, `arr[999]` など。
+=======
+- Add a non-numeric property like `arr.test = 5`.
+- Make holes, like: add `arr[0]` and then `arr[1000]` (and nothing between them).
+- Fill the array in the reverse order, like `arr[1000]`, `arr[999]` and so on.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 *順序付きデータ* を処理するための特別な構造として配列があると考えてください。配列はそのための特別なメソッドを提供します。配列は連続した順序付きデータを処理するため、JavaScriptエンジン内部で注意深くチューニングされています。このために配列を使ってください。そして、任意のキーが必要なときは、通常のオブジェクト `{}` が必要な可能性が高いです。
 
@@ -247,7 +337,11 @@ fruits.age = 25; // 任意の名前でプロパティを作成します
 fruits.shift(); // 先頭から1要素を取る
 ```
 
+<<<<<<< HEAD
 数値 `0` の要素を取得して削除するだけでは不十分です。他の要素も同様に番号をつけ直す必要があります。
+=======
+It's not enough to take and remove the element with the index `0`. Other elements need to be renumbered as well.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 `shift` 操作は3つのことをしなければなりません:
 
@@ -320,7 +414,11 @@ for (let key in arr) {
 
     ブラウザや他の環境では *配列のように見える* いわゆる "配列のような" オブジェクトがあります。つまり、それらは `length` とインデックスプロパティを持っています。しかし、それらは通常は必要のない他の非数値プロパティやメソッドも持っています。`for..in` ループはそれらもリストします。なので、もし配列のようなオブジェクトを処理する必要があるとき、それらの "余分な" プロパティが問題になる場合があります。
 
+<<<<<<< HEAD
 2. `for..in` ループは配列ではなく、汎用オブジェクトに対して最適化されているため、10から100倍遅くなります。もちろんそれでもとても速いです。高速化はボトルネックの場合にのみ問題なり、それ以外ではさほど重要でないこともあります。しかしそれでも私たちは違いに気をつけるべきです。
+=======
+2. The `for..in` loop is optimized for generic objects, not arrays, and thus is 10-100 times slower. Of course, it's still very fast. The speedup may only matter in bottlenecks. But still we should be aware of the difference.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 一般的に、配列に対しては `for..in` は使うべきではありません。
 
@@ -338,7 +436,11 @@ fruits[123] = "Apple";
 alert( fruits.length ); // 124
 ```
 
+<<<<<<< HEAD
 通常、そのように配列を使わないことに注意してください。
+=======
+Note that we usually don't use arrays like that.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 `length` プロパティの別の興味深い点は、書き込み可能と言う点です。
 
@@ -365,11 +467,19 @@ alert( arr[3] ); // undefined: 値は返ってきません
 let arr = *!*new Array*/!*("Apple", "Pear", "etc");
 ```
 
+<<<<<<< HEAD
 角括弧 `[]` がより短く書けるので、ほとんど使われません。また、トリッキーな特徴があります。
+=======
+It's rarely used, because square brackets `[]` are shorter. Also, there's a tricky feature with it.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 もし数値の１つの引数で `new Array` が呼ばれたとき、*アイテムはありませんが、与えられた長さを持った* 配列が作られます。
 
+<<<<<<< HEAD
 それがどのように墓穴を掘るか見てみましょう:
+=======
+Let's see how one can shoot themselves in the foot:
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ```js run
 let arr = new Array(2); // [2] の配列を作成しますか？
@@ -379,11 +489,19 @@ alert( arr[0] ); // undefined! 要素がありません.
 alert( arr.length ); // length は 2 です
 ```
 
+<<<<<<< HEAD
 このような驚きを避けるため、何をしているのか本当に分かっていない限り、通常は角括弧を使います。
+=======
+To avoid such surprises, we usually use square brackets, unless we really know what we're doing.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ## 多次元配列 
 
+<<<<<<< HEAD
 配列は配列も持つことができます。我々は行列を格納するために、それを多次元配列として使うことができます。:
+=======
+Arrays can have items that are also arrays. We can use it for multidimensional arrays, for example to store matrices:
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ```js run
 let matrix = [
@@ -392,7 +510,11 @@ let matrix = [
   [7, 8, 9]
 ];
 
+<<<<<<< HEAD
 alert( matrix[1][1] ); // 中央の要素
+=======
+alert( matrix[1][1] ); // 5, the central element
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 ```
 
 ## toString
@@ -427,6 +549,7 @@ alert( "1" + 1 ); // "11"
 alert( "1,2" + 1 ); // "1,21"
 ```
 
+<<<<<<< HEAD
 ## 配列を == で比較しないでください
 
 JavaScript の配列は他のプログラミング言語とは異なり、`==` 演算子で比較すべきではありません。
@@ -504,9 +627,96 @@ alert('0' == '' ); // false, 型変換はされません、異なる文字列で
   - `for (let i=0; i<arr.length; i++)` -- 最も速く動作し、古いブラウザ互換です。
   - `for (let item of arr)` -- アイテムだけのための、現代の構文です。
   - `for (let i in arr)` -- 決して使いません。
+=======
+## Don't compare arrays with ==
+
+Arrays in JavaScript, unlike some other programming languages, shouldn't be compared with operator `==`.
+
+This operator has no special treatment for arrays, it works with them as with any objects.
+
+Let's recall the rules:
+
+- Two objects are equal `==` only if they're references to the same object.
+- If one of the arguments of `==` is an object, and the other one is a primitive, then the object gets converted to primitive, as explained in the chapter <info:object-toprimitive>.
+- ...With an exception of `null` and `undefined` that equal `==` each other and nothing else.
+
+The strict comparison `===` is even simpler, as it doesn't convert types.
+
+So, if we compare arrays with `==`, they are never the same, unless we compare two variables that reference exactly the same array.
+
+For example:
+```js run
+alert( [] == [] ); // false
+alert( [0] == [0] ); // false
+```
+
+These arrays are technically different objects. So they aren't equal. The `==` operator doesn't do item-by-item comparison.
+
+Comparison with primitives may give seemingly strange results as well:
+
+```js run
+alert( 0 == [] ); // true
+
+alert('0' == [] ); // false
+```
+
+Here, in both cases, we compare a primitive with an array object. So the array `[]` gets converted to primitive for the purpose of comparison and becomes an empty string `''`.
+
+Then the comparison process goes on with the primitives, as described in the chapter <info:type-conversions>:
+
+```js run
+// after [] was converted to ''
+alert( 0 == '' ); // true, as '' becomes converted to number 0
+
+alert('0' == '' ); // false, no type conversion, different strings
+```
+
+So, how to compare arrays?
+
+That's simple: don't use the `==` operator. Instead, compare them item-by-item in a loop or using iteration methods explained in the next chapter.
+
+## Summary
+
+Array is a special kind of object, suited to storing and managing ordered data items.
+
+The declaration:
+
+```js
+// square brackets (usual)
+let arr = [item1, item2...];
+
+// new Array (exceptionally rare)
+let arr = new Array(item1, item2...);
+```
+
+The call to `new Array(number)` creates an array with the given length, but without elements.
+
+- The `length` property is the array length or, to be precise, its last numeric index plus one. It is auto-adjusted by array methods.
+- If we shorten `length` manually, the array is truncated.
+
+Getting the elements:
+
+- we can get element by its index, like `arr[0]`
+- also we can use `at(i)` method that allows negative indexes. For negative values of `i`, it steps back from the end of the array. If `i >= 0`, it works same as `arr[i]`.
+
+We can use an array as a deque with the following operations:
+
+- `push(...items)` adds `items` to the end.
+- `pop()` removes the element from the end and returns it.
+- `shift()` removes the element from the beginning and returns it.
+- `unshift(...items)` adds `items` to the beginning.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 配列を比較するには、`==` 演算子（`>`, `<` なども同様）は使用しません。これらは配列に対して特別な処理はしません。単にオブジェクトとして扱い、それは通常期待することではありません。
 
+<<<<<<< HEAD
 代わりに、配列を要素毎に比較するために `for..of` ループが使用できます。
 
 私たちは、チャプター <info:array-methods> で配列に戻り、追加、削除、要素の抽出や配列のソートと言ったより多くのメソッドを学びます。
+=======
+To compare arrays, don't use the `==` operator (as well as `>`, `<` and others), as they have no special treatment for arrays. They handle them as any objects, and it's not what we usually want.
+
+Instead you can use `for..of` loop to compare arrays item-by-item.
+
+We will continue with arrays and study more methods to add, remove, extract elements and sort arrays in the next chapter <info:array-methods>.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff

@@ -3,6 +3,7 @@ libs:
 
 ---
 
+<<<<<<< HEAD
 # カリー化と部分適用
 
 今まで、`this` をバインドすることについて話していました。 さあ、もう一歩を進めましょう。
@@ -124,16 +125,41 @@ function curry(func) {
   return function(a) {
     return function(b) {
       return func(a, b);
+=======
+# Currying
+
+[Currying](https://en.wikipedia.org/wiki/Currying) is an advanced technique of working with functions. It's used not only in JavaScript, but in other languages as well.
+
+Currying is a transformation of functions that translates a function from callable as `f(a, b, c)` into callable as `f(a)(b)(c)`.
+
+Currying doesn't call a function. It just transforms it.
+
+Let's see an example first, to better understand what we're talking about, and then practical applications.
+
+We'll create a helper function `curry(f)` that performs currying for a two-argument `f`. In other words, `curry(f)` for two-argument `f(a, b)` translates it into a function that runs as `f(a)(b)`:
+
+```js run
+*!*
+function curry(f) { // curry(f) does the currying transform
+  return function(a) {
+    return function(b) {
+      return f(a, b);
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
     };
   };
 }
 */!*
 
+<<<<<<< HEAD
 // 使い方
+=======
+// usage
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 function sum(a, b) {
   return a + b;
 }
 
+<<<<<<< HEAD
 let carriedSum = curry(sum);
 
 alert( carriedSum(1)(2) ); // 3
@@ -162,6 +188,37 @@ function curry(f) {
 高度なカリー化を使用すると、簡単に関数を通常呼び出し可能にしつつ、部分適用をすることができます。このメリットを理解するために、価値のある実例を見る必要があります。
 
 例えば、情報を整形して出力するロギング関数 `log(date, importance, message)` を持っているとします。実際のプロジェクトでは、このような関数には、ネットワーク経由での送信やフィルタリングなど、他にも多くの便利な機能があります。
+=======
+let curriedSum = curry(sum);
+
+alert( curriedSum(1)(2) ); // 3
+```
+
+As you can see, the implementation is straightforward: it's just two wrappers.
+
+- The result of `curry(func)` is a wrapper `function(a)`.
+- When it is called like `curriedSum(1)`, the argument is saved in the Lexical Environment, and a new wrapper is returned `function(b)`.
+- Then this wrapper is called with `2` as an argument, and it passes the call to the original `sum`.
+
+More advanced implementations of currying, such as [_.curry](https://lodash.com/docs#curry) from lodash library, return a wrapper that allows a function to be called both normally and partially:
+
+```js run
+function sum(a, b) {
+  return a + b;
+}
+
+let curriedSum = _.curry(sum); // using _.curry from lodash library
+
+alert( curriedSum(1, 2) ); // 3, still callable normally
+alert( curriedSum(1)(2) ); // 3, called partially
+```
+
+## Currying? What for?
+
+To understand the benefits we need a worthy real-life example.
+
+For instance, we have the logging function `log(date, importance, message)` that formats and outputs the information. In real projects such functions have many useful features like sending logs over the network, here we'll just use `alert`:
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ```js
 function log(date, importance, message) {
@@ -169,12 +226,17 @@ function log(date, importance, message) {
 }
 ```
 
+<<<<<<< HEAD
 では、カリー化してみましょう!
+=======
+Let's curry it!
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ```js
 log = _.curry(log);
 ```
 
+<<<<<<< HEAD
 この処理の後でも `log` は通常の方法で動きます:
 
 ```js
@@ -182,11 +244,21 @@ log(new Date(), "DEBUG", "some debug");
 ```
 
 ...しかしカリー化された形式でも呼び出すことができます:
+=======
+After that `log` works normally:
+
+```js
+log(new Date(), "DEBUG", "some debug"); // log(a, b, c)
+```
+
+...But also works in the curried form:
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ```js
 log(new Date())("DEBUG")("some debug"); // log(a)(b)(c)
 ```
 
+<<<<<<< HEAD
 今日のログのための便利な関数を取得してみましょう:
 
 ```js
@@ -215,6 +287,39 @@ todayDebug("message"); // [HH:mm] DEBUG message
 ここでは、上記で使用できる "高度な" カリー実装を示します。
 
 ```js run
+=======
+Now we can easily make a convenience function for current logs:
+
+```js
+// logNow will be the partial of log with fixed first argument
+let logNow = log(new Date());
+
+// use it
+logNow("INFO", "message"); // [HH:mm] INFO message
+```
+
+Now `logNow` is `log` with fixed first argument, in other words "partially applied function" or "partial" for short.
+
+We can go further and make a convenience function for current debug logs:
+
+```js
+let debugNow = logNow("DEBUG");
+
+debugNow("message"); // [HH:mm] DEBUG message
+```
+
+So:
+1. We didn't lose anything after currying: `log` is still callable normally.
+2. We can easily generate partial functions such as for today's logs.
+
+## Advanced curry implementation
+
+In case you'd like to get in to the details, here's the "advanced" curry implementation for multi-argument functions that we could use above.
+
+It's pretty short:
+
+```js
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 function curry(func) {
 
   return function curried(...args) {
@@ -228,13 +333,22 @@ function curry(func) {
   };
 
 }
+<<<<<<< HEAD
 
+=======
+```
+
+Usage examples:
+
+```js
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 function sum(a, b, c) {
   return a + b + c;
 }
 
 let curriedSum = curry(sum);
 
+<<<<<<< HEAD
 // 通常通り呼ぶことも出来ます
 alert( curriedSum(1, 2, 3) ); // 6
 
@@ -248,6 +362,16 @@ alert( curriedSum(1)(2)(3) ); // 6
 新しい `curry` は複雑に見えますが、実際には理解するのはとても簡単です。
 
 `curry(func)` の結果は、このように `curried` のラッパーです。:
+=======
+alert( curriedSum(1, 2, 3) ); // 6, still callable normally
+alert( curriedSum(1)(2,3) ); // 6, currying of 1st arg
+alert( curriedSum(1)(2)(3) ); // 6, full currying
+```
+
+The new `curry` may look complicated, but it's actually easy to understand.
+
+The result of `curry(func)` call is the wrapper `curried` that looks like this:
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ```js
 // func is the function to transform
@@ -255,13 +379,18 @@ function curried(...args) {
   if (args.length >= func.length) { // (1)
     return func.apply(this, args);
   } else {
+<<<<<<< HEAD
     return function pass(...args2) { // (2)
+=======
+    return function(...args2) { // (2)
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
       return curried.apply(this, args.concat(args2));
     }
   }
 };
 ```
 
+<<<<<<< HEAD
 これを実行すると、2つの分岐があります。:
 
 1. 渡された `args` の数と、元の関数で定義されている引数の数が同じ (`func.length`) かより多い場合、単にそれを呼び出し `func` に渡します。
@@ -297,3 +426,29 @@ function curried(...args) {
 - *カリー化* は `f(a,b,c)` を `f(a)(b)(c)` として呼び出し可能に変換します。JavaScriptの実装は、通常の形で呼び出し可能な関数を維持し、かつ引数が不足している場合には部分適用を返します。
 
     簡単な部分適用がほしいときにカリー化は素晴らしいです。ロギングの例で見てきたように、カリー化後の汎用的な関数 `log(date, importance, message)` は、1つの引数 `log(date)` または2つの引数 `log(date, importance)` で呼び出された時には部分適用を返します。
+=======
+When we run it, there are two `if` execution branches:
+
+1. If passed `args` count is the same or more than the original function has in its definition (`func.length`) , then just pass the call to it using `func.apply`. 
+2. Otherwise, get a partial: we don't call `func` just yet. Instead, another wrapper is returned, that will re-apply `curried` providing previous arguments together with the new ones. 
+
+Then, if we call it, again, we'll get either a new partial (if not enough arguments) or, finally, the result.
+
+```smart header="Fixed-length functions only"
+The currying requires the function to have a fixed number of arguments.
+
+A function that uses rest parameters, such as `f(...args)`, can't be curried this way.
+```
+
+```smart header="A little more than currying"
+By definition, currying should convert `sum(a, b, c)` into `sum(a)(b)(c)`.
+
+But most implementations of currying in JavaScript are advanced, as described: they also keep the function callable in the multi-argument variant.
+```
+
+## Summary
+
+*Currying* is a transform that makes `f(a,b,c)` callable as `f(a)(b)(c)`. JavaScript implementations usually both keep the function callable normally and return the partial if the arguments count is not enough.
+
+Currying allows us to easily get partials. As we've seen in the logging example, after currying the three argument universal function `log(date, importance, message)` gives us partials when called with one argument (like `log(date)`) or two arguments (like `log(date, importance)`).  
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff

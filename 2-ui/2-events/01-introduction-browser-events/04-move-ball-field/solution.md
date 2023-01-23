@@ -22,8 +22,12 @@
 }
 ```
 
+<<<<<<< HEAD
 次に、正しい `ball.style.position.left/top` を割り当てる必要があります。
 それらはフィールドに相対的な座標を含みます。
+=======
+Next we need to assign the correct `ball.style.left/top`. They contain field-relative coordinates now.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 これはその図です:
 
@@ -34,17 +38,21 @@
 クリック時のフィールドに相対的な `left` 座標を取得するには、フィールドの左端とボーダーの幅を引きます。:
 
 ```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft;
+let left = event.clientX - fieldCoords.left - field.clientLeft;
 ```
 
+<<<<<<< HEAD
 通常、 `ball.style.position.left` は "要素(ボール)の左端" を意味します。なので、その `left` を割り当てると、ボールの端がマウスカーソルの下に来ることになります。
+=======
+Normally, `ball.style.left` means the "left edge of the element" (the ball). So if we assign that `left`, then the ball edge, not center, would be under the mouse cursor.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 私たちは、それを中心にするために、ボールの半分の幅を左へ、半分の高さを上へ移動させる必要があります。
 
 なので、最終的な `left` は次のようになります:
 
 ```js
-let left = event.clientX - fieldInnerCoords.left - field.clientLeft - ball.offsetWidth/2;
+let left = event.clientX - fieldCoords.left - field.clientLeft - ball.offsetWidth/2;
 ```
 
 縦の座標は同じロジックを使って計算します。

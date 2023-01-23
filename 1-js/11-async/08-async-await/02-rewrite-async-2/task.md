@@ -1,7 +1,13 @@
 
+<<<<<<< HEAD:1-js/11-async/08-async-await/02-rewrite-async-2/task.md
 # "再スロー" を async/await で書き直す
 
 下にチャプター <info:promise-chaining> にある "再スロー" の例があります。`.then/catch` の代わりに `async/await` を使って書き直してください。
+=======
+# Rewrite "rethrow" with async/await
+
+Below you can find the "rethrow" example. Rewrite it using `async/await` instead of `.then/catch`.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff:1-js/11-async/08-async-await/02-rewrite-async-2/task.md
 
 また、`demoGithubUser` のループのために(`async/await` が簡単になるよう)再帰を取り除きます。
 
@@ -22,7 +28,7 @@ function loadJson(url) {
       } else {
         throw new HttpError(response);
       }
-    })
+    });
 }
 
 // gitub が有効なユーザを返すまでユーザ名を訪ねる

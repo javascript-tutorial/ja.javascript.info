@@ -1,16 +1,26 @@
 # フォーカス: focus/blur
 
+<<<<<<< HEAD
 ユーザがクリックするか、キーボードで `key:Tab` キーを使うとき、要素はフォーカスを受け取ります。また、ページが読み込まれたとき、デフォルトで要素にフォーカスを与える `autofocus` HTML属性もあり、フォーカスを取得するための別の手段です。
 
 フォーカスは、たいてい "ここでデータを受け入れる準備をする" ことを意味します。つまり、コードを実行して初期化したり何かをロードすることができる瞬間です。
+=======
+An element receives the focus when the user either clicks on it or uses the `key:Tab` key on the keyboard. There's also an `autofocus` HTML attribute that puts the focus onto an element by default when a page loads and other means of getting the focus.
+
+Focusing on an element generally means: "prepare to accept the data here", so that's the moment when we can run the code to initialize the required functionality.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 フォーカスを失う瞬間("blur")はより重要になります。それは、ユーザが他の場所をクリックしたり、`key:Tab` を押して次のフォームフィールドに移動したり、同様に他の手段もあります。
 
 フォーカスを失うということは、通常 "データが入力された" ことを意味します。そのため、それをチェックしたり、サーバに保存したりするコードを実行することができます。
 
+<<<<<<< HEAD
 フォーカスイベントを扱う際には重要な特性があります。ここではそれを説明するためにベストを尽くします。
 
 [cut]
+=======
+There are important peculiarities when working with focus events. We'll do the best to cover them further on.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ## イベント focus/blur 
 
@@ -20,8 +30,13 @@
 
 以下の例では:
 
+<<<<<<< HEAD
 - `blur` ハンドラは email が入力されたかどうかをチェックし、もしそうでなければエラーを表示します。
 - `focus` ハンドラはエラーメッセージを隠します(`blur` 時にサイドチェックされます)。:
+=======
+- The `blur` handler checks if the field has an email entered, and if not -- shows an error.
+- The `focus` handler hides the error message (on `blur` it will be checked again):
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ```html run autorun height=60
 <style>
@@ -51,7 +66,11 @@ Your email please: <input type="email" id="input">
 </script>
 ```
 
+<<<<<<< HEAD
 現代の HTML では input の属性を使って多くのバリデーションを行うことができます: `required`, `pattern` などです。そして、時にはそれらが丁度私たちが必要なことである場合もあります。JavaScriptは、より柔軟性が必要な場合に使用できます。 その値が正しい場合、変更された値をサーバ上に自動的に送信することもできます。
+=======
+Modern HTML allows us to do many validations using input attributes: `required`, `pattern` and so on. And sometimes they are just what we need. JavaScript can be used when we want more flexibility. Also we could automatically send the changed value to the server if it's correct.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 ## メソッド focus/blur 
 
@@ -91,8 +110,15 @@ Your email please: <input type="email" id="input">
 
 `onblur` の中で `event.preventDefault()` を呼び出すことで "フォーカスを失うことを防ぐ" ことはできない点に注意してください。なえなら、`onblur` は要素がフォーカスを失った *後* に動作するためです。
 
+<<<<<<< HEAD
 ```warn header="JavaScriptにより行われるフォーカス解除"
 フォーカス解除は多くの理由により起こります。
+=======
+In practice though, one should think well, before implementing something like this, because we generally *should show errors* to the user, but *should not prevent their progress* in filling our form. They may want to fill other fields first.
+
+```warn header="JavaScript-initiated focus loss"
+A focus loss can occur for many reasons.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 その１つは、訪問者がどこか他の場所をクリックした時です。しかし JavaScript 自体もそれを引き起こす可能性があります。例えば:
 
@@ -101,34 +127,68 @@ Your email please: <input type="email" id="input">
 
 これらの特徴により、`focus/blur` ハンドラが必要ないときにトリガすることがあります。
 
+<<<<<<< HEAD
 最善の策は、それらのイベントを使うとき注意を払うことです。ユーザが開始したフォーカス解除を追跡したい場合は、自分自身でフォーカス解除を回避する必要があります。
+=======
+The best recipe is to be careful when using these events. If we want to track user-initiated focus-loss, then we should avoid causing it ourselves.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 ```
 ## 任意の要素にフォーカスを当てる: tabindex 
 
+<<<<<<< HEAD
 デフォルトでは、多くの要素はフォーカスをサポートしていません。
 
 この一覧はブラウザによって異なりますが、正しいことが1つあります: `focus/blur` のサポートは、`<button>`, `<input>`, `<select>`, `<a>` など、訪問者が対話できる要素に対して保証されています。
 
 一方、`<div>`, `<span>`, `<table>` のような体裁のために存在する要素は、デフォルトではフォーカス不可です。メソッド `elem.focus()` はそれらに対しては機能せず、`focus/blur` イベントがトリガされることはありません。
+=======
+By default, many elements do not support focusing.
+
+The list varies a bit between browsers, but one thing is always correct: `focus/blur` support is guaranteed for elements that a visitor can interact with: `<button>`, `<input>`, `<select>`, `<a>` and so on.
+
+On the other hand, elements that exist to format something, such as `<div>`, `<span>`, `<table>` -- are unfocusable by default. The method `elem.focus()` doesn't work on them, and `focus/blur` events are never triggered.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 HTML 属性 `tabindex` を使用することでこれを変更することが可能です。
 
+<<<<<<< HEAD
 この属性の目的は、`key:Tab` を使って要素間を切り替える際に、要素の順番を指定することです。
 
 つまり: 2つの要素があり、1つ目は `tabindex="1"` 、2つ目は `tabindex="2"` を持っている場合、最初の要素で `key:Tab` を押すと2つ目に移動します。
+=======
+Any element becomes focusable if it has `tabindex`. The value of the attribute is the order number of the element when `key:Tab` (or something like that) is used to switch between them.
+
+That is: if we have two elements, the first has `tabindex="1"`, and the second has `tabindex="2"`, then pressing `key:Tab` while in the first element -- moves the focus into the second one.
+
+The switch order is: elements with `tabindex` from `1` and above go first (in the `tabindex` order), and then elements without `tabindex` (e.g. a regular `<input>`).
+
+Elements without matching `tabindex` are switched in the document source order (the default order).
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 2つの特別な値があります:
 
+<<<<<<< HEAD
 - `tabindex="0"` は要素を最後にします。
 - `tabindex="-1"` は `key:Tab` がその要素を無視することを意味します。
 
 **どの要素も `tabindex` を持っていればフォーカスをサポートします。**
+=======
+- `tabindex="0"` puts an element among those without `tabindex`. That is, when we switch elements, elements with `tabindex=0` go after elements with `tabindex ≥ 1`.
+
+    Usually it's used to make an element focusable, but keep the default switching order. To make an element a part of the form on par with `<input>`.
+
+- `tabindex="-1"` allows only programmatic focusing on an element. The `key:Tab` key ignores such elements, but method `elem.focus()` works.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 例えばここにリストがあります。最初の項目をクリックして `key:Tab` を押してください:
 
 ```html autorun no-beautify
+<<<<<<< HEAD
 最初の項目をクリックしてタブを押してください。指定順に移動します。多くの後続のタブはフォーカスを例の iframe から移動できることに留意してください。
 
+=======
+Click the first item and press Tab. Keep track of the order. Please note that many subsequent Tabs can move the focus out of the iframe in the example.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 <ul>
   <li tabindex="1">One</li>
   <li tabindex="0">Zero</li>
@@ -142,10 +202,17 @@ HTML 属性 `tabindex` を使用することでこれを変更することが可
 </style>
 ```
 
+<<<<<<< HEAD
 順序は `1 - 2 - 0` (ゼロは常に最後) です。通常、`<li>` はフォーカスをサポートしませんが、`tabindex` はイベントや `:focus` のスタイリングと合わせてフォーカスを有効にします。
 
 ```smart header="`elem.tabIndex` も機能します"
 `elem.tabIndex` プロパティを使用することで、JavaScript から `tabindex` を追加することができます。これは同じ効果があります。
+=======
+The order is like this: `1 - 2 - 0`. Normally, `<li>` does not support focusing, but `tabindex` full enables it, along with events and styling with `:focus`.
+
+```smart header="The property `elem.tabIndex` works too"
+We can add `tabindex` from JavaScript by using the `elem.tabIndex` property. That has the same effect.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 ```
 
 ## 移譲: focuin/focusout 
@@ -213,7 +280,11 @@ HTML 属性 `tabindex` を使用することでこれを変更することが可
 
 ## サマリ 
 
+<<<<<<< HEAD
 イベント `focus` と `blur` は要素にフォーカスが当たる/外れるときにトリガされます。
+=======
+Events `focus` and `blur` trigger on an element focusing/losing focus.
+>>>>>>> ea7738bb7c3616bb51ff14ae3db2a2747d7888ff
 
 それらの特別なこと:
 - それらはバブルしません。代わりにキャプチャリングフェーズや `focusin/focusout` を使うことができます。
