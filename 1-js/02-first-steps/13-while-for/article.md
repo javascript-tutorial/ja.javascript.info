@@ -16,7 +16,7 @@
 - オブジェクトプロパティのループは [for..in](info:object#forin) です。
 - 配列や反復可能オブジェクトに対するループは [for..of](info:array#loops) と [iterables](info:iterable) です。
 
-それ以外の場合は、続けて呼んでみてください。
+それ以外の場合は、続けて読んでみてください。
 ```
 
 ## "while" ループ 
