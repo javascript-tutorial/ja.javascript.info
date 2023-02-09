@@ -447,7 +447,7 @@ alert(arr);  // *!*1, 2, 15*/!*
 ````
 
 ````smart header="ベストなアロー関数"
-[アロー関数](info:function-expressions-arrows#arrow-functions) を覚えていますか? すっきりしたソートを書くために使えます。:
+[アロー関数](info:arrow-functions-basics) を覚えていますか? すっきりしたソートを書くために使えます。:
 
 ```js
 arr.sort( (a, b) => a - b );
