@@ -264,7 +264,7 @@ One more counter: <input type="button" value="2" data-counter>
 + DOM の変更: `innerHTML` などで要素を一括して追加/削除することができます
 ```
 
-移譲はには、もちろん制限があります:
+移譲には、もちろん制限があります:
 
 ```compare
 - まず、イベントがバブリングする必要があります。バブリングしないイベントもあります。また低レベルのハンドラは `event.stopPropagation()` を使うべきではありません。
