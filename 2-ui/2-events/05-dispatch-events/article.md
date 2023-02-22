@@ -239,11 +239,15 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
 </script>
 ```    
 
-ネストされたイベント `menu-open` はバブルアップし `document` で処理されることに注意してください。ネストされたイベントの伝搬は、外部のコード(`onclick`) に戻る前に完全に終了します。
+出力の順番は次のとおりです: 1 → nested → 2
 
-それは `dispatchEvent` についてだけでなく、他のケースも同様です。イベントハンドラ中の JavaScript は別のイベントにつながるメソッドを呼び出すことができます -- それらも同期的に処理されます。
+ネストされたイベント `menu-open` は `document` で捕捉されることに注意してください。ネストされたイベントの伝搬や処理は、外部のコード(`onclick`) に戻る前に完全に終了します。
 
-もしそれが気に入らなければ、`onclick` の末尾に `dispatchEvent` (または他のイベントトリガ呼び出し) を置くか、不便であれば `setTimeout(..., 0)` で囲みます。:
+それは `dispatchEvent` についてだけでなく、他のケースも同様です。もしイベントハンドラが他のイベントを引き起こすメソッドを呼び出すと – これらも同期的に、ネストされた関数の要領で処理されます。
+
+これが気に入らないとしましょう。 `menu-open` や他のネストされたイベントとは無関係に `onclick` を最初に完全に処理したいとします。
+
+その場合、 `dispatchEvent` （あるいは他のイベントを引き起こす呼び出し）を `onclick` の最後に置くか、もっと良い方法として、それらをゼロ遅延の `setTimeout` でラップします:
 
 ```html run
 <button id="menu">Menu (click me)</button>
@@ -264,6 +268,8 @@ alert(event.clientX); // undefined, 未知のプロパティは無視されま�
   document.addEventListener('menu-open', () => alert('nested'))
 </script>
 ```    
+
+これで現在のコードの実行後に、 `menu.onclick` を含め、 `dispatchEvent` を非同期に実行できます。つまりイベントハンドラが完全に切り離されました。
 
 ## サマリ 
 
