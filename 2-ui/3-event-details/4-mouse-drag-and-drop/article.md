@@ -279,20 +279,20 @@ function onMouseMove(event) {
 
 ## Summary
 
-We considered a basic `Drag'n'Drop` algorithm.
+私達は、基本的なドラッグアンドドロップのアルゴリズムについて考察しました。
 
-The key components:
+重要な要素:
 
-1. Events flow: `ball.mousedown` -> `document.mousemove` -> `ball.mouseup` (cancel native `ondragstart`).
-2. At the drag start -- remember the initial shift of the pointer relative to the element: `shiftX/shiftY` and keep it during the dragging.
-3. Detect droppable elements under the pointer using `document.elementFromPoint`.
+1. イベントの流れ: `ball.mousedown` -> `document.mousemove` -> `ball.mouseup`（ネイティブの `onstart` はキャンセル）
+2. ドラッグの開始時 -- 要素に対するポインタの相対的なずれを記憶すること: `shiftX/shiftY` そしてドラッグ中保持しておくこと
+3. ポインタの下にあるドロップ可能な要素を `document.elementFromPoint` を用いて検出すること
 
-We can lay a lot on this foundation.
+私達は、この機能をたくさんの物事に応用できます。
 
-- On `mouseup` we can finalize the drop: change data, move elements around.
-- We can highlight the elements we're flying over.
-- We can limit dragging by a certain area or direction.
-- We can use event delegation for `mousedown/up`. A large-area event handler that checks  `event.target` can manage Drag'n'Drop for hundreds of elements.
-- And so on.
+- `mouseup` の段階で、ドロップを終了させることができます: データの変更、要素の移動
+- 今動かしている要素をハイライト表示できます。
+- ドラッグを特定の場所や方向に制限することができます
+- `mousedown/up` において、イベントの委譲を行うことができます。 `event.target` を確認する広範囲のイベントハンドラが、何百もの要素のドラッグアンドドロップを管理することができます。
+- などなど。
 
-There are frameworks that build architecture over it: `DragZone`, `Droppable`, `Draggable` and other classes. Most of them do the similar stuff to described above, so it should be easy to understand them now. Or roll our own, because you already know how to handle the process, and it may be more flexible than to adapt something else.
+これらを基にアーキテクチャを構築するフレームワークが存在します: `DragZone` 、 `Droppable` 、 `Draggable` や他のクラスなど。これらのほとんどは上記で説明したものと類似した事を行うため、今となっては簡単に理解できることでしょう。あるいは自作します。なぜなら既に、どのように処理を行えばよいかを知っているし、こちらの方が、何か他のものを採用するよりも柔軟性が高いでしょうから。
