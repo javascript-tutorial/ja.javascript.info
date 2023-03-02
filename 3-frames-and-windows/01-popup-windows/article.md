@@ -27,7 +27,18 @@ window.open('http://javascript.info/')
 
 これについて考える場合、少し注意が必要です。もしコードが直接 `onclick` 内にあればそれは簡単です。しかし、ポップアップは `setTimeout` で開くでしょうか？
 
-このコードを試してみましょう:
+例えば:
+```js
+// ポップアップはブロックされます
+window.open('https://javascript.info');
+
+// ポップアップは許可されます
+button.onclick = () => {
+  window.open('https://javascript.info');
+};
+```
+
+このように、ユーザは望まないポップアップからある程度は守られていますが、その機能は完全には無効にされていません。
 
 ```js run
 // 3秒後に開く
