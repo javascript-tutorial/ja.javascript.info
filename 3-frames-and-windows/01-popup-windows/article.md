@@ -67,7 +67,7 @@ params
   - `scrollbars` (yes/no) -- 新しいウィンドウのスクロールバーを無効にします。非推奨です。
 
 
-あまりサポートされていないブラウザ固有の機能も数多くありますが、通常は使用されていません。例については、<a href="https://developer.mozilla.org/en/DOM/window.open">window.open in MDN</a> を確認してみてください。
+あまりサポートされていないブラウザ固有の機能も数多くありますが、通常は使用されていません。例については、<a href="https://developer.mozilla.org/en/DOM/window.open">MDN の window.open</a> を確認してみてください。
 
 ## 例: a minimalistic window
 
