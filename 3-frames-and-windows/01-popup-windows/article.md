@@ -82,7 +82,7 @@ open('/', 'test', params);
 
 ここでは、ほとんどの "ウィンドウの機能 は無効にされ、ウィンドウは画面外に配置されています。実行して実際に何が起きるのかを見てください。ほとんどのブラウザはゼロ値の `width/height` や画面外の `left/top` といったおかしなものを "直します"。例えば、Chrome はフルスクリーンになるよう、画面幅/高さでウィンドウを開きます。
 
-通常の配置オプションで `width`, `height`, `left`, `top` 座標を追加追加しましょう。:
+通常の配置オプションと妥当な `width`, `height`, `left`, `top` 座標を追加しましょう。:
 
 ```js run
 let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
