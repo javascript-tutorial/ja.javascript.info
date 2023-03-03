@@ -104,11 +104,21 @@ open('/', 'test', params);
 
 `open` 呼び出しは、新しいウィンドウへの参照を返します。それはプロパティを操作したり、位置を変えたりといったことをするのに利用できます。
 
-下の例では、新しいウィンドウのコンテンツはロード後に変更されます。
+この例では、ポップアップの内容を JavaScript で生成します:
+
+```js
+let newWin = window.open("about:blank", "hello", "width=200,height=200");
+
+newWin.document.write("Hello, world!");
+```
+
+またこちらでは、コンテンツをロード後に変更します:
 
 ```js run
 let newWindow = open('/', 'example', 'width=300,height=300')
 newWindow.focus();
+
+alert(newWindow.location.href); // (*) about:blank, 読み込みはまだ始まっていません
 
 newWindow.onload = function() {
   let html = `<div style="font-size:30px">Welcome!</div>`;
@@ -118,9 +128,13 @@ newWindow.onload = function() {
 };
 ```
 
-外部の `document` コンテンツは、同じオリジン(同じ protocol://domain:port) からのウィンドウに対してのみアクセス可能であることに注意してください。
+注意してください: `window.open` の直後は、新しいウィンドウはまだ読み込まれていません。これは `(*)` の行にある `alert` で示されています。ですから、変更するために `onload` を待っています。 `newWin.document` 用に `DOMContentLoaded` ハンドラを使うこともできます。
 
-別のサイトの URL を持つウィンドウの場合、`newWindow.location=...` による割り当てでロケーションを変更することができますが、そのロケーションやコンテンツにアクセスすることはできます。これはユーザの安全のためであり、悪意のあるページが `http://gmail.com` のポップアップを開いてもデータを読む事ができないようにするためです。後ほど詳しく話します。
+```warn header="同一生成元ポリシー"
+ウィンドウは、同じ元（同じプロトコル://ドメイン:ポート）から生成された場合のみ、互いのコンテンツに自由にアクセスすることができます。
+
+そうでなければ、例えばメインウィンドウが `site.com` から生成され、ポップアップが `gmail.com` から生成された場合、ユーザの安全性のため不可能となります。詳しくは、 <info:cross-window-communication> の章を確認してください。
+```
 
 ## 開いた元(opener)のウィンドウにアクセスする
 
