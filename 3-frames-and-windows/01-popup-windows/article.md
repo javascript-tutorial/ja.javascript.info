@@ -154,14 +154,19 @@ newWin.document.write(
 
 ## ポップアップを閉じる
 
-ポップアップがもう必要なくなった場合は `newWindow.close()` を呼びます。
+ウィンドウを閉じるには: `win.close()`。
 
-技術的には、`close()` メソッドはどの `window` でも利用可能ですが、`window` が `window.open()` で生成されたものでない場合、`window.close()` はほとんどのブラウザで無視されます。
+ウィンドウが閉じられたかを確認するには: `win.closed`。
+
+技術的には、`close()` メソッドはどの `window` でも利用可能ですが、`window` が `window.open()` で生成されたものでない場合、`window.close()` はほとんどのブラウザで無視されます。ですからこれはポップアップでのみ機能します。
+
+`closed` 属性は、ウィンドウが閉じられた場合 `true` です。これはポップアップ（あるいはメインウィンドウ）がまだ開かれているかどうかを確認するのに便利です。ユーザはいつでもそれを閉じることができ、私達のコードではその可能性を考慮に入れるべきです。
 
 このコードはウィンドウを開いた後、閉じます。:
 
 ```js run
 let newWindow = open('/', 'example', 'width=300,height=300')
+
 newWindow.onload = function() {
   newWindow.close();
   alert(newWindow.closed); // true
