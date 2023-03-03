@@ -138,9 +138,19 @@ newWindow.onload = function() {
 
 ## 開いた元(opener)のウィンドウにアクセスする
 
-ポップアップは "opener" ウィンドウにもアクセスすることができます。その中で、それを開いたウィンドウにアクセスするには `window.opener` を使います。ポップアップ以外のすべてのウィンドウの場合、それは `null` です。
+ポップアップは `window.opener` 参照を用いることでも "opener" ウィンドウにアクセスできます。ポップアップ以外のすべてのウィンドウの場合、それは `null` です。
 
-したがって、メインウィンドウとポップアップ両方とも、互いの参照を持っています。 それらは同じオリジンから来ていると想定して自由に互いを変更することができます。そうでない場合は、次のチャプター <info:cross-window-communication> で説明するように、ほかのコミュニケーションする手段があります。
+以下のコードを実行すると、 opener ウィンドウ（現在のウィンドウ）の内容が "Test" に置き換わります:
+
+```js run
+let newWin = window.open("about:blank", "hello", "width=200,height=200");
+
+newWin.document.write(
+  "<script>window.opener.document.body.innerHTML = 'Test'<\/script>"
+);
+```
+
+ですから、ウィンドウ間の接続は双方向です: メインウィンドウとポップアップは互いへの参照を持っています。
 
 ## ポップアップを閉じる
 
