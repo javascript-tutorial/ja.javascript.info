@@ -478,7 +478,7 @@ openRequest.onupgradeneeded = function() {
 - price（価格）はユニークではないので、同じ価格で複数の本が存在する可能性があります。そのため、`unique` オプションは設定しません。
 - price（価格）は配列ではないので、`multiEntry` フラグは適用されません。
 
-`inventory` が4冊の本があるとします。これは `index` が何であるかを正確に示す図です:
+`inventory` に4冊の本があるとします。これは `index` が何であるかを正確に示す図です:
 
 ![](indexeddb-index.svg)
 
@@ -486,7 +486,7 @@ openRequest.onupgradeneeded = function() {
 
 index は自動で最新状態が維持されるので、気にする必要は有りません。
 
-いま、特定の価格で検索がしたい場合、単に index に対して同じ検索方メソッドを適用するだけです。:
+いま、特定の価格で検索がしたい場合、単に index に対して同じ検索メソッドを適用するだけです。:
 
 ```js
 let transaction = db.transaction("books"); // readonly
