@@ -114,7 +114,7 @@ john = null; // 参照を上書きします
 キーとしてオブジェクトを使用して、`WeakMap` にデータを格納し、オブジェクトがガベージコレクションされたとき、データも同様自動的に消えます。
 
 ```js
-weakMap.put(john, "secret documents");
+weakMap.set(john, "secret documents");
 // もし john がなくなった場合、秘密のドキュメントは破壊されるでしょう
 ```
 
