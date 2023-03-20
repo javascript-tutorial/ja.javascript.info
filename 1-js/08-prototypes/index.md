@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 # プロトタイプ, 継承
+=======
+# Prototypes, inheritance
+>>>>>>> 9e3fa1351f80cfd6353a778a55b2c86bca9e895f
