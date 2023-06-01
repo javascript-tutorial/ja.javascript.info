@@ -6,28 +6,57 @@ libs:
 
 # 選択（Selection） と 範囲（Range）
 
-このチャプターではドキュメントでの選択と、`<input>` などのフォームフィールドでの選択について説明します。
+この章ではドキュメントでの選択と、`<input>` などのフォームフィールドでの選択について説明します。
 
 JavaScript を利用して選択状態を取得したり、全体あるいは一部分の選択/選択解除、ドキュメントから選択した部分を削除、タグへのラップなどを行うことができます。
 
-末尾の "サマリ" セクションでレシピが使用できます。が、チャプター全体を読むことでより多くのことを知ることができます。基礎となる `Range` と `Selection` オブジェクトは簡単に把握できるので、必要なことをするためのレシピは必要ありません。
+末尾の "サマリ" セクションにレシピがあり、これで現時点で必要なことはカバーされているかもしれません。ただ、章全体を読むことでより多くのことを知ることができます。
 
+基礎となる `Range` と `Selection` オブジェクトの把握は難しくはないので、必要なことをするためのレシピは必要ありません。
 
 ## 範囲(Range)
 
-選択の基本的な概念は [範囲(Range)](https://dom.spec.whatwg.org/#ranges) です。: 基本的には "境界点"(範囲の開始と終了) のペアです。
+選択の基本的な概念は [範囲(Range)](https://dom.spec.whatwg.org/#ranges) で、基本的には "境界点"(範囲の開始と終了) のペアです。
 
-各点は、始点からの相対オフセットをもつ親DOMノードを表します。親ノードが要素ノードの場合、オフセットは子の番号であり、テキストノードの場合はテキスト内での位置です。以下、例を示します。
-
-何かを選択しましょう。
-
-まず、range　を作成します(コンストラクタにパラメータはありません):
+`Range` オブジェクトはパラメータなしで作成できます:
 
 ```js
 let range = new Range();
 ```
 
 次に、`range.setStart(node, offset)` と `range.setEnd(node, offset)` を使用して選択の境界を設定します。
+
+ご想像のとおり、さらに選択をしていくために `Range` オブジェクトを使用しますが、最初にそのようなオブジェクトをいくつか作成しましょう。
+
+### テキストを部分的に選択
+
+興味深いことは、両方のメソッドの最初の引数 `node` はテキストノード、あるいは要素ノードで、2つ目の引数の意味はその種類によります。
+
+**`node` がテキストノードの場合、`offset` はそのテキストでの位置になります。**
+
+例えば、要素 `<p>Hello</p>` がある場合、次のようにして文字 "ll" を含む範囲を作成できます。: 
+
+```html run
+<p id="p">Hello</p>
+<script>
+  let range = new Range();
+  range.setStart(p.firstChild, 2);
+  range.setEnd(p.firstChild, 4);
+  
+  // range の toString はテキストとしてコンテンツを返します
+  console.log(range); // ll
+</script>
+```
+
+ここでは `<p>` の最初の子（テキストノード）を取り、その中のテキスト位置を指定しています。:
+
+![](range-hello-1.svg)
+
+### 要素ノードの選択
+
+**一方、`node` が要素ノードであれば、`offset` は子供の番号になります。**
+
+これは、テキスト内のどこかで停止するのではなく、ノード全体を含む範囲を作成する場合に便利です。
 
 例として、この HTML の一部を考えます:
 
@@ -73,9 +102,20 @@ let selectPDomtree = {
 drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
 </script>
 
-`"Example: <i>italic</i>"` を選択しましょう。これは `<p>` の先頭から2つの子です(テキストノードのカウント):
+`"Example: <i>italic</i>"` の範囲を作成しましょう。
+
+ご覧の通り、これはインデックス `0` と `1` を持つ `<p>` の先頭から2つの子です:
 
 ![](range-example-p-0-1.svg)
+
+- 開始位置は親の `node` として `<p>` を、オフセットは `0` を持ちます。 
+    
+    なので、`range.setStart(p, 0)` と設定できます。
+- 終了位置も親ノードとして `<p>` を持ちますが、オフセットとしては `2` になります（ここまで、という範囲を指定しますが、`offset` の含みません）。
+
+    そのため、 `range.setEnd(p, 2)` と設定できます。
+
+これはデモです。実行するとテキストが選択されるのが分かります:
 
 ```html run
 <p id="p">Example: <i>italic</i> and <b>bold</b></p>
@@ -95,9 +135,6 @@ drawHtmlTree(selectPDomtree, 'div.select-p-domtree', 690, 320);
   document.getSelection().addRange(range);
 </script>
 ```
-
-- `range.setStart(p, 0)` -- `<p>` の 0番目の子を始点に設定します(テキストノード `"Example: "` です)。
-- `range.setEnd(p, 2)` -- `<p>` の 2番目の子まで(2番目自体は含まない)広げます(２番目はテキストノード `" and "` ですが、それ自体は含まれないので、最後の選択されたノードは `<i>` です。
 
 これはより柔軟な例で多くのパターンを試せます。:
 
@@ -126,15 +163,17 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 
 ![](range-example-p-1-3.svg)
 
-`setStart` と `setEnd` では同じノードを使用する必要はありません。範囲は多くの無関係のノードを跨ぐ場合もあります。重要なことは、終点は始点よりも前であるということだけです。
+```smart header="開始ノードと終了ノードは異なっていても問題ありません"
+`setStart` と `setEnd` で同じノードを指定する必要はありません。範囲（range）は多数の無関係なノードにまたがる場合があります。文書内で終了が開始の後にあることだけが重要です。
+```
 
-### テキストノードの部分選択
+### より大きなフラグメントの選択
 
-次のようにテキストを部分的に選択してみましょう:
+次のように、例の中でより大きな選択を作成してみましょう:
 
 ![](range-example-p-2-b-3.svg)
 
-もちろん可能です。テキストノード内の相対オフセットとして始点と終点を設定するだけです。
+すでにやり方は知っています。開始と終了をテキストノードで相対オフセットとしてセットするだけです。
 
 次のような範囲を作成します:
 - `<p>` の最初の子の位置 2 から開始("Ex<b>ample:</b> " の最初の2文字を除くすべて)
@@ -156,7 +195,13 @@ From <input id="start" type="number" value=1> – To <input id="end" type="numbe
 </script>
 ```
 
-range オブジェクトは次のプロパティを持ちます:
+ご覧の通り、必要とする範囲（range）を作成するのは非常に簡単です。
+
+もしノード全体をトリたい場合、`setStart/setEnd` で要素を渡すことができます。それ以外の場合はテキストレベルで作業できます。
+
+## 範囲（range）プロパティ
+
+上の例で作成した範囲（range）オブジェクトは次のプロパティを持ちます:
 
 ![](range-example-p-2-b-3-range.svg)
 
@@ -169,9 +214,12 @@ range オブジェクトは次のプロパティを持ちます:
 - `commonAncestorContainer` -- range 内のすべてのノードの最も近い共通の祖先
   - 上の例では `<p>` です。
 
-## 範囲(range) メソッド
+
+## 範囲(range) 選択メソッド
 
 範囲を操作するための便利なメソッドがたくさんあります。
+
+すでに `setStart` と `setEnd` は見てきましたが、ここには他の類似メソッドがあります。
 
 範囲の開始を設定:
 
@@ -185,15 +233,19 @@ range オブジェクトは次のプロパティを持ちます:
 - `setEndBefore(node)`  `node` の直前を終了点に設定します。
 - `setEndAfter(node)` は `node` の直後を終了点に設定します。
 
-**デモでお見せした通り、`node` はテキストまたは要素ノードの両方になれます。テキストノードの場合、`offset` は複数の文字を読み飛ばす一方、要素ノードは複数の子ノードを読み飛ばします。**
+技術的には、`setStart/setEnd` は何でもできますが、より多くのメソッドでさらに便利になります。
 
-その他:
+これらのメソッドはすべて、`node` はテキストあるいは要素ノード両方になれます。テキストノードの場合 `offset` は文字をスキップする一方で、要素ノードは子ノードをスキップします。
+
+範囲（range）を作成するためのメソッドが他にもあります:
 - `selectNode(node)` は `node` 全体を選択するような範囲を設定します。
 - `selectNodeContents(node)` は `node` のコンテンツ全体を選択するような範囲を設定します
 - `collapse(toStart)` は、`toStart=true` の場合 end=start 、そうでなければ start=end を設定します。範囲を折りたたみます。
 - `cloneRange()` は同じ開始/終了点をもつ新しい範囲を作成します。
 
-範囲内のコンテンツを操作する方法:
+## 範囲（range）編集メソッド
+
+一度範囲(range)を作成し、次のようなメソッドを使用することでコンテンツを操作することができます:
 
 - `deleteContents()` - ドキュメントから範囲のコンテンツを削除します
 - `extractContents()` - ドキュメントから範囲のコンテンツを削除し、[DocumentFragment](info:modifying-document#document-fragment) として返却します。
@@ -277,9 +329,19 @@ range オブジェクトは次のプロパティを持ちます:
 
 他のブラウザは最大1つの範囲だけサポートしています。後で見ていきますが、`Selection` メソッドによっては複数の範囲が存在する可能性があることを示唆しているものもあります。が、繰り返しになりますが Firefox 以外のブラウザは最大で 1 です。
 
+これは小さなデモで、現在の選択（何かを選択してクリック）をテキストとして表示します。
+
+<button onclick="alert(document.getSelection())">alert(document.getSelection())</button>
+
 ## Selection プロパティ
 
-range と同様、選択には始点と終点があり、それぞれ "anchor(アンカー))"、"focus(フォーカス))" と呼ばれます。
+前述したように、理論上、選択には複数の範囲が含まれる場合があります。これらの範囲オブジェクトは、次のメソッドを使用して取得できます。
+
+- `getRangeAt(i)` -- `0` から始まる i 番目の範囲を取得します。Firefox を除くすべてのブラウザでは、`0` のみが使用されます。
+
+また、多くの場合、利便性が向上するプロパティも存在します。
+
+範囲(range)と同様、選択には始点と終点があり、それぞれ "anchor(アンカー)"、"focus(フォーカス)" と呼ばれます。
 
 主な selection プロパティは次のものです:
 
@@ -290,32 +352,35 @@ range と同様、選択には始点と終点があり、それぞれ "anchor(�
 - `isCollapsed` -- selection が未選択(空の範囲) あるいは存在しない場合 `true` になります。
 - `rangeCount` -- selection に含まれる range の数です。
 
-````smart header="ドキュメント内で Selection の終点が始点の前にくることがあります"
-ユーザエージェントによって、コンテンツを選択する多くの方法があります: マウス、ホットキー、モバイルでのタップなど。
+````smart header="選択(selection) 終了/開始 vs 範囲(range)"
 
-マウスなど、そのうちのいくつかは同じ選択を "左から右" と "右から左" の2方向で作成できます。
+選択(selection)の アンカー/フォーカス は `Range` の 開始/終了 と比較して重要な違いがあります。
 
-もしドキュメント内の選択の始点（anchor）が終点(focus)の前にある場合、この選択は "正" 方向と呼ばれます。
+ご存知の通り、`Range` オブジェクトは常に 終了の前に開始があります。
+
+選択の場合、常にそうであるわけではありません。
+
+マウスで何かを選択することは、「左から右」または「右から左」の両方向で行うことができます。
+
+つまり、マウス ボタンを押してドキュメント内を前に移動すると、その終了点 (フォーカス) は開始点 (アンカー) の後に来ます。
 
 E.g. ユーザがマウスで選択を開始し、"Example" から "italic" まで操作した場合:
 
 ![](selection-direction-forward.svg)
 
-そうでない場合、もし "italic" の終わりから "Example" に進む場合、選択は "後方" に向けられ、その focus は anchor の前になります。:
+...しかし、同じ選択を逆方向に行うこともできます。"italic" から "Example" まで開始すると (逆方向)、その終了 (フォーカス) が開始 (アンカー) の前になります。
 
 ![](selection-direction-backward.svg)
-
-これは常に正方向を向く `Range` オブジェクトとは異なります。range の始点を終点の後に置くことはできません。
 ````
 
 ## Selection イベント
 
 選択範囲を追跡するためのイベントがあります:
 
-- `elem.onselectstart` -- `elem` で選択が開始されたとき。e.g. ユーザがボタンを押しながらマウスを動かし始めたとき。
-    - デフォルトアクションを防いだ場合、選択は開始されません。
+- `elem.onselectstart` -- `elem`(またはその内部)で選択が *開始* されたとき。例えば、ユーザがボタンを押しながらマウスを動かし始めたとき。
+    - デフォルトアクションを防いだ場合、選択は開始されません。したがって、この要素から選択を開始することは不可能になりますが、要素は引き続き選択可能です。訪問者は他の場所から選択を開始するだけで済みます。
 - `document.onselectionchange` -- 選択範囲が変更されたとき。
-    - 注意: おのハンドラは `document` に対してのみ設定可能です。
+    - 注意: このハンドラは `document` に対してのみ設定可能です。
 
 ### 選択範囲の追跡デモ
 
@@ -327,19 +392,23 @@ E.g. ユーザがマウスで選択を開始し、"Example" から "italic" ま�
 From <input id="from" disabled> – To <input id="to" disabled>
 <script>
   document.onselectionchange = function() {
-    let {anchorNode, anchorOffset, focusNode, focusOffset} = document.getSelection();
+    let selection = document.getSelection();
 
-    from.value = `${anchorNode && anchorNode.data}:${anchorOffset}`;
-    to.value = `${focusNode && focusNode.data}:${focusOffset}`;
+    let {anchorNode, anchorOffset, focusNode, focusOffset} = selection;
+
+    // anchorNode と focusNode は通常テキストノードです
+    from.value = `${anchorNode?.data}, offset ${anchorOffset}`;
+    to.value = `${focusNode?.data}, offset ${focusOffset}`;
   };
 </script>
 ```
 
-### 選択範囲の取得デモ
+### 選択(selection)のコピーデモ
 
-選択範囲全体を取得するには:
-- テキストとして: `document.getSelection().toString()` を呼ぶだけです。
-- DOM ノードとして: 基底となる範囲を取得し、それらの `cloneContents()` を呼び出します(Firefox のマルチ選択をサポートしてない場合は最初の1つの range に対してのみ)。
+選択されたコンテンツをコピーする、2つのアプローチがあります:
+
+1. `document.getSelection().toString()` を使用してテキストとして取得できます。
+2. DOM ノードとして: 基底となる範囲を取得し、それらの `cloneContents()` を呼び出します(Firefox のマルチ選択をサポートしてない場合は最初の1つの range に対してのみ)。
 
 そして、これはテキストとDOM ノード両方で選択範囲を取得するデモです:
 
@@ -473,6 +542,7 @@ From <input id="from" disabled> – To <input id="to" disabled>
 注意してください:
 - `onselect` はなにかが選択されたときに発生しますが、選択が除去されたときには発生しません。
 - `document.onselectionchange` イベントは、[仕様](https://w3c.github.io/selection-api/#dfn-selectionchange)によると `document` の選択や範囲とは関係ないため、フォームコントロール内の選択では発生すべきではありません。一部のブラウザにはイベントを生成しますが、それに頼るべきではありません。
+
 
 ### 例: カーソルの移動
 
