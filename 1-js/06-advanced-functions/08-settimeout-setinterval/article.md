@@ -218,7 +218,7 @@ setTimeout(function run() {
 
 ![](settimeout-interval.svg)
 
-**再帰的な `setInterval` は固定の遅延 (ここでは 100ms) を保証します。**
+**再帰的な `setTimeout` は固定の遅延 (ここでは 100ms) を保証します。**
 
 新しい呼び出しは、以前の呼び出しの終わりに計画されるためです。
 
