@@ -3,7 +3,11 @@ function* pseudoRandom(seed) {
   let value = seed;
 
   while(true) {
+<<<<<<< HEAD
     value = value * 16807 % 2147483647
+=======
+    value = value * 16807 % 2147483647;
+>>>>>>> d694e895efe89922a109702085b6ca1efeffea10
     yield value;
   }
 
@@ -16,7 +20,11 @@ alert(generator.next().value); // 282475249
 alert(generator.next().value); // 1622650073
 ```
 
+<<<<<<< HEAD
 注意してください。次のように通常の関数でも同じことができます:
+=======
+Please note, the same can be done with a regular function, like this:
+>>>>>>> d694e895efe89922a109702085b6ca1efeffea10
 
 ```js run
 function pseudoRandom(seed) {
@@ -35,4 +43,8 @@ alert(generator()); // 282475249
 alert(generator()); // 1622650073
 ```
 
+<<<<<<< HEAD
 これは、このコンテキストでは問題ありません。しかし、どこかで役立つかのしれない `for..of` を使ったイテレートや、ジェネレータの合成を使うことはできなくなります。
+=======
+That also works. But then we lose ability to iterate with `for..of` and to use generator composition, that may be useful elsewhere.
+>>>>>>> d694e895efe89922a109702085b6ca1efeffea10

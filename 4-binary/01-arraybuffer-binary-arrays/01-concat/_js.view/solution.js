@@ -2,9 +2,15 @@ function concat(arrays) {
   // sum of individual array lengths
   let totalLength = arrays.reduce((acc, value) => acc + value.length, 0);
 
+<<<<<<< HEAD
   if (!arrays.length) return null;
 
   let result = new Uint8Array(totalLength);
+=======
+  let result = new Uint8Array(totalLength);
+  
+  if (!arrays.length) return result;
+>>>>>>> d694e895efe89922a109702085b6ca1efeffea10
 
   // for each array - copy it over result
   // next array is copied right after the previous one

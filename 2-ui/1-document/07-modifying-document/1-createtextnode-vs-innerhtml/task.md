@@ -6,7 +6,11 @@ importance: 5
 
 空のDOM要素 `elem` と文字列 `text` があります。
 
+<<<<<<< HEAD
 これら3つのどのコマンドが正確に同じことをするでしょうか？
+=======
+Which of these 3 commands will do exactly the same?
+>>>>>>> d694e895efe89922a109702085b6ca1efeffea10
 
 1. `elem.append(document.createTextNode(text))`
 2. `elem.innerHTML = text`
