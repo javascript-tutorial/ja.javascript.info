@@ -101,7 +101,7 @@ let user; // SyntaxError: 'user' has already been declared
 ```js run
 var user = "Pete";
 
-var user = "John"; // "var" 花にもしません (宣言済み)
+var user = "John"; // "var" は何もしません (宣言済み)
 // ...エラーは発生しません
 
 alert(user); // John
