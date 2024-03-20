@@ -323,6 +323,6 @@ user.sayNow("Hello");
 
 通常は、オブジェクトメソッドで `this` を固定するために `bind` を適用し、どこかに渡すことができるようにします。たとえば、`setTimeout` に。 
 
-When we fix some arguments of an existing function, the resulting (less universal) function is called *partially applied* or *partial*.
+既存の関数において、引数のいくつかを固定した汎用性の低い関数は、部分関数と呼ばれます。
 
-Partials are convenient when we don't want to repeat the same argument over and over again. Like if we have a `send(from, to)` function, and `from` should always be the same for our task, we can get a partial and go on with it.
+部分関数は同じ引数を何度も繰り返したくないときに便利です。例えば、`send(from, to)` という関数があって、`from`はどのタスクでも常に同じになるはずなら、部分関数を利用してそれを処理できます。
