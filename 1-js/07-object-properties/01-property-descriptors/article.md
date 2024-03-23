@@ -122,7 +122,7 @@ user.name = "Pete"; // Error: Cannot assign to read only property 'name'...
 
 これで、`defineProperty` で上書きをしない限りは、誰も user.name を変えることはできません。
 
-```smart header="strict mode の場合にのいエラーが表示されます"
+```smart header="strict mode の場合のみエラーが表示されます"
 非 strict mode の場合、書き込み不可プロパティへの書き込みをしてもエラーは発生しません。ですが、操作は依然として成功はしません。非 strict 下では、フラグ違反の操作は単に無視されます。
 ```
 
