@@ -166,7 +166,7 @@ loadScript("/article/promise-chaining/one.js")
 
 このチェーンにより多くの非同期アクションが追加できます。ここで、このコードは依然として "フラット" であり、右にではなく、下に成長していることに注目してください。"破滅のピラミッド" の兆候はありません。
 
-技術的にはそれぞれお `loadScript` に直接 `.then` を書くことも可能でです:
+技術的にはそれぞれを `loadScript` に直接 `.then` を書くことも可能です:
 
 ```js run
 loadScript("/article/promise-chaining/one.js").then(function(script1) {
@@ -226,7 +226,7 @@ JavaScript は行 `(*)` で `.then` ハンドラによって返却されたオ�
 
 フロントエンドのプログラミングでは、promise はネットワークリクエストで頻繁に使われます。その例も見てみましょう。
 
-リモートサーバからユーザに関する情報をロードすのに [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) メソッドを使います。メソッドは[別の章](info:fetch)で説明するように多くの任意パラメータがありますが、基本の使い方はとてもシンプルです:
+リモートサーバからユーザに関する情報をロードするために [fetch](mdn:api/WindowOrWorkerGlobalScope/fetch) メソッドを使います。メソッドは[別の章](info:fetch)で説明するように多くの任意パラメータがありますが、基本の使い方はとてもシンプルです:
 
 ```js
 let promise = fetch(url);
