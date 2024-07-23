@@ -96,7 +96,7 @@ let range = {
 */!*
 
 *!*
-        // asyc next の中で、 "await" が使えます
+        // async next の中で、 "await" が使えます
         await new Promise(resolve => setTimeout(resolve, 1000)); // (3)
 */!*
 
@@ -250,7 +250,7 @@ for(let value of range) {
 ````smart header="内部的な違い"
 技術的には、ジェネレータの詳細を覚えている読者であれば、内部的な違いに気づくかもしれません。
 
-非同期ジェネレータの場合、`generator.nex()` メソッドは非同期であり、promise を返します。
+非同期ジェネレータの場合、`generator.next()` メソッドは非同期であり、promise を返します。
 
 通常のジェネレータでは、`result = generator.next()` を使用して値を取得します。非同期ジェネレータでは、次のように `await` を追加する必要があります:
 
