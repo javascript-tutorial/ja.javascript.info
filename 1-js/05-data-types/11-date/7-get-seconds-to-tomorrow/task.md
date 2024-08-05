@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# 明日までの秒数は？
+# How many seconds till tomorrow?
 
-明日までの秒数を返す関数 `getSecondsToTomorrow()` を作成してください。
+Create a function `getSecondsToTomorrow()` that returns the number of seconds till tomorrow.
 
-例えば、今が `23:00` とすると:
+For instance, if now is `23:00`, then:
 
 ```js
 getSecondsToTomorrow() == 3600
 ```
 
-P.S. 関数は任意の日付で動作する必要があり、"今日" はハードコードではありません。
+P.S. The function should work at any day, the "today" is not hardcoded.

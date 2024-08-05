@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# なぜ2匹のハムスターがお腹一杯？
+# Why are both hamsters full?
 
-私たちは2匹のハムスターを持っています: `speedy` と `lazy` は一般的な `hamster` オブジェクトを継承しています。
+We have two hamsters: `speedy` and `lazy` inheriting from the general `hamster` object. 
 
-そのうちの1匹に餌をやるとき、もう1匹もお腹一杯になります。なぜでしょう？どのように修正しますか？
+When we feed one of them, the other one is also full. Why? How can we fix it?
 
 ```js run
 let hamster = {
@@ -25,11 +25,11 @@ let lazy = {
   __proto__: hamster
 };
 
-// 一方が食べ物を見つけました
+// This one found the food
 speedy.eat("apple");
 alert( speedy.stomach ); // apple
 
-// もう一方も持っています。なぜでしょう？修正してください。
+// This one also has it, why? fix please.
 alert( lazy.stomach ); // apple
 ```
 

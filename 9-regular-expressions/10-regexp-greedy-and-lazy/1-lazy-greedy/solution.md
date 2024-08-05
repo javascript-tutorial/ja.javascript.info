@@ -1,6 +1,6 @@
 
-結果は: `match:123 4` です。
+The result is: `match:123 4`.
 
-まず、怠惰 `pattern:\d+?` はできるだけ小さい桁を取ろうとしますが、スペースまで到達する必要があるので、 `match:123` となります。
+First the lazy `pattern:\d+?` tries to take as little digits as it can, but it has to reach the space, so it takes  `match:123`.
 
-次に、2つ目の `\d+?` は1桁だけを取ります。なぜならそれで十分だからです。
+Then the second `\d+?` takes only one digit, because that's enough.

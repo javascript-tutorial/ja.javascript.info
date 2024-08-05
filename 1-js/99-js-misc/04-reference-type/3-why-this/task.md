@@ -4,7 +4,11 @@ importance: 3
 
 # "this" の値を説明してください
 
+<<<<<<< HEAD:1-js/99-js-misc/04-reference-type/3-why-this/task.md
 下のコードで、`user.go()` メソッドを4回連続で呼び出すつもりです。
+=======
+In the code below we intend to call `obj.go()` method 4 times in a row.
+>>>>>>> b258d7d5b635c88228f7556e14fbe5e5ca7f736d:1-js/99-js-misc/04-reference-type/3-why-this/task.md
 
 しかし、呼び出し `(1)` と `(2)` は `(3)` と `(4)` とは異なっています。なぜでしょう？
 

@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 最大の給与
+# The maximal salary 
 
-`salaries` オブジェクトがあります:
+There is a `salaries` object:
 
 ```js
 let salaries = {
@@ -14,9 +14,9 @@ let salaries = {
 };
 ```
 
-支払い額がトップの名前を返す関数 `topSalary(salaries)` を作ってください。
+Create the function `topSalary(salaries)` that returns the name of the top-paid person.
 
-- `salaries` がからの場合、`null` を返します。
-- トップの人が複数いる場合、それらのいずれかを返します。
+- If `salaries` is empty, it should return `null`.
+- If there are multiple top-paid persons, return any of them.
 
-P.S. キー/値ベアを反復するために `Object.entries` と分割代入を使ってください。
+P.S. Use `Object.entries` and destructuring to iterate over key/value pairs.

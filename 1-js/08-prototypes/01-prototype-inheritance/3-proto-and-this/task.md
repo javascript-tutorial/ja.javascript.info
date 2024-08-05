@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# どこに書きますか？
+# Where does it write?
 
-`animal` から継承している `rabbit` があります。
+We have `rabbit` inheriting from `animal`.
 
-もし `rabbit.eat()` を呼び出す場合、どのオブジェクトが `full` を受け取りますか？: `animal` または `rabbit`?
+If we call `rabbit.eat()`, which object receives the `full` property: `animal` or `rabbit`? 
 
 ```js
 let animal = {

@@ -2,12 +2,11 @@ importance: 5
 
 ---
 
-# インスタンス作成エラー
+# Error creating an instance
 
-これは `Animal` を拡張した `Rabbit` のコードです。
+Here's the code with `Rabbit` extending `Animal`.
 
-残念なことに、`Rabbit` オブジェクトを作ることができません。何が間違っているでしょう？直してください。
-
+Unfortunately, `Rabbit` objects can't be created. What's wrong? Fix it.
 ```js run
 class Animal {
 
@@ -25,7 +24,7 @@ class Rabbit extends Animal {
 }
 
 *!*
-let rabbit = new Rabbit("White Rabbit"); // エラー: 定義されていません
+let rabbit = new Rabbit("White Rabbit"); // Error: this is not defined
 */!*
 alert(rabbit.name);
 ```

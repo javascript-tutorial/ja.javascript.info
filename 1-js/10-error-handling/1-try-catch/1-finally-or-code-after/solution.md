@@ -1,8 +1,8 @@
-その違いは、関数内のコードを見ると明らかになります。
+The difference becomes obvious when we look at the code inside a function.
 
-もし `try..catch` の "飛び出し" がある場合、振る舞いは異なります。
+The behavior is different if there's a "jump out" of `try...catch`.
 
-例えば、`try..catch` の中で `return` がある場合です。`finally` 句は `try..catch` が *どのような終わり方の場合にでも* 動作します。たとえ、`return` 文経由でさえも。
+For instance, when there's a `return` inside `try...catch`. The `finally` clause works in case of *any* exit from `try...catch`, even via the `return` statement: right after `try...catch` is done, but before the calling code gets the control.
 
 ```js run
 function f() {
@@ -11,7 +11,7 @@ function f() {
 *!*
     return "result";
 */!*
-  } catch (e) {
+  } catch (err) {
     /// ...
   } finally {
     alert('cleanup!');
@@ -21,18 +21,18 @@ function f() {
 f(); // cleanup!
 ```
 
-...もしくは次のように `throw` がある場合:
+...Or when there's a `throw`, like here:
 
 ```js run
 function f() {
   try {
     alert('start');
     throw new Error("an error");
-  } catch (e) {
+  } catch (err) {
     // ...
     if("can't handle the error") {
 *!*
-      throw e;
+      throw err;
 */!*
     }
 
@@ -44,4 +44,4 @@ function f() {
 f(); // cleanup!
 ```
 
-ここで `finally` はクリーンアップを保証します。もし `f` の終わりにコードをおいた場合は実行されない場合があります。
+It's `finally` that guarantees the cleanup here. If we just put the code at the end of `f`, it wouldn't run in these situations.

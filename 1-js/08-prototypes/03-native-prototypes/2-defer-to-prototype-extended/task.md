@@ -2,18 +2,18 @@ importance: 4
 
 ---
 
-# デコレートする "defer()" を関数に追加する
+# Add the decorating "defer()" to functions
 
-すべての関数のプロトタイプにメソッド `defer(ms)` を追加してください。それはラッパーを返し、`ms` ミリ秒呼び出しを遅延します。
+Add to the prototype of all functions the method `defer(ms)`, that returns a wrapper, delaying the call by `ms` milliseconds.
 
-これは、どのように動作すべきか、の例です:
+Here's an example of how it should work:
 
 ```js
 function f(a, b) {
   alert( a + b );
 }
 
-f.defer(1000)(1, 2); // 1秒後に 3 が表示される
+f.defer(1000)(1, 2); // shows 3 after 1 second
 ```
 
-引数をオリジナルの関数に渡す必要があることに注意してください。
+Please note that the arguments should be passed to the original function.

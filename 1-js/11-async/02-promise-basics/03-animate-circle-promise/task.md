@@ -1,9 +1,9 @@
 
-# promise でのアニメーション付きサークル
+# Animated circle with promise
 
-タスク <info:task/animate-circle-callback> の解答にある `showCircle` 関数を、コールバックを受ける代わりに promise を返すように書き直してください。
+Rewrite the `showCircle` function in the solution of the task <info:task/animate-circle-callback> so that it returns a promise instead of accepting a callback.
 
-新しい使い方:
+The new usage:
 
 ```js
 showCircle(150, 150, 100).then(div => {
@@ -12,4 +12,4 @@ showCircle(150, 150, 100).then(div => {
 });
 ```
 
-このタスクのベースとして、タスク <info:task/animate-circle-callback> の解答を利用してください。
+Take the solution of the task <info:task/animate-circle-callback> as the base.

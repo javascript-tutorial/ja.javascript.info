@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# 奇妙な instanceof
+# Strange instanceof
 
-なぜ下の `instanceof` は `true` を返すのでしょう？ `a` が `B()` によって作られたものでないことは簡単に分かります。
+In the code below, why does `instanceof` return `true`? We can easily see that `a` is not created by `B()`.
 
 ```js run
 function A() {}

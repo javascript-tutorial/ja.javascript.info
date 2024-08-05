@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# ループで偶数を出力する
+# Output even numbers in the loop
 
-`for` ループを使って `2` から `10` までの偶数を出力してください。
+Use the `for` loop to output even numbers from `2` to `10`.
 
 [demo]

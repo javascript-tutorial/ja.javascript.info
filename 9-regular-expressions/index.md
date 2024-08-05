@@ -1,3 +1,3 @@
-# 正規表現
+# Regular expressions
 
-正規表現は文字列を検索したり置換するための強力な方法です。
+Regular expressions is a powerful way of doing search and replace in strings.

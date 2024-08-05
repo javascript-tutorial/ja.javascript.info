@@ -1,6 +1,6 @@
 解決策はすべての呼び出しでオブジェクト自身を返すことです。
 
-```js run
+```js run demo
 let ladder = {
   step: 0,
   up() {
@@ -21,9 +21,9 @@ let ladder = {
     return this;
 */!*
   }
-}
+};
 
-ladder.up().up().down().up().down().showStep(); // 1
+ladder.up().up().down().showStep().down().showStep(); // shows 1 then 0
 ```
 
 また、1行毎に1つの呼び出しで書くこともできます。長い連鎖の場合はより読みやすいです。:
@@ -33,7 +33,7 @@ ladder
   .up()
   .up()
   .down()
-  .up()
+  .showStep() // 1
   .down()
-  .showStep(); // 1
+  .showStep(); // 0
 ```

@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# プレフィックス(接頭辞)とサフィックス(接尾辞)の形式
+# The postfix and prefix forms
 
-下のコードが実行されたあと、変数 `a`, `b`, `c`, `d` はいくつになるでしょう？
+What are the final values of all variables `a`, `b`, `c` and `d` after the code below?
 
 ```js
 let a = 1, b = 1;

@@ -21,6 +21,10 @@ function accept(req, res) {
 
 function onConnect(ws) {
   ws.on('message', function (message) {
+<<<<<<< HEAD
+=======
+    message = message.toString();
+>>>>>>> b258d7d5b635c88228f7556e14fbe5e5ca7f736d
     let name = message.match(/([\p{Alpha}\p{M}\p{Nd}\p{Pc}\p{Join_C}]+)$/gu) || "Guest";
     ws.send(`Hello from server, ${name}!`);
 

@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# 日付の作成
+# Create a date
 
-日付 "Feb 20, 2012, 3:12am" の `Date` オブジェクトを作成してください。タイムゾーンはローカルです。
+Create a `Date` object for the date: Feb 20, 2012, 3:12am. The time zone is local.
 
-`alert` を使って表示してください。
+Show it using `alert`.

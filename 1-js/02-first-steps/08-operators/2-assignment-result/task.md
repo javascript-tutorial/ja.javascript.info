@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# 代入の結果
+# Assignment result
 
-下のコードが実行されたあと、`a` と `x` はいくつになるでしょう？
+What are the values of `a` and `x` after the code below?
 
 ```js
 let a = 2;

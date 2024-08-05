@@ -1,68 +1,68 @@
 
 
-# 前置き: コールバック
+# Introduction: callbacks
 
-```warn header="ここの例ではブラウザメソッドを使用します"
-コールバック、promise や他の抽象的な概念の使用法を示すために、いくつかのブラウザメソッドを使用します。具体的には、スクリプトの読み込みと単純なドキュメント操作の実行です。
+```warn header="We use browser methods in examples here"
+To demonstrate the use of callbacks, promises and other abstract concepts, we'll be using some browser methods: specifically, loading scripts and performing simple document manipulations.
 
-これらのメソッドに馴染みがなく、例での使用法がわかりにくい場合、チュートリアルの [次のパート](/document) のいくつかの章を読むことをおすすめします。
+If you're not familiar with these methods, and their usage in the examples is confusing, you may want to read a few chapters from the [next part](/document) of the tutorial.
 
-
+Although, we'll try to make things clear anyway. There won't be anything really complex browser-wise.
 ```
 
-多くの関数は *非同期* アクションがスケジュールできる JavaScript ホスト環境によって提供されます。つまり、今開始したアクションですが、後で終了します。
+Many functions are provided by JavaScript host environments that allow you to schedule *asynchronous* actions. In other words, actions that we initiate now, but they finish later.
 
-例えば、そのような関数の1つとして `setTimeout` 関数があります。
+For instance, one such function is the `setTimeout` function.
 
-非同期アクションの実際の例は他にもあります。例えばスクリプトとモジュールの読み込みです（後述の章で説明します）。
+There are other real-world examples of asynchronous actions, e.g. loading scripts and modules (we'll cover them in later chapters).
 
-指定された `src` でスクリプトをロードする関数 `loadScript(src)` を見てください。:
+Take a look at the function `loadScript(src)`, that loads a script with the given `src`:
 
 ```js
 function loadScript(src) {
-  // <script> タグを作りページに追加します
-  // 指定された src のスクリプトの読み込みを開始し、完了時に実行します
+  // creates a <script> tag and append it to the page
+  // this causes the script with given src to start loading and run when complete
   let script = document.createElement('script');
   script.src = src;
   document.head.append(script);
 }
 ```
 
-これは、指定された `src` をもつ、新たに動的に作成された `<script src="…">` をドキュメントに挿入します。ブラウザは自動的に読み込みを開始し、完了時に実行します。
+It inserts into the document a new, dynamically created, tag `<script src="…">` with the given `src`. The browser automatically starts loading it and executes when complete.
 
-使用例:
+We can use this function like this:
 
 ```js
-// スクリプトを読み込み、実行する
+// load and execute the script at the given path
 loadScript('/my/script.js');
 ```
 
-スクリプトは "非同期に" 実行され、すぐに読み込みを開始しますが、後で（関数がすでに終了した後）実行されます。
+The script is executed "asynchronously", as it starts loading now, but runs later, when the function has already finished.
 
-また、`loadScript` の下になんらかのコードがある場合、そのコードの実行は、スクリプトの読み込みの終了は待ちません。
+If there's any code below `loadScript(…)`, it doesn't wait until the script loading finishes.
 
 ```js
 loadScript('/my/script.js');
-// loadScript の下のコードは
-// スクリプトの読み込みが終わるのを待ちません
+// the code below loadScript
+// doesn't wait for the script loading to finish
 // ...
 ```
 
-今、新しいスクリプトを読み込んですぐに使いたいとします。新しい関数が宣言されており、それらを実行したいとします。
+Let's say we need to use the new script as soon as it loads. It declares new functions, and we want to run them.
 
-しかし、`loadScript(…)` 呼び出しの直後にそれをしても上手く動作しません:
+But if we do that immediately after the `loadScript(…)` call, that wouldn't work:
 
 ```js
-loadScript('/my/script.js'); // このスクリプトは "function newFunction() {…}" を持っています
+loadScript('/my/script.js'); // the script has "function newFunction() {…}"
 
 *!*
-newFunction(); // そのような関数はありません!
+newFunction(); // no such function!
 */!*
 ```
 
-当然、ブラウザにはスクリプトをロードする時間はありませんでした。今のところ、`loadScript` 関数は読み込みの完了を追跡する方法を提供していません。スクリプトは読み込まれ、最終的に実行されますが、そのスクリプトの新しい関数や変数を使用するために、それらがいつ起きるのかを知りたいです。
+Naturally, the browser probably didn't have time to load the script. As of now, the `loadScript` function doesn't provide a way to track the load completion. The script loads and eventually runs, that's all. But we'd like to know when it happens, to use new functions and variables from that script.
 
-`loadScript` に2つ目の引数に、スクリプトが読み込まれたときに実行する `callback` 関数を追加しましょう:
+Let's add a `callback` function as a second argument to `loadScript` that should execute when the script loads:
 
 ```js
 function loadScript(src, *!*callback*/!*) {
@@ -77,19 +77,21 @@ function loadScript(src, *!*callback*/!*) {
 }
 ```
 
-ロードしたスクリプトにある新しい関数を呼びたい場合は callback に書きます。:
+The `onload` event is described in the article <info:onload-onerror#loading-a-script>, it basically executes a function after the script is loaded and executed.
+
+Now if we want to call new functions from the script, we should write that in the callback:
 
 ```js
 loadScript('/my/script.js', function() {
-  // コールバックはスクリプトがロード後に実行されます
-  newFunction(); // なので、これは動作します
+  // the callback runs after the script is loaded
+  newFunction(); // so now it works
   ...
 });
 ```
 
-第2引数は、アクションが完了したときに実行される関数（通常は無名）です。
+That's the idea: the second argument is a function (usually anonymous) that runs when the action is completed.
 
-ここで、実際のスクリプトを使った実行可能な例を示します:
+Here's a runnable example with a real script:
 
 ```js run
 function loadScript(src, callback) {
@@ -101,21 +103,21 @@ function loadScript(src, callback) {
 
 *!*
 loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
-  alert(`Cool, the ${script.src} is loaded`);
-  alert( _ ); // ロードされたスクリプトで宣言されている関数
+  alert(`Cool, the script ${script.src} is loaded`);
+  alert( _ ); // _ is a function declared in the loaded script
 });
 */!*
 ```
 
-これは "コールバックベース" と呼ばれる非同期プログラミングのスタイルです。非同期の処理をする関数は、関数が完了した後に実行するための `callback` の引数を提供します。
+That's called a "callback-based" style of asynchronous programming. A function that does something asynchronously should provide a `callback` argument where we put the function to run after it's complete.
 
-ここでは `loadScript` でそれを行いましたが、もちろん一般的なアプローチです。
+Here we did it in `loadScript`, but of course it's a general approach.
 
-## Callback の中の callback
+## Callback in callback
 
-２つのスクリプトを順次読み込む方法: 最初の１つを読み込み、2つ目はその後に読み込む？
+How can we load two scripts sequentially: the first one, and then the second one after it?
 
-自然な解決策は、2つ目の `loadScript` 呼び出しを callback の中に置くことです。次のようになります:
+The natural solution would be to put the second `loadScript` call inside the callback, like this:
 
 ```js
 loadScript('/my/script.js', function(script) {
@@ -131,9 +133,9 @@ loadScript('/my/script.js', function(script) {
 });
 ```
 
-外側の `loadScript` の完了後、そのコールバックは内側の `loadScript` を開始します。
+After the outer `loadScript` is complete, the callback initiates the inner one.
 
-...仮にもっとスクリプトを読み込みたい場合はどうなりますか？
+What if we want one more script...?
 
 ```js
 loadScript('/my/script.js', function(script) {
@@ -142,24 +144,24 @@ loadScript('/my/script.js', function(script) {
 
 *!*
     loadScript('/my/script3.js', function(script) {
-      // ...すべてのスクリプトが読み込まれるまで続きます
+      // ...continue after all scripts are loaded
     });
 */!*
 
-  })
+  });
 
 });
 ```
 
-したがって、すべての新しいアクションはコールバックの中です。アクションが多くない場合は問題ありませんが、多い場合には問題です。そのため、この後別の方法を見ていきます。
+So, every new action is inside a callback. That's fine for few actions, but not good for many, so we'll see other variants soon.
 
-## エラーハンドリング
+## Handling errors
 
-上の例ではエラーを考慮していませんでした。もしスクリプト読み込みが失敗した場合どうしますか？コールバックはそれに対応する必要があります。
+In the above examples we didn't consider errors. What if the script loading fails? Our callback should be able to react on that.
 
-これは、読み込みエラーを追跡する `loadScript` の改良版です:
+Here's an improved version of `loadScript` that tracks loading errors:
 
-```js run
+```js
 function loadScript(src, callback) {
   let script = document.createElement('script');
   script.src = src;
@@ -173,32 +175,32 @@ function loadScript(src, callback) {
 }
 ```
 
-これは成功時に `callback(null, script)` を呼び、それ以外の場合には `callback(error)` を呼びます。 
+It calls `callback(null, script)` for successful load and `callback(error)` otherwise.
 
-使用方法:
+The usage:
 ```js
 loadScript('/my/script.js', function(error, script) {
   if (error) {
-    // エラー処理
+    // handle error
   } else {
-    // スクリプトの読み込みが成功
+    // script loaded successfully
   }
 });
 ```
 
-もう一度言いますが、`loadScript` で使った方法は、実際に非常に一般的なものです。これは "エラーファーストなコールバック" スタイルと呼ばれます。
+Once again, the recipe that we used for `loadScript` is actually quite common. It's called the "error-first callback" style.
 
-慣例は次の通りです:
-1. `callback` の最初の引数は、エラーが発生した場合のために予約されています。そして `callback(err)` が呼ばれます。
-2. 2つ目の引数(と必要に応じて以降の引数)は正常な結果を得るためのもので、`callback(null, result1, result2…)` が呼ばれます。
+The convention is:
+1. The first argument of the `callback` is reserved for an error if it occurs. Then `callback(err)` is called.
+2. The second argument (and the next ones if needed) are for the successful result. Then `callback(null, result1, result2…)` is called.
 
-なので、単一の `callback` 関数は、エラー報告と結果渡し両方のために使われます。
+So the single `callback` function is used both for reporting errors and passing back results.
 
-## 破滅のピラミッド 
+## Pyramid of Doom
 
-一見すると、これは非同期コーディングの実行可能な方法です。確かにその通りです。1つまたは2つ程度のネストされた呼び出しの場合には問題なく見えます。
+At first glance, it looks like a viable approach to asynchronous coding. And indeed it is. For one or maybe two nested calls it looks fine.
 
-しかし、次々に続く複数の非同期アクションの場合、次のようなコードを持つことになります:
+But for multiple asynchronous actions that follow one after another, we'll have code like this:
 
 ```js
 loadScript('1.js', function(error, script) {
@@ -217,25 +219,25 @@ loadScript('1.js', function(error, script) {
             handleError(error);
           } else {
   *!*
-            // ...すべてのスクリプトが読み込まれるまで続く (*)
+            // ...continue after all scripts are loaded (*)
   */!*
           }
         });
 
       }
-    })
+    });
   }
 });
 ```
 
-上記のコードでは:
-1. `1.js` をロードし、エラーがなければ
-2. `2.js` をロードします。エラーがなければ
-3. `3.js` をロードします。エラーがなければ -- 他の何か `(*)` を行います。
+In the code above:
+1. We load `1.js`, then if there's no error...
+2. We load `2.js`, then if there's no error...
+3. We load `3.js`, then if there's no error -- do something else `(*)`.
 
-呼び出しがよりネストされるにつれて、特に `...` ではなく、実際により多くのループや条件式などを含むコードがある場合、コードはより深くなり、益々管理が難しくなります。
+As calls become more nested, the code becomes deeper and increasingly more difficult to manage, especially if we have real code instead of `...` that may include more loops, conditional statements and so on.
 
-これは "コールバック地獄" や "破滅のピラミッド" と呼ばれます。
+That's sometimes called "callback hell" or "pyramid of doom."
 
 <!--
 loadScript('1.js', function(error, script) {
@@ -263,11 +265,11 @@ loadScript('1.js', function(error, script) {
 
 ![](callback-hell.svg)
 
-ネストされた呼び出しの "ピラミッド" はすべての非同期アクションで右に伸びていきます。すぐに、それは制御不能になります。
+The "pyramid" of nested calls grows to the right with every asynchronous action. Soon it spirals out of control.
 
-したがって、このコーディング方法はあまり良くありません。
+So this way of coding isn't very good.
 
-私たちは、次のようにすべてのアクションをスタンドアロンの関数にすることで、この問題を軽減することができます。:
+We can try to alleviate the problem by making every action a standalone function, like this:
 
 ```js
 loadScript('1.js', step1);
@@ -294,17 +296,17 @@ function step3(error, script) {
   if (error) {
     handleError(error);
   } else {
-    // ...すべてのスクリプトが読み込まれた後に続く (*)
+    // ...continue after all scripts are loaded (*)
   }
-};
+}
 ```
 
-どうでしょう？ 同じことをしますが、今や深いネストはありません。なぜならすべてのアクションをトップレベルの関数に分離したからです。
+See? It does the same thing, and there's no deep nesting now because we made every action a separate top-level function.
 
-これは機能しますが、コードはばらばらになったスプレッドシートのように見えます。これは読みにくく、そしておそらく気づいたでしょう。1つは、読むには関数間で視点のジャンプが必要です。これは不便で、読者がコードに精通しておらず、どこに視点を移動させたらよいか分からない場合は特に困ります。
+It works, but the code looks like a torn apart spreadsheet. It's difficult to read, and you probably noticed that one needs to eye-jump between pieces while reading it. That's inconvenient, especially if the reader is not familiar with the code and doesn't know where to eye-jump.
 
-また、`step*` という名前の関数はすべて1度きりの使用であり、"破滅のピラミッド" を避けるためだけに作られています。アクションチェーンチェーンの外でこれらを再利用するつもりはありません。そのため、名前空間が少し乱雑です。
+Also, the functions named `step*` are all of single use, they are created only to avoid the "pyramid of doom." No one is going to reuse them outside of the action chain. So there's a bit of namespace cluttering here.
 
-より良いものが必要です。
+We'd like to have something better.
 
-幸いにも、このようなピラミッドを回避する他の方法があります。ベストな方法の1つは次の章で説明する "promise" を使うことです。
+Luckily, there are other ways to avoid such pyramids. One of the best ways is to use "promises", described in the next chapter.

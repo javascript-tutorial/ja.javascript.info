@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# 反復可能(iterable)なキー
+# Iterable keys
 
-私たちは `map.keys()` の配列を取得し、その結果を使って処理を続けたいです(マップ自体とは別に)。
+We'd like to get an array of `map.keys()` in a variable and then apply array-specific methods to it, e.g. `.push`.
 
-が、問題があります。:
+But that doesn't work:
 
 ```js run
 let map = new Map();
@@ -21,4 +21,4 @@ keys.push("more");
 */!*
 ```
 
-なぜでしょう？`key.push` が機能するためにはコードをどのように直せばよいでしょう？
+Why? How can we fix the code to make `keys.push` work?
