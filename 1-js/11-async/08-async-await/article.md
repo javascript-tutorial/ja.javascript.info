@@ -178,7 +178,7 @@ f();
 ````
 
 ````smart header="Async メソッド"
-クラスメソッドもまた async になれます。ただ前に `async` を置くだけです。
+クラスのメソッドもまた async になれます。ただ前に `async` を置くだけです。
 
 ```js run
 class Waiter {
