@@ -185,7 +185,7 @@ alert( null >= 0 ); // (3) *!*true*/!*
 
 ### 比べるものがない undefined
 
-値 `undefined` は比較に関与しません。:
+値 `undefined` は比較に関与しません。:
 
 ```js run
 alert( undefined > 0 ); // false (1)

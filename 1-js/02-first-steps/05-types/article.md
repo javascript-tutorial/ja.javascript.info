@@ -98,7 +98,7 @@ let str2 = 'Single quotes are ok too';
 let phrase = `can embed ${str}`;
 ```
 
-JavScriptでは3種類の引用符があります。
+JavaScriptでは3種類の引用符があります。
 
 1. ダブルクォート: `"Hello"`.
 2. シングルクォート: `'Hello'`.
