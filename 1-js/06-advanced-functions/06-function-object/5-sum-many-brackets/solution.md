@@ -5,7 +5,7 @@
 
 コードです:
 
-```js run
+```js demo run
 function sum(a) {
 
   let currentSum = a;
@@ -52,4 +52,8 @@ function f(b) {
 }
 ```
 
+<<<<<<< HEAD
 この `f` は次の呼び出しで使われ、必要に応じて何度でも再び自身を返却します。次に、数値または文字列として使用すると、`toString` は `currentSum` を返します。また、ここでは `Symbol.toPrimitive` または `valueOf` を変換に使うこともできます。
+=======
+This `f` will be used in the next call, again return itself, as many times as needed. Then, when used as a number or a string -- the `toString` returns the `currentSum`. We could also use `Symbol.toPrimitive` or `valueOf` here for the conversion.
+>>>>>>> b258d7d5b635c88228f7556e14fbe5e5ca7f736d
