@@ -124,7 +124,6 @@ alert(longEar.jumps); // true (rabbit から)
 
 ここで `longEar` から何かしらを読み取ろうとして、それが見つからなかった場合、JavaScript はまず `rabbit`、次に `animal` の順に探しに行きます。
 
-
 実際には、2つの制限があります。:
 
 1. 参照を循環させることはできません。JavaScriptは、循環するように `__proto__` を割り当てようとするとエラーになります。
