@@ -190,7 +190,7 @@ setTimeout(() => document.body.style.removeProperty('background'), 1000); // 1�
 
 ## 算出スタイル: getComputedStyle 
 
-スタイルを変更するのは簡単です。しかしどうやってそれを *参照* ますか？
+スタイルを変更するのは簡単です。しかしどうやってそれを *参照* しますか？
 
 例えば、要素のサイズ、マージン、色が知りたいです。どうやりますか？
 
