@@ -12,7 +12,7 @@ function delay(f, ms) {
 
 ここで、アロー関数がどう使われているか注意してください。ご存知の通り、アロー関数は独自の `this` や `arguments` を持ちません。なので、`f.apply(this, arguments)` はラッパーから `this` と `arguments` を取ります。
 
-もし、通常の関数を渡す場合、`setTimeout` はそれを引数なしで、 `this=window` (ブラウザの場合) で呼び出します。なので、ラッパーからそれらをわすようにコードを書く必要があります。:
+もし、通常の関数を渡す場合、`setTimeout` はそれを引数なしで、 `this=window` (ブラウザの場合) で呼び出します。なので、ラッパーからそれらを渡すようにコードを書く必要があります。:
 
 ```js
 function delay(f, ms) {
