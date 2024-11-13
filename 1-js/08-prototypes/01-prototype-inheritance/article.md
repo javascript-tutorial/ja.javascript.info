@@ -122,7 +122,7 @@ alert(longEar.jumps); // true (rabbit から)
 
 ![](proto-animal-rabbit-chain.svg)
 
-Now if we read something from `longEar`, and it's missing, JavaScript will look for it in `rabbit`, and then in `animal`.
+ここで `longEar` から何かしらを読み取ろうとして、それが見つからなかった場合、JavaScript はまず `rabbit`、次に `animal` の順に探しに行きます。
 
 実際には、2つの制限があります。:
 
