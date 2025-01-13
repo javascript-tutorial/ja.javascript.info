@@ -1,7 +1,14 @@
 
+<<<<<<< HEAD
 これは、`map.keys()` は配列ではなく、反復可能(iterable) を返すためです。
 
 `Array.from` を使うことで、それを配列に変換できます:
+=======
+That's because `map.keys()` returns an iterable, but not an array.
+
+We can convert it into an array using `Array.from`:
+
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 ```js run
 let map = new Map();
