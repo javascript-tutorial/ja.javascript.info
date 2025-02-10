@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # JavaScript アニメーション
 
 JavaScript アニメーションは CSS ではできないことを扱うことができます。
@@ -37,17 +38,61 @@ let timer = setInterval(function() {
   }
 
   // timePassed 時点のアニメーションを描画
+=======
+# JavaScript animations
+
+JavaScript animations can handle things that CSS can't.
+
+For instance, moving along a complex path, with a timing function different from Bezier curves, or an animation on a canvas.
+
+## Using setInterval
+
+An animation can be implemented as a sequence of frames -- usually small changes to HTML/CSS properties.
+
+For instance, changing `style.left` from `0px` to `100px` moves the element. And if we increase it in `setInterval`, changing by `2px` with a tiny delay, like 50 times per second, then it looks smooth. That's the same principle as in the cinema: 24 frames per second is enough to make it look smooth.
+
+The pseudo-code can look like this:
+
+```js
+let timer = setInterval(function() {
+  if (animation complete) clearInterval(timer);
+  else increase style.left by 2px
+}, 20); // change by 2px every 20ms, about 50 frames per second
+```
+
+More complete example of the animation:
+
+```js
+let start = Date.now(); // remember start time
+
+let timer = setInterval(function() {
+  // how much time passed from the start?
+  let timePassed = Date.now() - start;
+
+  if (timePassed >= 2000) {
+    clearInterval(timer); // finish the animation after 2 seconds
+    return;
+  }
+
+  // draw the animation at the moment timePassed
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
   draw(timePassed);
 
 }, 20);
 
+<<<<<<< HEAD
 // timePassed は 0 から 2000 まで進む
 // なので、left は 0px から 400px になります
+=======
+// as timePassed goes from 0 to 2000
+// left gets values from 0px to 400px
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 function draw(timePassed) {
   train.style.left = timePassed / 5 + 'px';
 }
 ```
 
+<<<<<<< HEAD
 デモです。電車をクリックしてみてください:
 
 [codetabs height=200 src="move"]
@@ -63,6 +108,21 @@ function draw(timePassed) {
 これらの複数の独立した再描画は、ブラウザの再描画を簡単にし、CPUの負荷を減らしてよりなめらかに見せるためにグループ化すべきです。
 
 言い換えると、次のコード:
+=======
+Click for the demo:
+
+[codetabs height=200 src="move"]
+
+## Using requestAnimationFrame
+
+Let's imagine we have several animations running simultaneously.
+
+If we run them separately, then even though each one has `setInterval(..., 20)`, then the browser would have to repaint much more often than every `20ms`.
+
+That's because they have different starting time, so "every 20ms" differs between different animations. The intervals are not aligned. So we'll have several independent runs within `20ms`.
+
+In other words, this:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 setInterval(function() {
@@ -72,6 +132,7 @@ setInterval(function() {
 }, 20)
 ```
 
+<<<<<<< HEAD
 ...は以下のコードよりも軽量です:
 
 ```js
@@ -85,10 +146,28 @@ setInterval(animate3, 20);
 しかし、それを JavaScript ではどうやってしるのでしょう？ 関数 `requestAnimationFrame` を提供する標準の [アニメーションタイミング](http://www.w3.org/TR/animation-timing/) があります。この関数は、これらすべての問題及び、その他多くのことに対応しています。
 
 構文:
+=======
+...Is lighter than three independent calls:
+
+```js
+setInterval(animate1, 20); // independent animations
+setInterval(animate2, 20); // in different places of the script
+setInterval(animate3, 20);
+```
+
+These several independent redraws should be grouped together, to make the redraw easier for the browser and hence load less CPU load and look smoother.
+
+There's one more thing to keep in mind. Sometimes CPU is overloaded, or there are other reasons to redraw less often (like when the browser tab is hidden), so we really shouldn't run it every `20ms`.
+
+But how do we know about that in JavaScript? There's a specification [Animation timing](https://www.w3.org/TR/animation-timing/) that provides the function `requestAnimationFrame`. It addresses all these issues and even more.
+
+The syntax:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 ```js
 let requestId = requestAnimationFrame(callback)
 ```
 
+<<<<<<< HEAD
 これは、ブラウザがアニメーションをしたい最も近い時間に `callback` 関数を実行するようスケジューリングします。
 
 もし `callback` の中で要素を変更すると、他の `requestAnimationFrame` コールバックや CSS アニメーションと一緒にグループ化されます。これにより、配置の再計算と再描画がそれぞれではなく1回でまとめて行われます。
@@ -105,6 +184,23 @@ cancelAnimationFrame(requestId);
 通常 `callback` は CPU が過負荷状態になったり、ノートPCのバッテリーがほとんどなかったり、その他別の理由がある場合を除きすぐに実行されます。
 
 下のコードは `requestAnimationFrame` での最初の10回の実行時間を表示します。通常は 10-20ms です。
+=======
+That schedules the `callback` function to run in the closest time when the browser wants to do animation.
+
+If we do changes in elements in `callback` then they will be grouped together with other `requestAnimationFrame` callbacks and with CSS animations. So there will be one geometry recalculation and repaint instead of many.
+
+The returned value `requestId` can be used to cancel the call:
+```js
+// cancel the scheduled execution of callback
+cancelAnimationFrame(requestId);
+```
+
+The `callback` gets one argument -- the time passed from the beginning of the page load in milliseconds. This time can also be obtained by calling [performance.now()](mdn:api/Performance/now).
+
+Usually `callback` runs very soon, unless the CPU is overloaded or the laptop battery is almost discharged, or there's another reason.
+
+The code below shows the time between first 10 runs for `requestAnimationFrame`. Usually it's 10-20ms:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```html run height=40 refresh
 <script>
@@ -122,7 +218,11 @@ cancelAnimationFrame(requestId);
 
 ## Structured animation
 
+<<<<<<< HEAD
 これで、`requestAnimationFrame` に基づいた、様々な状況に対応することのできるアニメーション関数を作成することができます。
+=======
+Now we can make a more universal animation function based on `requestAnimationFrame`:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 function animate({timing, draw, duration}) {
@@ -130,6 +230,7 @@ function animate({timing, draw, duration}) {
   let start = performance.now();
 
   requestAnimationFrame(function animate(time) {
+<<<<<<< HEAD
     // timeFraction は 0 から 1 になります
     let timeFraction = (time - start) / duration;
     if (timeFraction > 1) timeFraction = 1;
@@ -138,6 +239,16 @@ function animate({timing, draw, duration}) {
     let progress = timing(timeFraction)
 
     draw(progress); // 描画します
+=======
+    // timeFraction goes from 0 to 1
+    let timeFraction = (time - start) / duration;
+    if (timeFraction > 1) timeFraction = 1;
+
+    // calculate the current animation state
+    let progress = timing(timeFraction)
+
+    draw(progress); // draw it
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
     if (timeFraction < 1) {
       requestAnimationFrame(animate);
@@ -147,6 +258,7 @@ function animate({timing, draw, duration}) {
 }
 ```
 
+<<<<<<< HEAD
 関数 `animate` はアニメーションを記述するための3つのパラメータを受け付けます。:
 
 `duration`
@@ -156,6 +268,17 @@ function animate({timing, draw, duration}) {
 : 経過時間(開始時: `0`, 終了時: `1`)を基に、アニメーションの完了(ベジェ曲線の `y` のような) を返す、CSS プロパティ `transition-timing-function` のようなタイミング関数です。
 
     例えば、線形関数はアニメーションが同じスピードで均一に進むことを意味します。:
+=======
+Function `animate` accepts 3 parameters that essentially describes the animation:
+
+`duration`
+: Total time of animation. Like, `1000`.
+
+`timing(timeFraction)`
+: Timing function, like CSS-property `transition-timing-function` that gets the fraction of time that passed (`0` at start, `1` at the end) and returns the animation completion (like `y` on the Bezier curve).
+
+    For instance, a linear function means that the animation goes on uniformly with the same speed:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
     ```js
     function linear(timeFraction) {
@@ -163,6 +286,7 @@ function animate({timing, draw, duration}) {
     }
     ```
 
+<<<<<<< HEAD
     グラフはこのようになります:
     ![](linear.svg)
 
@@ -174,11 +298,25 @@ function animate({timing, draw, duration}) {
     これは実際にアニメーションを描画する関数です。
 
     要素が移動します:
+=======
+    Its graph:
+    ![](linear.svg)
+
+    That's just like `transition-timing-function: linear`. There are more interesting variants shown below.
+
+`draw(progress)`
+: The function that takes the animation completion state and draws it. The value `progress=0` denotes the beginning animation state, and `progress=1` -- the end state.
+
+    This is that function that actually draws out the animation.
+
+    It can move the element:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
     ```js
     function draw(progress) {
       train.style.left = progress + 'px';
     }
     ```
+<<<<<<< HEAD
     
     ...または、他のことを行うことで、どんな方法でも何でもアニメーションさせることができます。
 
@@ -189,6 +327,19 @@ function animate({timing, draw, duration}) {
 [codetabs height=60 src="width"]
 
 コードは次の通りです:
+=======
+
+    ...Or do anything else, we can animate anything, in any way.
+
+
+Let's animate the element `width` from `0` to `100%` using our function.
+
+Click on the element for the demo:
+
+[codetabs height=60 src="width"]
+
+The code for it:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 animate({
@@ -202,6 +353,7 @@ animate({
 });
 ```
 
+<<<<<<< HEAD
 CSS アニメーションとは異なり、任意のタイミング関数や描画関数を作ることができます。タイミング関数はベジェ曲線には制限されません。そして `draw` はプロパティを超えて、花火のアニメーションといった新しい要素を作成することもできます。
 
 ## タイミング関数
@@ -215,6 +367,21 @@ CSS アニメーションとは異なり、任意のタイミング関数や描�
 アニメーションをスピードアップさせたい場合には、`n` のべき乗で `progress` を使います。 
 
 例えば、放物曲線:
+=======
+Unlike CSS animation, we can make any timing function and any drawing function here. The timing function is not limited by Bezier curves. And `draw` can go beyond properties, create new elements for like fireworks animation or something.
+
+## Timing functions
+
+We saw the simplest, linear timing function above.
+
+Let's see more of them. We'll try movement animations with different timing functions to see how they work.
+
+### Power of n
+
+If we want to speed up the animation, we can use `progress` in the power `n`.
+
+For instance, a parabolic curve:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 function quad(timeFraction) {
@@ -222,6 +389,7 @@ function quad(timeFraction) {
 }
 ```
 
+<<<<<<< HEAD
 グラフ:
 
 ![](quad.svg)
@@ -243,6 +411,29 @@ function quad(timeFraction) {
 ### 円弧
 
 関数:
+=======
+The graph:
+
+![](quad.svg)
+
+See in action (click to activate):
+
+[iframe height=40 src="quad" link]
+
+...Or the cubic curve or even greater `n`. Increasing the power makes it speed up faster.
+
+Here's the graph for `progress` in the power `5`:
+
+![](quint.svg)
+
+In action:
+
+[iframe height=40 src="quint" link]
+
+### The arc
+
+Function:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 function circ(timeFraction) {
@@ -250,12 +441,17 @@ function circ(timeFraction) {
 }
 ```
 
+<<<<<<< HEAD
 グラフ:
+=======
+The graph:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ![](circ.svg)
 
 [iframe height=40 src="circ" link]
 
+<<<<<<< HEAD
 ### 戻る: 弓
 
 この関数は "弓の射撃" を行います。最初に "弦を引き"、次に "撃ちます"。
@@ -263,6 +459,15 @@ function circ(timeFraction) {
 前の関数とは異なり、追加のパラメータ `x`, "弾性係数" に依存します。"弦を引く" 距離はこれにより定義されます。
 
 コード:
+=======
+### Back: bow shooting
+
+This function does the "bow shooting". First we "pull the bowstring", and then "shoot".
+
+Unlike previous functions, it depends on an additional parameter `x`, the "elasticity coefficient". The distance of "bowstring pulling" is defined by it.
+
+The code:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 function back(x, timeFraction) {
@@ -270,6 +475,7 @@ function back(x, timeFraction) {
 }
 ```
 
+<<<<<<< HEAD
 **`x = 1.5` の場合のグラフ:**
 
 ![](back.svg)
@@ -287,6 +493,25 @@ function back(x, timeFraction) {
 ```js
 function bounce(timeFraction) {
   for (let a = 0, b = 1, result; 1; a += b, b /= 2) {
+=======
+**The graph for `x = 1.5`:**
+
+![](back.svg)
+
+For animation we use it with a specific value of `x`. Example for `x = 1.5`:
+
+[iframe height=40 src="back" link]
+
+### Bounce
+
+Imagine we are dropping a ball. It falls down, then bounces back a few times and stops.
+
+The `bounce` function does the same, but in the reverse order: "bouncing" starts immediately. It uses few special coefficients for that:
+
+```js
+function bounce(timeFraction) {
+  for (let a = 0, b = 1; 1; a += b, b /= 2) {
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
     if (timeFraction >= (7 - 4 * a) / 11) {
       return -Math.pow((11 - 6 * a - 11 * timeFraction) / 4, 2) + Math.pow(b, 2)
     }
@@ -294,6 +519,7 @@ function bounce(timeFraction) {
 }
 ```
 
+<<<<<<< HEAD
 動作を見る:
 
 [iframe height=40 src="bounce" link]
@@ -301,6 +527,15 @@ function bounce(timeFraction) {
 ### 弾性のあるアニメーション
 
 "初期範囲" 用の追加パラメータ `x` を受け取るもう一つの "弾む" 関数です。
+=======
+In action:
+
+[iframe height=40 src="bounce" link]
+
+### Elastic animation
+
+One more "elastic" function that accepts an additional parameter `x` for the "initial range".
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 function elastic(x, timeFraction) {
@@ -308,15 +543,23 @@ function elastic(x, timeFraction) {
 }
 ```
 
+<<<<<<< HEAD
 **`x=1.5` のグラフです:**
 ![](elastic.svg)
 
 `x=1.5` の場合の動作:
+=======
+**The graph for `x=1.5`:**
+![](elastic.svg)
+
+In action for `x=1.5`:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 [iframe height=40 src="elastic" link]
 
 ## Reversal: ease*
 
+<<<<<<< HEAD
 ここまでで様々なタイミング関数があります。これらは "easeIn" と呼ばれます。
 
 アニメーションを逆の順序で表示する必要があることがあります。これは、"easeOut" 変換で行います。
@@ -324,15 +567,31 @@ function elastic(x, timeFraction) {
 ### easeOut
 
 "easeOut" モードでは、`timing` 関数はラッパー `timingEaseOut` の中に配置されます。
+=======
+So we have a collection of timing functions. Their direct application is called "easeIn".
+
+Sometimes we need to show the animation in the reverse order. That's done with the "easeOut" transform.
+
+### easeOut
+
+In the "easeOut" mode the `timing` function is put into a wrapper `timingEaseOut`:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 timingEaseOut(timeFraction) = 1 - timing(1 - timeFraction)
 ```
 
+<<<<<<< HEAD
 つまり、"通常の" タイミング関数を取り、"そのラッパーを返す" "変換" 関数 `makeEaseOut` を使用します。:
 
 ```js
 // タイミング関数を引数とし、変換したものを返す
+=======
+In other words, we have a "transform" function `makeEaseOut` that takes a "regular" timing function and returns the wrapper around it:
+
+```js
+// accepts a timing function, returns the transformed variant
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 function makeEaseOut(timing) {
   return function(timeFraction) {
     return 1 - timing(1 - timeFraction);
@@ -340,12 +599,17 @@ function makeEaseOut(timing) {
 }
 ```
 
+<<<<<<< HEAD
 例えば、上述の `bounce` 関数に対して適用してみます:
+=======
+For instance, we can take the `bounce` function described above and apply it:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 let bounceEaseOut = makeEaseOut(bounce);
 ```
 
+<<<<<<< HEAD
 すると、最初ではなくアニメーションの最後にバウンドするようになります。より自然にみえます。:
 
 [codetabs src="bounce-easeout"]
@@ -371,11 +635,42 @@ let bounceEaseOut = makeEaseOut(bounce);
 if (timeFraction <= 0.5) { // アニメーションの前半
   return timing(2 * timeFraction) / 2;
 } else { // アニメーションの後半
+=======
+Then the bounce will be not in the beginning, but at the end of the animation. Looks even better:
+
+[codetabs src="bounce-easeout"]
+
+Here we can see how the transform changes the behavior of the function:
+
+![](bounce-inout.svg)
+
+If there's an animation effect in the beginning, like bouncing -- it will be shown at the end.
+
+In the graph above the <span style="color:#EE6B47">regular bounce</span> has the red color, and the <span style="color:#62C0DC">easeOut bounce</span> is blue.
+
+- Regular bounce -- the object bounces at the bottom, then at the end sharply jumps to the top.
+- After `easeOut` -- it first jumps to the top, then bounces there.
+
+### easeInOut
+
+We also can show the effect both in the beginning and the end of the animation. The transform is called "easeInOut".
+
+Given the timing function, we calculate the animation state like this:
+
+```js
+if (timeFraction <= 0.5) { // first half of the animation
+  return timing(2 * timeFraction) / 2;
+} else { // second half of the animation
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
   return (2 - timing(2 * (1 - timeFraction))) / 2;
 }
 ```
 
+<<<<<<< HEAD
 このラッパーコードです:
+=======
+The wrapper code:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 function makeEaseInOut(timing) {
@@ -390,6 +685,7 @@ function makeEaseInOut(timing) {
 bounceEaseInOut = makeEaseInOut(bounce);
 ```
 
+<<<<<<< HEAD
 `bounceEaseInOut` の動作を見る:
 
 [codetabs src="bounce-easeinout"]
@@ -421,6 +717,39 @@ CSS では上手く扱えなかったり、厳密な制御が必要なアニメ�
 また、これはページがバックグラウンドのときは再描画はまったく行いません。コールバックが実行されないからです。アニメーションは一時停止し、リソースも消費されません。これは素晴らしいことです。
 
 これは、ほとんどのアニメーションのセットアップに使えるヘルパー関数 `animate` です:
+=======
+In action, `bounceEaseInOut`:
+
+[codetabs src="bounce-easeinout"]
+
+The "easeInOut" transform joins two graphs into one: `easeIn` (regular) for the first half of the animation and `easeOut` (reversed) -- for the second part.
+
+The effect is clearly seen if we compare the graphs of `easeIn`, `easeOut` and `easeInOut` of the `circ` timing function:
+
+![](circ-ease.svg)
+
+- <span style="color:#EE6B47">Red</span> is the regular variant of `circ` (`easeIn`).
+- <span style="color:#8DB173">Green</span> -- `easeOut`.
+- <span style="color:#62C0DC">Blue</span> -- `easeInOut`.
+
+As we can see, the graph of the first half of the animation is the scaled down `easeIn`, and the second half is the scaled down `easeOut`. As a result, the animation starts and finishes with the same effect.
+
+## More interesting "draw"
+
+Instead of moving the element we can do something else. All we need is to write the proper `draw`.
+
+Here's the animated "bouncing" text typing:
+
+[codetabs src="text"]
+
+## Summary
+
+For animations that CSS can't handle well, or those that need tight control, JavaScript can help. JavaScript animations should be implemented via `requestAnimationFrame`. That built-in method allows to setup a callback function to run when the browser will be preparing a repaint. Usually that's very soon, but the exact time depends on the browser.
+
+When a page is in the background, there are no repaints at all, so the callback won't run: the animation will be suspended and won't consume resources. That's great.
+
+Here's the helper `animate` function to setup most animations:
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
 ```js
 function animate({timing, draw, duration}) {
@@ -428,6 +757,7 @@ function animate({timing, draw, duration}) {
   let start = performance.now();
 
   requestAnimationFrame(function animate(time) {
+<<<<<<< HEAD
     // timeFraction は 0 tから 1
     let timeFraction = (time - start) / duration;
     if (timeFraction > 1) timeFraction = 1;
@@ -436,6 +766,16 @@ function animate({timing, draw, duration}) {
     let progress = timing(timeFraction);
 
     draw(progress); // 描画
+=======
+    // timeFraction goes from 0 to 1
+    let timeFraction = (time - start) / duration;
+    if (timeFraction > 1) timeFraction = 1;
+
+    // calculate the current animation state
+    let progress = timing(timeFraction);
+
+    draw(progress); // draw it
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
 
     if (timeFraction < 1) {
       requestAnimationFrame(animate);
@@ -445,6 +785,7 @@ function animate({timing, draw, duration}) {
 }
 ```
 
+<<<<<<< HEAD
 オプション:
 
 - `duration` -- アニメーションの合計時間(ms)。
@@ -456,3 +797,16 @@ function animate({timing, draw, duration}) {
 JavaScript アニメーションは、任意のタイミング関数を扱うことができます。ここでは多くの例を取り上げました。CSS とは異なり、JavaScript アニメーションはベジェ曲線に制限されません。
 
 `draw` についても同様です。CSS プロパティだけでなく、何でもアニメーションにすることができます。
+=======
+Options:
+
+- `duration` -- the total animation time in ms.
+- `timing` -- the function to calculate animation progress. Gets a time fraction from 0 to 1, returns the animation progress, usually from 0 to 1.
+- `draw` -- the function to draw the animation.
+
+Surely we could improve it, add more bells and whistles, but JavaScript animations are not applied on a daily basis. They are used to do something interesting and non-standard. So you'd want to add the features that you need when you need them.
+
+JavaScript animations can use any timing function. We covered a lot of examples and transformations to make them even more versatile. Unlike CSS, we are not limited to Bezier curves here.
+
+The same is true about `draw`: we can animate anything, not just CSS properties.
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e

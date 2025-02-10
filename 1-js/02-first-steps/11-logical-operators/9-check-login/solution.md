@@ -22,4 +22,8 @@ if (userName === 'Admin') {
 }
 ```
 
+<<<<<<< HEAD
 `if` ブロック内の縦のインデントに注意してください。技術的には必須ではありませんが、コードの可読性をより良くします。
+=======
+Note the vertical indents inside the `if` blocks. They are technically not required, but make the code more readable.
+>>>>>>> 6236eb8c3cdde729dab761a1d0967a88a1a6197e
