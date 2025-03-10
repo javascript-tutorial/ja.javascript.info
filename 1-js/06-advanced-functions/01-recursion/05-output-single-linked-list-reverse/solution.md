@@ -33,11 +33,19 @@ printReverseList(list);
 
 # ループを使う
 
+<<<<<<< HEAD
 ループのバリアントもまた直接出力よりも少し複雑です。
+=======
+The loop variant is also a little bit more complicated than the direct output.
+>>>>>>> 1dce5b72b16288dad31b7b3febed4f38b7a5cd8a
 
 我々の `list` で最後の値を取得する方法はありません。また、 "戻る" こともできません。
 
+<<<<<<< HEAD
 従って、できることは直接の並びでアイテムを調べて、それらを配列に覚えます。そして逆順で覚えていることを出力していきます。:
+=======
+So what we can do is to first go through the items in the direct order and remember them in an array, and then output what we remembered in the reverse order:
+>>>>>>> 1dce5b72b16288dad31b7b3febed4f38b7a5cd8a
 
 ```js run
 let list = {

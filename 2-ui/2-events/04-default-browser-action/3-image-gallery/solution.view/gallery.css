@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font: 75%/120% sans-serif;
+<<<<<<< HEAD
 }
 
 h2 {
@@ -12,6 +13,8 @@ h2 {
 h2 em {
   font: normal 80%/100% sans-serif;
   color: #999999;
+=======
+>>>>>>> 1dce5b72b16288dad31b7b3febed4f38b7a5cd8a
 }
 
 #largeImg {
