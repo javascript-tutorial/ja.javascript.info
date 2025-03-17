@@ -2,6 +2,7 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 月の最後日は？
 
 月の最後の日を返す関数 `getLastDayOfMonth(year, month)` を書いてください。それは 30, 31, または2月であれば 28/29 です。
@@ -12,3 +13,15 @@ importance: 5
 - `month` -- 月、0 から 11
 
 例えば、`getLastDayOfMonth(2012, 1) = 29` (うるう年、2月)
+=======
+# Last day of month?
+
+Write a function `getLastDayOfMonth(year, month)` that returns the last day of month. Sometimes it is 30th, 31st or even 28/29th for Feb.
+
+Parameters:
+
+- `year` -- four-digits year, for instance 2012.
+- `month` -- month, from 0 to 11.
+
+For instance, `getLastDayOfMonth(2012, 1) = 29` (leap year, Feb).
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6

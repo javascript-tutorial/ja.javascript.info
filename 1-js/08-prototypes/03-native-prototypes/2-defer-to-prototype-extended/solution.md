@@ -15,3 +15,30 @@ function f(a, b) {
 
 f.defer(1000)(1, 2); // shows 3 after 1 sec
 ```
+<<<<<<< HEAD
+=======
+
+Please note: we use `this` in `f.apply` to make our decoration work for object methods.
+
+So if the wrapper function is called as an object method, then `this` is passed to the original method `f`.
+
+```js run
+Function.prototype.defer = function(ms) {
+  let f = this;
+  return function(...args) {
+    setTimeout(() => f.apply(this, args), ms);
+  }
+};
+
+let user = {
+  name: "John",
+  sayHi() {
+    alert(this.name);
+  }
+}
+
+user.sayHi = user.sayHi.defer(1000);
+
+user.sayHi();
+```
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6
