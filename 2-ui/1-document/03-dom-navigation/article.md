@@ -7,6 +7,7 @@ libs:
 
 # DOM ナビゲーション
 
+<<<<<<< HEAD
 DOM は要素やコンテンツに対して様々なことができますが、最初に対応する DOM オブジェクトに到達する必要があります。
 
 DOM 上のすべての操作は `document` オブジェクトから始まります。そこから任意のノードにアクセスできます。
@@ -16,13 +17,26 @@ DOM 上のすべての操作は `document` オブジェクトから始まりま�
 ![](dom-links.svg)
 
 これらについてより深く議論しましょう。
+=======
+The DOM allows us to do anything with elements and their contents, but first we need to reach the corresponding DOM object.
+
+All operations on the DOM start with the `document` object. That's the main "entry point" to DOM. From it we can access any node.
+
+Here's a picture of links that allow for travel between DOM nodes:
+
+![](dom-links.svg)
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 ## トップ: documentElement と body 
 
 最上位のツリーノードは `document` プロパティとして直接利用可能です:
 
 `<html>` = `document.documentElement`
+<<<<<<< HEAD
 : 最上位のドキュメントノードは `document.documentElement` で、`<html>` タグの DOM ノードです。
+=======
+: The topmost document node is `document.documentElement`. That's the DOM node of the `<html>` tag.
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 `<body>` = `document.body`
 : もう１つの広く使われている DOM ノードは `<body>` 要素です --  `document.body`.
@@ -86,9 +100,15 @@ DOM では、`null` 値は "存在しない" もしくは "このようなノー
 </html>
 ```
 
+<<<<<<< HEAD
 ...また、 `<body>` のすべての子孫は、直接の子 `<div>`, `<ul>` だけでなく、`<li>` (`<ul>` の子) や `<b>` (`<li>` の子)のような、さらにネストされた要素を含む -- サブツリー全体です。
 
 **`childNodes` のコレクションは、テキストノードを含むすべての子ノードを持ちます。**
+=======
+...And descendants of `<body>` are not only direct children `<div>`, `<ul>` but also more deeply nested elements, such as `<li>` (a child of `<ul>`) and `<b>` (a child of `<li>`) -- the entire subtree.
+
+**The `childNodes` collection lists all child nodes, including text nodes.**
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 以下は `document.body` の子を表示します:
 
@@ -149,15 +169,25 @@ elem.childNodes[elem.childNodes.length - 1] === elem.lastChild
 最初の1つ目は良いです。2つ目も、配列メソッドが必要な場合は、`Array.from` でコレクションから "本当の" 配列を作ることができるので許容できます。:
 
   ```js run
+<<<<<<< HEAD
   alert( Array.from(document.body.childNodes).filter ); // これで使えます
+=======
+  alert( Array.from(document.body.childNodes).filter ); // function
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
   ```
 
 ```warn header="DOM コレクションは読み取り専用です"
 DOM コレクションやさらに -- この章でリストされている *すべての* ナビゲーションプロパティは読み取り専用です。
 
+<<<<<<< HEAD
 代入 `childNodes[i] = ...` などで子ノードを置き換えることはできません。
 
 DOM の変更は他のメソッドを必要とします。それらについては次の章で見ていきましょう。
+=======
+We can't replace a child by something else by assigning `childNodes[i] = ...`.
+
+Changing DOM needs other methods. We will see them in the next chapter.
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 ```
 
 ```warn header="DOM コレクションはライブです"
@@ -174,18 +204,36 @@ DOM の変更は他のメソッドを必要とします。それらについて�
 ```html run
 <body>
 <script>
+<<<<<<< HEAD
   // 0, 1, length, item, values などが表示されます。
   for(let prop in document.body.childNodes) alert(prop);
+=======
+  // shows 0, 1, length, item, values and more.
+  for (let prop in document.body.childNodes) alert(prop);
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 </script>
 </body>
 ````
 
 ## 兄弟と親 
 
+<<<<<<< HEAD
 *兄弟(Siblings)* は同じ親(parent)の子ノードです。
+=======
+*Siblings* are nodes that are children of the same parent.
+
+For instance, here `<head>` and `<body>` are siblings:
+
+```html
+<html>
+  <head>...</head><body>...</body>
+</html>
+```
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 例えば、`<head>` と `<body>` は兄弟です:
 
+<<<<<<< HEAD
 ```html
 <html>
   <head>...</head><body>...</body>
@@ -210,11 +258,32 @@ DOM の変更は他のメソッドを必要とします。それらについて�
 
   // <body> の前は <head> です。
   alert( document.body.previousSibling ); // HTMLHeadElement
+=======
+The next sibling is in `nextSibling` property, and the previous one - in `previousSibling`.
+
+The parent is available as `parentNode`.
+
+For example:
+
+```js run
+// parent of <body> is <html>
+alert( document.body.parentNode === document.documentElement ); // true
+
+// after <head> goes <body>
+alert( document.head.nextSibling ); // HTMLBodyElement
+
+// before <body> goes <head>
+alert( document.body.previousSibling ); // HTMLHeadElement
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 ```
 
 ## Element-only navigation
 
+<<<<<<< HEAD
 上でリストされているナビゲーションプロパティは *すべての* ノードを参照します。例えば、`childNodes` では、テキストノード、要素ノードの両方を、さらに存在する場合にはコメントノードも見ることができます。
+=======
+Navigation properties listed above refer to *all* nodes. For instance, in `childNodes` we can see both text nodes, element nodes, and even comment nodes if they exist.
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 しかし、多くのタスクでは、テキストノードやコメントノードは必要ありません。タグを表し、ページの構造を形成する要素ノードを操作したいです。
 
@@ -224,10 +293,17 @@ DOM の変更は他のメソッドを必要とします。それらについて�
 
 リンクは上で与えられたものと似ており、`Element` という言葉が内部にあります:
 
+<<<<<<< HEAD
 - `children` -- 要素ノードの子のみです。
 - `firstElementChild`, `lastElementChild` -- 最初/最後の要素の子です。
 - `previousElementSibling`, `nextElementSibling` -- 隣の要素です。
 - `parentElement` -- 親の要素です。
+=======
+- `children` -- only those children that are element nodes.
+- `firstElementChild`, `lastElementChild` -- first and last element children.
+- `previousElementSibling`, `nextElementSibling` -- neighbor elements.
+- `parentElement` -- parent element.
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 ````smart header="なぜ `parentElement`? 親は要素 ではない 場合はありますか？"
 `parentElement` プロパティは "要素" の親を返しますが、`parentNode` は "任意のノード" の親を返します。それらのプロパティは通常同じです: 両方とも親を取得します。
@@ -239,9 +315,15 @@ alert( document.documentElement.parentNode ); // document
 alert( document.documentElement.parentElement ); // null
 ```
 
+<<<<<<< HEAD
 言い換えると、`documentElement` (`<html>`) はルートノードです。公式にはその親として `document` を持っています。しかし、`document` は要素ノードではないので、`parentNode` はそれを返し、`parentElement` は返しません。
 
 これは、任意の要素 `elem` から `<html>` に移動したいが、`document` には移動したくな場合に役立ちます:
+=======
+The reason is that the root node `document.documentElement` (`<html>`) has `document` as its parent. But `document` is not an element node, so `parentNode` returns it and `parentElement` does not.
+
+This detail may be useful when we want to travel up from an arbitrary element `elem` to `<html>`, but not to the `document`:
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 ```js
 while(elem = elem.parentElement) { // go up till <html>
   alert( elem );
@@ -249,7 +331,11 @@ while(elem = elem.parentElement) { // go up till <html>
 ```
 ````
 
+<<<<<<< HEAD
 上の例の1つを修正してみましょう: `childNodes` を `children` に置き換えます。これで要素のみが表示されます。:
+=======
+Let's modify one of the examples above: replace `childNodes` with `children`. Now it shows only elements:
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 ```html run
 <html>
@@ -280,20 +366,35 @@ while(elem = elem.parentElement) { // go up till <html>
 
 特定の種類の DOM 要素は、便宜上、その種類に固有の追加のプロパティを提供することがあります。
 
+<<<<<<< HEAD
 テーブルはその素晴らしい例であり重要なケースです。
 
 **`<table>`** 要素は次のプロパティをサポートします(上で与えられたものに加えて):
 - `table.rows` -- テーブルの `<tr>` 要素のコレクションです。
 - `table.caption/tHead/tFoot` -- 要素 `<caption>`, `<thead>`, `<tfoot>` への参照です。
 - `table.tBodies` -- `<tbody>` 要素のコレクション(標準によると多数になれます) です。
+=======
+Tables are a great example of that, and represent a particularly important case:
+
+**The `<table>`** element supports (in addition to the given above) these properties:
+- `table.rows` -- the collection of `<tr>` elements of the table.
+- `table.caption/tHead/tFoot` -- references to elements `<caption>`, `<thead>`, `<tfoot>`.
+- `table.tBodies` -- the collection of `<tbody>` elements (can be many according to the standard, but there will always be at least one -- even if it is not in the source HTML, the browser will put it in the DOM).
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 **`<thead>`, `<tfoot>`, `<tbody>`** 要素は `rows` プロパティを提供します:
 - `tbody.rows` -- 内側の `<tr>` のコレクション
 
 **`<tr>`:**
+<<<<<<< HEAD
 - `tr.cells` -- 与えられた `<tr>` の中の `<td>` と `<th>` セルの集合です。
 - `tr.sectionRowIndex` -- 囲んでいる `<thead>/<tbody>` の内部にある与えられた `<tr>` の番号です。
 - `tr.rowIndex` -- テーブル内の `<tr>` の番号です。
+=======
+- `tr.cells` -- the collection of `<td>` and `<th>` cells inside the given `<tr>`.
+- `tr.sectionRowIndex` -- the position (index) of the given `<tr>` inside the enclosing `<thead>/<tbody>/<tfoot>`.
+- `tr.rowIndex` -- the number of the `<tr>` in the table as a whole (including all table rows).
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 **`<td>` と `<th>`:**
 - `td.cellIndex` -- `<tr>` で囲まれている内側でのセルの番号です。
@@ -311,19 +412,33 @@ while(elem = elem.parentElement) { // go up till <html>
 </table>
 
 <script>
+<<<<<<< HEAD
   // "two" の td を取得
   let td = table.*!*rows[0].cells[1]*/!*;
   td.style.backgroundColor = "red"; // ハイライト
+=======
+  // get td with "two" (first row, second column)
+  let td = table.*!*rows[0].cells[1]*/!*;
+  td.style.backgroundColor = "red"; // highlight it
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 </script>
 ```
 
 仕様: [tabular data](https://html.spec.whatwg.org/multipage/tables.html).
 
+<<<<<<< HEAD
 HTMLフォームのための追加のナビゲーションプロパティもあります。 フォームを使って作業を開始するときにそれらを見ていきます。
 
 # サマリ 
 
 与えられた DOM ノードで、ナビゲーションプロパティを使用することで直接隣接ノードに移動できます。
+=======
+There are also additional navigation properties for HTML forms. We'll look at them later when we start working with forms.
+
+## Summary
+
+Given a DOM node, we can go to its immediate neighbors using navigation properties.
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 それらの2つの主要なセットがあります:
 
