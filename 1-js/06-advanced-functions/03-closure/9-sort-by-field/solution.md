@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 
 ```js run
 let users = [
@@ -20,3 +21,5 @@ users.sort(byField('age'));
 users.forEach(user => alert(user.name)); // Pete, Ann, John
 ```
 
+=======
+>>>>>>> 540d753e90789205fc6e75c502f68382c87dea9b
