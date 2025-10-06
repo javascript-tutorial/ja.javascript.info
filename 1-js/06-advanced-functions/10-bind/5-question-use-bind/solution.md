@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 `ask` はオブジェクトなしで関数 `loginOk/loginFail` を取得しているためにエラーが起きます。
+=======
+The error occurs because `askPassword` gets functions `loginOk/loginFail` without the object.
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 それらを呼ぶとき、通常 `this=undefined` と想定します。
 
@@ -38,5 +42,10 @@ askPassword(user.loginOk.bind(user), user.loginFail.bind(user));
 askPassword(() => user.loginOk(), () => user.loginFail());
 ```
 
+<<<<<<< HEAD
 通常は動作しますが、`user` が要求して `() => user.loginOk()` を実行する間に上書きされる可能性のあるようなより複雑な状況の場合に失敗する可能性があります。
+=======
+Usually that also works and looks good.
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
+It's a bit less reliable though in more complex situations where `user` variable might change *after* `askPassword` is called, but *before* the visitor answers and calls `() => user.loginOk()`. 

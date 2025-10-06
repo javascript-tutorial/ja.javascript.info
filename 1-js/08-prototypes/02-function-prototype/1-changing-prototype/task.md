@@ -20,7 +20,11 @@ alert( rabbit.eats ); // true
 ```
 
 
+<<<<<<< HEAD
 1. 1つ文字列を追加しました(強調部分)。今 `alert` は何が表示されるでしょう?
+=======
+1. We added one more string (emphasized). What will `alert` show now?
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
     ```js
     function Rabbit() {}
@@ -54,7 +58,11 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
+<<<<<<< HEAD
 3. この場合は (1行置き換えました)?
+=======
+3. And like this (replaced one line)?
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
     ```js
     function Rabbit() {}
