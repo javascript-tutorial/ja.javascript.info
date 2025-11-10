@@ -2,6 +2,7 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # プロパティを合計する
 
 任意の数の給与を持つ `salaries` オブジェクトがあります。
@@ -11,6 +12,17 @@ importance: 5
 もし `salaries` が空の場合、結果は `0` になります。
 
 例:
+=======
+# Sum the properties
+
+There is a `salaries` object with arbitrary number of salaries. 
+
+Write the function `sumSalaries(salaries)` that returns the sum of all salaries using `Object.values` and the `for..of` loop.
+
+If `salaries` is empty, then the result must be `0`.
+
+For instance:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js
 let salaries = {
@@ -21,3 +33,7 @@ let salaries = {
 
 alert( sumSalaries(salaries) ); // 650
 ```
+<<<<<<< HEAD
+=======
+
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
