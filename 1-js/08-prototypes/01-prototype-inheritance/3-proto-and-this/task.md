@@ -2,11 +2,19 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # どこに書きますか？
 
 `animal` から継承している `rabbit` があります。
 
 もし `rabbit.eat()` を呼び出す場合、どのオブジェクトが `full` を受け取りますか？: `animal` または `rabbit`?
+=======
+# Where does it write?
+
+We have `rabbit` inheriting from `animal`.
+
+If we call `rabbit.eat()`, which object receives the `full` property: `animal` or `rabbit`? 
+>>>>>>> 5e893cffce8e2346d4e50926d5148c70af172533
 
 ```js
 let animal = {
