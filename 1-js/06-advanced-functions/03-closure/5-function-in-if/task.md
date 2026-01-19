@@ -1,7 +1,15 @@
+importance: 5
 
+<<<<<<< HEAD
 # if の中の関数
 
 このコードを見てください。最後の行の呼び出しの結果は何でしょうか？
+=======
+---
+# Function in if
+
+Look at the code. What will be the result of the call at the last line?
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
 ```js run
 let phrase = "Hello";
