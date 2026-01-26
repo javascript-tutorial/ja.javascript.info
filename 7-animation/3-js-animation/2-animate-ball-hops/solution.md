@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 タスク <info:task/animate-ball> では、アニメーションするプロパティは1つだけでした。ここではもう1つ必要です。:`elem.style.left`.
 
 水平座標は別の法則("バウンド" ではなく、徐々にボールを右にシフトする)で変化します。
@@ -7,6 +8,17 @@
 時間関数として `linear` も使えますが、`makeEaseOut(quad)` などの方がはるかによく見えます。
 
 コード:
+=======
+In the task <info:task/animate-ball> we had only one property to animate. Now we need one more: `elem.style.left`.
+
+The horizontal coordinate changes by another law: it does not "bounce", but gradually increases shifting the ball to the right.
+
+We can write one more `animate` for it.
+
+As the time function we could use `linear`, but something like `makeEaseOut(quad)` looks much better.
+
+The code:
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
 ```js
 let height = field.clientHeight - ball.clientHeight;
