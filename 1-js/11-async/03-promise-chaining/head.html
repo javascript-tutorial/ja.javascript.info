@@ -1,16 +1,5 @@
 <script>
-function loadScript(src) {
-  return new Promise(function(resolve, reject) {
-    let script = document.createElement('script');
-    script.src = src;
-
-    script.onload = () => resolve(script);
-    script.onerror = () => reject(new Error("Script load error: " + src));
-
-    document.head.append(script);
-  });
-}
-
+<<<<<<< HEAD
 class HttpError extends Error {
   constructor(response) {
     super(`${response.status} for ${response.url}`);
@@ -28,6 +17,18 @@ function loadJson(url) {
         throw new HttpError(response);
       }
     })
+=======
+function loadScript(src) {
+  return new Promise(function(resolve, reject) {
+    let script = document.createElement('script');
+    script.src = src;
+
+    script.onload = () => resolve(script);
+    script.onerror = () => reject(new Error("Script load error: " + src));
+
+    document.head.append(script);
+  });
+>>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 }
 </script>
 

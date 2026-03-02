@@ -6,6 +6,7 @@ JavaScript では文字列はイミュータブル(不変)なので、最初の�
 let newStr = str[0].toUpperCase() + str.slice(1);
 ```
 
+<<<<<<< HEAD
 が、そこには少し問題があります。`str` が空の場合、`str[0]` は未定義です。なのでエラーになります。
 
 ここでは2つのバリアントがあります:
@@ -16,6 +17,13 @@ let newStr = str[0].toUpperCase() + str.slice(1);
 これは2つ目のバリアントです:
 
 ```js run
+=======
+There's a small problem though. If `str` is empty, then `str[0]` is `undefined`, and as `undefined` doesn't have the `toUpperCase()` method, we'll get an error.
+
+The easiest way out is to add a test for an empty string, like this:
+
+```js run demo
+>>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 function ucFirst(str) {
   if (!str) return str;
 

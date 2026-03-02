@@ -6,4 +6,8 @@ function delay(ms) {
 delay(3000).then(() => alert('runs after 3 seconds'));
 ```
 
+<<<<<<< HEAD
 このタスクでは、`resolve` が引数無しで呼び出されることに注意してください。`delay` からは何の値も返しません、ただ遅延を保証します。
+=======
+Please note that in this task `resolve` is called without arguments. We don't return any value from `delay`, just ensure the delay.
+>>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11

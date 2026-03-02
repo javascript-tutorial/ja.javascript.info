@@ -2,7 +2,11 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 呼び出し感の差異
+=======
+# The difference between calls
+>>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 新しい `rabbit` オブジェクトを作りましょう:
 
