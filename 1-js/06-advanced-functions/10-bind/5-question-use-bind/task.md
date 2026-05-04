@@ -2,7 +2,7 @@ importance: 5
 
 ---
 
-# Ask losing this
+# Fix a function that loses "this"
 
 下のコードの `askPassword()` の呼び出しは、パスワードをチェックし、その回答により `user.loginOk/LoginFail` を呼びます。
 
@@ -34,5 +34,3 @@ let user = {
 askPassword(user.loginOk, user.loginFail);
 */!*
 ```
-
-
