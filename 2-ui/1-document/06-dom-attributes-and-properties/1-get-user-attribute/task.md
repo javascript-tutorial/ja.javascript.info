@@ -7,7 +7,7 @@ importance: 5
 ドキュメントから `data-widget-name` 属性を持つ要素を選択し、その値を読むコードを書いてください。
 
 ```html run
-<!DOCTYLE HTML>
+<!DOCTYPE html>
 <html>
 <body>
 
