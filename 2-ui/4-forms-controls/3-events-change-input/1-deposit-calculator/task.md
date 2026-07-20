@@ -14,8 +14,15 @@ importance: 5
 
 数式は次の通りです:
 ```js
+<<<<<<< HEAD
 // initial: 初期の合計金額
 // interest: e.g. 0.05 は年間 5% を意味します
 // years: 待つ年月
 let result = Math.round(initial * (1 + interest * years));
+=======
+// initial: the initial money sum
+// interest: e.g. 0.05 means 5% per year
+// years: how many years to wait
+let result = Math.round(initial * (1 + interest) ** years);
+>>>>>>> 725653fd99b19d42195e837ac3bb23c1784f8f6e
 ```

@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 ここには細工はありません。単に `demoGithubUser` の中の `.catch` を `try...catch` に置き換え、必要な場所に  `async/await` を追加しています:
+=======
+There are no tricks here. Just replace `.catch` with `try..catch` inside `demoGithubUser` and add `async/await` where needed:
+>>>>>>> 725653fd99b19d42195e837ac3bb23c1784f8f6e
 
 ```js run
 class HttpError extends Error {
