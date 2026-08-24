@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 ```js run
 function extractCurrencyValue(str) {
   return +str.slice(1);
 }
 ```
+=======
+>>>>>>> 20208769e528337949e946f526534d61d38bac47

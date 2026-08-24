@@ -54,7 +54,7 @@
 
     <p>Once upon a time there was a mother pig who had three little pigs.</p>
 
-    <p>The three little pigs grew so big that their mother said to them, "You are too big to live here any longer. You must go and build houses for yourselves. But take care that the wolf does not catch you."
+    <p>The three little pigs grew so big that their mother said to them, "You are too big to live here any longer. You must go and build houses for yourselves. But take care that the wolf does not catch you."</p>
 
     <p>The three little pigs set off. "We will take care that the wolf does not catch us," they said.</p>
 
@@ -78,12 +78,13 @@
     }
 
     document.onmouseout = function() {
-      // it is possible that mouseout triggered, but we're still inside the element (cause of bubbling)
+      // it is possible that mouseout triggered, but we're still inside the element
+      // (its target was inside, and it bubbled)
       // but in this case we'll have an immediate mouseover,
       // so the tooltip will be destroyed and shown again
       //
-      // that's an overhead, but here it's not visible
-      // can be fixed with additional checks
+      // luckily, the "blinking" won't be visible,
+      // as both events happen almost at the same time
       if (tooltip) {
         tooltip.remove();
         tooltip = false;
