@@ -1,2 +1,6 @@
 
+<<<<<<< HEAD
 # Promise, async/await
+=======
+# Promises, async/await
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
