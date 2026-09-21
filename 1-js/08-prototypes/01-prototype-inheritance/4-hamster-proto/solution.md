@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 呼び出し `speedy.eat("apple")` の中で何が起きているか注意深く見ていきましょう。
 
 1. メソッド `speedy.eat` はプロトタイプ(`=hamster`) で見つかり、`this=speedy` (ドットの前のオブジェクト)で実行されます。
@@ -14,6 +15,23 @@
 
 シンプルな代入 `this.stomach=` の場合には、このようなことは起こらないことに注意してください。:
 
+=======
+Let's look carefully at what's going on in the call `speedy.eat("apple")`.
+
+1. The method `speedy.eat` is found in the prototype (`=hamster`), then executed with `this=speedy` (the object before the dot).
+
+2. Then `this.stomach.push()` needs to find `stomach` property and call `push` on it. It looks for `stomach` in `this` (`=speedy`), but nothing found.
+
+3. Then it follows the prototype chain and finds `stomach` in `hamster`.
+
+4. Then it calls `push` on it, adding the food into *the stomach of the prototype*.
+
+So all hamsters share a single stomach!
+
+Both for `lazy.stomach.push(...)` and `speedy.stomach.push()`, the property `stomach` is found in the prototype (as it's not in the object itself), then the new data is pushed into it.
+
+Please note that such thing doesn't happen in case of a simple assignment `this.stomach=`:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let hamster = {
@@ -21,7 +39,11 @@ let hamster = {
 
   eat(food) {
 *!*
+<<<<<<< HEAD
     // this.stomach.push の代わりに this.stomach に代入する
+=======
+    // assign to this.stomach instead of this.stomach.push
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
     this.stomach = [food];
 */!*
   }
@@ -35,6 +57,7 @@ let lazy = {
   __proto__: hamster
 };
 
+<<<<<<< HEAD
 // Speedy は食べ物を見つけました
 speedy.eat("apple");
 alert( speedy.stomach ); // apple
@@ -46,6 +69,19 @@ alert( lazy.stomach ); // <nothing>
 今、すべてうまく行きました。なぜなら `this.stomach=` は `stomach` を参照しないからです。値は直接 `this` オブジェクトに書き込まれます。
 
 また、各ハムスターが自身の胃をもつことで問題を避けることができます:
+=======
+// Speedy one found the food
+speedy.eat("apple");
+alert( speedy.stomach ); // apple
+
+// Lazy one's stomach is empty
+alert( lazy.stomach ); // <nothing>
+```
+
+Now all works fine, because `this.stomach=` does not perform a lookup of `stomach`. The value is written directly into `this` object.
+
+Also we can totally avoid the problem by making sure that each hamster has their own stomach:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let hamster = {
@@ -78,4 +114,8 @@ alert( speedy.stomach ); // apple
 alert( lazy.stomach ); // <nothing>
 ```
 
+<<<<<<< HEAD
 一般的な解決策として、上の `stomach` のような、特定のオブジェクトの状態を説明するすべてのプロパティは通常そのオブジェクトの中に書かれます。それはこのような問題を防ぎます。
+=======
+As a common solution, all properties that describe the state of a particular object, like `stomach` above, should be written into that object. That prevents such problems.
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
