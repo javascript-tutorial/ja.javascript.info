@@ -9,7 +9,7 @@ arr.push(function() {
   alert( this );
 })
 
-arr[2](); // "a","b",function
+arr[2](); // a,b,function(){...}
 ```
 
 配列は 3つの値をもっています: 初期に2つを持っているのに加えて、関数です。
