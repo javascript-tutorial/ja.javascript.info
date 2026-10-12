@@ -88,7 +88,7 @@ class HoverIntent {
     if (speed < this.sensitivity) {
       clearInterval(this.checkSpeedInterval);
       this.isHover = true;
-      this.over.call(this.elem, event);
+      this.over.call(this.elem);
     } else {
       // speed fast, remember new coordinates as the previous ones
       this.prevX = this.lastX;
@@ -101,6 +101,6 @@ class HoverIntent {
     elem.removeEventListener('mousemove', this.onMouseMove);
     elem.removeEventListener('mouseover', this.onMouseOver);
     elem.removeEventListener('mouseout', this.onMouseOut);
-  };
+  }
 
 }

@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 # プロパティフラグとディスクリプタ
 
 ご存知の通り、オブジェクトはプロパティを格納できます。
@@ -22,11 +23,37 @@
 メソッド [Object.getOwnPropertyDescriptor](mdn:js/Object/getOwnPropertyDescriptor) で、プロパティの *完全な* 情報を参照することができます。
 
 構文は次の通りです:
+=======
+# Property flags and descriptors
+
+As we know, objects can store properties.
+
+Until now, a property was a simple "key-value" pair to us. But an object property is actually a more flexible and powerful thing.
+
+In this chapter we'll study additional configuration options, and in the next we'll see how to invisibly turn them into getter/setter functions.
+
+## Property flags
+
+Object properties, besides a **`value`**, have three special attributes (so-called "flags"):
+
+- **`writable`** -- if `true`, the value can be changed, otherwise it's read-only.
+- **`enumerable`** -- if `true`, then listed in loops, otherwise not listed.
+- **`configurable`** -- if `true`, the property can be deleted and these attributes can be modified, otherwise not.
+
+We didn't see them yet, because generally they do not show up. When we create a property "the usual way", all of them are `true`. But we also can change them anytime.
+
+First, let's see how to get those flags.
+
+The method [Object.getOwnPropertyDescriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) allows to query the *full* information about a property.
+
+The syntax is:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 ```js
 let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
 ```
 
 `obj`
+<<<<<<< HEAD
 : 情報を取得するオブジェクトです。
 
 `propertyName`
@@ -35,6 +62,16 @@ let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
 返却値はいわゆる "プロパティディスクリプタ" オブジェクトと呼ばれます。: それは値とすべてのフラグを含んでいます。
 
 例:
+=======
+: The object to get information from.
+
+`propertyName`
+: The name of the property.
+
+The returned value is a so-called "property descriptor" object: it contains the value and all the flags.
+
+For instance:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let user = {
@@ -44,7 +81,11 @@ let user = {
 let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
 
 alert( JSON.stringify(descriptor, null, 2 ) );
+<<<<<<< HEAD
 /* プロパティディスクリプタ:
+=======
+/* property descriptor:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 {
   "value": "John",
   "writable": true,
@@ -54,15 +95,22 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 */
 ```
 
+<<<<<<< HEAD
 [Object.defineProperty](mdn:js/Object/defineProperty) でフラグの変更ができます。
 
 構文:
+=======
+To change the flags, we can use [Object.defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty).
+
+The syntax is:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 Object.defineProperty(obj, propertyName, descriptor)
 ```
 
 `obj`, `propertyName`
+<<<<<<< HEAD
 : 処理するオブジェクトとプロパティです。
 
 `descriptor`
@@ -71,6 +119,16 @@ Object.defineProperty(obj, propertyName, descriptor)
 プロパティが存在する場合、`defineProperty` はそのフラグを更新します。存在しない場合は指定された値とフラグでプロパティを作ります。その場合に、もしフラグが指定されていなければ `false` とみなされます。
 
 例えば、ここではプロパティ `name` はすべて `false` のフラグで作られます。:
+=======
+: The object and its property to apply the descriptor.
+
+`descriptor`
+: Property descriptor object to apply.
+
+If the property exists, `defineProperty` updates its flags. Otherwise, it creates the property with the given value and flags; in that case, if a flag is not supplied, it is assumed `false`.
+
+For instance, here a property `name` is created with all falsy flags:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let user = {};
@@ -96,6 +154,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
  */
 ```
 
+<<<<<<< HEAD
 "通常の方法で" 作成された `user.name` と上記を比較してください。今すべてのフラグは `false` です。このようにしたくなければ、`descriptor` で `true` をセットするのがよいでしょう。
 
 では、例を使ってフラグの影響を見てみましょう。
@@ -103,6 +162,15 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 ## 書き込み不可(Non-writable) 
 
 `writable` フラグを変更して `user.name` を書き込み不可（再代入不可）にしてみましょう:
+=======
+Compare it with "normally created" `user.name` above: now all flags are falsy. If that's not what we want then we'd better set them to `true` in `descriptor`.
+
+Now let's see effects of the flags by example.
+
+## Non-writable
+
+Let's make `user.name` non-writable (can't be reassigned) by changing `writable` flag:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let user = {
@@ -116,6 +184,7 @@ Object.defineProperty(user, "name", {
 });
 
 *!*
+<<<<<<< HEAD
 user.name = "Pete"; // Error: Cannot assign to read only property 'name'...
 */!*
 ```
@@ -127,19 +196,38 @@ user.name = "Pete"; // Error: Cannot assign to read only property 'name'...
 ```
 
 これは先程と同じ例ですが、スクラッチでプロパティを作成します:
+=======
+user.name = "Pete"; // Error: Cannot assign to read only property 'name'
+*/!*
+```
+
+Now no one can change the name of our user, unless they apply their own `defineProperty` to override ours.
+
+```smart header="Errors appear only in strict mode"
+In non-strict mode, no errors occur when writing to non-writable properties and such. But the operation still won't succeed. Flag-violating actions are just silently ignored in non-strict.
+```
+
+Here's the same example, but the property is created from scratch:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let user = { };
 
 Object.defineProperty(user, "name", {
 *!*
+<<<<<<< HEAD
   value: "Pete",
   // 新しいプロパティに対して、true のものは明示的に列挙する必要があります
+=======
+  value: "John",
+  // for new properties we need to explicitly list what's true
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
   enumerable: true,
   configurable: true
 */!*
 });
 
+<<<<<<< HEAD
 alert(user.name); // Pete
 user.name = "Alice"; // Error
 ```
@@ -149,6 +237,17 @@ user.name = "Alice"; // Error
 カスタムの `toString` を `user` に追加しましょう。
 
 通常、オブジェクトが持つ組み込みの `toString` は列挙可能ではありません。それは `for..in` では表示されません。しかし私たちが自身の `toString` を追加した場合、デフォルトではこのように `for..in` で表示されます。:
+=======
+alert(user.name); // John
+user.name = "Pete"; // Error
+```
+
+## Non-enumerable
+
+Now let's add a custom `toString` to `user`.
+
+Normally, a built-in `toString` for objects is non-enumerable, it does not show up in `for..in`. But if we add a `toString` of our own, then by default it shows up in `for..in`, like this:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let user = {
@@ -158,11 +257,19 @@ let user = {
   }
 };
 
+<<<<<<< HEAD
 // デフォルトでは、両方のプロパティは列挙されます:
 for (let key in user) alert(key); // name, toString
 ```
 
 列挙されたくなければ、`enumerable:false` をセットします。すると、組み込みの関数同様、`for..in` ループで列挙されなくなります。:
+=======
+// By default, both our properties are listed:
+for (let key in user) alert(key); // name, toString
+```
+
+If we don't like it, then we can set `enumerable:false`. Then it won't appear in a `for..in` loop, just like the built-in one:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let user = {
@@ -179,17 +286,26 @@ Object.defineProperty(user, "toString", {
 });
 
 *!*
+<<<<<<< HEAD
 // これで toString は消えました:
+=======
+// Now our toString disappears:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 */!*
 for (let key in user) alert(key); // name
 ```
 
+<<<<<<< HEAD
 列挙可能でないプロパティは `Object.keys` からも除外されます。:
+=======
+Non-enumerable properties are also excluded from `Object.keys`:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 alert(Object.keys(user)); // name
 ```
 
+<<<<<<< HEAD
 ## 変更できない(Non-configurable)
 
 組み込みオブジェクトやプロパティに対しては、変更不可フラグ（`configurable:false`）がプリセットされることがあります。
@@ -197,6 +313,15 @@ alert(Object.keys(user)); // name
 変更できないプロパティは削除したり変更することができません。
 
 例えば、`Math.PI` は書き込み不可で、列挙不可であり、変更不可です:
+=======
+## Non-configurable
+
+The non-configurable flag (`configurable:false`) is sometimes preset for built-in objects and properties.
+
+A non-configurable property can't be deleted, its attributes can't be modified.
+
+For instance, `Math.PI` is non-writable, non-enumerable and non-configurable:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let descriptor = Object.getOwnPropertyDescriptor(Math, 'PI');
@@ -211,6 +336,7 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 }
 */
 ```
+<<<<<<< HEAD
 したがって、プログラマは `Math.PI` の値を変えることも上書きすることもできません。
 
 ```js run
@@ -233,6 +359,30 @@ Object.defineProperty(Math, "PI", { writable: true });
 **注意: `configurable: false` はプロパティフラグの変更や削除を禁止しますが、値を変更することは可能です**
 
 ここでは、 `user.name` は変更不可ですが、依然として変更はできます（書き込み可なので）:
+=======
+So, a programmer is unable to change the value of `Math.PI` or overwrite it.
+
+```js run
+Math.PI = 3; // Error, because it has writable: false
+
+// delete Math.PI won't work either
+```
+
+We also can't change `Math.PI` to be `writable` again:
+
+```js run
+// Error, because of configurable: false
+Object.defineProperty(Math, "PI", { writable: true });
+```
+
+There's absolutely nothing we can do with `Math.PI`.
+
+Making a property non-configurable is a one-way road. We cannot change it back with `defineProperty`.
+
+**Please note: `configurable: false` prevents changes of property flags and its deletion, while allowing to change its value.**
+
+Here `user.name` is non-configurable, but we can still change it (as it's writable):
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let user = {
@@ -243,11 +393,19 @@ Object.defineProperty(user, "name", {
   configurable: false
 });
 
+<<<<<<< HEAD
 user.name = "Pete"; // 動作します
 delete user.name; // Error
 ```
 
 また、以下は組み込みの`Math.PI` のように `user.name` を "永遠に封印された定数" にしています。
+=======
+user.name = "Pete"; // works fine
+delete user.name; // Error
+```
+
+And here we make `user.name` a "forever sealed" constant, just like the built-in `Math.PI`:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js run
 let user = {
@@ -259,24 +417,42 @@ Object.defineProperty(user, "name", {
   configurable: false
 });
 
+<<<<<<< HEAD
 // user.name とフラグは変更できません
 // これらはすべて動作しません:
+=======
+// won't be able to change user.name or its flags
+// all this won't work:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 user.name = "Pete";
 delete user.name;
 Object.defineProperty(user, "name", { value: "Pete" });
 ```
 
+<<<<<<< HEAD
 ```smart header="唯一可能な属性変更: writable true -> false"
 フラグ変更に関する小さな例外があります。
 
 変更不可プロパティに対して、`writable: true` を `false` に変更し、値の変更を防ぐことができます。しかし、その逆はできません。
+=======
+```smart header="The only attribute change possible: writable true -> false"
+There's a minor exception about changing flags.
+
+We can change `writable: true` to `false` for a non-configurable property, thus preventing its value modification (to add another layer of protection). Not the other way around though.
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 ```
 
 ## Object.defineProperties
 
+<<<<<<< HEAD
 一度に多くのプロパティが定義できるメソッド [Object.defineProperties(obj, descriptors)](mdn:js/Object/defineProperties)もあります。
 
 構文は次の通りです:
+=======
+There's a method [Object.defineProperties(obj, descriptors)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties) that allows to define many properties at once.
+
+The syntax is:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 Object.defineProperties(obj, {
@@ -286,7 +462,11 @@ Object.defineProperties(obj, {
 });
 ```
 
+<<<<<<< HEAD
 例えば:
+=======
+For instance:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 Object.defineProperties(user, {
@@ -296,6 +476,7 @@ Object.defineProperties(user, {
 });
 ```
 
+<<<<<<< HEAD
 なので、一度に多くのプロパティをセットできます。
 
 ## Object.getOwnPropertyDescriptors
@@ -303,12 +484,25 @@ Object.defineProperties(user, {
 一度にすべてのプロパティのディスクリプタを取得するには、[Object.getOwnPropertyDescriptors(obj)](mdn:js/Object/getOwnPropertyDescriptors) が使用できます。
 
 `Object.defineProperties` と合わせて、"フラグを意識して" オブジェクトをクローンする方法として使うことができます。:
+=======
+So, we can set many properties at once.
+
+## Object.getOwnPropertyDescriptors
+
+To get all property descriptors at once, we can use the method [Object.getOwnPropertyDescriptors(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors).
+
+Together with `Object.defineProperties` it can be used as a "flags-aware" way of cloning an object:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
 ```
 
+<<<<<<< HEAD
 通常、オブジェクトをクローンするとき、次のようにプロパティをコピーするために代入を使います。:
+=======
+Normally when we clone an object, we use an assignment to copy properties, like this:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 for (let key in user) {
@@ -316,6 +510,7 @@ for (let key in user) {
 }
 ```
 
+<<<<<<< HEAD
 ...ですが、これはフラグはコピーしません。そのため、"より良い" クローンを望むなら、 `Object.defineProperties` が好まれます。
 
 もう１つの違いは、`for..in` はシンボルプロパティを無視しますが、`Object.getOwnPropertyDescriptors` はシンボリックなものを含む *すべての* プロパティディスクリプタを返します。
@@ -347,3 +542,36 @@ for (let key in user) {
 : プロパティの追加、削除、変更が禁止されており、すべての現在のプロパティが `configurable: false, writable: false` の場合に `true` を返します。
 
 これらのメソッドは実際にはめったに使われません。
+=======
+...But that does not copy flags. So if we want a "better" clone then `Object.defineProperties` is preferred.
+
+Another difference is that `for..in` ignores symbolic and non-enumerable properties, but `Object.getOwnPropertyDescriptors` returns *all* property descriptors including symbolic and non-enumerable ones.
+
+## Sealing an object globally
+
+Property descriptors work at the level of individual properties.
+
+There are also methods that limit access to the *whole* object:
+
+[Object.preventExtensions(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/preventExtensions)
+: Forbids the addition of new properties to the object.
+
+[Object.seal(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal)
+: Forbids adding/removing of properties. Sets `configurable: false` for all existing properties.
+
+[Object.freeze(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)
+: Forbids adding/removing/changing of properties. Sets `configurable: false, writable: false` for all existing properties.
+
+And also there are tests for them:
+
+[Object.isExtensible(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible)
+: Returns `false` if adding properties is forbidden, otherwise `true`.
+
+[Object.isSealed(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isSealed)
+: Returns `true` if adding/removing properties is forbidden, and all existing properties have `configurable: false`.
+
+[Object.isFrozen(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isFrozen)
+: Returns `true` if adding/removing/changing properties is forbidden, and all current properties are `configurable: false, writable: false`.
+
+These methods are rarely used in practice.
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
