@@ -15,7 +15,12 @@ describe("groupById", function() {
   });
 
   it("works with an empty array", function() {
+<<<<<<< HEAD
     let users_empty = [];
     assert.deepEqual(groupById(users_empty), {});
+=======
+    users = [];
+    assert.deepEqual(groupById(users), {});
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
   });
 });
