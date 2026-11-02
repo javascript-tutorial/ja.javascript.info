@@ -11,7 +11,7 @@ function getDateAgo(date, days) {
 
 それを実装するために、次のように日付をクローンしましょう:
 
-```js run
+```js run demo
 function getDateAgo(date, days) {
   let dateCopy = new Date(date);
 
