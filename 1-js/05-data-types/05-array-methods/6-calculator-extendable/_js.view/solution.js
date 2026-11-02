@@ -1,6 +1,6 @@
 function Calculator() {
 
-  let methods = {
+  this.methods = {
     "-": (a, b) => a - b,
     "+": (a, b) => a + b
   };
@@ -10,16 +10,16 @@ function Calculator() {
     let split = str.split(' '),
       a = +split[0],
       op = split[1],
-      b = +split[2]
+      b = +split[2];
 
-    if (!methods[op] || isNaN(a) || isNaN(b)) {
+    if (!this.methods[op] || isNaN(a) || isNaN(b)) {
       return NaN;
     }
 
-    return methods[op](a, b);
-  }
+    return this.methods[op](a, b);
+  };
 
   this.addMethod = function(name, func) {
-    methods[name] = func;
+    this.methods[name] = func;
   };
 }

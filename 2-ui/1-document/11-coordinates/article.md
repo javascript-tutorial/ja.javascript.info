@@ -4,6 +4,7 @@
 
 ほとんどの JavaScript メソッドは２つの座標系のいずれかを扱います:
 
+<<<<<<< HEAD
 1. **ウィンドウ相対座標** - `position:fixed`と同様で、ウィンドウの上端/左端を基準として計算されます。
     - これらの座標は`clientX/clientY`と表記します。このような名前の理由については、イベントプロパティについて学習する際に明らかになります。
 2. **ドキュメント座標** - ドキュメントルートにおける`position:absolute`と同様で、ドキュメントの上端/左端を基準として計算されます。
@@ -37,6 +38,41 @@
 例えば、このボタンをクリックして、そのウィンドウ座標を見てください。
 
 <p><input id="brTest" type="button" style="max-width: 90vw;" value="このボタンからbutton.getBoundingClientRect()を使って座標を取得" onclick='showRect(this)'/></p>
+=======
+1. **Relative to the window** - similar to `position:fixed`, calculated from the window top/left edge.
+    - we'll denote these coordinates as `clientX/clientY`, the reasoning for such name will become clear later, when we study event properties.
+2. **Relative to the document** - similar to `position:absolute` in the document root, calculated from the document top/left edge.
+    - we'll denote them `pageX/pageY`.
+
+When the page is scrolled to the very beginning, so that the top/left corner of the window is exactly the document top/left corner, these coordinates equal each other. But after the document shifts, window-relative coordinates of elements change, as elements move across the window, while document-relative coordinates remain the same.
+
+On this picture we take a point in the document and demonstrate its coordinates before the scroll (left) and after it (right):
+
+![](document-and-window-coordinates-scrolled.svg)
+
+When the document scrolled:
+- `pageY` - document-relative coordinate stayed the same, it's counted from the document top (now scrolled out).
+- `clientY` - window-relative coordinate did change (the arrow became shorter), as the same point became closer to window top.
+
+## Element coordinates: getBoundingClientRect
+
+The method `elem.getBoundingClientRect()` returns window coordinates for a minimal rectangle that encloses `elem` as an object of built-in [DOMRect](https://www.w3.org/TR/geometry-1/#domrect) class.
+
+Main `DOMRect` properties:
+
+- `x/y` -- X/Y-coordinates of the rectangle origin relative to window,
+- `width/height` -- width/height of the rectangle (can be negative).
+
+Additionally, there are derived properties:
+
+- `top/bottom` -- Y-coordinate for the top/bottom rectangle edge,
+- `left/right` -- X-coordinate for the left/right rectangle edge.
+
+```online
+For instance click this button to see its window coordinates:
+
+<p><input id="brTest" type="button" style="max-width: 90vw;" value="Get coordinates using button.getBoundingClientRect() for this button" onclick='showRect(this)'/></p>
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 <script>
 function showRect(elem) {
@@ -53,6 +89,7 @@ right:${r.right}
 }
 </script>
 
+<<<<<<< HEAD
 繰り返しページをスクロールしていると、ウィンドウ内のボタンの位置が変化するにつれて、そのウィンドウ相対座標（縦方向にスクロールした場合は `y/top/bottom` 座標）も変化することに気づくでしょう。
 ```
 
@@ -61,12 +98,23 @@ right:${r.right}
 ![](coordinates.svg)
 
 ご覧のとおり、`x/y`と`width/height`で長方形を完全に表しています。これらから、派生プロパティを簡単に計算できます：
+=======
+If you scroll the page and repeat, you'll notice that as window-relative button position changes, its window coordinates (`y/top/bottom` if you scroll vertically) change as well.
+```
+
+Here's the picture of `elem.getBoundingClientRect()` output:
+
+![](coordinates.svg)
+
+As you can see, `x/y` and `width/height` fully describe the rectangle. Derived properties can be easily calculated from them:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 - `left = x`
 - `top = y`
 - `right = x + width`
 - `bottom = y + height`
 
+<<<<<<< HEAD
 注意点：
 
 - 座標は`10.5`のような小数になる場合があります。これは正常で、ブラウザは内部で計算に小数を使用しています。`style.left/top`を設定する際に、小数を丸める必要はありません。
@@ -86,6 +134,41 @@ right:${r.right}
 ご覧の通り、このような場合、`left/top`は`x/y`と等しくありません。
 
 ただし、実際には`elem.getBoundingClientRect()`は常に正の`width/height`を返します。ここで負の`width/height`に言及するのは、これらの一見重複しているプロパティが実際には重複していないことを理解していただくためです。
+=======
+Please note:
+
+- Coordinates may be decimal fractions, such as `10.5`. That's normal, internally browser uses fractions in calculations. We don't have to round them when setting to `style.left/top`.
+- Coordinates may be negative. For instance, if the page is scrolled so that `elem` is now above the window, then `elem.getBoundingClientRect().top` is negative.
+
+```smart header="Why derived properties are needed? Why does `top/left` exist if there's `x/y`?"
+Mathematically, a rectangle is uniquely defined with its starting point `(x,y)` and the direction vector `(width,height)`. So the additional derived properties are for convenience.
+
+Technically it's possible for `width/height` to be negative, that allows for "directed" rectangle, e.g. to represent mouse selection with properly marked start and end.
+
+Negative `width/height` values mean that the rectangle starts at its bottom-right corner and then "grows" left-upwards.
+
+Here's a rectangle with negative `width` and `height` (e.g. `width=-200`, `height=-100`):
+
+![](coordinates-negative.svg)
+
+As you can see, `left/top` do not equal `x/y` in such case.
+
+In practice though, `elem.getBoundingClientRect()` always returns positive width/height, here we mention negative `width/height` only for you to understand why these seemingly duplicate properties are not actually duplicates.
+```
+
+```warn header="Internet Explorer: no support for `x/y`"
+Internet Explorer doesn't support `x/y` properties for historical reasons.
+
+So we can either make a polyfill (add getters in `DomRect.prototype`) or just use `top/left`, as they are always the same as `x/y` for positive `width/height`, in particular in the result of `elem.getBoundingClientRect()`.
+```
+
+```warn header="Coordinates right/bottom are different from CSS position properties"
+There are obvious similarities between window-relative coordinates and CSS `position:fixed`.
+
+But in CSS positioning, `right` property means the distance from the right edge, and `bottom` property means the distance from the bottom edge.
+
+If we just look at the picture above, we can see that in JavaScript it is not so. All window coordinates are counted from the top-left corner, including these ones.
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 ```
 
 ```warn header="Internet Explorer：x/yのサポートなし"
@@ -131,7 +214,11 @@ alert(elem.tagName);
 
 もし座標のいずれかが負の値であるか、ウィンドウの幅/高さを超えている場合、`null` を返します。
 
+<<<<<<< HEAD
 チェックを怠ると、以下のような典型的なエラーが発生する可能性があります：
+=======
+Here's a typical error that may occur if we don't check for it:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 let elem = document.elementFromPoint(x, y);
@@ -142,11 +229,19 @@ elem.style.background = ''; // エラー!
 ```
 ````
 
+<<<<<<< HEAD
 ## 「fixed」配置の使用
 
 ほとんどの場合、何かを配置するには座標が必要です。
 
 要素の近くに何かを表示するには、`getBoundingClientRect`を使用してその座標を取得し、次にCSSの`position`と`left/top`（または`right/bottom`）を組み合わせて使用します。
+=======
+## Using for "fixed" positioning
+
+Most of time we need coordinates in order to position something.
+
+To show something near an element, we can use `getBoundingClientRect` to get its coordinates, and then CSS `position` together with `left/top` (or `right/bottom`).
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 例えば、以下の`createMessageUnder(elem, html)`関数は、`elem`の下にメッセージを表示します。
 
@@ -193,14 +288,21 @@ setTimeout(() => message.remove(), 5000);
 
 これを変えるには、ドキュメント基準の座標と`position:absolute`を使用する必要があります。
 
+<<<<<<< HEAD
 ## ドキュメント座標
 
 ドキュメント相対座標は、ウィンドウではなくドキュメントの左上端から始まります。
+=======
+## Document coordinates [#getCoords]
+
+Document-relative coordinates start from the upper-left corner of the document, not the window.
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 CSSでは、ウィンドウ座標は`position:fixed`に対応し、ドキュメント座標はそれに近い`position:absolute`に対応します。
 
 `position:absolute` と `top/left` を使用すると、ドキュメント内の特定の位置に要素を配置し、ページをスクロールしてもその位置に留まるようにすることができます。ただし、そのためにはまず正しい座標が必要です。
 
+<<<<<<< HEAD
 要素のドキュメント座標を取得するための標準メソッドはありません。しかし、それを記述するのは簡単です。
 
 これら2つの座標系は、以下の式で結びつけられます：
@@ -208,6 +310,15 @@ CSSでは、ウィンドウ座標は`position:fixed`に対応し、ドキュメ�
 - `pageX` = `clientX` + ドキュメントのスクロールアウトした水平部分の幅。
 
 `getCoords(elem)`関数は、`elem.getBoundingClientRect()`からウィンドウ座標を取得し、現在のスクロール量を加算します：
+=======
+There's no standard method to get the document coordinates of an element. But it's easy to write it.
+
+The two coordinate systems are connected by the formula:
+- `pageY` = `clientY` + height of the scrolled-out vertical part of the document.
+- `pageX` = `clientX` + width of the scrolled-out horizontal part of the document.
+
+The function `getCoords(elem)` will take window coordinates from `elem.getBoundingClientRect()` and add the current scroll to them:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 // 要素のドキュメント座標を取得
@@ -223,7 +334,31 @@ function getCoords(elem) {
 }
 ```
 
+<<<<<<< HEAD
 もし上記の例でこれを`position:absolute`で使用した場合、メッセージはスクロールしても要素の近くに留まり続けます。
+=======
+If in the example above we used it with `position:absolute`, then the message would stay near the element on scroll.
+
+The modified `createMessageUnder` function:
+
+```js
+function createMessageUnder(elem, html) {
+  let message = document.createElement('div');
+  message.style.cssText = "*!*position:absolute*/!*; color: red";
+
+  let coords = *!*getCoords(elem);*/!*
+
+  message.style.left = coords.left + "px";
+  message.style.top = coords.bottom + "px";
+
+  message.innerHTML = html;
+
+  return message;
+}
+```
+
+## Summary
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 変更された`createMessageUnder`関数は以下の通りです：
 
@@ -234,6 +369,7 @@ function createMessageUnder(elem, html) {
 
   let coords = *!*getCoords(elem);*/!*
 
+<<<<<<< HEAD
   message.style.left = coords.left + "px";
   message.style.top = coords.bottom + "px";
 
@@ -253,3 +389,6 @@ function createMessageUnder(elem, html) {
 ウィンドウ座標は`position:fixed`で使用するのが適しており、ドキュメント座標は`position:absolute`で使用するのが適しています。
 
 どちらの座標系も長所と短所を持っており、CSS の `position` `absolute` と `fixed` のように、どちらか一方が必要なときがあります。
+=======
+Both coordinate systems have their pros and cons; there are times we need one or the other one, just like CSS `position` `absolute` and `fixed`.
+>>>>>>> 20208769e528337949e946f526534d61d38bac47

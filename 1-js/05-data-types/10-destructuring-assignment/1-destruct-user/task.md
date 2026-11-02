@@ -2,9 +2,15 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 分割代入
 
 次のオブジェクトがあります:
+=======
+# Destructuring assignment
+
+We have an object:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 let user = {
@@ -13,6 +19,7 @@ let user = {
 };
 ```
 
+<<<<<<< HEAD
 以下のような分割代入を書いてください:
 
 - `name` プロパティを変数 `name` に、
@@ -20,6 +27,15 @@ let user = {
 - `isAdmin` プロパティを変数 `isAdmin` (存在しない場合は false )にしてください。
 
 代入後の値は次のようになる必要があります:
+=======
+Write the destructuring assignment that reads:
+
+- `name` property into the variable `name`.
+- `years` property into the variable `age`.
+- `isAdmin` property into the variable `isAdmin` (false, if no such property)
+
+Here's an example of the values after your assignment:
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 ```js
 let user = { name: "John", years: 30 };
