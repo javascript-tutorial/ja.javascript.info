@@ -2,6 +2,7 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 子孫を数える
 
 ネストされた `ul/li` として構造化されたツリーがあります。
@@ -10,5 +11,15 @@ importance: 5
 
 1. その中のテキストが何か(サブツリーなし)
 2. ネストされた `<li>` の数 -- 深くネストされたものも含むすべての子孫
+=======
+# Count descendants
+
+There's a tree structured as nested `ul/li`.
+
+Write the code that for each `<li>` shows:
+
+1. What's the text inside it (without the subtree)
+2. The number of nested `<li>` -- all descendants, including the deeply nested ones.
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
 
 [demo src="solution"]
