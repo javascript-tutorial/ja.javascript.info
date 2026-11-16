@@ -2,6 +2,7 @@ importance: 5
 
 ---
 
+<<<<<<< HEAD
 # 飛行機をアニメーションする (CSS)
 
 下の図のようなアニメーションを表示してください(飛行機をクリックしてください)。:
@@ -12,3 +13,15 @@ importance: 5
 - アニメーションは 3秒です
 - 最後に "Done!" を出力します
 - アニメーション処理中にも飛行機がクリックがされる可能性がありますが、それらは何も "壊すべきではありません"。
+=======
+# Animate a plane (CSS)
+
+Show the animation like on the picture below (click the plane):
+
+[iframe src="solution" height=300]
+
+- The picture grows on click from `40x24px` to `400x240px` (10 times larger).
+- The animation takes 3 seconds.
+- At the end output: "Done!".
+- During the animation process, there may be more clicks on the plane. They shouldn't "break" anything.
+>>>>>>> 20208769e528337949e946f526534d61d38bac47
