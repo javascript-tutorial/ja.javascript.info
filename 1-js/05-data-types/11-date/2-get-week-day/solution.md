@@ -2,7 +2,7 @@
 
 その数値から適切な日の名前が取得できるよう、平日の配列を作りましょう。
 
-```js run
+```js run demo
 function getWeekDay(date) {
   let days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
 
